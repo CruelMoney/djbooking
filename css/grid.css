@@ -1,0 +1,118 @@
+h4 {
+  margin-top: 25px;
+}
+.row {
+  margin: 0;
+  margin-bottom: 20px;
+}
+.row .row {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+[class*="col-"] {
+
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* For mobile phones: */
+.wrapper{
+  width: 100%;
+  margin-left: 0%;
+  margin-right: 0%;
+}
+
+/* For Tablets: */
+@media only screen and (min-width: 768px) {
+.wrapper{
+  width: 100%;
+  margin-left: 0%;
+  margin-right: 0%;
+}
+}
+
+/* For Desktop: */
+@media only screen and (min-width: 992px) {
+.wrapper{
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+}
+
+.contentWrapper{
+
+  padding: 0 15px 0 15px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 0px 100px #888888;
+  margin-bottom: 150px;
+  position: relative;
+}
+
+.navWrapper{
+
+  margin-left: -15px;
+  margin-right: -15px;
+  width: calc(inherit+30px);
+  border: 1px solid #ddd;
+  margin-bottom: 50px;
+  background-color: rgba(255, 255, 255, 0.95);
+  position: relative;
+  box-shadow: 0px 0px 40px #888888;
+  z-index: 9999;
+}
+
+
+
+.fixed{
+
+  position: fixed;
+  top: 0;
+   width: -webkit-calc(inherit;); /*50% - half your wrapper width*/
+   width: calc(inherti);
+}
+
+.navbar{
+
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+
+.navWrapper:after {
+  /* this creates the "folded" part of our ribbon */
+
+  content: "";
+  height: 0;
+  width: 0;
+  display: block;
+  position: absolute;
+  bottom: -15px;
+  right: 0;
+  border-top: 15px solid #ffffff;
+  border-right: 15px solid transparent;
+}
+
+.navWrapper:before {
+  /* this creates the "folded" part of our ribbon */
+
+  content: "";
+  height: 0;
+  width: 0;
+  display: block;
+  position: absolute;
+
+  bottom: -15px;
+  left: 0;
+  border-top: 15px solid #ffffff;
+  border-left: 15px solid transparent;
+}
