@@ -120,13 +120,13 @@ textarea:focus, input:focus { outline: none; }
 
 .left-Column .customButton { width: 85%; }
 
-.customButton.important { border: 0; color: #ffffff; background: #00b2ff; box-shadow: 0 16px 24px 2px rgba(0, 178, 255, 0.3), 0 6px 30px 5px rgba(0, 178, 255, 0.3), 0 8px 10px -5px rgba(0, 178, 255, 0.3); }
+.customButton.important { border: 0; color: #ffffff; background: #ff0000; box-shadow: 0 16px 24px 2px rgba(255, 0, 0, 0.3), 0 6px 30px 5px rgba(255, 0, 0, 0.3), 0 8px 10px -5px rgba(255, 0, 0, 0.3); }
 
 .customButton.white { border-color: #ffffff; color: #ffffff; }
 
-.customButton:hover { opacity: 1; border: 2px solid #00b2ff; }
+.customButton:hover { opacity: 1; border: 2px solid #ff0000; }
 
-.buttonToggled { opacity: 1; border: 2px solid #00b2ff; overflow: hidden; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); z-index: 1; transform: scale(1.05); }
+.buttonToggled { opacity: 1; border: 2px solid #ff0000; overflow: hidden; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); z-index: 1; transform: scale(1.05); }
 
 .multiButtonToggle { width: 95%; display: inline-flex; }
 
@@ -146,11 +146,11 @@ textarea:focus, input:focus { outline: none; }
 
 .noUi-background { background: #eee; background-color: #eee; }
 
-.noUi-connect { box-shadow: none; background: #00b2ff; border: none; }
+.noUi-connect { box-shadow: none; background: #ff0000; border: none; }
 
-.noUi-handle { border: 7px solid #00b2ff; width: 14px !important; height: 14px !important; overflow: hidden; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); z-index: 1; -webkit-transition: all 0.1s; /* Safari */ transition: all 0.1s; }
+.noUi-handle { border: 7px solid #ff0000; width: 14px !important; height: 14px !important; overflow: hidden; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); z-index: 1; -webkit-transition: all 0.1s; /* Safari */ transition: all 0.1s; }
 
-.noUi-handle:active { top: -8px; border: 6px solid #00b2ff; overflow: hidden; box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2); z-index: 4; width: 20px !important; height: 20px !important; }
+.noUi-handle:active { top: -8px; border: 6px solid #ff0000; overflow: hidden; box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2); z-index: 4; width: 20px !important; height: 20px !important; }
 
 .noUi-horizontal.noUi-extended { padding-right: 15px; }
 
@@ -230,13 +230,13 @@ svg { margin: 0 10px 0 0; }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */ color: rgba(0, 0, 0, 0.37); }
 
-input { display: block; border: none; padding: 8px 0; margin-bottom: 8px; border-bottom: solid 1px #eee; -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1); transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1); background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #00b2ff 4%); background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #00b2ff 4%); background-position: -1000px 0; background-size: 100%; background-repeat: no-repeat; color: #00b2ff; }
+input { display: block; border: none; padding: 8px 0; margin-bottom: 8px; border-bottom: solid 1px #eee; -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1); transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1); background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #ff0000 4%); background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #ff0000 4%); background-position: -1000px 0; background-size: 100%; background-repeat: no-repeat; color: #ff0000; }
 
 input:focus, input :valid { box-shadow: none; outline: none; background-position: 0 0; }
 
 input::-webkit-input-placeholder { font-family: 'roboto', sans-serif; -webkit-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
 
-input:focus::-webkit-input-placeholder, input input:valid::-webkit-input-placeholder { color: #00b2ff; font-size: 11px; -webkit-transform: translateY(-20px); transform: translateY(-20px); visibility: visible !important; }
+input:focus::-webkit-input-placeholder, input input:valid::-webkit-input-placeholder { color: #ff0000; font-size: 11px; -webkit-transform: translateY(-20px); transform: translateY(-20px); visibility: visible !important; }
 
 .placeholder { position: relative; }
 
