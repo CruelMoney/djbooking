@@ -1,0 +1,91 @@
+.fadeIn-enter {
+  opacity: 0.01;
+}
+
+.fadeIn-enter.fadeIn-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.fadeIn-leave {
+  opacity: 1;
+}
+
+.fadeIn-leave.fadeIn-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+
+form ol {
+  counter-reset: item;
+  margin-left:-40px;
+}
+
+ form li {
+  display: block;
+  margin-bottom: 2em;
+  font-weight: bold;
+  font-weight: 300;
+  font-size: 30px;
+}
+
+ form li:before {
+   font-family: "Helvetica", "Arial", sans-serif;
+  display: inline-block;
+  content: counter(item) " → ";
+  counter-increment: item;
+  margin-left: -2.5em;
+  font-weight: 300;
+  font-size: 14px;}
+
+  nav  a:hover{
+    text-decoration: none;
+  }
+
+  a:focus{
+    text-decoration: none;
+  }
+
+  nav borderHover a:hover{
+    border-style: solid;
+    border-width: 2px !important;
+    border-color: black !important;
+    border-radius: 6px;
+  }
+
+
+  input::-webkit-calendar-picker-indicator{
+    display: none;
+}
+
+input[type="date"]::-webkit-input-placeholder{
+    visibility: hidden !important;
+}
+
+input[type="file"] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+input[type="file"] + label {
+    max-width: 80%;
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    /* 10px 20px */
+}
+
+input[type="file"] + label * {
+	pointer-events: none;
+}
