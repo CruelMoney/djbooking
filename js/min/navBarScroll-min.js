@@ -1,1 +1,0 @@
-var nav=$("#navbar1"),doc=$(document),offset=nav.offset().top;0===offset&&nav.addClass("navbar-fixed"),doc.on("scroll",function(){doc.scrollTop()>offset||0===offset?(nav.css("top","0"),nav.addClass("navbar-fixed")):(nav.removeClass("navbar-fixed"),nav.css("top",offset))});
