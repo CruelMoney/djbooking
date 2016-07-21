@@ -3,7 +3,11 @@ import Radium from 'radium';
 import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
 import Genres from '../common/ToggleButtonHandler'
+import Map from '../common/Map'
 import TextField from '../common/Textfield';
+import TextBox from '../common/TextBox';
+
+import TextWrapper from '../common/TextElement';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import c from '../../constants/constants';
 
@@ -169,36 +173,43 @@ var Profile = React.createClass({
     }
     return(
       <div>
-      <div className="row">
-        <div style={{marginTop: '-15px'}} className="col-xs-6">
-        <TextField
-            value = {this.context.profile.email}
-            name="email"
-            disabled={!this.context.editMode}
-            floatingLabelFixed={true}
-            floatingLabelText="E-mail"
-            style = {styles.medium.textarea}
-            inputStyle = {styles.medium.input}
-            //hintStyle = {styles.hint}
-            type = "text"
-            fullWidth={false}
-            hintText="E-mail"
-            underlineDisabledStyle={styles.plainBorder}
-            underlineStyle={styles.dottedBorderStyle}
+        <div className="row">
+          <div style={{marginTop: '-15px'}} className="col-lg-6">
+            <TextField
+              value = {this.context.profile.email}
+              name="email"
+              disabled={!this.context.editMode}
+              floatingLabelFixed={true}
+              floatingLabelText="E-mail"
+              style = {styles.medium.textarea}
+              inputStyle = {styles.medium.input}
+              //hintStyle = {styles.hint}
+              type = "text"
+              fullWidth={false}
+              hintText="E-mail"
+              underlineDisabledStyle={styles.plainBorder}
+              underlineStyle={styles.dottedBorderStyle}
 
-            //onChange={this.onChange}
-            //onBlur={this.onBlur}
+              //onChange={this.onChange}
+              //onBlur={this.onBlur}
             />
-          <Genres
-            name="genres"
-            genres={c.GENRES}
-            columns = {4}
-            preToggled = {this.context.profile.genres}
-            disabled={!this.context.editMode} />
-        </div>
-        <div style={{marginTop: '-15px'}} className="col-xs-6">
-          <TextField
-              value= ""
+            <TextWrapper
+              label="Genres"
+              text="Select your genres"
+            >
+              <Genres
+                name="genres"
+                errorAbove= {true}
+
+                genres={c.GENRES}
+                columns = {4}
+                preToggled = {this.context.profile.genres}
+                disabled={!this.context.editMode} />
+            </TextWrapper>
+
+          </div>
+          <div style={{marginTop: '-15px'}} className="col-lg-6">
+            <TextField
               name="phone"
               disabled={!this.context.editMode}
               floatingLabelFixed={true}
@@ -214,8 +225,31 @@ var Profile = React.createClass({
 
               //onChange={this.onChange}
               //onBlur={this.onBlur}
+            />
+            <TextWrapper
+              label ="Bio"
+              text={this.context.profile.firstName + ", tell us a little bit of your story."}
+            >
+              <TextBox
+                width="100%"
+                height="150px"
+                name="bio"
+                disabled={!this.context.editMode}
+                value = {this.context.profile.bio}
+
+                //onChange={this.onChange}
+                //onBlur={this.onBlur}
               />
-        </div>
+
+            </TextWrapper>
+            <TextWrapper
+              label ="Bio"
+              text={this.context.profile.firstName + ", tell us a little bit of your story."}
+            >
+              
+
+            </TextWrapper>
+          </div>
       </div>
 
 

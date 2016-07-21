@@ -14,6 +14,7 @@ export default class AdapterDTO  {
         gender:           DTO.gender,
         locale:           DTO.locale,
         name:             DTO.user_metadata.name || DTO.name,
+        firstName:        this.getFirstName(DTO.name),
         avatar:           DTO.picture,
         picture:          DTO.user_metadata.picture || DTO.picture_large || DTO.picture,
         user_id:          DTO.user_id,
@@ -21,7 +22,7 @@ export default class AdapterDTO  {
         genres:           DTO.user_metadata.genres,
         geoip:            DTO.user_metadata.geoip,
         location:         DTO.user_metadata.location,
-
+        bio:              DTO.user_metadata.bio || ""
       }
     }
 
@@ -37,6 +38,13 @@ export default class AdapterDTO  {
 
         }
       }
+    }
+
+    getFirstName(name){
+      if (name.indexOf(' ') === -1)
+         return name;
+     else
+         return name.substr(0, name.indexOf(' '));
     }
 
 }

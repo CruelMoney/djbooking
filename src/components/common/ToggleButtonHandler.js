@@ -7,7 +7,7 @@ var ToggleButtonHandler = React.createClass({
 
   propTypes: {
     name: PropTypes.string.isRequired,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
   },
 
  getDefaultProps() {
@@ -16,7 +16,7 @@ var ToggleButtonHandler = React.createClass({
        columns: 3,
        genres: [],
        preToggled: [],
-
+       errorAbove: false
      }
    },
 
@@ -91,9 +91,9 @@ var ToggleButtonHandler = React.createClass({
         height: '50px',
       },
       errors:{
-        marginBottom: '-12px',
+        marginTop: '5px',
+        marginBottom: '5px',
         position: 'relative',
-        bottom: '-10px',
         fontSize: '12px',
         lineHeight: '12px',
         color: 'rgb(244, 67, 54)',
@@ -141,17 +141,23 @@ var ToggleButtonHandler = React.createClass({
     }.bind(this));
     return (
       <div>
-      <table
-        style={[
-            styles.base]}>
-        <tbody>{rows}</tbody>
-      </table>
-      {this.state.errors.length ? (
-        < div style = {styles.errors}>
-           {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
-         </div>
-      ) : null}
-      </div>
+        {(this.state.errors.length && this.props.errorAbove) ? (
+          < div style = {styles.errors}>
+          {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+          </div>
+          ) : null}
+
+          <table
+          style={[
+          styles.base]}>
+          <tbody>{rows}</tbody>
+          </table>
+          {(this.state.errors.length && !this.props.errorAbove) ? (
+          < div style = {styles.errors}>
+          {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+          </div>
+          ) : null}
+          </div>
     );
   }
 });
