@@ -152,85 +152,85 @@ var userHeader = React.createClass({
 
 
     return  <div style={{paddingTop:'15px',
-                       paddingBottom:'15px',
-                       borderBottom: '1px solid #eee'}} className="row">
-            <div style={{display: 'flex',
-                         alignItems: 'center',
-                       }} className="container">
-            <div className="col-xs-3">
-            <div style={styles.userImageWrap}>
-              <div style={[
-                  this.context.editMode && styles.blur,
-                  styles.image,
-                  styles.inline]}/>
-                {this.context.editMode && <div style={styles.changeProfilePictureText}>
-                  <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
-                <label htmlFor="fileupload"><span>Change image</span></label>
-                </div> }
-            </div>
-            </div>
-            <div className="col-xs-9">
-             <div className="row">
-              <div style={{marginTop: '-15px'}} className="col-xs-6">
+      paddingBottom:'15px',
+    borderBottom: '1px solid #eee'}} className="row">
+      <div style={{display: 'flex',
+        alignItems: 'center',
+      }} className="container">
+        <div className="col-xs-3">
+          <div style={styles.userImageWrap}>
+            <div style={[
+              this.context.editMode && styles.blur,
+              styles.image,
+            styles.inline]}/>
+            {this.context.editMode && <div style={styles.changeProfilePictureText}>
+              <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
+              <label htmlFor="fileupload"><span>Change image</span></label>
+            </div> }
+          </div>
+        </div>
+        <div className="col-xs-9">
+          <div className="row">
+            <div style={{marginTop: '-15px'}} className="col-xs-6">
 
-                <TextField
-                    value = {this.context.profile.name}
-                    name="name"
-                    disabled={!this.context.editMode}
-                    floatingLabelFixed={true}
-                    floatingLabelText="Name"
-                    style = {styles.large.textarea}
-                    inputStyle = {styles.large.input}
-                    //hintStyle = {styles.hint}
-                    type = "text"
-                    fullWidth={false}
-                    hintText="Name"
-                    underlineDisabledStyle={styles.plainBorder}
-                    underlineStyle={styles.dottedBorderStyle}
-                    //onChange={this.onChange}
-                    //onBlur={this.onBlur}
-                    />
-                  <TextField
-                      value= {this.context.profile.location}
-                      name="location"
-                      disabled={!this.context.editMode}
-                      floatingLabelFixed={true}
-                      floatingLabelText="Location"
-                      style = {styles.medium.textarea}
-                      inputStyle = {styles.medium.input}
-                      //hintStyle = {styles.hint}
-                      type = "text"
-                      fullWidth={false}
-                      hintText="Location"
-                      underlineDisabledStyle={styles.plainBorder}
-                      underlineStyle={styles.dottedBorderStyle}
-
-                      //onChange={this.onChange}
-                      //onBlur={this.onBlur}
-                      />
-                      <TextField
-                          value= {this.context.profile.birthday}
-                          name="birthday"
-                          disabled={!this.context.editMode}
-                          floatingLabelFixed={true}
-                          floatingLabelText="Birthday"
-                          style = {styles.medium.textarea}
-                          inputStyle = {styles.medium.input}
-                          //hintStyle = {styles.hint}
-                          type = "text"
-                          fullWidth={false}
-                          hintText="Birthday"
-                          underlineDisabledStyle={styles.plainBorder}
-                          underlineStyle={styles.dottedBorderStyle}
-
-                          //onChange={this.onChange}
-                          //onBlur={this.onBlur}
-                          />
-              </div>
-              <div style={{marginTop: '-15px'}}  className="col-xs-6">
               <TextField
-                  value= "1800.00 DKK"
-                  name="Earned"
+                value = {this.context.profile.name}
+                name="name"
+                disabled={!this.context.editMode}
+                floatingLabelFixed={true}
+                floatingLabelText="Name"
+                style = {styles.large.textarea}
+                inputStyle = {styles.large.input}
+                //hintStyle = {styles.hint}
+                type = "text"
+                fullWidth={false}
+                hintText="Name"
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+                //onChange={this.onChange}
+                //onBlur={this.onBlur}
+              />
+              <TextField
+                value= {this.context.profile.location}
+                name="location"
+                disabled={!this.context.editMode}
+                floatingLabelFixed={true}
+                floatingLabelText="Location"
+                style = {styles.medium.textarea}
+                inputStyle = {styles.medium.input}
+                //hintStyle = {styles.hint}
+                type = "text"
+                fullWidth={false}
+                hintText="Location"
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+
+                //onChange={this.onChange}
+                //onBlur={this.onBlur}
+              />
+              <TextField
+                value= {this.context.profile.birthday}
+                name="birthday"
+                disabled={!this.context.editMode}
+                floatingLabelFixed={true}
+                floatingLabelText="Birthday"
+                style = {styles.medium.textarea}
+                inputStyle = {styles.medium.input}
+                //hintStyle = {styles.hint}
+                type = "text"
+                fullWidth={false}
+                hintText="Birthday"
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+
+                //onChange={this.onChange}
+                //onBlur={this.onBlur}
+              />
+            </div>
+            <div style={{marginTop: '-15px'}}  className="col-xs-6">
+              <TextField
+                value= "3500.00 DKK"
+                name="Earned"
                   disabled={true}
                   floatingLabelFixed={true}
                   floatingLabelText="Total payout"
