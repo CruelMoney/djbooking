@@ -1,82 +1,99 @@
-import React, { PropTypes } from 'react';
-import Radium from 'radium';
+import React, { PropTypes } from 'react'
+import Radium from 'radium'
 import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
 import Genres from '../common/ToggleButtonHandler'
-import Map from '../common/Map'
-import TextField from '../common/Textfield';
-import TextBox from '../common/TextBox';
+import { default as SimpleMap } from "../common/Map"
+import TextField from '../common/Textfield'
+import TextBox from '../common/TextBox'
+import ExperienceSlider from '../common/ExperienceSlider'
 
-import TextWrapper from '../common/TextElement';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import c from '../../constants/constants';
+import TextWrapper from '../common/TextElement'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import c from '../../constants/constants'
 
 
 var Profile = React.createClass({
-
-  contextTypes: {
+  propTypes: {
     profile: PropTypes.object,
     editMode: PropTypes.bool,
     toggleEditMode: PropTypes.func,
-    registerActions: PropTypes.func,
-    updateActions: PropTypes.func,
+    updateProfileValue: PropTypes.func,
   },
 
+
+  contextTypes: {
+    registerActions: PropTypes.func,
+    updateActions: PropTypes.func,
+    submit: PropTypes.func.isRequired,
+    reset: PropTypes.func
+  },
+
+
   componentWillMount() {
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons);
+    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons)
+  },
+
+
+  componentDidMount(){
+
   },
 
   componentWillUnmount() {
-    this.removeActionsFromContext();
+    this.removeActionsFromContext()
   },
 
 
 
-  getActionButtons(context = this.context){
-    console.log(context.editMode);
+  handleSliderChange(value){
+    console.log(value)
+  },
+
+
+  getActionButtons(context = this.context, submitFunc, resetFunc){
     return (
     <div key="profile_actions">
-
-    <div style={{marginBottom:"4px"}}>
-    <ToggleButton
-        active = {context.editMode}
-        rounded= {true}
-        labelToggled="Save"
-        label="Edit profile"
-        onClick= {context.toggleEditMode}
-        name="edit_profile"
-    />
-  </div>
-  { context.editMode ?
-    <div style={{marginBottom:"4px"}}>
-          <Button
+      <div style={{marginBottom:"4px"}}>
+        <ToggleButton
+          active = {this.props.editMode}
           rounded= {true}
-          label="Cancel"
-          active={true}
-          onClick= {context.toggleEditMode}
-          name="cancel_edit_profile"
-      />
-    </div>  : null }
-  <div style={{marginBottom:"4px"}}>
-  <ToggleButton
+          labelToggled="Save"
+          label="Edit profile"
+          onClick= {this.props.toggleEditMode}
+          onClickToggled={submitFunc || context.submit}
+          name="edit_profile"
+        />
+      </div>
+      { this.props.editMode ?
+        <div style={{marginBottom:"4px"}}>
+          <Button
+            rounded= {true}
+            label="Cancel"
+            active={true}
+            onClick= {resetFunc}
+            name="cancel_edit_profile"
+          />
+        </div>  : null }
+      <div style={{marginBottom:"4px"}}>
+        <ToggleButton
 
-        rounded= {true}
-        label="Public profile"
-        onClick= {context.toggleEditMode}
-        name="see_public_profile"
-    />
-    </div>
+          rounded= {true}
+          label="Public profile"
+          onClick= {this.props.toggleEditMode}
+          name="see_public_profile"
+        />
+      </div>
 
 
-  <div style={{marginBottom:"4px"}}>
-  <ToggleButton
+      <div style={{marginBottom:"4px"}}>
+        <ToggleButton
 
-        rounded= {true}
-        label="Request features"
-        onClick= {context.toggleEditMode}
-        name="request_features"
-    />
-    </div>
+          rounded= {true}
+          label="Request features"
+          onClick= {this.props.toggleEditMode}
+          name="request_features"
+        />
+      </div>
 
     </div>
 
@@ -84,9 +101,10 @@ var Profile = React.createClass({
   },
 
   render() {
+
     const styles ={
       image:{
-        backgroundImage: 'url('+this.context.profile.picture_large+')',
+        backgroundImage: 'url('+this.props.profile.picture_large+')',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundSize: '100% auto',
@@ -176,9 +194,9 @@ var Profile = React.createClass({
         <div className="row">
           <div style={{marginTop: '-15px'}} className="col-lg-6">
             <TextField
-              value = {this.context.profile.email}
+              value = {this.props.profile.email}
               name="email"
-              disabled={!this.context.editMode}
+              disabled={!this.props.editMode}
               floatingLabelFixed={true}
               floatingLabelText="E-mail"
               style = {styles.medium.textarea}
@@ -195,23 +213,21 @@ var Profile = React.createClass({
             />
             <TextWrapper
               label="Genres"
-              text="Select your genres"
-            >
+              text="Select your genres">
               <Genres
                 name="genres"
                 errorAbove= {true}
-
                 genres={c.GENRES}
                 columns = {4}
-                preToggled = {this.context.profile.genres}
-                disabled={!this.context.editMode} />
+                preToggled = {this.props.profile.genres}
+                disabled={!this.props.editMode} />
             </TextWrapper>
 
           </div>
-          <div style={{marginTop: '-15px'}} className="col-lg-6">
+          <div style={{marginTop: "-15px"}} className="col-lg-6">
             <TextField
               name="phone"
-              disabled={!this.context.editMode}
+              disabled={!this.props.editMode}
               floatingLabelFixed={true}
               floatingLabelText="Phone"
               style = {styles.medium.textarea}
@@ -228,37 +244,49 @@ var Profile = React.createClass({
             />
             <TextWrapper
               label ="Bio"
-              text={this.context.profile.firstName + ", tell us a little bit of your story."}
+              text={this.props.profile.firstName + ", tell us a little bit of your story."}
             >
               <TextBox
                 width="100%"
                 height="150px"
                 name="bio"
-                disabled={!this.context.editMode}
-                value = {this.context.profile.bio}
+                disabled={!this.props.editMode}
+                value = {this.props.profile.bio}
 
-                //onChange={this.onChange}
-                //onBlur={this.onBlur}
               />
 
             </TextWrapper>
             <TextWrapper
-              label ="Bio"
-              text={this.context.profile.firstName + ", tell us a little bit of your story."}
-            >
-              
 
+              label ="Location"
+              text={this.props.profile.firstName + ", tell us where you'd like to play."}
+            >
+              <SimpleMap
+                radius={this.props.profile.radius}
+                initialPosition={this.props.profile.locationCoords}
+                editable={this.props.editMode}
+                markers={this.props.markers}
+                themeColor={this.props.muiTheme.palette.primary1Color}
+              />
+            </TextWrapper>
+
+            <TextWrapper
+              label="Experience"
+              text="How much experience do you have?"
+            >
+              <ExperienceSlider
+                queupGigs={this.props.profile.queupGigs}
+                otherGigs={this.props.profile.otherGigs}
+                disabled={!this.props.editMode}
+                handleChange={this.handleSliderChange}
+              />
             </TextWrapper>
           </div>
-      </div>
-
-
-
-
+        </div>
       </div>)
 
   }
 })
 
-var styledProfile = Radium(Profile);
-export default muiThemeable()(styledProfile);
+var styledProfile = Radium(Profile)
+export default muiThemeable()(styledProfile)

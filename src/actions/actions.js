@@ -1,10 +1,24 @@
-import c from '../constants/constants';
+import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
 import AdapterDTO from '../utils/AdapterDTO'
 
-var ActionTypes = c.ActionTypes;
-const auth = new AuthService();
-const converter = new AdapterDTO();
+var ActionTypes = c.ActionTypes
+const auth = new AuthService()
+const converter = new AdapterDTO()
+var geocoder = new google.maps.Geocoder()
+
+
+function codeAddress(address, callback)  {
+  geocoder.geocode( { 'address': address}, function(results, status) {
+       if (status == google.maps.GeocoderStatus.OK) {
+         var lat = (results[0].geometry.location.lat())
+         var lng = (results[0].geometry.location.lng())
+        return callback({error: null, position:{lat: lat, lng: lng }})
+       } else {
+         return callback({error: ("Geocode was not successful for the following reason: " + status), position:null})
+       }
+     })
+   }
 
 
 export function updateFormValue(name, value) {
@@ -27,15 +41,14 @@ export function resetForm() {
   }
 }
 
-export function updateProfile(userId, profile, token, callback) {
+export function updateProfile(userId, data, token, callback) {
   return function (dispatch) {
     dispatch( function() { return {type: ActionTypes.UPDATEPROFILE_REQUESTED} }() )
-
-        const dtoProfile = converter.convertProfile(profile)
-        auth.updateProfile(userId, dtoProfile, token, function(err, result){
+        auth.updateProfile(userId, data, token, function(err, result){
           if (err) {
             dispatch( function() { return {type: ActionTypes.UPDATEPROFILE_FAILED, err: err.message}}() )
           }else{
+
             const newProfile = converter.convertDTO(result)
             dispatch( function() { return {type: ActionTypes.UPDATEPROFILE_SUCCEEDED, newProfile} }() )
           }
@@ -45,6 +58,10 @@ export function updateProfile(userId, profile, token, callback) {
       }
   }
 
+  export function updateFullProfile(profile){
+   return {type: ActionTypes.UPDATEPROFILE_SUCCEEDED, profile}
+  }
+
 
 export function signup(form) {
   return function (dispatch) {
@@ -52,14 +69,14 @@ export function signup(form) {
     switch (form.signup) {
       case "EMAIL":
         return signupEmail(form, handleSignupFeedback(dispatch, form))
-        break;
+        
       case "FACEBOOK":
         return loginFacebook(handleSignupFeedback(dispatch, form))
-        break;
+
 
       case "SOUNDCLOUD":
         return loginSoundcloud(handleSignupFeedback(dispatch, form))
-        break;
+
     }
   }
 }
@@ -73,33 +90,40 @@ export function signup(form) {
           }}())
 
       }else {
-
-        const data = {
-          user_metadata: {
-            location:  form.location,
-            genres:    form.genres,
-            name:      form.name ? form.name : ""
-          },
-        }
-
-        auth.setToken(result.idToken);
-        auth.getProfileFromToken(result.idToken, function(profile){
-          updateProfile(profile.user_id, data, result.idToken, function(err2, result2){
-            if (err2) {
-              dispatch( function() { return {
-                  type: ActionTypes.SIGNUP_FAILED,
-                  err: err2.message
-                }}())
-            }else{
-              dispatch (function() {return {
-                  type: ActionTypes.SIGNUP_SUCCEEDED
-                }}())
+        //Getting the coordinates of the address
+        codeAddress(form.location, function(geoResult){
+          if (geoResult.error) {
+            dispatch( function() { return {
+                type: ActionTypes.SIGNUP_FAILED,
+                err: geoResult.error
+              }}())
+          }else{
+            const data = {
+              user_metadata: {
+                locationCoords : geoResult.position,
+                location:        form.location,
+                genres:          form.genres,
+                name:            form.name ? form.name : ""
+              },
             }
-          })(dispatch)
+
+            auth.setToken(result.idToken)
+            auth.getProfileFromToken(result.idToken, function(profile){
+              updateProfile(profile.user_id, data, result.idToken, function(err2, result2){
+                if (err2) {
+                  dispatch( function() { return {
+                      type: ActionTypes.SIGNUP_FAILED,
+                      err: err2.message
+                    }}())
+                }else{
+                  dispatch (function() {return {
+                      type: ActionTypes.SIGNUP_SUCCEEDED
+                    }}())
+                }
+              })(dispatch)
+            })
+          }
         })
-
-
-
       }
       }
 }
@@ -111,7 +135,7 @@ export function signupEmail(form, callback) {
         responseType: 'token',
         email: form.email,
         password: form.password,
-      }, callback);
+      }, callback)
 }
 
 
@@ -124,7 +148,7 @@ return function (err, result) {
         }}())
 
     }else {
-      auth.setToken(result.idToken);
+      auth.setToken(result.idToken)
       auth.getProfileFromToken(result.idToken, function(dtoProfile){
 
         //Hack for checking if user trying to login before signing up
@@ -166,7 +190,7 @@ export function checkForLogin(){
                   profile
                 }}())
             }
-      });
+      })
     }
   }
 }
@@ -189,14 +213,14 @@ export function login(form){
     switch (form.type) {
       case "EMAIL":
         return loginEmail(form, handleLoginFeedback(dispatch))
-        break;
+        break
       case "FACEBOOK":
         return loginFacebook(handleLoginFeedback(dispatch))
-        break;
+        break
 
       case "SOUNDCLOUD":
         return loginSoundcloud(handleLoginFeedback(dispatch))
-        break;
+        break
 
     }
 
@@ -208,7 +232,7 @@ export function loginFacebook(callback) {
         popup: true,
         connection: 'facebook',
         responseType: 'token',
-      }, callback);
+      }, callback)
 }
 
 export function loginSoundcloud(callback) {
@@ -216,7 +240,7 @@ export function loginSoundcloud(callback) {
         popup: true,
         connection: 'soundcloud',
         responseType: 'token',
-      }, callback);
+      }, callback)
 }
 
 export function loginEmail(form, callback) {
@@ -225,13 +249,13 @@ export function loginEmail(form, callback) {
         responseType: 'token',
         email: form.email,
         password: form.password,
-      }, callback);
+      }, callback)
 }
 
 
 
 export function userLogout() {
-     auth.logout();
+     auth.logout()
       return  {
           type: ActionTypes.LOGOUT_SUCCEEDED
         }
@@ -249,4 +273,16 @@ export function updateProfileValue(name, value) {
           name,
           value
         }
+}
+
+export function resetProfile(profile) {
+  return function (dispatch) {
+    dispatch( function() { return {
+        type: ActionTypes.RESET_PROFILE,
+        profile
+      }}())
+    dispatch( function() { return {
+      type: ActionTypes.TOGGLE_EDIT_MODE
+      }}())
+      }
 }

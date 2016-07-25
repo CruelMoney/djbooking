@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react';
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import React, { PropTypes } from 'react'
+import Radium from 'radium'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var TextWrapper = React.createClass({
 
@@ -31,7 +31,7 @@ var TextWrapper = React.createClass({
         fontSize: '14px',
       },
 
-    };
+    }
 
 
       return (
@@ -43,16 +43,16 @@ var TextWrapper = React.createClass({
           styles.label]}>
             {this.props.label}
           </div>
-          {this.props.children}
           <p style={[
           styles.paragraph]}>
             {this.props.text}
           </p>
+          {this.props.children}
         </div>
-      );
+      )
 
   }
-});
+})
 
-const StyledTextWrapper = Radium(TextWrapper);
-export default muiThemeable()(StyledTextWrapper);
+const StyledTextWrapper = Radium(TextWrapper)
+export default muiThemeable()(StyledTextWrapper)

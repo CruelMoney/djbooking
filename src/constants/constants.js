@@ -1,4 +1,4 @@
-var keyMirror = require('keymirror');
+var keyMirror = require('keymirror')
 
 
 module.exports = {
@@ -21,6 +21,7 @@ module.exports = {
 
     UPDATE_PROFILE_VALUE: null,
     UPDATE_PROFILE_META_VALUE: null,
+    RESET_PROFILE: null,
 
     TOGGLE_EDIT_MODE: null,
 
@@ -46,4 +47,78 @@ module.exports = {
     {name: 'Extreme'}
   ]
 
-};
+}
+
+
+const darkMapStyle = [
+{
+  "stylers": [
+  { "visibility": "simplified" },
+
+  ]
+},{
+  "featureType": "administrative",
+  "elementType": "labels",
+  "stylers": [
+  { "visibility": "off" }
+  ]
+},{
+  "featureType": "landscape",
+  "stylers": [
+  { "visibility": "simplified" },
+  { "lightness": 90 },
+  { "gamma": 0.31 }
+  ]
+},{
+  "featureType": "poi",
+  "stylers": [
+  { "visibility": "off" }
+  ]
+},{
+  "featureType": "road",
+  "stylers": [
+  { "visibility": "on" }
+  ]
+},{
+  "featureType": "transit",
+  "stylers": [
+  { "visibility": "off" }
+  ]
+},{
+  "featureType": "water",
+  "stylers": [
+  { "visibility": "on" },
+  { "color": "#000000" }
+  ]
+},{
+  "featureType": "road",
+  "elementType": "labels",
+  "stylers": [
+  { "visibility": "off" }
+  ]
+},{
+  "featureType": "road.highway",
+  "stylers": [
+  { "color": "#808080" }
+  ]
+},{
+  "featureType": "landscape",
+  "elementType": "labels",
+  "stylers": [
+  { "visibility": "off" }
+  ]
+},{
+  "featureType": "administrative.country",
+  "stylers": [
+  { "visibility": "on" }
+  ]
+},{
+  "featureType": "administrative.locality",
+  "elementType": "labels.text.fill",
+  "stylers": [
+  { "visibility": "on" },
+  { "color": "#090f0e" }
+  ]
+},{
+}
+]

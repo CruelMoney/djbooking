@@ -6,13 +6,13 @@ import User from './containers/User'
 import HowItWorks from './components/stories/HowItWorks'
 import Navigation from './containers/Navigation'
 import Login from './containers/Login'
-import Profile from './components/session/Profile'
+import Profile from './containers/Profile'
 import Home from './components/stories/Home'
 import Auth from './components/stories/Auth'
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
-const theme = getMuiTheme();
+const theme = getMuiTheme()
 
 
 render((

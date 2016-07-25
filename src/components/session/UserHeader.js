@@ -1,31 +1,27 @@
 import React, {PropTypes} from 'react'
 import AuthService from '../../utils/AuthService'
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import TextField from '../common/Textfield';
+import Radium from 'radium'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import TextField from '../common/Textfield'
 
 var userHeader = React.createClass({
 
   propTypes: {
-
-  },
-
-  contextTypes: {
     profile:PropTypes.object,
     editMode: PropTypes.bool,
-    update: PropTypes.func
+    updateProfileValue: PropTypes.func
   },
 
 
   handleFile(e) {
-    const reader = new FileReader();
-    const file = e.target.files[0];
+    const reader = new FileReader()
+    const file = e.target.files[0]
 
     reader.onload = (upload) => {
-      this.context.update('picture', upload.target.result)
-    };
+      this.props.updateProfileValue('picture', upload.target.result)
+    }
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file)
   },
 
   render() {
@@ -33,7 +29,7 @@ var userHeader = React.createClass({
 
     const styles ={
       image:{
-        backgroundImage: 'url('+this.context.profile.picture+')',
+        backgroundImage: 'url('+this.props.profile.picture+')',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundSize: 'auto 150%',
@@ -160,10 +156,10 @@ var userHeader = React.createClass({
         <div className="col-xs-3">
           <div style={styles.userImageWrap}>
             <div style={[
-              this.context.editMode && styles.blur,
+              this.props.editMode && styles.blur,
               styles.image,
             styles.inline]}/>
-            {this.context.editMode && <div style={styles.changeProfilePictureText}>
+            {this.props.editMode && <div style={styles.changeProfilePictureText}>
               <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
               <label htmlFor="fileupload"><span>Change image</span></label>
             </div> }
@@ -174,9 +170,9 @@ var userHeader = React.createClass({
             <div style={{marginTop: '-15px'}} className="col-xs-6">
 
               <TextField
-                value = {this.context.profile.name}
+                value = {this.props.profile.name}
                 name="name"
-                disabled={!this.context.editMode}
+                disabled={!this.props.editMode}
                 floatingLabelFixed={true}
                 floatingLabelText="Name"
                 style = {styles.large.textarea}
@@ -191,9 +187,9 @@ var userHeader = React.createClass({
                 //onBlur={this.onBlur}
               />
               <TextField
-                value= {this.context.profile.location}
+                value= {this.props.profile.location}
                 name="location"
-                disabled={!this.context.editMode}
+                disabled={!this.props.editMode}
                 floatingLabelFixed={true}
                 floatingLabelText="Location"
                 style = {styles.medium.textarea}
@@ -209,9 +205,9 @@ var userHeader = React.createClass({
                 //onBlur={this.onBlur}
               />
               <TextField
-                value= {this.context.profile.birthday}
+                value= {this.props.profile.birthday}
                 name="birthday"
-                disabled={!this.context.editMode}
+                disabled={!this.props.editMode}
                 floatingLabelFixed={true}
                 floatingLabelText="Birthday"
                 style = {styles.medium.textarea}
@@ -287,5 +283,5 @@ var userHeader = React.createClass({
   }
 })
 
-var styledUserHeader = Radium(userHeader);
-export default muiThemeable()(styledUserHeader);
+var styledUserHeader = Radium(userHeader)
+export default muiThemeable()(styledUserHeader)

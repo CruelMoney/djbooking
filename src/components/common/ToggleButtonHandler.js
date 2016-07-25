@@ -1,13 +1,14 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 import ToggleButton from './ToggleButton'
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import Radium from 'radium'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var ToggleButtonHandler = React.createClass({
 
   propTypes: {
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
+    preToggled: PropTypes.arrayOf(PropTypes.string)
   },
 
  getDefaultProps() {
@@ -24,58 +25,72 @@ var ToggleButtonHandler = React.createClass({
      return {
         toggledButtons: [],
         errors: []
-     };
+     }
    },
 
    contextTypes: {
-     update: PropTypes.func.isRequired,
-     values: PropTypes.object.isRequired,
+     registerUpdate: PropTypes.func.isRequired,
      registerValidation: PropTypes.func.isRequired
    },
 
+
+
    componentWillMount() {
+     this.setState({
+       toggledButtons: this.props.preToggled
+     })
      this.removeValidationFromContext = this.context.registerValidation(show =>
-       this.isValid(show));
+       this.isValid(show))
+     this.removeUpdateFromContext = this.context.registerUpdate(() =>
+         {return {name: this.props.name, value: this.state.toggledButtons}})
+
+   },
+
+   componentWillReceiveProps(nextProps){
+     this.setState({
+       toggledButtons: nextProps.preToggled
+     })
    },
 
    componentWillUnmount() {
-     this.removeValidationFromContext();
+     this.removeValidationFromContext()
+     this.removeUpdateFromContext()
    },
 
    isValid(showErrors) {
-      const errors = this.state.toggledButtons.length ? [] : ["At least 1 genre should be selected"];
+      const errors = this.state.toggledButtons.length ? [] : ["At least 1 genre should be selected"]
       if (showErrors) {
         this.setState({
           errors
-        });
+        })
       }
 
-      return !errors.length;
+      return !errors.length
    },
 
   spliceHelper(list, index){
-    list.splice(index,1);
-    return list;
+    list.splice(index,1)
+    return list
   },
 
   updateValue(value){
-    var toggledButtons = this.state.toggledButtons;
-    var valueIndex = toggledButtons.indexOf(value);
+    var toggledButtons = this.state.toggledButtons
+    var valueIndex = toggledButtons.indexOf(value)
 
     var newList = (valueIndex===-1)
                    ? [ ...toggledButtons, value ]
-                   : this.spliceHelper(toggledButtons, valueIndex);
+                   : this.spliceHelper(toggledButtons, valueIndex)
 
     this.setState({
        toggledButtons: newList,
-    }, () => this.context.update(this.props.name, newList));
+    })
 
 
   },
 
   handleButtonPress(value) {
-    setTimeout(() => this.isValid(true), 0);
-    this.updateValue(value);
+    setTimeout(() => this.isValid(true), 0)
+    this.updateValue(value)
  },
 
   render() {
@@ -101,44 +116,44 @@ var ToggleButtonHandler = React.createClass({
         WebkitTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms'
       }
 
-    };
-    var rows = [];
-    var buttons = [];
-    var currentRow = 0;
+    }
+    var rows = []
+    var buttons = []
+    var currentRow = 0
     this.props.genres.forEach(function(genre, i) {
 
-      var isToggled = false;
-      var toggledButtons = this.state.toggledButtons;
+      var isToggled = false
+      var toggledButtons = this.state.toggledButtons
 
-      if (toggledButtons.indexOf(genre.name)!==-1 || this.props.preToggled.indexOf(genre.name)!==-1){
-        isToggled = true;
+      if (toggledButtons.indexOf(genre.name)!==-1){
+        isToggled = true
       }
 
       //Adding to array
       buttons.push(
         <td
-        style={styles.td}
-        key={genre.name}>
+          style={styles.td}
+          key={genre.name}>
           <ToggleButton
             rounded= {this.props.rounded}
             label =  {genre.name}
             active = {isToggled}
             disabled = {this.props.disabled}
             onClick = {this.handleButtonPress}/>
-        </td>  );
+        </td>  )
 
       if ((i+1) % this.props.columns===0 && i!==0 || (i===this.props.genres.length-1)){
-        currentRow++;
+        currentRow++
         rows.push(
           <tr
           style={styles.tr}
           key={currentRow}>
             {buttons}
           </tr>
-          );
-          buttons = [];
+          )
+          buttons = []
       }
-    }.bind(this));
+    }.bind(this))
     return (
       <div>
         {(this.state.errors.length && this.props.errorAbove) ? (
@@ -158,11 +173,11 @@ var ToggleButtonHandler = React.createClass({
           </div>
           ) : null}
           </div>
-    );
-  }
-});
+          )
+          }
+          })
 
-ToggleButtonHandler = Radium(ToggleButtonHandler);
+          ToggleButtonHandler = Radium(ToggleButtonHandler)
 
 
 

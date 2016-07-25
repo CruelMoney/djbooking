@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import Navlink  from '../common/Navlink'
 import Button from '../common/Button'
 import UserMenuItem from '../common/UserMenuItem'
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import Radium from 'radium'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var menu = React.createClass({
 
@@ -22,7 +22,7 @@ var menu = React.createClass({
    getChildContext() {
     return {
       profile: this.props.profile
-    };
+    }
    },
 
    componentWillMount() {
@@ -93,5 +93,5 @@ var menu = React.createClass({
   }
 })
 
-var styledMenu = Radium(menu);
-export default muiThemeable()(styledMenu);
+var styledMenu = Radium(menu)
+export default muiThemeable()(styledMenu)

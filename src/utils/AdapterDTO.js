@@ -1,4 +1,6 @@
 
+
+
 export default class AdapterDTO  {
     constructor() {
 
@@ -22,7 +24,11 @@ export default class AdapterDTO  {
         genres:           DTO.user_metadata.genres,
         geoip:            DTO.user_metadata.geoip,
         location:         DTO.user_metadata.location,
-        bio:              DTO.user_metadata.bio || ""
+        locationCoords:   DTO.user_metadata.locationCoords,
+        bio:              DTO.user_metadata.bio || "",
+        radius:           DTO.user_metadata.radius || 250000, //250 km
+        queupGigs:        DTO.user_metadata.queupGigs || 0,
+        otherGigs:        DTO.user_metadata.otherGigs || 0,
       }
     }
 
@@ -35,16 +41,17 @@ export default class AdapterDTO  {
           birthday:       profile.birthday,
           genres:         profile.genres,
           location:       profile.location,
-
+          locationCoords: profile.locationCoords,
+          radius:         profile.radius
         }
       }
     }
 
     getFirstName(name){
       if (name.indexOf(' ') === -1)
-         return name;
+         return name
      else
-         return name.substr(0, name.indexOf(' '));
+         return name.substr(0, name.indexOf(' '))
     }
 
 }

@@ -1,12 +1,12 @@
-import React,  { PropTypes } from 'react';
+import React,  { PropTypes } from 'react'
 import AuthService from '../../utils/AuthService'
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import TextField from 'material-ui/TextField';
+import Radium from 'radium'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import TextField from 'material-ui/TextField'
 import UserHeader from './UserHeader'
 import UserNavigation from './UserNavigation'
-import without from 'lodash.without';
-import assign from 'lodash.assign';
+import without from 'lodash.without'
+import assign from 'lodash.assign'
 
 var user = React.createClass({
 
@@ -15,8 +15,8 @@ var user = React.createClass({
     editMode: PropTypes.bool,
     toggleEditMode: PropTypes.func,
     updateProfileValue: PropTypes.func,
-    onSubmit: PropTypes.func,
-    reset: PropTypes.func,
+    updateProfile: PropTypes.func,
+    resetProfile: PropTypes.func
   },
 
   childContextTypes: {
@@ -25,57 +25,63 @@ var user = React.createClass({
       toggleEditMode: PropTypes.func,
       registerActions: PropTypes.func,
       update: PropTypes.func,
+      registerUpdate: PropTypes.func,
       registerValidation: PropTypes.func,
       isFormValid: PropTypes.func,
       reset: PropTypes.func,
       submit: PropTypes.func,
   },
 
-
-
   getChildContext() {
    return {
-     profile: this.props.profile,
+     profile: this.state.profile,
      editMode: this.props.editMode,
      toggleEditMode: this.props.toggleEditMode,
      registerActions: this.registerActions,
      update: this.update,
+     registerUpdate: this.registerUpdate,
      registerValidation: this.registerValidation,
      isFormValid: this.isFormValid,
-     reset: this.props.reset,
      submit: this.submit,
-   };
+     reset: this.reset
+   }
   },
-
 
   getInitialState() {
     return {
       actions: [],
+      profile: {},
       isValid: false
-    };
+    }
   },
 
-  componentWillReceiveProps(nextProps, nextContext){
+  componentWillMount(){
+    this.setState({
+      profile: this.props.profile
+    })
+  },
+
+  componentWillReceiveProps(nextProps){
       this.setState({
-        actions: this.getActionsFuncs.map((action) => action(nextProps))
-      });
+        actions: this.getActionsFuncs.map((action) => action(nextProps, this.submit, this.reset))
+      })
   },
 
   getActionsFuncs: [],
 
   registerActions(getActionsFunc) {
-    this.getActionsFuncs = [...this.getActionsFuncs, getActionsFunc];
+    this.getActionsFuncs = [...this.getActionsFuncs, getActionsFunc]
     this.setState({
       actions: this.getActionsFuncs.map((action) => action())
-    });
+    })
     return this.removeAction.bind(null, getActionsFunc)
   },
 
   removeAction(ref) {
-    this.getActionsFuncs = without(this.getActionsFuncs, ref);
+    this.getActionsFuncs = without(this.getActionsFuncs, ref)
     this.setState({
       actions: this.getActionsFuncs
-    });
+    })
 
   },
 
@@ -83,12 +89,23 @@ var user = React.createClass({
   validations: [],
 
   registerValidation(isValidFunc) {
-    this.validations = [...this.validations, isValidFunc];
-    return this.removeValidation.bind(null, isValidFunc);
+    this.validations = [...this.validations, isValidFunc]
+    return this.removeValidation.bind(null, isValidFunc)
   },
 
   removeValidation(ref) {
-    this.validations = without(this.validations, ref);
+    this.validations = without(this.validations, ref)
+  },
+
+  getUpdates:[],
+
+  registerUpdate(updateFunc) {
+    this.getUpdates = [...this.getUpdates, updateFunc]
+    return this.removeUpdates.bind(null, updateFunc)
+  },
+
+  removeUpdates(ref) {
+    this.getUpdates = without(this.getUpdates, ref)
   },
 
   update(name, value){
@@ -98,17 +115,26 @@ var user = React.createClass({
 
   isFormValid(showErrors) {
      var isValid = this.validations.reduce((memo, isValidFunc) =>
-     isValidFunc(showErrors) && memo, true);
+     isValidFunc(showErrors) && memo, true)
 
-     this.state.isValid = isValid
+     this.setState({
+       isValid
+     })
      return isValid
   },
 
   submit(){
-    if (this.isFormValid(true)) {
-      this.props.onSubmit();
-      this.props.reset();
-    }
+    var updateVal =  this.props.updateProfileValue
+      this.getUpdates.forEach(function(updateFunc){
+        var elem = updateFunc()
+        updateVal(elem.name, elem.value)
+      })
+    this.props.updateProfile()
+    this.props.toggleEditMode()
+  },
+
+  reset(){
+    this.props.resetProfile()
   },
 
 
@@ -118,20 +144,24 @@ var user = React.createClass({
     }
 
     return  <div>
-              <UserHeader/>
-            <div  className="container">
-            <div style={{borderRight: '1px solid #eee', paddingTop:"15px"}} className="col-md-3">
-              <UserNavigation actions={this.state.actions}/>
-            </div>
-            <div style={{paddingTop:"15px"}} className="col-md-9">
-              {this.props.children}
-            </div>
-            </div>
-            </div>
+      <UserHeader
+        profile ={this.props.profile}
+        editMode ={this.props.editMode}
+        updateProfileValue ={this.props.updateProfileValue}
+      />
+      <div  className="container">
+        <div style={{borderRight: '1px solid #eee', paddingTop:"15px"}} className="col-md-3">
+          <UserNavigation actions={this.state.actions}/>
+        </div>
+        <div style={{paddingTop:"15px"}} className="col-md-9">
+          {this.props.children}
+        </div>
+      </div>
+    </div>
 
   }
 })
 
 
-var styledUser = Radium(user);
-export default muiThemeable()(styledUser);
+var styledUser = Radium(user)
+export default muiThemeable()(styledUser)
