@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import ToggleButton from './ToggleButton'
 import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var ToggleButtonHandler = React.createClass({
 
@@ -29,32 +28,34 @@ var ToggleButtonHandler = React.createClass({
    },
 
    contextTypes: {
-     registerUpdate: PropTypes.func.isRequired,
-     registerValidation: PropTypes.func.isRequired
+     isFormValid: PropTypes.func,
+     registerValidation: PropTypes.func.isRequired,
+     updateProfileValue: PropTypes.func
    },
 
 
 
    componentWillMount() {
+
      this.setState({
        toggledButtons: this.props.preToggled
      })
      this.removeValidationFromContext = this.context.registerValidation(show =>
        this.isValid(show))
-     this.removeUpdateFromContext = this.context.registerUpdate(() =>
-         {return {name: this.props.name, value: this.state.toggledButtons}})
 
    },
 
    componentWillReceiveProps(nextProps){
-     this.setState({
-       toggledButtons: nextProps.preToggled
-     })
+
+
+      this.setState({
+        toggledButtons: nextProps.preToggled
+      })
+
    },
 
    componentWillUnmount() {
      this.removeValidationFromContext()
-     this.removeUpdateFromContext()
    },
 
    isValid(showErrors) {
@@ -73,6 +74,8 @@ var ToggleButtonHandler = React.createClass({
     return list
   },
 
+  timer : null,
+
   updateValue(value){
     var toggledButtons = this.state.toggledButtons
     var valueIndex = toggledButtons.indexOf(value)
@@ -83,7 +86,14 @@ var ToggleButtonHandler = React.createClass({
 
     this.setState({
        toggledButtons: newList,
-    })
+    }, ()=>  {
+      if (this.context.isFormValid) {
+        this.context.isFormValid(false)
+      }})
+
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() =>
+        this.context.updateProfileValue(this.props.name, newList), 1000)
 
 
   },
@@ -100,7 +110,7 @@ var ToggleButtonHandler = React.createClass({
         tableLayout: "fixed",
           },
       td:{
-        paddingRight: '15px'
+        paddingRight: '15px',
       },
       tr:{
         height: '50px',
@@ -129,6 +139,8 @@ var ToggleButtonHandler = React.createClass({
         isToggled = true
       }
 
+
+
       //Adding to array
       buttons.push(
         <td
@@ -154,6 +166,7 @@ var ToggleButtonHandler = React.createClass({
           buttons = []
       }
     }.bind(this))
+
     return (
       <div>
         {(this.state.errors.length && this.props.errorAbove) ? (

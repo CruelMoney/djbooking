@@ -1,7 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import React from 'react'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import c from '../../constants/constants'
+import TextFieldM from 'material-ui/TextField'
+import {datePipe} from '../../utils/textPipes'
+import { reduxForm } from 'redux-form'
+export const fields = [ 'signup',
+                        'name',
+                        'password',
+                        'email',
+                        'birthday',
+                        'genres',
+                        'bankInfo',
+                        'acoountNumber',
+                        'bankNumber',
+                        'location' ]
+
+
 import Form, {Text,
               Button,
               Textfield,
@@ -12,30 +26,38 @@ import Form, {Text,
               ToggleButtonHandler,
               LocationSelectorSimple,
               EmailPassword,
-              ToggleOptions} from '../../containers/Form';
+              ToggleOptions} from '../../containers/Form'
 
-const theme = getMuiTheme();
-
-const GENRES = [
-  {name: 'R&B'},
-  {name: 'Latin'},
-  {name: 'Hip Hop'},
-  {name: 'Pop'},
-  {name: 'Techno'},
-  {name: 'Lounge'},
-  {name: 'House'},
-  {name: 'Mix'},
-  {name: 'Extreme'}
-];
+const theme = getMuiTheme()
 
 
-export default React.createClass({
+
+var signupForm = React.createClass({
 
   render() {
-
-
+    const {
+          fields: {
+            signup,
+            name,
+            password,
+            email,
+            birthday,
+            genres,
+            bankInfo,
+            acoountNumber,
+            bankNumber,
+            location
+           },
+          handleSubmit,
+          resetForm,
+          submitting
+        } = this.props
   return (
-    <Form>
+    <Form
+      onSubmit={handleSubmit}
+      reset={resetForm}
+      submitting={submitting}
+    >
       <RegistrationElement
         isFilter={true}
         name='signup'
@@ -44,32 +66,33 @@ export default React.createClass({
         text = "Do you want to sign up using soundcloud, facebook or your email"
       >
 
-      <ToggleOptions
-        name = "signupButtons"
+        <ToggleOptions
+          name = "signup"
+          {...signup}
         >
-        <Button
-          large={true}
-          leftAlign={true}
-          name = "FACEBOOK"
-          rounded= {true}
-          label =  "Facebook"
-        />
-
-        <Button
-          large={true}
-          leftAlign={true}
-          name = "SOUNDCLOUD"
-          rounded= {true}
-          label =  "Soundcloud"
+          <Button
+            large={true}
+            leftAlign={true}
+            name = "FACEBOOK"
+            rounded= {true}
+            label =  "Facebook"
           />
 
-        <Button
-          large={true}
-          leftAlign={true}
-          name = "EMAIL"
-          rounded= {true}
-          label =  "Email & Password"
-        />
+          <Button
+            large={true}
+            leftAlign={true}
+            name = "SOUNDCLOUD"
+            rounded= {true}
+            label =  "Soundcloud"
+          />
+
+          <Button
+            large={true}
+            leftAlign={true}
+            name = "EMAIL"
+            rounded= {true}
+            label =  "Email & Password"
+          />
 
         </ToggleOptions>
 
@@ -83,11 +106,13 @@ export default React.createClass({
         hideOn = {['FACEBOOK']}
       >
         <Textfield
-           name="email"
-           validate={['required', 'email']}
-           label="Your Email"/>
+          {...email}
+          name="email"
+          validate={['required', 'email']}
+          label="Your Email"/>
+
       </RegistrationElement>
-    <RegistrationElement
+      <RegistrationElement
         name="password"
         label ="Password"
         active ={true}
@@ -95,66 +120,42 @@ export default React.createClass({
         hideOn = {['FACEBOOK','SOUNDCLOUD']}
       >
         <Textfield
-           type ="password"
-           name="password"
-           validate={['required']}
-           label="Your password"/>
+          {...password}
+          type ="password"
+          name="password"
+          validate={['required']}
+          label="Your password"/>
       </RegistrationElement>
 
 
       <RegistrationElement
+        name="name"
+        label ="Name"
+        active ={true}
+        text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+        hideOn = {['FACEBOOK']}
+      >
+        <Textfield
+          {...name}
           name="name"
-          label ="Name"
-          active ={true}
-          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-          hideOn = {['FACEBOOK']}
-        >
-          <Textfield
-             name="name"
-             placeholder="First Last"
-             validate={['required']}
-             label="Your name"/>
-        </RegistrationElement>
+          placeholder="First Last"
+          validate={['required']}
+          label="Your name"/>
+      </RegistrationElement>
 
 
       <RegistrationElement
-           name="bday"
-           label ="Birthday"
-           active ={true}
-           text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-           hideOn = {['FACEBOOK']}
+        name="bday"
+        label ="Birthday"
+        active ={true}
+        text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+        hideOn = {['FACEBOOK']}
 
-           >
+      >
 
-       <Textfield
-          onUpdatePipeFunc = {function(lastValue, value)
-            {
-            switch (value.length) {
-            case 2:
-              //The case that we deleted something, return
-              if (lastValue.length === 3) {
-                return value.substring(0, value.length-1);
-              }
-
-              return (value + "/")
-              break;
-            case 5:
-              //The case that we deleted something
-              if (lastValue.length === 6) {
-                return value.substring(0, value.length-1);
-              }
-
-              return (value + "/")
-              break;
-
-            default:
-              //If trying to type anything else than numbers
-              if (isNaN(value.substring(value.length -1)) && (value.substring(value.length -1) !== "/") ) {
-                return lastValue
-              }
-              return value}
-
-          }}
+        <Textfield
+          {...birthday}
+          onUpdatePipeFunc = {datePipe}
           maxLength="10"
           type = "text"
           name="birthday"
@@ -166,13 +167,13 @@ export default React.createClass({
 
       <RegistrationElement
         name="location"
-
         label ="Location"
         active ={true}
         text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
       >
 
-      <LocationSelectorSimple
+        <LocationSelectorSimple
+          {...location}
           autocomplete="off"
           name="location"
           validate={['required']}
@@ -188,25 +189,27 @@ export default React.createClass({
         text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
       >
 
-       <ToggleButtonHandler
-         name="genres"
-         genres={GENRES}
-         columns = {4} />
+        <ToggleButtonHandler
+          {...genres}
+          name="genres"
+          genres={c.GENRES}
+          columns = {4} />
 
-     </RegistrationElement>
+      </RegistrationElement>
 
-     <RegistrationElement
+      <RegistrationElement
         isFilter ={true}
         name="bankInfo"
         label ="Account information"
         active ={true}
         text = "Do you want to enter your bank acount now or wait until you get your first gig? "
-     >
+      >
 
-     <ToggleOptions
-       name = "bankInfoButtons"
-       >
-       <Button
+        <ToggleOptions
+          {...bankInfo}
+          name = "bankInfoButtons"
+        >
+          <Button
          name = "BANK_TRUE"
          rounded= {true}
          label =  "Now"
@@ -224,6 +227,11 @@ export default React.createClass({
 
     </Form>
 
-    );
+    )
   }
-});
+})
+
+export default reduxForm({
+  form: 'signupForm',
+  fields
+})(signupForm)

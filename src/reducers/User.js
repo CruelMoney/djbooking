@@ -32,6 +32,7 @@ const status = (state = initialState, action) => {
        err: action.err,
        isWaiting: false
      })
+
   case ActionTypes.LOGOUT_SUCCEEDED:
       return initialState
   case ActionTypes.UPDATEPROFILE_REQUESTED:
@@ -56,6 +57,8 @@ const status = (state = initialState, action) => {
       return  assign({}, state, {
                 editMode: !state.editMode,
              })
+
+
 
 
   default:

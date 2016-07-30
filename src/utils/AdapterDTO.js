@@ -1,4 +1,4 @@
-
+import formatter from './Formatter'
 
 
 export default class AdapterDTO  {
@@ -20,15 +20,16 @@ export default class AdapterDTO  {
         avatar:           DTO.picture,
         picture:          DTO.user_metadata.picture || DTO.picture_large || DTO.picture,
         user_id:          DTO.user_id,
-        birthday:         DTO.user_metadata.birthday,
+        birthday:         DTO.user_metadata.birthday || DTO.birthday ? formatter.date.ToEU(DTO.birthday) : "",
         genres:           DTO.user_metadata.genres,
         geoip:            DTO.user_metadata.geoip,
         location:         DTO.user_metadata.location,
         locationCoords:   DTO.user_metadata.locationCoords,
         bio:              DTO.user_metadata.bio || "",
-        radius:           DTO.user_metadata.radius || 250000, //250 km
+        radius:           DTO.user_metadata.radius || 25000, //25 km
         queupGigs:        DTO.user_metadata.queupGigs || 0,
         otherGigs:        DTO.user_metadata.otherGigs || 0,
+        phone:            DTO.user_metadata.phone || ""
       }
     }
 
@@ -42,7 +43,8 @@ export default class AdapterDTO  {
           genres:         profile.genres,
           location:       profile.location,
           locationCoords: profile.locationCoords,
-          radius:         profile.radius
+          radius:         profile.radius,
+          phone:          profile.phone
         }
       }
     }

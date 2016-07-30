@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import { connect } from 'react-redux';
+import React, { PropTypes } from 'react'
+import Radium from 'radium'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import { connect } from 'react-redux'
 
 
 var RegistrationElement = React.createClass({
@@ -28,21 +28,22 @@ var RegistrationElement = React.createClass({
 
   childContextTypes: {
     update: PropTypes.func,
+    isFilter: PropTypes.bool,
   },
 
   getChildContext() {
     return {
-      update: this.updateValue
-    };
+      update: this.updateValue,
+      isFilter: this.props.isFilter,
+    }
   },
 
   contextTypes: {
+    updateFilters: PropTypes.func,
     update: PropTypes.func.isRequired,
-    updateFilters: PropTypes.func
   },
 
   updateValue(name, value){
-    this.context.update(this.props.name, value);
     if (this.props.isFilter) {
       this.context.updateFilters(this.props.name, value)
     }
@@ -74,7 +75,7 @@ var RegistrationElement = React.createClass({
         fontSize: '14px',
       },
 
-    };
+    }
 
 
       return (
@@ -93,10 +94,10 @@ var RegistrationElement = React.createClass({
              </p>
              {this.props.children}
         </div>
-      );
+      )
 
   }
-});
+})
 
-const StyledText = Radium(RegistrationElement);
-export default muiThemeable()(StyledText);
+const StyledText = Radium(RegistrationElement)
+export default muiThemeable()(StyledText)

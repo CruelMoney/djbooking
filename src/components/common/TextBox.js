@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import * as validators from '../../utils/validators';
+import React, { PropTypes } from 'react'
+import Radium from 'radium'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import * as validators from '../../utils/validators'
 
 
 var TextBox = React.createClass({
@@ -17,8 +17,8 @@ var TextBox = React.createClass({
   },
 
   contextTypes: {
-    update: PropTypes.func.isRequired,
-    registerValidation: PropTypes.func.isRequired
+    registerValidation: PropTypes.func.isRequired,
+    updateProfileValue: PropTypes.func
   },
 
   getDefaultProps() {
@@ -33,17 +33,21 @@ var TextBox = React.createClass({
       value: this.props.value
     })
     this.removeValidationFromContext = this.context.registerValidation(show =>
-      this.isValid(show));
+      this.isValid(show))
+
   },
 
   componentWillUnmount() {
-    this.removeValidationFromContext();
+    this.removeValidationFromContext()
   },
+
+  timer: null,
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       value: nextProps.value
     })
+
 },
 
   getDefaultProps() {
@@ -57,17 +61,21 @@ var TextBox = React.createClass({
     return {
       value: "",
       errors: []
-    };
+    }
   },
 
   updateValue(value) {
     this.setState({
       value: value
-    }, () =>     this.context.update(this.props.name, value));
+    })
 
     setTimeout(() => {
-        this.isValid(true);
-        }, 100);
+        this.isValid(true)
+        }, 100)
+
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() =>
+      this.context.updateProfileValue(this.props.name, value), 1000)
   },
 
   onChange(event) {
@@ -80,8 +88,8 @@ var TextBox = React.createClass({
 
   onBlur() {
     setTimeout(() => {
-        this.isValid(true);
-        }, 100);
+        this.isValid(true)
+        }, 100)
   },
 
   isValid(showErrors) {
@@ -89,16 +97,16 @@ var TextBox = React.createClass({
       .reduce((memo, currentName) =>
         memo.concat(validators[currentName](
           this.state.value
-        )), []);
+        )), [])
 
 
     if (showErrors) {
       this.setState({
         errors
-      });
+      })
     }
 
-    return !errors.length;
+    return !errors.length
   },
 
   render() {
@@ -126,7 +134,7 @@ var TextBox = React.createClass({
 
 
 
-    };
+    }
 
     return (
               <div>
@@ -153,9 +161,9 @@ var TextBox = React.createClass({
 
 
 
-    );
+    )
   }
-});
+})
 
-var StyledTextBox = Radium(TextBox);
-export default muiThemeable()(StyledTextBox);
+var StyledTextBox = Radium(TextBox)
+export default muiThemeable()(StyledTextBox)

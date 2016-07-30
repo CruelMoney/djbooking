@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react';
-import AutoComplete from 'material-ui/AutoComplete';
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import * as validators from '../../utils/validators';
+import React, { PropTypes } from 'react'
+import AutoComplete from 'material-ui/AutoComplete'
+import Radium from 'radium'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import * as validators from '../../utils/validators'
 
-var locationService = new google.maps.places.AutocompleteService();
+var locationService = new google.maps.places.AutocompleteService()
 
 var Text = React.createClass({
 
@@ -14,22 +14,35 @@ var Text = React.createClass({
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     label: PropTypes.string,
-    validate: PropTypes.arrayOf(PropTypes.string)
+    validate: PropTypes.arrayOf(PropTypes.string),
+    value: PropTypes.string,
+    onChange: PropTypes.func
   },
 
   contextTypes: {
-    update: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired,
+    resetting: PropTypes.bool,
+    isFormValid: PropTypes.func,
     registerValidation: PropTypes.func.isRequired
   },
 
-  componentWillMount() {
-    this.removeValidationFromContext = this.context.registerValidation(show =>
-      this.isValid(show));
+  getInitialState(){
+    return{
+      value: "",
+      errors: [],
+      dataSource: []
+    }
   },
 
+  componentWillMount() {
+
+    this.removeValidationFromContext = this.context.registerValidation(show =>
+      this.isValid(show))
+  },
+
+
+
   componentWillUnmount() {
-    this.removeValidationFromContext();
+    this.removeValidationFromContext()
   },
 
   getDefaultProps() {
@@ -38,48 +51,40 @@ var Text = React.createClass({
     }
   },
 
-  getInitialState() {
-    return {
-      errors: [],
-      dataSource: []
-    };
-  },
-
   updateSuggestions(predictions, status){
-    var li = [];
+    var li = []
 
     predictions.forEach(function(prediction) {
-      li.push(prediction.description);
-    });
+      li.push(prediction.description)
+    })
 
     this.setState({
       dataSource: li,
-    });
+    })
   },
 
   onChange(value) {
-    this.updateValue(value);
-    locationService.getQueryPredictions({ input: value, types: ['(cities)'] }, this.updateSuggestions);
+    this.updateValue(value)
+    locationService.getQueryPredictions({ input: value, types: ['(cities)'] }, this.updateSuggestions)
   },
 
   onValueSelected(value){
-    this.updateValue(value);
+    this.updateValue(value)
   },
 
   updateValue(value) {
 
-    this.setState({
-      value: value
-    },  () => this.context.update(this.props.name, value));
     setTimeout(() => {
-        this.isValid(true);
-        }, 100);
+        this.isValid(true)
+        }, 100)
+    this.props.onChange(value)
+
   },
 
   onBlur() {
     setTimeout(() => {
-        this.isValid(true);
-        }, 100);
+        this.isValid(true)
+        }, 100)
   },
 
   isValid(showErrors) {
@@ -87,16 +92,16 @@ var Text = React.createClass({
       .reduce((memo, currentName) =>
         memo.concat(validators[currentName](
           this.state.value
-        )), []);
+        )), [])
 
 
     if (showErrors) {
       this.setState({
         errors
-      });
+      })
     }
 
-    return !errors.length;
+    return !errors.length
   },
 
   render() {
@@ -114,13 +119,13 @@ var Text = React.createClass({
         fontWeight: '300',
       }
 
-    };
+    }
 
     //Fix for not being able to style the input element
     setTimeout(() => {
-          var elem = document.querySelector('.search-bar__auto-complete');
-          elem.style.height = "70px";
-        }, 100);
+          var elem = document.querySelector('.search-bar__auto-complete')
+          elem.style.height = "70px"
+        }, 100)
 
     return (
         <AutoComplete
@@ -140,9 +145,9 @@ var Text = React.createClass({
              {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
            </div>
         ) : null}/>
-    );
+    )
   }
-});
+})
 
-var StyledText = Radium(Text);
-export default muiThemeable()(StyledText);
+var StyledText = Radium(Text)
+export default muiThemeable()(StyledText)

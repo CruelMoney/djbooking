@@ -10,20 +10,20 @@ var Text = React.createClass({
   displayName: 'Textfield',
 
   propTypes: {
+    value: PropTypes.string,
     maxLength:PropTypes.number,
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     info: PropTypes.string,
-    value: PropTypes.string,
-    type: PropTypes.string,
     label: PropTypes.string,
     validate: PropTypes.arrayOf(PropTypes.string),
-    onUpdatePipeFunc: PropTypes.func
+    onUpdatePipeFunc: PropTypes.func,
+    disabled: PropTypes.bool
   },
 
   contextTypes: {
-    registerUpdate: PropTypes.func.isRequired,
-    registerValidation: PropTypes.func.isRequired
+    registerValidation: PropTypes.func.isRequired,
+    updateProfileValue: PropTypes.func
   },
 
   componentWillMount() {
@@ -32,19 +32,16 @@ var Text = React.createClass({
     })
     this.removeValidationFromContext = this.context.registerValidation(show =>
       this.isValid(show))
-    this.removeUpdateFromContext = this.context.registerUpdate(() =>
-        {return {name: this.props.name, value: this.state.value}})
   },
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextprops){
     this.setState({
-      value: nextProps.value
+      value: nextprops.value
     })
   },
 
   componentWillUnmount() {
     this.removeValidationFromContext()
-    this.removeUpdateFromContext()
   },
 
 
@@ -64,22 +61,31 @@ var Text = React.createClass({
     }
   },
 
-  updateValue(value) {
-    this.setState({
-      value: value
-    })
 
-    setTimeout(() => {
-        this.isValid(true)
-        }, 100)
+  updateValue(value) {
+    this.context.updateProfileValue(this.props.name, value)
   },
+
+  timer : null,
 
   onChange(event) {
     var value = event.target.value
     if (this.props.onUpdatePipeFunc) {
         value = this.props.onUpdatePipeFunc(this.state.value, event.target.value)
     }
-    this.updateValue(value)
+
+    this.setState({
+      value:value
+    })
+
+    setTimeout(() => {
+        this.isValid(true)
+        }, 100)
+
+
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => this.updateValue(value), 1000)
+
   },
 
   onBlur() {
@@ -130,16 +136,17 @@ var Text = React.createClass({
       }
 
     }
-
     return (
                 <TextField
-                  {...this.props}
                   value={this.state.value}
                   name={this.props.name}
+                  disabled={this.props.disabled}
                   maxLength= {this.props.maxLength}
                   style = {this.props.style || styles.textarea}
                   inputStyle = {this.props.inputStyle || styles.input}
                   hintStyle = {this.props.hintStyle || styles.hint}
+                  underlineDisabledStyle = {this.props.underlineDisabledStyle}
+                  underlineStyle = {this.props.underlineStyle}
                   type = {this.props.type}
                   fullWidth={this.props.fullWidth || true}
                   hintText={this.props.placeholder}

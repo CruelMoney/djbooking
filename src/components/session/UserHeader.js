@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react'
-import AuthService from '../../utils/AuthService'
 import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import TextField from '../common/Textfield'
+import TextWrapper from '../common/TextElement'
+import {datePipe} from '../../utils/textPipes'
 
 var userHeader = React.createClass({
 
@@ -50,7 +51,7 @@ var userHeader = React.createClass({
       },
       large:{
         textarea: {
-          height: '80px',
+          height: '40px',
         },
 
         paragraph: {
@@ -58,6 +59,7 @@ var userHeader = React.createClass({
         },
 
         input:{
+          height: 'initial',
           fontSize: '24px',
           color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
@@ -71,7 +73,7 @@ var userHeader = React.createClass({
       },
       medium:{
         textarea: {
-          height: '80px',
+          height: '40px',
         },
 
         paragraph: {
@@ -80,6 +82,7 @@ var userHeader = React.createClass({
 
         input:{
           fontSize: '14px',
+          height: 'initial',
           color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
@@ -119,10 +122,10 @@ var userHeader = React.createClass({
           margin: '0px',
           position: 'absolute',
           width: '100%',
-          display: 'none',
           WebkitTransition: '0.1s ease-in-out',
           MozTransition: '0.1s ease-in-out',
           transition: '0.1s ease-in-out',
+          display: 'none',
         },
         userImageWrap:{
           display: 'flex',
@@ -147,12 +150,11 @@ var userHeader = React.createClass({
     }
 
 
-    return  <div style={{paddingTop:'15px',
-      paddingBottom:'15px',
-    borderBottom: '1px solid #eee'}} className="row">
-      <div style={{display: 'flex',
-        alignItems: 'center',
-      }} className="container">
+    return (
+
+    <div style={{paddingTop:'15px',  paddingBottom:'15px',  borderBottom: '1px solid #eee'}}
+      className="row">
+      <div style={{display: 'flex', alignItems: 'center',}} className="container">
         <div className="col-xs-3">
           <div style={styles.userImageWrap}>
             <div style={[
@@ -167,118 +169,124 @@ var userHeader = React.createClass({
         </div>
         <div className="col-xs-9">
           <div className="row">
-            <div style={{marginTop: '-15px'}} className="col-xs-6">
+            <div className="col-xs-6">
+              <TextWrapper
+                label="Name"
+              >
+                <TextField
+                  value = {this.props.profile.name}
+                  name="name"
+                  disabled={!this.props.editMode}
+                  style = {styles.large.textarea}
+                  inputStyle = {styles.large.input}
+                  type = "text"
+                  fullWidth={false}
+                  hintText="Name"
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
 
-              <TextField
-                value = {this.props.profile.name}
-                name="name"
-                disabled={!this.props.editMode}
-                floatingLabelFixed={true}
-                floatingLabelText="Name"
-                style = {styles.large.textarea}
-                inputStyle = {styles.large.input}
-                //hintStyle = {styles.hint}
-                type = "text"
-                fullWidth={false}
-                hintText="Name"
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
-                //onChange={this.onChange}
-                //onBlur={this.onBlur}
-              />
-              <TextField
-                value= {this.props.profile.location}
-                name="location"
-                disabled={!this.props.editMode}
-                floatingLabelFixed={true}
-                floatingLabelText="Location"
-                style = {styles.medium.textarea}
-                inputStyle = {styles.medium.input}
-                //hintStyle = {styles.hint}
-                type = "text"
-                fullWidth={false}
-                hintText="Location"
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
+                />
 
-                //onChange={this.onChange}
-                //onBlur={this.onBlur}
-              />
-              <TextField
-                value= {this.props.profile.birthday}
-                name="birthday"
-                disabled={!this.props.editMode}
-                floatingLabelFixed={true}
-                floatingLabelText="Birthday"
-                style = {styles.medium.textarea}
-                inputStyle = {styles.medium.input}
-                //hintStyle = {styles.hint}
-                type = "text"
-                fullWidth={false}
-                hintText="Birthday"
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
+              </TextWrapper>
 
-                //onChange={this.onChange}
-                //onBlur={this.onBlur}
-              />
+              <TextWrapper
+                label="Location"
+              >
+                <TextField
+                  value= {this.props.profile.location}
+                  name="location"
+                  validate={['required']}
+                  disabled={!this.props.editMode}
+                  style = {styles.medium.textarea}
+                  inputStyle = {styles.medium.input}
+                  type = "text"
+                  fullWidth={false}
+                  hintText="Location"
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
+                />
+              </TextWrapper>
+
+              <TextWrapper
+                label="Birthday"
+              >
+                <TextField
+                  value= {this.props.profile.birthday}
+                  onUpdatePipeFunc = {datePipe}
+                  name="birthday"
+                  validate={['required', 'date']}
+                  disabled={!this.props.editMode}
+                  style = {styles.medium.textarea}
+                  inputStyle = {styles.medium.input}
+                  type = "text"
+                  fullWidth={false}
+                  hintText="Birthday"
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
+                />
+              </TextWrapper>
+
             </div>
-            <div style={{marginTop: '-15px'}}  className="col-xs-6">
-              <TextField
-                value= "3500.00 DKK"
-                name="Earned"
+            <div  className="col-xs-6">
+              <TextWrapper
+                label="Earned"
+              >
+                <TextField
+                  value= "3500.00 DKK"
+                  name="Earned"
                   disabled={true}
-                  floatingLabelFixed={true}
-                  floatingLabelText="Total payout"
                   style = {styles.large.textarea}
                   inputStyle = {styles.large.input}
                   //hintStyle = {styles.hint}
                   type = "text"
                   fullWidth={false}
                   underlineShow={false}
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
+                />
+              </TextWrapper>
 
-                  //onChange={this.onChange}
-                  //onBlur={this.onBlur}
-                  />
-              <TextField
+              <TextWrapper
+                label="Rating"
+              >
+                <TextField
                   value= "★ ★ ★ ★ ★"
                   name="Rating"
                   disabled={true}
-                  floatingLabelFixed={true}
-                  floatingLabelText="Rating"
                   style = {styles.large.textarea}
                   inputStyle = {styles.large.input}
-                  //hintStyle = {styles.hint}
                   type = "text"
                   fullWidth={false}
                   underlineShow={false}
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
+                />
+              </TextWrapper>
 
-                  //onChange={this.onChange}
-                  //onBlur={this.onBlur}
-                  />
-
-                  <TextField
-                    value= "No upcoming gigs"
-                    name="Upcoming"
-                    disabled={true}
-                    floatingLabelFixed={true}
-                    floatingLabelText="Requested gigs"
-                    style = {styles.medium.textarea}
-                    inputStyle = {styles.medium.input}
-                    //hintStyle = {styles.hint}
-                    type = "text"
-                    fullWidth={false}
-                    underlineShow={false}
-
-                    //onChange={this.onChange}
-                    //onBlur={this.onBlur}
+              <TextWrapper
+                label="Upcoming"
+              >
+                <TextField
+                  value= "No upcoming gigs"
+                  name="Upcoming"
+                  disabled={true}
+                  style = {styles.medium.textarea}
+                  inputStyle = {styles.medium.input}
+                  type = "text"
+                  fullWidth={false}
+                  underlineShow={false}
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
                     />
+                    </TextWrapper>
+                </div>
+               </div>
               </div>
+             </div>
             </div>
-            </div>
+      )
 
-          </div>
-          </div>
+
 
   }
 })

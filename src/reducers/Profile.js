@@ -17,11 +17,13 @@ const profile = (state = initialState, action) => {
       return   cloneDeep(action.profile )
 
   case ActionTypes.UPDATEPROFILE_SUCCEEDED:
-     return  cloneDeep(action.profile )
+     return    cloneDeep(action.profile )
 
   case ActionTypes.LOGOUT_SUCCEEDED:
       return initialState
 
+  case ActionTypes.RESET_PROFILE:
+    return cloneDeep(action.profile )
 
  default:
      return state

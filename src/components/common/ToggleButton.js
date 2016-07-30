@@ -13,13 +13,15 @@ var ToggleButton = React.createClass({
       labelToggled: PropTypes.string,
       onClick: PropTypes.func,
       onClickToggled: PropTypes.func,
-      disabled: PropTypes.bool
+      disabled: PropTypes.bool,
+      active: PropTypes.bool
     },
 
     getDefaultState() {
-      toggled: false
+      return{
+        toggled: false
+      }
     },
-
 
     getDefaultProps() {
       return {
@@ -28,9 +30,17 @@ var ToggleButton = React.createClass({
       }
     },
 
+    componentWillMount(){
+      this.setState({
+        toggled: this.props.active
+      })
+    },
+
     componentWillReceiveProps(nextProps, nextContext){
       if (nextProps.active !== undefined) {
-        this.state.toggled = nextProps.active
+        this.setState({
+          toggled: nextProps.active
+        })
       }
     },
 
@@ -45,12 +55,10 @@ var ToggleButton = React.createClass({
     },
 
   render() {
-
-
     return (
+
       <Button
         {...this.props}
-
         label = {this.state.toggled
           ? (this.props.labelToggled ? this.props.labelToggled : this.props.label)
         : this.props.label}

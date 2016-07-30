@@ -17,90 +17,75 @@ var SimpleMap = React.createClass({
     circle: {},
 
       propTypes:{
-        editable: PropTypes.bool,
+        editable:        PropTypes.bool,
         initialPosition: PropTypes.object,
-        radius:         PropTypes.number
+        radius:          PropTypes.number
+      },
+
+      contextTypes: {
+        resetting: PropTypes.bool,
+        registerValidation: PropTypes.func.isRequired,
+        updateProfileValue: PropTypes.func
       },
 
       getInitialState(){
         return{
-        markers: [{
+        marker: {
           position: {lat: 56.00, lng: 10.00
           },
-          radius: 220000,
+          radius: 250000,
           key: `Denmark`,
           defaultAnimation: 2,
-        }],
+        },
         }
       },
 
       componentWillMount(){
         this.setState({
-          markers: [{
+          marker: {
             position: this.props.initialPosition,
             radius: this.props.radius,
             key: Date.now(),
             defaultAnimation: 2,
-          }]
+          }
         })
       },
 
       componentWillReceiveProps(nextProps){
         this.setState({
-          markers: [{
+          marker: {
             position: nextProps.initialPosition,
             radius: nextProps.radius,
             key: Date.now(),
             defaultAnimation: 2,
-          }]
+          }
         })
       },
 
 
-        /*
-         * This is called when you click on the map.
-         * Go and try click now.
-         */
-        _handle_map_click(event) {
-          setTimeout(() => {
-            let { markers } = this.state
-            markers =  [
-                {
-                  position: event.latLng,
-                  defaultAnimation: 2,
-                  key: Date.now(), // Add a key property for: http://fb.me/react-warning-keys
-                  radius: this.circle.getRadius()
-                },
-              ]
+        timer: null,
 
-            this.setState({ markers })
-          }, 300)
+        handleRadiusChange(circle) {
+          clearTimeout(this.timer)
 
+           this.timer = setTimeout(() =>
+             this.context.updateProfileValue("radius",
+              circle.getRadius()
+            ), 1000)
         },
 
-        _handle_marker_rightclick(index, event) {
-          /*
-           * All you modify is data, and the view is driven by data.
-           * This is so called data-driven-development. (And yes, it's now in
-           * web front end and even with google maps API.)
-           */
-          let { markers } = this.state
-          markers = update(markers, {
-            $splice: [
-              [index, 1],
-            ],
-          })
-          this.setState({ markers })
-        },
-
-        handleRadiusChanged(circle) {
-          console.log(circle.getRadius())
+        handleLocationChange(circle) {
+          clearTimeout(this.timer)
+          this.timer = setTimeout(() =>
+            this.context.updateProfileValue("locationCoords",
+            {lat: circle.getCenter().lat(),
+             lng: circle.getCenter().lng()
+           }), 1000)
         },
 
 
 
     render(){
-
     return(
       <section style={{ height: `500px` }}>
         <GoogleMapLoader
@@ -114,14 +99,11 @@ var SimpleMap = React.createClass({
           }
           googleMapElement={
             <GoogleMap
-              defaultZoom={6}
-              defaultCenter={{ lat: 56.00, lng: 10.00 }}
+              defaultZoom={8}
+              defaultCenter={ this.state.marker.position }
               streetViewControl= {false}
               defaultOptions={{
-                draggable: this.props.editable,
-                scrollwheel: this.props.editable,
-                panControl: this.props.editable,
-                zoomControl: this.props.editable,
+                scrollwheel: false,
                 streetViewControl: false,
                 mapTypeControl: false,
                 styles: [
@@ -143,7 +125,7 @@ var SimpleMap = React.createClass({
                   ]
                 },{
                   "featureType": "administrative.locality",
-                  "elementType": "labels.text.fill",
+                  "elementType": "labels",
                   "stylers": [
                   { "color": "#ffffff" },
                   { "visibility": "on" }
@@ -161,25 +143,63 @@ var SimpleMap = React.createClass({
                   "stylers": [
                   { "visibility": "simplified" }
                   ]
+                },{
+                  "featureType": "administrative.province",
+                  "stylers": [
+                  { "visibility": "on" }
+                  ]
+                },{
+                  "featureType": "administrative.province",
+                  "elementType": "labels.text.fill",
+                  "stylers": [
+                  { "color": "#ffffff" },
+                  { "visibility": "on" }
+                  ]
+                },{
+                  "featureType": "administrative.province",
+                  "elementType": "labels.text.stroke",
+                  "stylers": [
+                  { "color": "#000000" },
+                  { "visibility": "on" }
+                  ]
+                },{
+                  "featureType": "administrative.country",
+                  "stylers": [
+                  { "visibility": "on" }
+                  ]
+                },{
+                  "featureType": "administrative.country",
+                  "elementType": "labels.text.fill",
+                  "stylers": [
+                  { "color": "#ffffff" },
+                  { "visibility": "on" }
+                  ]
+                },{
+                  "featureType": "administrative.country",
+                  "elementType": "labels.text.stroke",
+                  "stylers": [
+                  { "color": "#000000" },
+                  { "visibility": "on" }
+                  ]
                 }
                 ]
               }}
             >
-              {this.state.markers.map((marker, index) => (
-                <Circle
-                  ref = {(c) => this.circle = c}
-                  defaultOptions = {{
-                    fillColor: this.props.themeColor,
-                    strokeWeight: 0,
-                    suppressUndo: true
-                  }}
-                  editable= {this.props.editable}
-                  center= {marker.position}
-                  radius= {marker.radius}
-                  onRadiusChanged={() => this.handleRadiusChanged(this.circle)}
+
+              <Circle
+                ref = {(c) => this.circle = c}
+                defaultOptions = {{
+                  fillColor: this.props.themeColor,
+                  strokeWeight: 0,
+                  suppressUndo: true
+                }}
+                editable= {this.props.editable}
+                center= {this.state.marker.position}
+                radius= {this.state.marker.radius}
+                onCenterChanged={()=>this.handleLocationChange(this.circle)}
+                onRadiusChanged={()=>this.handleRadiusChange(this.circle)}
                 />
 
-              ))}
             </GoogleMap>
           }
         />

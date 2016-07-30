@@ -35,7 +35,7 @@ module.exports = {
     SET_SIGNUP:null
 
   }),
-  GENRES: [
+   GENRES: [
     {name: 'R&B'},
     {name: 'Latin'},
     {name: 'Hip Hop'},

@@ -1,6 +1,7 @@
 import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
 import AdapterDTO from '../utils/AdapterDTO'
+import { browserHistory } from 'react-router'
 
 var ActionTypes = c.ActionTypes
 const auth = new AuthService()
@@ -9,6 +10,7 @@ var geocoder = new google.maps.Geocoder()
 
 
 function codeAddress(address, callback)  {
+  console.log(address)
   geocoder.geocode( { 'address': address}, function(results, status) {
        if (status == google.maps.GeocoderStatus.OK) {
          var lat = (results[0].geometry.location.lat())
@@ -69,7 +71,7 @@ export function signup(form) {
     switch (form.signup) {
       case "EMAIL":
         return signupEmail(form, handleSignupFeedback(dispatch, form))
-        
+
       case "FACEBOOK":
         return loginFacebook(handleSignupFeedback(dispatch, form))
 
@@ -119,6 +121,8 @@ export function signup(form) {
                   dispatch (function() {return {
                       type: ActionTypes.SIGNUP_SUCCEEDED
                     }}())
+
+                  checkForLogin()(dispatch)
                 }
               })(dispatch)
             })
@@ -160,6 +164,8 @@ return function (err, result) {
               type: ActionTypes.LOGIN_SUCCEEDED,
               profile
             }}())
+          browserHistory.push('/user/profile')
+          
         }else{
             dispatch (function() {return {
                 type: ActionTypes.LOGIN_FAILED,
@@ -189,6 +195,7 @@ export function checkForLogin(){
                   type: ActionTypes.LOGIN_SUCCEEDED,
                   profile
                 }}())
+              browserHistory.push('/user/profile')
             }
       })
     }
@@ -213,14 +220,14 @@ export function login(form){
     switch (form.type) {
       case "EMAIL":
         return loginEmail(form, handleLoginFeedback(dispatch))
-        break
+
       case "FACEBOOK":
         return loginFacebook(handleLoginFeedback(dispatch))
-        break
+
 
       case "SOUNDCLOUD":
         return loginSoundcloud(handleLoginFeedback(dispatch))
-        break
+
 
     }
 

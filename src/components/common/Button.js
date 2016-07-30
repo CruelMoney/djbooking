@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react';
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import React, { PropTypes } from 'react'
+import Radium from 'radium'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 import hexToRgb from '../../utils/ColorHelper'
 
 var Button = React.createClass({
@@ -12,6 +12,7 @@ var Button = React.createClass({
       active: PropTypes.bool,
       primary: PropTypes.bool,
       name: PropTypes.string,
+      disabled: PropTypes.bool
     },
 
   getDefaultProps() {
@@ -21,20 +22,20 @@ var Button = React.createClass({
     },
 
     handleClick(e){
-      e.preventDefault();
+      e.preventDefault()
       if (this.props.name === undefined) {
-      this.props.onClick(this.props.label);
+      this.props.onClick(this.props.label)
     }else{
-      this.props.onClick(this.props.name);
+      this.props.onClick(this.props.name)
     }
     },
 
   render() {
 
-    var r = hexToRgb(this.props.muiTheme.palette.primary1Color).r;
-    var g = hexToRgb(this.props.muiTheme.palette.primary1Color).g;
-    var b = hexToRgb(this.props.muiTheme.palette.primary1Color).b;
-    var rbg = r+","+g+","+b;
+    var r = hexToRgb(this.props.muiTheme.palette.primary1Color).r
+    var g = hexToRgb(this.props.muiTheme.palette.primary1Color).g
+    var b = hexToRgb(this.props.muiTheme.palette.primary1Color).b
+    var rbg = r+","+g+","+b
 
     var styles = {
       base: {
@@ -42,7 +43,7 @@ var Button = React.createClass({
         fontSize: "14px",
         color:  this.props.muiTheme.palette.textColor,
         fontWeight: 'bold',
-        opacity: '0.5',
+        opacity: (this.props.disabled ? '0.5' : '1'),
         backgroundColor: 'transparent',
         borderStyle: 'solid',
         borderWidth: "2px",
@@ -100,14 +101,14 @@ var Button = React.createClass({
         opacity: '0.5',
       }
 
-    };
+    }
     return (
       <div style={[
           styles.containerStyle,
           this.props.leftAlign && styles.left]}>
       <button
 
-      disabled={this.props.disabled}
+      className= {this.props.disabled ? "disabled" : ""}
       style={[
           styles.base,
           this.props.active && styles.active,
@@ -124,10 +125,10 @@ var Button = React.createClass({
         {this.props.label}
       </button>
       </div>
-    );
+    )
   }
-});
+})
 
 
-var StyledButton = Radium(Button);
-export default muiThemeable()(StyledButton);
+var StyledButton = Radium(Button)
+export default muiThemeable()(StyledButton)

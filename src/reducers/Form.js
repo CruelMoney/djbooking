@@ -1,15 +1,17 @@
-import c from '../constants/constants';
+import c from '../constants/constants'
 import { combineReducers } from 'redux'
-import assign from 'lodash.assign';
+import assign from 'lodash.assign'
 import signup from './Signup'
 
+var ActionTypes = c.ActionTypes
 
-var ActionTypes = c.ActionTypes;
+
+
 
 const initialState = { //define initial state - an empty form
-};
+}
 
-const values  = (state = initialState, action) => {
+const filters  = (state = initialState, action) => {
   switch (action.type) {
 
   case ActionTypes.FORM_UPDATE_VALUE:
@@ -17,24 +19,24 @@ const values  = (state = initialState, action) => {
 
         [action.name]: action.value
 
-    });
+    })
 
   case ActionTypes.FORM_UPDATE_FILTERS:
     return assign({}, state, {
         filters: assign({}, state.filters, {
               [action.filter]: action.value
           })
-    });
+    })
 
   case ActionTypes.FORM_RESET:
-    return initialState;
+    return initialState
 
   default:
-    return state;
+    return state
   }
 }
 
 export default combineReducers({
-  values,
+  filters,
   signup
 })

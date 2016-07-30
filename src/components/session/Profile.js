@@ -16,27 +16,29 @@ import c from '../../constants/constants'
 var Profile = React.createClass({
   propTypes: {
     profile: PropTypes.object,
-    editMode: PropTypes.bool,
     toggleEditMode: PropTypes.func,
-    updateProfileValue: PropTypes.func,
+    editMode: PropTypes.bool,
   },
-
 
   contextTypes: {
     registerActions: PropTypes.func,
     updateActions: PropTypes.func,
     submit: PropTypes.func.isRequired,
-    reset: PropTypes.func
+    reset: PropTypes.func,
   },
 
 
   componentWillMount() {
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons)
+    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(this.props))
+  },
+
+  componentWillReceiveProps(nextprops){
+    this.removeActionsFromContext()
+    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(nextprops))
   },
 
 
   componentDidMount(){
-
   },
 
   componentWillUnmount() {
@@ -45,32 +47,28 @@ var Profile = React.createClass({
 
 
 
-  handleSliderChange(value){
-    console.log(value)
-  },
 
-
-  getActionButtons(context = this.context, submitFunc, resetFunc){
+  getActionButtons(props = this.props){
     return (
     <div key="profile_actions">
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
-          active = {this.props.editMode}
+          active = {props.editMode}
           rounded= {true}
           labelToggled="Save"
           label="Edit profile"
-          onClick= {this.props.toggleEditMode}
-          onClickToggled={submitFunc || context.submit}
+          onClick= {props.toggleEditMode}
+          onClickToggled={this.context.submit}
           name="edit_profile"
         />
       </div>
-      { this.props.editMode ?
+      { props.editMode ?
         <div style={{marginBottom:"4px"}}>
           <Button
             rounded= {true}
             label="Cancel"
             active={true}
-            onClick= {resetFunc}
+            onClick= {this.context.reset}
             name="cancel_edit_profile"
           />
         </div>  : null }
@@ -79,18 +77,13 @@ var Profile = React.createClass({
 
           rounded= {true}
           label="Public profile"
-          onClick= {this.props.toggleEditMode}
           name="see_public_profile"
         />
       </div>
-
-
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
-
           rounded= {true}
           label="Request features"
-          onClick= {this.props.toggleEditMode}
           name="request_features"
         />
       </div>
@@ -130,6 +123,7 @@ var Profile = React.createClass({
 
         input:{
           fontSize: '24px',
+          height: 'initial',
           color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
@@ -142,7 +136,7 @@ var Profile = React.createClass({
       },
       medium:{
         textarea: {
-          height: '80px',
+          height: '40px',
         },
 
         paragraph: {
@@ -151,6 +145,7 @@ var Profile = React.createClass({
 
         input:{
           fontSize: '14px',
+          height: 'initial',
           color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
@@ -192,56 +187,62 @@ var Profile = React.createClass({
     return(
       <div>
         <div className="row">
-          <div style={{marginTop: '-15px'}} className="col-lg-6">
-            <TextField
-              value = {this.props.profile.email}
-              name="email"
-              disabled={!this.props.editMode}
-              floatingLabelFixed={true}
-              floatingLabelText="E-mail"
-              style = {styles.medium.textarea}
-              inputStyle = {styles.medium.input}
-              //hintStyle = {styles.hint}
-              type = "text"
-              fullWidth={false}
-              hintText="E-mail"
-              underlineDisabledStyle={styles.plainBorder}
-              underlineStyle={styles.dottedBorderStyle}
-
-              //onChange={this.onChange}
-              //onBlur={this.onBlur}
-            />
+          <div className="col-lg-6">
             <TextWrapper
-              label="Genres"
-              text="Select your genres">
-              <Genres
-                name="genres"
-                errorAbove= {true}
-                genres={c.GENRES}
-                columns = {4}
-                preToggled = {this.props.profile.genres}
-                disabled={!this.props.editMode} />
+              label="E-mail"
+              text="We wont share your email until you agree to play a gig.">
+              <TextField
+                value = {this.props.profile.email}
+                name="email"
+                disabled={!this.props.editMode}
+                style = {styles.medium.textarea}
+                inputStyle = {styles.medium.input}
+                //hintStyle = {styles.hint}
+                type = "email"
+                validate={['required', 'email']}
+                fullWidth={false}
+                hintText="E-mail"
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+              />
             </TextWrapper>
 
-          </div>
-          <div style={{marginTop: "-15px"}} className="col-lg-6">
-            <TextField
-              name="phone"
-              disabled={!this.props.editMode}
-              floatingLabelFixed={true}
-              floatingLabelText="Phone"
-              style = {styles.medium.textarea}
-              inputStyle = {styles.medium.input}
-              //hintStyle = {styles.hint}
-              type = "text"
-              fullWidth={false}
-              hintText="Phone"
-              underlineDisabledStyle={styles.plainBorder}
-              underlineStyle={styles.dottedBorderStyle}
+            {/* Hack for making sure the genres renders */}
+            {this.props.profile.genres ? (
+              <TextWrapper
+                label="Genres"
+                text="Select your genres">
+                <Genres
+                  name="genres"
+                  errorAbove= {true}
+                  genres={c.GENRES}
+                  columns = {4}
+                  preToggled = {this.props.profile.genres}
+                  disabled={!this.props.editMode} />
+              </TextWrapper>) : null }
 
-              //onChange={this.onChange}
-              //onBlur={this.onBlur}
-            />
+          </div>
+          <div  className="col-lg-6">
+            <TextWrapper
+              label ="Phone"
+              text="We wont share your phone number until you agree to play a gig.">
+              <TextField
+                name="phone"
+                value={this.props.profile.phone}
+                onlyInput={true}
+                style = {styles.medium.textarea}
+                inputStyle = {styles.medium.input}
+                disabled={!this.props.editMode}
+                type = "tel"
+                fullWidth={false}
+                hintText="Phone"
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+
+                //onChange={this.onChange}
+                //onBlur={this.onBlur}
+              />
+            </TextWrapper>
             <TextWrapper
               label ="Bio"
               text={this.props.profile.firstName + ", tell us a little bit of your story."}
@@ -256,19 +257,24 @@ var Profile = React.createClass({
               />
 
             </TextWrapper>
-            <TextWrapper
 
-              label ="Location"
-              text={this.props.profile.firstName + ", tell us where you'd like to play."}
-            >
-              <SimpleMap
-                radius={this.props.profile.radius}
-                initialPosition={this.props.profile.locationCoords}
-                editable={this.props.editMode}
-                markers={this.props.markers}
-                themeColor={this.props.muiTheme.palette.primary1Color}
-              />
-            </TextWrapper>
+            {/* Hack for making sure the map renders */}
+            {this.props.profile.locationCoords ? (
+              <TextWrapper
+
+                label ="Location"
+                text={this.props.profile.firstName + ", tell us where youd like to play."}
+              >
+
+                <SimpleMap
+                  radius={this.props.profile.radius}
+                  initialPosition={this.props.profile.locationCoords}
+                  editable={this.props.editMode}
+                  themeColor={this.props.muiTheme.palette.primary1Color}
+                />
+              </TextWrapper>
+            ) : null}
+
 
             <TextWrapper
               label="Experience"
@@ -278,7 +284,6 @@ var Profile = React.createClass({
                 queupGigs={this.props.profile.queupGigs}
                 otherGigs={this.props.profile.otherGigs}
                 disabled={!this.props.editMode}
-                handleChange={this.handleSliderChange}
               />
             </TextWrapper>
           </div>

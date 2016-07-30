@@ -1,14 +1,13 @@
-import c from '../constants/constants';
+import c from '../constants/constants'
 
-var ActionTypes = c.ActionTypes;
+var ActionTypes = c.ActionTypes
 
 
 const initialState = { //define initial state - an empty form
 
-};
+}
 
 const signup = (state = initialState, action) => {
-  console.log(action);
   switch (action.type) {
   case ActionTypes.SIGNUP_REQUESTED:
       return {
@@ -30,7 +29,7 @@ const signup = (state = initialState, action) => {
       break
 
   default:
-    return state;
+    return state
   }
 }
 

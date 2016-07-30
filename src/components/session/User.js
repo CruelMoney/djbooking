@@ -27,10 +27,13 @@ var user = React.createClass({
       update: PropTypes.func,
       registerUpdate: PropTypes.func,
       registerValidation: PropTypes.func,
-      isFormValid: PropTypes.func,
+      validForSubmit: PropTypes.bool,
       reset: PropTypes.func,
       submit: PropTypes.func,
+      resetting: PropTypes.bool,
+      updateProfileValue: PropTypes.func
   },
+
 
   getChildContext() {
    return {
@@ -38,13 +41,13 @@ var user = React.createClass({
      editMode: this.props.editMode,
      toggleEditMode: this.props.toggleEditMode,
      registerActions: this.registerActions,
-     update: this.update,
+     update: this.props.updateProfileValue,
      registerUpdate: this.registerUpdate,
      registerValidation: this.registerValidation,
-     isFormValid: this.isFormValid,
      submit: this.submit,
-     reset: this.reset
-   }
+     reset: this.reset,
+     updateProfileValue: this.props.updateProfileValue
+    }
   },
 
   getInitialState() {
@@ -62,25 +65,23 @@ var user = React.createClass({
   },
 
   componentWillReceiveProps(nextProps){
-      this.setState({
-        actions: this.getActionsFuncs.map((action) => action(nextProps, this.submit, this.reset))
-      })
+
   },
 
-  getActionsFuncs: [],
+  actions: [],
 
-  registerActions(getActionsFunc) {
-    this.getActionsFuncs = [...this.getActionsFuncs, getActionsFunc]
+  registerActions(action) {
+    this.actions = [...this.actions, action]
     this.setState({
-      actions: this.getActionsFuncs.map((action) => action())
+      actions: this.actions
     })
-    return this.removeAction.bind(null, getActionsFunc)
+    return this.removeAction.bind(null, action)
   },
 
   removeAction(ref) {
-    this.getActionsFuncs = without(this.getActionsFuncs, ref)
+    this.actions = without(this.actions, ref)
     this.setState({
-      actions: this.getActionsFuncs
+      actions: this.actions
     })
 
   },
@@ -108,10 +109,6 @@ var user = React.createClass({
     this.getUpdates = without(this.getUpdates, ref)
   },
 
-  update(name, value){
-     this.props.updateProfileValue(name, value)
-     this.isFormValid(false)
-  },
 
   isFormValid(showErrors) {
      var isValid = this.validations.reduce((memo, isValidFunc) =>
@@ -124,16 +121,16 @@ var user = React.createClass({
   },
 
   submit(){
-    var updateVal =  this.props.updateProfileValue
-      this.getUpdates.forEach(function(updateFunc){
-        var elem = updateFunc()
-        updateVal(elem.name, elem.value)
-      })
-    this.props.updateProfile()
-    this.props.toggleEditMode()
+    if (this.isFormValid(true)) {
+      this.props.updateProfile()
+      this.props.toggleEditMode()
+    }
   },
 
+  resetting: false,
+
   reset(){
+    this.resetting = true
     this.props.resetProfile()
   },
 

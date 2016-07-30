@@ -15,8 +15,6 @@ var TextWrapper = React.createClass({
     var styles = {
       base: {
         fontFamily: this.props.muiTheme.fontFamily,
-        minHeight: '210px',
-        marginBottom: '20px',
       },
 
       label: {

@@ -27,10 +27,10 @@ render((
         <Route path="/user" component={User}>
           <IndexRedirect to="/user/profile" />
 
-         <Route path="/user/profile" component={Profile}/>
+          <Route path="/user/profile" component={Profile}/>
 
-        {/*<Route path="/user/gigs" component={Gigs}/>
-          <Route path="/user/reviews" component={Reviews}/>
+          {/*<Route path="/user/gigs" component={Gigs}/>
+            <Route path="/user/reviews" component={Reviews}/>
           <Route path="/user/preferences" component={Preferences}/>*/}
         </Route>
 

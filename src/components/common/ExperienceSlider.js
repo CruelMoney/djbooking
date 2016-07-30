@@ -8,9 +8,16 @@ import Slider from 'material-ui/Slider'
 var ExperienceSlider = React.createClass({
 
   propTypes: {
-    handleChange: PropTypes.func,
+    name: PropTypes.string,
     queupGigs: PropTypes.number,
     otherGigs: PropTypes.number,
+  },
+
+  contextTypes: {
+    resetting: PropTypes.bool,
+    isFormValid: PropTypes.func,
+    registerValidation: PropTypes.func.isRequired,
+    updateProfileValue: PropTypes.func
   },
 
   getInitialState() {
@@ -27,17 +34,27 @@ var ExperienceSlider = React.createClass({
   },
 
   componentWillReceiveProps(nextProps){
-    this.setState({
-      value: nextProps.queupGigs + nextProps.otherGigs,
-      queupGigs: nextProps.queupGigs,
-      otherGigs: nextProps.otherGigs,
-    })
+      this.setState({
+        value: nextProps.queupGigs + nextProps.otherGigs,
+        queupGigs: nextProps.queupGigs,
+        otherGigs: nextProps.otherGigs,
+      })
   },
 
+  componentWillUnmount(){
+  },
+
+  timer : null,
 
   handleChange(event, value) {
-    this.setState({value: value})
-    this.props.handleChange(value)
+    this.setState({value: value}, ()=>  {
+      if (this.context.isFormValid) {
+        this.context.isFormValid(false)
+      }})
+
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() =>
+      this.context.updateProfileValue("otherGigs", (value-this.state.queupGigs)), 1000)
   },
 
   render() {
