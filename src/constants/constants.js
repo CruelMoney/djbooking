@@ -32,7 +32,10 @@ module.exports = {
     FORM_UPDATE_VALUE: null,
     FORM_UPDATE_FILTERS:null,
     FORM_RESET:null,
-    SET_SIGNUP:null
+    SET_SIGNUP:null,
+
+    FETCHING_GIGS:null,
+    GIGS_FETCHED:null
 
   }),
    GENRES: [
@@ -45,7 +48,22 @@ module.exports = {
     {name: 'House'},
     {name: 'Mix'},
     {name: 'Extreme'}
-  ]
+  ],
+  WEEKDAYS: [
+   {name: 'Monday'},
+   {name: 'Tuesday'},
+   {name: 'Wednesday'},
+   {name: 'Thursday'},
+   {name: 'Friday'},
+   {name: 'Saturday'},
+   {name: 'Sunday'},
+ ],
+ NOTIFICATIONS: [
+  {name: 'Gig request'},
+  {name: 'Gig reminder'},
+  {name: 'Platform news'},
+  {name: 'New review'},
+]
 
 }
 

@@ -18,7 +18,7 @@ export default class AuthService extends EventEmitter {
             domain: 'queup.eu.auth0.com',
             callbackOnLocationHash: true,
             callbackURL: 'http://localhost:8888/',
-        });
+        })
 
         this.domain = 'queup.eu.auth0.com' // setting domain parameter as an instance attribute
         this.login = this.login.bind(this)
@@ -38,7 +38,7 @@ export default class AuthService extends EventEmitter {
     getProfileFromToken(token, callback) {
         this.auth0.getProfile(token, function(err, profile) {
             return callback(profile)
-        });
+        })
     }
 
     getProfileFromStoredToken(callback) {
@@ -46,7 +46,7 @@ export default class AuthService extends EventEmitter {
 
         this.auth0.getProfile(token, function(err, profile) {
             return callback(err, profile)
-        });
+        })
     }
 
     parseHash(hash) {
@@ -74,7 +74,7 @@ export default class AuthService extends EventEmitter {
 
     logout() {
         // Clear user token and profile data from localStorage
-        localStorage.removeItem('id_token');
+        localStorage.removeItem('id_token')
     }
 
     setProfile(profile) {
@@ -93,7 +93,7 @@ export default class AuthService extends EventEmitter {
 
     updateProfile(userId, data, token, callback) {
 
-        var ok = false;
+        var ok = false
 
         const headers = {
                 'Accept': 'application/json',
@@ -119,6 +119,15 @@ export default class AuthService extends EventEmitter {
                     })
                 }
             })
+    }
+
+    requestPasswordChange(userName, token, callback) {
+            this.auth0.changePassword({
+          connection: 'Username-Password-Authentication',
+          username:   userName
+        }, function (err, resp) {
+          return callback(err,resp)
+        })
     }
 
 

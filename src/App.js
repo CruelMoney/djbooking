@@ -7,6 +7,8 @@ import HowItWorks from './components/stories/HowItWorks'
 import Navigation from './containers/Navigation'
 import Login from './containers/Login'
 import Profile from './containers/Profile'
+import Preferences from './containers/Preferences'
+import Gigs from './containers/Gigs'
 import Home from './components/stories/Home'
 import Auth from './components/stories/Auth'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -29,9 +31,9 @@ render((
 
           <Route path="/user/profile" component={Profile}/>
 
-          {/*<Route path="/user/gigs" component={Gigs}/>
-            <Route path="/user/reviews" component={Reviews}/>
-          <Route path="/user/preferences" component={Preferences}/>*/}
+          <Route path="/user/gigs" component={Gigs}/>
+          {/*  <Route path="/user/reviews" component={Reviews}/>*/}
+          <Route path="/user/preferences" component={Preferences}/>
         </Route>
 
         <Route path="/auth/" component={Auth}/>

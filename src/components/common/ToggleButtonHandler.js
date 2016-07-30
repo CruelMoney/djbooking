@@ -7,16 +7,18 @@ var ToggleButtonHandler = React.createClass({
   propTypes: {
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
-    preToggled: PropTypes.arrayOf(PropTypes.string)
+    preToggled: PropTypes.arrayOf(PropTypes.string),
+    required: PropTypes.bool
   },
 
  getDefaultProps() {
      return {
        rounded: true,
        columns: 3,
-       genres: [],
+       potentialValues: [],
        preToggled: [],
-       errorAbove: false
+       errorAbove: false,
+       required: true,
      }
    },
 
@@ -46,7 +48,7 @@ var ToggleButtonHandler = React.createClass({
    },
 
    componentWillReceiveProps(nextProps){
-  
+
    },
 
    componentWillUnmount() {
@@ -54,7 +56,8 @@ var ToggleButtonHandler = React.createClass({
    },
 
    isValid(showErrors) {
-      const errors = this.state.toggledButtons.length ? [] : ["At least 1 genre should be selected"]
+      const errors = !this.state.toggledButtons.length && this.props.required
+                      ? ["At least 1 option should be selected"] : []
       if (showErrors) {
         this.setState({
           errors
@@ -123,7 +126,7 @@ var ToggleButtonHandler = React.createClass({
     var rows = []
     var buttons = []
     var currentRow = 0
-    this.props.genres.forEach(function(genre, i) {
+    this.props.potentialValues.forEach(function(genre, i) {
 
       var isToggled = false
       var toggledButtons = this.state.toggledButtons
@@ -147,12 +150,12 @@ var ToggleButtonHandler = React.createClass({
             onClick = {this.handleButtonPress}/>
         </td>  )
 
-      if ((i+1) % this.props.columns===0 && i!==0 || (i===this.props.genres.length-1)){
+      if ((i+1) % this.props.columns===0 && i!==0 || (i===this.props.potentialValues.length-1)){
         currentRow++
         rows.push(
           <tr
-          style={styles.tr}
-          key={currentRow}>
+            style={styles.tr}
+            key={currentRow}>
             {buttons}
           </tr>
           )

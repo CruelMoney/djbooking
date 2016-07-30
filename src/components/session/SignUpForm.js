@@ -100,13 +100,13 @@ var signupForm = React.createClass({
         name="name"
         label ="Name"
         active ={true}
-        text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+        text = "Please enter your first and last name. It is important that the given information is correct. Otherwise you can't receive your payment."
         hideOn = {['FACEBOOK']}
       >
         <Textfield
           name="name"
           placeholder="First Last"
-          validate={['required']}
+          validate={['required', 'lastName']}
           label="Your name"/>
       </RegistrationElement>
 
@@ -156,7 +156,7 @@ var signupForm = React.createClass({
 
         <ToggleButtonHandler
           name="genres"
-          genres={c.GENRES}
+          potentialValues={c.GENRES}
           columns = {4} />
 
       </RegistrationElement>

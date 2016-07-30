@@ -12,7 +12,8 @@ var Button = React.createClass({
       active: PropTypes.bool,
       primary: PropTypes.bool,
       name: PropTypes.string,
-      disabled: PropTypes.bool
+      disabled: PropTypes.bool,
+      dangerous: PropTypes.bool
     },
 
   getDefaultProps() {
@@ -31,10 +32,10 @@ var Button = React.createClass({
     },
 
   render() {
-
-    var r = hexToRgb(this.props.muiTheme.palette.primary1Color).r
-    var g = hexToRgb(this.props.muiTheme.palette.primary1Color).g
-    var b = hexToRgb(this.props.muiTheme.palette.primary1Color).b
+    const color = this.props.dangerous ? 'f44336' : this.props.muiTheme.palette.primary1Color
+    var r = hexToRgb(color).r
+    var g = hexToRgb(color).g
+    var b = hexToRgb(color).b
     var rbg = r+","+g+","+b
 
     var styles = {
@@ -56,13 +57,15 @@ var Button = React.createClass({
 
        ':hover': {
          opacity: this.props.disabled ? '0.5' : '1',
-         borderColor: this.props.disabled && !this.props.active ? 'buttonFace' : this.props.muiTheme.palette.primary1Color
+         borderColor: this.props.dangerous ? 'red' :
+                      (this.props.disabled && !this.props.active ? 'buttonFace' :
+                      color)
        }
       },
 
       active:{
         opacity: '1',
-        borderColor: this.props.muiTheme.palette.primary1Color,
+        borderColor: this.props.dangerous ? 'red' : color,
         boxShadow: '0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)',
         transform: 'scale(1.05)'
       },
@@ -75,7 +78,7 @@ var Button = React.createClass({
         opacity: '1',
         borderWidth: '0',
         color: '#fff',
-        backgroundColor: this.props.muiTheme.palette.primary1Color,
+        backgroundColor: color,
         boxShadow: '0 16px 24px 2px rgba('+rbg+', 0.3), 0 6px 30px 5px rgba('+rbg+', 0.3), 0 8px 10px -5px rgba('+rbg+', 0.3)'
       },
 

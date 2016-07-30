@@ -2,6 +2,7 @@ import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
 import AdapterDTO from '../utils/AdapterDTO'
 import { browserHistory } from 'react-router'
+import m from '../constants/Mocks'
 
 var ActionTypes = c.ActionTypes
 const auth = new AuthService()
@@ -165,7 +166,7 @@ return function (err, result) {
               profile
             }}())
           browserHistory.push('/user/profile')
-          
+
         }else{
             dispatch (function() {return {
                 type: ActionTypes.LOGIN_FAILED,
@@ -188,7 +189,7 @@ export function checkForLogin(){
                   err
                 }}())
             }else {
-
+              console.log(dtoProfile)
               const profile = converter.convertDTO(dtoProfile)
 
               dispatch (function() {return {
@@ -291,5 +292,19 @@ export function resetProfile(profile) {
     dispatch( function() { return {
       type: ActionTypes.TOGGLE_EDIT_MODE
       }}())
+      }
+}
+
+export function fetchGigs() {
+  return function (dispatch) {
+    dispatch( function() { return {
+        type: ActionTypes.FETCHING_GIGS,
+      }}())
+    setTimeout(function(){
+      dispatch( function() { return {
+        type: ActionTypes.GIGS_FETCHED,
+        value: m.GIGS
+        }}())
+    }, 1000)
       }
 }

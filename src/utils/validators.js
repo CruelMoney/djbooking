@@ -6,6 +6,11 @@ export function required(value) {
   return !value ? ['This field cannot be empty'] : []
 }
 
+export function lastName(value) {
+  return !value.split(' ')[1] ? ['Please enter your last name'] : []
+}
+
+
 export function email(value) {
   return !emailValidator.validate(value) ? ['This email address is invalid']: []
 }

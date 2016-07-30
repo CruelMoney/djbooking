@@ -36,9 +36,6 @@ var userHeader = React.createClass({
         backgroundSize: 'auto 150%',
         width: '200px',
         height: '200px',
-        WebkitTransition: '0.1s ease-in-out',
-        MozTransition: '0.1s ease-in-out',
-        transition: '0.1s ease-in-out',
         zIndex: '0',
 
       },
@@ -106,9 +103,7 @@ var userHeader = React.createClass({
           position: 'absolute',
           width: '100%',
           borderColor: 'rgba(0,0,0, 0.5)',
-          WebkitTransition: '0.1s ease-in-out',
-          MozTransition: '0.1s ease-in-out',
-          transition: '0.1s ease-in-out',
+
 
         },
         plainBorder:{
@@ -122,9 +117,6 @@ var userHeader = React.createClass({
           margin: '0px',
           position: 'absolute',
           width: '100%',
-          WebkitTransition: '0.1s ease-in-out',
-          MozTransition: '0.1s ease-in-out',
-          transition: '0.1s ease-in-out',
           display: 'none',
         },
         userImageWrap:{

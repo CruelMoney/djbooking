@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import Navlink  from '../common/Navlink'
 import Button from '../common/Button'
@@ -28,20 +28,20 @@ export default React.createClass({
       <div>
         <nav >
           <ul className="userNavigation"
-              style={
+            style={
               { listStyleType: 'none',
                 padding: '0',
                 marginBottom: '0px',
                 display: 'flex',
                 flexDirection: 'column'
 
-          }}>
-          <li style={{marginBottom:'25px'}}>
-          <Navlink userNavigation={true} to="/user/profile" label="Profile"/>
-          </li>
-          <li  style={{marginBottom:'25px'}}>
-          <Navlink userNavigation={true} to="/user/gigs" label="Gigs"/>
-          </li>
+              }}>
+            <li style={{marginBottom:'25px'}}>
+              <Navlink userNavigation={true} to="/user/profile" label="Profile"/>
+            </li>
+            <li  style={{marginBottom:'25px'}}>
+              <Navlink userNavigation={true} to="/user/gigs" label="Gigs"/>
+            </li>
           <li  style={{marginBottom:'25px'}}>
           <Navlink userNavigation={true} to="/user/reviews" label="Reviews"/>
           </li>
@@ -52,9 +52,9 @@ export default React.createClass({
           </ul>
           </nav>
                 {this.props.actions.map(function(action) {
-                 return <div key={action.key}>{action}</div>;
+                 return <div key={action.key}>{action}</div>
               })}
-            
+
           </div>
     )
   }

@@ -29,7 +29,13 @@ export default class AdapterDTO  {
         radius:           DTO.user_metadata.radius || 25000, //25 km
         queupGigs:        DTO.user_metadata.queupGigs || 0,
         otherGigs:        DTO.user_metadata.otherGigs || 0,
-        phone:            DTO.user_metadata.phone || ""
+        phone:            DTO.user_metadata.phone || "",
+        provider:         DTO.user_id.split("|")[0],
+        notifications:    DTO.user_metadata.notifications || [],
+        availability:     DTO.user_metadata.availability || [],
+        bank_number:      DTO.user_metadata.bank_number || "",
+        account_number:   DTO.user_metadata.account_number || "",
+
       }
     }
 
@@ -44,7 +50,11 @@ export default class AdapterDTO  {
           location:       profile.location,
           locationCoords: profile.locationCoords,
           radius:         profile.radius,
-          phone:          profile.phone
+          phone:          profile.phone,
+          notifications:  profile.notifications,
+          availability:   profile.availability,
+          bank_number:    profile.bank_number,
+          account_number: profile.account_number
         }
       }
     }

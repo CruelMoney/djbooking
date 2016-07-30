@@ -22,7 +22,6 @@ var Profile = React.createClass({
 
   contextTypes: {
     registerActions: PropTypes.func,
-    updateActions: PropTypes.func,
     submit: PropTypes.func.isRequired,
     reset: PropTypes.func,
   },
@@ -208,34 +207,11 @@ var Profile = React.createClass({
                 <Genres
                   name="genres"
                   errorAbove= {true}
-                  genres={c.GENRES}
+                  potentialValues={c.GENRES}
                   columns = {4}
                   preToggled = {this.props.profile.genres}
                   disabled={!this.props.editMode} />
               </TextWrapper>) : null }
-
-          </div>
-          <div  className="col-lg-6">
-            <TextWrapper
-              label ="Phone"
-              text="We wont share your phone number until you agree to play a gig.">
-              <TextField
-                name="phone"
-                value={this.props.profile.phone}
-                onlyInput={true}
-                style = {styles.medium.textarea}
-                inputStyle = {styles.medium.input}
-                disabled={!this.props.editMode}
-                type = "tel"
-                fullWidth={false}
-                hintText="Phone"
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
-
-                //onChange={this.onChange}
-                //onBlur={this.onBlur}
-              />
-            </TextWrapper>
             <TextWrapper
               label ="Bio"
               text={this.props.profile.firstName + ", tell us a little bit of your story."}
@@ -250,25 +226,6 @@ var Profile = React.createClass({
               />
 
             </TextWrapper>
-
-            {/* Hack for making sure the map renders */}
-            {this.props.profile.locationCoords ? (
-              <TextWrapper
-
-                label ="Location"
-                text={this.props.profile.firstName + ", tell us where youd like to play."}
-              >
-
-                <SimpleMap
-                  radius={this.props.profile.radius}
-                  initialPosition={this.props.profile.locationCoords}
-                  editable={this.props.editMode}
-                  themeColor={this.props.muiTheme.palette.primary1Color}
-                />
-              </TextWrapper>
-            ) : null}
-
-
             <TextWrapper
               label="Experience"
               text="How much experience do you have?"
@@ -279,6 +236,45 @@ var Profile = React.createClass({
                 disabled={!this.props.editMode}
               />
             </TextWrapper>
+          </div>
+          <div  className="col-lg-6">
+            <TextWrapper
+              label ="Phone"
+              text="We wont share your phone number until you agree to play a gig.">
+              <TextField
+                name="phone"
+                value={this.props.profile.phone}
+                style = {styles.medium.textarea}
+                inputStyle = {styles.medium.input}
+                disabled={!this.props.editMode}
+                type = "tel"
+                fullWidth={false}
+                hintText="Phone"
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+
+                
+              />
+            </TextWrapper>
+
+
+            <TextWrapper
+
+              label ="Location"
+              text={this.props.profile.firstName + ", tell us where youd like to play."}
+            >
+
+              <SimpleMap
+                radius={this.props.profile.radius}
+                initialPosition={this.props.profile.locationCoords}
+                editable={this.props.editMode}
+                themeColor={this.props.muiTheme.palette.primary1Color}
+              />
+            </TextWrapper>
+            ) : null}
+
+
+
           </div>
         </div>
       </div>)
