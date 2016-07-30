@@ -17,7 +17,7 @@ var ExperienceSlider = React.createClass({
     resetting: PropTypes.bool,
     isFormValid: PropTypes.func,
     registerValidation: PropTypes.func.isRequired,
-    updateProfileValue: PropTypes.func
+    updateValue: PropTypes.func
   },
 
   getInitialState() {
@@ -26,19 +26,23 @@ var ExperienceSlider = React.createClass({
   }},
 
   componentWillMount(){
-    this.setState({
-      value: this.props.queupGigs + this.props.otherGigs,
-      queupGigs: this.props.queupGigs,
-      otherGigs: this.props.otherGigs,
-    })
+    if (this.props.otherGigs !== undefined) {
+      this.setState({
+        value: this.props.queupGigs + this.props.otherGigs,
+        queupGigs: this.props.queupGigs,
+        otherGigs: this.props.otherGigs,
+      })
+    }
   },
 
   componentWillReceiveProps(nextProps){
+    if (nextProps.otherGigs !== undefined) {
       this.setState({
         value: nextProps.queupGigs + nextProps.otherGigs,
         queupGigs: nextProps.queupGigs,
         otherGigs: nextProps.otherGigs,
       })
+    }
   },
 
   componentWillUnmount(){
@@ -54,7 +58,7 @@ var ExperienceSlider = React.createClass({
 
     clearTimeout(this.timer)
     this.timer = setTimeout(() =>
-      this.context.updateProfileValue("otherGigs", (value-this.state.queupGigs)), 1000)
+      this.context.updateValue("otherGigs", (value-this.state.queupGigs)), 1000)
   },
 
   render() {

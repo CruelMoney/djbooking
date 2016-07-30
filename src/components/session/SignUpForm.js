@@ -1,19 +1,7 @@
 import React from 'react'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import c from '../../constants/constants'
-import TextFieldM from 'material-ui/TextField'
 import {datePipe} from '../../utils/textPipes'
-import { reduxForm } from 'redux-form'
-export const fields = [ 'signup',
-                        'name',
-                        'password',
-                        'email',
-                        'birthday',
-                        'genres',
-                        'bankInfo',
-                        'acoountNumber',
-                        'bankNumber',
-                        'location' ]
 
 
 import Form, {Text,
@@ -35,28 +23,11 @@ const theme = getMuiTheme()
 var signupForm = React.createClass({
 
   render() {
-    const {
-          fields: {
-            signup,
-            name,
-            password,
-            email,
-            birthday,
-            genres,
-            bankInfo,
-            acoountNumber,
-            bankNumber,
-            location
-           },
-          handleSubmit,
-          resetForm,
-          submitting
-        } = this.props
+
   return (
     <Form
-      onSubmit={handleSubmit}
-      reset={resetForm}
-      submitting={submitting}
+      onSubmit={this.props.handleSubmit}
+
     >
       <RegistrationElement
         isFilter={true}
@@ -68,7 +39,6 @@ var signupForm = React.createClass({
 
         <ToggleOptions
           name = "signup"
-          {...signup}
         >
           <Button
             large={true}
@@ -106,7 +76,6 @@ var signupForm = React.createClass({
         hideOn = {['FACEBOOK']}
       >
         <Textfield
-          {...email}
           name="email"
           validate={['required', 'email']}
           label="Your Email"/>
@@ -120,7 +89,6 @@ var signupForm = React.createClass({
         hideOn = {['FACEBOOK','SOUNDCLOUD']}
       >
         <Textfield
-          {...password}
           type ="password"
           name="password"
           validate={['required']}
@@ -136,7 +104,6 @@ var signupForm = React.createClass({
         hideOn = {['FACEBOOK']}
       >
         <Textfield
-          {...name}
           name="name"
           placeholder="First Last"
           validate={['required']}
@@ -154,7 +121,6 @@ var signupForm = React.createClass({
       >
 
         <Textfield
-          {...birthday}
           onUpdatePipeFunc = {datePipe}
           maxLength="10"
           type = "text"
@@ -173,7 +139,6 @@ var signupForm = React.createClass({
       >
 
         <LocationSelectorSimple
-          {...location}
           autocomplete="off"
           name="location"
           validate={['required']}
@@ -190,40 +155,11 @@ var signupForm = React.createClass({
       >
 
         <ToggleButtonHandler
-          {...genres}
           name="genres"
           genres={c.GENRES}
           columns = {4} />
 
       </RegistrationElement>
-
-      <RegistrationElement
-        isFilter ={true}
-        name="bankInfo"
-        label ="Account information"
-        active ={true}
-        text = "Do you want to enter your bank acount now or wait until you get your first gig? "
-      >
-
-        <ToggleOptions
-          {...bankInfo}
-          name = "bankInfoButtons"
-        >
-          <Button
-         name = "BANK_TRUE"
-         rounded= {true}
-         label =  "Now"
-       />
-
-       <Button
-         name = "BANK_FALSE"
-         rounded= {true}
-         label =  "Wait"
-         />
-
-       </ToggleOptions>
-
-     </RegistrationElement>
 
     </Form>
 
@@ -231,7 +167,4 @@ var signupForm = React.createClass({
   }
 })
 
-export default reduxForm({
-  form: 'signupForm',
-  fields
-})(signupForm)
+export default signupForm

@@ -16,13 +16,12 @@ var Text = React.createClass({
     label: PropTypes.string,
     validate: PropTypes.arrayOf(PropTypes.string),
     value: PropTypes.string,
-    onChange: PropTypes.func
   },
 
   contextTypes: {
-    resetting: PropTypes.bool,
     isFormValid: PropTypes.func,
-    registerValidation: PropTypes.func.isRequired
+    registerValidation: PropTypes.func.isRequired,
+    updateValue: PropTypes.func
   },
 
   getInitialState(){
@@ -34,9 +33,21 @@ var Text = React.createClass({
   },
 
   componentWillMount() {
-
+    if (this.props.value !== undefined) {
+      this.setState({
+        value: this.props.value
+      })
+    }
     this.removeValidationFromContext = this.context.registerValidation(show =>
       this.isValid(show))
+  },
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.value !== undefined) {
+      this.setState({
+        value: nextProps.value
+      })
+    }
   },
 
 
@@ -66,18 +77,31 @@ var Text = React.createClass({
   onChange(value) {
     this.updateValue(value)
     locationService.getQueryPredictions({ input: value, types: ['(cities)'] }, this.updateSuggestions)
+
   },
 
-  onValueSelected(value){
+    onValueSelected(value){
     this.updateValue(value)
   },
 
+  timer: null,
+
   updateValue(value) {
+
+    this.setState({
+      value
+    }, ()=>  {
+      if (this.context.isFormValid) {
+        this.context.isFormValid(false)
+      }})
+
 
     setTimeout(() => {
         this.isValid(true)
         }, 100)
-    this.props.onChange(value)
+
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => this.context.updateValue(this.props.name, value), 1000)
 
   },
 

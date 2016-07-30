@@ -8,7 +8,6 @@ var ToggleOptions = React.createClass({
   propTypes: {
     name: PropTypes.string.isRequired,
     children: PropTypes.node,
-    onChange: PropTypes.func,
     value: PropTypes.func
   },
 
@@ -27,15 +26,17 @@ var ToggleOptions = React.createClass({
    contextTypes: {
      isFilter: PropTypes.bool,
      isFormValid: PropTypes.func,
-     update: PropTypes.func,
+     updateValue: PropTypes.func,
      values: PropTypes.object.isRequired,
-     registerValidation: PropTypes.func.isRequired
+     registerValidation: PropTypes.func.isRequired,
    },
 
    componentWillMount() {
-     this.setState({
-       value: this.props.value
-     })
+     if (this.props.value !== undefined) {
+       this.setState({
+         value: this.props.value
+       })
+     }
      this.removeValidationFromContext = this.context.registerValidation(show =>
        this.isValid(show))
    },
@@ -45,7 +46,7 @@ var ToggleOptions = React.createClass({
    },
 
    isValid(showErrors) {
-     const errors = (this.state.value === "") ? ["You have to choose an option"] : []
+     const errors = (!this.state.value) ? ["You have to choose an option"] : []
 
       if (showErrors) {
         this.setState({
@@ -58,9 +59,12 @@ var ToggleOptions = React.createClass({
   updateValue(value){
     this.setState({
         value
-    })
+    }, ()=>  {
+      if (this.context.isFormValid) {
+        this.context.isFormValid(false)
+      }})
 
-    this.props.onChange(value)
+    this.context.updateValue(this.props.name, value)
 
   },
 

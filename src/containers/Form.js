@@ -34,7 +34,9 @@ function mapStateToProps(state, ownprops) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-
+    updateValue: (name, value) => {
+      dispatch(actions.updateFormValue(name,value))
+    },
     updateFilters: (filter, value) => {
       dispatch(actions.updateFilters(filter, value))
     },
@@ -44,6 +46,7 @@ function mapDispatchToProps(dispatch, ownProps) {
 function mergeProps(stateProps, dispatchProps, ownProps) {
   return Object.assign({}, ownProps, {
     children: stateProps.children,
+    updateValue: dispatchProps.updateValue,
     updateFilters: (filter, value) => dispatchProps.updateFilters(filter, value),
   })
 }

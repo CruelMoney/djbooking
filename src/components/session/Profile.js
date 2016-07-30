@@ -37,16 +37,9 @@ var Profile = React.createClass({
     this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(nextprops))
   },
 
-
-  componentDidMount(){
-  },
-
   componentWillUnmount() {
     this.removeActionsFromContext()
   },
-
-
-
 
   getActionButtons(props = this.props){
     return (

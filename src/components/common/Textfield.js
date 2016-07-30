@@ -23,21 +23,27 @@ var Text = React.createClass({
 
   contextTypes: {
     registerValidation: PropTypes.func.isRequired,
-    updateProfileValue: PropTypes.func
+    updateValue: PropTypes.func,
+    isFormValid: PropTypes.func
   },
 
   componentWillMount() {
-    this.setState({
-      value: this.props.value
-    })
+    if (this.props.value !== undefined) {
+      this.setState({
+        value: this.props.value
+      })
+    }
+
     this.removeValidationFromContext = this.context.registerValidation(show =>
       this.isValid(show))
   },
 
   componentWillReceiveProps(nextprops){
+    if (nextprops.value !== undefined) {
     this.setState({
       value: nextprops.value
     })
+  }
   },
 
   componentWillUnmount() {
@@ -63,7 +69,7 @@ var Text = React.createClass({
 
 
   updateValue(value) {
-    this.context.updateProfileValue(this.props.name, value)
+    this.context.updateValue(this.props.name, value)
   },
 
   timer : null,
@@ -76,7 +82,11 @@ var Text = React.createClass({
 
     this.setState({
       value:value
-    })
+    }, ()=>  {
+      if (this.context.isFormValid) {
+        this.context.isFormValid(false)
+      }})
+
 
     setTimeout(() => {
         this.isValid(true)
@@ -84,7 +94,7 @@ var Text = React.createClass({
 
 
     clearTimeout(this.timer)
-    this.timer = setTimeout(() => this.updateValue(value), 1000)
+    this.timer = setTimeout(() => this.updateValue(value), 500)
 
   },
 

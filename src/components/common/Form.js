@@ -7,11 +7,10 @@ const form = React.createClass({
     displayName: 'Form',
 
     propTypes: {
-      values: PropTypes.object,
       children: PropTypes.node,
       onSubmit: PropTypes.func,
-      reset: PropTypes.func,
       updateFilters: PropTypes.func,
+      updateValue: PropTypes.func
     },
 
     getInitialState() {
@@ -23,19 +22,19 @@ const form = React.createClass({
 
     childContextTypes: {
       reset: PropTypes.func,
-      values: PropTypes.object,
       registerValidation: PropTypes.func,
       isFormValid: PropTypes.func,
       updateFilters: PropTypes.func,
+      updateValue: PropTypes.func
     },
 
     getChildContext() {
       return {
         reset: this.props.reset,
-        values: this.props.values,
         registerValidation: this.registerValidation,
         isFormValid: this.isFormValid,
         updateFilters: this.updateFilters,
+        updateValue: this.props.updateValue
       }
     },
 
@@ -63,30 +62,18 @@ const form = React.createClass({
    },
 
    updateFilters(filter, value){
-      //  var updateVal =  this.props.update
-      //    this.getUpdates.forEach(function(updateFunc){
-      //      var elem = updateFunc()
-      //      updateVal(elem.name, elem.value)
-      //    })
-      //  this.props.updateFilters(filter, value)
+       this.props.updateFilters(filter, value)
    },
 
    submit(){
      if (this.isFormValid(true)) {
-      //  var updateVal =  this.props.update
-      //    this.getUpdates.forEach(function(updateFunc){
-      //      var elem = updateFunc()
-      //      updateVal(elem.name, elem.value)
-      //    })
        this.props.onSubmit()
-       this.props.reset()
      }
    },
 
 
 
   render() {
-    console.log("rendering again")
     return (
       <form >
         <ol >
@@ -99,7 +86,7 @@ const form = React.createClass({
           label= "Sign Up"
           important = {this.state.isValid}
           rounded = {true}
-          onClick = {this.props.onSubmit}
+          onClick = {this.submit}
         />
       </form>
 

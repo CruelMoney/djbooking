@@ -27,26 +27,27 @@ var RegistrationElement = React.createClass({
   },
 
   childContextTypes: {
-    update: PropTypes.func,
+    updateValue: PropTypes.func,
     isFilter: PropTypes.bool,
   },
 
   getChildContext() {
     return {
-      update: this.updateValue,
+      updateValue: this.updateValue,
       isFilter: this.props.isFilter,
     }
   },
 
   contextTypes: {
     updateFilters: PropTypes.func,
-    update: PropTypes.func.isRequired,
+    updateValue: PropTypes.func.isRequired,
   },
 
   updateValue(name, value){
     if (this.props.isFilter) {
       this.context.updateFilters(this.props.name, value)
     }
+    this.context.updateValue(name, value)
   },
 
   render() {

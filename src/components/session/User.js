@@ -31,7 +31,7 @@ var user = React.createClass({
       reset: PropTypes.func,
       submit: PropTypes.func,
       resetting: PropTypes.bool,
-      updateProfileValue: PropTypes.func
+      updateValue: PropTypes.func
   },
 
 
@@ -46,7 +46,7 @@ var user = React.createClass({
      registerValidation: this.registerValidation,
      submit: this.submit,
      reset: this.reset,
-     updateProfileValue: this.props.updateProfileValue
+     updateValue: this.props.updateProfileValue
     }
   },
 

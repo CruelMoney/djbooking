@@ -18,7 +18,8 @@ var TextBox = React.createClass({
 
   contextTypes: {
     registerValidation: PropTypes.func.isRequired,
-    updateProfileValue: PropTypes.func
+    updateValue: PropTypes.func,
+    isFormValid: PropTypes.func
   },
 
   getDefaultProps() {
@@ -29,9 +30,11 @@ var TextBox = React.createClass({
 
 
   componentWillMount() {
-    this.setState({
-      value: this.props.value
-    })
+    if (this.props.value !== undefined) {
+      this.setState({
+        value: this.props.value
+      })
+    }
     this.removeValidationFromContext = this.context.registerValidation(show =>
       this.isValid(show))
 
@@ -44,10 +47,11 @@ var TextBox = React.createClass({
   timer: null,
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== undefined) {
     this.setState({
       value: nextProps.value
     })
-
+  }
 },
 
   getDefaultProps() {
@@ -67,7 +71,11 @@ var TextBox = React.createClass({
   updateValue(value) {
     this.setState({
       value: value
-    })
+    }, ()=>  {
+      if (this.context.isFormValid) {
+        this.context.isFormValid(false)
+      }})
+
 
     setTimeout(() => {
         this.isValid(true)
@@ -75,7 +83,7 @@ var TextBox = React.createClass({
 
     clearTimeout(this.timer)
     this.timer = setTimeout(() =>
-      this.context.updateProfileValue(this.props.name, value), 1000)
+      this.context.updateValue(this.props.name, value), 500)
   },
 
   onChange(event) {

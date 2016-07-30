@@ -25,7 +25,7 @@ var SimpleMap = React.createClass({
       contextTypes: {
         resetting: PropTypes.bool,
         registerValidation: PropTypes.func.isRequired,
-        updateProfileValue: PropTypes.func
+        updateValue: PropTypes.func
       },
 
       getInitialState(){
@@ -69,18 +69,18 @@ var SimpleMap = React.createClass({
           clearTimeout(this.timer)
 
            this.timer = setTimeout(() =>
-             this.context.updateProfileValue("radius",
+             this.context.updateValue("radius",
               circle.getRadius()
-            ), 1000)
+            ), 500)
         },
 
         handleLocationChange(circle) {
           clearTimeout(this.timer)
           this.timer = setTimeout(() =>
-            this.context.updateProfileValue("locationCoords",
+            this.context.updateValue("locationCoords",
             {lat: circle.getCenter().lat(),
              lng: circle.getCenter().lng()
-           }), 1000)
+           }), 500)
         },
 
 

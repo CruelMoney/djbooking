@@ -30,7 +30,7 @@ var ToggleButtonHandler = React.createClass({
    contextTypes: {
      isFormValid: PropTypes.func,
      registerValidation: PropTypes.func.isRequired,
-     updateProfileValue: PropTypes.func
+     updateValue: PropTypes.func
    },
 
 
@@ -46,12 +46,7 @@ var ToggleButtonHandler = React.createClass({
    },
 
    componentWillReceiveProps(nextProps){
-
-
-      this.setState({
-        toggledButtons: nextProps.preToggled
-      })
-
+  
    },
 
    componentWillUnmount() {
@@ -74,7 +69,6 @@ var ToggleButtonHandler = React.createClass({
     return list
   },
 
-  timer : null,
 
   updateValue(value){
     var toggledButtons = this.state.toggledButtons
@@ -91,9 +85,8 @@ var ToggleButtonHandler = React.createClass({
         this.context.isFormValid(false)
       }})
 
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() =>
-        this.context.updateProfileValue(this.props.name, newList), 1000)
+
+        this.context.updateValue(this.props.name, newList)
 
 
   },
