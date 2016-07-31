@@ -86,6 +86,7 @@ const form = React.createClass({
           label= "Sign Up"
           important = {this.state.isValid}
           rounded = {true}
+          dangerous = {true}
           onClick = {this.submit}
         />
       </form>

@@ -253,7 +253,7 @@ var Profile = React.createClass({
                 underlineDisabledStyle={styles.plainBorder}
                 underlineStyle={styles.dottedBorderStyle}
 
-                
+
               />
             </TextWrapper>
 
@@ -271,7 +271,7 @@ var Profile = React.createClass({
                 themeColor={this.props.muiTheme.palette.primary1Color}
               />
             </TextWrapper>
-            ) : null}
+            
 
 
 

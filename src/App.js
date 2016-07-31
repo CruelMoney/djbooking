@@ -5,7 +5,6 @@ import Signup from './components/stories/Signup'
 import User from './containers/User'
 import HowItWorks from './components/stories/HowItWorks'
 import Navigation from './containers/Navigation'
-import Login from './containers/Login'
 import Profile from './containers/Profile'
 import Preferences from './containers/Preferences'
 import Gigs from './containers/Gigs'
@@ -24,7 +23,6 @@ render((
 
         <IndexRoute component={Home}/>
 
-        <Route path="/login" component={Login}/>
 
         <Route path="/user" component={User}>
           <IndexRedirect to="/user/profile" />

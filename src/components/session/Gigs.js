@@ -87,24 +87,28 @@ var Preferences = React.createClass({
       medium:{
         textarea: {
           height: '40px',
+          textAlign: 'center',
         },
 
         paragraph: {
-          fontSize: '14px',
+          fontSize: '30px',
+          textAlign: 'center',
         },
 
         input:{
-          fontSize: '14px',
+          fontSize: '30px',
           height: 'initial',
+          textAlign: 'center',
           color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
 
         hint:{
-          fontSize: '14px',
+          fontSize: '30px',
           height: 'initial',
           fontWeight: '300',
-
+          textAlign: 'center',
+          width: '100%'
         },
 
       },
@@ -165,38 +169,52 @@ var Preferences = React.createClass({
         {gig.genres.forEach(function(genre, i) {
            genres.push(<td style={{paddingRight:"10px"}}>{genre}</td>)}
         )}
-        return (  <Card>
+        return (  <Card
+          style={{marginBottom: '20px',}}>
           <CardHeader
+            style={{paddingLeft:'50px'}}
             title= {gig.name }
             subtitle={gig.location}
             actAsExpander={true}
             showExpandableButton={true}
             children={
-              <div style={{width:'30%', textAlign:'right', marginRight:'35px', float:'right'}}>
+              <div style={{width:'30%', textAlign:'right', paddingRight:'37px', float:'right'}}>
                 <p style={{margin:'0px'}}>{gig.date}</p>
                 <p style={{opacity:'0.6'}}>{gig.startTime + " to " + gig.endTime}</p>
               </div>}
-
           />
-          <div style={{width:'100%'}}
+          <div
+            style={{
+              width:'100%',
+              padding: '50px',
+              paddingTop: '0px',
+              paddingBottom: '20px',
+
+            }}
             expandable={true}
           >
-            <div className="col-sm-8">
-              <p> {gig.description} </p>
+            <div className="row">
+              <div className="col-sm-8">
+                <tr style={{fontStyle:'italic'}}>{genres}</tr>
 
-              <tr>{genres}</tr>
-            </div>
-            <div className="col-sm-4" style={{ paddingRight:'51px'}}>
-              <p style={{textAlign:'right'}} >Around {gig.guests} guests</p>
-              <p style={{textAlign:'right'}} >Speakers necessary: {gig.speakers}</p>
-              <div style={{border:"1px solid #eee", padding: "4px"}}>
-                <p style={{textAlign:'right'}} >{gig.contact.name}</p>
-                <p style={{textAlign:'right'}} type="tel">{gig.contact.phone}</p>
-                <p style={{textAlign:'right'}} type="email">{gig.contact.email}</p>
+                <p style={{ marginTop: '20px'}}> {gig.description} </p>
+
+              </div>
+              <div className="col-sm-4" >
+                <div style={{border:"1px solid #eee", padding: "4px"}}>
+                  <p style={{textAlign:'right'}} >Around {gig.guests} guests</p>
+                  <p style={{textAlign:'right'}} >Speakers necessary: {gig.speakers}</p>
+                  <p style={{textAlign:'right'}} >{gig.contact.name}</p>
+                  <p style={{textAlign:'right'}} type="tel">{gig.contact.phone}</p>
+                  <p style={{textAlign:'right'}} type="email">{gig.contact.email}</p>
+                </div>
               </div>
             </div>
-            <div>
-              <div className="col-xs-12">
+
+
+            <div className="row">
+              <div className="col-xs-4 col-xs-offset-4"
+                style={{marginBottom: '20px',marginTop: '20px'}}>
                 <TextField
                   hintStyle={styles.medium.hint}
                   style = {styles.medium.textarea}
@@ -209,27 +227,28 @@ var Preferences = React.createClass({
                   underlineStyle={styles.dottedBorderStyle}
                 />
               </div>
-
-              { gig.status === "REQUESTED" ?
-                <div className="row">
-                  <div className="col-xs-6">
-                    <Button
-                      rounded= {true}
-                      label="Decline"
-                      onClick= { () => this.props.declineGig(gig.ID)}
-                    />
-                  </div>
-                  <div className="col-xs-6">
-                    <Button
-                      rounded= {true}
-                      label="Accept"
-                      onClick= { () => this.props.acceptGig(gig.ID, 3000)}
-                    />
-                  </div>
-                </div> : null}
             </div>
 
+            { gig.status === "REQUESTED" ?
+              <div className="row">
+                <div className="col-xs-6">
+                  <Button
+                    rounded= {true}
+                    label="Decline"
+                    onClick= { () => this.props.declineGig(gig.ID)}
+                  />
+                </div>
+                <div className="col-xs-6">
+                  <Button
+                    rounded= {true}
+                    label="Accept"
+                    onClick= { () => this.props.acceptGig(gig.ID, 3000)}
+                  />
+                </div>
+
+              </div> : null}
           </div>
+
 
         </Card>)
       }
@@ -239,14 +258,17 @@ var Preferences = React.createClass({
     return(
       <div>
         <TextWrapper
+          center={true}
           label ="Requested Gigs">
           {requestedGigs}
         </TextWrapper>
         <TextWrapper
+          center={true}
           label ="Upcoming Gigs">
           {upcomingGigs}
         </TextWrapper>
         <TextWrapper
+          center={true}
           label ="Finished Gigs">
           {finishedGigs}
         </TextWrapper>

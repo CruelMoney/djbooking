@@ -1,23 +1,7 @@
-import React, {PropTypes} from 'react'
-import { createStore, applyMiddleware, compose } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
-import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
-import createLogger from 'redux-logger'
 import Login from '../components/session/Login'
 import * as actions from '../actions/actions'
-import store from '../reducers/Store'
-import injectTapEventPlugin from 'react-tap-event-plugin'
-import AuthService from '../utils/AuthService'
-
-function handleLogin(email, password, dispatch){
-  dispatch(actions.loginRequest(email, password))
-}
-
-function handleLoginface(dispatch){
-  dispatch(actions.loginFacebook())
-}
-
 
 
 function mapDispatchToProps(dispatch, ownprops) {

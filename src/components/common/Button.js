@@ -13,7 +13,8 @@ var Button = React.createClass({
       primary: PropTypes.bool,
       name: PropTypes.string,
       disabled: PropTypes.bool,
-      dangerous: PropTypes.bool
+      dangerous: PropTypes.bool,
+      white: PropTypes.bool
     },
 
   getDefaultProps() {
@@ -37,6 +38,7 @@ var Button = React.createClass({
     var g = hexToRgb(color).g
     var b = hexToRgb(color).b
     var rbg = r+","+g+","+b
+    const rgbLight = 'rgb('+r+10+","+g+10+","+b+10+')'
 
     var styles = {
       base: {
@@ -56,10 +58,11 @@ var Button = React.createClass({
         outline: "none",
 
        ':hover': {
-         opacity: this.props.disabled ? '0.5' : '1',
-         borderColor: this.props.dangerous ? 'red' :
+         opacity:     this.props.disabled ? '0.5' : '1',
+         borderColor: !this.props.noBorder ?
+                      (this.props.dangerous ? 'red' :
                       (this.props.disabled && !this.props.active ? 'buttonFace' :
-                      color)
+                      color)) : 'transparent'
        }
       },
 
@@ -79,7 +82,14 @@ var Button = React.createClass({
         borderWidth: '0',
         color: '#fff',
         backgroundColor: color,
-        boxShadow: '0 16px 24px 2px rgba('+rbg+', 0.3), 0 6px 30px 5px rgba('+rbg+', 0.3), 0 8px 10px -5px rgba('+rbg+', 0.3)'
+        transition: 'all 0.5s ease-in-out',
+
+        ':hover':{
+          backgroundColor: rgbLight,
+          boxShadow: '0px 4px 35px -5px ' + rgbLight
+        }
+
+      //  boxShadow: '0 16px 24px 2px rgba('+rbg+', 0.3), 0 6px 30px 5px rgba('+rbg+', 0.3), 0 8px 10px -5px rgba('+rbg+', 0.3)'
       },
 
       containerStyle:{
@@ -95,32 +105,40 @@ var Button = React.createClass({
         width:'40px'
       },
       medium:{
-        width:'80px'
+        width:'120px'
       },
       large:{
         width:'200px'
       },
       disabled:{
         opacity: '0.5',
+      },
+      noBorder:{
+        borderColor: 'transparent'
+      },
+      white:{
+        color:'white'
       }
 
     }
     return (
       <div style={[
-          styles.containerStyle,
-          this.props.leftAlign && styles.left]}>
-      <button
+        styles.containerStyle,
+      this.props.leftAlign && styles.left]}>
+        <button
 
-      className= {this.props.disabled ? "disabled" : ""}
-      style={[
-          styles.base,
-          this.props.active && styles.active,
-          this.props.rounded && styles.rounded,
-          this.props.important && styles.important,
-          this.props.small  && styles.small,
-          this.props.medium && styles.medium,
-          this.props.large  && styles.large,
-          this.props.disabled && styles.disabled,
+          className= {this.props.disabled ? "disabled" : ""}
+          style={[
+            styles.base,
+            this.props.active && styles.active,
+            this.props.rounded && styles.rounded,
+            this.props.important && styles.important,
+            this.props.small  && styles.small,
+            this.props.medium && styles.medium,
+            this.props.large  && styles.large,
+            this.props.disabled && styles.disabled,
+            this.props.noBorder && styles.noBorder,
+            this.props.white && styles.white
 ]}
         onClick={
           this.props.disabled ? () => null : this.handleClick

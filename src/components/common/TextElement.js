@@ -29,6 +29,10 @@ var TextWrapper = React.createClass({
         fontSize: '14px',
       },
 
+      center:{
+          textAlign:'center'
+      }
+
     }
 
 
@@ -38,7 +42,8 @@ var TextWrapper = React.createClass({
             styles.base,
           ]}>
           <div style={[
-          styles.label]}>
+            styles.label,
+          this.props.center && styles.center]}>
             {this.props.label}
           </div>
           <p style={[
