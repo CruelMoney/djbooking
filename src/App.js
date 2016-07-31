@@ -14,6 +14,8 @@ import Auth from './components/stories/Auth'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
+import '../css/style.css'
+
 const theme = getMuiTheme()
 
 
