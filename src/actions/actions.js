@@ -188,8 +188,8 @@ export function checkForLogin(){
                   type: ActionTypes.LOGIN_FAILED,
                   err
                 }}())
+                browserHistory.push('/')
             }else {
-              console.log(dtoProfile)
               const profile = converter.convertDTO(dtoProfile)
 
               dispatch (function() {return {
@@ -199,6 +199,11 @@ export function checkForLogin(){
               browserHistory.push('/user/profile')
             }
       })
+    }else{
+      //If trying to access user restricted area, but not logged in
+      if (window.location.pathname.split('/')[1] === 'user') {
+        browserHistory.push('/')
+      }
     }
   }
 }
@@ -304,6 +309,20 @@ export function fetchGigs() {
       dispatch( function() { return {
         type: ActionTypes.GIGS_FETCHED,
         value: m.GIGS
+        }}())
+    }, 1000)
+      }
+}
+
+export function fetchReviews() {
+  return function (dispatch) {
+    dispatch( function() { return {
+        type: ActionTypes.FETCHING_REVIEWS,
+      }}())
+    setTimeout(function(){
+      dispatch( function() { return {
+        type: ActionTypes.REVIEWS_FETCHED,
+        value: m.REVIEWS
         }}())
     }, 1000)
       }

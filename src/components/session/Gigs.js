@@ -170,6 +170,7 @@ var Preferences = React.createClass({
            genres.push(<td style={{paddingRight:"10px"}}>{genre}</td>)}
         )}
         return (  <Card
+          initiallyExpanded={gig.status === "REQUESTED"}
           style={{marginBottom: '20px',}}>
           <CardHeader
             style={{paddingLeft:'50px'}}
@@ -201,7 +202,7 @@ var Preferences = React.createClass({
 
               </div>
               <div className="col-sm-4" >
-                <div style={{border:"1px solid #eee", padding: "4px"}}>
+                <div style={{border:"1px solid #eee", padding: "4px", marginTop:'38px'}}>
                   <p style={{textAlign:'right'}} >Around {gig.guests} guests</p>
                   <p style={{textAlign:'right'}} >Speakers necessary: {gig.speakers}</p>
                   <p style={{textAlign:'right'}} >{gig.contact.name}</p>

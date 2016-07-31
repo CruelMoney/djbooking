@@ -48,7 +48,9 @@ var ToggleButtonHandler = React.createClass({
    },
 
    componentWillReceiveProps(nextProps){
-
+     this.setState({
+       toggledButtons: nextProps.preToggled
+     })
    },
 
    componentWillUnmount() {

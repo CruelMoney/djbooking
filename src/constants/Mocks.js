@@ -4,21 +4,42 @@ var keyMirror = require('keymirror')
 module.exports = {
 
   REVIEWS: [
+{
+  author:"Harry Potter",
+  date:"Sunday, 31th July",
+  rating:"★ ★ ★ ★",
+  description: "Etiam facilisis libero sapien, in elementum velit vestibulum a. In id vestibulum turpis. Pellentesque convallis est enim, quis bibendum dui maximus quis. Nulla vel augue velit. Proin id arcu turpis. Curabitur elementum sagittis nulla, efficitur tincidunt eros finibus at. Maecenas fermentum rutrum massa eget vehicula. Vestibulum tempus neque quis dolor convallis, vel consequat diam sollicitudin. Sed ut tincidunt urna, vel laoreet ipsum.",
+  event:{
+    name: "B-day bash",
+    location: "Copenhagen",
+    date: "Saturday, 30th July"
+  }
+},
+{
+  author:"Harry Potter",
+  date:"Sunday, 31th July",
+  rating:"★ ★ ★ ★",
+  description: "Etiam facilisis libero sapien, in elementum velit vestibulum a. In id vestibulum turpis. Pellentesque convallis est enim, quis bibendum dui maximus quis. Nulla vel augue velit. Proin id arcu turpis. Curabitur elementum sagittis nulla, efficitur tincidunt eros finibus at. Maecenas fermentum rutrum massa eget vehicula. Vestibulum tempus neque quis dolor convallis, vel consequat diam sollicitudin. Sed ut tincidunt urna, vel laoreet ipsum.",
+  event:{
+    name: "B-day bash",
+    location: "Copenhagen",
+    date: "Saturday, 30th July"
+  }
+}],
 
- ],
- GIGS:[
-   {name: 'Awesome birtday',
-    location: 'Copenhagen',
-    date: 'Saturday, 30th July',
-    startTime: '21:00',
-    endTime:   '03:00',
-    offers: [],
-    contact: {
-      name:'Christopher',
-      phone: '24658061',
-      email: 'chrdengso@gmail.com'},
-    guests: 100,
-    description: 'Etiam facilisis libero sapien, in elementum velit vestibulum a. In id vestibulum turpis. Pellentesque convallis est enim, quis bibendum dui maximus quis. Nulla vel augue velit. Proin id arcu turpis. Curabitur elementum sagittis nulla, efficitur tincidunt eros finibus at. Maecenas fermentum rutrum massa eget vehicula. Vestibulum tempus neque quis dolor convallis, vel consequat diam sollicitudin. Sed ut tincidunt urna, vel laoreet ipsum.',
+        GIGS:[
+        {name: 'Awesome birtday',
+          location: 'Copenhagen',
+          date: 'Saturday, 30th July',
+          startTime: '21:00',
+          endTime:   '03:00',
+          offers: [],
+          contact: {
+            name:'Christopher',
+            phone: '24658061',
+          email: 'chrdengso@gmail.com'},
+          guests: 100,
+          description: 'Etiam facilisis libero sapien, in elementum velit vestibulum a. In id vestibulum turpis. Pellentesque convallis est enim, quis bibendum dui maximus quis. Nulla vel augue velit. Proin id arcu turpis. Curabitur elementum sagittis nulla, efficitur tincidunt eros finibus at. Maecenas fermentum rutrum massa eget vehicula. Vestibulum tempus neque quis dolor convallis, vel consequat diam sollicitudin. Sed ut tincidunt urna, vel laoreet ipsum.',
     genres:['Hip Hop', 'R&B', 'House'],
     speakers: 'Yes',
     status: 'REQUESTED'},

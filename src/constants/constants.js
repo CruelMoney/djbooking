@@ -35,7 +35,10 @@ module.exports = {
     SET_SIGNUP:null,
 
     FETCHING_GIGS:null,
-    GIGS_FETCHED:null
+    GIGS_FETCHED:null,
+
+    FETCHING_REVIEWS:null,
+    REVIEWS_FETCHED:null
 
   }),
    GENRES: [

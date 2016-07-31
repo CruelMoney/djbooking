@@ -173,3 +173,107 @@ content: '';
     opacity: 0.5;
     position: absolute;
   }
+
+
+
+/*Calender style*/
+.min {
+  margin-left: 4px;
+  float: left; }
+
+.max {
+  margin-right: 4px;
+  float: right; }
+
+.max {
+  text-align: center; }
+
+.search-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.pac-container {
+  position: absolute !important;
+  border-radius: 0px;
+  margin-top: 8px;
+  border-top: 1px solid #d9d9d9;
+  @include box_shadow(2);
+  z-index: 5;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.pac-container:after {
+  content: "";
+  padding: 1px 1px 1px 0;
+  height: 0px;
+  text-align: right;
+  display: block;
+  background-image: none;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: 0; }
+
+.hdpi.pac-container:after {
+  background-image: none; }
+
+.pac-item {
+  cursor: default;
+  padding: 0;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 30px;
+  text-align: left;
+  border-top: 1px solid #eee;
+  font-size: 14px;
+ }
+
+.pac-item:hover {
+  background-color: #fafafa; }
+
+.pac-item-selected, .pac-item-selected:hover {
+  background-color: #ebf2fe; }
+
+.pac-matched {
+  font-weight: inherit; }
+
+.pac-item-query {
+  font-size: 13px;
+  padding-right: 5px;
+  color: #000; }
+
+.pac-icon {
+  width: 0px;
+  height: 20px;
+  margin-right: 0px;
+  margin-top: 0px;
+  display: inline-block;
+  vertical-align: top;
+  background-image: none;
+  background-size: 0px; }
+
+.hdpi .pac-icon {
+  background-image: none; }
+
+.pac-item-selected .pac-icon-search {
+  background-position: -18px -1px; }
+
+.pac-icon-marker {
+  background-position: -1px -161px; }
+
+.pac-item-selected .pac-icon-marker {
+  background-position: -18px -161px; }
+
+.pac-placeholder {
+  color: gray; }
+
+.custom-prediction-label {
+  font-style: italic; }
+
+.picker-switch {
+  pointer-events: none;
+  cursor: default; }

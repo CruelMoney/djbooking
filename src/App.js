@@ -8,12 +8,14 @@ import Navigation from './containers/Navigation'
 import Profile from './containers/Profile'
 import Preferences from './containers/Preferences'
 import Gigs from './containers/Gigs'
+import Reviews from './containers/Reviews'
 import Home from './components/stories/Home'
 import Auth from './components/stories/Auth'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 const theme = getMuiTheme()
+
 
 
 render((
@@ -28,9 +30,8 @@ render((
           <IndexRedirect to="/user/profile" />
 
           <Route path="/user/profile" component={Profile}/>
-
           <Route path="/user/gigs" component={Gigs}/>
-          {/*  <Route path="/user/reviews" component={Reviews}/>*/}
+          <Route path="/user/reviews" component={Reviews}/>
           <Route path="/user/preferences" component={Preferences}/>
         </Route>
 
