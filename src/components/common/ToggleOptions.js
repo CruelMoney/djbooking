@@ -8,7 +8,8 @@ var ToggleOptions = React.createClass({
   propTypes: {
     name: PropTypes.string.isRequired,
     children: PropTypes.node,
-    value: PropTypes.func
+    value: PropTypes.func,
+    glued: PropTypes.bool
   },
 
  getDefaultProps() {
