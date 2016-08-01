@@ -272,6 +272,9 @@
 .react-datepicker__tether-element {
   z-index: 2147483647;
 }
+body{
+  overflow-x: hidden;
+}
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
@@ -419,8 +422,16 @@ content: '';
     opacity: 0.5;
     position: absolute;
   }
-
+.hero-text{
+    color: white;
+    font-size: 28px;
+    line-height: 55px;
+    font-weight: 300;
+    text-align: justify;
+  }
+.hero-text span{
+    font-weight: bold;
+    font-size: 44px;
+  }
 
 /*# sourceMappingURL=app.css.map*/
-.react-datepicker__day{
-  }
