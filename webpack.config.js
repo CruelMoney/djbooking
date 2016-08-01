@@ -1,4 +1,6 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var autoprefixer = require('autoprefixer')
+var postcssImport = require('postcss-import')
 
 module.exports = {
   entry: ['whatwg-fetch','./src/App.js'],
@@ -29,10 +31,17 @@ module.exports = {
           sourceMapTarget: './'
         }
       },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader') }
       //{ test: /\.css$/, loader: "style-loader!css-loader" }
     ]
   },
+  postcss: function (webpack) {
+        return [
+            postcssImport({
+                addDependencyTo: webpack
+            })
+        , autoprefixer]
+    },
   // This plugin moves all the CSS into a separate stylesheet
  plugins: [
    new ExtractTextPlugin('app.css')

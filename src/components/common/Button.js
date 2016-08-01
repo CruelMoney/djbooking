@@ -19,7 +19,7 @@ var Button = React.createClass({
 
   getDefaultProps() {
       return {
-        rounded: false, label: "Button"
+        rounded: false, label: "Button", dangerous: false
       }
     },
 

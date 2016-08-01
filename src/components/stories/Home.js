@@ -1,18 +1,29 @@
 import React from 'react'
 import DatePicker from '../common/DatePicker.js'
+import RequestForm from '../session/RequestForm'
 
 export default React.createClass({
   render() {
     return (
       <div>
         <div className="home-bg">
-          <div className="container">
+          <div className="container"
+            style={{
+              display:'flex',
+              aligItems:'center'
+            }}>
             <div className="col-md-5 col-md-offset-1">
               <DatePicker/>
             </div>
-            <div className="col-md-5">
-
-
+            <div className="col-md-5"
+              style={{
+                display:'flex',
+                alignItems:'center'
+              }}
+            >
+              <div className="hero-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing <span>elit</span>. <span>Consectetur</span> ipsam ut eum nihil consectetur, dignissimos <span>dolor</span> reiciendis repellendus dolore repellat quasi adipisci quidem, id accusamus <span>ducimus</span> autem ratione, obcaecati aut.
+              </div>
             </div>
 
           </div>
@@ -20,6 +31,10 @@ export default React.createClass({
             <source src="assets/KAYTRANADA.mp4" type="video/mp4"/>
           </video>
         </div>
+
+        <RequestForm>
+          
+        </RequestForm>
       </div>
     )
   }

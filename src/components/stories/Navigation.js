@@ -126,7 +126,7 @@ var menu = React.createClass({
                       expanded={this.state.loginExpanded}
                       disableOnClickOutside={!this.state.loginExpanded}
                       onClickOutside ={this.onClickOutside}/>
-
+                    
                   </div>
               )}
               {this.props.loggedIn ? (
@@ -139,7 +139,7 @@ var menu = React.createClass({
             </ul>
           </div>
         </nav>
-        <div style={{marginTop:'60px'}}>
+        <div >
           {this.props.children}
         </div>
       </div>

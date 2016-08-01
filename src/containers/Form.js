@@ -3,32 +3,20 @@ import { connect } from 'react-redux'
 import Form from '../components/common/Form'
 import * as actions from '../actions/actions'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import lodashMap from 'lodash/map'
 
 
 
 
 injectTapEventPlugin()
 
-//Taking a list of react elements and see if they have defined to be only showed
-//When certain filters are true. If no showon are defined it shows always
-const getVisibleRegistrationElements = (elems, filters) => {
 
-      if (filters === undefined) {
-        return elems
-      }
-      filters = lodashMap(filters, (value,key) => value)
-      return elems.filter(elem =>
-           filters.map(filter => (elem.props.hideOn === undefined || elem.props.hideOn.indexOf(filter) === -1))
-           .reduce(( pre, cur ) => pre && cur, true)
-      )
-}
 
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownprops) {
   return {
-    children: getVisibleRegistrationElements(ownprops.children, state.form.filters),
+    activeFilters: state.form.filters,
+    children: ownprops.children,
   }
 }
 

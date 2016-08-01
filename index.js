@@ -537,7 +537,7 @@
 	
 	var _Home2 = _interopRequireDefault(_Home);
 	
-	var _Auth = __webpack_require__(818);
+	var _Auth = __webpack_require__(814);
 	
 	var _Auth2 = _interopRequireDefault(_Auth);
 	
@@ -545,11 +545,11 @@
 	
 	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
 	
-	var _MuiThemeProvider = __webpack_require__(819);
+	var _MuiThemeProvider = __webpack_require__(815);
 	
 	var _MuiThemeProvider2 = _interopRequireDefault(_MuiThemeProvider);
 	
-	__webpack_require__(820);
+	__webpack_require__(816);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -84155,7 +84155,9 @@
 	
 	var _moment2 = _interopRequireDefault(_moment);
 	
-	__webpack_require__(814);
+	var _Button = __webpack_require__(610);
+	
+	var _Button2 = _interopRequireDefault(_Button);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -84175,10 +84177,33 @@
 	  },
 	
 	  render: function render() {
-	    return _react2.default.createElement(_reactDatepicker2.default, {
-	      inline: true,
-	      selected: this.state.startDate,
-	      onChange: this.handleChange });
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'calendar-container' },
+	      _react2.default.createElement(
+	        'h1',
+	        { style: { color: 'white', marginBottom: '20px' } },
+	        'Pick date of event'
+	      ),
+	      _react2.default.createElement(_reactDatepicker2.default, {
+	        fixedHeight: true,
+	        inline: true,
+	        minDate: (0, _moment2.default)(),
+	        selected: this.state.startDate,
+	        onChange: this.handleChange }),
+	      _react2.default.createElement(
+	        'div',
+	        { style: { marginTop: '20px' } },
+	        _react2.default.createElement(_Button2.default, {
+	          medium: true,
+	          rounded: true,
+	          white: true,
+	          label: 'GO!',
+	          onClick: function onClick() {
+	            return null;
+	          } })
+	      )
+	    );
 	  }
 	});
 
@@ -84334,15 +84359,6 @@
 
 /***/ },
 /* 814 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 815 */,
-/* 816 */,
-/* 817 */,
-/* 818 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84370,7 +84386,7 @@
 	});
 
 /***/ },
-/* 819 */
+/* 815 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84431,7 +84447,7 @@
 	exports.default = MuiThemeProvider;
 
 /***/ },
-/* 820 */
+/* 816 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

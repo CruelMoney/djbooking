@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import without from 'lodash.without'
 import Radium from 'radium'
+import assign from 'lodash.assign'
 import Button from './Button'
 
 const form = React.createClass({
@@ -10,12 +11,14 @@ const form = React.createClass({
       children: PropTypes.node,
       onSubmit: PropTypes.func,
       updateFilters: PropTypes.func,
-      updateValue: PropTypes.func
+      updateValue: PropTypes.func,
+      activeFilters: PropTypes.arrayOf(PropTypes.object),
     },
 
     getInitialState() {
       return{
-        isValid: false
+        isValid: false,
+        activeFilters: []
       }
     },
 
@@ -25,7 +28,8 @@ const form = React.createClass({
       registerValidation: PropTypes.func,
       isFormValid: PropTypes.func,
       updateFilters: PropTypes.func,
-      updateValue: PropTypes.func
+      activeFilters: PropTypes.arrayOf(PropTypes.object),
+      updateValue: PropTypes.func,
     },
 
     getChildContext() {
@@ -34,6 +38,7 @@ const form = React.createClass({
         registerValidation: this.registerValidation,
         isFormValid: this.isFormValid,
         updateFilters: this.updateFilters,
+        activeFilters: this.state.activeFilters,
         updateValue: this.props.updateValue
       }
     },
@@ -63,6 +68,11 @@ const form = React.createClass({
 
    updateFilters(filter, value){
        this.props.updateFilters(filter, value)
+       this.setState({
+         activeFilters: assign({}, this.state.activeFilters, {
+                   [filter]: value
+         })
+       })
    },
 
    submit(){
@@ -76,17 +86,12 @@ const form = React.createClass({
   render() {
     return (
       <form >
-        <ol >
-          {this.props.children.map(function(result) {
-            return <li  key={result.id}>{result}</li>
-          })}
-        </ol>
+        {this.props.children}
         <Button
           large={true}
           label= "Sign Up"
           important = {this.state.isValid}
           rounded = {true}
-          dangerous = {true}
           onClick = {this.submit}
         />
       </form>

@@ -2,6 +2,7 @@ import React from 'react'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import c from '../../constants/constants'
 import {datePipe} from '../../utils/textPipes'
+import NumberedList from '../common/NumberedList'
 
 
 import Form, {Text,
@@ -27,140 +28,140 @@ var signupForm = React.createClass({
   return (
     <Form
       onSubmit={this.props.handleSubmit}
-
     >
-      <RegistrationElement
-        isFilter={true}
-        name='signup'
-        label ="Sign Up"
-        active ={true}
-        text = "Do you want to sign up using soundcloud, facebook or your email"
-      >
-
-        <ToggleOptions
-          name = "signup"
+      <NumberedList>
+        <RegistrationElement
+          isFilter={true}
+          name='signup'
+          label ="Sign Up"
+          active ={true}
+          text = "Do you want to sign up using soundcloud, facebook or your email"
         >
-          <Button
-            large={true}
-            leftAlign={true}
-            name = "FACEBOOK"
-            rounded= {true}
-            label =  "Facebook"
-          />
 
-          <Button
-            large={true}
-            leftAlign={true}
-            name = "SOUNDCLOUD"
-            rounded= {true}
-            label =  "Soundcloud"
-          />
+          <ToggleOptions
+            name = "signup"
+          >
+            <Button
+              large={true}
+              leftAlign={true}
+              name = "FACEBOOK"
+              rounded= {true}
+              label =  "Facebook"
+            />
 
-          <Button
-            large={true}
-            leftAlign={true}
-            name = "EMAIL"
-            rounded= {true}
-            label =  "Email & Password"
-          />
+            <Button
+              large={true}
+              leftAlign={true}
+              name = "SOUNDCLOUD"
+              rounded= {true}
+              label =  "Soundcloud"
+            />
 
-        </ToggleOptions>
+            <Button
+              large={true}
+              leftAlign={true}
+              name = "EMAIL"
+              rounded= {true}
+              label =  "Email & Password"
+            />
 
-      </RegistrationElement>
+          </ToggleOptions>
 
-      <RegistrationElement
-        name="email"
-        label ="E-mail"
-        active ={true}
-        text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-        hideOn = {['FACEBOOK']}
-      >
-        <Textfield
+        </RegistrationElement>
+
+        <RegistrationElement
           name="email"
-          validate={['required', 'email']}
-          label="Your Email"/>
+          label ="E-mail"
+          active ={true}
+          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          hideOn = {['FACEBOOK']}
+        >
+          <Textfield
+            name="email"
+            validate={['required', 'email']}
+            label="Your Email"/>
 
-      </RegistrationElement>
-      <RegistrationElement
-        name="password"
-        label ="Password"
-        active ={true}
-        text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-        hideOn = {['FACEBOOK','SOUNDCLOUD']}
-      >
-        <Textfield
-          type ="password"
+        </RegistrationElement>
+        <RegistrationElement
           name="password"
-          validate={['required']}
-          label="Your password"/>
-      </RegistrationElement>
+          label ="Password"
+          active ={true}
+          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          hideOn = {['FACEBOOK','SOUNDCLOUD']}
+        >
+          <Textfield
+            type ="password"
+            name="password"
+            validate={['required']}
+            label="Your password"/>
+        </RegistrationElement>
 
 
-      <RegistrationElement
-        name="name"
-        label ="Name"
-        active ={true}
-        text = "Please enter your first and last name. It is important that the given information is correct. Otherwise you can't receive your payment."
-        hideOn = {['FACEBOOK']}
-      >
-        <Textfield
+        <RegistrationElement
           name="name"
-          placeholder="First Last"
-          validate={['required', 'lastName']}
-          label="Your name"/>
-      </RegistrationElement>
+          label ="Name"
+          active ={true}
+          text = "Please enter your first and last name. It is important that the given information is correct. Otherwise you can't receive your payment."
+          hideOn = {['FACEBOOK']}
+        >
+          <Textfield
+            name="name"
+            placeholder="First Last"
+            validate={['required', 'lastName']}
+            label="Your name"/>
+        </RegistrationElement>
 
 
-      <RegistrationElement
-        name="bday"
-        label ="Birthday"
-        active ={true}
-        text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-        hideOn = {['FACEBOOK']}
+        <RegistrationElement
+          name="bday"
+          label ="Birthday"
+          active ={true}
+          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          hideOn = {['FACEBOOK']}
 
-      >
+        >
 
-        <Textfield
-          onUpdatePipeFunc = {datePipe}
-          maxLength="10"
-          type = "text"
-          name="birthday"
-          validate={['required', 'date']}
-          placeholder="dd/mm/yyyy"
-          label="Birthday"/>
+          <Textfield
+            onUpdatePipeFunc = {datePipe}
+            maxLength="10"
+            type = "text"
+            name="birthday"
+            validate={['required', 'date']}
+            placeholder="dd/mm/yyyy"
+            label="Birthday"/>
 
-      </RegistrationElement>
+        </RegistrationElement>
 
-      <RegistrationElement
-        name="location"
-        label ="Location"
-        active ={true}
-        text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-      >
-
-        <LocationSelectorSimple
-          autocomplete="off"
+        <RegistrationElement
           name="location"
-          validate={['required']}
-          label="Location"/>
+          label ="Location"
+          active ={true}
+          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+        >
 
-      </RegistrationElement>
+          <LocationSelectorSimple
+            autocomplete="off"
+            name="location"
+            validate={['required']}
+            label="Location"/>
+
+        </RegistrationElement>
 
 
-      <RegistrationElement
-        name="genres"
-        label ="Genres"
-        active ={true}
-        text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-      >
-
-        <ToggleButtonHandler
+        <RegistrationElement
           name="genres"
-          potentialValues={c.GENRES}
-          columns = {4} />
+          label ="Genres"
+          active ={true}
+          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+        >
 
-      </RegistrationElement>
+          <ToggleButtonHandler
+            name="genres"
+            potentialValues={c.GENRES}
+            columns = {4} />
 
+        </RegistrationElement>
+      </NumberedList>
     </Form>
 
     )

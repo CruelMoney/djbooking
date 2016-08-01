@@ -1,8 +1,7 @@
 import React from 'react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
-
-import 'react-datepicker/dist/react-datepicker.css'
+import Button from './Button'
 
 
 export default React.createClass({
@@ -21,9 +20,26 @@ export default React.createClass({
   },
 
   render: function() {
-    return <DatePicker
-      inline
-        selected={this.state.startDate}
-        onChange={this.handleChange} />
+    return (
+      <div className="calendar-container">
+        <h1 style={{color:'white', marginBottom:'20px', marginTop:'0px'}}>
+          Pick date of event
+        </h1>
+        <DatePicker
+          fixedHeight
+          inline
+          minDate={moment()}
+          selected={this.state.startDate}
+          onChange={this.handleChange} />
+        <div style={{marginTop:'20px'}}>
+          <Button
+            medium
+            rounded
+            white
+            label="GO!"
+            onClick={()=>null}/>
+        </div>
+      </div>
+    )
   }
 })

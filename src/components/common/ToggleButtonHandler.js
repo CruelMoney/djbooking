@@ -48,9 +48,11 @@ var ToggleButtonHandler = React.createClass({
    },
 
    componentWillReceiveProps(nextProps){
-     this.setState({
-       toggledButtons: nextProps.preToggled
-     })
+     if (nextProps.preToggled && nextProps.preToggled.length) {
+       this.setState({
+         toggledButtons: nextProps.preToggled
+       })
+     }
    },
 
    componentWillUnmount() {
@@ -76,12 +78,14 @@ var ToggleButtonHandler = React.createClass({
 
 
   updateValue(value){
+
     var toggledButtons = this.state.toggledButtons
     var valueIndex = toggledButtons.indexOf(value)
 
     var newList = (valueIndex===-1)
                    ? [ ...toggledButtons, value ]
                    : this.spliceHelper(toggledButtons, valueIndex)
+
 
     this.setState({
        toggledButtons: newList,
