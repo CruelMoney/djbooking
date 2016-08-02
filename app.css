@@ -272,8 +272,8 @@
 .react-datepicker__tether-element {
   z-index: 2147483647;
 }
-body{
-  overflow-x: hidden;
+html{
+overflow-y: scroll;
 }
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset;
@@ -325,6 +325,25 @@ nav borderHover a:hover{
     border-color: black !important;
     border-radius: 6px;
   }
+.no-padding{
+    padding: 0px !important;
+  }
+/**
+   * fixed menu on front page
+   */
+nav.fixed{
+    background-color: white !important;
+    border-bottom: 1px solid #eee;
+
+  }
+nav.fixed li a{
+    color: black !important;
+    border-color: black !important;
+  }
+nav.fixed li button{
+    color: black !important;
+    border-color: black !important;
+  }
 input::-webkit-calendar-picker-indicator{
     display: none;
 }
@@ -357,8 +376,8 @@ input[type="file"] + label * {
 }
 .loginDropDown{
   position: absolute;
-  top: 58px;
-  margin-left: 32px;
+  top: 75px;
+  margin-left: -336px;
   padding: 20px;
   width: 300px;
   background-color: white;

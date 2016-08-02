@@ -537,19 +537,15 @@
 	
 	var _Home2 = _interopRequireDefault(_Home);
 	
-	var _Auth = __webpack_require__(816);
-	
-	var _Auth2 = _interopRequireDefault(_Auth);
-	
 	var _getMuiTheme = __webpack_require__(238);
 	
 	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
 	
-	var _MuiThemeProvider = __webpack_require__(817);
+	var _MuiThemeProvider = __webpack_require__(816);
 	
 	var _MuiThemeProvider2 = _interopRequireDefault(_MuiThemeProvider);
 	
-	__webpack_require__(818);
+	__webpack_require__(817);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -574,7 +570,6 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '/user/reviews', component: _Reviews2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/user/preferences', component: _Preferences2.default })
 	      ),
-	      _react2.default.createElement(_reactRouter.Route, { path: '/auth/', component: _Auth2.default }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '/howitworks', component: _HowItWorks2.default }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _Signup2.default })
 	    )
@@ -34230,7 +34225,7 @@
 /* 397 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var keyMirror = __webpack_require__(398);
 	
@@ -34272,7 +34267,7 @@
 	    REVIEWS_FETCHED: null
 	
 	  }),
-	  GENRES: [{ name: 'R&B' }, { name: 'Latin' }, { name: 'Hip Hop' }, { name: 'Pop' }, { name: 'Techno' }, { name: 'Lounge' }, { name: 'House' }, { name: 'Mix' }, { name: 'Extreme' }],
+	  GENRES: [{ name: "70's" }, { name: "80's" }, { name: "90's" }, { name: "00's" }, { name: "Rock" }, { name: "Techno" }, { name: "R&B" }, { name: "UKG" }, { name: "Drum'n'Bass" }, { name: "Trap" }, { name: "Lounge" }, { name: "Remixes" }, { name: "Hits" }, { name: 'Latin' }, { name: 'Pop' }, { name: 'House' }, { name: 'Local' }, { name: "Hip Hop" }],
 	  WEEKDAYS: [{ name: 'Monday' }, { name: 'Tuesday' }, { name: 'Wednesday' }, { name: 'Thursday' }, { name: 'Friday' }, { name: 'Saturday' }, { name: 'Sunday' }],
 	  NOTIFICATIONS: [{ name: 'Gig request' }, { name: 'Gig reminder' }, { name: 'Platform news' }, { name: 'New review' }]
 	
@@ -52070,7 +52065,8 @@
 	    label: _react.PropTypes.string,
 	    validate: _react.PropTypes.arrayOf(_react.PropTypes.string),
 	    onUpdatePipeFunc: _react.PropTypes.func,
-	    disabled: _react.PropTypes.bool
+	    disabled: _react.PropTypes.bool,
+	    floatingLabelText: _react.PropTypes.string
 	  },
 	
 	  contextTypes: {
@@ -52204,6 +52200,7 @@
 	      underlineDisabledStyle: this.props.underlineDisabledStyle,
 	      underlineStyle: this.props.underlineStyle,
 	      type: this.props.type,
+	      floatingLabelText: this.props.floatingLabelText,
 	      fullWidth: this.props.fullWidth || true,
 	      hintText: this.props.placeholder,
 	      onChange: this.onChange,
@@ -62168,9 +62165,10 @@
 	
 	    return _react2.default.createElement(_AutoComplete2.default, {
 	      className: 'search-bar__auto-complete',
-	      style: styles.textarea,
+	      style: this.props.style || styles.textarea,
 	      inputStyle: styles.input,
-	      hintStyle: styles.hint
+	      hintStyle: styles.hint,
+	      floatingLabelText: this.props.floatingLabelText
 	      //onClick={this.onValueSelected}
 	      , fullWidth: true,
 	      hintText: this.props.placeholder,
@@ -62325,7 +62323,9 @@
 	    name: _react.PropTypes.string,
 	    disabled: _react.PropTypes.bool,
 	    dangerous: _react.PropTypes.bool,
-	    white: _react.PropTypes.bool
+	    white: _react.PropTypes.bool,
+	    leftRounded: _react.PropTypes.bool,
+	    rightRounded: _react.PropTypes.bool
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
@@ -62420,10 +62420,17 @@
 	        opacity: '0.5'
 	      },
 	      noBorder: {
+	        borderWidth: '0px',
 	        borderColor: 'transparent'
 	      },
 	      white: {
 	        color: 'white'
+	      },
+	      leftRounded: {
+	        borderRadius: '6px 0px 0px 6px'
+	      },
+	      rightRounded: {
+	        borderRadius: '0px 6px 6px 0px'
 	      }
 	
 	    };
@@ -62435,7 +62442,7 @@
 	        {
 	
 	          className: this.props.disabled ? "disabled" : "",
-	          style: [styles.base, this.props.active && styles.active, this.props.rounded && styles.rounded, this.props.important && styles.important, this.props.small && styles.small, this.props.medium && styles.medium, this.props.large && styles.large, this.props.disabled && styles.disabled, this.props.noBorder && styles.noBorder, this.props.white && styles.white],
+	          style: [styles.base, this.props.active && styles.active, this.props.rounded && styles.rounded, this.props.rightRounded && styles.rightRounded, this.props.leftRounded && styles.leftRounded, this.props.important && styles.important, this.props.small && styles.small, this.props.medium && styles.medium, this.props.large && styles.large, this.props.disabled && styles.disabled, this.props.white && styles.white, this.props.noBorder && styles.noBorder],
 	          onClick: this.props.disabled ? function () {
 	            return null;
 	          } : this.handleClick },
@@ -62601,7 +62608,7 @@
 	        tableLayout: "fixed"
 	      },
 	      td: {
-	        paddingRight: '15px'
+	        padding: '5px'
 	      },
 	      tr: {
 	        height: '50px'
@@ -64214,12 +64221,39 @@
 	  renderChildren: function renderChildren(state, props) {
 	    var _this4 = this;
 	
+	    var count = 0;
+	    var length = props.children.length;
 	    return _react2.default.Children.map(props.children, function (child) {
 	      var active = state.value === child.props.name;
-	      return _react2.default.cloneElement(child, {
-	        active: active,
-	        onClick: _this4.handleButtonPress
-	      });
+	      count = count + 1;
+	      //Creating glued look
+	      if (props.glued) {
+	        switch (count) {
+	          case 1:
+	            return _react2.default.cloneElement(child, {
+	              active: active,
+	              onClick: _this4.handleButtonPress,
+	              leftRounded: true
+	            });
+	          case length:
+	            return _react2.default.cloneElement(child, {
+	              active: active,
+	              onClick: _this4.handleButtonPress,
+	              rightRounded: true
+	            });
+	          default:
+	            return _react2.default.cloneElement(child, {
+	              active: active,
+	              onClick: _this4.handleButtonPress,
+	              rounded: false
+	            });
+	        }
+	      } else {
+	        return _react2.default.cloneElement(child, {
+	          active: active,
+	          onClick: _this4.handleButtonPress
+	        });
+	      }
 	    });
 	  },
 	  render: function render() {
@@ -64248,34 +64282,38 @@
 	        el
 	      );
 	    });
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'table',
-	        { style: styles.tableStyle },
-	        _react2.default.createElement(
-	          'tbody',
-	          null,
-	          _react2.default.createElement(
-	            'tr',
-	            null,
-	            children
-	          )
-	        )
-	      ),
-	      this.state.errors.length ? _react2.default.createElement(
+	
+	    if (this.props.glued) {
+	      return _react2.default.createElement(
 	        'div',
-	        { style: styles.errors },
-	        this.state.errors.map(function (error, i) {
+	        { style: { display: 'flex', flexDirection: 'row' } },
+	        this.renderChildren(this.state, this.props).map(function (el, i) {
 	          return _react2.default.createElement(
 	            'div',
-	            { key: i },
-	            error
+	            { key: i, style: { width: '100%' } },
+	            el
 	          );
 	        })
-	      ) : null
-	    );
+	      );
+	    } else {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'table',
+	          { style: styles.tableStyle },
+	          _react2.default.createElement(
+	            'tbody',
+	            null,
+	            _react2.default.createElement(
+	              'tr',
+	              null,
+	              children
+	            )
+	          )
+	        )
+	      );
+	    }
 	  }
 	});
 	
@@ -74514,7 +74552,8 @@
 	
 	  getInitialState: function getInitialState() {
 	    return {
-	      loginExpanded: false
+	      loginExpanded: false,
+	      fixed: false
 	    };
 	  },
 	  getChildContext: function getChildContext() {
@@ -74523,8 +74562,21 @@
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {
+	    window.addEventListener('scroll', this.handleScroll);
 	    if (!this.props.loggedIn) {
 	      this.props.checkForLogin();
+	    }
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    window.removeEventListener('scroll', this.handleScroll);
+	  },
+	  handleScroll: function handleScroll(event) {
+	
+	    var scrollTop = event.srcElement.body.scrollTop;
+	    if (scrollTop > 20) {
+	      this.nav.className = "fixed";
+	    } else {
+	      this.nav.className = "";
 	    }
 	  },
 	  onLoginButton: function onLoginButton() {
@@ -74547,42 +74599,55 @@
 	    }, 10);
 	  },
 	  render: function render() {
-	    var isHome = window.location.pathname === '/';
+	    var _this2 = this;
 	
 	    var styles = {
 	      transMenu: {
-	        marginTop: '25px',
-	        paddingBottom: '10px',
-	        position: 'fixed',
+	        paddingTop: '20px',
+	        paddingBottom: '20px',
 	        top: '0',
 	        height: 'auto',
 	        width: '100%',
+	        position: 'fixed',
 	        backgroundColor: 'transparent',
-	        zIndex: '10'
+	        zIndex: '1000',
+	        WebkitTransition: 'background 0.5s',
+	        transition: 'background 0.5s'
+	
 	      },
 	      classicMenu: {
 	        borderBottom: '1px solid #eee',
-	        paddingTop: '10px',
-	        paddingBottom: '10px',
+	        paddingTop: '20px',
+	        paddingBottom: '20px',
 	        position: 'fixed',
 	        top: '0',
 	        height: 'auto',
 	        width: '100%',
-	        backgroundColor: 'rgba(255,255,255, 1.0)',
+	        backgroundColor: 'rgb(255,255,255)',
 	        zIndex: '10'
 	      }
 	    };
+	
+	    var isHome = window.location.pathname === '/';
 	
 	    return _react2.default.createElement(
 	      'div',
 	      null,
 	      _react2.default.createElement(
 	        'nav',
-	        { style: isHome ? styles.transMenu : styles.classicMenu },
+	        {
+	          ref: function ref(_ref) {
+	            return _this2.nav = _ref;
+	          },
+	          style: isHome ? styles.transMenu : styles.classicMenu },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'container' },
-	          _react2.default.createElement(_Navlink2.default, { white: isHome, buttonLook: true, to: '/', onlyActiveOnIndex: true, label: 'Home', important: true }),
+	          { className: isHome ? "container home" : "container" },
+	          _react2.default.createElement(
+	            'li',
+	            { style: { display: 'inline' } },
+	            _react2.default.createElement(_Navlink2.default, { white: isHome, buttonLook: true, to: '/', onlyActiveOnIndex: true, label: 'Home', important: true })
+	          ),
 	          _react2.default.createElement(
 	            'ul',
 	            { style: { listStyleType: 'none',
@@ -74610,7 +74675,7 @@
 	                _react2.default.createElement(_UserMenuItem2.default, { profile: this.props.profile })
 	              )
 	            ) : _react2.default.createElement(
-	              'div',
+	              'li',
 	              { style: { display: 'inline', marginLeft: '4px' } },
 	              _react2.default.createElement(_Button2.default, {
 	                white: isHome,
@@ -84173,7 +84238,9 @@
 	      null,
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'home-bg' },
+	        { className: 'home-bg',
+	          style: { overflow: 'hidden', position: 'relative' }
+	        },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'container',
@@ -84228,7 +84295,7 @@
 	        _react2.default.createElement(
 	          'video',
 	          { autoPlay: true, loop: true, muted: true, preload: 'auto' },
-	          _react2.default.createElement('source', { src: 'assets/KAYTRANADA.mp4', type: 'video/mp4' })
+	          _react2.default.createElement('source', { src: 'assets/blurry-night.mp4', type: 'video/mp4' })
 	        )
 	      ),
 	      _react2.default.createElement(_RequestForm2.default, null)
@@ -84581,107 +84648,182 @@
 	        width: '100%',
 	        display: 'none'
 	      }
+	
 	    };
 	
 	    return _react2.default.createElement(
-	      'div',
+	      _Form2.default,
 	      {
-	        style: {
-	          marginBottom: "100px",
-	          marginTop: "100px"
-	        } },
-	      _react2.default.createElement(
-	        _Form2.default,
-	        {
-	          onSubmit: function onSubmit() {
-	            return null;
-	          },
-	          updateValue: function updateValue() {
-	            return null;
-	          }
+	        onSubmit: function onSubmit() {
+	          return null;
 	        },
+	        updateValue: function updateValue() {
+	          return null;
+	        }
+	      },
+	      _react2.default.createElement(
+	        'div',
+	        {
+	          style: {
+	            marginBottom: "100px",
+	            marginTop: "100px",
+	            display: "flex",
+	            flexDirection: 'row',
+	            alignItems: 'center',
+	            alignContent: 'center'
+	          } },
 	        _react2.default.createElement(
 	          'div',
 	          {
-	            className: 'col-md-5',
-	            style: {} },
+	            className: 'col-md-5 no-padding',
+	            style: {
+	              zIndex: '10'
+	            } },
 	          _react2.default.createElement(
 	            _Card.Card,
 	            {
 	              expanded: true },
-	            _react2.default.createElement(_Textfield2.default, {
-	              placeholder: 'today',
-	              label: 'Event date' }),
-	            _react2.default.createElement(_Textfield2.default, {
-	              validate: ['required'],
-	              label: 'Event title',
-	              placeholder: 'My crazy party'
-	            }),
-	            _react2.default.createElement(_LocationSelectorSimple2.default, {
-	              name: 'email',
-	              validate: ['required'],
-	              label: 'Event location',
-	              placeholder: 'Copenhagen'
-	            }),
-	            _react2.default.createElement(_Textfield2.default, {
-	              name: 'email',
-	              validate: ['required', 'lastName'],
-	              label: 'Your name'
-	            }),
-	            _react2.default.createElement(_Textfield2.default, {
-	              name: 'email',
-	              validate: ['required', 'email'],
-	              label: 'Your Email'
-	            })
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          {
-	            className: 'col-md-4',
-	            style: {} },
-	          _react2.default.createElement(
-	            _Card.Card,
-	            {
-	              expanded: true },
-	            _react2.default.createElement(_ToggleButtonHandler2.default, {
-	              name: 'genres',
-	              potentialValues: _constants2.default.GENRES,
-	              columns: 3 }),
 	            _react2.default.createElement(
-	              _ToggleOptions2.default,
-	              null,
-	              _react2.default.createElement(_Button2.default, {
-	                large: true,
-	                leftAlign: true,
-	                name: 'SPEAKERS_TRUE',
-	                rounded: true,
-	                label: 'Yes'
+	              'div',
+	              { style: { padding: '15px' } },
+	              _react2.default.createElement(_Textfield2.default, {
+	                name: 'date',
+	                floatingLabelText: 'Event date',
+	
+	                style: { marginTop: '-20px', height: '70px' }
 	              }),
-	              _react2.default.createElement(_Button2.default, {
-	                large: true,
-	                leftAlign: true,
-	                name: 'SPEAKERS_UNCERTAIN',
-	                rounded: true,
-	                label: 'Uncertain'
+	              _react2.default.createElement(
+	                'p',
+	                { style: { marginBottom: '30px' } },
+	                'Select a new date in the calendar to change it.'
+	              ),
+	              _react2.default.createElement(_Textfield2.default, {
+	                style: { marginTop: '-20px', height: '70px' },
+	                floatingLabelText: 'Event name',
+	
+	                validate: ['required']
 	              }),
-	              _react2.default.createElement(_Button2.default, {
-	                large: true,
-	                leftAlign: true,
-	                name: 'SPEAKERS_NO',
-	                rounded: true,
-	                label: 'No'
-	              })
+	              _react2.default.createElement(
+	                'p',
+	                { style: { marginBottom: '30px' } },
+	                'Write a name reflecting the purpose of your event.'
+	              ),
+	              _react2.default.createElement(_LocationSelectorSimple2.default, {
+	                style: { marginTop: '-20px', height: '70px' },
+	                floatingLabelText: 'Event location',
+	
+	                name: 'email',
+	                validate: ['required']
+	              }),
+	              _react2.default.createElement(
+	                'p',
+	                { style: { marginBottom: '30px' } },
+	                'Select the city in which your event will happen.'
+	              ),
+	              _react2.default.createElement(_Textfield2.default, {
+	                style: { marginTop: '-20px', height: '70px' },
+	                floatingLabelText: 'Your name',
+	
+	                name: 'email',
+	                validate: ['required', 'lastName']
+	              }),
+	              _react2.default.createElement(
+	                'p',
+	                { style: { marginBottom: '30px' } },
+	                'Your full name.'
+	              ),
+	              _react2.default.createElement(_Textfield2.default, {
+	                style: { marginTop: '-20px', height: '70px' },
+	                floatingLabelText: 'Your email',
+	                name: 'email',
+	                validate: ['required', 'email']
+	              }),
+	              _react2.default.createElement(
+	                'p',
+	                { style: { marginBottom: '30px' } },
+	                'We only share your email with DJ\'s suitable to play at your event.'
+	              )
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          {
-	            className: 'col-md-3',
+	            className: 'col-md-4 no-padding',
+	            style: {
+	              zIndex: '5'
+	            } },
+	          _react2.default.createElement(
+	            _Card.Card,
+	            {
+	              expanded: true },
+	            _react2.default.createElement(
+	              'div',
+	              { style: { padding: '15px' } },
+	              _react2.default.createElement(
+	                'h4',
+	                { style: { textAlign: 'center' } },
+	                'Select Genres'
+	              ),
+	              _react2.default.createElement(_ToggleButtonHandler2.default, {
+	                name: 'genres',
+	                potentialValues: _constants2.default.GENRES,
+	                columns: 3 }),
+	              _react2.default.createElement(
+	                'h4',
+	                { style: { textAlign: 'center' } },
+	                'Do you need speakers?'
+	              ),
+	              _react2.default.createElement(
+	                _ToggleOptions2.default,
+	                {
+	                  glued: true
+	                },
+	                _react2.default.createElement(_Button2.default, {
+	                  name: 'SPEAKERS_TRUE',
+	                  label: 'Yes'
+	                }),
+	                _react2.default.createElement(_Button2.default, {
+	                  name: 'SPEAKERS_UNCERTAIN',
+	                  label: 'Uncertain'
+	                }),
+	                _react2.default.createElement(_Button2.default, {
+	                  name: 'SPEAKERS_NO',
+	                  label: 'No'
+	                })
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          {
+	            className: 'col-md-3 no-padding',
 	            style: {} },
-	          _react2.default.createElement(_Card.Card, {
-	            expanded: true })
+	          _react2.default.createElement(
+	            _Card.Card,
+	            {
+	              expanded: true },
+	            _react2.default.createElement(
+	              'div',
+	              { style: { padding: '15px' } },
+	              _react2.default.createElement(
+	                'h4',
+	                { style: { textAlign: 'center' } },
+	                'Time'
+	              ),
+	              _react2.default.createElement(
+	                'h4',
+	                { style: { textAlign: 'center' } },
+	                'Guests'
+	              ),
+	              _react2.default.createElement(
+	                'h4',
+	                { style: { textAlign: 'center' } },
+	                'DJ experience'
+	              )
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -84693,34 +84835,6 @@
 
 /***/ },
 /* 816 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(3);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _react2.default.createClass({
-	  displayName: 'Auth',
-	  render: function render() {
-	
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      'thanks for signing up'
-	    );
-	  }
-	});
-
-/***/ },
-/* 817 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84781,7 +84895,7 @@
 	exports.default = MuiThemeProvider;
 
 /***/ },
-/* 818 */
+/* 817 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
