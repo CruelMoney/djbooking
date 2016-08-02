@@ -154,9 +154,10 @@ var Text = React.createClass({
     return (
         <AutoComplete
         className="search-bar__auto-complete"
-        style = {styles.textarea}
+        style = {this.props.style || styles.textarea}
         inputStyle = {styles.input}
         hintStyle = {styles.hint}
+        floatingLabelText = {this.props.floatingLabelText}
         //onClick={this.onValueSelected}
         fullWidth={true}
         hintText={this.props.placeholder}

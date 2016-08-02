@@ -358,7 +358,7 @@ input[type="file"] + label * {
 .loginDropDown{
   position: absolute;
   top: 58px;
-  right: 135px;
+  margin-left: 32px;
   padding: 20px;
   width: 300px;
   background-color: white;

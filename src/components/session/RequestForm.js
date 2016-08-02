@@ -90,109 +90,138 @@ var RequestForm = React.createClass({
           position: 'absolute',
           width: '100%',
           display: 'none',
-        }
+        },
+
     }
 
 
 
     return(
-      <div
-        style={{
-          marginBottom:"100px",
-          marginTop:"100px"
-        }}>
+
         <Form
           onSubmit={()=>null}
           updateValue={()=> null}
         >
-
+        <div
+          style={{
+            marginBottom:"100px",
+            marginTop:"100px",
+            display:"flex",
+            flexDirection:'row',
+            alignItems:'center',
+            alignContent:'center'
+          }}>
           <div
-            className="col-md-5"
+            className="col-md-5 no-padding"
             style={{
-
+              zIndex:'10'
             }}>
             <Card
               expanded>
+              <div style={{padding:'15px'}}>
               <TextField
-                placeholder="today"
-                label="Event date"/>
+                name="date"
+                floatingLabelText="Event date"
+
+                style={{marginTop:'-20px', height:'70px'}}
+                />
+                <p style={{marginBottom:'30px'}}>Select a new date in the calendar to change it.</p>
+
               <TextField
+              style={{marginTop:'-20px', height:'70px'}}
+              floatingLabelText="Event name"
+
                 validate={['required']}
-                label="Event title"
-                placeholder="My crazy party"
               />
+              <p style={{marginBottom:'30px'}}>Write a name reflecting the purpose of your event.</p>
+
+
               <LocationSelector
+              style={{marginTop:'-20px', height:'70px'}}
+              floatingLabelText="Event location"
+
                 name="email"
                 validate={['required']}
-                label="Event location"
-                placeholder="Copenhagen"
               />
+              <p style={{marginBottom:'30px'}}>Select the city in which your event will happen.</p>
+
               <TextField
+              style={{marginTop:'-20px', height:'70px'}}
+              floatingLabelText="Your name"
+
                 name="email"
                 validate={['required', 'lastName']}
-                label="Your name"
               />
-              <TextField
+              <p style={{marginBottom:'30px'}}>Your full name.</p>
+
+            <TextField
+            style={{marginTop:'-20px', height:'70px'}}
+              floatingLabelText="Your email"
                 name="email"
                 validate={['required', 'email']}
-                label="Your Email"
               />
+              <p style={{marginBottom:'30px'}}>We only share your email with DJ's suitable to play at your event.</p>
+
+              </div>
             </Card>
           </div>
           <div
-            className="col-md-4"
+            className="col-md-4 no-padding"
             style={{
-
+              zIndex:'5'
             }}>
             <Card
               expanded>
 
+<div style={{padding:'15px'}}>
+              <h4 style={{textAlign:'center'}}>Select Genres</h4>
               <ToggleButtonHandler
                 name="genres"
                 potentialValues={c.GENRES}
                 columns = {3} />
 
-              <ToggleOptions>
+              <h4 style={{textAlign:'center'}}>Do you need speakers?</h4>
+              <ToggleOptions
+              glued={true}
+              >
                 <Button
-                  large={true}
-                  leftAlign={true}
                   name = "SPEAKERS_TRUE"
-                  rounded= {true}
                   label =  "Yes"
                 />
 
                 <Button
-                  large={true}
-                  leftAlign={true}
                   name = "SPEAKERS_UNCERTAIN"
-                  rounded= {true}
                   label =  "Uncertain"
                 />
 
                 <Button
-                  large={true}
-                  leftAlign={true}
                   name = "SPEAKERS_NO"
-                  rounded= {true}
                   label =  "No"
                 />
               </ToggleOptions>
-
+</div>
             </Card>
           </div>
           <div
-            className="col-md-3"
+            className="col-md-3 no-padding"
             style={{
 
             }}>
             <Card
               expanded>
 
+<div style={{padding:'15px'}}>
+              <h4 style={{textAlign:'center'}}>Time</h4>
+              <h4 style={{textAlign:'center'}}>Guests</h4>
+              <h4 style={{textAlign:'center'}}>DJ experience</h4>
+
+
+</div>
             </Card>
+          </div>
           </div>
         </Form>
 
-      </div>
       )
 
   }

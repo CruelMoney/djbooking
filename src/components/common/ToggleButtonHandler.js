@@ -112,7 +112,7 @@ var ToggleButtonHandler = React.createClass({
         tableLayout: "fixed",
           },
       td:{
-        paddingRight: '15px',
+        padding: '5px',
       },
       tr:{
         height: '50px',

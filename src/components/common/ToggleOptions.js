@@ -76,12 +76,40 @@ var ToggleOptions = React.createClass({
  },
 
  renderChildren(state, props) {
+   var count = 0
+   const length = props.children.length
    return React.Children.map(props.children, child => {
        const active = state.value===child.props.name
+       count = count+1
+       //Creating glued look
+       if (props.glued) {
+       switch (count) {
+         case 1:
+         return React.cloneElement(child, {
+               active: active,
+               onClick: this.handleButtonPress,
+               leftRounded: true
+         })
+         case length:
+         return React.cloneElement(child, {
+               active: active,
+               onClick: this.handleButtonPress,
+               rightRounded: true
+         })
+         default:
+         return React.cloneElement(child, {
+               active: active,
+               onClick: this.handleButtonPress,
+               rounded: false
+         })
+       }
+
+
+     }else{
        return React.cloneElement(child, {
              active: active,
              onClick: this.handleButtonPress
-       })
+       })}
    })
  },
 
@@ -105,9 +133,19 @@ var ToggleOptions = React.createClass({
     }
     var children = this.renderChildren(this.state, this.props)
     children = children.map((el, i) => <td key={i}>{el}</td>)
-  return (
 
-    <div >
+if (this.props.glued) {
+  return (
+    <div style={{display:'flex', flexDirection:'row'}} >
+  { this.renderChildren(this.state, this.props).map((el,i) => (
+      < div key={i} style={{width:'100%'}}>
+        {el}
+      </div> ))}
+      </div>)
+    }else{
+      return (
+
+      <div>
       <table style = {styles.tableStyle}>
       <tbody>
             <tr>
@@ -115,14 +153,11 @@ var ToggleOptions = React.createClass({
             </tr>
         </tbody>
       </table>
-      {this.state.errors.length ? (
-        < div style = {styles.errors}>
-           {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
-     </div>
-  ) : null}
-</div>
+    </div>
 
-    )
+        )
+    }
+
   }
 })
 

@@ -74617,17 +74617,17 @@
 	                noBorder: true,
 	                medium: true,
 	                label: 'Login',
-	                onClick: this.onLoginButton }),
-	              _react2.default.createElement(_Login2.default, {
-	                expanded: this.state.loginExpanded,
-	                disableOnClickOutside: !this.state.loginExpanded,
-	                onClickOutside: this.onClickOutside })
+	                onClick: this.onLoginButton })
 	            ),
 	            this.props.loggedIn ? null : _react2.default.createElement(
 	              'li',
 	              { style: { display: 'inline', marginLeft: '4px' } },
 	              _react2.default.createElement(_Navlink2.default, { white: isHome, buttonLook: true, to: '/signup', label: 'Become a DJ', important: true })
-	            )
+	            ),
+	            _react2.default.createElement(_Login2.default, {
+	              expanded: this.state.loginExpanded,
+	              disableOnClickOutside: !this.state.loginExpanded,
+	              onClickOutside: this.onClickOutside })
 	          )
 	        )
 	      ),

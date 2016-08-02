@@ -6,6 +6,7 @@ import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import Login from '../../containers/Login'
 
+
 var menu = React.createClass({
 
   propTypes: {
@@ -21,7 +22,8 @@ var menu = React.createClass({
 
    getInitialState(){
      return{
-       loginExpanded: false
+       loginExpanded: false,
+       fixed: false,
      }
    },
 
@@ -32,11 +34,24 @@ var menu = React.createClass({
    },
 
    componentWillMount() {
+     window.addEventListener('scroll', this.handleScroll)
      if (!this.props.loggedIn) {
        this.props.checkForLogin()
      }
    },
+   componentWillUnmount(){
+     window.removeEventListener('scroll', this.handleScroll)
+   },
 
+   handleScroll(event){
+
+    let scrollTop = event.srcElement.body.scrollTop
+    if (scrollTop > 20) {
+       this.nav.className =  "fixed"
+    }else{
+      this.nav.className = ""
+    }
+   },
 
    onLoginButton(){
        this.setState({
@@ -55,40 +70,46 @@ var menu = React.createClass({
    },
 
   render() {
-    const isHome = window.location.pathname === '/'
-
     const styles={
       transMenu:{
-        marginTop: '25px',
-        paddingBottom: '10px',
-        position: 'fixed',
+        paddingTop: '20px',
+        paddingBottom: '20px',
         top: '0',
         height: 'auto',
         width: '100%',
+        position: 'fixed',
         backgroundColor: 'transparent',
-        zIndex: '10'
+        zIndex: '1000',
+        WebkitTransition: 'background 0.5s',
+        transition: 'background 0.5s'
+
       },
       classicMenu:{
         borderBottom: '1px solid #eee',
-        paddingTop: '10px',
-        paddingBottom: '10px',
+        paddingTop: '20px',
+        paddingBottom: '20px',
         position: 'fixed',
         top: '0',
         height: 'auto',
         width: '100%',
-        backgroundColor: 'rgba(255,255,255, 1.0)',
+        backgroundColor: 'rgb(255,255,255)',
         zIndex: '10'
-      }
+      },
     }
 
+    const isHome = window.location.pathname === '/'
 
     return (
-      <div >
-        <nav style={
+      <div>
+        <nav
+        ref={(ref) => this.nav = ref}
+        style={
           isHome ? styles.transMenu : styles.classicMenu
         }>
-          <div className="container">
+          <div   className={isHome ? "container home" : "container"}>
+            <li style={{display:'inline'}}>
             <Navlink white={isHome} buttonLook={true} to="/" onlyActiveOnIndex={true} label="Home" important={true} />
+            </li>
             <ul style={
               { listStyleType: 'none',
                 padding: '0',
@@ -114,20 +135,14 @@ var menu = React.createClass({
                   </Navlink>
                 </li>
                 ) : (
-                  <div style={{display:'inline', marginLeft:'4px'}} >
+                  <li style={{display:'inline', marginLeft:'4px'}} >
                     <Button
                       white={isHome}
                       noBorder={true}
                       medium={true}
                       label="Login"
                       onClick={this.onLoginButton}/>
-
-                    <Login
-                      expanded={this.state.loginExpanded}
-                      disableOnClickOutside={!this.state.loginExpanded}
-                      onClickOutside ={this.onClickOutside}/>
-                    
-                  </div>
+                  </li>
               )}
               {this.props.loggedIn ? (
                 null
@@ -136,9 +151,14 @@ var menu = React.createClass({
                     <Navlink white={isHome} buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
                   </li>
               )}
+              <Login
+                expanded={this.state.loginExpanded}
+                disableOnClickOutside={!this.state.loginExpanded}
+                onClickOutside ={this.onClickOutside}/>
             </ul>
           </div>
         </nav>
+
         <div >
           {this.props.children}
         </div>

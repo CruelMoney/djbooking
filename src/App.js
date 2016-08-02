@@ -10,7 +10,6 @@ import Preferences from './containers/Preferences'
 import Gigs from './containers/Gigs'
 import Reviews from './containers/Reviews'
 import Home from './components/stories/Home'
-import Auth from './components/stories/Auth'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
@@ -37,7 +36,6 @@ render((
           <Route path="/user/preferences" component={Preferences}/>
         </Route>
 
-        <Route path="/auth/" component={Auth}/>
         <Route path="/howitworks" component={HowItWorks}/>
         <Route path="/signup" component={Signup}/>
 

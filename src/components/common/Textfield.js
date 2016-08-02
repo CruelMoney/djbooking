@@ -18,7 +18,8 @@ var Text = React.createClass({
     label: PropTypes.string,
     validate: PropTypes.arrayOf(PropTypes.string),
     onUpdatePipeFunc: PropTypes.func,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    floatingLabelText: PropTypes.string
   },
 
   contextTypes: {
@@ -158,6 +159,7 @@ var Text = React.createClass({
                   underlineDisabledStyle = {this.props.underlineDisabledStyle}
                   underlineStyle = {this.props.underlineStyle}
                   type = {this.props.type}
+                  floatingLabelText={this.props.floatingLabelText}
                   fullWidth={this.props.fullWidth || true}
                   hintText={this.props.placeholder}
                   onChange={this.onChange}

@@ -14,7 +14,9 @@ var Button = React.createClass({
       name: PropTypes.string,
       disabled: PropTypes.bool,
       dangerous: PropTypes.bool,
-      white: PropTypes.bool
+      white: PropTypes.bool,
+      leftRounded: PropTypes.bool,
+      rightRounded: PropTypes.bool,
     },
 
   getDefaultProps() {
@@ -114,11 +116,18 @@ var Button = React.createClass({
         opacity: '0.5',
       },
       noBorder:{
+        borderWidth: '0px',
         borderColor: 'transparent'
       },
       white:{
         color:'white'
-      }
+      },
+      leftRounded:{
+          borderRadius: '6px 0px 0px 6px'
+      },
+      rightRounded:{
+          borderRadius: '0px 6px 6px 0px'
+      },
 
     }
     return (
@@ -132,13 +141,15 @@ var Button = React.createClass({
             styles.base,
             this.props.active && styles.active,
             this.props.rounded && styles.rounded,
+            this.props.rightRounded && styles.rightRounded,
+            this.props.leftRounded && styles.leftRounded,
             this.props.important && styles.important,
             this.props.small  && styles.small,
             this.props.medium && styles.medium,
             this.props.large  && styles.large,
             this.props.disabled && styles.disabled,
+            this.props.white && styles.white,
             this.props.noBorder && styles.noBorder,
-            this.props.white && styles.white
 ]}
         onClick={
           this.props.disabled ? () => null : this.handleClick

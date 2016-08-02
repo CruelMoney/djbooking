@@ -6,7 +6,9 @@ export default React.createClass({
   render() {
     return (
       <div>
-        <div className="home-bg">
+        <div className="home-bg"
+        style={{overflow: 'hidden', position:'relative'}}
+        >
           <div className="container"
             style={{
               display:'flex',
@@ -28,12 +30,12 @@ export default React.createClass({
 
           </div>
           <video autoPlay loop muted preload="auto">
-            <source src="assets/KAYTRANADA.mp4" type="video/mp4"/>
+            <source src="assets/blurry-night.mp4" type="video/mp4"/>
           </video>
         </div>
 
         <RequestForm>
-          
+
         </RequestForm>
       </div>
     )

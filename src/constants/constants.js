@@ -42,15 +42,25 @@ module.exports = {
 
   }),
    GENRES: [
-    {name: 'R&B'},
+    {name: "70's"},
+    {name: "80's"},
+    {name: "90's"},
+    {name: "00's"},
+    {name: "Rock"},
+    {name: "Techno"},
+    {name: "R&B"},
+    {name: "UKG"},
+    {name: "Drum'n'Bass"},
+    {name: "Trap"},
+    {name: "Lounge"},
+    {name: "Remixes"},
+    {name: "Hits"},
     {name: 'Latin'},
-    {name: 'Hip Hop'},
     {name: 'Pop'},
-    {name: 'Techno'},
-    {name: 'Lounge'},
     {name: 'House'},
-    {name: 'Mix'},
-    {name: 'Extreme'}
+    {name: 'Local'},
+    {name: "Hip Hop"},
+
   ],
   WEEKDAYS: [
    {name: 'Monday'},
