@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import form from './Form'
+import forms from './Forms'
 import user from './User'
 import gigs from './Gigs'
 import reviews from './Reviews'
@@ -9,7 +9,7 @@ import reviews from './Reviews'
 
 
 const store = combineReducers({
-  form,
+  forms,
   gigs,
   reviews,
   user

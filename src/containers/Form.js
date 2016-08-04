@@ -15,7 +15,7 @@ injectTapEventPlugin()
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownprops) {
   return {
-    activeFilters: state.form.filters,
+    activeFilters: state.forms[ownprops.name] ? state.forms[ownprops.name].filters : [],
     children: ownprops.children,
   }
 }
@@ -23,10 +23,10 @@ function mapStateToProps(state, ownprops) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     updateValue: (name, value) => {
-      dispatch(actions.updateFormValue(name,value))
+      dispatch(actions.updateFormValue(name,value, ownProps.name))
     },
     updateFilters: (filter, value) => {
-      dispatch(actions.updateFilters(filter, value))
+      dispatch(actions.updateFilters(filter, value, ownProps.name))
     },
 }
 }
@@ -35,7 +35,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   return Object.assign({}, ownProps, {
     children: stateProps.children,
     updateValue: dispatchProps.updateValue,
-    updateFilters: (filter, value) => dispatchProps.updateFilters(filter, value),
+    updateFilters: (filter, value) => dispatchProps.updateFilters(filter, value, ownProps.name),
   })
 }
 

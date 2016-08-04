@@ -48,7 +48,7 @@ var ToggleOptions = React.createClass({
 
    isValid(showErrors) {
      const errors = (!this.state.value) ? ["You have to choose an option"] : []
-
+console.log(errors)
       if (showErrors) {
         this.setState({
             errors
@@ -136,24 +136,46 @@ var ToggleOptions = React.createClass({
 
 if (this.props.glued) {
   return (
-    <div style={{display:'flex', flexDirection:'row'}} >
-  { this.renderChildren(this.state, this.props).map((el,i) => (
-      < div key={i} style={{width:'100%'}}>
-        {el}
-      </div> ))}
-      </div>)
-    }else{
-      return (
+    <div>
+      <div style={{display:'flex', flexDirection:'row'}} >
+        { this.renderChildren(this.state, this.props).map((el,i) => (
+          < div key={i} style={{width:'100%'}}>
+          {el}
+          </div> ))}
 
-      <div>
-      <table style = {styles.tableStyle}>
-      <tbody>
-            <tr>
-             {children}
-            </tr>
-        </tbody>
-      </table>
-    </div>
+          </div>
+          {this.state.errors.length ? (
+            <div style={{
+              marginTop: '5px',
+            fontSize: '12px',
+            lineHeight: '12px',
+            color: 'rgb(244, 67, 54)'
+          }}>
+            {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+          </div>
+        ) : null}
+        </div>)
+        }else{
+          return (
+
+            <div>
+              <table style = {styles.tableStyle}>
+                <tbody>
+                  <tr>
+                    {children}
+                  </tr>
+                </tbody>
+              </table>
+              {this.state.errors.length ? (
+                <div style={{
+                  fontSize: '12px',
+                  lineHeight: '12px',
+                  color: 'rgb(244, 67, 54)'
+                }}>
+                  {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+                </div>
+              ) : null}
+            </div>
 
         )
     }

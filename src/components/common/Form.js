@@ -13,6 +13,7 @@ const form = React.createClass({
       updateFilters: PropTypes.func,
       updateValue: PropTypes.func,
       activeFilters: PropTypes.arrayOf(PropTypes.object),
+      buttonText: PropTypes.string
     },
 
     getInitialState() {
@@ -89,7 +90,7 @@ const form = React.createClass({
         {this.props.children}
         <Button
           large={true}
-          label= "Sign Up"
+          label= {this.props.buttonText}
           important = {this.state.isValid}
           rounded = {true}
           onClick = {this.submit}

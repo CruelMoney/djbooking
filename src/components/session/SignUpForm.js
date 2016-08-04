@@ -27,7 +27,9 @@ var signupForm = React.createClass({
 
   return (
     <Form
+      name = "signupForm"
       onSubmit={this.props.handleSubmit}
+      buttonText="Join"
     >
       <NumberedList>
         <RegistrationElement

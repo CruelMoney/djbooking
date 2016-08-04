@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import Button from './Button'
 
 
 export default React.createClass({
-  displayName: 'Example',
+
+    propTypes:{
+      handleChange: PropTypes.func,
+      handleButtonClick: PropTypes.func
+    },
 
   getInitialState: function() {
     return {
@@ -14,6 +18,7 @@ export default React.createClass({
   },
 
   handleChange: function(date) {
+    this.props.handleChange(date)
     this.setState({
       startDate: date
     })
@@ -37,7 +42,7 @@ export default React.createClass({
             rounded
             white
             label="GO!"
-            onClick={()=>null}/>
+            onClick={this.props.handleButtonClick}/>
         </div>
       </div>
     )

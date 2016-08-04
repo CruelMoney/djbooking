@@ -159,7 +159,11 @@ var TextBox = React.createClass({
 
                 />
                 {this.state.errors.length ? (
-                  <div>
+                  <div style={{
+                    fontSize: '12px',
+                    lineHeight: '12px',
+                    color: 'rgb(244, 67, 54)'
+                  }}>
                     {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
                   </div>
                 ) : null}
