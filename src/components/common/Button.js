@@ -17,6 +17,16 @@ var Button = React.createClass({
       white: PropTypes.bool,
       leftRounded: PropTypes.bool,
       rightRounded: PropTypes.bool,
+      finishedLoading: PropTypes.bool,
+      willLoad: PropTypes.bool
+    },
+
+    componentWillReceiveProps(nextprops){
+      if (nextprops.finishedLoading !== undefined) {
+      this.setState({
+        loading: !nextprops.finishedLoading
+      })
+    }
     },
 
   getDefaultProps() {
@@ -27,6 +37,11 @@ var Button = React.createClass({
 
     handleClick(e){
       e.preventDefault()
+      if (this.props.willLoad) {
+        this.setState({
+          loading: true
+        })
+      }
       if (this.props.name === undefined) {
       this.props.onClick(this.props.label)
     }else{
@@ -52,12 +67,13 @@ var Button = React.createClass({
         backgroundColor: 'transparent',
         borderStyle: 'solid',
         borderWidth: "2px",
-        WebkitTransition: '0.1s ease-in-out',
-        MozTransition: '0.1s ease-in-out',
-        transition: '0.1s ease-in-out',
+        WebkitTransition: 'all 0.1s ease-in-out',
+        MozTransition: 'all 0.1s ease-in-out',
+        transition: 'all 0.1s ease-in-out',
         height: '40px',
         width: '100%',
         outline: "none",
+        animation: this.state.loading ? "rotating 2s 0.25s linear infinite" : null,
 
        ':hover': {
          opacity:     this.props.disabled ? '0.5' : '1',
@@ -70,13 +86,13 @@ var Button = React.createClass({
 
       active:{
         opacity: '1',
-        borderColor: this.props.dangerous ? 'red' : color,
+        borderColor: color,
         boxShadow: '0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)',
         transform: 'scale(1.05)'
       },
 
       rounded:{
-        borderRadius: '6px 6px 6px 6px'
+        borderRadius: this.state.loading ? '20px' :  '6px 6px 6px 6px'
       },
 
       important:{
@@ -104,13 +120,13 @@ var Button = React.createClass({
       },
 
       small:{
-        width:'40px'
+        width: '40px'
       },
       medium:{
-        width:'120px'
+        width: this.state.loading ? '40px' :'120px'
       },
       large:{
-        width:'200px'
+        width:  this.state.loading ? '40px' : '200px'
       },
       disabled:{
         opacity: '0.5',
@@ -135,8 +151,8 @@ var Button = React.createClass({
         styles.containerStyle,
       this.props.leftAlign && styles.left]}>
         <button
-
-          className= {this.props.disabled ? "disabled" : ""}
+          disabled ={this.props.disabled || this.state.loading}
+          className= {this.props.disabled || this.state.loading ? "disabled" : ""}
           style={[
             styles.base,
             this.props.active && styles.active,
@@ -150,11 +166,14 @@ var Button = React.createClass({
             this.props.disabled && styles.disabled,
             this.props.white && styles.white,
             this.props.noBorder && styles.noBorder,
+
 ]}
         onClick={
-          this.props.disabled ? () => null : this.handleClick
+          this.props.disabled || this.state.loading ? null : this.handleClick
         }>
-        {this.props.label}
+        {this.state.loading ? null :
+          this.props.finishedLoading ? "✓" :
+          this.props.label}
       </button>
       </div>
     )

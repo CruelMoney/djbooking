@@ -302,3 +302,46 @@ content: '';
         transform: translateY(0);
     }
 }
+@keyframes fadeBlack {
+    0% {
+        background-color: rgba(0,0,0,0);
+
+    }
+    100% {
+      background-color: rgba(0,0,0,0.4);
+    }
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+    border-color: #eee;
+    border-left-color: rgb(0,188,212);
+    border-width: 2px;
+    background-color: transparent;
+    box-shadow: -10px 0px 40px -5px rgb(30,218,242)
+  }
+  to {
+    transform: rotate(360deg);
+    border-color: #eee;
+    border-left-color: rgb(0,188,212);
+    border-width: 2px;
+    background-color: transparent;
+    box-shadow: -9px 0px 40px -5px rgb(30,218,242)
+
+  }
+}
+
+#content{
+  will-change: -webkit-filter;
+  transition: -webkit-filter 0.5s;
+}
+
+.filter-background{
+  /*animationName: 'fadeBlack',
+  animationIterationCount: '1',
+  animationTimingFunction: 'ease-out',
+  animationDuration: '0.5s',*/
+  background-color: rgba(0,0,0,0.4);
+  -webkit-backdrop-filter: blur(2px);
+}

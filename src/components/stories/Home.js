@@ -1,11 +1,14 @@
 import React from 'react'
 import DatePicker from '../common/DatePicker.js'
-import RequestForm from '../session/RequestForm'
+import Footer from '../stories/Footer'
+import RequestForm from '../../containers/RequestForm'
 import moment from 'moment'
 import scrollIntoView from 'smoothscroll-polyfill'
 scrollIntoView.polyfill()
 
 export default React.createClass({
+
+
 
 getInitialState(){
   return {
@@ -71,15 +74,13 @@ handleButtonClick(){
           ref={(f) => this.requestForm = f}/>
 
         { this.state.showForm ?
-          <div   className="container"        >
-
-
+          <div>
+          <div   className="container">
             <RequestForm
-
               date= {moment(Number(this.state.eventDate)).format("dddd Do, MMMM YYYY")}
-            />
-
-
+               />
+          </div>
+          <Footer/>
           </div>
           : null
         }

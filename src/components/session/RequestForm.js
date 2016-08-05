@@ -9,6 +9,9 @@ import Form from '../../containers/Form'
 import Slider from '../common/Slider'
 import moment from 'moment'
 import TextBox from '../common/TextBox'
+import Popup from '../common/Popup'
+import Signup from '../../containers/Signup'
+import Login from '../../containers/Login'
 
 import wNumb from 'wnumb'
 import c from '../../constants/constants'
@@ -23,11 +26,24 @@ var RequestForm = React.createClass({
   propTypes: {
     date: PropTypes.string,
     onSubmit: PropTypes.func,
+    form: PropTypes.string,
   },
 
+  getDefaultProps(){
+    return{
+      form: {}
+    }
+  },
+
+  contextTypes:{
+    profile: PropTypes.object,
+    loggedIn: PropTypes.bool
+  },
 
   getInitialState(){
     return{
+      showPopup: false,
+      emailExists: false,
       guests: 50,
       startTime:   minDate.hour(21).toDate().getTime(),
       endTime:     maxDate.hour(3).toDate().getTime(),
@@ -45,8 +61,37 @@ var RequestForm = React.createClass({
   },
 
 
+//TODO implement real api
+  onSubmit(){
+    function checkIfEmailExistsStub(email){return false}
+
+    if (this.context.loggedIn){
+        this.props.onSubmit(this.props.form)
+    }else{
+      const result = checkIfEmailExistsStub(this.props.form.values.email)
+
+      this.setState({
+        emailExists: result,
+        showPopup: true
+      })
+
+      }
+
+  },
+
+
+
+  hidePopup(){
+    this.setState({
+      showPopup: false
+    })
+  },
+
+
 
   render() {
+
+
 
     const styles ={
       medium:{
@@ -108,16 +153,39 @@ var RequestForm = React.createClass({
 
 
 
+
     return(
+      <div>
+
+
+    <Popup showing={this.state.showPopup && !this.context.loggedIn}
+        onClickOutside={this.hidePopup}>
+
+      {this.state.emailExists ?
+        <div>
+        <p>It looks like there's already an account using that email. Please login before continuing.</p>
+        <Login/>
+        </div>
+
+          :
+          <div>
+        <p>Please signup before continuing. Then you can always login to see the status of your event.</p>
+        <Signup
+        profile={this.props.form.values}
+        />
+        </div>
+      }
+      </Popup>
+
 
         <Form
           name="requestForm"
-          onSubmit={this.props.onSubmit}
+          onSubmit={this.onSubmit}
           buttonText="Request DJ"
         >
           <div
             style={{
-              marginBottom:"100px",
+              marginBottom:"20px",
               marginTop:"100px",
               display:"flex",
               flexDirection:'row',
@@ -164,22 +232,37 @@ var RequestForm = React.createClass({
                   />
                   <p style={{marginBottom:'30px'}}>Select the city in which your event will happen.</p>
 
-                  <TextField
-                    style={{marginTop:'-20px', height:'70px'}}
-                    floatingLabelText="Your name"
 
-                    name="name"
-                    validate={['required', 'lastName']}
-                  />
-                  <p style={{marginBottom:'30px'}}>Your full name.</p>
 
-                  <TextField
-                    style={{marginTop:'-20px', height:'70px'}}
-                    floatingLabelText="Your email"
-                    name="email"
-                    validate={['required', 'email']}
-                  />
-                  <p style={{marginBottom:'30px'}}>We only share your email with DJ's suitable to play at your event.</p>
+                  <div>
+                    <TextField
+                      style={{marginTop:'-20px', height:'70px'}}
+                      floatingLabelText="Your name"
+
+                      name="name"
+                      validate={['required', 'lastName']}
+                    />
+                    <p style={{marginBottom:'30px'}}>Your full name.</p>
+
+                    <TextField
+                      style={{marginTop:'-20px', height:'70px'}}
+                      floatingLabelText="Your email"
+                      name="email"
+                      validate={['required', 'email']}
+                    />
+                    <p style={{marginBottom:'30px'}}>We only share your email with DJ's suitable to play at your event.</p>
+
+                    <TextField
+                      style={{marginTop:'-20px', height:'70px'}}
+                      floatingLabelText="Your phone number"
+                      name="phone"
+                      type="number"
+                      validate={['required']}
+                    />
+                    <p style={{marginBottom:'30px'}}>We only share your phone number with DJ's candidates.</p>
+
+                  </div>
+
 
                 </div>
               </Card>
@@ -311,6 +394,7 @@ var RequestForm = React.createClass({
 
             </div>
         </Form>
+      </div>
 
       )
 

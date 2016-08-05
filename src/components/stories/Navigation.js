@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react'
 import Navlink  from '../common/Navlink'
 import Button from '../common/Button'
+import Dropdown from '../common/Dropdown'
 import UserMenuItem from '../common/UserMenuItem'
 import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import Login from '../../containers/Login'
+import Footer from './Footer'
 
 
 var menu = React.createClass({
@@ -17,7 +19,8 @@ var menu = React.createClass({
    },
 
    childContextTypes: {
-       profile: PropTypes.object
+       profile: PropTypes.object,
+       loggedIn: PropTypes.bool
    },
 
    getInitialState(){
@@ -29,7 +32,8 @@ var menu = React.createClass({
 
    getChildContext() {
     return {
-      profile: this.props.profile
+      profile: this.props.profile,
+      loggedIn: this.props.loggedIn
     }
    },
 
@@ -151,17 +155,21 @@ var menu = React.createClass({
                     <Navlink white={isHome} buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
                   </li>
               )}
+              <Dropdown
+              expanded={this.state.loginExpanded}
+              disableOnClickOutside={!this.state.loginExpanded}
+              onClickOutside ={this.onClickOutside}
+              >
               <Login
-                expanded={this.state.loginExpanded}
-                disableOnClickOutside={!this.state.loginExpanded}
-                onClickOutside ={this.onClickOutside}/>
+              />
+              </Dropdown>
             </ul>
           </div>
         </nav>
-
-        <div >
+        <div id="content">
           {this.props.children}
         </div>
+        {!isHome ? <Footer/> : null}
       </div>
     )
   }

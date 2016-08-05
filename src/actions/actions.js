@@ -11,7 +11,6 @@ var geocoder = new google.maps.Geocoder()
 
 
 function codeAddress(address, callback)  {
-  console.log(address)
   geocoder.geocode( { 'address': address}, function(results, status) {
        if (status == google.maps.GeocoderStatus.OK) {
          var lat = (results[0].geometry.location.lat())
@@ -67,25 +66,25 @@ export function updateProfile(userId, data, token, callback) {
   }
 
 
-export function signup(form) {
+export function signup(form, isDJ = true) {
   return function (dispatch) {
     dispatch( function() { return {type: ActionTypes.SIGNUP_REQUESTED} }() )
     switch (form.signup) {
       case "EMAIL":
-        return signupEmail(form, handleSignupFeedback(dispatch, form))
+        return signupEmail(form, handleSignupFeedback(dispatch, form, isDJ))
 
       case "FACEBOOK":
-        return loginFacebook(handleSignupFeedback(dispatch, form))
+        return loginFacebook(handleSignupFeedback(dispatch, form, isDJ))
 
 
       case "SOUNDCLOUD":
-        return loginSoundcloud(handleSignupFeedback(dispatch, form))
+        return loginSoundcloud(handleSignupFeedback(dispatch, form, isDJ))
 
     }
   }
 }
 
-  export function handleSignupFeedback(dispatch, form){
+  export function handleSignupFeedback(dispatch, form, isDJ){
     return function (err, result) {
       if (err){
         dispatch( function() { return {
@@ -96,17 +95,28 @@ export function signup(form) {
       }else {
         //Getting the coordinates of the address
         codeAddress(form.location, function(geoResult){
-          if (geoResult.error) {
+          if (geoResult.error && isDJ) {
             dispatch( function() { return {
                 type: ActionTypes.SIGNUP_FAILED,
                 err: geoResult.error
               }}())
           }else{
-            const data = {
+
+            const data =
+            isDJ ?
+            {
               user_metadata: {
                 locationCoords : geoResult.position,
                 location:        form.location,
                 genres:          form.genres,
+                name:            form.name ? form.name : "",
+                phone:           form.phone,
+              },
+            }
+            :
+            {
+              user_metadata: {
+                phone:           form.phone,
                 name:            form.name ? form.name : ""
               },
             }
@@ -124,7 +134,7 @@ export function signup(form) {
                       type: ActionTypes.SIGNUP_SUCCEEDED
                     }}())
 
-                  checkForLogin()(dispatch)
+                  checkForLogin(false)(dispatch)
                 }
               })(dispatch)
             })
@@ -166,7 +176,6 @@ return function (err, result) {
               type: ActionTypes.LOGIN_SUCCEEDED,
               profile
             }}())
-          browserHistory.push('/user/profile')
 
         }else{
             dispatch (function() {return {
@@ -180,30 +189,36 @@ return function (err, result) {
   }
 }
 
-export function checkForLogin(){
+/**
+ * Checking if theres an token stored locally
+ * And keeps the state updated accordingly
+ * @param  {Boolean} [redirect=true] if true the function will push
+ * the appropriate window location to the front
+ */
+export function checkForLogin(redirect = true){
   return function(dispatch){
     if (auth.loggedIn()) {
-          auth.getProfileFromStoredToken(function(err, dtoProfile){
+          auth.getProfileFromStoredToken(function(err, DTOProfile){
             if (err) {
               dispatch( function() { return {
                   type: ActionTypes.LOGIN_FAILED,
                   err
                 }}())
-                browserHistory.push('/')
+                redirect ? browserHistory.push('/') : null
             }else {
-              const profile = converter.convertDTO(dtoProfile)
+              const profile = converter.convertDTO(DTOProfile)
 
               dispatch (function() {return {
                   type: ActionTypes.LOGIN_SUCCEEDED,
                   profile
                 }}())
-              browserHistory.push('/user/profile')
+              redirect ? browserHistory.push('/user/profile') : null
             }
       })
     }else{
       //If trying to access user restricted area, but not logged in
       if (window.location.pathname.split('/')[1] === 'user') {
-        browserHistory.push('/')
+        redirect ? browserHistory.push('/') : null
       }
     }
   }

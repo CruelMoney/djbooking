@@ -1,6 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
-import SignUpForm from '../session/SignUpForm';
+import ReactDOM from 'react-dom'
+import SignUpForm from '../../containers/SignupForm'
 
 
 
@@ -10,7 +10,7 @@ var containerStyle = {
   paddingRight: '40px',
   margin: 'auto',
   marginBottom: '50px'
-};
+}
 
 export default React.createClass({
   render() {

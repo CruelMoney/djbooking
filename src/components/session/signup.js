@@ -4,13 +4,14 @@ import Textfield from 'material-ui/TextField'
 import onClickOutside from 'react-onclickoutside'
 
 
-const login = React.createClass({
-    displayName: 'Login',
+const signup = React.createClass({
+    displayName: 'Signup',
 
     propTypes: {
-      login: PropTypes.func.isRequired,
-      loginFacebook: PropTypes.func,
-      loginSoundcloud: PropTypes.func,
+      profile: PropTypes.object,
+      signup: PropTypes.func.isRequired,
+      signupFacebook: PropTypes.func,
+      signupSoundcloud: PropTypes.func,
     },
 
     getInitialState() {
@@ -21,9 +22,12 @@ const login = React.createClass({
       }
     },
 
-    componentWillReceiveProps(nextProps){
-
+    componentWillMount(){
+      this.setState({
+        email: this.props.profile.email
+      })
     },
+
 
     setValidState(){
       if(this.state.email !== "" && this.state.password !== ""){
@@ -54,29 +58,30 @@ const login = React.createClass({
     },
 
 
-    login(){
-      this.props.login(this.state.email,this.state.password)
+    signup(){
+      this.props.signup(
+        this.props.profile.name,
+        this.state.email,
+        this.state.password,
+        this.props.profile.phone)
+    },
+    signupFace(){
+      this.props.signupFacebook(
+        this.props.profile.name,
+        this.props.profile.phone)
     },
 
 
   render() {
 
     return (
-<div>
+   <div>
       <div>
         <div style={{marginBottom:"10px"}} md={6}>
           <Button
             label= "Facebook"
             rounded = {true}
-            onClick = {this.props.loginFacebook}
-          />
-        </div>
-        <div  style={{marginBottom:"20px"}} md={6}>
-          <Button
-
-            label= "Soundcloud"
-            rounded = {true}
-            onClick = {this.props.loginSoundcloud}
+            onClick = {this.signupFace}
           />
         </div>
       </div>
@@ -84,6 +89,7 @@ const login = React.createClass({
       <div>
         <Textfield
           type = "email"
+          initialValue = {this.props.profile.email || ""}
           fullWidth={true}
           floatingLabelText="Email"
           onChange={this.onChangeEmail}
@@ -100,10 +106,10 @@ const login = React.createClass({
       <div style={{marginBottom:'20px'}}>
         <Button
           medium={true}
-          label= "Login"
+          label= "Sign up"
           important = {this.state.isValid}
           rounded = {true}
-          onClick = {this.login}
+          onClick = {this.signup}
         />
       </div>
       <p style={{opacity:'0.5'}}>
@@ -114,4 +120,4 @@ const login = React.createClass({
     }
     })
 
-export default login
+export default signup

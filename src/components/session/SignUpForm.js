@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import c from '../../constants/constants'
 import {datePipe} from '../../utils/textPipes'
@@ -22,6 +22,11 @@ const theme = getMuiTheme()
 
 
 var signupForm = React.createClass({
+  propTypes:{
+    handleSubmit: PropTypes.func,
+    form: PropTypes.object
+  },
+
 
   render() {
 
@@ -82,6 +87,19 @@ var signupForm = React.createClass({
             name="email"
             validate={['required', 'email']}
             label="Your Email"/>
+
+        </RegistrationElement>
+        <RegistrationElement
+          name="phone"
+          label ="Phone"
+          active ={true}
+          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+        >
+          <Textfield
+            name="phone"
+            type="number"
+            validate={['required']}
+            label="Your phone number"/>
 
         </RegistrationElement>
         <RegistrationElement
