@@ -4,7 +4,7 @@ var ActionTypes = c.ActionTypes
 
 
 const initialState = { //define initial state - an empty form
-
+isWaiting: false
 }
 
 const signup = (state = initialState, action) => {

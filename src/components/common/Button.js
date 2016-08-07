@@ -17,17 +17,10 @@ var Button = React.createClass({
       white: PropTypes.bool,
       leftRounded: PropTypes.bool,
       rightRounded: PropTypes.bool,
-      finishedLoading: PropTypes.bool,
-      willLoad: PropTypes.bool
+      isLoading: PropTypes.bool,
     },
 
-    componentWillReceiveProps(nextprops){
-      if (nextprops.finishedLoading !== undefined) {
-      this.setState({
-        loading: !nextprops.finishedLoading
-      })
-    }
-    },
+
 
   getDefaultProps() {
       return {
@@ -37,11 +30,7 @@ var Button = React.createClass({
 
     handleClick(e){
       e.preventDefault()
-      if (this.props.willLoad) {
-        this.setState({
-          loading: true
-        })
-      }
+
       if (this.props.name === undefined) {
       this.props.onClick(this.props.label)
     }else{
@@ -73,7 +62,7 @@ var Button = React.createClass({
         height: '40px',
         width: '100%',
         outline: "none",
-        animation: this.state.loading ? "rotating 2s 0.25s linear infinite" : null,
+        animation: this.props.isLoading ? "rotating 2s 0.25s linear infinite" : null,
 
        ':hover': {
          opacity:     this.props.disabled ? '0.5' : '1',
@@ -92,7 +81,7 @@ var Button = React.createClass({
       },
 
       rounded:{
-        borderRadius: this.state.loading ? '20px' :  '6px 6px 6px 6px'
+        borderRadius: this.props.isLoading ? '20px' :  '6px 6px 6px 6px'
       },
 
       important:{
@@ -123,10 +112,10 @@ var Button = React.createClass({
         width: '40px'
       },
       medium:{
-        width: this.state.loading ? '40px' :'120px'
+        width: this.props.isLoading ? '40px' :'120px'
       },
       large:{
-        width:  this.state.loading ? '40px' : '200px'
+        width:  this.props.isLoading ? '40px' : '200px'
       },
       disabled:{
         opacity: '0.5',
@@ -151,8 +140,8 @@ var Button = React.createClass({
         styles.containerStyle,
       this.props.leftAlign && styles.left]}>
         <button
-          disabled ={this.props.disabled || this.state.loading}
-          className= {this.props.disabled || this.state.loading ? "disabled" : ""}
+          disabled ={this.props.disabled || this.props.isLoading}
+          className= {this.props.disabled || this.props.isLoading ? "disabled" : ""}
           style={[
             styles.base,
             this.props.active && styles.active,
@@ -169,10 +158,10 @@ var Button = React.createClass({
 
 ]}
         onClick={
-          this.props.disabled || this.state.loading ? null : this.handleClick
+          this.props.disabled || this.props.isLoading ? null : this.handleClick
         }>
-        {this.state.loading ? null :
-          this.props.finishedLoading ? "✓" :
+        {this.props.isLoading ? null :
+
           this.props.label}
       </button>
       </div>

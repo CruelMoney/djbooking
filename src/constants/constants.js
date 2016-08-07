@@ -33,6 +33,9 @@ module.exports = {
     FORM_UPDATE_FILTERS:null,
     FORM_RESET:null,
     SET_SIGNUP:null,
+    FORM_SUBMIT_REQUESTED:null,
+    FORM_SUBMIT_FAILED:null,
+    FORM_SUBMIT_SUCCEEDED:null,
 
     FETCHING_GIGS:null,
     GIGS_FETCHED:null,

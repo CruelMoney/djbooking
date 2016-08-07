@@ -7,6 +7,7 @@ import * as actions from '../actions/actions'
 function mapStateToProps(state, ownProps) {
   return {
     form: state.forms.signupForm,
+    isloading: state.signup.isWaiting
   }
 }
 
@@ -19,6 +20,7 @@ function mapDispatchToProps(dispatch, ownprops) {
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
   return Object.assign({}, ownProps, {
+    isloading: stateProps.isloading,
     handleSubmit: () => dispatchProps.handleSubmit(stateProps.form),
   })
 }

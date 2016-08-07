@@ -14,7 +14,7 @@ const form = React.createClass({
       updateValue: PropTypes.func,
       activeFilters: PropTypes.arrayOf(PropTypes.object),
       buttonText: PropTypes.string,
-      finishedLoading: PropTypes.bool
+      isloading: PropTypes.bool
     },
 
     getInitialState() {
@@ -79,10 +79,9 @@ const form = React.createClass({
 
    submit(){
      if (this.isFormValid(true)) {
-       this.props.onSubmit()
-     }
+         this.props.onSubmit()
+}
    },
-
 
 
   render() {
@@ -90,8 +89,7 @@ const form = React.createClass({
       <form >
         {this.props.children}
         <Button
-          finishedLoading = {this.props.finishedLoading}
-          willLoad = {true && this.state.isValid}
+          isLoading = {this.props.isloading}
           large={true}
           label= {this.props.buttonText}
           important = {this.state.isValid}

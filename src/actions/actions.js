@@ -92,6 +92,8 @@ export function signup(form, isDJ = true) {
             err
           }}())
 
+
+
       }else {
         //Getting the coordinates of the address
         codeAddress(form.location, function(geoResult){
@@ -100,6 +102,7 @@ export function signup(form, isDJ = true) {
                 type: ActionTypes.SIGNUP_FAILED,
                 err: geoResult.error
               }}())
+
           }else{
 
             const data =
@@ -129,10 +132,13 @@ export function signup(form, isDJ = true) {
                       type: ActionTypes.SIGNUP_FAILED,
                       err: err2.message
                     }}())
+
+
                 }else{
                   dispatch (function() {return {
                       type: ActionTypes.SIGNUP_SUCCEEDED
                     }}())
+
 
                   checkForLogin(false)(dispatch)
                 }

@@ -28,6 +28,20 @@ const forms  = (state = initialState, action) => {
     return assign({}, state, {
               [action.formName]: form(state[action.formName], action)
     })
+  case ActionTypes.FORM_SUBMIT_REQUESTED:
+    return assign({}, state, {
+              [action.formName]: form(state[action.formName], action)
+    })
+  case ActionTypes.FORM_SUBMIT_FAILED:
+    return assign({}, state, {
+              [action.formName]: form(state[action.formName], action)
+    })
+  case ActionTypes.FORM_SUBMIT_SUCCEEDED:
+    return assign({}, state, {
+              [action.formName]: form(state[action.formName], action)
+    })
+
+
 
   default:
     return state

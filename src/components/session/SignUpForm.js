@@ -24,7 +24,8 @@ const theme = getMuiTheme()
 var signupForm = React.createClass({
   propTypes:{
     handleSubmit: PropTypes.func,
-    form: PropTypes.object
+    form: PropTypes.object,
+    isloading: PropTypes.bool
   },
 
 
@@ -35,6 +36,7 @@ var signupForm = React.createClass({
       name = "signupForm"
       onSubmit={this.props.handleSubmit}
       buttonText="Join"
+      isloading= {this.props.isloading}
     >
       <NumberedList>
         <RegistrationElement

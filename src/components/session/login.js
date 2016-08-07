@@ -11,6 +11,7 @@ const login = React.createClass({
       login: PropTypes.func.isRequired,
       loginFacebook: PropTypes.func,
       loginSoundcloud: PropTypes.func,
+      isLoading: PropTypes.bool
     },
 
     getInitialState() {
@@ -99,6 +100,7 @@ const login = React.createClass({
       </div>
       <div style={{marginBottom:'20px'}}>
         <Button
+          isLoading={this.props.isLoading}
           medium={true}
           label= "Login"
           important = {this.state.isValid}

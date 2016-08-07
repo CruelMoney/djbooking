@@ -1,7 +1,6 @@
 import c from '../constants/constants'
 import { combineReducers } from 'redux'
 import assign from 'lodash.assign'
-import signup from './Signup'
 
 var ActionTypes = c.ActionTypes
 
@@ -44,8 +43,24 @@ const values  = (state = initialState, action) => {
   }
 }
 
+const status  = (state = {submitting:false}, action) => {
+  switch (action.type) {
+
+    case ActionTypes.FORM_SUBMIT_REQUESTED:
+      return {submitting:true}
+    case ActionTypes.FORM_SUBMIT_FAILED:
+      return {submitting:false, error: action.err}
+    case ActionTypes.FORM_SUBMIT_SUCCEEDED:
+      return {submitting:false}
+  default:
+    return state
+  }
+}
+
+
+
 export default combineReducers({
   values,
   filters,
-  signup
+  status
 })
