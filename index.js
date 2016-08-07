@@ -72802,8 +72802,9 @@
 	        notifications: DTO.user_metadata.notifications || [],
 	        availability: DTO.user_metadata.availability || [],
 	        bank_number: DTO.user_metadata.bank_number || "",
-	        account_number: DTO.user_metadata.account_number || ""
-	
+	        account_number: DTO.user_metadata.account_number || "",
+	        isCustomer: DTO.app_metadata.isCustomer || false,
+	        isDJ: DTO.app_metadata.isDJ || false
 	      };
 	    }
 	
@@ -74001,19 +74002,23 @@
 	
 	    return _react2.default.createElement(
 	      'div',
-	      null,
-	      _react2.default.createElement(_UserHeader2.default, {
+	      { style: { marginTop: '80px' } },
+	      this.state.profile.isDJ ? _react2.default.createElement(_UserHeader2.default, {
 	        profile: this.props.profile,
 	        editMode: this.props.editMode,
 	        updateProfileValue: this.props.updateProfileValue
-	      }),
+	      }) : null,
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
 	        _react2.default.createElement(
 	          'div',
 	          { style: { borderRight: '1px solid #eee', paddingTop: "15px" }, className: 'col-md-3' },
-	          _react2.default.createElement(_UserNavigation2.default, { actions: this.state.actions })
+	          _react2.default.createElement(_UserNavigation2.default, {
+	            profilePicture: this.state.profile.picture,
+	            isDJ: this.state.profile.isDJ,
+	            isCustomer: this.state.profile.isCustomer,
+	            actions: this.state.actions })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -74476,13 +74481,15 @@
 	
 	
 	  propTypes: {
-	    actions: _react.PropTypes.arrayOf(_react.PropTypes.node)
+	    actions: _react.PropTypes.arrayOf(_react.PropTypes.node),
+	    isDJ: _react.PropTypes.bool,
+	    isCustomer: _react.PropTypes.bool
 	  },
 	
 	  contextTypes: {
 	    editMode: _react.PropTypes.bool,
-	    toggleEditMode: _react.PropTypes.func
-	
+	    toggleEditMode: _react.PropTypes.func,
+	    profile: _react.PropTypes.object
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
@@ -74490,9 +74497,61 @@
 	      actions: [] };
 	  },
 	  render: function render() {
+	    var styles = {
+	      userImageWrap: {
+	        display: 'flex',
+	        alignItems: 'center',
+	        borderRadius: '200px',
+	        overflow: 'hidden',
+	        width: '200px',
+	        height: '200px',
+	        position: 'relative',
+	        zIndex: '1'
+	      },
+	      blur: {
+	        filter: 'blur(5px)'
+	      },
+	      changeProfilePictureText: {
+	        position: 'absolute',
+	        left: '0',
+	        right: '0',
+	        textAlign: 'center',
+	        color: 'white'
+	      },
+	      image: {
+	        backgroundImage: 'url(' + this.props.profilePicture + ')',
+	        backgroundRepeat: 'no-repeat',
+	        backgroundPosition: 'center',
+	        backgroundSize: 'auto 150%',
+	        width: '200px',
+	        height: '200px',
+	        zIndex: '0'
+	
+	      }
+	    };
+	
 	    return _react2.default.createElement(
 	      'div',
 	      null,
+	      !this.props.isDJ ? _react2.default.createElement(
+	        'div',
+	        { style: styles.userImageWrap },
+	        _react2.default.createElement('div', { style: [this.context.editMode && styles.blur, styles.image, styles.inline] }),
+	        this.context.editMode && _react2.default.createElement(
+	          'div',
+	          { style: styles.changeProfilePictureText },
+	          _react2.default.createElement('input', { name: 'fileupload', id: 'fileupload', type: 'file', onChange: this.handleFile }),
+	          _react2.default.createElement(
+	            'label',
+	            { htmlFor: 'fileupload' },
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              'Change image'
+	            )
+	          )
+	        )
+	      ) : null,
 	      _react2.default.createElement(
 	        'nav',
 	        null,
@@ -74504,23 +74563,27 @@
 	              marginBottom: '0px',
 	              display: 'flex',
 	              flexDirection: 'column'
-	
 	            } },
 	          _react2.default.createElement(
 	            'li',
 	            { style: { marginBottom: '25px' } },
 	            _react2.default.createElement(_Navlink2.default, { userNavigation: true, to: '/user/profile', label: 'Profile' })
 	          ),
-	          _react2.default.createElement(
+	          this.props.isDJ ? _react2.default.createElement(
 	            'li',
 	            { style: { marginBottom: '25px' } },
 	            _react2.default.createElement(_Navlink2.default, { userNavigation: true, to: '/user/gigs', label: 'Gigs' })
-	          ),
-	          _react2.default.createElement(
+	          ) : null,
+	          this.props.isDJ ? _react2.default.createElement(
 	            'li',
 	            { style: { marginBottom: '25px' } },
 	            _react2.default.createElement(_Navlink2.default, { userNavigation: true, to: '/user/reviews', label: 'Reviews' })
-	          ),
+	          ) : null,
+	          this.props.isCustomer ? _react2.default.createElement(
+	            'li',
+	            { style: { marginBottom: '25px' } },
+	            _react2.default.createElement(_Navlink2.default, { userNavigation: true, to: '/user/events', label: 'Events' })
+	          ) : null,
 	          _react2.default.createElement(
 	            'li',
 	            { style: { marginBottom: '25px', borderBottom: '1px solid #eee' } },

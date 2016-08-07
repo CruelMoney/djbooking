@@ -87,7 +87,6 @@ var Text = React.createClass({
   timer: null,
 
   updateValue(value) {
-
     this.setState({
       value
     }, ()=>  {
@@ -160,6 +159,7 @@ var Text = React.createClass({
         floatingLabelText = {this.props.floatingLabelText}
         //onClick={this.onValueSelected}
         fullWidth={true}
+        searchText={this.state.value}
         hintText={this.props.placeholder}
         dataSource={this.state.dataSource}
         onUpdateInput={this.onChange}

@@ -7,6 +7,8 @@ import ToggleOptions from '../common/ToggleOptions'
 import ToggleButtonHandler from '../common/ToggleButtonHandler'
 import Form from '../../containers/Form'
 import Slider from '../common/Slider'
+import TimeSlider from '../common/TimeSlider'
+
 import moment from 'moment'
 import TextBox from '../common/TextBox'
 import Popup from '../common/Popup'
@@ -18,9 +20,6 @@ import c from '../../constants/constants'
 import {Card} from 'material-ui/Card'
 
 import muiThemeable from 'material-ui/styles/muiThemeable'
-
-var minDate = moment().hour(12).minutes(0)
-var maxDate = moment(minDate).hour(32)
 
 var RequestForm = React.createClass({
   propTypes: {
@@ -45,8 +44,6 @@ var RequestForm = React.createClass({
       showPopup: false,
       emailExists: false,
       guests: 50,
-      startTime:   minDate.hour(21).toDate().getTime(),
-      endTime:     maxDate.hour(3).toDate().getTime(),
     }
   },
 
@@ -321,26 +318,12 @@ var RequestForm = React.createClass({
                       marginTop:'20px',
                       marginBottom:'20px'
                     }}>
-                      <Slider
-                        name="time"
-                        range={{
-                          min: moment().hour(12).minutes(0).toDate().getTime(),
-                          max: moment(moment().hour(12).minutes(0)).hour(32).toDate().getTime(),
-                        }}
-                        step={30 * 60 * 1000} //Steps of half hour
-                        connect= {true}
-                        initialValues={[
-                          this.state.startTime,
-                          this.state.endTime
-                        ]}
-                        handleChange={(values) => {
-                          this.setState({
-                            startTime: values[0],
-                            endTime: values[1]
-                          })}}
-                        format={ wNumb({
-                          decimals: 0,
-                        })}
+                      <TimeSlider
+                      onChange={(values) => {
+                        this.setState({
+                          startTime: values[0],
+                          endTime: values[1]
+                        })}}
                       />
                     </div>
                     <div

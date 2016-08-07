@@ -8,6 +8,7 @@ import Navigation from './containers/Navigation'
 import Profile from './containers/Profile'
 import Preferences from './containers/Preferences'
 import Gigs from './containers/Gigs'
+import Events from './containers/Events'
 import Reviews from './containers/Reviews'
 import Home from './components/stories/Home'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -32,6 +33,7 @@ render((
 
           <Route path="/user/profile" component={Profile}/>
           <Route path="/user/gigs" component={Gigs}/>
+          <Route path="/user/events" component={Events}/>
           <Route path="/user/reviews" component={Reviews}/>
           <Route path="/user/preferences" component={Preferences}/>
         </Route>

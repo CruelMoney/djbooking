@@ -176,6 +176,9 @@ var Profile = React.createClass({
           display: 'none',
         }
     }
+
+    const isDJ = this.props.profile.isDJ
+
     return(
       <div>
         <div className="row">
@@ -199,19 +202,22 @@ var Profile = React.createClass({
               />
             </TextWrapper>
 
-            {/* Hack for making sure the genres renders */}
-            {this.props.profile.genres ? (
-              <TextWrapper
-                label="Genres"
-                text="Select your genres">
-                <Genres
-                  name="genres"
-                  errorAbove= {true}
-                  potentialValues={c.GENRES}
-                  columns = {4}
-                  preToggled = {this.props.profile.genres}
-                  disabled={!this.props.editMode} />
-              </TextWrapper>) : null }
+{isDJ ?
+    <TextWrapper
+      label="Genres"
+      text="Select your genres">
+      <Genres
+        name="genres"
+        errorAbove= {true}
+        potentialValues={c.GENRES}
+        columns = {4}
+        preToggled = {this.props.profile.genres}
+        disabled={!this.props.editMode} />
+    </TextWrapper>
+:null
+}
+
+            {isDJ ?
             <TextWrapper
               label ="Bio"
               text={this.props.profile.firstName + ", tell us a little bit of your story."}
@@ -226,6 +232,8 @@ var Profile = React.createClass({
               />
 
             </TextWrapper>
+            : null }
+              {isDJ ?
             <TextWrapper
               label="Experience"
               text="How much experience do you have?"
@@ -236,6 +244,7 @@ var Profile = React.createClass({
                 disabled={!this.props.editMode}
               />
             </TextWrapper>
+             : null }
           </div>
           <div  className="col-lg-6">
             <TextWrapper
@@ -257,7 +266,7 @@ var Profile = React.createClass({
               />
             </TextWrapper>
 
-
+  {isDJ ?
             <TextWrapper
 
               label ="Location"
@@ -271,7 +280,7 @@ var Profile = React.createClass({
                 themeColor={this.props.muiTheme.palette.primary1Color}
               />
             </TextWrapper>
-            
+            : null }
 
 
 

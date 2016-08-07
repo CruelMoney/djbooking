@@ -144,138 +144,225 @@ var userHeader = React.createClass({
 
     return (
 
-    <div style={{paddingTop:'15px',  paddingBottom:'15px',  borderBottom: '1px solid #eee'}}
-      className="row">
-      <div style={{display: 'flex', alignItems: 'center',}} className="container">
-        <div className="col-xs-3">
-          <div style={styles.userImageWrap}>
-            <div style={[
-              this.props.editMode && styles.blur,
-              styles.image,
-            styles.inline]}/>
-            {this.props.editMode && <div style={styles.changeProfilePictureText}>
-              <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
-              <label htmlFor="fileupload"><span>Change image</span></label>
-            </div> }
-          </div>
+ this.props.profile.isDJ ?
+
+  <div style={{paddingTop:'15px',  paddingBottom:'15px',  borderBottom: '1px solid #eee'}}
+    className="row">
+    <div style={{display: 'flex', alignItems: 'center',}} className="container">
+      <div className="col-xs-3">
+        <div style={styles.userImageWrap}>
+          <div style={[
+            this.props.editMode && styles.blur,
+            styles.image,
+          styles.inline]}/>
+          {this.props.editMode && <div style={styles.changeProfilePictureText}>
+            <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
+            <label htmlFor="fileupload"><span>Change image</span></label>
+          </div> }
         </div>
-        <div className="col-xs-9">
-          <div className="row">
-            <div className="col-xs-6">
-              <TextWrapper
-                label="Name"
-              >
-                <TextField
-                  value = {this.props.profile.name}
-                  name="name"
-                  disabled={!this.props.editMode}
-                  style = {styles.large.textarea}
-                  inputStyle = {styles.large.input}
-                  type = "text"
-                  fullWidth={false}
-                  hintText="Name"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
+      </div>
+      <div className="col-xs-9">
+        <div className="row">
+          <div className="col-xs-6">
+            <TextWrapper
+              label="Name"
+            >
+              <TextField
+                value = {this.props.profile.name}
+                name="name"
+                disabled={!this.props.editMode}
+                style = {styles.large.textarea}
+                inputStyle = {styles.large.input}
+                type = "text"
+                fullWidth={false}
+                hintText="Name"
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
 
-                />
+              />
 
-              </TextWrapper>
+            </TextWrapper>
 
-              <TextWrapper
-                label="Location"
-              >
-                <TextField
-                  value= {this.props.profile.location}
-                  name="location"
-                  validate={['required']}
-                  disabled={!this.props.editMode}
-                  style = {styles.medium.textarea}
-                  inputStyle = {styles.medium.input}
-                  type = "text"
-                  fullWidth={false}
-                  hintText="Location"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                />
-              </TextWrapper>
+            <TextWrapper
+              label="Location"
+            >
+              <TextField
+                value= {this.props.profile.location}
+                name="location"
+                validate={['required']}
+                disabled={!this.props.editMode}
+                style = {styles.medium.textarea}
+                inputStyle = {styles.medium.input}
+                type = "text"
+                fullWidth={false}
+                hintText="Location"
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+              />
+            </TextWrapper>
 
-              <TextWrapper
-                label="Birthday"
-              >
-                <TextField
-                  value= {this.props.profile.birthday}
-                  onUpdatePipeFunc = {datePipe}
-                  name="birthday"
-                  validate={['required', 'date']}
-                  disabled={!this.props.editMode}
-                  style = {styles.medium.textarea}
-                  inputStyle = {styles.medium.input}
-                  type = "text"
-                  fullWidth={false}
-                  hintText="Birthday"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                />
-              </TextWrapper>
+            <TextWrapper
+              label="Birthday"
+            >
+              <TextField
+                value= {this.props.profile.birthday}
+                onUpdatePipeFunc = {datePipe}
+                name="birthday"
+                validate={['required', 'date']}
+                disabled={!this.props.editMode}
+                style = {styles.medium.textarea}
+                inputStyle = {styles.medium.input}
+                type = "text"
+                fullWidth={false}
+                hintText="Birthday"
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+              />
+            </TextWrapper>
 
-            </div>
-            <div  className="col-xs-6">
-              <TextWrapper
-                label="Earned"
-              >
-                <TextField
-                  value= "3500.00 DKK"
-                  name="Earned"
-                  disabled={true}
-                  style = {styles.large.textarea}
-                  inputStyle = {styles.large.input}
-                  //hintStyle = {styles.hint}
-                  type = "text"
-                  fullWidth={false}
-                  underlineShow={false}
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                />
-              </TextWrapper>
+          </div>
+          <div  className="col-xs-6">
+            <TextWrapper
+              label="Earned"
+            >
+              <TextField
+                value= "3500.00 DKK"
+                name="Earned"
+                disabled={true}
+                style = {styles.large.textarea}
+                inputStyle = {styles.large.input}
+                //hintStyle = {styles.hint}
+                type = "text"
+                fullWidth={false}
+                underlineShow={false}
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+              />
+            </TextWrapper>
 
-              <TextWrapper
-                label="Rating"
-              >
-                <TextField
-                  value= "★ ★ ★ ★ ★"
-                  name="Rating"
-                  disabled={true}
-                  style = {styles.large.textarea}
-                  inputStyle = {styles.large.input}
-                  type = "text"
-                  fullWidth={false}
-                  underlineShow={false}
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                />
-              </TextWrapper>
+            <TextWrapper
+              label="Rating"
+            >
+              <TextField
+                value= "★ ★ ★ ★ ★"
+                name="Rating"
+                disabled={true}
+                style = {styles.large.textarea}
+                inputStyle = {styles.large.input}
+                type = "text"
+                fullWidth={false}
+                underlineShow={false}
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+              />
+            </TextWrapper>
 
-              <TextWrapper
-                label="Upcoming"
-              >
-                <TextField
-                  value= "No upcoming gigs"
-                  name="Upcoming"
-                  disabled={true}
-                  style = {styles.medium.textarea}
-                  inputStyle = {styles.medium.input}
-                  type = "text"
-                  fullWidth={false}
-                  underlineShow={false}
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                    />
-                    </TextWrapper>
-                </div>
-               </div>
+            <TextWrapper
+              label="Upcoming"
+            >
+              <TextField
+                value= "No upcoming gigs"
+                name="Upcoming"
+                disabled={true}
+                style = {styles.medium.textarea}
+                inputStyle = {styles.medium.input}
+                type = "text"
+                fullWidth={false}
+                underlineShow={false}
+                underlineDisabledStyle={styles.plainBorder}
+                underlineStyle={styles.dottedBorderStyle}
+                  />
+                  </TextWrapper>
               </div>
              </div>
             </div>
+           </div>
+          </div>
+:
+//In the case that the user is not a dj
+<div style={{paddingTop:'15px',  paddingBottom:'15px',  borderBottom: '1px solid #eee'}}
+  className="row">
+  <div style={{display: 'flex', alignItems: 'center',}} className="container">
+    <div className="col-xs-3">
+      <div style={styles.userImageWrap}>
+        <div style={[
+          this.props.editMode && styles.blur,
+          styles.image,
+        styles.inline]}/>
+        {this.props.editMode && <div style={styles.changeProfilePictureText}>
+          <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
+          <label htmlFor="fileupload"><span>Change image</span></label>
+        </div> }
+      </div>
+    </div>
+    <div className="col-xs-9">
+      <div className="row">
+        <div className="col-xs-6">
+          <TextWrapper
+            label="Name"
+          >
+            <TextField
+              value = {this.props.profile.name}
+              name="name"
+              disabled={!this.props.editMode}
+              style = {styles.large.textarea}
+              inputStyle = {styles.large.input}
+              type = "text"
+              fullWidth={false}
+              hintText="Name"
+              underlineDisabledStyle={styles.plainBorder}
+              underlineStyle={styles.dottedBorderStyle}
+
+            />
+
+          </TextWrapper>
+
+          <TextWrapper
+            label="E-mail"
+            >
+            <TextField
+              value = {this.props.profile.email}
+              name="email"
+              disabled={!this.props.editMode}
+              style = {styles.medium.textarea}
+              inputStyle = {styles.medium.input}
+              //hintStyle = {styles.hint}
+              type = "email"
+              validate={['required', 'email']}
+              fullWidth={false}
+              hintText="E-mail"
+              underlineDisabledStyle={styles.plainBorder}
+              underlineStyle={styles.dottedBorderStyle}
+            />
+          </TextWrapper>
+          <TextWrapper
+            label ="Phone">
+            <TextField
+              name="phone"
+              value={this.props.profile.phone}
+              style = {styles.medium.textarea}
+              inputStyle = {styles.medium.input}
+              disabled={!this.props.editMode}
+              type = "tel"
+              fullWidth={false}
+              hintText="Phone"
+              underlineDisabledStyle={styles.plainBorder}
+              underlineStyle={styles.dottedBorderStyle}
+
+
+            />
+          </TextWrapper>
+
+        </div>
+
+           </div>
+          </div>
+         </div>
+        </div>
+
+
+
+
       )
 
 

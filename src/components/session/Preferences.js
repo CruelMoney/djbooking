@@ -178,11 +178,13 @@ var Preferences = React.createClass({
           display: 'none',
         }
     }
+    const isDJ = this.props.profile.isDJ
     return(
       <div>
         <div className="row">
           <div className="col-lg-6">
 
+          {isDJ ?
             <TextWrapper
               label="Payout"
               text="Change your payout information here">
@@ -266,7 +268,9 @@ var Preferences = React.createClass({
                 </div>
               </div>
             </TextWrapper>
+            : null }
 
+            {isDJ ?
             <TextWrapper
               label="Availability"
               text="Choose the days you are able to play. You will only receive requests for events happening on the selected days.">
@@ -279,6 +283,7 @@ var Preferences = React.createClass({
                 disabled={!this.props.editMode} />
 
             </TextWrapper>
+            : null}
 
 
             <TextWrapper
@@ -288,7 +293,7 @@ var Preferences = React.createClass({
                 name="notifications"
                 errorAbove= {true}
                 required ={false}
-                potentialValues={c.NOTIFICATIONS}
+                potentialValues={isDJ ? c.NOTIFICATIONS : c.CUSTOMER_NOTIFICATIONS}
                 columns = {2}
                 preToggled = {this.props.profile.notifications}
                 disabled={!this.props.editMode} />

@@ -34,7 +34,6 @@ var user = React.createClass({
       updateValue: PropTypes.func
   },
 
-
   getChildContext() {
    return {
      profile: this.state.profile,
@@ -110,6 +109,7 @@ var user = React.createClass({
   },
 
 
+
   isFormValid(showErrors) {
      var isValid = this.validations.reduce((memo, isValidFunc) =>
      isValidFunc(showErrors) && memo, true)
@@ -140,15 +140,21 @@ var user = React.createClass({
 
     }
 
-    return  <div>
+    return  <div style={{marginTop: '80px'}}>
+
       <UserHeader
         profile ={this.props.profile}
         editMode ={this.props.editMode}
         updateProfileValue ={this.props.updateProfileValue}
       />
+
+
       <div  className="container">
         <div style={{borderRight: '1px solid #eee', paddingTop:"15px"}} className="col-md-3">
-          <UserNavigation actions={this.state.actions}/>
+          <UserNavigation
+          isDJ= {this.state.profile.isDJ}
+          isCustomer= {this.state.profile.isCustomer}
+          actions={this.state.actions}/>
         </div>
         <div style={{paddingTop:"15px"}} className="col-md-9">
           {this.props.children}

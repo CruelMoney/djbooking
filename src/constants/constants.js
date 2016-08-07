@@ -40,6 +40,9 @@ module.exports = {
     FETCHING_GIGS:null,
     GIGS_FETCHED:null,
 
+    FETCHING_EVENTS:null,
+    EVENTS_FETCHED:null,
+
     FETCHING_REVIEWS:null,
     REVIEWS_FETCHED:null
 
@@ -77,9 +80,15 @@ module.exports = {
  NOTIFICATIONS: [
   {name: 'Gig request'},
   {name: 'Gig reminder'},
-  {name: 'Platform news'},
+  {name: 'Gig paid'},
+  {name: 'Queup news'},
   {name: 'New review'},
+],
+CUSTOMER_NOTIFICATIONS: [
+ {name: 'DJ offer'},
+ {name: 'Queup news'},
 ]
+
 
 }
 
