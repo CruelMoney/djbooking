@@ -505,35 +505,35 @@
 	
 	var _Signup2 = _interopRequireDefault(_Signup);
 	
-	var _User = __webpack_require__(720);
+	var _User = __webpack_require__(721);
 	
 	var _User2 = _interopRequireDefault(_User);
 	
-	var _HowItWorks = __webpack_require__(726);
+	var _HowItWorks = __webpack_require__(727);
 	
 	var _HowItWorks2 = _interopRequireDefault(_HowItWorks);
 	
-	var _Navigation = __webpack_require__(727);
+	var _Navigation = __webpack_require__(728);
 	
 	var _Navigation2 = _interopRequireDefault(_Navigation);
 	
-	var _Profile = __webpack_require__(746);
+	var _Profile = __webpack_require__(748);
 	
 	var _Profile2 = _interopRequireDefault(_Profile);
 	
-	var _Preferences = __webpack_require__(800);
+	var _Preferences = __webpack_require__(802);
 	
 	var _Preferences2 = _interopRequireDefault(_Preferences);
 	
-	var _Gigs = __webpack_require__(802);
+	var _Gigs = __webpack_require__(804);
 	
 	var _Gigs2 = _interopRequireDefault(_Gigs);
 	
-	var _Reviews = __webpack_require__(816);
+	var _Reviews = __webpack_require__(818);
 	
 	var _Reviews2 = _interopRequireDefault(_Reviews);
 	
-	var _Home = __webpack_require__(818);
+	var _Home = __webpack_require__(820);
 	
 	var _Home2 = _interopRequireDefault(_Home);
 	
@@ -541,11 +541,11 @@
 	
 	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
 	
-	var _MuiThemeProvider = __webpack_require__(832);
+	var _MuiThemeProvider = __webpack_require__(834);
 	
 	var _MuiThemeProvider2 = _interopRequireDefault(_MuiThemeProvider);
 	
-	__webpack_require__(833);
+	__webpack_require__(835);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -27558,7 +27558,7 @@
 	
 	var _SignUpForm2 = _interopRequireDefault(_SignUpForm);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -27568,7 +27568,8 @@
 	
 	function mapStateToProps(state, ownProps) {
 	  return {
-	    form: state.forms.signupForm
+	    form: state.forms.signupForm,
+	    isloading: state.signup.isWaiting
 	  };
 	}
 	
@@ -27582,6 +27583,7 @@
 	
 	function mergeProps(stateProps, dispatchProps, ownProps) {
 	  return Object.assign({}, ownProps, {
+	    isloading: stateProps.isloading,
 	    handleSubmit: function handleSubmit() {
 	      return dispatchProps.handleSubmit(stateProps.form);
 	    }
@@ -29073,7 +29075,8 @@
 	
 	  propTypes: {
 	    handleSubmit: _react.PropTypes.func,
-	    form: _react.PropTypes.object
+	    form: _react.PropTypes.object,
+	    isloading: _react.PropTypes.bool
 	  },
 	
 	  render: function render() {
@@ -29083,7 +29086,8 @@
 	      {
 	        name: 'signupForm',
 	        onSubmit: this.props.handleSubmit,
-	        buttonText: 'Join'
+	        buttonText: 'Join',
+	        isloading: this.props.isloading
 	      },
 	      _react2.default.createElement(
 	        _NumberedList2.default,
@@ -35950,6 +35954,9 @@
 	    FORM_UPDATE_FILTERS: null,
 	    FORM_RESET: null,
 	    SET_SIGNUP: null,
+	    FORM_SUBMIT_REQUESTED: null,
+	    FORM_SUBMIT_FAILED: null,
+	    FORM_SUBMIT_SUCCEEDED: null,
 	
 	    FETCHING_GIGS: null,
 	    GIGS_FETCHED: null,
@@ -37825,9 +37832,9 @@
 	
 	var _Form2 = _interopRequireDefault(_Form);
 	
-	var _actions = __webpack_require__(682);
+	var _FormActions = __webpack_require__(682);
 	
-	var actions = _interopRequireWildcard(_actions);
+	var actions = _interopRequireWildcard(_FormActions);
 	
 	var _reactTapEventPlugin = __webpack_require__(714);
 	
@@ -64017,17 +64024,9 @@
 	    white: _react.PropTypes.bool,
 	    leftRounded: _react.PropTypes.bool,
 	    rightRounded: _react.PropTypes.bool,
-	    finishedLoading: _react.PropTypes.bool,
-	    willLoad: _react.PropTypes.bool
+	    isLoading: _react.PropTypes.bool
 	  },
 	
-	  componentWillReceiveProps: function componentWillReceiveProps(nextprops) {
-	    if (nextprops.finishedLoading !== undefined) {
-	      this.setState({
-	        loading: !nextprops.finishedLoading
-	      });
-	    }
-	  },
 	  getDefaultProps: function getDefaultProps() {
 	    return {
 	      rounded: false, label: "Button", dangerous: false
@@ -64035,11 +64034,7 @@
 	  },
 	  handleClick: function handleClick(e) {
 	    e.preventDefault();
-	    if (this.props.willLoad) {
-	      this.setState({
-	        loading: true
-	      });
-	    }
+	
 	    if (this.props.name === undefined) {
 	      this.props.onClick(this.props.label);
 	    } else {
@@ -64070,7 +64065,7 @@
 	        height: '40px',
 	        width: '100%',
 	        outline: "none",
-	        animation: this.state.loading ? "rotating 2s 0.25s linear infinite" : null,
+	        animation: this.props.isLoading ? "rotating 2s 0.25s linear infinite" : null,
 	
 	        ':hover': {
 	          opacity: this.props.disabled ? '0.5' : '1',
@@ -64086,7 +64081,7 @@
 	      },
 	
 	      rounded: {
-	        borderRadius: this.state.loading ? '20px' : '6px 6px 6px 6px'
+	        borderRadius: this.props.isLoading ? '20px' : '6px 6px 6px 6px'
 	      },
 	
 	      important: {
@@ -64117,10 +64112,10 @@
 	        width: '40px'
 	      },
 	      medium: {
-	        width: this.state.loading ? '40px' : '120px'
+	        width: this.props.isLoading ? '40px' : '120px'
 	      },
 	      large: {
-	        width: this.state.loading ? '40px' : '200px'
+	        width: this.props.isLoading ? '40px' : '200px'
 	      },
 	      disabled: {
 	        opacity: '0.5'
@@ -64146,11 +64141,11 @@
 	      _react2.default.createElement(
 	        'button',
 	        {
-	          disabled: this.props.disabled || this.state.loading,
-	          className: this.props.disabled || this.state.loading ? "disabled" : "",
+	          disabled: this.props.disabled || this.props.isLoading,
+	          className: this.props.disabled || this.props.isLoading ? "disabled" : "",
 	          style: [styles.base, this.props.active && styles.active, this.props.rounded && styles.rounded, this.props.rightRounded && styles.rightRounded, this.props.leftRounded && styles.leftRounded, this.props.important && styles.important, this.props.small && styles.small, this.props.medium && styles.medium, this.props.large && styles.large, this.props.disabled && styles.disabled, this.props.white && styles.white, this.props.noBorder && styles.noBorder],
-	          onClick: this.props.disabled || this.state.loading ? null : this.handleClick },
-	        this.state.loading ? null : this.props.finishedLoading ? "✓" : this.props.label
+	          onClick: this.props.disabled || this.props.isLoading ? null : this.handleClick },
+	        this.props.isLoading ? null : this.props.label
 	      )
 	    );
 	  }
@@ -64823,7 +64818,7 @@
 	    updateValue: _react.PropTypes.func,
 	    activeFilters: _react.PropTypes.arrayOf(_react.PropTypes.object),
 	    buttonText: _react.PropTypes.string,
-	    finishedLoading: _react.PropTypes.bool
+	    isloading: _react.PropTypes.bool
 	  },
 	
 	  getInitialState: function getInitialState() {
@@ -64891,8 +64886,7 @@
 	      null,
 	      this.props.children,
 	      _react2.default.createElement(_Button2.default, {
-	        finishedLoading: this.props.finishedLoading,
-	        willLoad: true && this.state.isValid,
+	        isLoading: this.props.isloading,
 	        large: true,
 	        label: this.props.buttonText,
 	        important: this.state.isValid,
@@ -67285,23 +67279,8 @@
 	});
 	exports.updateFormValue = updateFormValue;
 	exports.updateFilters = updateFilters;
+	exports.submitForm = submitForm;
 	exports.resetForm = resetForm;
-	exports.updateProfile = updateProfile;
-	exports.updateFullProfile = updateFullProfile;
-	exports.signup = signup;
-	exports.handleSignupFeedback = handleSignupFeedback;
-	exports.signupEmail = signupEmail;
-	exports.checkForLogin = checkForLogin;
-	exports.login = login;
-	exports.loginFacebook = loginFacebook;
-	exports.loginSoundcloud = loginSoundcloud;
-	exports.loginEmail = loginEmail;
-	exports.userLogout = userLogout;
-	exports.toggleEditMode = toggleEditMode;
-	exports.updateProfileValue = updateProfileValue;
-	exports.resetProfile = resetProfile;
-	exports.fetchGigs = fetchGigs;
-	exports.fetchReviews = fetchReviews;
 	
 	var _constants = __webpack_require__(417);
 	
@@ -67324,21 +67303,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var ActionTypes = _constants2.default.ActionTypes;
-	var auth = new _AuthService2.default();
-	var converter = new _AdapterDTO2.default();
-	var geocoder = new google.maps.Geocoder();
-	
-	function codeAddress(address, callback) {
-	  geocoder.geocode({ 'address': address }, function (results, status) {
-	    if (status == google.maps.GeocoderStatus.OK) {
-	      var lat = results[0].geometry.location.lat();
-	      var lng = results[0].geometry.location.lng();
-	      return callback({ error: null, position: { lat: lat, lng: lng } });
-	    } else {
-	      return callback({ error: "Geocode was not successful for the following reason: " + status, position: null });
-	    }
-	  });
-	}
 	
 	function updateFormValue(name, value, formName) {
 	  return {
@@ -67354,344 +67318,37 @@
 	  };
 	}
 	
-	function resetForm(formName) {
-	  return {
-	    type: ActionTypes.FORM_RESET,
-	    formName: formName
-	  };
-	}
-	
-	function updateProfile(userId, data, token, callback) {
+	/**
+	 * The action creator for submitting for. Makes us able to show loading
+	 * @param  {[type]} formName     the name of the form
+	 * @param  {[type]} submitAction the action that should happen when submitting.
+	 *                               needs a callback for updating state when finished
+	 */
+	function submitForm(formName, submitAction) {
 	  return function (dispatch) {
 	    dispatch(function () {
-	      return { type: ActionTypes.UPDATEPROFILE_REQUESTED };
+	      return { type: ActionTypes.FORM_SUBMIT_REQUESTED, formName: formName };
 	    }());
-	    auth.updateProfile(userId, data, token, function (err, result) {
+	    submitAction(function () {
+	      var err = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+	
 	      if (err) {
 	        dispatch(function () {
-	          return { type: ActionTypes.UPDATEPROFILE_FAILED, err: err.message };
+	          return { type: ActionTypes.FORM_SUBMIT_FAILED, formName: formName, err: err.message };
 	        }());
 	      } else {
-	        (function () {
-	
-	          var newProfile = converter.convertDTO(result);
-	          dispatch(function () {
-	            return { type: ActionTypes.UPDATEPROFILE_SUCCEEDED, newProfile: newProfile };
-	          }());
-	        })();
+	        dispatch(function () {
+	          return { type: ActionTypes.FORM_SUBMIT_SUCCEEDED, formName: formName };
+	        }());
 	      }
-	      return callback(err, result);
 	    });
 	  };
 	}
 	
-	function updateFullProfile(profile) {
-	  return { type: ActionTypes.UPDATEPROFILE_SUCCEEDED, profile: profile };
-	}
-	
-	function signup(form) {
-	  var isDJ = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-	
-	  return function (dispatch) {
-	    dispatch(function () {
-	      return { type: ActionTypes.SIGNUP_REQUESTED };
-	    }());
-	    switch (form.signup) {
-	      case "EMAIL":
-	        return signupEmail(form, handleSignupFeedback(dispatch, form, isDJ));
-	
-	      case "FACEBOOK":
-	        return loginFacebook(handleSignupFeedback(dispatch, form, isDJ));
-	
-	      case "SOUNDCLOUD":
-	        return loginSoundcloud(handleSignupFeedback(dispatch, form, isDJ));
-	
-	    }
-	  };
-	}
-	
-	function handleSignupFeedback(dispatch, form, isDJ) {
-	  return function (err, result) {
-	    if (err) {
-	      dispatch(function () {
-	        return {
-	          type: ActionTypes.SIGNUP_FAILED,
-	          err: err
-	        };
-	      }());
-	    } else {
-	      //Getting the coordinates of the address
-	      codeAddress(form.location, function (geoResult) {
-	        if (geoResult.error && isDJ) {
-	          dispatch(function () {
-	            return {
-	              type: ActionTypes.SIGNUP_FAILED,
-	              err: geoResult.error
-	            };
-	          }());
-	        } else {
-	          (function () {
-	
-	            var data = isDJ ? {
-	              user_metadata: {
-	                locationCoords: geoResult.position,
-	                location: form.location,
-	                genres: form.genres,
-	                name: form.name ? form.name : "",
-	                phone: form.phone
-	              }
-	            } : {
-	              user_metadata: {
-	                phone: form.phone,
-	                name: form.name ? form.name : ""
-	              }
-	            };
-	
-	            auth.setToken(result.idToken);
-	            auth.getProfileFromToken(result.idToken, function (profile) {
-	              updateProfile(profile.user_id, data, result.idToken, function (err2, result2) {
-	                if (err2) {
-	                  dispatch(function () {
-	                    return {
-	                      type: ActionTypes.SIGNUP_FAILED,
-	                      err: err2.message
-	                    };
-	                  }());
-	                } else {
-	                  dispatch(function () {
-	                    return {
-	                      type: ActionTypes.SIGNUP_SUCCEEDED
-	                    };
-	                  }());
-	
-	                  checkForLogin(false)(dispatch);
-	                }
-	              })(dispatch);
-	            });
-	          })();
-	        }
-	      });
-	    }
-	  };
-	}
-	
-	function signupEmail(form, callback) {
-	  auth.signup({
-	    popup: true,
-	    connection: 'Username-Password-Authentication',
-	    responseType: 'token',
-	    email: form.email,
-	    password: form.password
-	  }, callback);
-	}
-	
-	function handleLoginFeedback(dispatch) {
-	  return function (err, result) {
-	    if (err) {
-	      dispatch(function () {
-	        return {
-	          type: ActionTypes.LOGIN_FAILED,
-	          err: err
-	        };
-	      }());
-	    } else {
-	      auth.setToken(result.idToken);
-	      auth.getProfileFromToken(result.idToken, function (dtoProfile) {
-	
-	        //Hack for checking if user trying to login before signing up
-	        if (dtoProfile.user_metadata !== undefined && dtoProfile.user_metadata.genres) {
-	          (function () {
-	
-	            var profile = converter.convertDTO(dtoProfile);
-	
-	            dispatch(function () {
-	              return {
-	                type: ActionTypes.LOGIN_SUCCEEDED,
-	                profile: profile
-	              };
-	            }());
-	          })();
-	        } else {
-	          dispatch(function () {
-	            return {
-	              type: ActionTypes.LOGIN_FAILED,
-	              err: "The user is not signed up"
-	            };
-	          }());
-	        }
-	      });
-	    }
-	  };
-	}
-	
-	/**
-	 * Checking if theres an token stored locally
-	 * And keeps the state updated accordingly
-	 * @param  {Boolean} [redirect=true] if true the function will push
-	 * the appropriate window location to the front
-	 */
-	function checkForLogin() {
-	  var redirect = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
-	
-	  return function (dispatch) {
-	    if (auth.loggedIn()) {
-	      auth.getProfileFromStoredToken(function (err, DTOProfile) {
-	        if (err) {
-	          dispatch(function () {
-	            return {
-	              type: ActionTypes.LOGIN_FAILED,
-	              err: err
-	            };
-	          }());
-	          redirect ? _reactRouter.browserHistory.push('/') : null;
-	        } else {
-	          (function () {
-	            var profile = converter.convertDTO(DTOProfile);
-	
-	            dispatch(function () {
-	              return {
-	                type: ActionTypes.LOGIN_SUCCEEDED,
-	                profile: profile
-	              };
-	            }());
-	            redirect ? _reactRouter.browserHistory.push('/user/profile') : null;
-	          })();
-	        }
-	      });
-	    } else {
-	      //If trying to access user restricted area, but not logged in
-	      if (window.location.pathname.split('/')[1] === 'user') {
-	        redirect ? _reactRouter.browserHistory.push('/') : null;
-	      }
-	    }
-	  };
-	}
-	
-	function login(form) {
-	  return function (dispatch) {
-	
-	    // First dispatch: the app state is updated to inform
-	    // that the API call is starting.
-	
-	    dispatch(function () {
-	      return { type: ActionTypes.LOGIN_REQUESTED };
-	    }());
-	
-	    // The function called by the thunk middleware can return a value,
-	    // that is passed on as the return value of the dispatch method.
-	
-	    // In this case, we return a promise to wait for.
-	    // This is not required by thunk middleware, but it is convenient for us.
-	
-	    switch (form.type) {
-	      case "EMAIL":
-	        return loginEmail(form, handleLoginFeedback(dispatch));
-	
-	      case "FACEBOOK":
-	        return loginFacebook(handleLoginFeedback(dispatch));
-	
-	      case "SOUNDCLOUD":
-	        return loginSoundcloud(handleLoginFeedback(dispatch));
-	
-	    }
-	  };
-	}
-	
-	function loginFacebook(callback) {
-	  auth.login({
-	    popup: true,
-	    connection: 'facebook',
-	    responseType: 'token'
-	  }, callback);
-	}
-	
-	function loginSoundcloud(callback) {
-	  auth.login({
-	    popup: true,
-	    connection: 'soundcloud',
-	    responseType: 'token'
-	  }, callback);
-	}
-	
-	function loginEmail(form, callback) {
-	  auth.login({
-	    connection: 'Username-Password-Authentication',
-	    responseType: 'token',
-	    email: form.email,
-	    password: form.password
-	  }, callback);
-	}
-	
-	function userLogout() {
-	  auth.logout();
+	function resetForm(formName) {
 	  return {
-	    type: ActionTypes.LOGOUT_SUCCEEDED
-	  };
-	}
-	
-	function toggleEditMode() {
-	  return {
-	    type: ActionTypes.TOGGLE_EDIT_MODE
-	  };
-	}
-	
-	function updateProfileValue(name, value) {
-	  return {
-	    type: ActionTypes.UPDATE_PROFILE_VALUE,
-	    name: name,
-	    value: value
-	  };
-	}
-	
-	function resetProfile(profile) {
-	  return function (dispatch) {
-	    dispatch(function () {
-	      return {
-	        type: ActionTypes.RESET_PROFILE,
-	        profile: profile
-	      };
-	    }());
-	    dispatch(function () {
-	      return {
-	        type: ActionTypes.TOGGLE_EDIT_MODE
-	      };
-	    }());
-	  };
-	}
-	
-	function fetchGigs() {
-	  return function (dispatch) {
-	    dispatch(function () {
-	      return {
-	        type: ActionTypes.FETCHING_GIGS
-	      };
-	    }());
-	    setTimeout(function () {
-	      dispatch(function () {
-	        return {
-	          type: ActionTypes.GIGS_FETCHED,
-	          value: _Mocks2.default.GIGS
-	        };
-	      }());
-	    }, 1000);
-	  };
-	}
-	
-	function fetchReviews() {
-	  return function (dispatch) {
-	    dispatch(function () {
-	      return {
-	        type: ActionTypes.FETCHING_REVIEWS
-	      };
-	    }());
-	    setTimeout(function () {
-	      dispatch(function () {
-	        return {
-	          type: ActionTypes.REVIEWS_FETCHED,
-	          value: _Mocks2.default.REVIEWS
-	        };
-	      }());
-	    }, 1000);
+	    type: ActionTypes.FORM_RESET,
+	    formName: formName
 	  };
 	}
 
@@ -73683,6 +73340,427 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.updateFormValue = updateFormValue;
+	exports.updateFilters = updateFilters;
+	exports.resetForm = resetForm;
+	exports.updateProfile = updateProfile;
+	exports.updateFullProfile = updateFullProfile;
+	exports.signup = signup;
+	exports.handleSignupFeedback = handleSignupFeedback;
+	exports.signupEmail = signupEmail;
+	exports.checkForLogin = checkForLogin;
+	exports.login = login;
+	exports.loginFacebook = loginFacebook;
+	exports.loginSoundcloud = loginSoundcloud;
+	exports.loginEmail = loginEmail;
+	exports.userLogout = userLogout;
+	exports.toggleEditMode = toggleEditMode;
+	exports.updateProfileValue = updateProfileValue;
+	exports.resetProfile = resetProfile;
+	exports.fetchGigs = fetchGigs;
+	exports.fetchReviews = fetchReviews;
+	
+	var _constants = __webpack_require__(417);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	var _AuthService = __webpack_require__(683);
+	
+	var _AuthService2 = _interopRequireDefault(_AuthService);
+	
+	var _AdapterDTO = __webpack_require__(711);
+	
+	var _AdapterDTO2 = _interopRequireDefault(_AdapterDTO);
+	
+	var _reactRouter = __webpack_require__(177);
+	
+	var _Mocks = __webpack_require__(713);
+	
+	var _Mocks2 = _interopRequireDefault(_Mocks);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ActionTypes = _constants2.default.ActionTypes;
+	var auth = new _AuthService2.default();
+	var converter = new _AdapterDTO2.default();
+	var geocoder = new google.maps.Geocoder();
+	
+	function codeAddress(address, callback) {
+	  geocoder.geocode({ 'address': address }, function (results, status) {
+	    if (status == google.maps.GeocoderStatus.OK) {
+	      var lat = results[0].geometry.location.lat();
+	      var lng = results[0].geometry.location.lng();
+	      return callback({ error: null, position: { lat: lat, lng: lng } });
+	    } else {
+	      return callback({ error: "Geocode was not successful for the following reason: " + status, position: null });
+	    }
+	  });
+	}
+	
+	function updateFormValue(name, value, formName) {
+	  return {
+	    type: ActionTypes.FORM_UPDATE_VALUE,
+	    name: name, value: value, formName: formName
+	  };
+	}
+	
+	function updateFilters(filter, value, formName) {
+	  return {
+	    type: ActionTypes.FORM_UPDATE_FILTERS,
+	    filter: filter, value: value, formName: formName
+	  };
+	}
+	
+	function resetForm(formName) {
+	  return {
+	    type: ActionTypes.FORM_RESET,
+	    formName: formName
+	  };
+	}
+	
+	function updateProfile(userId, data, token, callback) {
+	  return function (dispatch) {
+	    dispatch(function () {
+	      return { type: ActionTypes.UPDATEPROFILE_REQUESTED };
+	    }());
+	    auth.updateProfile(userId, data, token, function (err, result) {
+	      if (err) {
+	        dispatch(function () {
+	          return { type: ActionTypes.UPDATEPROFILE_FAILED, err: err.message };
+	        }());
+	      } else {
+	        (function () {
+	
+	          var newProfile = converter.convertDTO(result);
+	          dispatch(function () {
+	            return { type: ActionTypes.UPDATEPROFILE_SUCCEEDED, newProfile: newProfile };
+	          }());
+	        })();
+	      }
+	      return callback(err, result);
+	    });
+	  };
+	}
+	
+	function updateFullProfile(profile) {
+	  return { type: ActionTypes.UPDATEPROFILE_SUCCEEDED, profile: profile };
+	}
+	
+	function signup(form) {
+	  var isDJ = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+	
+	  return function (dispatch) {
+	    dispatch(function () {
+	      return { type: ActionTypes.SIGNUP_REQUESTED };
+	    }());
+	    switch (form.signup) {
+	      case "EMAIL":
+	        return signupEmail(form, handleSignupFeedback(dispatch, form, isDJ));
+	
+	      case "FACEBOOK":
+	        return loginFacebook(handleSignupFeedback(dispatch, form, isDJ));
+	
+	      case "SOUNDCLOUD":
+	        return loginSoundcloud(handleSignupFeedback(dispatch, form, isDJ));
+	
+	    }
+	  };
+	}
+	
+	function handleSignupFeedback(dispatch, form, isDJ) {
+	  return function (err, result) {
+	    if (err) {
+	      dispatch(function () {
+	        return {
+	          type: ActionTypes.SIGNUP_FAILED,
+	          err: err
+	        };
+	      }());
+	    } else {
+	      //Getting the coordinates of the address
+	      codeAddress(form.location, function (geoResult) {
+	        if (geoResult.error && isDJ) {
+	          dispatch(function () {
+	            return {
+	              type: ActionTypes.SIGNUP_FAILED,
+	              err: geoResult.error
+	            };
+	          }());
+	        } else {
+	          (function () {
+	
+	            var data = isDJ ? {
+	              user_metadata: {
+	                locationCoords: geoResult.position,
+	                location: form.location,
+	                genres: form.genres,
+	                name: form.name ? form.name : "",
+	                phone: form.phone
+	              }
+	            } : {
+	              user_metadata: {
+	                phone: form.phone,
+	                name: form.name ? form.name : ""
+	              }
+	            };
+	
+	            auth.setToken(result.idToken);
+	            auth.getProfileFromToken(result.idToken, function (profile) {
+	              updateProfile(profile.user_id, data, result.idToken, function (err2, result2) {
+	                if (err2) {
+	                  dispatch(function () {
+	                    return {
+	                      type: ActionTypes.SIGNUP_FAILED,
+	                      err: err2.message
+	                    };
+	                  }());
+	                } else {
+	                  dispatch(function () {
+	                    return {
+	                      type: ActionTypes.SIGNUP_SUCCEEDED
+	                    };
+	                  }());
+	
+	                  checkForLogin(false)(dispatch);
+	                }
+	              })(dispatch);
+	            });
+	          })();
+	        }
+	      });
+	    }
+	  };
+	}
+	
+	function signupEmail(form, callback) {
+	  auth.signup({
+	    popup: true,
+	    connection: 'Username-Password-Authentication',
+	    responseType: 'token',
+	    email: form.email,
+	    password: form.password
+	  }, callback);
+	}
+	
+	function handleLoginFeedback(dispatch) {
+	  return function (err, result) {
+	    if (err) {
+	      dispatch(function () {
+	        return {
+	          type: ActionTypes.LOGIN_FAILED,
+	          err: err
+	        };
+	      }());
+	    } else {
+	      auth.setToken(result.idToken);
+	      auth.getProfileFromToken(result.idToken, function (dtoProfile) {
+	
+	        //Hack for checking if user trying to login before signing up
+	        if (dtoProfile.user_metadata !== undefined && dtoProfile.user_metadata.genres) {
+	          (function () {
+	
+	            var profile = converter.convertDTO(dtoProfile);
+	
+	            dispatch(function () {
+	              return {
+	                type: ActionTypes.LOGIN_SUCCEEDED,
+	                profile: profile
+	              };
+	            }());
+	          })();
+	        } else {
+	          dispatch(function () {
+	            return {
+	              type: ActionTypes.LOGIN_FAILED,
+	              err: "The user is not signed up"
+	            };
+	          }());
+	        }
+	      });
+	    }
+	  };
+	}
+	
+	/**
+	 * Checking if theres an token stored locally
+	 * And keeps the state updated accordingly
+	 * @param  {Boolean} [redirect=true] if true the function will push
+	 * the appropriate window location to the front
+	 */
+	function checkForLogin() {
+	  var redirect = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+	
+	  return function (dispatch) {
+	    if (auth.loggedIn()) {
+	      auth.getProfileFromStoredToken(function (err, DTOProfile) {
+	        if (err) {
+	          dispatch(function () {
+	            return {
+	              type: ActionTypes.LOGIN_FAILED,
+	              err: err
+	            };
+	          }());
+	          redirect ? _reactRouter.browserHistory.push('/') : null;
+	        } else {
+	          (function () {
+	            var profile = converter.convertDTO(DTOProfile);
+	
+	            dispatch(function () {
+	              return {
+	                type: ActionTypes.LOGIN_SUCCEEDED,
+	                profile: profile
+	              };
+	            }());
+	            redirect ? _reactRouter.browserHistory.push('/user/profile') : null;
+	          })();
+	        }
+	      });
+	    } else {
+	      //If trying to access user restricted area, but not logged in
+	      if (window.location.pathname.split('/')[1] === 'user') {
+	        redirect ? _reactRouter.browserHistory.push('/') : null;
+	      }
+	    }
+	  };
+	}
+	
+	function login(form) {
+	  return function (dispatch) {
+	
+	    // First dispatch: the app state is updated to inform
+	    // that the API call is starting.
+	
+	    dispatch(function () {
+	      return { type: ActionTypes.LOGIN_REQUESTED };
+	    }());
+	
+	    // The function called by the thunk middleware can return a value,
+	    // that is passed on as the return value of the dispatch method.
+	
+	    // In this case, we return a promise to wait for.
+	    // This is not required by thunk middleware, but it is convenient for us.
+	
+	    switch (form.type) {
+	      case "EMAIL":
+	        return loginEmail(form, handleLoginFeedback(dispatch));
+	
+	      case "FACEBOOK":
+	        return loginFacebook(handleLoginFeedback(dispatch));
+	
+	      case "SOUNDCLOUD":
+	        return loginSoundcloud(handleLoginFeedback(dispatch));
+	
+	    }
+	  };
+	}
+	
+	function loginFacebook(callback) {
+	  auth.login({
+	    popup: true,
+	    connection: 'facebook',
+	    responseType: 'token'
+	  }, callback);
+	}
+	
+	function loginSoundcloud(callback) {
+	  auth.login({
+	    popup: true,
+	    connection: 'soundcloud',
+	    responseType: 'token'
+	  }, callback);
+	}
+	
+	function loginEmail(form, callback) {
+	  auth.login({
+	    connection: 'Username-Password-Authentication',
+	    responseType: 'token',
+	    email: form.email,
+	    password: form.password
+	  }, callback);
+	}
+	
+	function userLogout() {
+	  auth.logout();
+	  return {
+	    type: ActionTypes.LOGOUT_SUCCEEDED
+	  };
+	}
+	
+	function toggleEditMode() {
+	  return {
+	    type: ActionTypes.TOGGLE_EDIT_MODE
+	  };
+	}
+	
+	function updateProfileValue(name, value) {
+	  return {
+	    type: ActionTypes.UPDATE_PROFILE_VALUE,
+	    name: name,
+	    value: value
+	  };
+	}
+	
+	function resetProfile(profile) {
+	  return function (dispatch) {
+	    dispatch(function () {
+	      return {
+	        type: ActionTypes.RESET_PROFILE,
+	        profile: profile
+	      };
+	    }());
+	    dispatch(function () {
+	      return {
+	        type: ActionTypes.TOGGLE_EDIT_MODE
+	      };
+	    }());
+	  };
+	}
+	
+	function fetchGigs() {
+	  return function (dispatch) {
+	    dispatch(function () {
+	      return {
+	        type: ActionTypes.FETCHING_GIGS
+	      };
+	    }());
+	    setTimeout(function () {
+	      dispatch(function () {
+	        return {
+	          type: ActionTypes.GIGS_FETCHED,
+	          value: _Mocks2.default.GIGS
+	        };
+	      }());
+	    }, 1000);
+	  };
+	}
+	
+	function fetchReviews() {
+	  return function (dispatch) {
+	    dispatch(function () {
+	      return {
+	        type: ActionTypes.FETCHING_REVIEWS
+	      };
+	    }());
+	    setTimeout(function () {
+	      dispatch(function () {
+	        return {
+	          type: ActionTypes.REVIEWS_FETCHED,
+	          value: _Mocks2.default.REVIEWS
+	        };
+	      }());
+	    }, 1000);
+	  };
+	}
+
+/***/ },
+/* 721 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	var _react = __webpack_require__(3);
 	
@@ -73690,11 +73768,11 @@
 	
 	var _reactRedux = __webpack_require__(241);
 	
-	var _User = __webpack_require__(721);
+	var _User = __webpack_require__(722);
 	
 	var _User2 = _interopRequireDefault(_User);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -73751,7 +73829,7 @@
 	};
 
 /***/ },
-/* 721 */
+/* 722 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -73780,11 +73858,11 @@
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _UserHeader = __webpack_require__(722);
+	var _UserHeader = __webpack_require__(723);
 	
 	var _UserHeader2 = _interopRequireDefault(_UserHeader);
 	
-	var _UserNavigation = __webpack_require__(724);
+	var _UserNavigation = __webpack_require__(725);
 	
 	var _UserNavigation2 = _interopRequireDefault(_UserNavigation);
 	
@@ -73951,7 +74029,7 @@
 	exports.default = (0, _muiThemeable2.default)()(styledUser);
 
 /***/ },
-/* 722 */
+/* 723 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -73976,7 +74054,7 @@
 	
 	var _Textfield2 = _interopRequireDefault(_Textfield);
 	
-	var _TextElement = __webpack_require__(723);
+	var _TextElement = __webpack_require__(724);
 	
 	var _TextElement2 = _interopRequireDefault(_TextElement);
 	
@@ -74288,7 +74366,7 @@
 	exports.default = (0, _muiThemeable2.default)()(styledUserHeader);
 
 /***/ },
-/* 723 */
+/* 724 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74368,7 +74446,7 @@
 	exports.default = (0, _muiThemeable2.default)()(StyledTextWrapper);
 
 /***/ },
-/* 724 */
+/* 725 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74383,7 +74461,7 @@
 	
 	var _reactRouter = __webpack_require__(177);
 	
-	var _Navlink = __webpack_require__(725);
+	var _Navlink = __webpack_require__(726);
 	
 	var _Navlink2 = _interopRequireDefault(_Navlink);
 	
@@ -74462,7 +74540,7 @@
 	});
 
 /***/ },
-/* 725 */
+/* 726 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74612,7 +74690,7 @@
 	exports.default = (0, _muiThemeable2.default)()(StyledNavlink);
 
 /***/ },
-/* 726 */
+/* 727 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74639,7 +74717,7 @@
 	});
 
 /***/ },
-/* 727 */
+/* 728 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74656,23 +74734,23 @@
 	
 	var _reactRedux = __webpack_require__(241);
 	
-	var _reduxThunk = __webpack_require__(728);
+	var _reduxThunk = __webpack_require__(729);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _reduxLogger = __webpack_require__(729);
+	var _reduxLogger = __webpack_require__(730);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
-	var _Navigation = __webpack_require__(730);
+	var _Navigation = __webpack_require__(731);
 	
 	var _Navigation2 = _interopRequireDefault(_Navigation);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
-	var _Store = __webpack_require__(737);
+	var _Store = __webpack_require__(738);
 	
 	var _Store2 = _interopRequireDefault(_Store);
 	
@@ -74713,7 +74791,7 @@
 	};
 
 /***/ },
-/* 728 */
+/* 729 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -74741,7 +74819,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 729 */
+/* 730 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -74974,7 +75052,7 @@
 	module.exports = createLogger;
 
 /***/ },
-/* 730 */
+/* 731 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74987,7 +75065,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Navlink = __webpack_require__(725);
+	var _Navlink = __webpack_require__(726);
 	
 	var _Navlink2 = _interopRequireDefault(_Navlink);
 	
@@ -74995,11 +75073,11 @@
 	
 	var _Button2 = _interopRequireDefault(_Button);
 	
-	var _Dropdown = __webpack_require__(731);
+	var _Dropdown = __webpack_require__(732);
 	
 	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 	
-	var _UserMenuItem = __webpack_require__(733);
+	var _UserMenuItem = __webpack_require__(734);
 	
 	var _UserMenuItem2 = _interopRequireDefault(_UserMenuItem);
 	
@@ -75011,11 +75089,11 @@
 	
 	var _muiThemeable2 = _interopRequireDefault(_muiThemeable);
 	
-	var _Login = __webpack_require__(734);
+	var _Login = __webpack_require__(735);
 	
 	var _Login2 = _interopRequireDefault(_Login);
 	
-	var _Footer = __webpack_require__(736);
+	var _Footer = __webpack_require__(737);
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
@@ -75203,7 +75281,7 @@
 	exports.default = (0, _muiThemeable2.default)()(styledMenu);
 
 /***/ },
-/* 731 */
+/* 732 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -75216,7 +75294,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactOnclickoutside = __webpack_require__(732);
+	var _reactOnclickoutside = __webpack_require__(733);
 	
 	var _reactOnclickoutside2 = _interopRequireDefault(_reactOnclickoutside);
 	
@@ -75263,7 +75341,7 @@
 	exports.default = Dropdown;
 
 /***/ },
-/* 732 */
+/* 733 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -75498,7 +75576,7 @@
 
 
 /***/ },
-/* 733 */
+/* 734 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -75590,7 +75668,7 @@
 	exports.default = (0, _muiThemeable2.default)()(StyledUserMenuItem);
 
 /***/ },
-/* 734 */
+/* 735 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -75605,17 +75683,23 @@
 	
 	var _reactRedux = __webpack_require__(241);
 	
-	var _Login = __webpack_require__(735);
+	var _Login = __webpack_require__(736);
 	
 	var _Login2 = _interopRequireDefault(_Login);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function mapStateToProps(state, ownProps) {
+	  return {
+	    isLoading: state.login.isWaiting
+	  };
+	}
 	
 	function mapDispatchToProps(dispatch, ownprops) {
 	  return {
@@ -75631,16 +75715,14 @@
 	  };
 	}
 	
-	var SmartLogin = (0, _reactRedux.connect)(function (state) {
-	  return state;
-	}, mapDispatchToProps)(_Login2.default);
+	var SmartLogin = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Login2.default);
 	
 	exports.default = function (props) {
 	  return _react2.default.createElement(SmartLogin, props);
 	};
 
 /***/ },
-/* 735 */
+/* 736 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -75661,7 +75743,7 @@
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _reactOnclickoutside = __webpack_require__(732);
+	var _reactOnclickoutside = __webpack_require__(733);
 	
 	var _reactOnclickoutside2 = _interopRequireDefault(_reactOnclickoutside);
 	
@@ -75673,7 +75755,8 @@
 	  propTypes: {
 	    login: _react.PropTypes.func.isRequired,
 	    loginFacebook: _react.PropTypes.func,
-	    loginSoundcloud: _react.PropTypes.func
+	    loginSoundcloud: _react.PropTypes.func,
+	    isLoading: _react.PropTypes.bool
 	  },
 	
 	  getInitialState: function getInitialState() {
@@ -75769,6 +75852,7 @@
 	        'div',
 	        { style: { marginBottom: '20px' } },
 	        _react2.default.createElement(_Button2.default, {
+	          isLoading: this.props.isLoading,
 	          medium: true,
 	          label: 'Login',
 	          important: this.state.isValid,
@@ -75788,7 +75872,7 @@
 	exports.default = login;
 
 /***/ },
-/* 736 */
+/* 737 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -75826,7 +75910,7 @@
 	exports.default = (0, _muiThemeable2.default)()(styledFooter);
 
 /***/ },
-/* 737 */
+/* 738 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -75837,7 +75921,7 @@
 	
 	var _redux = __webpack_require__(248);
 	
-	var _Forms = __webpack_require__(738);
+	var _Forms = __webpack_require__(739);
 	
 	var _Forms2 = _interopRequireDefault(_Forms);
 	
@@ -75853,19 +75937,29 @@
 	
 	var _Reviews2 = _interopRequireDefault(_Reviews);
 	
+	var _Signup = __webpack_require__(746);
+	
+	var _Signup2 = _interopRequireDefault(_Signup);
+	
+	var _Login = __webpack_require__(747);
+	
+	var _Login2 = _interopRequireDefault(_Login);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var store = (0, _redux.combineReducers)({
 	  forms: _Forms2.default,
 	  gigs: _Gigs2.default,
 	  reviews: _Reviews2.default,
-	  user: _User2.default
+	  user: _User2.default,
+	  signup: _Signup2.default,
+	  login: _Login2.default
 	});
 	
 	exports.default = store;
 
 /***/ },
-/* 738 */
+/* 739 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -75884,7 +75978,7 @@
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
-	var _form = __webpack_require__(739);
+	var _form = __webpack_require__(740);
 	
 	var _form2 = _interopRequireDefault(_form);
 	
@@ -75911,6 +76005,12 @@
 	
 	    case ActionTypes.FORM_UPDATE_VALUE:
 	      return (0, _lodash2.default)({}, state, _defineProperty({}, action.formName, (0, _form2.default)(state[action.formName], action)));
+	    case ActionTypes.FORM_SUBMIT_REQUESTED:
+	      return (0, _lodash2.default)({}, state, _defineProperty({}, action.formName, (0, _form2.default)(state[action.formName], action)));
+	    case ActionTypes.FORM_SUBMIT_FAILED:
+	      return (0, _lodash2.default)({}, state, _defineProperty({}, action.formName, (0, _form2.default)(state[action.formName], action)));
+	    case ActionTypes.FORM_SUBMIT_SUCCEEDED:
+	      return (0, _lodash2.default)({}, state, _defineProperty({}, action.formName, (0, _form2.default)(state[action.formName], action)));
 	
 	    default:
 	      return state;
@@ -75920,7 +76020,7 @@
 	exports.default = forms;
 
 /***/ },
-/* 739 */
+/* 740 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -75938,10 +76038,6 @@
 	var _lodash = __webpack_require__(680);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
-	
-	var _Signup = __webpack_require__(740);
-	
-	var _Signup2 = _interopRequireDefault(_Signup);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -75986,64 +76082,28 @@
 	  }
 	};
 	
-	exports.default = (0, _redux.combineReducers)({
-	  values: values,
-	  filters: filters,
-	  signup: _Signup2.default
-	});
-
-/***/ },
-/* 740 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _constants = __webpack_require__(417);
-	
-	var _constants2 = _interopRequireDefault(_constants);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ActionTypes = _constants2.default.ActionTypes;
-	
-	var initialState = {//define initial state - an empty form
-	
-	};
-	
-	var signup = function signup() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	var status = function status() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? { submitting: false } : arguments[0];
 	  var action = arguments[1];
 	
 	  switch (action.type) {
-	    case ActionTypes.SIGNUP_REQUESTED:
-	      return {
-	        isWaiting: true
-	      };
-	      break;
-	    case ActionTypes.SIGNUP_SUCCEEDED:
-	      return {
-	        signedUp: true,
-	        isWaiting: false
-	      };
-	      break;
-	    case ActionTypes.SIGNUP_FAILED:
-	      return {
-	        signedUp: false,
-	        err: action.err,
-	        isWaiting: false
-	      };
-	      break;
 	
+	    case ActionTypes.FORM_SUBMIT_REQUESTED:
+	      return { submitting: true };
+	    case ActionTypes.FORM_SUBMIT_FAILED:
+	      return { submitting: false, error: action.err };
+	    case ActionTypes.FORM_SUBMIT_SUCCEEDED:
+	      return { submitting: false };
 	    default:
 	      return state;
 	  }
 	};
 	
-	exports.default = signup;
+	exports.default = (0, _redux.combineReducers)({
+	  values: values,
+	  filters: filters,
+	  status: status
+	});
 
 /***/ },
 /* 741 */
@@ -76366,17 +76426,130 @@
 	  value: true
 	});
 	
+	var _constants = __webpack_require__(417);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ActionTypes = _constants2.default.ActionTypes;
+	
+	var initialState = { //define initial state - an empty form
+	  isWaiting: false
+	};
+	
+	var signup = function signup() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case ActionTypes.SIGNUP_REQUESTED:
+	      return {
+	        isWaiting: true
+	      };
+	      break;
+	    case ActionTypes.SIGNUP_SUCCEEDED:
+	      return {
+	        signedUp: true,
+	        isWaiting: false
+	      };
+	      break;
+	    case ActionTypes.SIGNUP_FAILED:
+	      return {
+	        signedUp: false,
+	        err: action.err,
+	        isWaiting: false
+	      };
+	      break;
+	
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = signup;
+
+/***/ },
+/* 747 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _constants = __webpack_require__(417);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	var _lodash = __webpack_require__(680);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ActionTypes = _constants2.default.ActionTypes;
+	
+	var initialState = { //define initial state - an empty form
+	  signedIn: false
+	};
+	
+	var login = function login() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case ActionTypes.LOGIN_REQUESTED:
+	      return {
+	        isWaiting: true
+	      };
+	      break;
+	    case ActionTypes.LOGIN_SUCCEEDED:
+	      return {
+	        signedIn: true,
+	        profile: action.profile,
+	        isWaiting: false
+	      };
+	      break;
+	    case ActionTypes.LOGIN_FAILED:
+	      return {
+	        signedIn: false,
+	        err: action.err,
+	        isWaiting: false
+	      };
+	      break;
+	    case ActionTypes.LOGOUT_SUCCEEDED:
+	      return initialState;
+	      break;
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = login;
+
+/***/ },
+/* 748 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	var _reactRedux = __webpack_require__(241);
 	
-	var _Profile = __webpack_require__(747);
+	var _Profile = __webpack_require__(749);
 	
 	var _Profile2 = _interopRequireDefault(_Profile);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -76408,7 +76581,7 @@
 	};
 
 /***/ },
-/* 747 */
+/* 749 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -76437,7 +76610,7 @@
 	
 	var _ToggleButtonHandler2 = _interopRequireDefault(_ToggleButtonHandler);
 	
-	var _Map = __webpack_require__(748);
+	var _Map = __webpack_require__(750);
 	
 	var _Map2 = _interopRequireDefault(_Map);
 	
@@ -76445,15 +76618,15 @@
 	
 	var _Textfield2 = _interopRequireDefault(_Textfield);
 	
-	var _TextBox = __webpack_require__(796);
+	var _TextBox = __webpack_require__(798);
 	
 	var _TextBox2 = _interopRequireDefault(_TextBox);
 	
-	var _ExperienceSlider = __webpack_require__(797);
+	var _ExperienceSlider = __webpack_require__(799);
 	
 	var _ExperienceSlider2 = _interopRequireDefault(_ExperienceSlider);
 	
-	var _TextElement = __webpack_require__(723);
+	var _TextElement = __webpack_require__(724);
 	
 	var _TextElement2 = _interopRequireDefault(_TextElement);
 	
@@ -76750,7 +76923,7 @@
 	exports.default = (0, _muiThemeable2.default)()(styledProfile);
 
 /***/ },
-/* 748 */
+/* 750 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -76765,9 +76938,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactGoogleMaps = __webpack_require__(749);
+	var _reactGoogleMaps = __webpack_require__(751);
 	
-	var _reactAddonsUpdate = __webpack_require__(794);
+	var _reactAddonsUpdate = __webpack_require__(796);
 	
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 	
@@ -76949,7 +77122,7 @@
 	exports.default = SimpleMap;
 
 /***/ },
-/* 749 */
+/* 751 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -76960,60 +77133,60 @@
 	
 	function _interopRequire(obj) { return obj && obj.__esModule ? obj["default"] : obj; }
 	
-	var _GoogleMapLoader = __webpack_require__(750);
+	var _GoogleMapLoader = __webpack_require__(752);
 	
 	exports.GoogleMapLoader = _interopRequire(_GoogleMapLoader);
 	
-	var _GoogleMap = __webpack_require__(759);
+	var _GoogleMap = __webpack_require__(761);
 	
 	exports.GoogleMap = _interopRequire(_GoogleMap);
 	
-	var _Circle = __webpack_require__(760);
+	var _Circle = __webpack_require__(762);
 	
 	exports.Circle = _interopRequire(_Circle);
 	
-	var _DirectionsRenderer = __webpack_require__(764);
+	var _DirectionsRenderer = __webpack_require__(766);
 	
 	exports.DirectionsRenderer = _interopRequire(_DirectionsRenderer);
 	
-	var _DrawingManager = __webpack_require__(767);
+	var _DrawingManager = __webpack_require__(769);
 	
 	exports.DrawingManager = _interopRequire(_DrawingManager);
 	
-	var _InfoWindow = __webpack_require__(770);
+	var _InfoWindow = __webpack_require__(772);
 	
 	exports.InfoWindow = _interopRequire(_InfoWindow);
 	
-	var _KmlLayer = __webpack_require__(774);
+	var _KmlLayer = __webpack_require__(776);
 	
 	exports.KmlLayer = _interopRequire(_KmlLayer);
 	
-	var _Marker = __webpack_require__(777);
+	var _Marker = __webpack_require__(779);
 	
 	exports.Marker = _interopRequire(_Marker);
 	
-	var _OverlayView = __webpack_require__(780);
+	var _OverlayView = __webpack_require__(782);
 	
 	exports.OverlayView = _interopRequire(_OverlayView);
 	
-	var _Polygon = __webpack_require__(782);
+	var _Polygon = __webpack_require__(784);
 	
 	exports.Polygon = _interopRequire(_Polygon);
 	
-	var _Polyline = __webpack_require__(785);
+	var _Polyline = __webpack_require__(787);
 	
 	exports.Polyline = _interopRequire(_Polyline);
 	
-	var _Rectangle = __webpack_require__(788);
+	var _Rectangle = __webpack_require__(790);
 	
 	exports.Rectangle = _interopRequire(_Rectangle);
 	
-	var _SearchBox = __webpack_require__(791);
+	var _SearchBox = __webpack_require__(793);
 	
 	exports.SearchBox = _interopRequire(_SearchBox);
 
 /***/ },
-/* 750 */
+/* 752 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -77038,7 +77211,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _creatorsGoogleMapHolder = __webpack_require__(751);
+	var _creatorsGoogleMapHolder = __webpack_require__(753);
 	
 	var _creatorsGoogleMapHolder2 = _interopRequireDefault(_creatorsGoogleMapHolder);
 	
@@ -77125,7 +77298,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 751 */
+/* 753 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -77152,23 +77325,23 @@
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _eventListsGoogleMapEventList = __webpack_require__(752);
+	var _eventListsGoogleMapEventList = __webpack_require__(754);
 	
 	var _eventListsGoogleMapEventList2 = _interopRequireDefault(_eventListsGoogleMapEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
@@ -77285,7 +77458,7 @@
 	exports["default"] = GoogleMapHolder;
 
 /***/ },
-/* 752 */
+/* 754 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Map
@@ -77299,7 +77472,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 753 */
+/* 755 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -77351,7 +77524,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 754 */
+/* 756 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -77363,7 +77536,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	var _addDefaultPrefix = __webpack_require__(755);
+	var _addDefaultPrefix = __webpack_require__(757);
 	
 	var _addDefaultPrefix2 = _interopRequireDefault(_addDefaultPrefix);
 	
@@ -77377,7 +77550,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 755 */
+/* 757 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -77394,7 +77567,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 756 */
+/* 758 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -77409,7 +77582,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	var _controlledOrDefault = __webpack_require__(757);
+	var _controlledOrDefault = __webpack_require__(759);
 	
 	var _controlledOrDefault2 = _interopRequireDefault(_controlledOrDefault);
 	
@@ -77433,7 +77606,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 757 */
+/* 759 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -77445,7 +77618,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	var _addDefaultPrefix = __webpack_require__(755);
+	var _addDefaultPrefix = __webpack_require__(757);
 	
 	var _addDefaultPrefix2 = _interopRequireDefault(_addDefaultPrefix);
 	
@@ -77462,7 +77635,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 758 */
+/* 760 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -77552,7 +77725,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 759 */
+/* 761 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -77583,11 +77756,11 @@
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _creatorsGoogleMapHolder = __webpack_require__(751);
+	var _creatorsGoogleMapHolder = __webpack_require__(753);
 	
 	var _creatorsGoogleMapHolder2 = _interopRequireDefault(_creatorsGoogleMapHolder);
 	
-	var _GoogleMapLoader = __webpack_require__(750);
+	var _GoogleMapLoader = __webpack_require__(752);
 	
 	var _GoogleMapLoader2 = _interopRequireDefault(_GoogleMapLoader);
 	
@@ -77754,7 +77927,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 760 */
+/* 762 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -77779,11 +77952,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsCircleCreator = __webpack_require__(762);
+	var _creatorsCircleCreator = __webpack_require__(764);
 	
 	var _creatorsCircleCreator2 = _interopRequireDefault(_creatorsCircleCreator);
 	
@@ -77886,7 +78059,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 761 */
+/* 763 */
 /***/ function(module, exports) {
 
 	var canUseDOM = !!(
@@ -77898,7 +78071,7 @@
 	module.exports = canUseDOM;
 
 /***/ },
-/* 762 */
+/* 764 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -77921,27 +78094,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsCircleEventList = __webpack_require__(763);
+	var _eventListsCircleEventList = __webpack_require__(765);
 	
 	var _eventListsCircleEventList2 = _interopRequireDefault(_eventListsCircleEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -78046,7 +78219,7 @@
 	exports["default"] = CircleCreator;
 
 /***/ },
-/* 763 */
+/* 765 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Circle
@@ -78060,7 +78233,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 764 */
+/* 766 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -78085,11 +78258,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsDirectionsRendererCreator = __webpack_require__(765);
+	var _creatorsDirectionsRendererCreator = __webpack_require__(767);
 	
 	var _creatorsDirectionsRendererCreator2 = _interopRequireDefault(_creatorsDirectionsRendererCreator);
 	
@@ -78177,7 +78350,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 765 */
+/* 767 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -78200,27 +78373,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsDirectionsRendererEventList = __webpack_require__(766);
+	var _eventListsDirectionsRendererEventList = __webpack_require__(768);
 	
 	var _eventListsDirectionsRendererEventList2 = _interopRequireDefault(_eventListsDirectionsRendererEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -78328,7 +78501,7 @@
 	exports["default"] = DirectionsRendererCreator;
 
 /***/ },
-/* 766 */
+/* 768 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRenderer
@@ -78342,7 +78515,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 767 */
+/* 769 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -78367,11 +78540,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsDrawingManagerCreator = __webpack_require__(768);
+	var _creatorsDrawingManagerCreator = __webpack_require__(770);
 	
 	var _creatorsDrawingManagerCreator2 = _interopRequireDefault(_creatorsDrawingManagerCreator);
 	
@@ -78449,7 +78622,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 768 */
+/* 770 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -78472,27 +78645,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsDrawingManagerEventList = __webpack_require__(769);
+	var _eventListsDrawingManagerEventList = __webpack_require__(771);
 	
 	var _eventListsDrawingManagerEventList2 = _interopRequireDefault(_eventListsDrawingManagerEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -78581,7 +78754,7 @@
 	exports["default"] = DrawingManagerCreator;
 
 /***/ },
-/* 769 */
+/* 771 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#DrawingManager
@@ -78595,7 +78768,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 770 */
+/* 772 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -78620,11 +78793,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsInfoWindowCreator = __webpack_require__(771);
+	var _creatorsInfoWindowCreator = __webpack_require__(773);
 	
 	var _creatorsInfoWindowCreator2 = _interopRequireDefault(_creatorsInfoWindowCreator);
 	
@@ -78705,7 +78878,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 771 */
+/* 773 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -78728,31 +78901,31 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsInfoWindowEventList = __webpack_require__(772);
+	var _eventListsInfoWindowEventList = __webpack_require__(774);
 	
 	var _eventListsInfoWindowEventList2 = _interopRequireDefault(_eventListsInfoWindowEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsSetContentForOptionalReactElement = __webpack_require__(773);
+	var _utilsSetContentForOptionalReactElement = __webpack_require__(775);
 	
 	var _utilsSetContentForOptionalReactElement2 = _interopRequireDefault(_utilsSetContentForOptionalReactElement);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -78862,7 +79035,7 @@
 	exports["default"] = InfoWindowCreator;
 
 /***/ },
-/* 772 */
+/* 774 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#InfoWindow
@@ -78876,7 +79049,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 773 */
+/* 775 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -78919,7 +79092,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 774 */
+/* 776 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -78944,11 +79117,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsKmlLayerCreator = __webpack_require__(775);
+	var _creatorsKmlLayerCreator = __webpack_require__(777);
 	
 	var _creatorsKmlLayerCreator2 = _interopRequireDefault(_creatorsKmlLayerCreator);
 	
@@ -79041,7 +79214,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 775 */
+/* 777 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -79064,27 +79237,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsKmlLayerEventList = __webpack_require__(776);
+	var _eventListsKmlLayerEventList = __webpack_require__(778);
 	
 	var _eventListsKmlLayerEventList2 = _interopRequireDefault(_eventListsKmlLayerEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -79201,7 +79374,7 @@
 	exports["default"] = KmlLayerCreator;
 
 /***/ },
-/* 776 */
+/* 778 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#KmlLayer
@@ -79215,7 +79388,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 777 */
+/* 779 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -79240,11 +79413,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsMarkerCreator = __webpack_require__(778);
+	var _creatorsMarkerCreator = __webpack_require__(780);
 	
 	var _creatorsMarkerCreator2 = _interopRequireDefault(_creatorsMarkerCreator);
 	
@@ -79398,7 +79571,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 778 */
+/* 780 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -79421,27 +79594,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsMarkerEventList = __webpack_require__(779);
+	var _eventListsMarkerEventList = __webpack_require__(781);
 	
 	var _eventListsMarkerEventList2 = _interopRequireDefault(_eventListsMarkerEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -79616,7 +79789,7 @@
 	exports["default"] = MarkerCreator;
 
 /***/ },
-/* 779 */
+/* 781 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Marker
@@ -79630,7 +79803,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 780 */
+/* 782 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -79655,11 +79828,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsOverlayViewCreator = __webpack_require__(781);
+	var _creatorsOverlayViewCreator = __webpack_require__(783);
 	
 	var _creatorsOverlayViewCreator2 = _interopRequireDefault(_creatorsOverlayViewCreator);
 	
@@ -79766,7 +79939,7 @@
 	// Controlled [props] - used in componentDidMount/componentDidUpdate
 
 /***/ },
-/* 781 */
+/* 783 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -79795,15 +79968,15 @@
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -80018,7 +80191,7 @@
 	exports["default"] = OverlayViewCreator;
 
 /***/ },
-/* 782 */
+/* 784 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -80043,11 +80216,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsPolygonCreator = __webpack_require__(783);
+	var _creatorsPolygonCreator = __webpack_require__(785);
 	
 	var _creatorsPolygonCreator2 = _interopRequireDefault(_creatorsPolygonCreator);
 	
@@ -80140,7 +80313,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 783 */
+/* 785 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -80163,27 +80336,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsPolygonEventList = __webpack_require__(784);
+	var _eventListsPolygonEventList = __webpack_require__(786);
 	
 	var _eventListsPolygonEventList2 = _interopRequireDefault(_eventListsPolygonEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -80288,7 +80461,7 @@
 	exports["default"] = PolygonCreator;
 
 /***/ },
-/* 784 */
+/* 786 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polygon
@@ -80302,7 +80475,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 785 */
+/* 787 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -80327,11 +80500,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsPolylineCreator = __webpack_require__(786);
+	var _creatorsPolylineCreator = __webpack_require__(788);
 	
 	var _creatorsPolylineCreator2 = _interopRequireDefault(_creatorsPolylineCreator);
 	
@@ -80419,7 +80592,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 786 */
+/* 788 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -80442,27 +80615,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsPolylineEventList = __webpack_require__(787);
+	var _eventListsPolylineEventList = __webpack_require__(789);
 	
 	var _eventListsPolylineEventList2 = _interopRequireDefault(_eventListsPolylineEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -80563,7 +80736,7 @@
 	exports["default"] = PolylineCreator;
 
 /***/ },
-/* 787 */
+/* 789 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polyline
@@ -80577,7 +80750,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 788 */
+/* 790 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -80602,11 +80775,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsRectangleCreator = __webpack_require__(789);
+	var _creatorsRectangleCreator = __webpack_require__(791);
 	
 	var _creatorsRectangleCreator2 = _interopRequireDefault(_creatorsRectangleCreator);
 	
@@ -80699,7 +80872,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 789 */
+/* 791 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -80722,27 +80895,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsRectangleEventList = __webpack_require__(790);
+	var _eventListsRectangleEventList = __webpack_require__(792);
 	
 	var _eventListsRectangleEventList2 = _interopRequireDefault(_eventListsRectangleEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -80843,7 +81016,7 @@
 	exports["default"] = RectangleCreator;
 
 /***/ },
-/* 790 */
+/* 792 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#Rectangle
@@ -80857,7 +81030,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 791 */
+/* 793 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -80884,11 +81057,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _canUseDom = __webpack_require__(761);
+	var _canUseDom = __webpack_require__(763);
 	
 	var _canUseDom2 = _interopRequireDefault(_canUseDom);
 	
-	var _creatorsSearchBoxCreator = __webpack_require__(792);
+	var _creatorsSearchBoxCreator = __webpack_require__(794);
 	
 	var _creatorsSearchBoxCreator2 = _interopRequireDefault(_creatorsSearchBoxCreator);
 	
@@ -80995,7 +81168,7 @@
 	// Event [onEventName]
 
 /***/ },
-/* 792 */
+/* 794 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -81018,27 +81191,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _eventListsSearchBoxEventList = __webpack_require__(793);
+	var _eventListsSearchBoxEventList = __webpack_require__(795);
 	
 	var _eventListsSearchBoxEventList2 = _interopRequireDefault(_eventListsSearchBoxEventList);
 	
-	var _utilsEventHandlerCreator = __webpack_require__(753);
+	var _utilsEventHandlerCreator = __webpack_require__(755);
 	
 	var _utilsEventHandlerCreator2 = _interopRequireDefault(_utilsEventHandlerCreator);
 	
-	var _utilsDefaultPropsCreator = __webpack_require__(754);
+	var _utilsDefaultPropsCreator = __webpack_require__(756);
 	
 	var _utilsDefaultPropsCreator2 = _interopRequireDefault(_utilsDefaultPropsCreator);
 	
-	var _utilsComposeOptions = __webpack_require__(756);
+	var _utilsComposeOptions = __webpack_require__(758);
 	
 	var _utilsComposeOptions2 = _interopRequireDefault(_utilsComposeOptions);
 	
-	var _utilsComponentLifecycleDecorator = __webpack_require__(758);
+	var _utilsComponentLifecycleDecorator = __webpack_require__(760);
 	
 	var _utilsComponentLifecycleDecorator2 = _interopRequireDefault(_utilsComponentLifecycleDecorator);
 	
-	var _GoogleMapHolder = __webpack_require__(751);
+	var _GoogleMapHolder = __webpack_require__(753);
 	
 	var _GoogleMapHolder2 = _interopRequireDefault(_GoogleMapHolder);
 	
@@ -81152,7 +81325,7 @@
 	exports["default"] = SearchBoxCreator;
 
 /***/ },
-/* 793 */
+/* 795 */
 /***/ function(module, exports) {
 
 	// https://developers.google.com/maps/documentation/javascript/3.exp/reference#SearchBox
@@ -81166,13 +81339,13 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 794 */
+/* 796 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(795);
+	module.exports = __webpack_require__(797);
 
 /***/ },
-/* 795 */
+/* 797 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -81291,7 +81464,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 796 */
+/* 798 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -81488,7 +81661,7 @@
 	exports.default = (0, _muiThemeable2.default)()(StyledTextBox);
 
 /***/ },
-/* 797 */
+/* 799 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -81503,7 +81676,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Slider = __webpack_require__(798);
+	var _Slider = __webpack_require__(800);
 	
 	var _Slider2 = _interopRequireDefault(_Slider);
 	
@@ -81613,7 +81786,7 @@
 	exports.default = ExperienceSlider;
 
 /***/ },
-/* 798 */
+/* 800 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -81623,7 +81796,7 @@
 	});
 	exports.default = undefined;
 	
-	var _Slider = __webpack_require__(799);
+	var _Slider = __webpack_require__(801);
 	
 	var _Slider2 = _interopRequireDefault(_Slider);
 	
@@ -81632,7 +81805,7 @@
 	exports.default = _Slider2.default;
 
 /***/ },
-/* 799 */
+/* 801 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -82322,7 +82495,7 @@
 	exports.default = Slider;
 
 /***/ },
-/* 800 */
+/* 802 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -82337,11 +82510,11 @@
 	
 	var _reactRedux = __webpack_require__(241);
 	
-	var _Preferences = __webpack_require__(801);
+	var _Preferences = __webpack_require__(803);
 	
 	var _Preferences2 = _interopRequireDefault(_Preferences);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -82385,7 +82558,7 @@
 	};
 
 /***/ },
-/* 801 */
+/* 803 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -82422,7 +82595,7 @@
 	
 	var _constants2 = _interopRequireDefault(_constants);
 	
-	var _TextElement = __webpack_require__(723);
+	var _TextElement = __webpack_require__(724);
 	
 	var _TextElement2 = _interopRequireDefault(_TextElement);
 	
@@ -82790,7 +82963,7 @@
 	exports.default = (0, _muiThemeable2.default)()(styledPreferences);
 
 /***/ },
-/* 802 */
+/* 804 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -82805,11 +82978,11 @@
 	
 	var _reactRedux = __webpack_require__(241);
 	
-	var _Gigs = __webpack_require__(803);
+	var _Gigs = __webpack_require__(805);
 	
 	var _Gigs2 = _interopRequireDefault(_Gigs);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -82844,7 +83017,7 @@
 	};
 
 /***/ },
-/* 803 */
+/* 805 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -82873,7 +83046,7 @@
 	
 	var _Textfield2 = _interopRequireDefault(_Textfield);
 	
-	var _TextElement = __webpack_require__(723);
+	var _TextElement = __webpack_require__(724);
 	
 	var _TextElement2 = _interopRequireDefault(_TextElement);
 	
@@ -82881,7 +83054,7 @@
 	
 	var _constants2 = _interopRequireDefault(_constants);
 	
-	var _Card = __webpack_require__(804);
+	var _Card = __webpack_require__(806);
 	
 	var _muiThemeable = __webpack_require__(609);
 	
@@ -83228,7 +83401,7 @@
 	exports.default = (0, _muiThemeable2.default)()(styledPreferences);
 
 /***/ },
-/* 804 */
+/* 806 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -83238,31 +83411,31 @@
 	});
 	exports.default = exports.CardExpandable = exports.CardActions = exports.CardText = exports.CardMedia = exports.CardTitle = exports.CardHeader = exports.Card = undefined;
 	
-	var _Card2 = __webpack_require__(805);
+	var _Card2 = __webpack_require__(807);
 	
 	var _Card3 = _interopRequireDefault(_Card2);
 	
-	var _CardHeader2 = __webpack_require__(809);
+	var _CardHeader2 = __webpack_require__(811);
 	
 	var _CardHeader3 = _interopRequireDefault(_CardHeader2);
 	
-	var _CardTitle2 = __webpack_require__(812);
+	var _CardTitle2 = __webpack_require__(814);
 	
 	var _CardTitle3 = _interopRequireDefault(_CardTitle2);
 	
-	var _CardMedia2 = __webpack_require__(813);
+	var _CardMedia2 = __webpack_require__(815);
 	
 	var _CardMedia3 = _interopRequireDefault(_CardMedia2);
 	
-	var _CardText2 = __webpack_require__(814);
+	var _CardText2 = __webpack_require__(816);
 	
 	var _CardText3 = _interopRequireDefault(_CardText2);
 	
-	var _CardActions2 = __webpack_require__(815);
+	var _CardActions2 = __webpack_require__(817);
 	
 	var _CardActions3 = _interopRequireDefault(_CardActions2);
 	
-	var _CardExpandable2 = __webpack_require__(806);
+	var _CardExpandable2 = __webpack_require__(808);
 	
 	var _CardExpandable3 = _interopRequireDefault(_CardExpandable2);
 	
@@ -83278,7 +83451,7 @@
 	exports.default = _Card3.default;
 
 /***/ },
-/* 805 */
+/* 807 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -83303,7 +83476,7 @@
 	
 	var _Paper2 = _interopRequireDefault(_Paper);
 	
-	var _CardExpandable = __webpack_require__(806);
+	var _CardExpandable = __webpack_require__(808);
 	
 	var _CardExpandable2 = _interopRequireDefault(_CardExpandable);
 	
@@ -83471,7 +83644,7 @@
 	exports.default = Card;
 
 /***/ },
-/* 806 */
+/* 808 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -83490,11 +83663,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _keyboardArrowUp = __webpack_require__(807);
+	var _keyboardArrowUp = __webpack_require__(809);
 	
 	var _keyboardArrowUp2 = _interopRequireDefault(_keyboardArrowUp);
 	
-	var _keyboardArrowDown = __webpack_require__(808);
+	var _keyboardArrowDown = __webpack_require__(810);
 	
 	var _keyboardArrowDown2 = _interopRequireDefault(_keyboardArrowDown);
 	
@@ -83561,7 +83734,7 @@
 	exports.default = CardExpandable;
 
 /***/ },
-/* 807 */
+/* 809 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -83598,7 +83771,7 @@
 	exports.default = HardwareKeyboardArrowUp;
 
 /***/ },
-/* 808 */
+/* 810 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -83635,7 +83808,7 @@
 	exports.default = HardwareKeyboardArrowDown;
 
 /***/ },
-/* 809 */
+/* 811 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -83656,7 +83829,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Avatar = __webpack_require__(810);
+	var _Avatar = __webpack_require__(812);
 	
 	var _Avatar2 = _interopRequireDefault(_Avatar);
 	
@@ -83831,7 +84004,7 @@
 	exports.default = CardHeader;
 
 /***/ },
-/* 810 */
+/* 812 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -83841,7 +84014,7 @@
 	});
 	exports.default = undefined;
 	
-	var _Avatar = __webpack_require__(811);
+	var _Avatar = __webpack_require__(813);
 	
 	var _Avatar2 = _interopRequireDefault(_Avatar);
 	
@@ -83850,7 +84023,7 @@
 	exports.default = _Avatar2.default;
 
 /***/ },
-/* 811 */
+/* 813 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84008,7 +84181,7 @@
 	exports.default = Avatar;
 
 /***/ },
-/* 812 */
+/* 814 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84161,7 +84334,7 @@
 	exports.default = CardTitle;
 
 /***/ },
-/* 813 */
+/* 815 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84344,7 +84517,7 @@
 	exports.default = CardMedia;
 
 /***/ },
-/* 814 */
+/* 816 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84443,7 +84616,7 @@
 	exports.default = CardText;
 
 /***/ },
-/* 815 */
+/* 817 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84547,7 +84720,7 @@
 	exports.default = CardActions;
 
 /***/ },
-/* 816 */
+/* 818 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84562,11 +84735,11 @@
 	
 	var _reactRedux = __webpack_require__(241);
 	
-	var _Reviews = __webpack_require__(817);
+	var _Reviews = __webpack_require__(819);
 	
 	var _Reviews2 = _interopRequireDefault(_Reviews);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -84595,7 +84768,7 @@
 	};
 
 /***/ },
-/* 817 */
+/* 819 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84620,7 +84793,7 @@
 	
 	var _Button2 = _interopRequireDefault(_Button);
 	
-	var _Card = __webpack_require__(804);
+	var _Card = __webpack_require__(806);
 	
 	var _muiThemeable = __webpack_require__(609);
 	
@@ -84841,7 +85014,7 @@
 	exports.default = (0, _muiThemeable2.default)()(styledReviews);
 
 /***/ },
-/* 818 */
+/* 820 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -84854,15 +85027,15 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _DatePicker = __webpack_require__(819);
+	var _DatePicker = __webpack_require__(821);
 	
 	var _DatePicker2 = _interopRequireDefault(_DatePicker);
 	
-	var _Footer = __webpack_require__(736);
+	var _Footer = __webpack_require__(737);
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
-	var _RequestForm = __webpack_require__(822);
+	var _RequestForm = __webpack_require__(824);
 	
 	var _RequestForm2 = _interopRequireDefault(_RequestForm);
 	
@@ -84870,7 +85043,7 @@
 	
 	var _moment2 = _interopRequireDefault(_moment);
 	
-	var _smoothscrollPolyfill = __webpack_require__(831);
+	var _smoothscrollPolyfill = __webpack_require__(833);
 	
 	var _smoothscrollPolyfill2 = _interopRequireDefault(_smoothscrollPolyfill);
 	
@@ -85003,7 +85176,7 @@
 	});
 
 /***/ },
-/* 819 */
+/* 821 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -85016,7 +85189,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDatepicker = __webpack_require__(820);
+	var _reactDatepicker = __webpack_require__(822);
 	
 	var _reactDatepicker2 = _interopRequireDefault(_reactDatepicker);
 	
@@ -85082,10 +85255,10 @@
 	});
 
 /***/ },
-/* 820 */
+/* 822 */
 /***/ function(module, exports, __webpack_require__) {
 
-	!function(e,t){ true?module.exports=t(__webpack_require__(477),__webpack_require__(3),__webpack_require__(821),__webpack_require__(37)):"function"==typeof define&&define.amd?define(["moment","react","react-onclickoutside","react-dom"],t):"object"==typeof exports?exports.DatePicker=t(require("moment"),require("react"),require("react-onclickoutside"),require("react-dom")):e.DatePicker=t(e.moment,e.React,e.OnClickOutside,e.ReactDOM)}(this,function(e,t,n,o){return function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={exports:{},id:o,loaded:!1};return e[o].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}function r(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}var a=n(1),i=o(a),s=n(5),l=o(s),p=n(3),d=o(p),f=n(13),u=o(f),c=n(12),h=o(c),m=n(4),y="react-datepicker-ignore-onclickoutside",g=d["default"].createClass({displayName:"DatePicker",propTypes:{autoComplete:d["default"].PropTypes.string,className:d["default"].PropTypes.string,dateFormat:d["default"].PropTypes.string,dateFormatCalendar:d["default"].PropTypes.string,disabled:d["default"].PropTypes.bool,endDate:d["default"].PropTypes.object,excludeDates:d["default"].PropTypes.array,filterDate:d["default"].PropTypes.func,fixedHeight:d["default"].PropTypes.bool,id:d["default"].PropTypes.string,includeDates:d["default"].PropTypes.array,inline:d["default"].PropTypes.bool,isClearable:d["default"].PropTypes.bool,locale:d["default"].PropTypes.string,maxDate:d["default"].PropTypes.object,minDate:d["default"].PropTypes.object,name:d["default"].PropTypes.string,onBlur:d["default"].PropTypes.func,onChange:d["default"].PropTypes.func.isRequired,onFocus:d["default"].PropTypes.func,openToDate:d["default"].PropTypes.object,placeholderText:d["default"].PropTypes.string,popoverAttachment:d["default"].PropTypes.string,popoverTargetAttachment:d["default"].PropTypes.string,popoverTargetOffset:d["default"].PropTypes.string,readOnly:d["default"].PropTypes.bool,renderCalendarTo:d["default"].PropTypes.any,required:d["default"].PropTypes.bool,selected:d["default"].PropTypes.object,showYearDropdown:d["default"].PropTypes.bool,startDate:d["default"].PropTypes.object,tabIndex:d["default"].PropTypes.number,tetherConstraints:d["default"].PropTypes.array,title:d["default"].PropTypes.string,todayButton:d["default"].PropTypes.string},getDefaultProps:function(){return{dateFormatCalendar:"MMMM YYYY",onChange:function(){},disabled:!1,onFocus:function(){},onBlur:function(){},popoverAttachment:"top left",popoverTargetAttachment:"bottom left",popoverTargetOffset:"10px 0",tetherConstraints:[{to:"window",attachment:"together"}]}},getInitialState:function(){return{open:!1}},setOpen:function(e){this.setState({open:e})},handleFocus:function(e){this.props.onFocus(e),this.setOpen(!0)},handleBlur:function(e){this.state.open?this.refs.input.focus():this.props.onBlur(e)},handleCalendarClickOutside:function(e){this.setOpen(!1)},handleSelect:function(e){this.setSelected(e),this.setOpen(!1)},setSelected:function(e){(0,m.isSameDay)(this.props.selected,e)||this.props.onChange(e)},onInputClick:function(){this.props.disabled||this.setOpen(!0)},onInputKeyDown:function(e){"Enter"===e.key||"Escape"===e.key?(e.preventDefault(),this.setOpen(!1)):"Tab"===e.key&&this.setOpen(!1)},onClearClick:function(e){e.preventDefault(),this.props.onChange(null)},renderCalendar:function(){return this.props.inline||this.state.open&&!this.props.disabled?d["default"].createElement(l["default"],{ref:"calendar",locale:this.props.locale,dateFormat:this.props.dateFormatCalendar,selected:this.props.selected,onSelect:this.handleSelect,openToDate:this.props.openToDate,minDate:this.props.minDate,maxDate:this.props.maxDate,startDate:this.props.startDate,endDate:this.props.endDate,excludeDates:this.props.excludeDates,filterDate:this.props.filterDate,onClickOutside:this.handleCalendarClickOutside,includeDates:this.props.includeDates,showYearDropdown:this.props.showYearDropdown,todayButton:this.props.todayButton,outsideClickIgnoreClass:y,fixedHeight:this.props.fixedHeight}):null},renderDateInput:function(){var e=(0,h["default"])(this.props.className,r({},y,this.state.open));return d["default"].createElement(i["default"],{ref:"input",id:this.props.id,name:this.props.name,date:this.props.selected,locale:this.props.locale,minDate:this.props.minDate,maxDate:this.props.maxDate,excludeDates:this.props.excludeDates,includeDates:this.props.includeDates,filterDate:this.props.filterDate,dateFormat:this.props.dateFormat,onFocus:this.handleFocus,onBlur:this.handleBlur,onClick:this.onInputClick,onKeyDown:this.onInputKeyDown,onChangeDate:this.setSelected,placeholder:this.props.placeholderText,disabled:this.props.disabled,autoComplete:this.props.autoComplete,className:e,title:this.props.title,readOnly:this.props.readOnly,required:this.props.required,tabIndex:this.props.tabIndex})},renderClearButton:function(){return this.props.isClearable&&null!=this.props.selected?d["default"].createElement("a",{className:"react-datepicker__close-icon",href:"#",onClick:this.onClearClick}):null},render:function(){var e=this.renderCalendar();return this.props.inline?e:d["default"].createElement(u["default"],{classPrefix:"react-datepicker__tether",attachment:this.props.popoverAttachment,targetAttachment:this.props.popoverTargetAttachment,targetOffset:this.props.popoverTargetOffset,renderElementTo:this.props.renderCalendarTo,constraints:this.props.tetherConstraints},d["default"].createElement("div",{className:"react-datepicker__input-container"},this.renderDateInput(),this.renderClearButton()),e)}});e.exports=g},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}function r(e,t){var n={};for(var o in e)t.indexOf(o)>=0||Object.prototype.hasOwnProperty.call(e,o)&&(n[o]=e[o]);return n}var a=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},i=n(2),s=o(i),l=n(3),p=o(l),d=n(4),f=p["default"].createClass({displayName:"DateInput",propTypes:{date:p["default"].PropTypes.object,dateFormat:p["default"].PropTypes.string,disabled:p["default"].PropTypes.bool,excludeDates:p["default"].PropTypes.array,filterDate:p["default"].PropTypes.func,includeDates:p["default"].PropTypes.array,locale:p["default"].PropTypes.string,maxDate:p["default"].PropTypes.object,minDate:p["default"].PropTypes.object,onBlur:p["default"].PropTypes.func,onChange:p["default"].PropTypes.func,onChangeDate:p["default"].PropTypes.func},getDefaultProps:function(){return{dateFormat:"L"}},getInitialState:function(){return{value:this.safeDateFormat(this.props)}},componentWillReceiveProps:function(e){(0,d.isSameDay)(e.date,this.props.date)&&e.locale===this.props.locale&&e.dateFormat===this.props.dateFormat||this.setState({value:this.safeDateFormat(e)})},handleChange:function(e){this.props.onChange&&this.props.onChange(e),e.isDefaultPrevented()||this.handleChangeDate(e.target.value)},handleChangeDate:function(e){if(this.props.onChangeDate){var t=(0,s["default"])(e,this.props.dateFormat,this.props.locale||s["default"].locale(),!0);t.isValid()&&!(0,d.isDayDisabled)(t,this.props)?this.props.onChangeDate(t):""===e&&this.props.onChangeDate(null)}this.setState({value:e})},safeDateFormat:function(e){return e.date&&e.date.clone().locale(e.locale||s["default"].locale()).format(e.dateFormat)||""},handleBlur:function(e){this.setState({value:this.safeDateFormat(this.props)}),this.props.onBlur&&this.props.onBlur(e)},focus:function(){this.refs.input.focus()},render:function(){var e=this.props,t=(e.date,e.locale,e.minDate,e.maxDate,e.excludeDates,e.includeDates,e.filterDate,e.dateFormat,e.onChangeDate,r(e,["date","locale","minDate","maxDate","excludeDates","includeDates","filterDate","dateFormat","onChangeDate"]));return p["default"].createElement("input",a({ref:"input",type:"text"},t,{value:this.state.value,onBlur:this.handleBlur,onChange:this.handleChange}))}});e.exports=f},function(t,n){t.exports=e},function(e,n){e.exports=t},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}function r(e,t){return e&&t?e.isSame(t,"day"):!e&&!t}function a(e){var t=arguments.length<=1||void 0===arguments[1]?{}:arguments[1],n=t.minDate,o=t.maxDate,a=t.excludeDates,i=t.includeDates,s=t.filterDate;return n&&e.isBefore(n,"day")||o&&e.isAfter(o,"day")||a&&a.some(function(t){return r(e,t)})||i&&!i.some(function(t){return r(e,t)})||s&&!s(e.clone())||!1}function i(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],o=n.minDate,r=n.includeDates,a=e.clone().subtract(1,t);return o&&a.isBefore(o,t)||r&&r.every(function(e){return a.isBefore(e,t)})||!1}function s(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],o=n.maxDate,r=n.includeDates,a=e.clone().add(1,t);return o&&a.isAfter(o,t)||r&&r.every(function(e){return a.isAfter(e,t)})||!1}function l(e){var t=e.minDate,n=e.includeDates;return n&&t?f["default"].min(n.filter(function(e){return t.isSameOrBefore(e,"day")})):n?f["default"].min(n):t}function p(e){var t=e.maxDate,n=e.includeDates;return n&&t?f["default"].max(n.filter(function(e){return t.isSameOrAfter(e,"day")})):n?f["default"].max(n):t}Object.defineProperty(t,"__esModule",{value:!0}),t.isSameDay=r,t.isDayDisabled=a,t.allDaysDisabledBefore=i,t.allDaysDisabledAfter=s,t.getEffectiveMinDate=l,t.getEffectiveMaxDate=p;var d=n(2),f=o(d)},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(2),a=o(r),i=n(6),s=o(i),l=n(9),p=o(l),d=n(3),f=o(d),u=n(4),c=f["default"].createClass({displayName:"Calendar",propTypes:{dateFormat:f["default"].PropTypes.string.isRequired,endDate:f["default"].PropTypes.object,excludeDates:f["default"].PropTypes.array,filterDate:f["default"].PropTypes.func,fixedHeight:f["default"].PropTypes.bool,includeDates:f["default"].PropTypes.array,locale:f["default"].PropTypes.string,maxDate:f["default"].PropTypes.object,minDate:f["default"].PropTypes.object,onClickOutside:f["default"].PropTypes.func.isRequired,onSelect:f["default"].PropTypes.func.isRequired,openToDate:f["default"].PropTypes.object,selected:f["default"].PropTypes.object,showYearDropdown:f["default"].PropTypes.bool,startDate:f["default"].PropTypes.object,todayButton:f["default"].PropTypes.string},mixins:[n(8)],getInitialState:function(){return{date:this.localizeMoment(this.getDateInView())}},componentWillReceiveProps:function(e){e.selected&&!(0,u.isSameDay)(e.selected,this.props.selected)&&this.setState({date:this.localizeMoment(e.selected)})},handleClickOutside:function(e){this.props.onClickOutside(e)},getDateInView:function(){var e=this.props,t=e.selected,n=e.openToDate,o=(0,u.getEffectiveMinDate)(this.props),r=(0,u.getEffectiveMaxDate)(this.props),i=(0,a["default"])();return t?t:o&&r&&n&&n.isBetween(o,r)?n:o&&n&&n.isAfter(o)?n:o&&o.isAfter(i)?o:r&&n&&n.isBefore(r)?n:r&&r.isBefore(i)?r:n?n:i},localizeMoment:function(e){return e.clone().locale(this.props.locale||a["default"].locale())},increaseMonth:function(){this.setState({date:this.state.date.clone().add(1,"month")})},decreaseMonth:function(){this.setState({date:this.state.date.clone().subtract(1,"month")})},handleDayClick:function(e){this.props.onSelect(e)},changeYear:function(e){this.setState({date:this.state.date.clone().set("year",e)})},header:function(){var e=this.state.date.clone().startOf("week");return[0,1,2,3,4,5,6].map(function(t){var n=e.clone().add(t,"days");return f["default"].createElement("div",{key:t,className:"react-datepicker__day-name"},n.localeData().weekdaysMin(n))})},renderPreviousMonthButton:function(){if(!(0,u.allDaysDisabledBefore)(this.state.date,"month",this.props))return f["default"].createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--previous",onClick:this.decreaseMonth})},renderNextMonthButton:function(){if(!(0,u.allDaysDisabledAfter)(this.state.date,"month",this.props))return f["default"].createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--next",onClick:this.increaseMonth})},renderCurrentMonth:function(){var e=["react-datepicker__current-month"];return this.props.showYearDropdown&&e.push("react-datepicker__current-month--hasYearDropdown"),f["default"].createElement("div",{className:e.join(" ")},this.state.date.format(this.props.dateFormat))},renderYearDropdown:function(){if(this.props.showYearDropdown)return f["default"].createElement(s["default"],{onChange:this.changeYear,year:this.state.date.year()})},renderTodayButton:function(){var e=this;if(this.props.todayButton)return f["default"].createElement("div",{className:"react-datepicker__today-button",onClick:function(){return e.props.onSelect((0,a["default"])())}},this.props.todayButton)},render:function(){return f["default"].createElement("div",{className:"react-datepicker"},f["default"].createElement("div",{className:"react-datepicker__triangle"}),f["default"].createElement("div",{className:"react-datepicker__header"},this.renderPreviousMonthButton(),this.renderCurrentMonth(),this.renderYearDropdown(),this.renderNextMonthButton(),f["default"].createElement("div",null,this.header())),f["default"].createElement(p["default"],{day:this.state.date,onDayClick:this.handleDayClick,minDate:this.props.minDate,maxDate:this.props.maxDate,excludeDates:this.props.excludeDates,includeDates:this.props.includeDates,fixedHeight:this.props.fixedHeight,filterDate:this.props.filterDate,selected:this.props.selected,startDate:this.props.startDate,endDate:this.props.endDate}),this.renderTodayButton())}});e.exports=c},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(3),a=o(r),i=n(7),s=o(i),l=a["default"].createClass({displayName:"YearDropdown",propTypes:{onChange:a["default"].PropTypes.func.isRequired,year:a["default"].PropTypes.number.isRequired},getInitialState:function(){return{dropdownVisible:!1}},renderReadView:function(){return a["default"].createElement("div",{className:"react-datepicker__year-read-view",onClick:this.toggleDropdown},a["default"].createElement("span",{className:"react-datepicker__year-read-view--selected-year"},this.props.year),a["default"].createElement("span",{className:"react-datepicker__year-read-view--down-arrow"}))},renderDropdown:function(){return a["default"].createElement(s["default"],{ref:"options",year:this.props.year,onChange:this.onChange,onCancel:this.toggleDropdown})},onChange:function(e){this.toggleDropdown(),e!==this.props.year&&this.props.onChange(e)},toggleDropdown:function(){this.setState({dropdownVisible:!this.state.dropdownVisible})},render:function(){return a["default"].createElement("div",null,this.state.dropdownVisible?this.renderDropdown():this.renderReadView())}});e.exports=l},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}function r(e){for(var t=[],n=0;n<5;n++)t.push(e-n);return t}var a=n(3),i=o(a),s=i["default"].createClass({displayName:"YearDropdownOptions",propTypes:{onCancel:i["default"].PropTypes.func.isRequired,onChange:i["default"].PropTypes.func.isRequired,year:i["default"].PropTypes.number.isRequired},mixins:[n(8)],getInitialState:function(){return{yearsList:r(this.props.year)}},renderOptions:function(){var e=this,t=this.props.year,n=this.state.yearsList.map(function(n){return i["default"].createElement("div",{className:"react-datepicker__year-option",key:n,onClick:e.onChange.bind(e,n)},t===n?i["default"].createElement("span",{className:"react-datepicker__year-option--selected"},"✓"):"",n)});return n.unshift(i["default"].createElement("div",{className:"react-datepicker__year-option",ref:"upcoming",key:"upcoming",onClick:this.incrementYears},i["default"].createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--years react-datepicker__navigation--years-upcoming"}))),n.push(i["default"].createElement("div",{className:"react-datepicker__year-option",ref:"previous",key:"previous",onClick:this.decrementYears},i["default"].createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--years react-datepicker__navigation--years-previous"}))),n},onChange:function(e){this.props.onChange(e)},handleClickOutside:function(){this.props.onCancel()},shiftYears:function(e){var t=this.state.yearsList.map(function(t){return t+e});this.setState({yearsList:t})},incrementYears:function(){return this.shiftYears(1)},decrementYears:function(){return this.shiftYears(-1)},render:function(){return i["default"].createElement("div",{className:"react-datepicker__year-dropdown"},this.renderOptions())}});e.exports=s},function(e,t){e.exports=n},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(3),a=o(r),i=n(10),s=o(i),l=a["default"].createClass({displayName:"Month",propTypes:{day:a["default"].PropTypes.object.isRequired,endDate:a["default"].PropTypes.object,excludeDates:a["default"].PropTypes.array,filterDate:a["default"].PropTypes.func,fixedHeight:a["default"].PropTypes.bool,includeDates:a["default"].PropTypes.array,maxDate:a["default"].PropTypes.object,minDate:a["default"].PropTypes.object,onDayClick:a["default"].PropTypes.func,selected:a["default"].PropTypes.object,startDate:a["default"].PropTypes.object},handleDayClick:function(e){this.props.onDayClick&&this.props.onDayClick(e)},isWeekInMonth:function(e){var t=this.props.day,n=e.clone().add(6,"days");return e.isSame(t,"month")||n.isSame(t,"month")},renderWeeks:function(){var e=this,t=this.props.day.clone().startOf("month").startOf("week");return[0,1,2,3,4,5].map(function(e){return t.clone().add(e,"weeks")}).filter(function(t){return e.props.fixedHeight||e.isWeekInMonth(t)}).map(function(t,n){return a["default"].createElement(s["default"],{key:n,day:t,month:e.props.day.month(),onDayClick:e.handleDayClick,minDate:e.props.minDate,maxDate:e.props.maxDate,excludeDates:e.props.excludeDates,includeDates:e.props.includeDates,filterDate:e.props.filterDate,selected:e.props.selected,startDate:e.props.startDate,endDate:e.props.endDate})})},render:function(){return a["default"].createElement("div",{className:"react-datepicker__month"},this.renderWeeks())}});e.exports=l},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(3),a=o(r),i=n(11),s=o(i),l=a["default"].createClass({displayName:"Week",propTypes:{day:a["default"].PropTypes.object.isRequired,endDate:a["default"].PropTypes.object,excludeDates:a["default"].PropTypes.array,filterDate:a["default"].PropTypes.func,includeDates:a["default"].PropTypes.array,maxDate:a["default"].PropTypes.object,minDate:a["default"].PropTypes.object,month:a["default"].PropTypes.number,onDayClick:a["default"].PropTypes.func,selected:a["default"].PropTypes.object,startDate:a["default"].PropTypes.object},handleDayClick:function(e){this.props.onDayClick&&this.props.onDayClick(e)},renderDays:function(){var e=this,t=this.props.day.clone().startOf("week");return[0,1,2,3,4,5,6].map(function(n){var o=t.clone().add(n,"days");return a["default"].createElement(s["default"],{key:n,day:o,month:e.props.month,onClick:e.handleDayClick.bind(e,o),minDate:e.props.minDate,maxDate:e.props.maxDate,excludeDates:e.props.excludeDates,includeDates:e.props.includeDates,filterDate:e.props.filterDate,selected:e.props.selected,startDate:e.props.startDate,endDate:e.props.endDate})})},render:function(){return a["default"].createElement("div",{className:"react-datepicker__week"},this.renderDays())}});e.exports=l},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(2),a=o(r),i=n(3),s=o(i),l=n(12),p=o(l),d=n(4),f=s["default"].createClass({displayName:"Day",propTypes:{day:s["default"].PropTypes.object.isRequired,endDate:s["default"].PropTypes.object,excludeDates:s["default"].PropTypes.array,filterDate:s["default"].PropTypes.func,includeDates:s["default"].PropTypes.array,maxDate:s["default"].PropTypes.object,minDate:s["default"].PropTypes.object,month:s["default"].PropTypes.number,onClick:s["default"].PropTypes.func,selected:s["default"].PropTypes.object,startDate:s["default"].PropTypes.object},handleClick:function(e){!this.isDisabled()&&this.props.onClick&&this.props.onClick(e)},isSameDay:function(e){return(0,d.isSameDay)(this.props.day,e)},isDisabled:function(){return(0,d.isDayDisabled)(this.props.day,this.props)},isInRange:function(){var e=this.props,t=e.day,n=e.startDate,o=e.endDate;if(!n||!o)return!1;var r=n.clone().startOf("day").subtract(1,"seconds"),a=o.clone().startOf("day").add(1,"seconds");return t.clone().startOf("day").isBetween(r,a)},isWeekend:function(){var e=this.props.day.day();return 0===e||6===e},isOutsideMonth:function(){return void 0!==this.props.month&&this.props.month!==this.props.day.month()},getClassNames:function(){return(0,p["default"])("react-datepicker__day",{"react-datepicker__day--disabled":this.isDisabled(),"react-datepicker__day--selected":this.isSameDay(this.props.selected),"react-datepicker__day--in-range":this.isInRange(),"react-datepicker__day--today":this.isSameDay((0,a["default"])()),"react-datepicker__day--weekend":this.isWeekend(),"react-datepicker__day--outside-month":this.isOutsideMonth()})},render:function(){return s["default"].createElement("div",{className:this.getClassNames(),onClick:this.handleClick},this.props.day.date())}});e.exports=f},function(e,t,n){var o,r;/*!
+	!function(e,t){ true?module.exports=t(__webpack_require__(477),__webpack_require__(3),__webpack_require__(823),__webpack_require__(37)):"function"==typeof define&&define.amd?define(["moment","react","react-onclickoutside","react-dom"],t):"object"==typeof exports?exports.DatePicker=t(require("moment"),require("react"),require("react-onclickoutside"),require("react-dom")):e.DatePicker=t(e.moment,e.React,e.OnClickOutside,e.ReactDOM)}(this,function(e,t,n,o){return function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={exports:{},id:o,loaded:!1};return e[o].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}function r(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}var a=n(1),i=o(a),s=n(5),l=o(s),p=n(3),d=o(p),f=n(13),u=o(f),c=n(12),h=o(c),m=n(4),y="react-datepicker-ignore-onclickoutside",g=d["default"].createClass({displayName:"DatePicker",propTypes:{autoComplete:d["default"].PropTypes.string,className:d["default"].PropTypes.string,dateFormat:d["default"].PropTypes.string,dateFormatCalendar:d["default"].PropTypes.string,disabled:d["default"].PropTypes.bool,endDate:d["default"].PropTypes.object,excludeDates:d["default"].PropTypes.array,filterDate:d["default"].PropTypes.func,fixedHeight:d["default"].PropTypes.bool,id:d["default"].PropTypes.string,includeDates:d["default"].PropTypes.array,inline:d["default"].PropTypes.bool,isClearable:d["default"].PropTypes.bool,locale:d["default"].PropTypes.string,maxDate:d["default"].PropTypes.object,minDate:d["default"].PropTypes.object,name:d["default"].PropTypes.string,onBlur:d["default"].PropTypes.func,onChange:d["default"].PropTypes.func.isRequired,onFocus:d["default"].PropTypes.func,openToDate:d["default"].PropTypes.object,placeholderText:d["default"].PropTypes.string,popoverAttachment:d["default"].PropTypes.string,popoverTargetAttachment:d["default"].PropTypes.string,popoverTargetOffset:d["default"].PropTypes.string,readOnly:d["default"].PropTypes.bool,renderCalendarTo:d["default"].PropTypes.any,required:d["default"].PropTypes.bool,selected:d["default"].PropTypes.object,showYearDropdown:d["default"].PropTypes.bool,startDate:d["default"].PropTypes.object,tabIndex:d["default"].PropTypes.number,tetherConstraints:d["default"].PropTypes.array,title:d["default"].PropTypes.string,todayButton:d["default"].PropTypes.string},getDefaultProps:function(){return{dateFormatCalendar:"MMMM YYYY",onChange:function(){},disabled:!1,onFocus:function(){},onBlur:function(){},popoverAttachment:"top left",popoverTargetAttachment:"bottom left",popoverTargetOffset:"10px 0",tetherConstraints:[{to:"window",attachment:"together"}]}},getInitialState:function(){return{open:!1}},setOpen:function(e){this.setState({open:e})},handleFocus:function(e){this.props.onFocus(e),this.setOpen(!0)},handleBlur:function(e){this.state.open?this.refs.input.focus():this.props.onBlur(e)},handleCalendarClickOutside:function(e){this.setOpen(!1)},handleSelect:function(e){this.setSelected(e),this.setOpen(!1)},setSelected:function(e){(0,m.isSameDay)(this.props.selected,e)||this.props.onChange(e)},onInputClick:function(){this.props.disabled||this.setOpen(!0)},onInputKeyDown:function(e){"Enter"===e.key||"Escape"===e.key?(e.preventDefault(),this.setOpen(!1)):"Tab"===e.key&&this.setOpen(!1)},onClearClick:function(e){e.preventDefault(),this.props.onChange(null)},renderCalendar:function(){return this.props.inline||this.state.open&&!this.props.disabled?d["default"].createElement(l["default"],{ref:"calendar",locale:this.props.locale,dateFormat:this.props.dateFormatCalendar,selected:this.props.selected,onSelect:this.handleSelect,openToDate:this.props.openToDate,minDate:this.props.minDate,maxDate:this.props.maxDate,startDate:this.props.startDate,endDate:this.props.endDate,excludeDates:this.props.excludeDates,filterDate:this.props.filterDate,onClickOutside:this.handleCalendarClickOutside,includeDates:this.props.includeDates,showYearDropdown:this.props.showYearDropdown,todayButton:this.props.todayButton,outsideClickIgnoreClass:y,fixedHeight:this.props.fixedHeight}):null},renderDateInput:function(){var e=(0,h["default"])(this.props.className,r({},y,this.state.open));return d["default"].createElement(i["default"],{ref:"input",id:this.props.id,name:this.props.name,date:this.props.selected,locale:this.props.locale,minDate:this.props.minDate,maxDate:this.props.maxDate,excludeDates:this.props.excludeDates,includeDates:this.props.includeDates,filterDate:this.props.filterDate,dateFormat:this.props.dateFormat,onFocus:this.handleFocus,onBlur:this.handleBlur,onClick:this.onInputClick,onKeyDown:this.onInputKeyDown,onChangeDate:this.setSelected,placeholder:this.props.placeholderText,disabled:this.props.disabled,autoComplete:this.props.autoComplete,className:e,title:this.props.title,readOnly:this.props.readOnly,required:this.props.required,tabIndex:this.props.tabIndex})},renderClearButton:function(){return this.props.isClearable&&null!=this.props.selected?d["default"].createElement("a",{className:"react-datepicker__close-icon",href:"#",onClick:this.onClearClick}):null},render:function(){var e=this.renderCalendar();return this.props.inline?e:d["default"].createElement(u["default"],{classPrefix:"react-datepicker__tether",attachment:this.props.popoverAttachment,targetAttachment:this.props.popoverTargetAttachment,targetOffset:this.props.popoverTargetOffset,renderElementTo:this.props.renderCalendarTo,constraints:this.props.tetherConstraints},d["default"].createElement("div",{className:"react-datepicker__input-container"},this.renderDateInput(),this.renderClearButton()),e)}});e.exports=g},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}function r(e,t){var n={};for(var o in e)t.indexOf(o)>=0||Object.prototype.hasOwnProperty.call(e,o)&&(n[o]=e[o]);return n}var a=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},i=n(2),s=o(i),l=n(3),p=o(l),d=n(4),f=p["default"].createClass({displayName:"DateInput",propTypes:{date:p["default"].PropTypes.object,dateFormat:p["default"].PropTypes.string,disabled:p["default"].PropTypes.bool,excludeDates:p["default"].PropTypes.array,filterDate:p["default"].PropTypes.func,includeDates:p["default"].PropTypes.array,locale:p["default"].PropTypes.string,maxDate:p["default"].PropTypes.object,minDate:p["default"].PropTypes.object,onBlur:p["default"].PropTypes.func,onChange:p["default"].PropTypes.func,onChangeDate:p["default"].PropTypes.func},getDefaultProps:function(){return{dateFormat:"L"}},getInitialState:function(){return{value:this.safeDateFormat(this.props)}},componentWillReceiveProps:function(e){(0,d.isSameDay)(e.date,this.props.date)&&e.locale===this.props.locale&&e.dateFormat===this.props.dateFormat||this.setState({value:this.safeDateFormat(e)})},handleChange:function(e){this.props.onChange&&this.props.onChange(e),e.isDefaultPrevented()||this.handleChangeDate(e.target.value)},handleChangeDate:function(e){if(this.props.onChangeDate){var t=(0,s["default"])(e,this.props.dateFormat,this.props.locale||s["default"].locale(),!0);t.isValid()&&!(0,d.isDayDisabled)(t,this.props)?this.props.onChangeDate(t):""===e&&this.props.onChangeDate(null)}this.setState({value:e})},safeDateFormat:function(e){return e.date&&e.date.clone().locale(e.locale||s["default"].locale()).format(e.dateFormat)||""},handleBlur:function(e){this.setState({value:this.safeDateFormat(this.props)}),this.props.onBlur&&this.props.onBlur(e)},focus:function(){this.refs.input.focus()},render:function(){var e=this.props,t=(e.date,e.locale,e.minDate,e.maxDate,e.excludeDates,e.includeDates,e.filterDate,e.dateFormat,e.onChangeDate,r(e,["date","locale","minDate","maxDate","excludeDates","includeDates","filterDate","dateFormat","onChangeDate"]));return p["default"].createElement("input",a({ref:"input",type:"text"},t,{value:this.state.value,onBlur:this.handleBlur,onChange:this.handleChange}))}});e.exports=f},function(t,n){t.exports=e},function(e,n){e.exports=t},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}function r(e,t){return e&&t?e.isSame(t,"day"):!e&&!t}function a(e){var t=arguments.length<=1||void 0===arguments[1]?{}:arguments[1],n=t.minDate,o=t.maxDate,a=t.excludeDates,i=t.includeDates,s=t.filterDate;return n&&e.isBefore(n,"day")||o&&e.isAfter(o,"day")||a&&a.some(function(t){return r(e,t)})||i&&!i.some(function(t){return r(e,t)})||s&&!s(e.clone())||!1}function i(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],o=n.minDate,r=n.includeDates,a=e.clone().subtract(1,t);return o&&a.isBefore(o,t)||r&&r.every(function(e){return a.isBefore(e,t)})||!1}function s(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],o=n.maxDate,r=n.includeDates,a=e.clone().add(1,t);return o&&a.isAfter(o,t)||r&&r.every(function(e){return a.isAfter(e,t)})||!1}function l(e){var t=e.minDate,n=e.includeDates;return n&&t?f["default"].min(n.filter(function(e){return t.isSameOrBefore(e,"day")})):n?f["default"].min(n):t}function p(e){var t=e.maxDate,n=e.includeDates;return n&&t?f["default"].max(n.filter(function(e){return t.isSameOrAfter(e,"day")})):n?f["default"].max(n):t}Object.defineProperty(t,"__esModule",{value:!0}),t.isSameDay=r,t.isDayDisabled=a,t.allDaysDisabledBefore=i,t.allDaysDisabledAfter=s,t.getEffectiveMinDate=l,t.getEffectiveMaxDate=p;var d=n(2),f=o(d)},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(2),a=o(r),i=n(6),s=o(i),l=n(9),p=o(l),d=n(3),f=o(d),u=n(4),c=f["default"].createClass({displayName:"Calendar",propTypes:{dateFormat:f["default"].PropTypes.string.isRequired,endDate:f["default"].PropTypes.object,excludeDates:f["default"].PropTypes.array,filterDate:f["default"].PropTypes.func,fixedHeight:f["default"].PropTypes.bool,includeDates:f["default"].PropTypes.array,locale:f["default"].PropTypes.string,maxDate:f["default"].PropTypes.object,minDate:f["default"].PropTypes.object,onClickOutside:f["default"].PropTypes.func.isRequired,onSelect:f["default"].PropTypes.func.isRequired,openToDate:f["default"].PropTypes.object,selected:f["default"].PropTypes.object,showYearDropdown:f["default"].PropTypes.bool,startDate:f["default"].PropTypes.object,todayButton:f["default"].PropTypes.string},mixins:[n(8)],getInitialState:function(){return{date:this.localizeMoment(this.getDateInView())}},componentWillReceiveProps:function(e){e.selected&&!(0,u.isSameDay)(e.selected,this.props.selected)&&this.setState({date:this.localizeMoment(e.selected)})},handleClickOutside:function(e){this.props.onClickOutside(e)},getDateInView:function(){var e=this.props,t=e.selected,n=e.openToDate,o=(0,u.getEffectiveMinDate)(this.props),r=(0,u.getEffectiveMaxDate)(this.props),i=(0,a["default"])();return t?t:o&&r&&n&&n.isBetween(o,r)?n:o&&n&&n.isAfter(o)?n:o&&o.isAfter(i)?o:r&&n&&n.isBefore(r)?n:r&&r.isBefore(i)?r:n?n:i},localizeMoment:function(e){return e.clone().locale(this.props.locale||a["default"].locale())},increaseMonth:function(){this.setState({date:this.state.date.clone().add(1,"month")})},decreaseMonth:function(){this.setState({date:this.state.date.clone().subtract(1,"month")})},handleDayClick:function(e){this.props.onSelect(e)},changeYear:function(e){this.setState({date:this.state.date.clone().set("year",e)})},header:function(){var e=this.state.date.clone().startOf("week");return[0,1,2,3,4,5,6].map(function(t){var n=e.clone().add(t,"days");return f["default"].createElement("div",{key:t,className:"react-datepicker__day-name"},n.localeData().weekdaysMin(n))})},renderPreviousMonthButton:function(){if(!(0,u.allDaysDisabledBefore)(this.state.date,"month",this.props))return f["default"].createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--previous",onClick:this.decreaseMonth})},renderNextMonthButton:function(){if(!(0,u.allDaysDisabledAfter)(this.state.date,"month",this.props))return f["default"].createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--next",onClick:this.increaseMonth})},renderCurrentMonth:function(){var e=["react-datepicker__current-month"];return this.props.showYearDropdown&&e.push("react-datepicker__current-month--hasYearDropdown"),f["default"].createElement("div",{className:e.join(" ")},this.state.date.format(this.props.dateFormat))},renderYearDropdown:function(){if(this.props.showYearDropdown)return f["default"].createElement(s["default"],{onChange:this.changeYear,year:this.state.date.year()})},renderTodayButton:function(){var e=this;if(this.props.todayButton)return f["default"].createElement("div",{className:"react-datepicker__today-button",onClick:function(){return e.props.onSelect((0,a["default"])())}},this.props.todayButton)},render:function(){return f["default"].createElement("div",{className:"react-datepicker"},f["default"].createElement("div",{className:"react-datepicker__triangle"}),f["default"].createElement("div",{className:"react-datepicker__header"},this.renderPreviousMonthButton(),this.renderCurrentMonth(),this.renderYearDropdown(),this.renderNextMonthButton(),f["default"].createElement("div",null,this.header())),f["default"].createElement(p["default"],{day:this.state.date,onDayClick:this.handleDayClick,minDate:this.props.minDate,maxDate:this.props.maxDate,excludeDates:this.props.excludeDates,includeDates:this.props.includeDates,fixedHeight:this.props.fixedHeight,filterDate:this.props.filterDate,selected:this.props.selected,startDate:this.props.startDate,endDate:this.props.endDate}),this.renderTodayButton())}});e.exports=c},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(3),a=o(r),i=n(7),s=o(i),l=a["default"].createClass({displayName:"YearDropdown",propTypes:{onChange:a["default"].PropTypes.func.isRequired,year:a["default"].PropTypes.number.isRequired},getInitialState:function(){return{dropdownVisible:!1}},renderReadView:function(){return a["default"].createElement("div",{className:"react-datepicker__year-read-view",onClick:this.toggleDropdown},a["default"].createElement("span",{className:"react-datepicker__year-read-view--selected-year"},this.props.year),a["default"].createElement("span",{className:"react-datepicker__year-read-view--down-arrow"}))},renderDropdown:function(){return a["default"].createElement(s["default"],{ref:"options",year:this.props.year,onChange:this.onChange,onCancel:this.toggleDropdown})},onChange:function(e){this.toggleDropdown(),e!==this.props.year&&this.props.onChange(e)},toggleDropdown:function(){this.setState({dropdownVisible:!this.state.dropdownVisible})},render:function(){return a["default"].createElement("div",null,this.state.dropdownVisible?this.renderDropdown():this.renderReadView())}});e.exports=l},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}function r(e){for(var t=[],n=0;n<5;n++)t.push(e-n);return t}var a=n(3),i=o(a),s=i["default"].createClass({displayName:"YearDropdownOptions",propTypes:{onCancel:i["default"].PropTypes.func.isRequired,onChange:i["default"].PropTypes.func.isRequired,year:i["default"].PropTypes.number.isRequired},mixins:[n(8)],getInitialState:function(){return{yearsList:r(this.props.year)}},renderOptions:function(){var e=this,t=this.props.year,n=this.state.yearsList.map(function(n){return i["default"].createElement("div",{className:"react-datepicker__year-option",key:n,onClick:e.onChange.bind(e,n)},t===n?i["default"].createElement("span",{className:"react-datepicker__year-option--selected"},"✓"):"",n)});return n.unshift(i["default"].createElement("div",{className:"react-datepicker__year-option",ref:"upcoming",key:"upcoming",onClick:this.incrementYears},i["default"].createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--years react-datepicker__navigation--years-upcoming"}))),n.push(i["default"].createElement("div",{className:"react-datepicker__year-option",ref:"previous",key:"previous",onClick:this.decrementYears},i["default"].createElement("a",{className:"react-datepicker__navigation react-datepicker__navigation--years react-datepicker__navigation--years-previous"}))),n},onChange:function(e){this.props.onChange(e)},handleClickOutside:function(){this.props.onCancel()},shiftYears:function(e){var t=this.state.yearsList.map(function(t){return t+e});this.setState({yearsList:t})},incrementYears:function(){return this.shiftYears(1)},decrementYears:function(){return this.shiftYears(-1)},render:function(){return i["default"].createElement("div",{className:"react-datepicker__year-dropdown"},this.renderOptions())}});e.exports=s},function(e,t){e.exports=n},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(3),a=o(r),i=n(10),s=o(i),l=a["default"].createClass({displayName:"Month",propTypes:{day:a["default"].PropTypes.object.isRequired,endDate:a["default"].PropTypes.object,excludeDates:a["default"].PropTypes.array,filterDate:a["default"].PropTypes.func,fixedHeight:a["default"].PropTypes.bool,includeDates:a["default"].PropTypes.array,maxDate:a["default"].PropTypes.object,minDate:a["default"].PropTypes.object,onDayClick:a["default"].PropTypes.func,selected:a["default"].PropTypes.object,startDate:a["default"].PropTypes.object},handleDayClick:function(e){this.props.onDayClick&&this.props.onDayClick(e)},isWeekInMonth:function(e){var t=this.props.day,n=e.clone().add(6,"days");return e.isSame(t,"month")||n.isSame(t,"month")},renderWeeks:function(){var e=this,t=this.props.day.clone().startOf("month").startOf("week");return[0,1,2,3,4,5].map(function(e){return t.clone().add(e,"weeks")}).filter(function(t){return e.props.fixedHeight||e.isWeekInMonth(t)}).map(function(t,n){return a["default"].createElement(s["default"],{key:n,day:t,month:e.props.day.month(),onDayClick:e.handleDayClick,minDate:e.props.minDate,maxDate:e.props.maxDate,excludeDates:e.props.excludeDates,includeDates:e.props.includeDates,filterDate:e.props.filterDate,selected:e.props.selected,startDate:e.props.startDate,endDate:e.props.endDate})})},render:function(){return a["default"].createElement("div",{className:"react-datepicker__month"},this.renderWeeks())}});e.exports=l},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(3),a=o(r),i=n(11),s=o(i),l=a["default"].createClass({displayName:"Week",propTypes:{day:a["default"].PropTypes.object.isRequired,endDate:a["default"].PropTypes.object,excludeDates:a["default"].PropTypes.array,filterDate:a["default"].PropTypes.func,includeDates:a["default"].PropTypes.array,maxDate:a["default"].PropTypes.object,minDate:a["default"].PropTypes.object,month:a["default"].PropTypes.number,onDayClick:a["default"].PropTypes.func,selected:a["default"].PropTypes.object,startDate:a["default"].PropTypes.object},handleDayClick:function(e){this.props.onDayClick&&this.props.onDayClick(e)},renderDays:function(){var e=this,t=this.props.day.clone().startOf("week");return[0,1,2,3,4,5,6].map(function(n){var o=t.clone().add(n,"days");return a["default"].createElement(s["default"],{key:n,day:o,month:e.props.month,onClick:e.handleDayClick.bind(e,o),minDate:e.props.minDate,maxDate:e.props.maxDate,excludeDates:e.props.excludeDates,includeDates:e.props.includeDates,filterDate:e.props.filterDate,selected:e.props.selected,startDate:e.props.startDate,endDate:e.props.endDate})})},render:function(){return a["default"].createElement("div",{className:"react-datepicker__week"},this.renderDays())}});e.exports=l},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{"default":e}}var r=n(2),a=o(r),i=n(3),s=o(i),l=n(12),p=o(l),d=n(4),f=s["default"].createClass({displayName:"Day",propTypes:{day:s["default"].PropTypes.object.isRequired,endDate:s["default"].PropTypes.object,excludeDates:s["default"].PropTypes.array,filterDate:s["default"].PropTypes.func,includeDates:s["default"].PropTypes.array,maxDate:s["default"].PropTypes.object,minDate:s["default"].PropTypes.object,month:s["default"].PropTypes.number,onClick:s["default"].PropTypes.func,selected:s["default"].PropTypes.object,startDate:s["default"].PropTypes.object},handleClick:function(e){!this.isDisabled()&&this.props.onClick&&this.props.onClick(e)},isSameDay:function(e){return(0,d.isSameDay)(this.props.day,e)},isDisabled:function(){return(0,d.isDayDisabled)(this.props.day,this.props)},isInRange:function(){var e=this.props,t=e.day,n=e.startDate,o=e.endDate;if(!n||!o)return!1;var r=n.clone().startOf("day").subtract(1,"seconds"),a=o.clone().startOf("day").add(1,"seconds");return t.clone().startOf("day").isBetween(r,a)},isWeekend:function(){var e=this.props.day.day();return 0===e||6===e},isOutsideMonth:function(){return void 0!==this.props.month&&this.props.month!==this.props.day.month()},getClassNames:function(){return(0,p["default"])("react-datepicker__day",{"react-datepicker__day--disabled":this.isDisabled(),"react-datepicker__day--selected":this.isSameDay(this.props.selected),"react-datepicker__day--in-range":this.isInRange(),"react-datepicker__day--today":this.isSameDay((0,a["default"])()),"react-datepicker__day--weekend":this.isWeekend(),"react-datepicker__day--outside-month":this.isOutsideMonth()})},render:function(){return s["default"].createElement("div",{className:this.getClassNames(),onClick:this.handleClick},this.props.day.date())}});e.exports=f},function(e,t,n){var o,r;/*!
 		  Copyright (c) 2016 Jed Watson.
 		  Licensed under the MIT License (MIT), see
 		  http://jedwatson.github.io/classnames
@@ -85094,7 +85267,7 @@
 	!function(a,i){o=i,r="function"==typeof o?o.call(t,n,t,e):o,!(void 0!==r&&(e.exports=r))}(this,function(e,t,n){"use strict";function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function r(e){var t=e.getBoundingClientRect(),n={};for(var o in t)n[o]=t[o];if(e.ownerDocument!==document){var a=e.ownerDocument.defaultView.frameElement;if(a){var i=r(a);n.top+=i.top,n.bottom+=i.top,n.left+=i.left,n.right+=i.left}}return n}function a(e){var t=getComputedStyle(e)||{},n=t.position,o=[];if("fixed"===n)return[e];for(var r=e;(r=r.parentNode)&&r&&1===r.nodeType;){var a=void 0;try{a=getComputedStyle(r)}catch(i){}if("undefined"==typeof a||null===a)return o.push(r),o;var s=a,l=s.overflow,p=s.overflowX,d=s.overflowY;/(auto|scroll)/.test(l+d+p)&&("absolute"!==n||["relative","absolute","fixed"].indexOf(a.position)>=0)&&o.push(r)}return o.push(e.ownerDocument.body),e.ownerDocument!==document&&o.push(e.ownerDocument.defaultView),o}function i(){_&&document.body.removeChild(_),_=null}function s(e){var t=void 0;e===document?(t=document,e=document.documentElement):t=e.ownerDocument;var n=t.documentElement,o=r(e),a=k();return o.top-=a.top,o.left-=a.left,"undefined"==typeof o.width&&(o.width=document.body.scrollWidth-o.left-o.right),"undefined"==typeof o.height&&(o.height=document.body.scrollHeight-o.top-o.bottom),o.top=o.top-n.clientTop,o.left=o.left-n.clientLeft,o.right=t.body.clientWidth-o.width-o.left,o.bottom=t.body.clientHeight-o.height-o.top,o}function l(e){return e.offsetParent||document.documentElement}function p(){var e=document.createElement("div");e.style.width="100%",e.style.height="200px";var t=document.createElement("div");d(t.style,{position:"absolute",top:0,left:0,pointerEvents:"none",visibility:"hidden",width:"200px",height:"150px",overflow:"hidden"}),t.appendChild(e),document.body.appendChild(t);var n=e.offsetWidth;t.style.overflow="scroll";var o=e.offsetWidth;n===o&&(o=t.clientWidth),document.body.removeChild(t);var r=n-o;return{width:r,height:r}}function d(){var e=arguments.length<=0||void 0===arguments[0]?{}:arguments[0],t=[];return Array.prototype.push.apply(t,arguments),t.slice(1).forEach(function(t){if(t)for(var n in t)({}).hasOwnProperty.call(t,n)&&(e[n]=t[n])}),e}function f(e,t){if("undefined"!=typeof e.classList)t.split(" ").forEach(function(t){t.trim()&&e.classList.remove(t)});else{var n=new RegExp("(^| )"+t.split(" ").join("|")+"( |$)","gi"),o=h(e).replace(n," ");m(e,o)}}function u(e,t){if("undefined"!=typeof e.classList)t.split(" ").forEach(function(t){t.trim()&&e.classList.add(t)});else{f(e,t);var n=h(e)+(" "+t);m(e,n)}}function c(e,t){if("undefined"!=typeof e.classList)return e.classList.contains(t);var n=h(e);return new RegExp("(^| )"+t+"( |$)","gi").test(n)}function h(e){return e.className instanceof e.ownerDocument.defaultView.SVGAnimatedString?e.className.baseVal:e.className}function m(e,t){e.setAttribute("class",t)}function y(e,t,n){n.forEach(function(n){t.indexOf(n)===-1&&c(e,n)&&f(e,n)}),t.forEach(function(t){c(e,t)||u(e,t)})}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function g(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function v(e,t){var n=arguments.length<=2||void 0===arguments[2]?1:arguments[2];return e+n>=t&&t>=e-n}function b(){return"undefined"!=typeof performance&&"undefined"!=typeof performance.now?performance.now():+new Date}function D(){for(var e={top:0,left:0},t=arguments.length,n=Array(t),o=0;o<t;o++)n[o]=arguments[o];return n.forEach(function(t){var n=t.top,o=t.left;"string"==typeof n&&(n=parseFloat(n,10)),"string"==typeof o&&(o=parseFloat(o,10)),e.top+=n,e.left+=o}),e}function C(e,t){return"string"==typeof e.left&&e.left.indexOf("%")!==-1&&(e.left=parseFloat(e.left,10)/100*t.width),"string"==typeof e.top&&e.top.indexOf("%")!==-1&&(e.top=parseFloat(e.top,10)/100*t.height),e}function T(e,t){return"scrollParent"===t?t=e.scrollParents[0]:"window"===t&&(t=[pageXOffset,pageYOffset,innerWidth+pageXOffset,innerHeight+pageYOffset]),t===document&&(t=t.documentElement),"undefined"!=typeof t.nodeType&&!function(){var e=t,n=s(t),o=n,r=getComputedStyle(t);if(t=[o.left,o.top,n.width+o.left,n.height+o.top],e.ownerDocument!==document){var a=e.ownerDocument.defaultView;t[0]+=a.pageXOffset,t[1]+=a.pageYOffset,t[2]+=a.pageXOffset,t[3]+=a.pageYOffset}K.forEach(function(e,n){e=e[0].toUpperCase()+e.substr(1),"Top"===e||"Left"===e?t[n]+=parseFloat(r["border"+e+"Width"]):t[n]-=parseFloat(r["border"+e+"Width"])})}(),t}var w=function(){function e(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,n,o){return n&&e(t.prototype,n),o&&e(t,o),t}}(),P=void 0;"undefined"==typeof P&&(P={modules:[]});var _=null,x=function(){var e=0;return function(){return++e}}(),O={},k=function(){var e=_;e||(e=document.createElement("div"),e.setAttribute("data-tether-id",x()),d(e.style,{top:0,left:0,position:"absolute"}),document.body.appendChild(e),_=e);var t=e.getAttribute("data-tether-id");return"undefined"==typeof O[t]&&(O[t]=r(e),j(function(){delete O[t]})),O[t]},E=[],j=function(e){E.push(e)},S=function(){for(var e=void 0;e=E.pop();)e()},N=function(){function e(){o(this,e)}return w(e,[{key:"on",value:function(e,t,n){var o=!(arguments.length<=3||void 0===arguments[3])&&arguments[3];"undefined"==typeof this.bindings&&(this.bindings={}),"undefined"==typeof this.bindings[e]&&(this.bindings[e]=[]),this.bindings[e].push({handler:t,ctx:n,once:o})}},{key:"once",value:function(e,t,n){this.on(e,t,n,!0)}},{key:"off",value:function(e,t){if("undefined"!=typeof this.bindings&&"undefined"!=typeof this.bindings[e])if("undefined"==typeof t)delete this.bindings[e];else for(var n=0;n<this.bindings[e].length;)this.bindings[e][n].handler===t?this.bindings[e].splice(n,1):++n}},{key:"trigger",value:function(e){if("undefined"!=typeof this.bindings&&this.bindings[e]){for(var t=0,n=arguments.length,o=Array(n>1?n-1:0),r=1;r<n;r++)o[r-1]=arguments[r];for(;t<this.bindings[e].length;){var a=this.bindings[e][t],i=a.handler,s=a.ctx,l=a.once,p=s;"undefined"==typeof p&&(p=this),i.apply(p,o),l?this.bindings[e].splice(t,1):++t}}}}]),e}();P.Utils={getActualBoundingClientRect:r,getScrollParents:a,getBounds:s,getOffsetParent:l,extend:d,addClass:u,removeClass:f,hasClass:c,updateClasses:y,defer:j,flush:S,uniqueId:x,Evented:N,getScrollBarSize:p,removeUtilElements:i};var M=function(){function e(e,t){var n=[],o=!0,r=!1,a=void 0;try{for(var i,s=e[Symbol.iterator]();!(o=(i=s.next()).done)&&(n.push(i.value),!t||n.length!==t);o=!0);}catch(l){r=!0,a=l}finally{try{!o&&s["return"]&&s["return"]()}finally{if(r)throw a}}return n}return function(t,n){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,n);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),w=function(){function e(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,n,o){return n&&e(t.prototype,n),o&&e(t,o),t}}(),A=function(e,t,n){for(var o=!0;o;){var r=e,a=t,i=n;o=!1,null===r&&(r=Function.prototype);var s=Object.getOwnPropertyDescriptor(r,a);if(void 0!==s){if("value"in s)return s.value;var l=s.get;if(void 0===l)return;return l.call(i)}var p=Object.getPrototypeOf(r);if(null===p)return;e=p,t=a,n=i,o=!0,s=p=void 0}};if("undefined"==typeof P)throw new Error("You must include the utils.js file before tether.js");var B=P.Utils,a=B.getScrollParents,s=B.getBounds,l=B.getOffsetParent,d=B.extend,u=B.addClass,f=B.removeClass,y=B.updateClasses,j=B.defer,S=B.flush,p=B.getScrollBarSize,i=B.removeUtilElements,F=function(){if("undefined"==typeof document)return"";for(var e=document.createElement("div"),t=["transform","WebkitTransform","OTransform","MozTransform","msTransform"],n=0;n<t.length;++n){var o=t[n];if(void 0!==e.style[o])return o}}(),Y=[],W=function(){Y.forEach(function(e){e.position(!1)}),S()};!function(){var e=null,t=null,n=null,o=function r(){return"undefined"!=typeof t&&t>16?(t=Math.min(t-16,250),void(n=setTimeout(r,250))):void("undefined"!=typeof e&&b()-e<10||(null!=n&&(clearTimeout(n),n=null),e=b(),W(),t=b()-e))};"undefined"!=typeof window&&"undefined"!=typeof window.addEventListener&&["resize","scroll","touchmove"].forEach(function(e){window.addEventListener(e,o)})}();var q={center:"center",left:"right",right:"left"},I={middle:"middle",top:"bottom",bottom:"top"},R={top:0,left:0,middle:"50%",center:"50%",bottom:"100%",right:"100%"},z=function(e,t){var n=e.left,o=e.top;return"auto"===n&&(n=q[t.left]),"auto"===o&&(o=I[t.top]),{left:n,top:o}},H=function(e){var t=e.left,n=e.top;return"undefined"!=typeof R[e.left]&&(t=R[e.left]),"undefined"!=typeof R[e.top]&&(n=R[e.top]),{left:t,top:n}},L=function(e){var t=e.split(" "),n=M(t,2),o=n[0],r=n[1];return{top:o,left:r}},V=L,X=function(e){function t(e){var n=this;o(this,t),A(Object.getPrototypeOf(t.prototype),"constructor",this).call(this),this.position=this.position.bind(this),Y.push(this),this.history=[],this.setOptions(e,!1),P.modules.forEach(function(e){"undefined"!=typeof e.initialize&&e.initialize.call(n)}),this.position()}return g(t,e),w(t,[{key:"getClass",value:function(){var e=arguments.length<=0||void 0===arguments[0]?"":arguments[0],t=this.options.classes;return"undefined"!=typeof t&&t[e]?this.options.classes[e]:this.options.classPrefix?this.options.classPrefix+"-"+e:e}},{key:"setOptions",value:function(e){var t=this,n=arguments.length<=1||void 0===arguments[1]||arguments[1],o={offset:"0 0",targetOffset:"0 0",targetAttachment:"auto auto",classPrefix:"tether"};this.options=d(o,e);var r=this.options,i=r.element,s=r.target,l=r.targetModifier;if(this.element=i,this.target=s,this.targetModifier=l,"viewport"===this.target?(this.target=document.body,this.targetModifier="visible"):"scroll-handle"===this.target&&(this.target=document.body,this.targetModifier="scroll-handle"),["element","target"].forEach(function(e){if("undefined"==typeof t[e])throw new Error("Tether Error: Both element and target must be defined");"undefined"!=typeof t[e].jquery?t[e]=t[e][0]:"string"==typeof t[e]&&(t[e]=document.querySelector(t[e]))}),u(this.element,this.getClass("element")),this.options.addTargetClasses!==!1&&u(this.target,this.getClass("target")),!this.options.attachment)throw new Error("Tether Error: You must provide an attachment");this.targetAttachment=V(this.options.targetAttachment),this.attachment=V(this.options.attachment),this.offset=L(this.options.offset),this.targetOffset=L(this.options.targetOffset),"undefined"!=typeof this.scrollParents&&this.disable(),"scroll-handle"===this.targetModifier?this.scrollParents=[this.target]:this.scrollParents=a(this.target),this.options.enabled!==!1&&this.enable(n)}},{key:"getTargetBounds",value:function(){if("undefined"==typeof this.targetModifier)return s(this.target);if("visible"===this.targetModifier){if(this.target===document.body)return{top:pageYOffset,left:pageXOffset,height:innerHeight,width:innerWidth};var e=s(this.target),t={height:e.height,width:e.width,top:e.top,left:e.left};return t.height=Math.min(t.height,e.height-(pageYOffset-e.top)),t.height=Math.min(t.height,e.height-(e.top+e.height-(pageYOffset+innerHeight))),t.height=Math.min(innerHeight,t.height),t.height-=2,t.width=Math.min(t.width,e.width-(pageXOffset-e.left)),t.width=Math.min(t.width,e.width-(e.left+e.width-(pageXOffset+innerWidth))),t.width=Math.min(innerWidth,t.width),t.width-=2,t.top<pageYOffset&&(t.top=pageYOffset),t.left<pageXOffset&&(t.left=pageXOffset),t}if("scroll-handle"===this.targetModifier){var e=void 0,n=this.target;n===document.body?(n=document.documentElement,e={left:pageXOffset,top:pageYOffset,height:innerHeight,width:innerWidth}):e=s(n);var o=getComputedStyle(n),r=n.scrollWidth>n.clientWidth||[o.overflow,o.overflowX].indexOf("scroll")>=0||this.target!==document.body,a=0;r&&(a=15);var i=e.height-parseFloat(o.borderTopWidth)-parseFloat(o.borderBottomWidth)-a,t={width:15,height:.975*i*(i/n.scrollHeight),left:e.left+e.width-parseFloat(o.borderLeftWidth)-15},l=0;i<408&&this.target===document.body&&(l=-11e-5*Math.pow(i,2)-.00727*i+22.58),this.target!==document.body&&(t.height=Math.max(t.height,24));var p=this.target.scrollTop/(n.scrollHeight-i);return t.top=p*(i-t.height-l)+e.top+parseFloat(o.borderTopWidth),this.target===document.body&&(t.height=Math.max(t.height,24)),t}}},{key:"clearCache",value:function(){this._cache={}}},{key:"cache",value:function(e,t){return"undefined"==typeof this._cache&&(this._cache={}),"undefined"==typeof this._cache[e]&&(this._cache[e]=t.call(this)),this._cache[e]}},{key:"enable",value:function(){var e=this,t=arguments.length<=0||void 0===arguments[0]||arguments[0];this.options.addTargetClasses!==!1&&u(this.target,this.getClass("enabled")),u(this.element,this.getClass("enabled")),this.enabled=!0,this.scrollParents.forEach(function(t){t!==e.target.ownerDocument&&t.addEventListener("scroll",e.position)}),t&&this.position()}},{key:"disable",value:function(){var e=this;f(this.target,this.getClass("enabled")),f(this.element,this.getClass("enabled")),this.enabled=!1,"undefined"!=typeof this.scrollParents&&this.scrollParents.forEach(function(t){t.removeEventListener("scroll",e.position)})}},{key:"destroy",value:function(){var e=this;this.disable(),Y.forEach(function(t,n){t===e&&Y.splice(n,1)}),0===Y.length&&i()}},{key:"updateAttachClasses",value:function(e,t){var n=this;e=e||this.attachment,t=t||this.targetAttachment;var o=["left","top","bottom","right","middle","center"];"undefined"!=typeof this._addAttachClasses&&this._addAttachClasses.length&&this._addAttachClasses.splice(0,this._addAttachClasses.length),"undefined"==typeof this._addAttachClasses&&(this._addAttachClasses=[]);var r=this._addAttachClasses;e.top&&r.push(this.getClass("element-attached")+"-"+e.top),e.left&&r.push(this.getClass("element-attached")+"-"+e.left),t.top&&r.push(this.getClass("target-attached")+"-"+t.top),t.left&&r.push(this.getClass("target-attached")+"-"+t.left);var a=[];o.forEach(function(e){a.push(n.getClass("element-attached")+"-"+e),a.push(n.getClass("target-attached")+"-"+e)}),j(function(){"undefined"!=typeof n._addAttachClasses&&(y(n.element,n._addAttachClasses,a),n.options.addTargetClasses!==!1&&y(n.target,n._addAttachClasses,a),delete n._addAttachClasses)})}},{key:"position",value:function(){var e=this,t=arguments.length<=0||void 0===arguments[0]||arguments[0];if(this.enabled){this.clearCache();var n=z(this.targetAttachment,this.attachment);this.updateAttachClasses(this.attachment,n);var o=this.cache("element-bounds",function(){return s(e.element)}),r=o.width,a=o.height;if(0===r&&0===a&&"undefined"!=typeof this.lastSize){var i=this.lastSize;r=i.width,a=i.height}else this.lastSize={width:r,height:a};var d=this.cache("target-bounds",function(){return e.getTargetBounds()}),f=d,u=C(H(this.attachment),{width:r,height:a}),c=C(H(n),f),h=C(this.offset,{width:r,height:a}),m=C(this.targetOffset,f);u=D(u,h),c=D(c,m);for(var y=d.left+c.left-u.left,g=d.top+c.top-u.top,v=0;v<P.modules.length;++v){var b=P.modules[v],T=b.position.call(this,{left:y,top:g,targetAttachment:n,targetPos:d,elementPos:o,offset:u,targetOffset:c,manualOffset:h,manualTargetOffset:m,scrollbarSize:O,attachment:this.attachment});if(T===!1)return!1;"undefined"!=typeof T&&"object"==typeof T&&(g=T.top,y=T.left)}var w={page:{top:g,left:y},viewport:{top:g-pageYOffset,bottom:pageYOffset-g-a+innerHeight,left:y-pageXOffset,right:pageXOffset-y-r+innerWidth}},_=this.target.ownerDocument,x=_.defaultView,O=void 0;return _.body.scrollWidth>x.innerWidth&&(O=this.cache("scrollbar-size",p),w.viewport.bottom-=O.height),_.body.scrollHeight>x.innerHeight&&(O=this.cache("scrollbar-size",p),w.viewport.right-=O.width),["","static"].indexOf(_.body.style.position)!==-1&&["","static"].indexOf(_.body.parentElement.style.position)!==-1||(w.page.bottom=_.body.scrollHeight-g-a,w.page.right=_.body.scrollWidth-y-r),"undefined"!=typeof this.options.optimizations&&this.options.optimizations.moveElement!==!1&&"undefined"==typeof this.targetModifier&&!function(){var t=e.cache("target-offsetparent",function(){return l(e.target)}),n=e.cache("target-offsetparent-bounds",function(){return s(t)}),o=getComputedStyle(t),r=n,a={};if(["Top","Left","Bottom","Right"].forEach(function(e){a[e.toLowerCase()]=parseFloat(o["border"+e+"Width"])}),n.right=_.body.scrollWidth-n.left-r.width+a.right,n.bottom=_.body.scrollHeight-n.top-r.height+a.bottom,w.page.top>=n.top+a.top&&w.page.bottom>=n.bottom&&w.page.left>=n.left+a.left&&w.page.right>=n.right){var i=t.scrollTop,p=t.scrollLeft;w.offset={top:w.page.top-n.top+i-a.top,left:w.page.left-n.left+p-a.left}}}(),this.move(w),this.history.unshift(w),this.history.length>3&&this.history.pop(),t&&S(),!0}}},{key:"move",value:function(e){var t=this;if("undefined"!=typeof this.element.parentNode){var n={};for(var o in e){n[o]={};for(var r in e[o]){for(var a=!1,i=0;i<this.history.length;++i){var s=this.history[i];if("undefined"!=typeof s[o]&&!v(s[o][r],e[o][r])){a=!0;break}}a||(n[o][r]=!0)}}var p={top:"",left:"",right:"",bottom:""},f=function(e,n){var o="undefined"!=typeof t.options.optimizations,r=o?t.options.optimizations.gpu:null;if(r!==!1){var a=void 0,i=void 0;e.top?(p.top=0,a=n.top):(p.bottom=0,a=-n.bottom),e.left?(p.left=0,i=n.left):(p.right=0,i=-n.right),p[F]="translateX("+Math.round(i)+"px) translateY("+Math.round(a)+"px)","msTransform"!==F&&(p[F]+=" translateZ(0)")}else e.top?p.top=n.top+"px":p.bottom=n.bottom+"px",e.left?p.left=n.left+"px":p.right=n.right+"px"},u=!1;if((n.page.top||n.page.bottom)&&(n.page.left||n.page.right)?(p.position="absolute",f(n.page,e.page)):(n.viewport.top||n.viewport.bottom)&&(n.viewport.left||n.viewport.right)?(p.position="fixed",f(n.viewport,e.viewport)):"undefined"!=typeof n.offset&&n.offset.top&&n.offset.left?!function(){p.position="absolute";var o=t.cache("target-offsetparent",function(){return l(t.target)});l(t.element)!==o&&j(function(){t.element.parentNode.removeChild(t.element),o.appendChild(t.element)}),f(n.offset,e.offset),u=!0}():(p.position="absolute",f({top:!0,left:!0},e.page)),!u){for(var c=!0,h=this.element.parentNode;h&&1===h.nodeType&&"BODY"!==h.tagName;){if("static"!==getComputedStyle(h).position){c=!1;break}h=h.parentNode}c||(this.element.parentNode.removeChild(this.element),this.element.ownerDocument.body.appendChild(this.element))}var m={},y=!1;for(var r in p){var g=p[r],b=this.element.style[r];b!==g&&(y=!0,m[r]=g)}y&&j(function(){d(t.element.style,m)})}}}]),t}(N);X.modules=[],P.position=W;var U=d(X,P),M=function(){function e(e,t){var n=[],o=!0,r=!1,a=void 0;try{for(var i,s=e[Symbol.iterator]();!(o=(i=s.next()).done)&&(n.push(i.value),!t||n.length!==t);o=!0);}catch(l){r=!0,a=l}finally{try{!o&&s["return"]&&s["return"]()}finally{if(r)throw a}}return n}return function(t,n){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,n);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),B=P.Utils,s=B.getBounds,d=B.extend,y=B.updateClasses,j=B.defer,K=["left","top","right","bottom"];P.modules.push({position:function(e){var t=this,n=e.top,o=e.left,r=e.targetAttachment;if(!this.options.constraints)return!0;var a=this.cache("element-bounds",function(){return s(t.element)}),i=a.height,l=a.width;if(0===l&&0===i&&"undefined"!=typeof this.lastSize){var p=this.lastSize;l=p.width,i=p.height}var f=this.cache("target-bounds",function(){return t.getTargetBounds()}),u=f.height,c=f.width,h=[this.getClass("pinned"),this.getClass("out-of-bounds")];this.options.constraints.forEach(function(e){var t=e.outOfBoundsClass,n=e.pinnedClass;t&&h.push(t),n&&h.push(n)}),h.forEach(function(e){["left","top","right","bottom"].forEach(function(t){h.push(e+"-"+t)})});var m=[],g=d({},r),v=d({},this.attachment);return this.options.constraints.forEach(function(e){var a=e.to,s=e.attachment,p=e.pin;"undefined"==typeof s&&(s="");var d=void 0,f=void 0;if(s.indexOf(" ")>=0){var h=s.split(" "),y=M(h,2);f=y[0],d=y[1]}else d=f=s;var b=T(t,a);"target"!==f&&"both"!==f||(n<b[1]&&"top"===g.top&&(n+=u,g.top="bottom"),n+i>b[3]&&"bottom"===g.top&&(n-=u,g.top="top")),"together"===f&&("top"===g.top&&("bottom"===v.top&&n<b[1]?(n+=u,g.top="bottom",n+=i,v.top="top"):"top"===v.top&&n+i>b[3]&&n-(i-u)>=b[1]&&(n-=i-u,g.top="bottom",v.top="bottom")),"bottom"===g.top&&("top"===v.top&&n+i>b[3]?(n-=u,g.top="top",n-=i,v.top="bottom"):"bottom"===v.top&&n<b[1]&&n+(2*i-u)<=b[3]&&(n+=i-u,g.top="top",v.top="top")),"middle"===g.top&&(n+i>b[3]&&"top"===v.top?(n-=i,v.top="bottom"):n<b[1]&&"bottom"===v.top&&(n+=i,v.top="top"))),"target"!==d&&"both"!==d||(o<b[0]&&"left"===g.left&&(o+=c,g.left="right"),o+l>b[2]&&"right"===g.left&&(o-=c,g.left="left")),"together"===d&&(o<b[0]&&"left"===g.left?"right"===v.left?(o+=c,g.left="right",o+=l,v.left="left"):"left"===v.left&&(o+=c,g.left="right",o-=l,v.left="right"):o+l>b[2]&&"right"===g.left?"left"===v.left?(o-=c,g.left="left",o-=l,v.left="right"):"right"===v.left&&(o-=c,g.left="left",o+=l,v.left="left"):"center"===g.left&&(o+l>b[2]&&"left"===v.left?(o-=l,v.left="right"):o<b[0]&&"right"===v.left&&(o+=l,v.left="left"))),"element"!==f&&"both"!==f||(n<b[1]&&"bottom"===v.top&&(n+=i,v.top="top"),n+i>b[3]&&"top"===v.top&&(n-=i,v.top="bottom")),"element"!==d&&"both"!==d||(o<b[0]&&("right"===v.left?(o+=l,v.left="left"):"center"===v.left&&(o+=l/2,v.left="left")),o+l>b[2]&&("left"===v.left?(o-=l,v.left="right"):"center"===v.left&&(o-=l/2,v.left="right"))),"string"==typeof p?p=p.split(",").map(function(e){return e.trim()}):p===!0&&(p=["top","left","right","bottom"]),p=p||[];var D=[],C=[];n<b[1]&&(p.indexOf("top")>=0?(n=b[1],D.push("top")):C.push("top")),n+i>b[3]&&(p.indexOf("bottom")>=0?(n=b[3]-i,D.push("bottom")):C.push("bottom")),o<b[0]&&(p.indexOf("left")>=0?(o=b[0],D.push("left")):C.push("left")),o+l>b[2]&&(p.indexOf("right")>=0?(o=b[2]-l,D.push("right")):C.push("right")),D.length&&!function(){var e=void 0;e="undefined"!=typeof t.options.pinnedClass?t.options.pinnedClass:t.getClass("pinned"),m.push(e),D.forEach(function(t){m.push(e+"-"+t)})}(),C.length&&!function(){var e=void 0;e="undefined"!=typeof t.options.outOfBoundsClass?t.options.outOfBoundsClass:t.getClass("out-of-bounds"),m.push(e),C.forEach(function(t){m.push(e+"-"+t)})}(),(D.indexOf("left")>=0||D.indexOf("right")>=0)&&(v.left=g.left=!1),(D.indexOf("top")>=0||D.indexOf("bottom")>=0)&&(v.top=g.top=!1),g.top===r.top&&g.left===r.left&&v.top===t.attachment.top&&v.left===t.attachment.left||(t.updateAttachClasses(v,g),t.trigger("update",{attachment:v,targetAttachment:g}))}),j(function(){t.options.addTargetClasses!==!1&&y(t.target,m,h),y(t.element,m,h)}),{top:n,left:o}}});var B=P.Utils,s=B.getBounds,y=B.updateClasses,j=B.defer;P.modules.push({position:function(e){var t=this,n=e.top,o=e.left,r=this.cache("element-bounds",function(){return s(t.element)}),a=r.height,i=r.width,l=this.getTargetBounds(),p=n+a,d=o+i,f=[];n<=l.bottom&&p>=l.top&&["left","right"].forEach(function(e){var t=l[e];t!==o&&t!==d||f.push(e)}),o<=l.right&&d>=l.left&&["top","bottom"].forEach(function(e){var t=l[e];t!==n&&t!==p||f.push(e)});var u=[],c=[],h=["left","top","right","bottom"];return u.push(this.getClass("abutted")),h.forEach(function(e){u.push(t.getClass("abutted")+"-"+e)}),f.length&&c.push(this.getClass("abutted")),f.forEach(function(e){c.push(t.getClass("abutted")+"-"+e)}),j(function(){t.options.addTargetClasses!==!1&&y(t.target,c,u),y(t.element,c,u)}),!0}});var M=function(){function e(e,t){var n=[],o=!0,r=!1,a=void 0;try{for(var i,s=e[Symbol.iterator]();!(o=(i=s.next()).done)&&(n.push(i.value),!t||n.length!==t);o=!0);}catch(l){r=!0,a=l}finally{try{!o&&s["return"]&&s["return"]()}finally{if(r)throw a}}return n}return function(t,n){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,n);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}();return P.modules.push({position:function(e){var t=e.top,n=e.left;if(this.options.shift){var o=this.options.shift;"function"==typeof this.options.shift&&(o=this.options.shift.call(this,{top:t,left:n}));var r=void 0,a=void 0;if("string"==typeof o){o=o.split(" "),o[1]=o[1]||o[0];var i=o,s=M(i,2);r=s[0],a=s[1],r=parseFloat(r,10),a=parseFloat(a,10)}else r=o.top,a=o.left;return t+=r,n+=a,{top:t,left:n}}}}),U})}])});
 
 /***/ },
-/* 821 */
+/* 823 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -85232,7 +85405,7 @@
 
 
 /***/ },
-/* 822 */
+/* 824 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -85247,11 +85420,11 @@
 	
 	var _reactRedux = __webpack_require__(241);
 	
-	var _RequestForm = __webpack_require__(823);
+	var _RequestForm = __webpack_require__(825);
 	
 	var _RequestForm2 = _interopRequireDefault(_RequestForm);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -85280,7 +85453,7 @@
 	};
 
 /***/ },
-/* 823 */
+/* 825 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -85321,7 +85494,7 @@
 	
 	var _Form2 = _interopRequireDefault(_Form);
 	
-	var _Slider = __webpack_require__(824);
+	var _Slider = __webpack_require__(826);
 	
 	var _Slider2 = _interopRequireDefault(_Slider);
 	
@@ -85329,23 +85502,23 @@
 	
 	var _moment2 = _interopRequireDefault(_moment);
 	
-	var _TextBox = __webpack_require__(796);
+	var _TextBox = __webpack_require__(798);
 	
 	var _TextBox2 = _interopRequireDefault(_TextBox);
 	
-	var _Popup = __webpack_require__(827);
+	var _Popup = __webpack_require__(829);
 	
 	var _Popup2 = _interopRequireDefault(_Popup);
 	
-	var _Signup = __webpack_require__(828);
+	var _Signup = __webpack_require__(830);
 	
 	var _Signup2 = _interopRequireDefault(_Signup);
 	
-	var _Login = __webpack_require__(734);
+	var _Login = __webpack_require__(735);
 	
 	var _Login2 = _interopRequireDefault(_Login);
 	
-	var _wnumb = __webpack_require__(830);
+	var _wnumb = __webpack_require__(832);
 	
 	var _wnumb2 = _interopRequireDefault(_wnumb);
 	
@@ -85353,7 +85526,7 @@
 	
 	var _constants2 = _interopRequireDefault(_constants);
 	
-	var _Card = __webpack_require__(804);
+	var _Card = __webpack_require__(806);
 	
 	var _muiThemeable = __webpack_require__(609);
 	
@@ -85804,7 +85977,7 @@
 	exports.default = (0, _muiThemeable2.default)()(styledRequestForm);
 
 /***/ },
-/* 824 */
+/* 826 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -85817,7 +85990,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactNouislider = __webpack_require__(825);
+	var _reactNouislider = __webpack_require__(827);
 	
 	var _reactNouislider2 = _interopRequireDefault(_reactNouislider);
 	
@@ -85889,7 +86062,7 @@
 	exports.default = Slider;
 
 /***/ },
-/* 825 */
+/* 827 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -85910,7 +86083,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _nouisliderAlgoliaFork = __webpack_require__(826);
+	var _nouisliderAlgoliaFork = __webpack_require__(828);
 	
 	var _nouisliderAlgoliaFork2 = _interopRequireDefault(_nouisliderAlgoliaFork);
 	
@@ -86015,7 +86188,7 @@
 
 
 /***/ },
-/* 826 */
+/* 828 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! nouislider - 8.3.1-patch-0 - 2016-02-29 14:22:40 */
@@ -87931,7 +88104,7 @@
 	}));
 
 /***/ },
-/* 827 */
+/* 829 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -88048,7 +88221,7 @@
 	exports.default = Popup;
 
 /***/ },
-/* 828 */
+/* 830 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -88063,11 +88236,11 @@
 	
 	var _reactRedux = __webpack_require__(241);
 	
-	var _signup = __webpack_require__(829);
+	var _signup = __webpack_require__(831);
 	
 	var _signup2 = _interopRequireDefault(_signup);
 	
-	var _actions = __webpack_require__(682);
+	var _actions = __webpack_require__(720);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -88098,7 +88271,7 @@
 	};
 
 /***/ },
-/* 829 */
+/* 831 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -88119,7 +88292,7 @@
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _reactOnclickoutside = __webpack_require__(732);
+	var _reactOnclickoutside = __webpack_require__(733);
 	
 	var _reactOnclickoutside2 = _interopRequireDefault(_reactOnclickoutside);
 	
@@ -88245,7 +88418,7 @@
 	exports.default = signup;
 
 /***/ },
-/* 830 */
+/* 832 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (factory) {
@@ -88604,7 +88777,7 @@
 
 
 /***/ },
-/* 831 */
+/* 833 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -88887,7 +89060,7 @@
 
 
 /***/ },
-/* 832 */
+/* 834 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -88948,7 +89121,7 @@
 	exports.default = MuiThemeProvider;
 
 /***/ },
-/* 833 */
+/* 835 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
