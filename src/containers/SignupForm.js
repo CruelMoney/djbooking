@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import SignupForm from '../components/blocks/SignUpForm'
-import * as actions from '../actions/actions'
+import * as actions from '../actions/SignupActions'
 
 
 function mapStateToProps(state, ownProps) {

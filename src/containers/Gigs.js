@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Gigs from '../components/pages/Gigs'
-import * as actions from '../actions/actions'
+import * as actions from '../actions/EventActions'
 
 
 function mapStateToProps(state, ownProps) {

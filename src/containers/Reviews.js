@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Reviews from '../components/pages/Reviews'
-import * as actions from '../actions/actions'
+import * as actions from '../actions/ReviewActions'
 
 
 function mapStateToProps(state, ownProps) {

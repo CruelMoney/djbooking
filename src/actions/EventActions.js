@@ -17,3 +17,17 @@ export function fetchEvents() {
     }, 1000)
       }
 }
+
+export function fetchGigs() {
+  return function (dispatch) {
+    dispatch( function() { return {
+        type: ActionTypes.FETCHING_GIGS,
+      }}())
+    setTimeout(function(){
+      dispatch( function() { return {
+        type: ActionTypes.GIGS_FETCHED,
+        value: m.GIGS
+        }}())
+    }, 1000)
+      }
+}

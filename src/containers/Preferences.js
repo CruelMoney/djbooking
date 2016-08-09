@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Preferences from '../components/pages/Preferences'
-import * as actions from '../actions/actions'
+import * as actions from '../actions/UserActions'
 
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters

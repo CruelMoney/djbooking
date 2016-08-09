@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import Navigation from '../components/blocks/Navigation'
-import * as actions from '../actions/actions'
+import * as actions from '../actions/LoginActions'
 import store from '../reducers/Store'
 
 

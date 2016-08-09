@@ -1,7 +1,7 @@
 import React  from 'react'
 import { connect } from 'react-redux'
 import Form from '../components/common/Form'
-import * as actions from '../actions/actions'
+import * as actions from '../actions/FormActions'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 
