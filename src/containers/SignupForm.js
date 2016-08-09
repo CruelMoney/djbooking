@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import SignupForm from '../components/session/SignUpForm'
+import SignupForm from '../components/blocks/SignUpForm'
 import * as actions from '../actions/actions'
 
 

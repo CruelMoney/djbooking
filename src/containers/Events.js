@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Events from '../components/session/Events'
+import Events from '../components/pages/Events'
 import * as actions from '../actions/EventsActions'
 
 

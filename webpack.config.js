@@ -5,7 +5,7 @@ var postcssImport = require('postcss-import')
 module.exports = {
   entry: ['whatwg-fetch','./src/App.js'],
   output: {
-    path: './',
+    path: './output',
     filename: 'index.js'
   },
   devServer: {
@@ -17,7 +17,7 @@ module.exports = {
   // ../../styles/base.css
   resolve: {
     modulesDirectories: ['node_modules', './src'],
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.css']
   },
   module: {
     loaders: [
@@ -27,8 +27,8 @@ module.exports = {
         loader: 'babel',
         query: {
           presets: ['react', 'es2015'],
-          sourceMaps: true,
-          sourceMapTarget: './'
+          // sourceMaps: true,
+          // sourceMapTarget: './'
         }
       },
       { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader') }

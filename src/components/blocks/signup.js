@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import Button from '../common/Button'
 import Textfield from 'material-ui/TextField'
-import onClickOutside from 'react-onclickoutside'
 
 
 const signup = React.createClass({

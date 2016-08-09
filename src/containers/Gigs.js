@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Gigs from '../components/session/Gigs'
+import Gigs from '../components/pages/Gigs'
 import * as actions from '../actions/actions'
 
 

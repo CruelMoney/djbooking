@@ -9,13 +9,14 @@ var containerStyle = {
   paddingLeft: '40px',
   paddingRight: '40px',
   margin: 'auto',
-  marginBottom: '50px'
+  marginBottom: '50px',
+  marginTop: '150px'
 }
 
 export default React.createClass({
   render() {
     return  <div style = {containerStyle}>
-              <SignUpForm/>
-            </div>
+      <SignUpForm/>
+    </div>
   }
 })

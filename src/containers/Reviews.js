@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Reviews from '../components/session/Reviews'
+import Reviews from '../components/pages/Reviews'
 import * as actions from '../actions/actions'
 
 

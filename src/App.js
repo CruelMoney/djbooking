@@ -1,20 +1,20 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Router, Route, browserHistory, IndexRoute, IndexRedirect } from 'react-router'
-import Signup from './components/stories/Signup'
+import Signup from './components/pages/Signup'
 import User from './containers/User'
-import HowItWorks from './components/stories/HowItWorks'
+import HowItWorks from './components/pages/HowItWorks'
 import Navigation from './containers/Navigation'
 import Profile from './containers/Profile'
 import Preferences from './containers/Preferences'
 import Gigs from './containers/Gigs'
 import Events from './containers/Events'
 import Reviews from './containers/Reviews'
-import Home from './components/stories/Home'
+import Home from './components/pages/Home'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
-import '../css/style.css'
+import './css/style.css'
 
 const theme = getMuiTheme()
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import DatePicker from '../common/DatePicker.js'
-import Footer from '../stories/Footer'
+import Footer from '../blocks/Footer'
 import RequestForm from '../../containers/RequestForm'
 import moment from 'moment'
 import scrollIntoView from 'smoothscroll-polyfill'
@@ -67,7 +67,7 @@ handleButtonClick(){
 
           </div>
           <video autoPlay loop muted preload="auto">
-            <source src="assets/blurry-night.mp4" type="video/mp4"/>
+            <source src="/assets/blurry-night.mp4" type="video/mp4"/>
           </video>
         </div>
         <div

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Profile from '../components/session/Profile'
+import Profile from '../components/pages/Profile'
 import * as actions from '../actions/actions'
 
 //TODO move magic information about the filters out of container.
