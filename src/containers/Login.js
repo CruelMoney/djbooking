@@ -6,7 +6,8 @@ import * as actions from '../actions/LoginActions'
 
 function mapStateToProps(state, ownProps){
   return{
-    isLoading: state.login.isWaiting
+    isLoading: state.login.isWaiting,
+    error: state.login.err
   }
 }
 

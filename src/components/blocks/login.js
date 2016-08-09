@@ -11,7 +11,8 @@ const login = React.createClass({
       login: PropTypes.func.isRequired,
       loginFacebook: PropTypes.func,
       loginSoundcloud: PropTypes.func,
-      isLoading: PropTypes.bool
+      isLoading: PropTypes.bool,
+      error: PropTypes.string
     },
 
     getInitialState() {
@@ -64,54 +65,59 @@ const login = React.createClass({
 
     return (
 <div>
-      <div>
-        <div style={{marginBottom:"10px"}} md={6}>
-          <Button
-            label= "Facebook"
-            rounded = {true}
-            onClick = {this.props.loginFacebook}
-          />
-        </div>
-        <div  style={{marginBottom:"20px"}} md={6}>
-          <Button
-
-            label= "Soundcloud"
-            rounded = {true}
-            onClick = {this.props.loginSoundcloud}
-          />
-        </div>
-      </div>
-      <p style={{textAlign:"center"}}>OR</p>
-      <div>
-        <Textfield
-          type = "email"
-          fullWidth={true}
-          floatingLabelText="Email"
-          onChange={this.onChangeEmail}
-        />
-      </div>
-      <div style={{marginBottom:'20px'}}>
-        <Textfield
-          type = "password"
-          fullWidth={true}
-          floatingLabelText="Password"
-          onChange={this.onChangePassword}
-        />
-      </div>
-      <div style={{marginBottom:'20px'}}>
-        <Button
-          isLoading={this.props.isLoading}
-          medium={true}
-          label= "Login"
-          important = {this.state.isValid}
-          rounded = {true}
-          onClick = {this.login}
-        />
-      </div>
-      <p style={{opacity:'0.5'}}>
-        Forgot?
-      </p>
+  <div>
+    <div style={{marginBottom:"10px"}} md={6}>
+      <Button
+        label= "Facebook"
+        rounded = {true}
+        onClick = {this.props.loginFacebook}
+      />
     </div>
+    <div  style={{marginBottom:"20px"}} md={6}>
+      <Button
+
+        label= "Soundcloud"
+        rounded = {true}
+        onClick = {this.props.loginSoundcloud}
+      />
+    </div>
+  </div>
+  <p style={{textAlign:"center"}}>OR</p>
+  <div>
+    <Textfield
+      type = "email"
+      fullWidth={true}
+      floatingLabelText="Email"
+      onChange={this.onChangeEmail}
+    />
+  </div>
+  <div style={{marginBottom:'20px'}}>
+    <Textfield
+      type = "password"
+      fullWidth={true}
+      floatingLabelText="Password"
+      onChange={this.onChangePassword}
+    />
+  </div>
+  <div style={{marginBottom:'20px'}}>
+    <Button
+      isLoading={this.props.isLoading}
+      medium={true}
+      label= "Login"
+      important = {this.state.isValid}
+      rounded = {true}
+      onClick = {this.login}
+    />
+  </div>
+  {this.props.error ?
+    <p style={{color:'red'}}>
+      {this.props.error}
+    </p>
+  :null}
+  <p style={{opacity:'0.5'}}>
+    Forgot?
+  </p>
+</div>
     )
     }
     })

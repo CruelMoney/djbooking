@@ -35,8 +35,8 @@ export default class AdapterDTO  {
         availability:     DTO.user_metadata.availability || [],
         bank_number:      DTO.user_metadata.bank_number || "",
         account_number:   DTO.user_metadata.account_number || "",
-        isCustomer:       DTO.app_metadata.isCustomer || false,
-        isDJ:             DTO.app_metadata.isDJ || false
+        isCustomer:       DTO.app_metadata ? DTO.app_metadata.isCustomer || false : false,
+        isDJ:             DTO.app_metadata ? DTO.app_metadata.isDJ || false : false,
       }
     }
 

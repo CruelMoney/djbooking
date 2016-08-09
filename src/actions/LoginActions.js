@@ -13,14 +13,15 @@ return function (err, result) {
     if (err){
       dispatch( function() { return {
           type: ActionTypes.LOGIN_FAILED,
-          err
+          err : err.message
         }}())
 
     }else {
       auth.setToken(result.idToken)
       auth.getProfileFromToken(result.idToken, function(dtoProfile){
 
-        //Hack for checking if user trying to login before signing up
+        //Hack for checking if user trying to login before signing up.
+        //The user will still get created in the db without any info 
         if (dtoProfile.user_metadata !== undefined && dtoProfile.user_metadata.genres) {
 
           const profile = converter.convertDTO(dtoProfile)
@@ -55,7 +56,7 @@ export function checkForLogin(redirect = true){
             if (err) {
               dispatch( function() { return {
                   type: ActionTypes.LOGIN_FAILED,
-                  err
+                  err:  err.message
                 }}())
                 redirect ? browserHistory.push('/') : null
             }else {

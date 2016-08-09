@@ -5,6 +5,7 @@ import Button from '../common/Button'
 import TextField from '../common/Textfield'
 import TextWrapper from '../common/TextElement'
 import c from '../../constants/constants'
+import Gig from '../../containers/Gig'
 import {Card, CardHeader, CardText} from 'material-ui/Card'
 
 import muiThemeable from 'material-ui/styles/muiThemeable'
@@ -14,8 +15,6 @@ var Preferences = React.createClass({
   propTypes: {
     gigs: PropTypes.arrayOf(PropTypes.object),
     fetchGigs: PropTypes.func,
-    declineGig: PropTypes.func,
-    acceptGig: PropTypes.func,
   },
 
   contextTypes: {
@@ -141,123 +140,41 @@ var Preferences = React.createClass({
     }
 
     var finishedGigs = []
+    var lostGigs = []
     var requestedGigs = []
     var upcomingGigs = []
 
     this.state.gigs.forEach(function(gig, i) {
       switch (gig.status) {
 
-        case 'FINISHED':
-          finishedGigs.push(renderGig(gig))
+        case 'PLAYED':
+          finishedGigs.push(<Gig gig={gig}/>)
           break
         case 'ACCEPTED':
-          upcomingGigs.push(renderGig(gig))
+          requestedGigs.push(<Gig gig={gig}/>)
           break
         case 'CONFIRMED':
-          upcomingGigs.push(renderGig(gig))
+          upcomingGigs.push(<Gig gig={gig}/>)
           break
         case 'REQUESTED':
-          requestedGigs.push(renderGig(gig))
+          requestedGigs.push(<Gig gig={gig}/>)
+          break
+        case 'LOST':
+          lostGigs.push(<Gig gig={gig}/>)
           break
         default:
          null
       }
     })
 
-      function renderGig(gig){
-        var genres = []
-        {gig.genres.forEach(function(genre, i) {
-           genres.push(<td style={{paddingRight:"10px"}}>{genre}</td>)}
-        )}
-        return (  <Card
-          initiallyExpanded={gig.status === "REQUESTED"}
-          style={{marginBottom: '20px',}}>
-          <CardHeader
-            style={{paddingLeft:'50px'}}
-            title= {gig.name }
-            subtitle={gig.location}
-            actAsExpander={true}
-            showExpandableButton={true}
-            children={
-              <div style={{width:'30%', textAlign:'right', paddingRight:'37px', float:'right'}}>
-                <p style={{margin:'0px'}}>{gig.date}</p>
-                <p style={{opacity:'0.6'}}>{gig.startTime + " to " + gig.endTime}</p>
-              </div>}
-          />
-          <div
-            style={{
-              width:'100%',
-              padding: '50px',
-              paddingTop: '0px',
-              paddingBottom: '20px',
-
-            }}
-            expandable={true}
-          >
-            <div className="row">
-              <div className="col-sm-8">
-                <tr style={{fontStyle:'italic'}}>{genres}</tr>
-
-                <p style={{ marginTop: '20px'}}> {gig.description} </p>
-
-              </div>
-              <div className="col-sm-4" >
-                <div style={{border:"1px solid #eee", padding: "4px", marginTop:'38px'}}>
-                  <p style={{textAlign:'right'}} >Around {gig.guests} guests</p>
-                  <p style={{textAlign:'right'}} >Speakers necessary: {gig.speakers}</p>
-                  <p style={{textAlign:'right'}} >{gig.contact.name}</p>
-                  <p style={{textAlign:'right'}} type="tel">{gig.contact.phone}</p>
-                  <p style={{textAlign:'right'}} type="email">{gig.contact.email}</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div className="row">
-              <div className="col-xs-4 col-xs-offset-4"
-                style={{marginBottom: '20px',marginTop: '20px'}}>
-                <TextField
-                  hintStyle={styles.medium.hint}
-                  style = {styles.medium.textarea}
-                  inputStyle = {styles.medium.input}
-                  disabled={gig.status !== "REQUESTED"}
-                  type = "number"
-                  fullWidth={true}
-                  placeholder="2.000 DKK"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                />
-              </div>
-            </div>
-
-            { gig.status === "REQUESTED" ?
-              <div className="row">
-                <div className="col-xs-6">
-                  <Button
-                    rounded= {true}
-                    label="Decline"
-                    onClick= { () => this.props.declineGig(gig.ID)}
-                  />
-                </div>
-                <div className="col-xs-6">
-                  <Button
-                    rounded= {true}
-                    label="Accept"
-                    onClick= { () => this.props.acceptGig(gig.ID, 3000)}
-                  />
-                </div>
-
-              </div> : null}
-          </div>
-
-
-        </Card>)
-      }
-
-
 
     return(
       <div>
+        <TextWrapper
+          center={true}
+          label ="Upcoming Gigs">
+          {upcomingGigs}
+        </TextWrapper>
         <TextWrapper
           center={true}
           label ="Requested Gigs">
@@ -265,8 +182,8 @@ var Preferences = React.createClass({
         </TextWrapper>
         <TextWrapper
           center={true}
-          label ="Upcoming Gigs">
-          {upcomingGigs}
+          label ="Lost Gigs">
+          {lostGigs}
         </TextWrapper>
         <TextWrapper
           center={true}

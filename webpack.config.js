@@ -14,7 +14,7 @@ module.exports = {
     inline: true,
     port: 8888
   },
-  //devtool: 'source-map',
+  devtool: 'source-map',
   // Resolve the `./src` directory so we can avoid writing
   // ../../styles/base.css
   resolve: {
@@ -29,8 +29,8 @@ module.exports = {
         loader: 'babel',
         query: {
           presets: ['react', 'es2015'],
-          // sourceMaps: true,
-          // sourceMapTarget: './'
+           sourceMaps: true,
+           sourceMapTarget: './'
         }
       },
       { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader') }
