@@ -2,10 +2,6 @@
 This project is build using ES6 with Babel and Webpack.
 The core libraries used are React and Redux. 
 
-Install dependencies using <code>npm install</code>
-
-Run Webpack dev server using <code>npm run start</code>
-
 The folder structure is as follows:
 
 ```
@@ -48,3 +44,7 @@ The App.js is the entry point and defines the routes using the pages.
 The actions folder contains all the actions creators used by redux. 
 The container-files connects the react components to the redux store. 
 In the reducers folder all the redux reducers defines the redux store. 
+
+Install dependencies using <code>npm install</code>
+
+Run Webpack dev server using <code>npm run start</code>
