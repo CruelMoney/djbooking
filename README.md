@@ -3,6 +3,7 @@ This project is build using ES6 with Babel and Webpack.
 The core libraries used are React and Redux. 
 
 Install dependencies using <code>npm install</code>
+Run Webpack dev server using <code>npm run start</code>
 
 The folder structure is as follows:
 
