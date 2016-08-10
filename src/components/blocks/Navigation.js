@@ -111,7 +111,11 @@ var menu = React.createClass({
           isHome ? styles.transMenu : styles.classicMenu
         }>
           <div   className={isHome ? "container home" : "container"}>
-            <li style={{display:'inline'}}>
+            <li style={
+              {
+                display:'inline', 
+                float:'left'
+              }}>
             <Navlink white={isHome} buttonLook={true} to="/" onlyActiveOnIndex={true} label="Home" important={true} />
             </li>
             <ul style={
