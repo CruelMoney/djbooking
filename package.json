@@ -42,6 +42,7 @@
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "smoothscroll-polyfill": "^0.3.3",
+    "stripe": "^4.9.0",
     "whatwg-fetch": "^1.0.0",
     "wnumb": "^1.0.4"
   },

@@ -1,5 +1,6 @@
 import emailValidator from 'email-validator'
 import dateValidator from 'is-my-date-valid'
+import Stripe from './StripeService'
 
 
 export function required(value) {
@@ -35,4 +36,28 @@ export function date(value) {
      // statements to handle any exceptions
     return ['This date is invalid']
   }
+}
+
+export function validateCardNumber(number){
+  return Stripe.card.validateCardNumber(number)
+}
+
+export function validateCardExpiry(month, year){
+  return Stripe.card.validateExpiry(month, year)
+}
+
+export function validateCardCVC(cvc){
+  return Stripe.card.validateCVC(cvc)
+}
+
+export function getCardType(cardNumber){
+  return Stripe.card.cardType(cardNumber)
+}
+
+export function validateRoutingNumber(num, countryCode){
+  return Stripe.bankAccount.validateRoutingNumber(num, countryCode)
+}
+
+export function validateAccountNumber(num, countryCode){
+  return Stripe.bankAccount.validateAccountNumber(num, countryCode) 
 }
