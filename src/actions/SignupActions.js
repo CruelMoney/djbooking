@@ -45,9 +45,6 @@ export function signup(form, isDJ = true) {
             type: ActionTypes.SIGNUP_FAILED,
             err
           }}())
-
-
-
       }else {
         //Getting the coordinates of the address
         codeAddress(form.location, function(geoResult){

@@ -1,8 +1,3 @@
-import Stripe from 'Stripe'
-
-Stripe.setPublishableKey('pk_test_9HMoU3Zkhtu5aoXTYWDgmEgp')
-
-export default Stripe
 
 //Examples of token generation:
 

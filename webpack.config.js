@@ -1,18 +1,24 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var autoprefixer = require('autoprefixer')
 var postcssImport = require('postcss-import')
+var Dashboard = require('webpack-dashboard')
+var DashboardPlugin = require('webpack-dashboard/plugin')
+var dashboard = new Dashboard()
 
 module.exports = {
   entry: ['whatwg-fetch','./src/App.js'],
   output: {
     path: './output',
     publicPath: "/output/",
-    filename: 'index.js'
+    filename: 'index.js',
 
   },
   devServer: {
     inline: true,
-    port: 8888
+    port: 8888,
+    hot: true,
+    quiet: true, // lets WebpackDashboard do its thing
+    historyApiFallback: true,
   },
   devtool: 'source-map',
   // Resolve the `./src` directory so we can avoid writing
@@ -46,6 +52,7 @@ module.exports = {
     },
   // This plugin moves all the CSS into a separate stylesheet
  plugins: [
-   new ExtractTextPlugin('app.css')
+   new ExtractTextPlugin('app.css'),
+   new DashboardPlugin(dashboard.setData)
  ]
 }

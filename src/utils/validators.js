@@ -39,15 +39,15 @@ export function date(value) {
 }
 
 export function validateCardNumber(number){
-  return Stripe.card.validateCardNumber(number)
+   return !Stripe.card.validateCardNumber(number) ? ['The card number is not valid'] : []
 }
 
 export function validateCardExpiry(month, year){
-  return Stripe.card.validateExpiry(month, year)
+  return !Stripe.card.validateExpiry(month, year) ? ['The expiry date is not valid'] : []
 }
 
 export function validateCardCVC(cvc){
-  return Stripe.card.validateCVC(cvc)
+  return !Stripe.card.validateCVC(cvc) ? ['The security code is not valid'] : []
 }
 
 export function getCardType(cardNumber){
@@ -55,9 +55,9 @@ export function getCardType(cardNumber){
 }
 
 export function validateRoutingNumber(num, countryCode){
-  return Stripe.bankAccount.validateRoutingNumber(num, countryCode)
+  return !Stripe.bankAccount.validateRoutingNumber(num, countryCode) ? ['The routing number is not valid'] : []
 }
 
 export function validateAccountNumber(num, countryCode){
-  return Stripe.bankAccount.validateAccountNumber(num, countryCode) 
+  return !Stripe.bankAccount.validateAccountNumber(num, countryCode) ? ['The account number is not valid'] : []
 }
