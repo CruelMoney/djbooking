@@ -10,15 +10,12 @@ module.exports = {
   output: {
     path: './output',
     publicPath: "/output/",
-    filename: 'index.js',
-
+    filename: 'index.js'
   },
   devServer: {
     inline: true,
     port: 8888,
-    hot: true,
     quiet: true, // lets WebpackDashboard do its thing
-    historyApiFallback: true,
   },
   devtool: 'source-map',
   // Resolve the `./src` directory so we can avoid writing
