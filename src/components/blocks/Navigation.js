@@ -106,17 +106,17 @@ var menu = React.createClass({
     return (
       <div>
         <nav
-        ref={(ref) => this.nav = ref}
-        style={
-          isHome ? styles.transMenu : styles.classicMenu
-        }>
+          ref={(ref) => this.nav = ref}
+          style={
+            isHome ? styles.transMenu : styles.classicMenu
+          }>
           <div   className={isHome ? "container home" : "container"}>
             <li style={
               {
-                display:'inline', 
+                display:'inline',
                 float:'left'
               }}>
-            <Navlink white={isHome} buttonLook={true} to="/" onlyActiveOnIndex={true} label="Home" important={true} />
+              <Navlink white={isHome} buttonLook={true} to="/" onlyActiveOnIndex={true} label="Home" important={true} />
             </li>
             <ul style={
               { listStyleType: 'none',
@@ -143,8 +143,8 @@ var menu = React.createClass({
                   </Navlink>
                 </li>
                 ) : (
-                  <li style={{display:'inline', marginLeft:'4px'}} >
-                    <Button
+                <li style={{display:'inline', marginLeft:'4px'}} >
+                  <Button
                       white={isHome}
                       noBorder={true}
                       medium={true}
@@ -160,12 +160,12 @@ var menu = React.createClass({
                   </li>
               )}
               <Dropdown
-              expanded={this.state.loginExpanded}
-              disableOnClickOutside={!this.state.loginExpanded}
-              onClickOutside ={this.onClickOutside}
+                expanded={this.state.loginExpanded}
+                disableOnClickOutside={!this.state.loginExpanded}
+                onClickOutside ={this.onClickOutside}
               >
-              <Login
-              />
+                <Login
+                />
               </Dropdown>
             </ul>
           </div>

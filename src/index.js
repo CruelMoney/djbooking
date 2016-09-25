@@ -15,9 +15,10 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import './css/style.css'
+import './css/calendar.css'
+
 
 const theme = getMuiTheme()
-
 
 
 render((
@@ -43,5 +44,5 @@ render((
 
       </Route>
     </Router>
-</MuiThemeProvider>
-), document.getElementById('container'))
+  </MuiThemeProvider>
+), document.getElementById('root'))

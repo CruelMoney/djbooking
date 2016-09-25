@@ -156,14 +156,14 @@ var Button = React.createClass({
             this.props.white && styles.white,
             this.props.noBorder && styles.noBorder,
 
-]}
-        onClick={
-          this.props.disabled || this.props.isLoading ? null : this.handleClick
-        }>
-        {this.props.isLoading ? null :
+          ]}
+          onClick={
+            this.props.disabled || this.props.isLoading ? null : this.handleClick
+          }>
+          {this.props.isLoading ? null :
 
           this.props.label}
-      </button>
+        </button>
       </div>
     )
   }

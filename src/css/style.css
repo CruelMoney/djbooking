@@ -1,5 +1,5 @@
-@import "react-datepicker/dist/react-datepicker.css";
 @import "./nouislider.css";
+@import "react-datepicker/dist/react-datepicker.css";
 
 html{
 overflow-y: scroll;
@@ -278,6 +278,7 @@ content: '';
     animation-timing-function: ease-out;
     animation-duration: 1.2s;
 }
+
 @-moz-keyframes dropHeader {
     0% {
         -moz-transform: translateY(-100px);
