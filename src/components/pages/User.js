@@ -1,12 +1,9 @@
 import React,  { PropTypes } from 'react'
-import AuthService from '../../utils/AuthService'
 import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
-import TextField from 'material-ui/TextField'
 import UserHeader from '../blocks/UserHeader'
 import UserNavigation from '../blocks/UserNavigation'
 import without from 'lodash.without'
-import assign from 'lodash.assign'
 
 var user = React.createClass({
 
@@ -136,24 +133,20 @@ var user = React.createClass({
 
 
   render() {
-    const styles ={
-
-    }
-
     return  <div style={{marginTop: '80px'}}>
 
       <UserHeader
-        profile ={this.props.profile}
-        editMode ={this.props.editMode}
-        updateProfileValue ={this.props.updateProfileValue}
+        profile={this.props.profile}
+        editMode={this.props.editMode}
+        updateProfileValue={this.props.updateProfileValue}
       />
 
 
       <div  className="container">
         <div style={{borderRight: '1px solid #eee', paddingTop:"15px"}} className="col-md-3">
           <UserNavigation
-          isDJ= {this.state.profile.isDJ}
-          isCustomer= {this.state.profile.isCustomer}
+          isDJ={this.state.profile.isDJ}
+          isCustomer={this.state.profile.isCustomer}
           actions={this.state.actions}/>
         </div>
         <div style={{paddingTop:"15px"}} className="col-md-9">

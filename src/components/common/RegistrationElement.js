@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
-import { connect } from 'react-redux'
 
 
 var RegistrationElement = React.createClass({

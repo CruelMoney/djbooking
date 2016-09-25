@@ -21,14 +21,16 @@ return function (err, result) {
       auth.getProfileFromToken(result.idToken, function(dtoProfile){
 
         //Hack for checking if user trying to login before signing up.
-        //The user will still get created in the db without any info 
+        //The user will still get created in the db without any info
         if (dtoProfile.user_metadata !== undefined && dtoProfile.user_metadata.genres) {
 
           const profile = converter.convertDTO(dtoProfile)
+          const token = result.idToken;
 
           dispatch (function() {return {
               type: ActionTypes.LOGIN_SUCCEEDED,
-              profile
+              profile,
+              token
             }}())
 
         }else{
@@ -58,21 +60,24 @@ export function checkForLogin(redirect = true){
                   type: ActionTypes.LOGIN_FAILED,
                   err:  err.message
                 }}())
-                redirect ? browserHistory.push('/') : null
+                if (redirect) {browserHistory.push('/')}
             }else {
               const profile = converter.convertDTO(DTOProfile)
+              const token = auth.getToken();
 
               dispatch (function() {return {
                   type: ActionTypes.LOGIN_SUCCEEDED,
-                  profile
+                  profile,
+                  token
+
                 }}())
-              redirect ? browserHistory.push('/user/profile') : null
+                if (redirect) {browserHistory.push('/user/profile') }
             }
       })
     }else{
       //If trying to access user restricted area, but not logged in
       if (window.location.pathname.split('/')[1] === 'user') {
-        redirect ? browserHistory.push('/') : null
+          if (redirect) {browserHistory.push('/') }
       }
     }
   }
@@ -104,7 +109,7 @@ export function login(form){
       case "SOUNDCLOUD":
         return loginSoundcloud(handleLoginFeedback(dispatch))
 
-
+      default:
     }
 
   }

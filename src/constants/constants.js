@@ -92,76 +92,76 @@ CUSTOMER_NOTIFICATIONS: [
 
 }
 
-
-const darkMapStyle = [
-{
-  "stylers": [
-  { "visibility": "simplified" },
-
-  ]
-},{
-  "featureType": "administrative",
-  "elementType": "labels",
-  "stylers": [
-  { "visibility": "off" }
-  ]
-},{
-  "featureType": "landscape",
-  "stylers": [
-  { "visibility": "simplified" },
-  { "lightness": 90 },
-  { "gamma": 0.31 }
-  ]
-},{
-  "featureType": "poi",
-  "stylers": [
-  { "visibility": "off" }
-  ]
-},{
-  "featureType": "road",
-  "stylers": [
-  { "visibility": "on" }
-  ]
-},{
-  "featureType": "transit",
-  "stylers": [
-  { "visibility": "off" }
-  ]
-},{
-  "featureType": "water",
-  "stylers": [
-  { "visibility": "on" },
-  { "color": "#000000" }
-  ]
-},{
-  "featureType": "road",
-  "elementType": "labels",
-  "stylers": [
-  { "visibility": "off" }
-  ]
-},{
-  "featureType": "road.highway",
-  "stylers": [
-  { "color": "#808080" }
-  ]
-},{
-  "featureType": "landscape",
-  "elementType": "labels",
-  "stylers": [
-  { "visibility": "off" }
-  ]
-},{
-  "featureType": "administrative.country",
-  "stylers": [
-  { "visibility": "on" }
-  ]
-},{
-  "featureType": "administrative.locality",
-  "elementType": "labels.text.fill",
-  "stylers": [
-  { "visibility": "on" },
-  { "color": "#090f0e" }
-  ]
-},{
-}
-]
+//
+// const darkMapStyle = [
+// {
+//   "stylers": [
+//   { "visibility": "simplified" },
+//
+//   ]
+// },{
+//   "featureType": "administrative",
+//   "elementType": "labels",
+//   "stylers": [
+//   { "visibility": "off" }
+//   ]
+// },{
+//   "featureType": "landscape",
+//   "stylers": [
+//   { "visibility": "simplified" },
+//   { "lightness": 90 },
+//   { "gamma": 0.31 }
+//   ]
+// },{
+//   "featureType": "poi",
+//   "stylers": [
+//   { "visibility": "off" }
+//   ]
+// },{
+//   "featureType": "road",
+//   "stylers": [
+//   { "visibility": "on" }
+//   ]
+// },{
+//   "featureType": "transit",
+//   "stylers": [
+//   { "visibility": "off" }
+//   ]
+// },{
+//   "featureType": "water",
+//   "stylers": [
+//   { "visibility": "on" },
+//   { "color": "#000000" }
+//   ]
+// },{
+//   "featureType": "road",
+//   "elementType": "labels",
+//   "stylers": [
+//   { "visibility": "off" }
+//   ]
+// },{
+//   "featureType": "road.highway",
+//   "stylers": [
+//   { "color": "#808080" }
+//   ]
+// },{
+//   "featureType": "landscape",
+//   "elementType": "labels",
+//   "stylers": [
+//   { "visibility": "off" }
+//   ]
+// },{
+//   "featureType": "administrative.country",
+//   "stylers": [
+//   { "visibility": "on" }
+//   ]
+// },{
+//   "featureType": "administrative.locality",
+//   "elementType": "labels.text.fill",
+//   "stylers": [
+//   { "visibility": "on" },
+//   { "color": "#090f0e" }
+//   ]
+// },{
+// }
+// ]

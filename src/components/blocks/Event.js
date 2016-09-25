@@ -1,9 +1,6 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
-import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
 import TextField from '../common/Textfield'
-import TextWrapper from '../common/TextElement'
 import ToggleOptions from '../common/ToggleOptions'
 import ToggleButtonHandler from '../common/ToggleButtonHandler'
 import LocationSelector from '../common/LocationSelectorSimple'
@@ -14,9 +11,7 @@ import TextBox from '../common/TextBox'
 import wNumb from 'wnumb'
 import moment from 'moment'
 import Slider from '../common/Slider'
-import * as m from '../../constants/Mocks'
 import Form from '../../containers/Form'
-import without from 'lodash.without'
 import OfferCard from './OfferCard'
 import Paper from 'material-ui/Paper'
 
@@ -107,13 +102,13 @@ var Event = React.createClass({
     }
 
         var genres = []
-        {this.props.event.genres.forEach(function(genre, i) {
+        this.props.event.genres.forEach(function(genre, i) {
            genres.push(<td style={{paddingRight:"10px"}}>{genre}</td>)}
-        )}
+        )
         return (
         <Paper zDepth={1} style={{padding:'50px'}}>
           <div className="row">
-
+            
             <div className="col-sm-7">
               <CollapsibleContainer>
 
@@ -177,7 +172,7 @@ var Event = React.createClass({
                           name="guests"
                           range={{min:0, max:100}}
                           step={1}
-                          connect= "lower"
+                          connect="lower"
                           initialValues={[this.props.event.guests]}
                           handleChange={(values) => this.setState({
                             guests: values[0]
@@ -216,8 +211,8 @@ var Event = React.createClass({
                     <ToggleButtonHandler
                       name="genres"
                       potentialValues={c.GENRES}
-                      columns = {3}
-                      preToggled = {this.props.event.genres}
+                      columns={3}
+                      preToggled={this.props.event.genres}
                     />
 
                     <h4 style={{textAlign:'center'}}>Do you need speakers?</h4>
@@ -228,18 +223,18 @@ var Event = React.createClass({
                       value={this.props.event.speakers}
                     >
                       <Button
-                        name = "SPEAKERS_YES"
-                        label =  "Yes"
+                        name="SPEAKERS_YES"
+                        label="Yes"
                       />
 
                       <Button
-                        name = "SPEAKERS_UNCERTAIN"
-                        label =  "Uncertain"
+                        name="SPEAKERS_UNCERTAIN"
+                        label="Uncertain"
                       />
 
                       <Button
-                        name = "SPEAKERS_NO"
-                        label =  "No"
+                        name="SPEAKERS_NO"
+                        label="No"
                       />
                     </ToggleOptions>
                     <h4 style={{textAlign:'center'}}>Time</h4>
@@ -248,9 +243,9 @@ var Event = React.createClass({
                       marginBottom:'20px'
                     }}>
                       <TimeSlider
-                        minDate ={this.props.event.minDate}
-                        maxDate ={this.props.event.maxDate}
-                        onChange = {(values) => {
+                        minDate={this.props.event.minDate}
+                        maxDate={this.props.event.maxDate}
+                        onChange={(values) => {
                           this.setState({
                             startTime: values[0],
                             endTime: values[1]

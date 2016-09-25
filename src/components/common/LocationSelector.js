@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import AutoComplete from 'material-ui/AutoComplete';
 import * as validators from '../../utils/validators';
 
+/*eslint no-undef: 0*/
 var locationService = new google.maps.places.AutocompleteService();
 
 export default React.createClass({

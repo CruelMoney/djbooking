@@ -75,12 +75,12 @@ export default React.createClass({
 
   render() {
 
-    
+
 
     return (
       <div>
         <TextField
-        type = {this.props.type}
+        type={this.props.type}
         fullWidth={true}
         hintText={this.props.placeholder}
         floatingLabelText={this.props.label}

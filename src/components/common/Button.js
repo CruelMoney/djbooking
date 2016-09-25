@@ -43,7 +43,7 @@ var Button = React.createClass({
     var r = hexToRgb(color).r
     var g = hexToRgb(color).g
     var b = hexToRgb(color).b
-    var rbg = r+","+g+","+b
+    //var rbg = r+","+g+","+b
     const rgbLight = 'rgb('+r+10+","+g+10+","+b+10+')'
 
     var styles = {
@@ -140,8 +140,8 @@ var Button = React.createClass({
         styles.containerStyle,
       this.props.leftAlign && styles.left]}>
         <button
-          disabled ={this.props.disabled || this.props.isLoading}
-          className= {this.props.disabled || this.props.isLoading ? "disabled" : ""}
+          disabled={this.props.disabled || this.props.isLoading}
+          className={this.props.disabled || this.props.isLoading ? "disabled" : ""}
           style={[
             styles.base,
             this.props.active && styles.active,

@@ -57,10 +57,10 @@ var Events = React.createClass({
 
       <div style={{marginBottom:"4px"}}>
         <Button
-          rounded= {true}
+          rounded={true}
           label="Load more events"
           active={true}
-          onClick= {this.props.fetchEvents}
+          onClick={this.props.fetchEvents}
         />
       </div>
 
@@ -68,7 +68,7 @@ var Events = React.createClass({
 
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
-          rounded= {true}
+          rounded={true}
           label="Request features"
           name="request_features"
         />

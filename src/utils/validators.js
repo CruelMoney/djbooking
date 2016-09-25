@@ -22,7 +22,7 @@ export function date(value) {
   //No dates earlier than 1900
   const  validate3 = function(value){
     if (value.length === 10) {
-      const year = parseInt(value.substring(6, value.length))
+      const year = parseInt(value.substring(6, value.length), 10)
       return year >= 1900
     }else {
       return true

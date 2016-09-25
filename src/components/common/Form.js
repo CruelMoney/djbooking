@@ -89,12 +89,12 @@ const form = React.createClass({
       <form >
         {this.props.children}
         <Button
-          isLoading = {this.props.isloading}
+          isLoading={this.props.isloading}
           large={true}
-          label= {this.props.buttonText}
-          important = {this.state.isValid}
-          rounded = {true}
-          onClick = {this.submit}
+          label={this.props.buttonText}
+          important={this.state.isValid}
+          rounded={true}
+          onClick={this.submit}
         />
       </form>
 

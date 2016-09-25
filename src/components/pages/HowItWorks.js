@@ -1,5 +1,4 @@
 import React from 'react'
-import Event from '../../containers/Event'
 
 export default React.createClass({
   render() {

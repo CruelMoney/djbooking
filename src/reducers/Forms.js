@@ -1,7 +1,6 @@
 import c from '../constants/constants'
-import { combineReducers } from 'redux'
 import assign from 'lodash.assign'
-import form from './form'
+import form from './Form'
 
 var ActionTypes = c.ActionTypes
 

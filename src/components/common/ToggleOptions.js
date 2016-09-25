@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react'
-import Button from '../common/Button'
 import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var ToggleOptions = React.createClass({
 
@@ -79,7 +77,7 @@ var ToggleOptions = React.createClass({
    const length = props.children.length
    return React.Children.map(props.children, child => {
        const active = state.value===child.props.name
-       count = count+1
+       count += 1
        //Creating glued look
        if (props.glued) {
        switch (count) {
@@ -158,7 +156,7 @@ if (this.props.glued) {
           return (
 
             <div>
-              <table style = {styles.tableStyle}>
+              <table style={styles.tableStyle}>
                 <tbody>
                   <tr>
                     {children}

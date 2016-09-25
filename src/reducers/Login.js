@@ -1,5 +1,4 @@
 import c from '../constants/constants'
-import assign from 'lodash.assign'
 
 var ActionTypes = c.ActionTypes
 
@@ -13,24 +12,24 @@ const login = (state = initialState, action) => {
       return {
               isWaiting: true
              }
-       break
+
   case ActionTypes.LOGIN_SUCCEEDED:
       return {
         signedIn: true,
         profile: action.profile,
-        isWaiting: false
+        isWaiting: false,
+        token: action.token
              }
-       break
+
  case ActionTypes.LOGIN_FAILED:
      return {
        signedIn: false,
        err: action.err,
        isWaiting: false
             }
-      break
   case ActionTypes.LOGOUT_SUCCEEDED:
       return initialState
-      break
+
   default:
     return state
   }

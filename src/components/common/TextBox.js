@@ -22,12 +22,6 @@ var TextBox = React.createClass({
     isFormValid: PropTypes.func
   },
 
-  getDefaultProps() {
-      return {
-        height: '100%', width: '100%',
-      }
-    },
-
 
   componentWillMount() {
     if (this.props.value !== undefined) {
@@ -57,7 +51,8 @@ var TextBox = React.createClass({
   getDefaultProps() {
     return {
       active: true,
-      validate: []
+      validate: [],
+      height: '100%', width: '100%',
     }
   },
 

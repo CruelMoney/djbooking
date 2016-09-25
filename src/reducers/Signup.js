@@ -13,20 +13,19 @@ const signup = (state = initialState, action) => {
       return {
               isWaiting: true
              }
-       break
   case ActionTypes.SIGNUP_SUCCEEDED:
       return {
         signedUp: true,
         isWaiting: false
              }
-       break
+
  case ActionTypes.SIGNUP_FAILED:
      return {
        signedUp: false,
        err: action.err,
        isWaiting: false
             }
-      break
+
 
   default:
     return state

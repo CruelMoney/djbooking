@@ -49,27 +49,26 @@ var TimeSlider = React.createClass({
 
     return (
       <div>
-      <Slider
-        name="time"
-        range={{
-          min: rangeMin,
-          max: rangeMax
-        }}
-        step={30 * 60 * 1000} //Steps of half hour
-        connect= {true}
-        initialValues={[
-          this.state.startTime,
-          this.state.endTime
-        ]}
-        handleChange={(values) => {
-          this.setState({
-            startTime: values[0],
-            endTime: values[1]
-          })
-          this.props.onChange ?
-          this.props.onChange(values)
-          : null
-        }}
+        <Slider
+          name="time"
+          range={{
+            min: rangeMin,
+            max: rangeMax
+          }}
+          step={30 * 60 * 1000} //Steps of half hour
+          connect={true}
+          initialValues={[
+            this.state.startTime,
+            this.state.endTime
+          ]}
+          handleChange={(values) => {
+            this.setState({
+              startTime: values[0],
+              endTime: values[1]
+            })
+            if (this.props.onChange)
+            {this.props.onChange(values)}
+          }}
         format={ wNumb({
           decimals: 0,
         })}

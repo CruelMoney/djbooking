@@ -1,6 +1,5 @@
 import  React, {PropTypes} from "react"
 import { GoogleMapLoader, GoogleMap, Circle } from "react-google-maps"
-import { default as update } from "react-addons-update"
 
 
 /*
@@ -101,7 +100,7 @@ var SimpleMap = React.createClass({
             <GoogleMap
               defaultZoom={8}
               defaultCenter={ this.state.marker.position }
-              streetViewControl= {false}
+              streetViewControl={false}
               defaultOptions={{
                 scrollwheel: false,
                 streetViewControl: false,
@@ -187,19 +186,19 @@ var SimpleMap = React.createClass({
             >
 
               <Circle
-                ref = {(c) => this.circle = c}
-                defaultOptions = {{
+                ref={(c) => this.circle = c}
+                defaultOptions={{
                   fillColor: this.props.themeColor,
                   strokeWeight: 0,
                   suppressUndo: true
                 }}
-                editable= {this.props.editable}
-                center= {this.state.marker.position}
-                radius= {this.state.marker.radius}
+                editable={this.props.editable}
+                center={this.state.marker.position}
+                radius={this.state.marker.radius}
                 onCenterChanged={()=>this.handleLocationChange(this.circle)}
                 onRadiusChanged={()=>this.handleRadiusChange(this.circle)}
-                />
-
+              />
+              
             </GoogleMap>
           }
         />

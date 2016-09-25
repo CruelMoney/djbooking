@@ -1,5 +1,5 @@
 import React from 'react'
-import DatePicker from '../common/DatePicker.js'
+import DatePicker from '../common/Datepicker.js'
 import Footer from '../blocks/Footer'
 import RequestForm from '../../containers/RequestForm'
 import moment from 'moment'
@@ -81,7 +81,7 @@ handleButtonClick(){
           <div>
           <div   className="container">
             <RequestForm
-              date= {moment(Number(this.state.eventDate)).format("dddd Do, MMMM YYYY")}
+              date={moment(Number(this.state.eventDate)).format("dddd Do, MMMM YYYY")}
                />
           </div>
           <Footer/>

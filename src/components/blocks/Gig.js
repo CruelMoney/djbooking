@@ -98,9 +98,9 @@ var Gig = React.createClass({
 
 
       var genres = []
-      {this.props.gig.genres.forEach(function(genre, i) {
+      this.props.gig.genres.forEach(function(genre, i) {
          genres.push(<td style={{paddingRight:"10px"}}>{genre}</td>)}
-      )}
+      )
 
     return (
 
@@ -109,7 +109,7 @@ var Gig = React.createClass({
         style={{marginBottom: '20px',}}>
         <CardHeader
           style={{paddingLeft:'50px'}}
-          title= {this.props.gig.name }
+          title={this.props.gig.name }
           subtitle={this.props.gig.location}
           actAsExpander={true}
           showExpandableButton={true}
@@ -154,10 +154,10 @@ var Gig = React.createClass({
               <TextField
                 onChange={this.onChangePrice}
                 hintStyle={styles.medium.hint}
-                style = {styles.medium.textarea}
-                inputStyle = {styles.medium.input}
+                style={styles.medium.textarea}
+                inputStyle={styles.medium.input}
                 disabled={this.props.gig.status === "LOST" || this.props.gig.status === "CONFIRMED" || this.props.gig.status === "PLAYED" }
-                type = "number"
+                type="number"
                 fullWidth={true}
                 defaultValue={this.props.gig.price}
               />
@@ -171,26 +171,26 @@ var Gig = React.createClass({
               <div className="row">
                 <div className="col-xs-6">
                   <Button
-                    rounded= {true}
+                    rounded={true}
                     label="Decline"
-                    onClick= { () => this.props.declineGig(this.props.gig.ID)}
+                    onClick={ () => this.props.declineGig(this.props.gig.ID)}
                   />
                 </div>
                 {this.props.gig.status === "REQUESTED" ?
                   <div className="col-xs-6">
                     <Button
-                      rounded= {true}
+                      rounded={true}
                       label="Offer gig"
-                      onClick= { () => this.props.acceptGig(this.props.gig.ID, this.state.price)}
+                      onClick={ () => this.props.acceptGig(this.props.gig.ID, this.state.price)}
                     />
                   </div>
                   :
                   this.props.gig.status === "ACCEPTED" ?
                     <div className="col-xs-6">
                       <Button
-                        rounded= {true}
+                        rounded={true}
                         label="Update price offer"
-                        onClick= { () => this.props.updateGig(this.props.gig.ID, this.state.price)}
+                        onClick={ () => this.props.updateGig(this.props.gig.ID, this.state.price)}
                       />
                     </div>
                   :

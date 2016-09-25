@@ -47,11 +47,11 @@ var Preferences = React.createClass({
     <div key="profile_actions">
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
-          active = {props.editMode}
-          rounded= {true}
+          active={props.editMode}
+          rounded={true}
           labelToggled="Save"
           label="Edit preferences"
-          onClick= {props.toggleEditMode}
+          onClick={props.toggleEditMode}
           onClickToggled={this.context.submit}
           name="edit_profile"
         />
@@ -59,10 +59,10 @@ var Preferences = React.createClass({
       { props.editMode ?
         <div style={{marginBottom:"4px"}}>
           <Button
-            rounded= {true}
+            rounded={true}
             label="Cancel"
             active={true}
-            onClick= {this.context.reset}
+            onClick={this.context.reset}
             name="cancel_edit_profile"
           />
         </div>  : null }
@@ -70,11 +70,11 @@ var Preferences = React.createClass({
       { props.editMode ?
         <div style={{marginBottom:"4px"}}>
           <Button
-            rounded= {true}
+            rounded={true}
             dangerous={true}
             label="Delete account"
             active={true}
-            onClick= {this.props.deleteAccount}
+            onClick={this.props.deleteAccount}
             name="delete_account"
           />
         </div>  : null }
@@ -83,7 +83,7 @@ var Preferences = React.createClass({
 
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
-          rounded= {true}
+          rounded={true}
           label="Request features"
           name="request_features"
         />
@@ -193,10 +193,10 @@ var Preferences = React.createClass({
                   <TextField
                     name="bank_number"
                     hintStyle={styles.medium.hint}
-                    style = {styles.medium.textarea}
-                    inputStyle = {styles.medium.input}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
                     disabled={!this.props.editMode}
-                    type = "number"
+                    type="number"
                     fullWidth={false}
                     placeholder="Bank number"
                     underlineDisabledStyle={styles.plainBorder}
@@ -207,10 +207,10 @@ var Preferences = React.createClass({
                   <TextField
                     name="account_number"
                     hintStyle={styles.medium.hint}
-                    style = {styles.medium.textarea}
-                    inputStyle = {styles.medium.input}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
                     disabled={!this.props.editMode}
-                    type = "number"
+                    type="number"
                     fullWidth={false}
                     placeholder="Account number"
                     underlineDisabledStyle={styles.plainBorder}
@@ -224,10 +224,10 @@ var Preferences = React.createClass({
                   <TextField
                     name="bank_city"
                     hintStyle={styles.medium.hint}
-                    style = {styles.medium.textarea}
-                    inputStyle = {styles.medium.input}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
                     disabled={!this.props.editMode}
-                    type = "text"
+                    type="text"
                     fullWidth={false}
                     placeholder="City"
                     underlineDisabledStyle={styles.plainBorder}
@@ -238,10 +238,10 @@ var Preferences = React.createClass({
                   <TextField
                     name="bank_zip"
                     hintStyle={styles.medium.hint}
-                    style = {styles.medium.textarea}
-                    inputStyle = {styles.medium.input}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
                     disabled={!this.props.editMode}
-                    type = "number"
+                    type="number"
                     fullWidth={false}
                     placeholder="Zip code"
                     underlineDisabledStyle={styles.plainBorder}
@@ -255,10 +255,10 @@ var Preferences = React.createClass({
                   <TextField
                     name="bank_address"
                     hintStyle={styles.medium.hint}
-                    style = {styles.medium.textarea}
-                    inputStyle = {styles.medium.input}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
                     disabled={!this.props.editMode}
-                    type = "text"
+                    type="text"
                     fullWidth={false}
                     placeholder="Address"
                     underlineDisabledStyle={styles.plainBorder}
@@ -276,10 +276,10 @@ var Preferences = React.createClass({
               text="Choose the days you are able to play. You will only receive requests for events happening on the selected days.">
               <ToggleButtonHandler
                 name="availability"
-                errorAbove= {true}
+                errorAbove={true}
                 potentialValues={c.WEEKDAYS}
-                columns = {7}
-                preToggled = {this.props.profile.availability}
+                columns={7}
+                preToggled={this.props.profile.availability}
                 disabled={!this.props.editMode} />
 
             </TextWrapper>
@@ -291,11 +291,11 @@ var Preferences = React.createClass({
               text="Choose the kind of notifications you want to receive by e-mail.">
               <ToggleButtonHandler
                 name="notifications"
-                errorAbove= {true}
-                required ={false}
+                errorAbove={true}
+                required={false}
                 potentialValues={isDJ ? c.NOTIFICATIONS : c.CUSTOMER_NOTIFICATIONS}
-                columns = {2}
-                preToggled = {this.props.profile.notifications}
+                columns={2}
+                preToggled={this.props.profile.notifications}
                 disabled={!this.props.editMode} />
 
             </TextWrapper>
@@ -310,10 +310,10 @@ var Preferences = React.createClass({
                       <TextField
                         name="password"
                         hintStyle={styles.medium.hint}
-                        style = {styles.medium.textarea}
-                        inputStyle = {styles.medium.input}
+                        style={styles.medium.textarea}
+                        inputStyle={styles.medium.input}
                         disabled={!this.props.editMode}
-                        type = "password"
+                        type="password"
                         fullWidth={false}
                         placeholder="Password"
                         underlineDisabledStyle={styles.plainBorder}
@@ -324,10 +324,10 @@ var Preferences = React.createClass({
                       <TextField
                         name="password_repeat"
                         hintStyle={styles.medium.hint}
-                        style = {styles.medium.textarea}
-                        inputStyle = {styles.medium.input}
+                        style={styles.medium.textarea}
+                        inputStyle={styles.medium.input}
                         disabled={!this.props.editMode}
-                        type = "password"
+                        type="password"
                         fullWidth={false}
                         placeholder="Repeat password"
                         underlineDisabledStyle={styles.plainBorder}

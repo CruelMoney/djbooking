@@ -49,9 +49,10 @@ var ToggleButton = React.createClass({
       this.setState({
         toggled: newToggle
       })
-      !newToggle
-        ? (this.props.onClickToggled ? this.props.onClickToggled(value) : this.props.onClick(value))
-        : this.props.onClick(value)
+      if(!newToggle)
+        {if(this.props.onClickToggled) { this.props.onClickToggled(value)} else {this.props.onClick(value)}}
+        else 
+        {this.props.onClick(value)}
     },
 
   render() {
@@ -59,10 +60,10 @@ var ToggleButton = React.createClass({
 
       <Button
         {...this.props}
-        label = {this.state.toggled
+        label={this.state.toggled
           ? (this.props.labelToggled ? this.props.labelToggled : this.props.label)
         : this.props.label}
-        active ={this.state.toggled}
+        active={this.state.toggled}
         onClick={this.props.disabled ? () => null : this.handleClick}
         />
 

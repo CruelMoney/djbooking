@@ -1,23 +1,17 @@
 import React, {PropTypes} from 'react'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import c from '../../constants/constants'
-import {datePipe} from '../../utils/textPipes'
+import {datePipe} from '../../utils/TextPipes'
 import NumberedList from '../common/NumberedList'
 
 
-import Form, {Text,
+import Form, {
               Button,
               Textfield,
               RegistrationElement,
-              SubmitButton,
-              LocationSelector,
-              ToggleButton,
               ToggleButtonHandler,
               LocationSelectorSimple,
-              EmailPassword,
               ToggleOptions} from '../../containers/Form'
 
-const theme = getMuiTheme()
 
 
 
@@ -33,45 +27,45 @@ var signupForm = React.createClass({
 
   return (
     <Form
-      name = "signupForm"
+      name="signupForm"
       onSubmit={this.props.handleSubmit}
       buttonText="Join"
-      isloading= {this.props.isloading}
+      isloading={this.props.isloading}
     >
       <NumberedList>
         <RegistrationElement
           isFilter={true}
           name='signup'
-          label ="Sign Up"
-          active ={true}
-          text = "Do you want to sign up using soundcloud, facebook or your email"
+          label="Sign Up"
+          active={true}
+          text="Do you want to sign up using soundcloud, facebook or your email"
         >
 
           <ToggleOptions
-            name = "signup"
+            name="signup"
           >
             <Button
               large={true}
               leftAlign={true}
-              name = "FACEBOOK"
-              rounded= {true}
-              label =  "Facebook"
+              name="FACEBOOK"
+              rounded={true}
+              label="Facebook"
             />
 
             <Button
               large={true}
               leftAlign={true}
-              name = "SOUNDCLOUD"
-              rounded= {true}
-              label =  "Soundcloud"
+              name="SOUNDCLOUD"
+              rounded={true}
+              label="Soundcloud"
             />
 
             <Button
               large={true}
               leftAlign={true}
-              name = "EMAIL"
-              rounded= {true}
-              label =  "Email & Password"
+              name="EMAIL"
+              rounded={true}
+              label="Email & Password"
             />
 
           </ToggleOptions>
@@ -80,10 +74,10 @@ var signupForm = React.createClass({
 
         <RegistrationElement
           name="email"
-          label ="E-mail"
-          active ={true}
-          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-          hideOn = {['FACEBOOK']}
+          label="E-mail"
+          active={true}
+          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          hideOn={['FACEBOOK']}
         >
           <Textfield
             name="email"
@@ -93,9 +87,9 @@ var signupForm = React.createClass({
         </RegistrationElement>
         <RegistrationElement
           name="phone"
-          label ="Phone"
-          active ={true}
-          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          label="Phone"
+          active={true}
+          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
         >
           <Textfield
             name="phone"
@@ -106,13 +100,13 @@ var signupForm = React.createClass({
         </RegistrationElement>
         <RegistrationElement
           name="password"
-          label ="Password"
-          active ={true}
-          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-          hideOn = {['FACEBOOK','SOUNDCLOUD']}
+          label="Password"
+          active={true}
+          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          hideOn={['FACEBOOK','SOUNDCLOUD']}
         >
           <Textfield
-            type ="password"
+            type="password"
             name="password"
             validate={['required']}
             label="Your password"/>
@@ -121,10 +115,10 @@ var signupForm = React.createClass({
 
         <RegistrationElement
           name="name"
-          label ="Name"
-          active ={true}
-          text = "Please enter your first and last name. It is important that the given information is correct. Otherwise you can't receive your payment."
-          hideOn = {['FACEBOOK']}
+          label="Name"
+          active={true}
+          text="Please enter your first and last name. It is important that the given information is correct. Otherwise you can't receive your payment."
+          hideOn={['FACEBOOK']}
         >
           <Textfield
             name="name"
@@ -136,17 +130,17 @@ var signupForm = React.createClass({
 
         <RegistrationElement
           name="bday"
-          label ="Birthday"
-          active ={true}
-          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-          hideOn = {['FACEBOOK']}
+          label="Birthday"
+          active={true}
+          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          hideOn={['FACEBOOK']}
 
         >
 
           <Textfield
-            onUpdatePipeFunc = {datePipe}
+            onUpdatePipeFunc={datePipe}
             maxLength="10"
-            type = "text"
+            type="text"
             name="birthday"
             validate={['required', 'date']}
             placeholder="dd/mm/yyyy"
@@ -156,9 +150,9 @@ var signupForm = React.createClass({
 
         <RegistrationElement
           name="location"
-          label ="Location"
-          active ={true}
-          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          label="Location"
+          active={true}
+          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
         >
 
           <LocationSelectorSimple
@@ -172,15 +166,15 @@ var signupForm = React.createClass({
 
         <RegistrationElement
           name="genres"
-          label ="Genres"
-          active ={true}
-          text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          label="Genres"
+          active={true}
+          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
         >
 
           <ToggleButtonHandler
             name="genres"
             potentialValues={c.GENRES}
-            columns = {4} />
+            columns={4} />
 
         </RegistrationElement>
       </NumberedList>

@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import Button from '../common/Button'
 import Textfield from 'material-ui/TextField'
-import onClickOutside from 'react-onclickoutside'
 
 
 const login = React.createClass({
@@ -68,24 +67,24 @@ const login = React.createClass({
   <div>
     <div style={{marginBottom:"10px"}} md={6}>
       <Button
-        label= "Facebook"
-        rounded = {true}
-        onClick = {this.props.loginFacebook}
+        label="Facebook"
+        rounded={true}
+        onClick={this.props.loginFacebook}
       />
     </div>
     <div  style={{marginBottom:"20px"}} md={6}>
       <Button
 
-        label= "Soundcloud"
-        rounded = {true}
-        onClick = {this.props.loginSoundcloud}
+        label="Soundcloud"
+        rounded={true}
+        onClick={this.props.loginSoundcloud}
       />
     </div>
   </div>
   <p style={{textAlign:"center"}}>OR</p>
   <div>
     <Textfield
-      type = "email"
+      type="email"
       fullWidth={true}
       floatingLabelText="Email"
       onChange={this.onChangeEmail}
@@ -93,7 +92,7 @@ const login = React.createClass({
   </div>
   <div style={{marginBottom:'20px'}}>
     <Textfield
-      type = "password"
+      type="password"
       fullWidth={true}
       floatingLabelText="Password"
       onChange={this.onChangePassword}
@@ -103,10 +102,10 @@ const login = React.createClass({
     <Button
       isLoading={this.props.isLoading}
       medium={true}
-      label= "Login"
-      important = {this.state.isValid}
-      rounded = {true}
-      onClick = {this.login}
+      label="Login"
+      important={this.state.isValid}
+      rounded={true}
+      onClick={this.login}
     />
   </div>
   {this.props.error ?

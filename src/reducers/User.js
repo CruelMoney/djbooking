@@ -1,7 +1,6 @@
 import c from '../constants/constants'
 import assign from 'lodash.assign'
 import profile from './Profile'
-import { combineReducers } from 'redux'
 
 
 

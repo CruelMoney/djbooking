@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Event from '../components/blocks/Event'
-import * as actions from '../actions/EventActions'
-
 
 // function mapStateToProps(state, ownProps) {
 //   return {

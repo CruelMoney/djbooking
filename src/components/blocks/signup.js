@@ -78,17 +78,17 @@ const signup = React.createClass({
       <div>
         <div style={{marginBottom:"10px"}} md={6}>
           <Button
-            label= "Facebook"
-            rounded = {true}
-            onClick = {this.signupFace}
+            label="Facebook"
+            rounded={true}
+            onClick={this.signupFace}
           />
         </div>
       </div>
       <p style={{textAlign:"center"}}>OR</p>
       <div>
         <Textfield
-          type = "email"
-          initialValue = {this.props.profile.email || ""}
+          type="email"
+          initialValue={this.props.profile.email || ""}
           fullWidth={true}
           floatingLabelText="Email"
           onChange={this.onChangeEmail}
@@ -96,7 +96,7 @@ const signup = React.createClass({
       </div>
       <div style={{marginBottom:'20px'}}>
         <Textfield
-          type = "password"
+          type="password"
           fullWidth={true}
           floatingLabelText="Password"
           onChange={this.onChangePassword}
@@ -105,10 +105,10 @@ const signup = React.createClass({
       <div style={{marginBottom:'20px'}}>
         <Button
           medium={true}
-          label= "Sign up"
-          important = {this.state.isValid}
-          rounded = {true}
-          onClick = {this.signup}
+          label="Sign up"
+          important={this.state.isValid}
+          rounded={true}
+          onClick={this.signup}
         />
       </div>
       <p style={{opacity:'0.5'}}>

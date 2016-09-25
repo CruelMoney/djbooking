@@ -1,12 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router'
 import Radium from 'radium';
 import muiThemeable from 'material-ui/styles/muiThemeable';
-import Button from './Button'
-import hexToRgb from '../../utils/ColorHelper'
-import {browserHistory} from 'react-router';
-var RadiumLink = Radium(Link);
-
 
 const UserMenuItem = React.createClass({
   propTypes: {

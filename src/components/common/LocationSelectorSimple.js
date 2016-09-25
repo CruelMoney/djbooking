@@ -4,6 +4,8 @@ import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import * as validators from '../../utils/validators'
 
+
+/*eslint no-undef: 0*/
 var locationService = new google.maps.places.AutocompleteService()
 
 var Text = React.createClass({
@@ -152,24 +154,24 @@ var Text = React.createClass({
 
     return (
         <AutoComplete
-        className="search-bar__auto-complete"
-        style = {this.props.style || styles.textarea}
-        inputStyle = {styles.input}
-        hintStyle = {styles.hint}
-        floatingLabelText = {this.props.floatingLabelText}
-        //onClick={this.onValueSelected}
-        fullWidth={true}
-        searchText={this.state.value}
-        hintText={this.props.placeholder}
-        dataSource={this.state.dataSource}
-        onUpdateInput={this.onChange}
-        onNewRequest={this.onValueSelected}
-        onBlur={this.onBlur}
-        errorText={this.state.errors.length ? (
-           <div>
-             {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
-           </div>
-        ) : null}/>
+          className="search-bar__auto-complete"
+          style={this.props.style || styles.textarea}
+          inputStyle={styles.input}
+          hintStyle={styles.hint}
+          floatingLabelText={this.props.floatingLabelText}
+          //onClick={this.onValueSelected}
+          fullWidth={true}
+          searchText={this.state.value}
+          hintText={this.props.placeholder}
+          dataSource={this.state.dataSource}
+          onUpdateInput={this.onChange}
+          onNewRequest={this.onValueSelected}
+          onBlur={this.onBlur}
+          errorText={this.state.errors.length ? (
+            <div>
+              {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+            </div>
+          ) : null}/>
     )
   }
 })

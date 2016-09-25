@@ -149,14 +149,14 @@ var ToggleButtonHandler = React.createClass({
           style={styles.td}
           key={genre.name}>
           <ToggleButton
-            rounded= {this.props.rounded}
-            label =  {genre.name}
-            active = {isToggled}
-            disabled = {this.props.disabled}
-            onClick = {this.handleButtonPress}/>
+            rounded={this.props.rounded}
+            label={genre.name}
+            active={isToggled}
+            disabled={this.props.disabled}
+            onClick={this.handleButtonPress}/>
         </td>  )
 
-      if ((i+1) % this.props.columns===0 && i!==0 || (i===this.props.potentialValues.length-1)){
+      if (((i+1) % this.props.columns === 0 && i!==0) || (i===this.props.potentialValues.length-1)){
         currentRow++
         rows.push(
           <tr
@@ -172,7 +172,7 @@ var ToggleButtonHandler = React.createClass({
     return (
       <div>
         {(this.state.errors.length && this.props.errorAbove) ? (
-          < div style = {styles.errors}>
+          < div style={styles.errors}>
           {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
           </div>
           ) : null}
@@ -183,7 +183,7 @@ var ToggleButtonHandler = React.createClass({
           <tbody>{rows}</tbody>
           </table>
           {(this.state.errors.length && !this.props.errorAbove) ? (
-          < div style = {styles.errors}>
+          < div style={styles.errors}>
           {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
           </div>
           ) : null}

@@ -5,12 +5,14 @@ import * as UserActions from './UserActions'
 
 var ActionTypes = c.ActionTypes
 const auth = new AuthService()
+
+/*eslint no-undef: 0*/
 var geocoder = new google.maps.Geocoder()
 
 
 function codeAddress(address, callback)  {
   geocoder.geocode( { 'address': address}, function(results, status) {
-       if (status == google.maps.GeocoderStatus.OK) {
+       if (status === google.maps.GeocoderStatus.OK) {
          var lat = (results[0].geometry.location.lat())
          var lng = (results[0].geometry.location.lng())
         return callback({error: null, position:{lat: lat, lng: lng }})
@@ -33,6 +35,8 @@ export function signup(form, isDJ = true) {
 
       case "SOUNDCLOUD":
         return LoginActions.loginSoundcloud(handleSignupFeedback(dispatch, form, isDJ))
+
+      default:
 
     }
   }

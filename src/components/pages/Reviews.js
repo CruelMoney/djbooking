@@ -54,10 +54,10 @@ var Reviews = React.createClass({
 
       <div style={{marginBottom:"4px"}}>
         <Button
-          rounded= {true}
+          rounded={true}
           label="Load more reviews"
           active={true}
-          onClick= {this.props.fetchReviews}
+          onClick={this.props.fetchReviews}
         />
       </div>
 
@@ -65,7 +65,7 @@ var Reviews = React.createClass({
 
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
-          rounded= {true}
+          rounded={true}
           label="Request features"
           name="request_features"
         />
@@ -78,72 +78,13 @@ var Reviews = React.createClass({
 
   render() {
 
-    const styles ={
-      medium:{
-        textarea: {
-          height: '40px',
-          textAlign: 'center',
-        },
-
-        paragraph: {
-          fontSize: '30px',
-          textAlign: 'center',
-        },
-
-        input:{
-          fontSize: '30px',
-          height: 'initial',
-          textAlign: 'center',
-          color: this.props.muiTheme.palette.textColor,
-          fontWeight: '300',
-        },
-
-        hint:{
-          fontSize: '30px',
-          height: 'initial',
-          fontWeight: '300',
-          textAlign: 'center',
-          width: '100%'
-        },
-
-      },
-       dottedBorderStyle: {
-          borderTop: 'none rgba(0, 0, 0, 1)',
-          borderRight: 'none rgba(0, 0, 0, 1)',
-          borderBottom: '2px dotted rgba(0, 0, 0, 1) ',
-          borderLeft: 'none rgba(0, 0, 0, 1)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          borderColor: 'rgba(0,0,0, 0.5)'
-        },
-        plainBorder:{
-          borderTop: 'none rgb(224, 224, 224)',
-          borderRight: 'none rgb(224, 224, 224)',
-          borderBottom: '1px solid rgb(224, 224, 224)',
-          borderLeft: 'none rgb(224, 224, 224)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          display: 'none',
-        }
-    }
-
-
-
       function renderReview(review, i){
         return (
           <Card key={i}
             style={{marginBottom: '20px',}}>
             <CardHeader
               style={{paddingLeft:'50px'}}
-              title= {review.author }
+              title={review.author }
               subtitle={review.date}
               actAsExpander={true}
               showExpandableButton={true}

@@ -24,33 +24,33 @@ var OfferCard = React.createClass({
 
     return(
       <Paper
-      zDepth={2}
-      style={{padding:"5px"}}
+        zDepth={2}
+        style={{padding:"5px"}}
       >
-      <div
-        style={{display:'flex', justifyContent:'space-between', alignItems: 'baseline' }}
+        <div
+          style={{display:'flex', justifyContent:'space-between', alignItems: 'baseline' }}
         >
-      <h4>{this.props.dj.name}</h4>
-      <p>{this.props.price + "KR."}</p>
-      </div>
-      <div
-      style={{display:'flex', justifyContent:'space-between', alignItems: 'baseline' }}
-      >
-      <p>{renderRating(this.props.dj.avgRating)}</p>
-      <p>Has played at {this.props.dj.queupGigs} events.</p>
-      </div>
-      <div>
-      <p>
-      {this.props.dj.phone}
-      </p>
-      <p>
-      {this.props.dj.email}
-      </p>
-      </div>
+          <h4>{this.props.dj.name}</h4>
+          <p>{this.props.price + "KR."}</p>
+        </div>
+        <div
+          style={{display:'flex', justifyContent:'space-between', alignItems: 'baseline' }}
+        >
+          <p>{renderRating(this.props.dj.avgRating)}</p>
+          <p>Has played at {this.props.dj.queupGigs} events.</p>
+        </div>
+        <div>
+          <p>
+            {this.props.dj.phone}
+          </p>
+          <p>
+            {this.props.dj.email}
+          </p>
+        </div>
 
-      <Button
-      label="Accept"
-      />
+        <Button
+          label="Accept"
+        />
       </Paper>
     )
   }

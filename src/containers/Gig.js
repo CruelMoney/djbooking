@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Gig from '../components/blocks/Gig'
-import * as actions from '../actions/EventActions'
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {

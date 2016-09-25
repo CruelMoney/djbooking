@@ -139,7 +139,7 @@ var menu = React.createClass({
               {this.props.loggedIn ? (
                 <li style={{display:'inline', marginLeft:'4px'}}>
                   <Navlink white={isHome}  buttonLook={true}  to="/user" important={true} >
-                    <UserMenuItem profile= {this.props.profile} />
+                    <UserMenuItem profile={this.props.profile} />
                   </Navlink>
                 </li>
                 ) : (
@@ -162,7 +162,7 @@ var menu = React.createClass({
               <Dropdown
                 expanded={this.state.loginExpanded}
                 disableOnClickOutside={!this.state.loginExpanded}
-                onClickOutside ={this.onClickOutside}
+                onClickOutside={this.onClickOutside}
               >
                 <Login
                 />

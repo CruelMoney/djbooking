@@ -277,7 +277,7 @@ var RequestForm = React.createClass({
                   <ToggleButtonHandler
                     name="genres"
                     potentialValues={c.GENRES}
-                    columns = {3} />
+                    columns={3} />
 
                   <h4 style={{textAlign:'center'}}>Do you need speakers?</h4>
                   <ToggleOptions
@@ -287,18 +287,18 @@ var RequestForm = React.createClass({
 
                   >
                     <Button
-                      name = "SPEAKERS_TRUE"
-                      label =  "Yes"
+                      name="SPEAKERS_TRUE"
+                      label="Yes"
                     />
 
                     <Button
-                      name = "SPEAKERS_UNCERTAIN"
-                      label =  "Uncertain"
+                      name="SPEAKERS_UNCERTAIN"
+                      label="Uncertain"
                     />
 
                     <Button
-                      name = "SPEAKERS_NO"
-                      label =  "No"
+                      name="SPEAKERS_NO"
+                      label="No"
                     />
                   </ToggleOptions>
                 </div>
@@ -347,7 +347,7 @@ var RequestForm = React.createClass({
                         name="guests"
                         range={{min:0, max:100}}
                         step={1}
-                        connect= "lower"
+                        connect="lower"
                         initialValues={[50]}
                         handleChange={(values) => this.setState({
                           guests: values[0]

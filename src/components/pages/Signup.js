@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import SignUpForm from '../../containers/SignupForm'
 
 
@@ -15,7 +14,7 @@ var containerStyle = {
 
 export default React.createClass({
   render() {
-    return  <div style = {containerStyle}>
+    return  <div style={containerStyle}>
       <SignUpForm/>
     </div>
   }

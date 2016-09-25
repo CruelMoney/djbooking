@@ -2,9 +2,6 @@ import formatter from './Formatter'
 
 
 export default class AdapterDTO  {
-    constructor() {
-
-    }
 
     //Converts a dto to a profile
     convertDTO(DTO) {

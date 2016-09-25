@@ -92,9 +92,6 @@ export default class AuthService extends EventEmitter {
 
 
     updateProfile(userId, data, token, callback) {
-
-        var ok = false
-
         const headers = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',

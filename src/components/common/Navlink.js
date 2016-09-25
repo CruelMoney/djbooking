@@ -1,10 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import Radium from 'radium'
-import Button from './Button'
 import muiThemeable from 'material-ui/styles/muiThemeable'
-import hexToRgb from '../../utils/ColorHelper'
-import {browserHistory} from 'react-router'
 var RadiumLink = Radium(Link)
 
 
@@ -26,11 +23,6 @@ const Navlink = React.createClass({
     },
 
   render() {
-
-    var r = hexToRgb(this.props.muiTheme.palette.primary1Color).r
-    var g = hexToRgb(this.props.muiTheme.palette.primary1Color).g
-    var b = hexToRgb(this.props.muiTheme.palette.primary1Color).b
-    var rbg = r+","+g+","+b
 
     var styles = {
       base: {

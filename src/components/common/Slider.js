@@ -58,7 +58,7 @@ var Slider = React.createClass({
           range={this.props.range}
           step={this.props.step}
           start={this.state.values}
-          connect= {this.props.connect}
+          connect={this.props.connect}
           onChange={this.handleChange}
           format={this.props.format}
         />

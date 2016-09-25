@@ -45,11 +45,11 @@ var Profile = React.createClass({
     <div key="profile_actions">
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
-          active = {props.editMode}
-          rounded= {true}
+          active={props.editMode}
+          rounded={true}
           labelToggled="Save"
           label="Edit profile"
-          onClick= {props.toggleEditMode}
+          onClick={props.toggleEditMode}
           onClickToggled={this.context.submit}
           name="edit_profile"
         />
@@ -57,24 +57,24 @@ var Profile = React.createClass({
       { props.editMode ?
         <div style={{marginBottom:"4px"}}>
           <Button
-            rounded= {true}
+            rounded={true}
             label="Cancel"
             active={true}
-            onClick= {this.context.reset}
+            onClick={this.context.reset}
             name="cancel_edit_profile"
           />
         </div>  : null }
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
 
-          rounded= {true}
+          rounded={true}
           label="Public profile"
           name="see_public_profile"
         />
       </div>
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
-          rounded= {true}
+          rounded={true}
           label="Request features"
           name="request_features"
         />
@@ -187,13 +187,13 @@ var Profile = React.createClass({
               label="E-mail"
               text="We wont share your email until you agree to play a gig.">
               <TextField
-                value = {this.props.profile.email}
+                value={this.props.profile.email}
                 name="email"
                 disabled={!this.props.editMode}
-                style = {styles.medium.textarea}
-                inputStyle = {styles.medium.input}
+                style={styles.medium.textarea}
+                inputStyle={styles.medium.input}
                 //hintStyle = {styles.hint}
-                type = "email"
+                type="email"
                 validate={['required', 'email']}
                 fullWidth={false}
                 hintText="E-mail"
@@ -208,10 +208,10 @@ var Profile = React.createClass({
       text="Select your genres">
       <Genres
         name="genres"
-        errorAbove= {true}
+        errorAbove={true}
         potentialValues={c.GENRES}
-        columns = {4}
-        preToggled = {this.props.profile.genres}
+        columns={4}
+        preToggled={this.props.profile.genres}
         disabled={!this.props.editMode} />
     </TextWrapper>
 :null
@@ -219,7 +219,7 @@ var Profile = React.createClass({
 
             {isDJ ?
             <TextWrapper
-              label ="Bio"
+              label="Bio"
               text={this.props.profile.firstName + ", tell us a little bit of your story."}
             >
               <TextBox
@@ -227,7 +227,7 @@ var Profile = React.createClass({
                 height="150px"
                 name="bio"
                 disabled={!this.props.editMode}
-                value = {this.props.profile.bio}
+                value={this.props.profile.bio}
 
               />
 
@@ -248,15 +248,15 @@ var Profile = React.createClass({
           </div>
           <div  className="col-lg-6">
             <TextWrapper
-              label ="Phone"
+              label="Phone"
               text="We wont share your phone number until you agree to play a gig.">
               <TextField
                 name="phone"
                 value={this.props.profile.phone}
-                style = {styles.medium.textarea}
-                inputStyle = {styles.medium.input}
+                style={styles.medium.textarea}
+                inputStyle={styles.medium.input}
                 disabled={!this.props.editMode}
-                type = "tel"
+                type="tel"
                 fullWidth={false}
                 hintText="Phone"
                 underlineDisabledStyle={styles.plainBorder}
@@ -269,7 +269,7 @@ var Profile = React.createClass({
   {isDJ ?
             <TextWrapper
 
-              label ="Location"
+              label="Location"
               text={this.props.profile.firstName + ", tell us where youd like to play."}
             >
 

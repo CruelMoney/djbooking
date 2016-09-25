@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Link } from 'react-router'
 import Navlink  from '../common/Navlink'
-import Button from '../common/Button'
 
 
 export default React.createClass({
@@ -27,42 +25,7 @@ export default React.createClass({
 
 
   render() {
-    const styles = {
-      userImageWrap:{
-        display: 'flex',
-        alignItems: 'center',
-        borderRadius:'200px',
-        overflow: 'hidden',
-        width: '200px',
-        height: '200px',
-        position: 'relative',
-        zIndex: '1',
-        marginBottom: "20px"
-      },
-
-
-      blur:{
-        filter:'blur(5px)',
-      },
-      changeProfilePictureText:{
-        position: 'absolute',
-        left: '0',
-        right: '0',
-        textAlign: 'center',
-        color: 'white'
-      },
-      image:{
-        backgroundImage: 'url('+this.props.profilePicture+')',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundSize: 'auto 150%',
-        width: '200px',
-        height: '200px',
-        zIndex: '0',
-        display: 'inline-block'
-
-      },
-    }
+  
     return (
       <div>
       {/* {!this.props.isDJ ?

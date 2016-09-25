@@ -3,7 +3,7 @@ import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import TextField from '../common/Textfield'
 import TextWrapper from '../common/TextElement'
-import {datePipe} from '../../utils/textPipes'
+import {datePipe} from '../../utils/TextPipes'
 
 var userHeader = React.createClass({
 
@@ -168,12 +168,12 @@ var userHeader = React.createClass({
               label="Name"
             >
               <TextField
-                value = {this.props.profile.name}
+                value={this.props.profile.name}
                 name="name"
                 disabled={!this.props.editMode}
-                style = {styles.large.textarea}
-                inputStyle = {styles.large.input}
-                type = "text"
+                style={styles.large.textarea}
+                inputStyle={styles.large.input}
+                type="text"
                 fullWidth={false}
                 hintText="Name"
                 underlineDisabledStyle={styles.plainBorder}
@@ -187,13 +187,13 @@ var userHeader = React.createClass({
               label="Location"
             >
               <TextField
-                value= {this.props.profile.location}
+                value={this.props.profile.location}
                 name="location"
                 validate={['required']}
                 disabled={!this.props.editMode}
-                style = {styles.medium.textarea}
-                inputStyle = {styles.medium.input}
-                type = "text"
+                style={styles.medium.textarea}
+                inputStyle={styles.medium.input}
+                type="text"
                 fullWidth={false}
                 hintText="Location"
                 underlineDisabledStyle={styles.plainBorder}
@@ -205,14 +205,14 @@ var userHeader = React.createClass({
               label="Birthday"
             >
               <TextField
-                value= {this.props.profile.birthday}
-                onUpdatePipeFunc = {datePipe}
+                value={this.props.profile.birthday}
+                onUpdatePipeFunc={datePipe}
                 name="birthday"
                 validate={['required', 'date']}
                 disabled={!this.props.editMode}
-                style = {styles.medium.textarea}
-                inputStyle = {styles.medium.input}
-                type = "text"
+                style={styles.medium.textarea}
+                inputStyle={styles.medium.input}
+                type="text"
                 fullWidth={false}
                 hintText="Birthday"
                 underlineDisabledStyle={styles.plainBorder}
@@ -226,13 +226,13 @@ var userHeader = React.createClass({
               label="Earned"
             >
               <TextField
-                value= "3500.00 DKK"
+                value="3500.00 DKK"
                 name="Earned"
                 disabled={true}
-                style = {styles.large.textarea}
-                inputStyle = {styles.large.input}
+                style={styles.large.textarea}
+                inputStyle={styles.large.input}
                 //hintStyle = {styles.hint}
-                type = "text"
+                type="text"
                 fullWidth={false}
                 underlineShow={false}
                 underlineDisabledStyle={styles.plainBorder}
@@ -244,12 +244,12 @@ var userHeader = React.createClass({
               label="Rating"
             >
               <TextField
-                value= "★ ★ ★ ★ ★"
+                value="★ ★ ★ ★ ★"
                 name="Rating"
                 disabled={true}
-                style = {styles.large.textarea}
-                inputStyle = {styles.large.input}
-                type = "text"
+                style={styles.large.textarea}
+                inputStyle={styles.large.input}
+                type="text"
                 fullWidth={false}
                 underlineShow={false}
                 underlineDisabledStyle={styles.plainBorder}
@@ -261,12 +261,12 @@ var userHeader = React.createClass({
               label="Upcoming"
             >
               <TextField
-                value= "No upcoming gigs"
+                value="No upcoming gigs"
                 name="Upcoming"
                 disabled={true}
-                style = {styles.medium.textarea}
-                inputStyle = {styles.medium.input}
-                type = "text"
+                style={styles.medium.textarea}
+                inputStyle={styles.medium.input}
+                type="text"
                 fullWidth={false}
                 underlineShow={false}
                 underlineDisabledStyle={styles.plainBorder}
@@ -302,12 +302,12 @@ var userHeader = React.createClass({
             label="Name"
           >
             <TextField
-              value = {this.props.profile.name}
+              value={this.props.profile.name}
               name="name"
               disabled={!this.props.editMode}
-              style = {styles.large.textarea}
-              inputStyle = {styles.large.input}
-              type = "text"
+              style={styles.large.textarea}
+              inputStyle={styles.large.input}
+              type="text"
               fullWidth={false}
               hintText="Name"
               underlineDisabledStyle={styles.plainBorder}
@@ -321,13 +321,13 @@ var userHeader = React.createClass({
             label="E-mail"
             >
             <TextField
-              value = {this.props.profile.email}
+              value={this.props.profile.email}
               name="email"
               disabled={!this.props.editMode}
-              style = {styles.medium.textarea}
-              inputStyle = {styles.medium.input}
+              style={styles.medium.textarea}
+              inputStyle={styles.medium.input}
               //hintStyle = {styles.hint}
-              type = "email"
+              type="email"
               validate={['required', 'email']}
               fullWidth={false}
               hintText="E-mail"
@@ -336,14 +336,14 @@ var userHeader = React.createClass({
             />
           </TextWrapper>
           <TextWrapper
-            label ="Phone">
+            label="Phone">
             <TextField
               name="phone"
               value={this.props.profile.phone}
-              style = {styles.medium.textarea}
-              inputStyle = {styles.medium.input}
+              style={styles.medium.textarea}
+              inputStyle={styles.medium.input}
               disabled={!this.props.editMode}
-              type = "tel"
+              type="tel"
               fullWidth={false}
               hintText="Phone"
               underlineDisabledStyle={styles.plainBorder}
