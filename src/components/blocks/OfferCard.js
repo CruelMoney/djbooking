@@ -30,18 +30,18 @@ var OfferCard = React.createClass({
         <div
           style={{display:'flex', justifyContent:'space-between', alignItems: 'baseline' }}
         >
-          <h4>{this.props.dj.name}</h4>
+          <h4>{this.props.dj.user_metadata.firstName}</h4>
           <p>{this.props.price + "KR."}</p>
         </div>
         <div
           style={{display:'flex', justifyContent:'space-between', alignItems: 'baseline' }}
         >
-          <p>{renderRating(this.props.dj.avgRating)}</p>
-          <p>Has played at {this.props.dj.queupGigs} events.</p>
+          <p>{renderRating(this.props.dj.app_metadata.vgRating)}</p>
+          <p>Has played at {this.props.dj.app_metadata.gigsCount} events.</p>
         </div>
         <div>
           <p>
-            {this.props.dj.phone}
+            {this.props.dj.user_metadata.phone}
           </p>
           <p>
             {this.props.dj.email}

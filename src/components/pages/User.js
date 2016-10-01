@@ -145,9 +145,9 @@ var user = React.createClass({
       <div  className="container">
         <div style={{borderRight: '1px solid #eee', paddingTop:"15px"}} className="col-md-3">
           <UserNavigation
-          isDJ={this.state.profile.isDJ}
-          isCustomer={this.state.profile.isCustomer}
-          actions={this.state.actions}/>
+            isDJ={this.state.profile.app_metadata.isDJ}
+            isCustomer={this.state.profile.app_metadata.isCustomer}
+            actions={this.state.actions}/>
         </div>
         <div style={{paddingTop:"15px"}} className="col-md-9">
           {this.props.children}

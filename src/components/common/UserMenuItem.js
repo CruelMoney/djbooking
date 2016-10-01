@@ -11,7 +11,7 @@ const UserMenuItem = React.createClass({
 
     //Cut length if too long
     function getLabel(profile){
-        var label = profile.name
+        var label = profile.user_metadata.firstName
 
         if (label.length > 20){
           return label.substring(0, 20) + "..."

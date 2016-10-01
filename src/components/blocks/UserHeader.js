@@ -27,7 +27,7 @@ var userHeader = React.createClass({
 
   render() {
 
-
+    
     const styles ={
       image:{
         backgroundImage: 'url('+this.props.profile.picture+')',
@@ -187,7 +187,7 @@ var userHeader = React.createClass({
               label="Location"
             >
               <TextField
-                value={this.props.profile.location}
+                value={this.props.profile.playingLocation.name}
                 name="location"
                 validate={['required']}
                 disabled={!this.props.editMode}
@@ -205,7 +205,7 @@ var userHeader = React.createClass({
               label="Birthday"
             >
               <TextField
-                value={this.props.profile.birthday}
+                value={this.props.profile.user_metadata.birthday}
                 onUpdatePipeFunc={datePipe}
                 name="birthday"
                 validate={['required', 'date']}
@@ -226,7 +226,7 @@ var userHeader = React.createClass({
               label="Earned"
             >
               <TextField
-                value="3500.00 DKK"
+                value={this.props.profile.app_metadata.earned}
                 name="Earned"
                 disabled={true}
                 style={styles.large.textarea}
@@ -244,7 +244,7 @@ var userHeader = React.createClass({
               label="Rating"
             >
               <TextField
-                value="★ ★ ★ ★ ★"
+                value={this.props.profile.app_metadata.avgRating}
                 name="Rating"
                 disabled={true}
                 style={styles.large.textarea}
@@ -302,7 +302,7 @@ var userHeader = React.createClass({
             label="Name"
           >
             <TextField
-              value={this.props.profile.name}
+              value={this.props.profile.user_metadata.firstName}
               name="name"
               disabled={!this.props.editMode}
               style={styles.large.textarea}
@@ -319,7 +319,7 @@ var userHeader = React.createClass({
 
           <TextWrapper
             label="E-mail"
-            >
+          >
             <TextField
               value={this.props.profile.email}
               name="email"
@@ -339,7 +339,7 @@ var userHeader = React.createClass({
             label="Phone">
             <TextField
               name="phone"
-              value={this.props.profile.phone}
+              value={this.props.profile.user_metadata.phone}
               style={styles.medium.textarea}
               inputStyle={styles.medium.input}
               disabled={!this.props.editMode}

@@ -2,9 +2,7 @@ import React, { PropTypes } from 'react'
 import Radium from 'radium'
 import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
-import ToggleButtonHandler from '../common/ToggleButtonHandler'
 import TextField from '../common/Textfield'
-import c from '../../constants/constants'
 
 
 import TextWrapper from '../common/TextElement'
@@ -178,129 +176,129 @@ var Preferences = React.createClass({
           display: 'none',
         }
     }
-    const isDJ = this.props.profile.isDJ
+    const isDJ = this.props.profile.app_metadata.isDJ
     return(
       <div>
         <div className="row">
           <div className="col-lg-6">
 
-          {isDJ ?
-            <TextWrapper
-              label="Payout"
-              text="Change your payout information here">
-              <div className="row">
-                <div className="col-xs-6">
-                  <TextField
-                    name="bank_number"
-                    hintStyle={styles.medium.hint}
-                    style={styles.medium.textarea}
-                    inputStyle={styles.medium.input}
-                    disabled={!this.props.editMode}
-                    type="number"
-                    fullWidth={false}
-                    placeholder="Bank number"
-                    underlineDisabledStyle={styles.plainBorder}
-                    underlineStyle={styles.dottedBorderStyle}
-                  />
-                </div>
-                <div className="col-xs-6">
-                  <TextField
-                    name="account_number"
-                    hintStyle={styles.medium.hint}
-                    style={styles.medium.textarea}
-                    inputStyle={styles.medium.input}
-                    disabled={!this.props.editMode}
-                    type="number"
-                    fullWidth={false}
-                    placeholder="Account number"
-                    underlineDisabledStyle={styles.plainBorder}
-                    underlineStyle={styles.dottedBorderStyle}
+            {isDJ ?
+              <TextWrapper
+                label="Payout"
+                text="Change your payout information here">
+                <div className="row">
+                  <div className="col-xs-6">
+                    <TextField
+                      name="bank_number"
+                      hintStyle={styles.medium.hint}
+                      style={styles.medium.textarea}
+                      inputStyle={styles.medium.input}
+                      disabled={!this.props.editMode}
+                      type="number"
+                      fullWidth={false}
+                      placeholder="Bank number"
+                      underlineDisabledStyle={styles.plainBorder}
+                      underlineStyle={styles.dottedBorderStyle}
+                    />
+                  </div>
+                  <div className="col-xs-6">
+                    <TextField
+                      name="account_number"
+                      hintStyle={styles.medium.hint}
+                      style={styles.medium.textarea}
+                      inputStyle={styles.medium.input}
+                      disabled={!this.props.editMode}
+                      type="number"
+                      fullWidth={false}
+                      placeholder="Account number"
+                      underlineDisabledStyle={styles.plainBorder}
+                      underlineStyle={styles.dottedBorderStyle}
 
-                  />
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-xs-6">
-                  <TextField
-                    name="bank_city"
-                    hintStyle={styles.medium.hint}
-                    style={styles.medium.textarea}
-                    inputStyle={styles.medium.input}
-                    disabled={!this.props.editMode}
-                    type="text"
-                    fullWidth={false}
-                    placeholder="City"
-                    underlineDisabledStyle={styles.plainBorder}
-                    underlineStyle={styles.dottedBorderStyle}
-                  />
-                </div>
-                <div className="col-xs-6">
-                  <TextField
-                    name="bank_zip"
-                    hintStyle={styles.medium.hint}
-                    style={styles.medium.textarea}
-                    inputStyle={styles.medium.input}
-                    disabled={!this.props.editMode}
-                    type="number"
-                    fullWidth={false}
-                    placeholder="Zip code"
-                    underlineDisabledStyle={styles.plainBorder}
-                    underlineStyle={styles.dottedBorderStyle}
+                <div className="row">
+                  <div className="col-xs-6">
+                    <TextField
+                      name="bank_city"
+                      hintStyle={styles.medium.hint}
+                      style={styles.medium.textarea}
+                      inputStyle={styles.medium.input}
+                      disabled={!this.props.editMode}
+                      type="text"
+                      fullWidth={false}
+                      placeholder="City"
+                      underlineDisabledStyle={styles.plainBorder}
+                      underlineStyle={styles.dottedBorderStyle}
+                    />
+                  </div>
+                  <div className="col-xs-6">
+                    <TextField
+                      name="bank_zip"
+                      hintStyle={styles.medium.hint}
+                      style={styles.medium.textarea}
+                      inputStyle={styles.medium.input}
+                      disabled={!this.props.editMode}
+                      type="number"
+                      fullWidth={false}
+                      placeholder="Zip code"
+                      underlineDisabledStyle={styles.plainBorder}
+                      underlineStyle={styles.dottedBorderStyle}
 
-                  />
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-xs-12">
-                  <TextField
-                    name="bank_address"
-                    hintStyle={styles.medium.hint}
-                    style={styles.medium.textarea}
-                    inputStyle={styles.medium.input}
-                    disabled={!this.props.editMode}
-                    type="text"
-                    fullWidth={false}
-                    placeholder="Address"
-                    underlineDisabledStyle={styles.plainBorder}
-                    underlineStyle={styles.dottedBorderStyle}
-                  />
+                <div className="row">
+                  <div className="col-xs-12">
+                    <TextField
+                      name="bank_address"
+                      hintStyle={styles.medium.hint}
+                      style={styles.medium.textarea}
+                      inputStyle={styles.medium.input}
+                      disabled={!this.props.editMode}
+                      type="text"
+                      fullWidth={false}
+                      placeholder="Address"
+                      underlineDisabledStyle={styles.plainBorder}
+                      underlineStyle={styles.dottedBorderStyle}
+                    />
 
+                  </div>
                 </div>
-              </div>
-            </TextWrapper>
+              </TextWrapper>
             : null }
 
-            {isDJ ?
-            <TextWrapper
+            {/* {isDJ ?
+              <TextWrapper
               label="Availability"
               text="Choose the days you are able to play. You will only receive requests for events happening on the selected days.">
               <ToggleButtonHandler
-                name="availability"
-                errorAbove={true}
-                potentialValues={c.WEEKDAYS}
-                columns={7}
-                preToggled={this.props.profile.availability}
-                disabled={!this.props.editMode} />
+              name="availability"
+              errorAbove={true}
+              potentialValues={c.WEEKDAYS}
+              columns={7}
+              preToggled={this.props.profile.availability}
+              disabled={!this.props.editMode} />
 
-            </TextWrapper>
-            : null}
+              </TextWrapper>
+            : null} */}
 
 
-            <TextWrapper
+            {/* <TextWrapper
               label="Notifications"
               text="Choose the kind of notifications you want to receive by e-mail.">
               <ToggleButtonHandler
-                name="notifications"
-                errorAbove={true}
-                required={false}
-                potentialValues={isDJ ? c.NOTIFICATIONS : c.CUSTOMER_NOTIFICATIONS}
-                columns={2}
-                preToggled={this.props.profile.notifications}
-                disabled={!this.props.editMode} />
+              name="notifications"
+              errorAbove={true}
+              required={false}
+              potentialValues={isDJ ? c.NOTIFICATIONS : c.CUSTOMER_NOTIFICATIONS}
+              columns={2}
+              preToggled={this.props.profile.notifications}
+              disabled={!this.props.editMode} />
 
-            </TextWrapper>
+            </TextWrapper> */}
 
-            { this.props.profile.provider === "auth0" ?
+            { this.props.profile.app_metadata.auth0Id.split("|")[0] === "auth0" ?
               <div style={{marginBottom:"4px"}}>
                 <TextWrapper
                   label="Password"

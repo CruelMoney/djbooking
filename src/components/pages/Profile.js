@@ -89,7 +89,7 @@ var Profile = React.createClass({
 
     const styles ={
       image:{
-        backgroundImage: 'url('+this.props.profile.picture_large+')',
+        backgroundImage: 'url('+this.props.profile.picture+')',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundSize: '100% auto',
@@ -177,7 +177,7 @@ var Profile = React.createClass({
         }
     }
 
-    const isDJ = this.props.profile.isDJ
+    const isDJ = this.props.profile.app_metadata.isDJ
 
     return(
       <div>
@@ -202,49 +202,49 @@ var Profile = React.createClass({
               />
             </TextWrapper>
 
-{isDJ ?
-    <TextWrapper
-      label="Genres"
-      text="Select your genres">
-      <Genres
-        name="genres"
-        errorAbove={true}
-        potentialValues={c.GENRES}
-        columns={4}
-        preToggled={this.props.profile.genres}
-        disabled={!this.props.editMode} />
-    </TextWrapper>
-:null
-}
+            {isDJ ?
+              <TextWrapper
+                label="Genres"
+                text="Select your genres">
+                <Genres
+                  name="genres"
+                  errorAbove={true}
+                  potentialValues={c.GENRES}
+                  columns={4}
+                  preToggled={this.props.profile.genres}
+                  disabled={!this.props.editMode} />
+              </TextWrapper>
+              :null
+            }
 
             {isDJ ?
-            <TextWrapper
-              label="Bio"
-              text={this.props.profile.firstName + ", tell us a little bit of your story."}
-            >
-              <TextBox
-                width="100%"
-                height="150px"
-                name="bio"
-                disabled={!this.props.editMode}
-                value={this.props.profile.bio}
+              <TextWrapper
+                label="Bio"
+                text={this.props.profile.user_metadata.firstName + ", tell us a little bit of your story."}
+              >
+                <TextBox
+                  width="100%"
+                  height="150px"
+                  name="bio"
+                  disabled={!this.props.editMode}
+                  value={this.props.profile.bio}
 
-              />
+                />
 
-            </TextWrapper>
+              </TextWrapper>
             : null }
-              {isDJ ?
-            <TextWrapper
-              label="Experience"
-              text="How much experience do you have?"
-            >
-              <ExperienceSlider
-                queupGigs={this.props.profile.queupGigs}
-                otherGigs={this.props.profile.otherGigs}
-                disabled={!this.props.editMode}
-              />
-            </TextWrapper>
-             : null }
+            {isDJ ?
+              <TextWrapper
+                label="Experience"
+                text="How much experience do you have?"
+              >
+                <ExperienceSlider
+                  queupGigs={this.props.profile.app_metadata.gigsCount}
+                  otherGigs={this.props.profile.experienceCount}
+                  disabled={!this.props.editMode}
+                />
+              </TextWrapper>
+            : null }
           </div>
           <div  className="col-lg-6">
             <TextWrapper
@@ -252,7 +252,7 @@ var Profile = React.createClass({
               text="We wont share your phone number until you agree to play a gig.">
               <TextField
                 name="phone"
-                value={this.props.profile.phone}
+                value={this.props.profile.user_metadata.phone}
                 style={styles.medium.textarea}
                 inputStyle={styles.medium.input}
                 disabled={!this.props.editMode}
@@ -266,16 +266,15 @@ var Profile = React.createClass({
               />
             </TextWrapper>
 
-  {isDJ ?
-            <TextWrapper
+            {isDJ ?
+              <TextWrapper
 
-              label="Location"
-              text={this.props.profile.firstName + ", tell us where youd like to play."}
-            >
-
-              <SimpleMap
-                radius={this.props.profile.radius}
-                initialPosition={this.props.profile.locationCoords}
+                label="Location"
+                text={this.props.profile.user_metadata.firstName + ", tell us where youd like to play."}
+              >
+                <SimpleMap
+                  radius={this.props.profile.playingRadius}
+                  initialPosition={this.props.profile.playingLocation}
                 editable={this.props.editMode}
                 themeColor={this.props.muiTheme.palette.primary1Color}
               />

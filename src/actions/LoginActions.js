@@ -1,12 +1,10 @@
 import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
-import AdapterDTO from '../utils/AdapterDTO'
 import { browserHistory } from 'react-router'
-
+import CueupService from '../utils/CueupService'
 var ActionTypes = c.ActionTypes
 const auth = new AuthService()
-const converter = new AdapterDTO()
-
+const cueup = new CueupService()
 
 function handleLoginFeedback(dispatch){
 return function (err, result) {
@@ -18,28 +16,19 @@ return function (err, result) {
 
     }else {
       auth.setToken(result.idToken)
-      auth.getProfileFromToken(result.idToken, function(dtoProfile){
-
-        //Hack for checking if user trying to login before signing up.
-        //The user will still get created in the db without any info
-        if (dtoProfile.user_metadata !== undefined && dtoProfile.user_metadata.genres) {
-
-          const profile = converter.convertDTO(dtoProfile)
-          const token = result.idToken;
-
+      cueup.getUser(result.idToken, (error, result)=>
+      {
+        if (error) {
+          dispatch (function() {return {
+              type: ActionTypes.LOGIN_FAILED,
+              err: error.message
+            }}())
+        }else{
           dispatch (function() {return {
               type: ActionTypes.LOGIN_SUCCEEDED,
-              profile,
-              token
+              profile: result
             }}())
-
-        }else{
-            dispatch (function() {return {
-                type: ActionTypes.LOGIN_FAILED,
-                err: "The user is not signed up"
-              }}())
         }
-
       })
     }
   }
@@ -54,26 +43,24 @@ return function (err, result) {
 export function checkForLogin(redirect = true){
   return function(dispatch){
     if (auth.loggedIn()) {
-          auth.getProfileFromStoredToken(function(err, DTOProfile){
-            if (err) {
-              dispatch( function() { return {
-                  type: ActionTypes.LOGIN_FAILED,
-                  err:  err.message
-                }}())
-                if (redirect) {browserHistory.push('/')}
-            }else {
-              const profile = converter.convertDTO(DTOProfile)
-              const token = auth.getToken();
-
-              dispatch (function() {return {
-                  type: ActionTypes.LOGIN_SUCCEEDED,
-                  profile,
-                  token
-
-                }}())
-                if (redirect) {browserHistory.push('/user/profile') }
-            }
+      console.log("is logged in");
+      cueup.getUser(auth.getToken(), (error, result)=>
+      {
+        if (error) {
+          dispatch( function() { return {
+              type: ActionTypes.LOGIN_FAILED,
+              err:  error.message
+            }}())
+            if (redirect) {browserHistory.push('/')}
+        }else{
+          dispatch (function() {return {
+              type: ActionTypes.LOGIN_SUCCEEDED,
+              profile: result
+            }}())
+          if (redirect) {browserHistory.push('/user/profile') }
+        }
       })
+
     }else{
       //If trying to access user restricted area, but not logged in
       if (window.location.pathname.split('/')[1] === 'user') {

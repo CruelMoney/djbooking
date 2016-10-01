@@ -56,6 +56,95 @@ export default class AdapterDTO  {
         }
       }
     }
+  //
+  //   public class UserDTO
+  //  {
+  //      [Required]
+  //      public string email { get; set; }
+  //      public string picture { get; set; }
+  //      public int user_id { get; set; }
+  //      public Identity[] identities { get; set; }
+  //      public DateTime created_at { get; set; }
+  //      [Required]
+  //      public User_Metadata user_metadata { get; set; }
+  //      [Required]
+  //      public App_Metadata app_metadata { get; set; }
+  //      public ReviewDTO[] reviewed { get; set; }
+  //      [Required]
+  //      public LocationDTO playingLocation { get; set; }
+  //      [Required]
+  //      public int playingRadius { get; set; }
+  //      [Required]
+  //      public string[] genres { get; set; }
+  //  }
+   //
+  //  //Info that cannot be changed manually by the user
+  //      public class App_Metadata
+  //  {
+  //      public bool email_verified { get; set; }
+  //      public string stripeID { get; set; }
+  //      [Required]
+  //      public string auth0Id { get; set; }
+  //      public string[] roles { get; set; }
+  //      [Required]
+  //      public DateTime tosAcceptanceDate { get; set; }
+  //      [Required]
+  //      public string tosAcceptanceIP { get; set; }
+  //      public double avgRating { get; set; }
+  //  }
+  //
+  //  //Real life info about the user that can be changed manually by the user.
+  //  //Should not have any impact on the business logic
+  //  public class User_Metadata
+  //  {
+  //      public Geoip geoip { get; set; }
+  //      [Required]
+  //      public string city { get; set; }
+  //      [Required]
+  //      public string address { get; set; }
+  //      [Required]
+  //      public string zip { get; set; }
+  //      [Required]
+  //      public string firstName { get; set; }
+  //      [Required]
+  //      public string lastName { get; set; }
+  //      public string phone { get; set; }
+  //      public DateTime birthDay { get; set; }
+  //  }
+   //
+   //
+  //  public class Geoip
+  //  {
+  //      public string country_code { get; set; }
+  //      public string country_code3 { get; set; }
+  //      public string country_name { get; set; }
+  //      public string city_name { get; set; }
+  //      public float latitude { get; set; }
+  //      public float longitude { get; set; }
+  //      public string time_zone { get; set; }
+  //      public string continent_code { get; set; }
+  //  }
+   //
+   //
+  //  public class Identity
+  //  {
+  //      public string user_id { get; set; }
+  //      public string provider { get; set; }
+  //      public string connection { get; set; }
+  //      public bool isSocial { get; set; }
+  //  }
+   //
+   //  public class LocationDTO
+    // {
+    //     [Required]
+    //     public float Lat { get; set; }
+    //     [Required]
+    //     public float Lng { get; set; }
+    //     public string Name { get; set; }
+    //
+    //
+    // }
+
 
     getFirstName(name){
       if (name.indexOf(' ') === -1)

@@ -18,7 +18,6 @@ const login = (state = initialState, action) => {
         signedIn: true,
         profile: action.profile,
         isWaiting: false,
-        token: action.token
              }
 
  case ActionTypes.LOGIN_FAILED:
