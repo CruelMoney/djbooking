@@ -74,88 +74,55 @@ var menu = React.createClass({
    },
 
   render() {
-    const styles={
-      transMenu:{
-        paddingTop: '20px',
-        paddingBottom: '20px',
-        top: '0',
-        height: 'auto',
-        width: '100%',
-        position: 'fixed',
-        backgroundColor: 'transparent',
-        zIndex: '1000',
-        WebkitTransition: 'background 0.5s',
-        transition: 'background 0.5s'
-
-      },
-      classicMenu:{
-        borderBottom: '1px solid #eee',
-        paddingTop: '20px',
-        paddingBottom: '20px',
-        position: 'fixed',
-        top: '0',
-        height: 'auto',
-        width: '100%',
-        backgroundColor: 'rgb(255,255,255)',
-        zIndex: '10'
-      },
-    }
 
     const isHome = window.location.pathname === '/'
 
     return (
       <div>
+      <div className="nav-container">
         <nav
-          ref={(ref) => this.nav = ref}
-          style={
-            isHome ? styles.transMenu : styles.classicMenu
-          }>
-          <div   className={isHome ? "container home" : "container"}>
-            <li style={
-              {
-                display:'inline',
-                float:'left'
-              }}>
-              <Navlink white={isHome} buttonLook={true} to="/" onlyActiveOnIndex={true} label="Home" important={true} />
-            </li>
-            <ul style={
-              { listStyleType: 'none',
-                padding: '0',
-                float: 'right',
-                marginBottom: '0px',
-                display: 'flex'
-              }}>
-              <li style={{display:'inline'}}>
+          className="navigation"
+
+          >
+          <div className="logo">
+            <Navlink white={isHome} to="/">Cueup</Navlink>
+          </div>
+            <ul className="main-menu">
+              <li>
                 <Navlink white={isHome}  buttonLook={true} to="/howitworks" label="How it works"/>
               </li>
               {this.props.loggedIn ? (
 
-                <li style={{display:'inline', marginLeft:'4px'}}>
-                  <Navlink white={isHome} buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
+                <li>
+                  <Navlink white={isHome}  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
                 </li>
                 ) : (
                 null
               )}
               {this.props.loggedIn ? (
-                <li style={{display:'inline', marginLeft:'4px'}}>
+                <li>
                   <Navlink white={isHome}  buttonLook={true}  to="/user" important={true} >
-                    <UserMenuItem profile={this.props.profile} />
+                    <UserMenuItem
+                    name={this.props.profile.name}
+                    picture={this.props.profile.picture}
+                    />
                   </Navlink>
                 </li>
                 ) : (
-                <li style={{display:'inline', marginLeft:'4px'}} >
+                <li >
                   <Button
                       white={isHome}
                       noBorder={true}
                       medium={true}
                       label="Login"
+                      isNavigationButton={true}
                       onClick={this.onLoginButton}/>
                   </li>
               )}
               {this.props.loggedIn ? (
                 null
                 ) : (
-                  <li style={{display:'inline', marginLeft:'4px'}}>
+                  <li>
                     <Navlink white={isHome} buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
                   </li>
               )}
@@ -168,8 +135,8 @@ var menu = React.createClass({
                 />
               </Dropdown>
             </ul>
-          </div>
         </nav>
+        </div>
         <div id="content">
           {this.props.children}
         </div>

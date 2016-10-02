@@ -18,6 +18,7 @@ var Button = React.createClass({
       leftRounded: PropTypes.bool,
       rightRounded: PropTypes.bool,
       isLoading: PropTypes.bool,
+      isNavigationButton: PropTypes.bool
     },
 
 
@@ -48,7 +49,6 @@ var Button = React.createClass({
 
     var styles = {
       base: {
-        fontFamily: this.props.muiTheme.fontFamily,
         fontSize: "14px",
         color:  this.props.muiTheme.palette.textColor,
         fontWeight: 'bold',
@@ -133,7 +133,20 @@ var Button = React.createClass({
       rightRounded:{
           borderRadius: '0px 6px 6px 0px'
       },
-
+      navigationButton:{
+        textTransform: 'uppercase',
+        textDecoration: 'none',
+        letterSpacing: '1px',
+        fontWeight: '500',
+        fontSize: '15px',
+        height: 'inherit',
+        width: 'inherit',
+        minWidth: '0px',
+        padding: '0px',
+        ':hover':{
+          textDecoration: 'underline'
+        }
+      },
     }
     return (
       <div style={[
@@ -141,7 +154,9 @@ var Button = React.createClass({
       this.props.leftAlign && styles.left]}>
         <button
           disabled={this.props.disabled || this.props.isLoading}
-          className={this.props.disabled || this.props.isLoading ? "disabled" : ""}
+          className={
+            this.props.disabled || this.props.isLoading ? "disabled" : ""
+          }
           style={[
             styles.base,
             this.props.active && styles.active,
@@ -155,6 +170,7 @@ var Button = React.createClass({
             this.props.disabled && styles.disabled,
             this.props.white && styles.white,
             this.props.noBorder && styles.noBorder,
+            this.props.isNavigationButton && styles.navigationButton
 
           ]}
           onClick={

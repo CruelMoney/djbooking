@@ -12,15 +12,6 @@ const auth = new AuthService()
 var geocoder = new google.maps.Geocoder()
 
 
-function getNameParts(name){
-  if (name.indexOf(' ') === -1)
-     return {firstName: name, lastName: ""}
- else
-      var firstName = name.substr(0, name.indexOf(' '))
-      var lastName  = name.substr(name.indexOf(' '), name.lastIndexOf(''))
-     return {firstName: firstName, lastName: lastName}
-}
-
 function codeAddress(address, callback)  {
   geocoder.geocode( { 'address': address}, function(results, status) {
        if (status === google.maps.GeocoderStatus.OK) {
@@ -64,7 +55,6 @@ function createDJ(form, auth0Profile, geoResult){
           playingLocation: {
               lat: geoResult.position.lat,
               lng: geoResult.position.lng,
-              name: form.location
           },
           app_metadata: {
               auth0Id: auth0Profile.user_id,
@@ -73,8 +63,9 @@ function createDJ(form, auth0Profile, geoResult){
               geoip: auth0Profile.user_metadata.geoip,
               phone: form.phone || auth0Profile.user_metadata.phone,
               birthDay: auth0Profile.birthday || Formatter.date.FromEUStringToUSDate(form.birthday),
-              firstName: getNameParts(form.name || auth0Profile.name).firstName,
-              lastName: getNameParts(form.name || auth0Profile.name).lastName
+              firstName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).firstName,
+              lastName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).lastName,
+              city: form.location
           }
       }
 }
@@ -92,8 +83,8 @@ function createCustomer(form, auth0Profile){
           geoip: auth0Profile.user_metadata.geoip,
           phone: form.phone || auth0Profile.user_metadata.phone,
         //  birthDay: auth0Profile.birthday || form.birthday || null,
-          firstName: getNameParts(form.name || auth0Profile.name).firstName,
-          lastName: getNameParts(form.name || auth0Profile.name).lastName
+          firstName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).firstName,
+          lastName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).lastName
       }
   }
 }

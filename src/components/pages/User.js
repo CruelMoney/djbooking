@@ -12,8 +12,9 @@ var user = React.createClass({
     editMode: PropTypes.bool,
     toggleEditMode: PropTypes.func,
     updateProfileValue: PropTypes.func,
-    updateProfile: PropTypes.func,
-    resetProfile: PropTypes.func
+    save: PropTypes.func,
+    resetProfile: PropTypes.func,
+    deleteProfile: PropTypes.func
   },
 
   childContextTypes: {
@@ -26,9 +27,10 @@ var user = React.createClass({
       registerValidation: PropTypes.func,
       validForSubmit: PropTypes.bool,
       reset: PropTypes.func,
-      submit: PropTypes.func,
+      save: PropTypes.func,
       resetting: PropTypes.bool,
-      updateValue: PropTypes.func
+      updateValue: PropTypes.func,
+      deleteProfile: PropTypes.func
   },
 
   getChildContext() {
@@ -40,9 +42,10 @@ var user = React.createClass({
      update: this.props.updateProfileValue,
      registerUpdate: this.registerUpdate,
      registerValidation: this.registerValidation,
-     submit: this.submit,
+     save: this.submit,
      reset: this.reset,
-     updateValue: this.props.updateProfileValue
+     updateValue: this.props.updateProfileValue,
+     deleteProfile: this.props.deleteProfile
     }
   },
 
@@ -119,8 +122,7 @@ var user = React.createClass({
 
   submit(){
     if (this.isFormValid(true)) {
-      this.props.updateProfile()
-      this.props.toggleEditMode()
+      this.props.save()
     }
   },
 
@@ -133,7 +135,7 @@ var user = React.createClass({
 
 
   render() {
-    return  <div style={{marginTop: '80px'}}>
+    return ( <div style={{marginTop: '80px'}}>
 
       <UserHeader
         profile={this.props.profile}
@@ -145,15 +147,15 @@ var user = React.createClass({
       <div  className="container">
         <div style={{borderRight: '1px solid #eee', paddingTop:"15px"}} className="col-md-3">
           <UserNavigation
-            isDJ={this.state.profile.app_metadata.isDJ}
-            isCustomer={this.state.profile.app_metadata.isCustomer}
+            isDJ={this.state.profile.isDJ}
+            isCustomer={this.state.profile.isCustomer}
             actions={this.state.actions}/>
         </div>
         <div style={{paddingTop:"15px"}} className="col-md-9">
           {this.props.children}
         </div>
       </div>
-    </div>
+    </div>)
 
   }
 })

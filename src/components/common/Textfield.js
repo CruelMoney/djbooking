@@ -10,7 +10,7 @@ var Text = React.createClass({
   displayName: 'Textfield',
 
   propTypes: {
-    value: PropTypes.string,
+    defaultValue: PropTypes.string,
     maxLength:PropTypes.number,
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
@@ -29,22 +29,12 @@ var Text = React.createClass({
   },
 
   componentWillMount() {
-    if (this.props.value !== undefined) {
-      this.setState({
-        value: this.props.value
-      })
-    }
-
     this.removeValidationFromContext = this.context.registerValidation(show =>
       this.isValid(show))
-  },
 
-  componentWillReceiveProps(nextprops){
-    if (nextprops.value !== undefined) {
-    this.setState({
-      value: nextprops.value
-    })
-  }
+      this.setState({
+        value: this.props.defaultValue || ""
+      })
   },
 
   componentWillUnmount() {
@@ -56,14 +46,12 @@ var Text = React.createClass({
   getDefaultProps() {
     return {
       type: "string",
-      active: true,
       validate: []
     }
   },
 
   getInitialState() {
     return {
-      value: "",
       errors: []
     }
   },

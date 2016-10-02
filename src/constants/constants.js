@@ -23,6 +23,10 @@ module.exports = {
     UPDATE_PROFILE_META_VALUE: null,
     RESET_PROFILE: null,
 
+    DELETE_PROFILE_REQUESTED: null,
+    DELETE_PROFILE_FAILED: null,
+    DELETE_PROFILE_SUCCEEDED: null,
+
     TOGGLE_EDIT_MODE: null,
 
 

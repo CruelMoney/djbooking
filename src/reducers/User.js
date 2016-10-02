@@ -57,7 +57,23 @@ const status = (state = initialState, action) => {
                 editMode: !state.editMode,
              })
 
+   case ActionTypes.DELETE_PROFILE_REQUESTED:
+       return assign({}, state, {
+               isWaiting: true
+             })
 
+   case ActionTypes.DELETE_PROFILE_SUCCEEDED:
+       return assign({}, state, {
+         signedIn: false,
+         isWaiting: false
+       })
+
+   case ActionTypes.DELETE_PROFILE_FAILED:
+      return assign({}, state, {
+        signedIn: true,
+        err: action.err,
+        isWaiting: false
+      })
 
 
   default:

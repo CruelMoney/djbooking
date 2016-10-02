@@ -4,25 +4,24 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 
 const UserMenuItem = React.createClass({
   propTypes: {
-     profile: PropTypes.object.isRequired,
+      name: PropTypes.string,
+      picture: PropTypes.string
    },
 
   render() {
 
     //Cut length if too long
-    function getLabel(profile){
-        var label = profile.user_metadata.firstName
-
-        if (label.length > 20){
-          return label.substring(0, 20) + "..."
+    function getLabel(name){
+        if (name.length > 20){
+          return name.substring(0, 20) + "..."
         }else {
-          return label
+          return name
         }
     }
 
     const styles ={
       image:{
-        backgroundImage: 'url('+this.props.profile.picture+')',
+        backgroundImage: 'url('+this.props.picture+')',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundSize: 'auto 150%',
@@ -36,17 +35,17 @@ const UserMenuItem = React.createClass({
       },
       flex:{
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
       }
     }
 
 
-    return    <div style={styles.flex}>
+    return  (  <div style={styles.flex}>
                 <div style={[styles.image, styles.inline]}/>
                 <div style={[styles.inline]} >
-                  {getLabel(this.props.profile)}
+                  {getLabel(this.props.name)}
                 </div>
-              </div>
+              </div>)
 }
 })
 

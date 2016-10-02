@@ -26,7 +26,6 @@ const Navlink = React.createClass({
 
     var styles = {
       base: {
-        fontFamily: this.props.muiTheme.fontFamily,
         color:  this.props.muiTheme.palette.textColor,
         fontWeight: '500',
         backgroundColor: 'transparent',
@@ -41,7 +40,6 @@ const Navlink = React.createClass({
         textAlign: 'center',
         verticalAlign: 'middle',
         display: 'table-cell',
-        minWidth: '120px',
         paddingLeft: '4px',
         paddingRight: '4px',
       },
@@ -99,11 +97,11 @@ const Navlink = React.createClass({
         className={this.props.borderHover && "borderHover"}
         onlyActiveOnIndex={true}
         style={Object.assign({}, styles.base,
-          this.props.buttonLook && styles.buttonLook,
-          this.props.userNavigation && styles.userNavigation,
-          this.props.white && styles.white,
-          this.props.important && styles.important
-        )}
+            this.props.buttonLook && styles.buttonLook,
+            this.props.userNavigation && styles.userNavigation,
+            this.props.white && styles.white,
+            this.props.important && styles.important
+          )}
         activeStyle={this.props.userNavigation && styles.active}
       >
         {this.props.label ? this.props.label : this.props.children}

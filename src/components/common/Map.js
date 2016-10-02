@@ -12,13 +12,14 @@ import { GoogleMapLoader, GoogleMap, Circle } from "react-google-maps"
  * https://facebook.github.io/react/blog/2015/09/10/react-v0.14-rc1.html#stateless-function-components
  */
 var SimpleMap = React.createClass({
-
-    circle: {},
+      circle: {},
 
       propTypes:{
         editable:        PropTypes.bool,
         initialPosition: PropTypes.object,
-        radius:          PropTypes.number
+        radius:          PropTypes.number,
+        radiusName: PropTypes.string,
+        locationName: PropTypes.string
       },
 
       contextTypes: {
@@ -40,7 +41,8 @@ var SimpleMap = React.createClass({
       },
 
       componentWillMount(){
-        this.setState({
+        console.log("MOUNT");
+          this.setState({
           marker: {
             position: this.props.initialPosition,
             radius: this.props.radius,
@@ -50,47 +52,39 @@ var SimpleMap = React.createClass({
         })
       },
 
-      componentWillReceiveProps(nextProps){
-        this.setState({
-          marker: {
-            position: nextProps.initialPosition,
-            radius: nextProps.radius,
-            key: Date.now(),
-            defaultAnimation: 2,
-          }
-        })
+      shouldComponentUpdate: function(nextProps, nextState) {
+        if (nextProps.editable !== this.props.editable) {
+          return true
+        }
+        return false;
       },
 
-
-        timer: null,
-
         handleRadiusChange(circle) {
-          clearTimeout(this.timer)
-
-           this.timer = setTimeout(() =>
-             this.context.updateValue("radius",
+             this.context.updateValue(this.props.radiusName,
               circle.getRadius()
-            ), 500)
+            )
+
+
         },
 
         handleLocationChange(circle) {
-          clearTimeout(this.timer)
-          this.timer = setTimeout(() =>
-            this.context.updateValue("locationCoords",
+            this.context.updateValue(this.props.locationName,
             {lat: circle.getCenter().lat(),
              lng: circle.getCenter().lng()
-           }), 500)
+            })
+
+
         },
 
 
 
     render(){
+      console.log(this.state);
     return(
       <section style={{ height: `500px` }}>
         <GoogleMapLoader
           containerElement={
             <div
-              {...this.props.containerElementProps}
               style={{
                 height: `100%`,
               }}
@@ -195,10 +189,11 @@ var SimpleMap = React.createClass({
                 editable={this.props.editable}
                 center={this.state.marker.position}
                 radius={this.state.marker.radius}
+
                 onCenterChanged={()=>this.handleLocationChange(this.circle)}
                 onRadiusChanged={()=>this.handleRadiusChange(this.circle)}
               />
-              
+
             </GoogleMap>
           }
         />

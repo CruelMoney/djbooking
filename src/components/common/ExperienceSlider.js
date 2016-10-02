@@ -10,7 +10,7 @@ var ExperienceSlider = React.createClass({
   propTypes: {
     name: PropTypes.string,
     queupGigs: PropTypes.number,
-    otherGigs: PropTypes.number,
+    experienceCount: PropTypes.number,
   },
 
   contextTypes: {
@@ -30,17 +30,7 @@ var ExperienceSlider = React.createClass({
       this.setState({
         value: this.props.queupGigs + this.props.otherGigs,
         queupGigs: this.props.queupGigs,
-        otherGigs: this.props.otherGigs,
-      })
-    }
-  },
-
-  componentWillReceiveProps(nextProps){
-    if (nextProps.otherGigs !== undefined) {
-      this.setState({
-        value: nextProps.queupGigs + nextProps.otherGigs,
-        queupGigs: nextProps.queupGigs,
-        otherGigs: nextProps.otherGigs,
+        experienceCount: this.props.otherGigs,
       })
     }
   },
@@ -58,7 +48,7 @@ var ExperienceSlider = React.createClass({
 
     clearTimeout(this.timer)
     this.timer = setTimeout(() =>
-      this.context.updateValue("otherGigs", (value-this.state.queupGigs)), 1000)
+      this.context.updateValue(this.props.name, (value-this.state.queupGigs)), 1000)
   },
 
   render() {

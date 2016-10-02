@@ -4,6 +4,8 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import TextField from '../common/Textfield'
 import TextWrapper from '../common/TextElement'
 import {datePipe} from '../../utils/TextPipes'
+import Rating from '../common/Rating'
+import Formatter from '../../utils/Formatter'
 
 var userHeader = React.createClass({
 
@@ -25,9 +27,8 @@ var userHeader = React.createClass({
     reader.readAsDataURL(file)
   },
 
-  render() {
 
-    
+  render() {
     const styles ={
       image:{
         backgroundImage: 'url('+this.props.profile.picture+')',
@@ -168,7 +169,7 @@ var userHeader = React.createClass({
               label="Name"
             >
               <TextField
-                value={this.props.profile.name}
+                defaultValue={this.props.profile.name}
                 name="name"
                 disabled={!this.props.editMode}
                 style={styles.large.textarea}
@@ -187,8 +188,8 @@ var userHeader = React.createClass({
               label="Location"
             >
               <TextField
-                value={this.props.profile.playingLocation.name}
-                name="location"
+                defaultValue={this.props.profile.city}
+                name="city"
                 validate={['required']}
                 disabled={!this.props.editMode}
                 style={styles.medium.textarea}
@@ -205,7 +206,9 @@ var userHeader = React.createClass({
               label="Birthday"
             >
               <TextField
-                value={this.props.profile.user_metadata.birthday}
+                defaultValue={
+                  Formatter.date.ToEU(
+                  this.props.profile.birthDay)}
                 onUpdatePipeFunc={datePipe}
                 name="birthday"
                 validate={['required', 'date']}
@@ -226,7 +229,9 @@ var userHeader = React.createClass({
               label="Earned"
             >
               <TextField
-                value={this.props.profile.app_metadata.earned}
+                defaultValue={
+                  Formatter.money.FormatNumberToString(this.props.profile.earned, "DKK")
+                }
                 name="Earned"
                 disabled={true}
                 style={styles.large.textarea}
@@ -243,25 +248,16 @@ var userHeader = React.createClass({
             <TextWrapper
               label="Rating"
             >
-              <TextField
-                value={this.props.profile.app_metadata.avgRating}
-                name="Rating"
-                disabled={true}
-                style={styles.large.textarea}
-                inputStyle={styles.large.input}
-                type="text"
-                fullWidth={false}
-                underlineShow={false}
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
-              />
+                <Rating
+                  rating={this.props.profile.avgRating}
+                />
             </TextWrapper>
 
             <TextWrapper
               label="Upcoming"
             >
               <TextField
-                value="No upcoming gigs"
+                defaultValue="No upcoming gigs"
                 name="Upcoming"
                 disabled={true}
                 style={styles.medium.textarea}
@@ -279,6 +275,7 @@ var userHeader = React.createClass({
            </div>
           </div>
 :
+
 //In the case that the user is not a dj
 <div style={{paddingTop:'15px',  paddingBottom:'15px',  borderBottom: '1px solid #eee'}}
   className="row">
@@ -302,7 +299,7 @@ var userHeader = React.createClass({
             label="Name"
           >
             <TextField
-              value={this.props.profile.user_metadata.firstName}
+              defaultValue={this.props.profile.name}
               name="name"
               disabled={!this.props.editMode}
               style={styles.large.textarea}
@@ -321,7 +318,7 @@ var userHeader = React.createClass({
             label="E-mail"
           >
             <TextField
-              value={this.props.profile.email}
+              defaultValue={this.props.profile.email}
               name="email"
               disabled={!this.props.editMode}
               style={styles.medium.textarea}
@@ -338,8 +335,8 @@ var userHeader = React.createClass({
           <TextWrapper
             label="Phone">
             <TextField
-              name="phone"
-              value={this.props.profile.user_metadata.phone}
+              defaultValue="phone"
+              value={this.props.profile.phone}
               style={styles.medium.textarea}
               inputStyle={styles.medium.input}
               disabled={!this.props.editMode}

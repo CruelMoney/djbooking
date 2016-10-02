@@ -22,8 +22,9 @@ var Profile = React.createClass({
 
   contextTypes: {
     registerActions: PropTypes.func,
-    submit: PropTypes.func.isRequired,
+    save: PropTypes.func.isRequired,
     reset: PropTypes.func,
+    deleteProfile: PropTypes.func
   },
 
 
@@ -50,7 +51,7 @@ var Profile = React.createClass({
           labelToggled="Save"
           label="Edit profile"
           onClick={props.toggleEditMode}
-          onClickToggled={this.context.submit}
+          onClickToggled={this.context.save}
           name="edit_profile"
         />
       </div>
@@ -79,6 +80,16 @@ var Profile = React.createClass({
           name="request_features"
         />
       </div>
+      { props.editMode ?
+        <div style={{marginBottom:"4px"}}>
+          <Button
+            rounded={true}
+            label="Delete Profile"
+            dangerous={true}
+            onClick={this.context.deleteProfile}
+            name="delete_profile"
+          />
+        </div>  : null }
 
     </div>
 
@@ -177,7 +188,7 @@ var Profile = React.createClass({
         }
     }
 
-    const isDJ = this.props.profile.app_metadata.isDJ
+    const isDJ = this.props.profile.isDJ
 
     return(
       <div>
@@ -187,7 +198,7 @@ var Profile = React.createClass({
               label="E-mail"
               text="We wont share your email until you agree to play a gig.">
               <TextField
-                value={this.props.profile.email}
+                defaultValue={this.props.profile.email}
                 name="email"
                 disabled={!this.props.editMode}
                 style={styles.medium.textarea}
@@ -220,7 +231,7 @@ var Profile = React.createClass({
             {isDJ ?
               <TextWrapper
                 label="Bio"
-                text={this.props.profile.user_metadata.firstName + ", tell us a little bit of your story."}
+                text={this.props.profile.firstName + ", tell us a little bit of your story."}
               >
                 <TextBox
                   width="100%"
@@ -239,9 +250,10 @@ var Profile = React.createClass({
                 text="How much experience do you have?"
               >
                 <ExperienceSlider
-                  queupGigs={this.props.profile.app_metadata.gigsCount}
+                  queupGigs={this.props.profile.gigsCount}
                   otherGigs={this.props.profile.experienceCount}
                   disabled={!this.props.editMode}
+                  name="experienceCount"
                 />
               </TextWrapper>
             : null }
@@ -252,7 +264,7 @@ var Profile = React.createClass({
               text="We wont share your phone number until you agree to play a gig.">
               <TextField
                 name="phone"
-                value={this.props.profile.user_metadata.phone}
+                defaultValue={this.props.profile.phone}
                 style={styles.medium.textarea}
                 inputStyle={styles.medium.input}
                 disabled={!this.props.editMode}
@@ -270,13 +282,15 @@ var Profile = React.createClass({
               <TextWrapper
 
                 label="Location"
-                text={this.props.profile.user_metadata.firstName + ", tell us where youd like to play."}
+                text={this.props.profile.firstName + ", tell us where youd like to play."}
               >
                 <SimpleMap
-                  radius={this.props.profile.playingRadius}
-                  initialPosition={this.props.profile.playingLocation}
-                editable={this.props.editMode}
-                themeColor={this.props.muiTheme.palette.primary1Color}
+                 radius={this.props.profile.playingRadius}
+                 initialPosition={this.props.profile.playingLocation}
+                 editable={this.props.editMode}
+                 themeColor={this.props.muiTheme.palette.primary1Color}
+                 radiusName="playingRadius"
+                 locationName="playingLocation"
               />
             </TextWrapper>
             : null }
