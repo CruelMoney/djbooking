@@ -3,9 +3,10 @@ module.exports = {
 
   REVIEWS: [
 {
-  author:"Harry Potter",
+  picture: "http://images.medicaldaily.com/sites/medicaldaily.com/files/2014/06/06/old-lady.jpg",
+  author:"Mageroth B.",
   date:"Sunday, 31th July",
-  rating:"★ ★ ★ ★",
+  rating:1,
   description: "Etiam facilisis libero sapien, in elementum velit vestibulum a. In id vestibulum turpis. Pellentesque convallis est enim, quis bibendum dui maximus quis. Nulla vel augue velit. Proin id arcu turpis. Curabitur elementum sagittis nulla, efficitur tincidunt eros finibus at. Maecenas fermentum rutrum massa eget vehicula. Vestibulum tempus neque quis dolor convallis, vel consequat diam sollicitudin. Sed ut tincidunt urna, vel laoreet ipsum.",
   event:{
     name: "B-day bash",
@@ -14,9 +15,10 @@ module.exports = {
   }
 },
 {
-  author:"Harry Potter",
+  picture: "http://altdaily.com/wp-content/uploads/2016/09/potter_1.jpg",
+  author:"Harry P.",
   date:"Sunday, 31th July",
-  rating:"★ ★ ★ ★",
+  rating:4.5,
   description: "Etiam facilisis libero sapien, in elementum velit vestibulum a. In id vestibulum turpis. Pellentesque convallis est enim, quis bibendum dui maximus quis. Nulla vel augue velit. Proin id arcu turpis. Curabitur elementum sagittis nulla, efficitur tincidunt eros finibus at. Maecenas fermentum rutrum massa eget vehicula. Vestibulum tempus neque quis dolor convallis, vel consequat diam sollicitudin. Sed ut tincidunt urna, vel laoreet ipsum.",
   event:{
     name: "B-day bash",

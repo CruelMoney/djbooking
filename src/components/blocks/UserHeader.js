@@ -1,361 +1,90 @@
 import React, {PropTypes} from 'react'
 import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
-import TextField from '../common/Textfield'
-import TextWrapper from '../common/TextElement'
-import {datePipe} from '../../utils/TextPipes'
-import Rating from '../common/Rating'
-import Formatter from '../../utils/Formatter'
+import UserNavigation from './UserNavigation'
+import BgPicture from '../../assets/blurry-night.png'
+import UserCard from './UserCard'
 
 var userHeader = React.createClass({
 
   propTypes: {
-    profile:PropTypes.object,
-    editMode: PropTypes.bool,
-    updateProfileValue: PropTypes.func
+    profile: PropTypes.object
   },
 
 
-  handleFile(e) {
-    const reader = new FileReader()
-    const file = e.target.files[0]
+   componentWillMount() {
+     window.addEventListener('scroll', this.handleScroll)
+   },
 
-    reader.onload = (upload) => {
-      this.props.updateProfileValue('picture', upload.target.result)
-    }
-
-    reader.readAsDataURL(file)
+  handleScroll(event){
+   let scrollTop = event.srcElement.body.scrollTop
+   if (scrollTop > 290) {
+     this.userHeader.className =  "user-header fixed"
+   }else{
+     this.userHeader.className = "user-header"
+   }
   },
-
 
   render() {
-    const styles ={
-      image:{
-        backgroundImage: 'url('+this.props.profile.picture+')',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundSize: 'auto 150%',
-        width: '200px',
-        height: '200px',
-        zIndex: '0',
-
-      },
-      inline:{
-        display: 'inline-block'
-      },
-      flex:{
-        display: 'flex',
-        alignItems: 'center'
-      },
-      large:{
-        textarea: {
-          height: '40px',
-        },
-
-        paragraph: {
-          fontSize: '14px',
-        },
-
-        input:{
-          height: 'initial',
-          fontSize: '24px',
-          color: this.props.muiTheme.palette.textColor,
-          fontWeight: '300',
-        },
-
-        hint:{
-          bottom: '20px',
-          fontSize: '30px',
-          fontWeight: '300',
-        }
-      },
-      medium:{
-        textarea: {
-          height: '40px',
-        },
-
-        paragraph: {
-          fontSize: '14px',
-        },
-
-        input:{
-          fontSize: '14px',
-          height: 'initial',
-          color: this.props.muiTheme.palette.textColor,
-          fontWeight: '300',
-        },
-
-        hint:{
-          bottom: '20px',
-          fontSize: '30px',
-          fontWeight: '300',
-        },
-
-      },
-       dottedBorderStyle: {
-          borderTop: 'none rgba(0, 0, 0, 1)',
-          borderRight: 'none rgba(0, 0, 0, 1)',
-          borderBottom: '2px dotted rgba(0, 0, 0, 1) ',
-          borderLeft: 'none rgba(0, 0, 0, 1)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          borderColor: 'rgba(0,0,0, 0.5)',
-
-
-        },
-        plainBorder:{
-          borderTop: 'none rgb(224, 224, 224)',
-          borderRight: 'none rgb(224, 224, 224)',
-          borderBottom: '1px solid rgb(224, 224, 224)',
-          borderLeft: 'none rgb(224, 224, 224)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          display: 'none',
-        },
-        userImageWrap:{
-          display: 'flex',
-          alignItems: 'center',
-          borderRadius:'200px',
-          overflow: 'hidden',
-          width: '200px',
-          height: '200px',
-          position: 'relative',
-          zIndex: '1',
-        },
-        blur:{
-          filter:'blur(5px)',
-        },
-        changeProfilePictureText:{
-          position: 'absolute',
-          left: '0',
-          right: '0',
-          textAlign: 'center',
-          color: 'white'
-        }
-    }
 
 
     return (
+      <div
+      ref={ref=>this.userHeader=ref}
+      className="user-header">
 
- this.props.profile.isDJ ?
-
-  <div style={{paddingTop:'15px',  paddingBottom:'15px',  borderBottom: '1px solid #eee'}}
-    className="row">
-    <div style={{display: 'flex', alignItems: 'center',}} className="container">
-      <div className="col-xs-3">
-        <div style={styles.userImageWrap}>
-          <div style={[
-            this.props.editMode && styles.blur,
-            styles.image,
-          styles.inline]}/>
-          {this.props.editMode && <div style={styles.changeProfilePictureText}>
-            <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
-            <label htmlFor="fileupload"><span>Change image</span></label>
-          </div> }
-        </div>
-      </div>
-      <div className="col-xs-9">
-        <div className="row">
-          <div className="col-xs-6">
-            <TextWrapper
-              label="Name"
-            >
-              <TextField
-                defaultValue={this.props.profile.name}
-                name="name"
-                disabled={!this.props.editMode}
-                style={styles.large.textarea}
-                inputStyle={styles.large.input}
-                type="text"
-                fullWidth={false}
-                hintText="Name"
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
-
-              />
-
-            </TextWrapper>
-
-            <TextWrapper
-              label="Location"
-            >
-              <TextField
-                defaultValue={this.props.profile.city}
-                name="city"
-                validate={['required']}
-                disabled={!this.props.editMode}
-                style={styles.medium.textarea}
-                inputStyle={styles.medium.input}
-                type="text"
-                fullWidth={false}
-                hintText="Location"
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
-              />
-            </TextWrapper>
-
-            <TextWrapper
-              label="Birthday"
-            >
-              <TextField
-                defaultValue={
-                  Formatter.date.ToEU(
-                  this.props.profile.birthDay)}
-                onUpdatePipeFunc={datePipe}
-                name="birthday"
-                validate={['required', 'date']}
-                disabled={!this.props.editMode}
-                style={styles.medium.textarea}
-                inputStyle={styles.medium.input}
-                type="text"
-                fullWidth={false}
-                hintText="Birthday"
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
-              />
-            </TextWrapper>
-
-          </div>
-          <div  className="col-xs-6">
-            <TextWrapper
-              label="Earned"
-            >
-              <TextField
-                defaultValue={
-                  Formatter.money.FormatNumberToString(this.props.profile.earned, "DKK")
-                }
-                name="Earned"
-                disabled={true}
-                style={styles.large.textarea}
-                inputStyle={styles.large.input}
-                //hintStyle = {styles.hint}
-                type="text"
-                fullWidth={false}
-                underlineShow={false}
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
-              />
-            </TextWrapper>
-
-            <TextWrapper
-              label="Rating"
-            >
-                <Rating
-                  rating={this.props.profile.avgRating}
-                />
-            </TextWrapper>
-
-            <TextWrapper
-              label="Upcoming"
-            >
-              <TextField
-                defaultValue="No upcoming gigs"
-                name="Upcoming"
-                disabled={true}
-                style={styles.medium.textarea}
-                inputStyle={styles.medium.input}
-                type="text"
-                fullWidth={false}
-                underlineShow={false}
-                underlineDisabledStyle={styles.plainBorder}
-                underlineStyle={styles.dottedBorderStyle}
-                  />
-                  </TextWrapper>
-              </div>
-             </div>
-            </div>
-           </div>
-          </div>
-:
-
-//In the case that the user is not a dj
-<div style={{paddingTop:'15px',  paddingBottom:'15px',  borderBottom: '1px solid #eee'}}
-  className="row">
-  <div style={{display: 'flex', alignItems: 'center',}} className="container">
-    <div className="col-xs-3">
-      <div style={styles.userImageWrap}>
-        <div style={[
-          this.props.editMode && styles.blur,
-          styles.image,
-        styles.inline]}/>
-        {this.props.editMode && <div style={styles.changeProfilePictureText}>
-          <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
-          <label htmlFor="fileupload"><span>Change image</span></label>
-        </div> }
-      </div>
-    </div>
-    <div className="col-xs-9">
+      <div className="user-card-wrapper">
+      <div className="container">
       <div className="row">
-        <div className="col-xs-6">
-          <TextWrapper
-            label="Name"
-          >
-            <TextField
-              defaultValue={this.props.profile.name}
-              name="name"
-              disabled={!this.props.editMode}
-              style={styles.large.textarea}
-              inputStyle={styles.large.input}
-              type="text"
-              fullWidth={false}
-              hintText="Name"
-              underlineDisabledStyle={styles.plainBorder}
-              underlineStyle={styles.dottedBorderStyle}
-
-            />
-
-          </TextWrapper>
-
-          <TextWrapper
-            label="E-mail"
-          >
-            <TextField
-              defaultValue={this.props.profile.email}
-              name="email"
-              disabled={!this.props.editMode}
-              style={styles.medium.textarea}
-              inputStyle={styles.medium.input}
-              //hintStyle = {styles.hint}
-              type="email"
-              validate={['required', 'email']}
-              fullWidth={false}
-              hintText="E-mail"
-              underlineDisabledStyle={styles.plainBorder}
-              underlineStyle={styles.dottedBorderStyle}
-            />
-          </TextWrapper>
-          <TextWrapper
-            label="Phone">
-            <TextField
-              defaultValue="phone"
-              value={this.props.profile.phone}
-              style={styles.medium.textarea}
-              inputStyle={styles.medium.input}
-              disabled={!this.props.editMode}
-              type="tel"
-              fullWidth={false}
-              hintText="Phone"
-              underlineDisabledStyle={styles.plainBorder}
-              underlineStyle={styles.dottedBorderStyle}
-
-
-            />
-          </TextWrapper>
-
+      <UserCard
+      className="user-card"
+      picture={this.props.profile.picture}
+      about={this.props.profile.bio}
+      rating={this.props.profile.avgRating}
+      experience={this.props.profile.gigsCount}
+      earned={this.props.profile.earned}
+      birthday={this.props.profile.birthDay}
+      genres={this.props.profile.genres}
+      />
         </div>
+      </div>
+      </div>
 
-           </div>
+      <div className="container">
+      <div className="row">
+      <div className="col-xs-4"></div>
+
+      <div className="user-header-content col-xs-8">
+        <div className="header-info">
+          <div className="user-name">
+          {this.props.profile.name}
           </div>
-         </div>
+          <div className="user-location">
+          <svg
+            version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 466.583 466.582" style={{enableBackground: "new 0 0 466.583 466.582"}}>
+          <g>
+          	<path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" fill="#FFFFFF"/>
+          </g>
+          </svg>
+          {" " + this.props.profile.city}
+          </div>
         </div>
+
+        <div className="header-divider"/>
+
+      <UserNavigation
+        isDJ={this.props.profile.isDJ}
+        isCustomer={this.props.profile.isCustomer}
+        />
+      </div>
+      </div>
+      </div>
+      <div className="user-header-img-wrapper">
+        <div className="user-header-img-overlay"></div>
+        <img alt="DJ copenhagen" src={BgPicture}/>
+      </div>
+      </div>
+
 
 
 

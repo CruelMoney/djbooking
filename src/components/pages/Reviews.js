@@ -3,6 +3,7 @@ import Radium from 'radium'
 import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
 import {Card, CardHeader} from 'material-ui/Card'
+import Rating from '../common/Rating'
 
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
@@ -17,36 +18,13 @@ var Reviews = React.createClass({
     registerActions: PropTypes.func,
   },
 
-  getInitialState(){
-    return{
-      revies: []
-    }
-  },
-
 
   componentWillMount() {
-    if (this.props.reviews !== undefined) {
-      this.setState({
-        reviews: this.props.reviews
-      })
-    }
 
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(this.props))
+      this.props.fetchReviews()
+
   },
 
-  componentWillReceiveProps(nextprops){
-    if (nextprops.reviews !== undefined) {
-    this.setState({
-      reviews: nextprops.reviews
-    })
-  }
-    this.removeActionsFromContext()
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(nextprops))
-  },
-
-  componentWillUnmount() {
-    this.removeActionsFromContext()
-  },
 
   getActionButtons(props = this.props){
     return (
@@ -80,17 +58,22 @@ var Reviews = React.createClass({
 
       function renderReview(review, i){
         return (
-          <Card key={i}
-            style={{marginBottom: '20px',}}>
+          <div
+          style={{borderBottom: "2px solid #e6e6e6"}}
+          >
+
             <CardHeader
               style={{paddingLeft:'50px'}}
               title={review.author }
               subtitle={review.date}
               actAsExpander={true}
               showExpandableButton={true}
+              avatar={review.picture}
               children={
                 <div style={{width:'30%', textAlign:'right', paddingRight:'37px', float:'right'}}>
-                  <h2 style={{margin:'0px'}}>{review.rating}</h2>
+                  <div style={{margin:'0px'}}>
+                    <Rating rating={review.rating}/>
+                  </div>
                 </div>}
             />
             <div
@@ -104,15 +87,25 @@ var Reviews = React.createClass({
               expandable={true}
             >
               <div style={{ marginTop: '20px'}} className="row">
-                <div className="col-sm-8">
+                <div className="col-sm-7">
                   <p > {review.description} </p>
 
                 </div>
-                <div className="col-sm-4" >
-                  <div style={{border:"1px solid #eee", padding: "4px"}}>
-                    <p style={{textAlign:'right'}} >{review.event.name}</p>
-                    <p style={{textAlign:'right'}} >{review.event.location}</p>
-                    <p style={{textAlign:'right'}} >{review.event.date}</p>
+
+                <div className="col-sm-5" >
+                  <div className="review-card-info">
+                      <div className="review-card-fact">
+                      <p>Event</p>
+                      {review.event.name}
+                      </div>
+                      <div className="review-card-fact">
+                      <p>Location</p>
+                      {review.event.location}
+                      </div>
+                      <div className="review-card-fact">
+                      <p>Date</p>
+                      {review.event.date}
+                      </div>
                   </div>
                 </div>
 
@@ -121,14 +114,14 @@ var Reviews = React.createClass({
             </div>
 
 
-          </Card>)
+        </div>)
       }
 
 
 
     return(
       <div>
-        {this.state.reviews.map((review, i) => renderReview(review, i))}
+        {this.props.reviews.map((review, i) => renderReview(review, i))}
       </div>)
 
   }

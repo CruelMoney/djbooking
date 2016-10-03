@@ -27,7 +27,7 @@ const Navlink = React.createClass({
     var styles = {
       base: {
         color:  this.props.muiTheme.palette.textColor,
-        fontWeight: '500',
+        fontWeight: '400',
         backgroundColor: 'transparent',
         height: '40px',
         outline: "none",
@@ -45,9 +45,7 @@ const Navlink = React.createClass({
       },
 
       active:{
-        height: '40px',
-        textDecoration: 'underline' ,
-        color: 'black',
+
         },
 
       rounded:{
@@ -79,7 +77,7 @@ const Navlink = React.createClass({
       },
 
       userNavigation:{
-        fontSize: '24px',
+        fontSize: '20px',
       },
 
       white:{
@@ -94,15 +92,16 @@ const Navlink = React.createClass({
 
     return    (    <div style={styles.container} onClick={this.props.onClick}>
       <RadiumLink {...this.props}
-        className={this.props.borderHover && "borderHover"}
+        className={"navLink " + (this.props.borderHover ? "borderHover" : "")}
         onlyActiveOnIndex={true}
         style={Object.assign({}, styles.base,
             this.props.buttonLook && styles.buttonLook,
             this.props.userNavigation && styles.userNavigation,
-            this.props.white && styles.white,
+             styles.white,
             this.props.important && styles.important
           )}
         activeStyle={this.props.userNavigation && styles.active}
+        activeClassName="active"
       >
         {this.props.label ? this.props.label : this.props.children}
       </RadiumLink>

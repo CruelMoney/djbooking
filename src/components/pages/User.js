@@ -135,25 +135,22 @@ var user = React.createClass({
 
 
   render() {
-    return ( <div style={{marginTop: '80px'}}>
+
+
+    return ( <div>
 
       <UserHeader
         profile={this.props.profile}
-        editMode={this.props.editMode}
-        updateProfileValue={this.props.updateProfileValue}
       />
 
 
       <div  className="container">
-        <div style={{borderRight: '1px solid #eee', paddingTop:"15px"}} className="col-md-3">
-          <UserNavigation
-            isDJ={this.state.profile.isDJ}
-            isCustomer={this.state.profile.isCustomer}
-            actions={this.state.actions}/>
-        </div>
-        <div style={{paddingTop:"15px"}} className="col-md-9">
+      <div className="row">
+      <div className="col-xs-4"></div>
+        <div style={{paddingTop:"15px"}} className="col-xs-8">
           {this.props.children}
         </div>
+      </div>
       </div>
     </div>)
 

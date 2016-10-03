@@ -27,20 +27,6 @@ var Profile = React.createClass({
     deleteProfile: PropTypes.func
   },
 
-
-  componentWillMount() {
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(this.props))
-  },
-
-  componentWillReceiveProps(nextprops){
-    this.removeActionsFromContext()
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(nextprops))
-  },
-
-  componentWillUnmount() {
-    this.removeActionsFromContext()
-  },
-
   getActionButtons(props = this.props){
     return (
     <div key="profile_actions">
@@ -192,8 +178,9 @@ var Profile = React.createClass({
 
     return(
       <div>
-        <div className="row">
-          <div className="col-lg-6">
+        {this.getActionButtons()}
+        <div className="profile">
+
             <TextWrapper
               label="E-mail"
               text="We wont share your email until you agree to play a gig.">
@@ -257,8 +244,8 @@ var Profile = React.createClass({
                 />
               </TextWrapper>
             : null }
-          </div>
-          <div  className="col-lg-6">
+
+
             <TextWrapper
               label="Phone"
               text="We wont share your phone number until you agree to play a gig.">
@@ -297,7 +284,6 @@ var Profile = React.createClass({
 
 
 
-          </div>
         </div>
       </div>)
 

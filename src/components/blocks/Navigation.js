@@ -51,9 +51,9 @@ var menu = React.createClass({
 
     let scrollTop = event.srcElement.body.scrollTop
     if (scrollTop > 20) {
-       this.nav.className =  "fixed"
+       this.nav.className =  "nav-container fixed"
     }else{
-      this.nav.className = ""
+      this.nav.className = "nav-container"
     }
    },
 
@@ -78,8 +78,11 @@ var menu = React.createClass({
     const isHome = window.location.pathname === '/'
 
     return (
-      <div>
-      <div className="nav-container">
+      <div
+      >
+      <div
+      ref={(ref) => this.nav = ref}
+      className="nav-container">
         <nav
           className="navigation"
 

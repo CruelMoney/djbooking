@@ -134,7 +134,6 @@ var Button = React.createClass({
           borderRadius: '0px 6px 6px 0px'
       },
       navigationButton:{
-        textTransform: 'uppercase',
         textDecoration: 'none',
         letterSpacing: '1px',
         fontWeight: '500',

@@ -5,10 +5,8 @@ import Navlink  from '../common/Navlink'
 export default React.createClass({
 
   propTypes: {
-    actions: PropTypes.arrayOf(PropTypes.node),
     isDJ: PropTypes.bool,
     isCustomer: PropTypes.bool,
-    profilePicture: PropTypes.string
    },
 
    contextTypes: {
@@ -16,11 +14,6 @@ export default React.createClass({
        toggleEditMode: PropTypes.func,
        profile: PropTypes.object
      },
-
-   getDefaultProps(){
-     return{
-     actions: []}
-   },
 
 
 
@@ -48,45 +41,43 @@ export default React.createClass({
                 padding: '0',
                 marginBottom: '0px',
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'row',
+                textTransform: 'uppercase',
+                justifyContent: 'space-between'
               }}>
 
         {this.props.isDJ ?
-            <li style={{marginBottom:'25px'}}>
+            <li>
               <Navlink userNavigation={true} to="/user/profile" label="Profile"/>
             </li>
         : null}
 
             {this.props.isDJ ?
-              <li  style={{marginBottom:'25px'}}>
+              <li >
                 <Navlink userNavigation={true} to="/user/gigs" label="Gigs"/>
               </li>
             : null}
 
             {this.props.isDJ ?
-              <li  style={{marginBottom:'25px'}}>
+              <li >
               <Navlink userNavigation={true} to="/user/reviews" label="Reviews"/>
               </li>
               : null
             }
 
             {this.props.isCustomer ?
-              <li  style={{marginBottom:'25px'}}>
+              <li >
               <Navlink userNavigation={true} to="/user/events" label="Events"/>
               </li>
               : null
             }
 
-          <li  style={{marginBottom:'25px', borderBottom:'1px solid #eee'}}>
+          <li>
           <Navlink userNavigation={true} to="/user/preferences" label="Preferences"/>
           </li>
 
           </ul>
           </nav>
-                {this.props.actions.map(function(action) {
-                 return <div key={action.key}>{action}</div>
-              })}
-
           </div>
     )
   }

@@ -12,8 +12,8 @@ const Star = React.createClass({
     var fillStyle ={fill:"url(#gradient-"+this.props.fillPertentage+")"}
     return (
       <svg version="1.1" id="Capa_1" x="0px" y="0px"
-        style={{marginRight: '8px'}}
-      	 width="40px" height="40px" viewBox="0 0 306 306" viewPort="0 0 40 40">
+        style={{marginLeft: '8px'}}
+      	 width="20px" height="20px" viewBox="0 0 306 306" viewPort="0 0 40 40">
          <defs>
              <linearGradient id={"gradient-"+this.props.fillPertentage} x1="0" x2="100%" y1="0" y2="0">
               <stop
@@ -45,20 +45,18 @@ export default React.createClass({
     rating: PropTypes.number
   },
 
-
-
 render: function() {
   const fullStarsCount   = Math.floor(this.props.rating)
   var fullStars          = []
   const emptyStarsCount  = 5 - (fullStarsCount + 1)
   var emptyStars    = []
   const fillPertentage = ((this.props.rating % 1)*100).toString() + '%'
-  
+
   for (var i = 0; i < fullStarsCount; i++) {
       fullStars.push(
         <Star
           color="#1edaf2"
-          emptyColor="#eee"
+          emptyColor="#cecece"
           fillPertentage="100%"
         />
       )
@@ -66,7 +64,7 @@ render: function() {
 
     var halfStar =  (<Star
                         color="#1edaf2"
-                        emptyColor="#eee"
+                        emptyColor="#cecece"
                         fillPertentage={fillPertentage}
                       /> )
 
@@ -75,7 +73,7 @@ render: function() {
       emptyStars.push(
         <Star
           color="#1edaf2"
-          emptyColor="#eee"
+          emptyColor="#cecece"
           fillPertentage="0%"
         />
       )
