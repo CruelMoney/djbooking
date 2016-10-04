@@ -21,16 +21,16 @@ export default React.createClass({
 
     return (
       <div>
-      {/* {!this.props.isDJ ?
-        <div style={styles.userImageWrap}>
+        {/* {!this.props.isDJ ?
+          <div style={styles.userImageWrap}>
           <div style={ styles.image}/>
           {this.context.editMode && <div style={styles.changeProfilePictureText}>
-            <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
-            <label htmlFor="fileupload"><span>Change image</span></label>
+          <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
+          <label htmlFor="fileupload"><span>Change image</span></label>
           </div> }
-        </div>
-        :null
-      } */}
+          </div>
+          :null
+        } */}
 
 
 
@@ -46,39 +46,39 @@ export default React.createClass({
                 justifyContent: 'space-between'
               }}>
 
-        {this.props.isDJ ?
-            <li>
-              <Navlink userNavigation={true} to="/user/profile" label="Profile"/>
-            </li>
-        : null}
-
             {this.props.isDJ ?
-              <li >
-                <Navlink userNavigation={true} to="/user/gigs" label="Gigs"/>
+              <li>
+                <Navlink userNavigation={true} to="profile" label="Profile"/>
               </li>
             : null}
 
             {this.props.isDJ ?
               <li >
-              <Navlink userNavigation={true} to="/user/reviews" label="Reviews"/>
+                <Navlink userNavigation={true} to="gigs" label="Gigs"/>
+              </li>
+            : null}
+
+            {this.props.isDJ ?
+              <li >
+                <Navlink userNavigation={true} to="reviews" label="Reviews"/>
               </li>
               : null
             }
 
             {this.props.isCustomer ?
               <li >
-              <Navlink userNavigation={true} to="/user/events" label="Events"/>
+                <Navlink userNavigation={true} to="events" label="Events"/>
               </li>
               : null
             }
 
-          <li>
-          <Navlink userNavigation={true} to="/user/preferences" label="Preferences"/>
-          </li>
+            <li>
+              <Navlink userNavigation={true} to="preferences" label="Preferences"/>
+            </li>
 
           </ul>
-          </nav>
-          </div>
+        </nav>
+      </div>
     )
   }
 })

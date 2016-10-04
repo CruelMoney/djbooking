@@ -13,7 +13,6 @@ var menu = React.createClass({
 
   propTypes: {
      loggedIn: PropTypes.bool,
-     checkForLogin: PropTypes.func.isRequired,
      logout: PropTypes.func.isRequired,
      profile: PropTypes.object
    },
@@ -39,9 +38,6 @@ var menu = React.createClass({
 
    componentWillMount() {
      window.addEventListener('scroll', this.handleScroll)
-     if (!this.props.loggedIn) {
-       this.props.checkForLogin()
-     }
    },
    componentWillUnmount(){
      window.removeEventListener('scroll', this.handleScroll)
@@ -80,16 +76,16 @@ var menu = React.createClass({
     return (
       <div
       >
-      <div
-      ref={(ref) => this.nav = ref}
-      className="nav-container">
-        <nav
-          className="navigation"
+        <div
+          ref={(ref) => this.nav = ref}
+          className="nav-container">
+          <nav
+            className="navigation"
 
           >
-          <div className="logo">
-            <Navlink white={isHome} to="/">Cueup</Navlink>
-          </div>
+            <div className="logo">
+              <Navlink white={isHome} to="/">Cueup</Navlink>
+            </div>
             <ul className="main-menu">
               <li>
                 <Navlink white={isHome}  buttonLook={true} to="/howitworks" label="How it works"/>
@@ -104,23 +100,23 @@ var menu = React.createClass({
               )}
               {this.props.loggedIn ? (
                 <li>
-                  <Navlink white={isHome}  buttonLook={true}  to="/user" important={true} >
+                  <Navlink white={isHome}  buttonLook={true}  to="/profile" important={true} >
                     <UserMenuItem
-                    name={this.props.profile.name}
-                    picture={this.props.profile.picture}
+                      name={this.props.profile.name}
+                      picture={this.props.profile.picture}
                     />
                   </Navlink>
                 </li>
                 ) : (
                 <li >
                   <Button
-                      white={isHome}
-                      noBorder={true}
-                      medium={true}
-                      label="Login"
-                      isNavigationButton={true}
-                      onClick={this.onLoginButton}/>
-                  </li>
+                    white={isHome}
+                    noBorder={true}
+                    medium={true}
+                    label="Login"
+                    isNavigationButton={true}
+                    onClick={this.onLoginButton}/>
+                </li>
               )}
               {this.props.loggedIn ? (
                 null
@@ -138,7 +134,7 @@ var menu = React.createClass({
                 />
               </Dropdown>
             </ul>
-        </nav>
+          </nav>
         </div>
         <div id="content">
           {this.props.children}

@@ -11,7 +11,8 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var Preferences = React.createClass({
   propTypes: {
-    profile: PropTypes.object,
+    isDJ: PropTypes.bool,
+    provider: PropTypes.string,
     toggleEditMode: PropTypes.func,
     editMode: PropTypes.bool,
     connectFacebook: PropTypes.func,
@@ -22,7 +23,7 @@ var Preferences = React.createClass({
 
   contextTypes: {
     registerActions: PropTypes.func,
-    submit: PropTypes.func.isRequired,
+    save: PropTypes.func.isRequired,
     reset: PropTypes.func,
   },
 
@@ -42,7 +43,9 @@ var Preferences = React.createClass({
 
   getActionButtons(props = this.props){
     return (
-    <div key="profile_actions">
+    <div
+      className="action-buttons"
+      key="profile_actions">
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
           active={props.editMode}
@@ -50,7 +53,7 @@ var Preferences = React.createClass({
           labelToggled="Save"
           label="Edit preferences"
           onClick={props.toggleEditMode}
-          onClickToggled={this.context.submit}
+          onClickToggled={this.context.save}
           name="edit_profile"
         />
       </div>
@@ -176,9 +179,10 @@ var Preferences = React.createClass({
           display: 'none',
         }
     }
-    const isDJ = this.props.profile.app_metadata.isDJ
+    const isDJ = this.props.isDJ
     return(
       <div>
+        {this.getActionButtons()}
         <div className="row">
           <div className="col-lg-6">
 
@@ -298,7 +302,7 @@ var Preferences = React.createClass({
 
             </TextWrapper> */}
 
-            { this.props.profile.app_metadata.auth0Id.split("|")[0] === "auth0" ?
+            { this.props.provider === "auth0" ?
               <div style={{marginBottom:"4px"}}>
                 <TextWrapper
                   label="Password"

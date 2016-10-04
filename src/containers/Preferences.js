@@ -7,7 +7,8 @@ import * as actions from '../actions/UserActions'
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownProps) {
   return {
-    profile:  state.user.status.editMode ? state.user.editableProfile : state.user.profile,
+    isDJ:  state.user.profile.isDJ,
+    provider: state.user.profile.provider,
     editMode: state.user.status.editMode,
   }
 }

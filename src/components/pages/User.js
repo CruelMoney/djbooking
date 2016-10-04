@@ -2,7 +2,6 @@ import React,  { PropTypes } from 'react'
 import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import UserHeader from '../blocks/UserHeader'
-import UserNavigation from '../blocks/UserNavigation'
 import without from 'lodash.without'
 
 var user = React.createClass({
@@ -135,24 +134,28 @@ var user = React.createClass({
 
 
   render() {
+    if (!this.props.profile) {
+
+    }
+
+    return (
+      <div>
+        <UserHeader
+          profile={this.props.profile}
+        />
 
 
-    return ( <div>
+        <div  className="container">
+          <div className="row">
+            <div className="col-xs-4"></div>
+            <div style={{paddingTop:"15px"}} className="col-xs-8">
 
-      <UserHeader
-        profile={this.props.profile}
-      />
 
-
-      <div  className="container">
-      <div className="row">
-      <div className="col-xs-4"></div>
-        <div style={{paddingTop:"15px"}} className="col-xs-8">
-          {this.props.children}
+              {this.props.children}
+            </div>
+          </div>
         </div>
-      </div>
-      </div>
-    </div>)
+      </div>)
 
   }
 })

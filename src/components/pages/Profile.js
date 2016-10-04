@@ -29,7 +29,9 @@ var Profile = React.createClass({
 
   getActionButtons(props = this.props){
     return (
-    <div key="profile_actions">
+    <div
+      className="action-buttons"
+      key="profile_actions">
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
           active={props.editMode}
@@ -181,7 +183,7 @@ var Profile = React.createClass({
         {this.getActionButtons()}
         <div className="profile">
 
-            <TextWrapper
+          <TextWrapper
               label="E-mail"
               text="We wont share your email until you agree to play a gig.">
               <TextField

@@ -52,21 +52,45 @@ var Preferences = React.createClass({
 
   getActionButtons(props = this.props){
     return (
-    <div key="profile_actions">
-
+    <div
+      className="action-buttons"
+      key="profile_actions">
       <div style={{marginBottom:"4px"}}>
         <Button
           rounded={true}
-          label="Load more gigs"
-          active={true}
+          label="Requested gigs"
+
+          onClick={this.props.fetchGigs}
+        />
+      </div>
+      <div style={{marginBottom:"4px"}}>
+        <Button
+          rounded={true}
+          label="Upcoming gigs"
+
+          onClick={this.props.fetchGigs}
+        />
+      </div>
+      <div style={{marginBottom:"4px"}}>
+        <Button
+          rounded={true}
+          label="Lost gigs"
+
+          onClick={this.props.fetchGigs}
+        />
+      </div>
+      <div style={{marginBottom:"4px"}}>
+        <Button
+          rounded={true}
+          label="Finished gigs"
+
           onClick={this.props.fetchGigs}
         />
       </div>
 
 
-
       <div style={{marginBottom:"4px"}}>
-        <ToggleButton
+        <Button
           rounded={true}
           label="Request features"
           name="request_features"
@@ -106,13 +130,14 @@ var Preferences = React.createClass({
           lostGigs.push(<Gig gig={gig}/>)
           break
         default:
-        
+
       }
     })
 
 
     return(
       <div>
+        {this.getActionButtons()}
         <TextWrapper
           center={true}
           label="Upcoming Gigs">

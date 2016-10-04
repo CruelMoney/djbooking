@@ -38,6 +38,7 @@ var TextWrapper = React.createClass({
 
       return (
         <div
+          className="text-element-wrapper"
           style={[
             styles.base,
           ]}>

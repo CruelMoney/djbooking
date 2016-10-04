@@ -46,7 +46,7 @@ return function (err, result) {
  * @param  {Boolean} [redirect=true] if true the function will push
  * the appropriate window location to the front
  */
-export function checkForLogin(redirect = true){
+export function checkForLogin(redirect = null){
   return function(dispatch){
     if (auth.loggedIn()) {
       console.log("is logged in");
@@ -63,15 +63,17 @@ export function checkForLogin(redirect = true){
               type: ActionTypes.LOGIN_SUCCEEDED,
               profile: adapter.convertDTO(result)
             }}())
-          if (redirect) {browserHistory.push('/user/') }
+          if (redirect) {
+            console.log("redirecting!");
+            browserHistory.push(redirect) }
         }
       })
 
     }else{
       //If trying to access user restricted area, but not logged in
-      if (window.location.pathname.split('/')[1] === 'user') {
-          if (redirect) {browserHistory.push('/') }
-      }
+      // if (window.location.pathname.split('/')[1] === 'user') {
+      //     if (redirect) {browserHistory.push('/') }
+      // }
     }
   }
 }

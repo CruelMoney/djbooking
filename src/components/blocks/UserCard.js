@@ -12,13 +12,11 @@ export default React.createClass({
     rating: PropTypes.number,
     experience: PropTypes.number,
     earned: PropTypes.number,
-    birthday: PropTypes.object,
+    birthday: PropTypes.string,
     genres: PropTypes.arrayOf(PropTypes.string)
   },
 
   render() {
-
-console.log(this.props.genres);
     //calculating the age
     var cur = new Date();
     var diff = cur- new Date(this.props.birthday);
