@@ -1,21 +1,33 @@
 import c from '../constants/constants'
 import m from '../constants/Mocks'
+import AuthService from '../utils/AuthService'
+import converter from '../utils/AdapterDTO'
+import CueupService from '../utils/CueupService'
+const cueup = new CueupService()
+const auth = new AuthService()
+import GeoCoder from '../utils/GeoCoder'
+
+
 
 var ActionTypes = c.ActionTypes
 
 
 export function fetchEvents() {
   return function (dispatch) {
+
     dispatch( function() { return {
-        type: ActionTypes.FETCHING_EVENTS,
+        type: ActionTypes.FETCH_EVENTS_REQUESTED,
       }}())
-    setTimeout(function(){
-      dispatch( function() { return {
-        type: ActionTypes.EVENTS_FETCHED,
-        value: m.EVENTS
-        }}())
-    }, 1000)
-      }
+
+      const token = auth.getToken()
+      cueup.getUserEvent(token, function(err, result){
+        if (err) {
+          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_FAILED, err: err.message}}() )
+        }else{
+          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_SUCCEEDED, values: result} }() )
+        }
+      })
+  }
 }
 
 export function fetchGigs() {
@@ -30,4 +42,58 @@ export function fetchGigs() {
         }}())
     }, 1000)
       }
+}
+
+
+function createEvent(form, geoResult){
+      return {
+            Name: form.eventName,
+            Genres: form.genres,
+            Description: form.description,
+            Location: {
+              lat:geoResult.lat,
+              lng: geoResult.lng,
+              name: form.location
+            },
+            StartTime: form.startTime,
+            EndTime: form.endTime,
+            GuestsCount: form.guests[0],
+            Currency: "DKK",
+            MinPrice : form.minPrice,
+            MaxPrice: form.maxPrice,
+            NeedSpeakers: form.speakers,
+          }
+      }
+
+
+export function postEvent(form) {
+  console.log(form);
+  return function (dispatch) {
+    dispatch( function() { return {type: ActionTypes.CREATE_EVENT_REQUESTED} }() )
+
+    //Getting the coordinates of the playing location
+    GeoCoder.codeAddress(form.values.location, function(geoResult) {
+        if (geoResult.error) {
+            dispatch(function() {
+                return {
+                    type: ActionTypes.CREATE_EVENT_FAILED,
+                    err: "Error defining location: " + geoResult.error
+                }
+            }())
+            return
+          }
+
+        //If the geocoding does not fail
+        else {
+          var data = createEvent(form.values, geoResult.position)
+          const token = auth.getToken()
+          cueup.createEvent(token, data, function(err, result){
+            if (err) {
+              dispatch( function() { return {type: ActionTypes.CREATE_EVENT_FAILED, err: err.message}}() )
+            }else{
+              dispatch( function() { return {type: ActionTypes.CREATE_EVENT_SUCCEEDED} }() )
+            }
+          })
+        }})
+  }
 }

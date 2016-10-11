@@ -52,6 +52,12 @@ export default React.createClass({
               </li>
             : null}
 
+            {this.props.isCustomer ?
+              <li>
+                <Navlink userNavigation={true} to="events" label="Events"/>
+              </li>
+            : null}
+
             {this.props.isDJ ?
               <li >
                 <Navlink userNavigation={true} to="gigs" label="Gigs"/>

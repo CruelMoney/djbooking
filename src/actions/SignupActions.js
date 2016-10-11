@@ -3,26 +3,12 @@ import AuthService from '../utils/AuthService'
 import * as LoginActions from './LoginActions'
 import CueupService from '../utils/CueupService'
 import Formatter from '../utils/Formatter'
+import GeoCoder from '../utils/GeoCoder'
+
 const cueup = new CueupService()
 
 var ActionTypes = c.ActionTypes
 const auth = new AuthService()
-
-/*eslint no-undef: 0*/
-var geocoder = new google.maps.Geocoder()
-
-
-function codeAddress(address, callback)  {
-  geocoder.geocode( { 'address': address}, function(results, status) {
-       if (status === google.maps.GeocoderStatus.OK) {
-         var lat = (results[0].geometry.location.lat())
-         var lng = (results[0].geometry.location.lng())
-        return callback({error: null, position:{lat: lat, lng: lng }})
-       } else {
-         return callback({error: ("Geocode was not successful for the following reason: " + status), position:null})
-       }
-     })
-   }
 
 export function signup(form, isDj) {
   return function (dispatch) {
@@ -120,7 +106,7 @@ function postUser(token, user, dispatch){
 
           if (isDJ){
             //Getting the coordinates of the playing location
-            codeAddress(form.location, function(geoResult) {
+            GeoCoder.codeAddress(form.location, function(geoResult) {
                 if (geoResult.error) {
                     dispatch(function() {
                         return {

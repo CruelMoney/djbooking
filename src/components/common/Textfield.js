@@ -11,6 +11,7 @@ var Text = React.createClass({
 
   propTypes: {
     defaultValue: PropTypes.string,
+    controlledValue: PropTypes.string,
     maxLength:PropTypes.number,
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
@@ -137,7 +138,7 @@ var Text = React.createClass({
     }
     return (
                 <TextField
-                  value={this.state.value}
+                  value={this.props.controlledValue || this.state.value || null}
                   name={this.props.name}
                   disabled={this.props.disabled}
                   maxLength={this.props.maxLength}

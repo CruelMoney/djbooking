@@ -12,7 +12,7 @@ var Slider = React.createClass({
     name: PropTypes.string,
     initialValues: PropTypes.number,
     range: PropTypes.object,
-    connect: PropTypes.string,
+    connect: PropTypes.bool,
     step: PropTypes.number,
     handleChange: PropTypes.func,
     format: PropTypes.object
@@ -60,6 +60,7 @@ var Slider = React.createClass({
           start={this.state.values}
           connect={this.props.connect}
           onChange={this.handleChange}
+          onSlide={this.props.onSlide}
           format={this.props.format}
         />
     )

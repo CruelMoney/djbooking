@@ -1,6 +1,6 @@
 export default class CueupService {
     constructor() {
-        this.domain = 'http://cueup20160926115922.azurewebsites.net';
+        this.domain = 'http://cueup.azurewebsites.net';
 
         this.getHeaders = function(token) {
             var headers = new Headers();
@@ -13,6 +13,7 @@ export default class CueupService {
             return {method: 'GET', headers: headers};
         }
         this.postInit = function(data, headers) {
+          console.log(JSON.stringify(data));
             return {method: 'POST', headers: headers, body: JSON.stringify(data)};
         }
         this.putInit = function(data, headers) {
@@ -62,6 +63,7 @@ export default class CueupService {
       });
     }
 
+    //USER ACTIONS
     getUser(token, callback) {
       return this.fetchHandling(
         `${this.domain}/api/user`,
@@ -97,6 +99,28 @@ export default class CueupService {
           this.deleteInit(this.getHeaders(token)),
           callback
     )}
+    checkEmailExists(data, callback) {
+      setTimeout(function () {
+        return callback(null, true)
+      }, 1000);
+   }
+   //USER ACTIONS END
 
+
+
+   //EVENT ACTIONS
+   createEvent(token, data, callback) {
+     return this.fetchHandling(
+       `${this.domain}/api/event`,
+       this.postInit(data, this.getHeaders(token)),
+       callback
+     )}
+
+   getUserEvent(token, callback) {
+     return this.fetchHandling(
+       `${this.domain}/api/event/user`,
+       this.getInit(this.getHeaders(token)),
+       callback
+     )}
 
 }

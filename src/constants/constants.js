@@ -8,7 +8,6 @@ module.exports = {
     SIGNUP_SUCCEEDED: null,
     SIGNUP_FAILED: null,
 
-
     LOGIN_REQUESTED: null,
     LOGIN_SUCCEEDED: null,
     LOGIN_FAILED: null,
@@ -44,12 +43,16 @@ module.exports = {
     FETCHING_GIGS:null,
     GIGS_FETCHED:null,
 
-    FETCHING_EVENTS:null,
-    EVENTS_FETCHED:null,
+    FETCH_EVENTS_REQUESTED:null,
+    FETCH_EVENTS_SUCCEEDED:null,
+    FETCH_EVENTS_FAILED:null,
 
     FETCHING_REVIEWS:null,
-    REVIEWS_FETCHED:null
+    REVIEWS_FETCHED:null,
 
+    CREATE_EVENT_REQUESTED:null,
+    CREATE_EVENT_FAILED:null,
+    CREATE_EVENT_SUCCEEDED:null,
   }),
    GENRES: [
     {name: "70's"},

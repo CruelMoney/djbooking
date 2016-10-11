@@ -4,12 +4,7 @@ import Form from '../components/common/Form'
 import * as actions from '../actions/FormActions'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
-
-
-
 injectTapEventPlugin()
-
-
 
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters

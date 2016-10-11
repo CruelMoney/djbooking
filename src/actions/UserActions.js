@@ -1,21 +1,17 @@
 import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
-import AdapterDTO from '../utils/AdapterDTO'
+import converter from '../utils/AdapterDTO'
 import CueupService from '../utils/CueupService'
 const cueup = new CueupService()
 const auth = new AuthService()
 
-
 var ActionTypes = c.ActionTypes
-const adapter = new AdapterDTO()
-
-
 
   export function save(profile){
     return function (dispatch) {
       dispatch( function() { return {type: ActionTypes.UPDATEPROFILE_REQUESTED} }() )
           const token = auth.getToken()
-          const data = adapter.convertProfile(profile)
+          const data = converter.user.toDTO(profile)
           cueup.updateUser(token, data, function(err, result){
             if (err) {
               dispatch( function() { return {type: ActionTypes.UPDATEPROFILE_FAILED, err: err.message}}() )

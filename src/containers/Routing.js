@@ -9,7 +9,7 @@ import Preferences from './Preferences'
 import Gigs from './Gigs'
 import Events from './Events'
 import Reviews from './Reviews'
-import Home from '../components/pages/Home'
+import Home from '../containers/Home'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { createStore, applyMiddleware } from 'redux'
@@ -28,13 +28,25 @@ var router = React.createClass({
      loggedIn: PropTypes.bool,
      checkForLogin: PropTypes.func.isRequired,
    },
-
-
-   componentWillMount() {
-     if (!this.props.loggedIn) {
-       this.props.checkForLogin()
+   getInitialState() {
+     return{
+       didCheckLogin: false
      }
    },
+
+   componentWillMount() {
+
+   },
+
+   checkForLogin(nextState, replace){
+     console.log(nextState.location.pathname);
+     if (!this.state.didCheckLogin) {
+       this.setState({
+         didCheckLogin: true
+       }, this.props.checkForLogin(nextState.location.pathname))
+
+     }
+    },
 
  redirectNotAuth(nextState, replace){
       if (!this.props.loggedIn) {
@@ -42,7 +54,6 @@ var router = React.createClass({
         pathname: '/',
         state: { nextPathname: nextState.location.pathname }
       })
-      this.props.checkForLogin(nextState.location.pathname)
     }
   },
 
@@ -51,7 +62,7 @@ var router = React.createClass({
     return(
     <MuiThemeProvider muiTheme={theme}>
       <Router history={browserHistory}>
-        <Route path="/" component={Navigation}>
+        <Route path="/" component={Navigation} onEnter={this.checkForLogin}>
 
           <IndexRoute component={Home}/>
 

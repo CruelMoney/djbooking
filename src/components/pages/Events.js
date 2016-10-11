@@ -16,40 +16,10 @@ var Events = React.createClass({
     cancelEvent: PropTypes.func
   },
 
-  contextTypes: {
-    registerActions: PropTypes.func,
-  },
-
-  getInitialState(){
-    return{
-      events: []
-    }
-  },
-
-
   componentWillMount() {
-    if (this.props.events !== undefined) {
-      this.setState({
-        events: this.props.events
-      })
-    }
-
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(this.props))
+      this.props.fetchEvents()
   },
 
-  componentWillReceiveProps(nextprops){
-    if (nextprops.events !== undefined) {
-    this.setState({
-      events: nextprops.events
-    })
-  }
-    this.removeActionsFromContext()
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(nextprops))
-  },
-
-  componentWillUnmount() {
-    this.removeActionsFromContext()
-  },
 
   getActionButtons(props = this.props){
     return (
@@ -83,7 +53,8 @@ var Events = React.createClass({
 
     return(
       <div>
-        {this.state.events.map(function(event){
+      {this.getActionButtons()}
+        {this.props.events.map(function(event){
           return <Event event={event}/>
         })}
       </div>)

@@ -10,16 +10,16 @@ const initialState = { //define initial state - an empty form
 
 const events = (state = initialState, action) => {
   switch (action.type) {
-  case ActionTypes.FETCHING_EVENTS:
+  case ActionTypes.FETCH_EVENTS_REQUESTED:
       return {
               isWaiting: true
              }
-  case ActionTypes.EVENTS_FETCHED:
+  case ActionTypes.FETCH_EVENTS_SUCCEEDED:
       return {
         values: action.value,
         isWaiting: false
              }
- case ActionTypes.EVENTS_FETCH_FAILED:
+ case ActionTypes.FETCH_EVENTS_FAILED:
      return {
        err: action.err,
        isWaiting: false

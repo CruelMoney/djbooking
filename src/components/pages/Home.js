@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import DatePicker from '../common/Datepicker.js'
 import Footer from '../blocks/Footer'
-import RequestForm from '../../containers/RequestForm'
+import RequestForm from '../blocks/RequestForm'
 import moment from 'moment'
 import scrollIntoView from 'smoothscroll-polyfill'
 import bgVideo from '../../assets/blurry-night.mp4'
@@ -10,8 +10,11 @@ import bgVideo from '../../assets/blurry-night.mp4'
 scrollIntoView.polyfill()
 
 export default React.createClass({
-
-
+  propTypes: {
+    onSubmit: PropTypes.func,
+    isLoggedIn: PropTypes.bool,
+    form: PropTypes.object
+  },
 
 
 getInitialState(){
@@ -22,6 +25,7 @@ getInitialState(){
 },
 
 handleDateChange(date){
+  //is a moment object
   this.setState({
     eventDate: date
   })
@@ -35,8 +39,8 @@ handleButtonClick(){
   })
   if (!this.state.eventDate) {
     this.setState({
-      eventDate: moment().toDate().getTime(),
-    }, setTimeout(()=>this.requestForm.scrollIntoView({block: "end", behavior: "smooth"}), 100))
+      eventDate: moment(),
+    }, ()=>setTimeout(()=>this.requestForm.scrollIntoView({block: "end", behavior: "smooth"}), 100))
   }else{
  this.requestForm.scrollIntoView({block: "end", behavior: "smooth"})}
 },
@@ -77,15 +81,20 @@ handleButtonClick(){
         <div
           ref={(f) => this.requestForm = f}/>
 
-        { this.state.showForm ?
-          <div>
-          <div   className="container">
-            <RequestForm
-              date={moment(Number(this.state.eventDate)).format("dddd Do, MMMM YYYY")}
-               />
-          </div>
-          <Footer/>
-          </div>
+        {
+
+          this.state.showForm ?
+            <div>
+              <div   className="container">
+                <RequestForm
+                  date={this.state.eventDate}
+                  onSubmit={this.props.onSubmit}
+                  isLoggedIn={this.props.isLoggedIn}
+                  form={this.props.form}
+                />
+              </div>
+              <Footer/>
+            </div>
           : null
         }
 

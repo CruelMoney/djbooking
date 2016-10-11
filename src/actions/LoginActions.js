@@ -2,9 +2,9 @@ import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
 import { browserHistory } from 'react-router'
 import CueupService from '../utils/CueupService'
-import AdapterDTO from '../utils/AdapterDTO'
+import converter from '../utils/AdapterDTO'
 
-const adapter = new AdapterDTO();
+
 
 var ActionTypes = c.ActionTypes
 const auth = new AuthService()
@@ -32,7 +32,7 @@ return function (err, result) {
         }else{
           dispatch (function() {return {
               type: ActionTypes.LOGIN_SUCCEEDED,
-              profile: adapter.convertDTO(result)
+              profile: converter.user.fromDTO(result)
             }}())
         }
       })
@@ -49,7 +49,7 @@ return function (err, result) {
 export function checkForLogin(redirect = null){
   return function(dispatch){
     if (auth.loggedIn()) {
-      console.log("is logged in");
+      console.log(auth.getToken());
       cueup.getUser(auth.getToken(), (error, result)=>
       {
         if (error) {
@@ -61,7 +61,7 @@ export function checkForLogin(redirect = null){
         }else{
           dispatch (function() {return {
               type: ActionTypes.LOGIN_SUCCEEDED,
-              profile: adapter.convertDTO(result)
+              profile: converter.user.fromDTO(result)
             }}())
           if (redirect) {
             console.log("redirecting!");

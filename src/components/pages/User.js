@@ -3,8 +3,12 @@ import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import UserHeader from '../blocks/UserHeader'
 import without from 'lodash.without'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
+import '../../css/transitions.css'
 
 var user = React.createClass({
+
 
   propTypes: {
     profile: PropTypes.object,
@@ -134,11 +138,9 @@ var user = React.createClass({
 
 
   render() {
-    if (!this.props.profile) {
-
-    }
 
     return (
+
       <div>
         <UserHeader
           profile={this.props.profile}
@@ -150,8 +152,7 @@ var user = React.createClass({
             <div className="col-xs-4"></div>
             <div style={{paddingTop:"15px"}} className="col-xs-8">
 
-
-              {this.props.children}
+              {  this.props.children}
             </div>
           </div>
         </div>

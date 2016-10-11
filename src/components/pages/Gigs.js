@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import Radium from 'radium'
-import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
 import TextWrapper from '../common/TextElement'
 import Gig from '../../containers/Gig'
@@ -9,7 +8,7 @@ import Gig from '../../containers/Gig'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
 
-var Preferences = React.createClass({
+var Gigs = React.createClass({
   propTypes: {
     gigs: PropTypes.arrayOf(PropTypes.object),
     fetchGigs: PropTypes.func,
@@ -24,7 +23,6 @@ var Preferences = React.createClass({
       gigs: []
     }
   },
-
 
   componentWillMount() {
     if (this.props.gigs !== undefined) {
@@ -163,5 +161,5 @@ var Preferences = React.createClass({
   }
 })
 
-var styledPreferences = Radium(Preferences)
-export default muiThemeable()(styledPreferences)
+var styledGigs = Radium(Gigs)
+export default muiThemeable()(styledGigs)

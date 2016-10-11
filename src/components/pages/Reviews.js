@@ -20,9 +20,7 @@ var Reviews = React.createClass({
 
 
   componentWillMount() {
-
       this.props.fetchReviews()
-
   },
 
 
