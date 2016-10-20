@@ -53,6 +53,11 @@ module.exports = {
     CREATE_EVENT_REQUESTED:null,
     CREATE_EVENT_FAILED:null,
     CREATE_EVENT_SUCCEEDED:null,
+
+    CHECK_EMAIL_REQUESTED: null,
+    CHECK_EMAIL_FAILED: null,
+    CHECK_EMAIL_SUCCEEDED:null
+    
   }),
    GENRES: [
     {name: "70's"},

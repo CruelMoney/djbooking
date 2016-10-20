@@ -6,7 +6,8 @@ import Button from '../common/Button'
 var OfferCard = React.createClass({
   propTypes:{
     dj: PropTypes.object,
-    price: PropTypes.number
+    price: PropTypes.number,
+    currency: PropTypes.string
   },
 
 
@@ -30,18 +31,18 @@ var OfferCard = React.createClass({
         <div
           style={{display:'flex', justifyContent:'space-between', alignItems: 'baseline' }}
         >
-          <h4>{this.props.dj.user_metadata.firstName}</h4>
-          <p>{this.props.price + "KR."}</p>
+          <h4>{this.props.dj.firstName}</h4>
+          <p>{this.props.price + " " + this.props.currency}</p>
         </div>
         <div
           style={{display:'flex', justifyContent:'space-between', alignItems: 'baseline' }}
         >
-          <p>{renderRating(this.props.dj.app_metadata.vgRating)}</p>
-          <p>Has played at {this.props.dj.app_metadata.gigsCount} events.</p>
+          <p>{renderRating(this.props.dj.avgRating)}</p>
+          <p>Has played at {this.props.dj.gigsCount} events.</p>
         </div>
         <div>
           <p>
-            {this.props.dj.user_metadata.phone}
+            {this.props.dj.phone}
           </p>
           <p>
             {this.props.dj.email}

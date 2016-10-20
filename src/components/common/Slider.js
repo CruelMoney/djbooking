@@ -15,7 +15,7 @@ var Slider = React.createClass({
     connect: PropTypes.bool,
     step: PropTypes.number,
     handleChange: PropTypes.func,
-    format: PropTypes.object
+    format: PropTypes.object,
   },
 
   componentWillMount(){
@@ -29,7 +29,8 @@ var Slider = React.createClass({
     resetting: PropTypes.bool,
     isFormValid: PropTypes.func,
     registerValidation: PropTypes.func.isRequired,
-    updateValue: PropTypes.func
+    updateValue: PropTypes.func,
+    disabled: PropTypes.bool
   },
 
 
@@ -55,6 +56,7 @@ var Slider = React.createClass({
 
     return (
         <Nouislider
+          disabled={this.props.disabled}
           range={this.props.range}
           step={this.props.step}
           start={this.state.values}

@@ -8,7 +8,8 @@ import UserCard from './UserCard'
 var userHeader = React.createClass({
 
   propTypes: {
-    profile: PropTypes.object
+    profile: PropTypes.object,
+    hideInfo: PropTypes.bool
   },
 
 
@@ -37,11 +38,13 @@ var userHeader = React.createClass({
         ref={ref=>this.userHeader=ref}
         className="user-header">
 
+    <div className="container">
+      <div className="row">
+
         <div className="user-card-wrapper">
-          <div className="container">
-            <div className="row">
               <UserCard
                 className="user-card"
+                onlyPicture={this.props.hideInfo}
                 picture={this.props.profile.picture}
                 about={this.props.profile.bio}
                 rating={this.props.profile.avgRating}
@@ -50,12 +53,9 @@ var userHeader = React.createClass({
                 birthday={this.props.profile.birthDay}
                 genres={this.props.profile.genres}
               />
-            </div>
-          </div>
         </div>
 
-        <div className="container">
-          <div className="row">
+
             <div className="col-xs-4"></div>
 
             <div className="user-header-content col-xs-8">

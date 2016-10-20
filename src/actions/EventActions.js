@@ -24,7 +24,8 @@ export function fetchEvents() {
         if (err) {
           dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_FAILED, err: err.message}}() )
         }else{
-          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_SUCCEEDED, values: result} }() )
+          var events = result.map(e => converter.cueupEvent.fromDTO(e))
+          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_SUCCEEDED, events: events} }() )
         }
       })
   }
@@ -67,7 +68,6 @@ function createEvent(form, geoResult){
 
 
 export function postEvent(form) {
-  console.log(form);
   return function (dispatch) {
     dispatch( function() { return {type: ActionTypes.CREATE_EVENT_REQUESTED} }() )
 

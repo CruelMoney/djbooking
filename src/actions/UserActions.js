@@ -24,10 +24,7 @@ var ActionTypes = c.ActionTypes
 
 
   export function deleteProfile(){
-    console.log("dispatch");
-
     return function (dispatch) {
-      console.log("dispatch 2");
       dispatch( function() { return {type: ActionTypes.DELETE_PROFILE_REQUESTED} }() )
           const token = auth.getToken()
           cueup.deleteUser(token, function(err, result){
@@ -39,6 +36,20 @@ var ActionTypes = c.ActionTypes
           })
         }
   }
+
+  export function checkEmail(email){
+    return function (dispatch) {
+      dispatch( function() { return {type: ActionTypes.CHECK_EMAIL_REQUESTED} }() )
+          cueup.checkEmailExists(email, function(err, result){
+            if (err) {
+              dispatch( function() { return {type: ActionTypes.CHECK_EMAIL_FAILED, err: err.message}}() )
+            }else{
+              dispatch( function() { return {type: ActionTypes.CHECK_EMAIL_SUCCEEDED, value: result} }() )
+            }
+          })
+        }
+  }
+
 
 
 export function toggleEditMode() {

@@ -1,4 +1,6 @@
 import c from '../constants/constants'
+import assign from 'lodash.assign'
+
 
 var ActionTypes = c.ActionTypes
 
@@ -26,6 +28,21 @@ const signup = (state = initialState, action) => {
        isWaiting: false
             }
 
+  case ActionTypes.CHECK_EMAIL_REQUESTED:
+  return {
+          isWaiting: true
+         }
+   case ActionTypes.CHECK_EMAIL_SUCCEEDED:
+       return {
+         emailExists: action.value,
+         isWaiting: false
+              }
+
+  case ActionTypes.CHECK_EMAIL_FAILED:
+      return {
+        emailExists: action.value,
+        isWaiting: false
+             }
 
   default:
     return state

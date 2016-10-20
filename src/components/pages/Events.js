@@ -16,14 +16,24 @@ var Events = React.createClass({
     cancelEvent: PropTypes.func
   },
 
+  contextTypes:{
+    showUserCard: PropTypes.func,
+    hideUserCard: PropTypes.func
+  },
+
   componentWillMount() {
       this.props.fetchEvents()
+      this.context.hideUserCard()
+  },
+
+  componentWillUnmount(){
+    this.context.showUserCard()
   },
 
 
   getActionButtons(props = this.props){
     return (
-    <div key="profile_actions">
+    <div className="action-buttons" key="profile_actions">
 
       <div style={{marginBottom:"4px"}}>
         <Button
@@ -33,8 +43,6 @@ var Events = React.createClass({
           onClick={this.props.fetchEvents}
         />
       </div>
-
-
 
       <div style={{marginBottom:"4px"}}>
         <ToggleButton
@@ -50,13 +58,25 @@ var Events = React.createClass({
   },
 
   render() {
-
     return(
-      <div>
+      <div style={{display:'initial'}}>
+
+      <div className="col-xs-4"/>
+      <div
+      className="col-xs-8">
       {this.getActionButtons()}
-        {this.props.events.map(function(event){
-          return <Event event={event}/>
-        })}
+      </div>
+
+      <div className="events">
+      {this.props.events ?
+        this.props.events.map(function(event, i){
+          return <Event key={i} event={event}/>
+        })
+      :
+      <div>No events homie</div>
+    }
+    </div>
+
       </div>)
 
   }

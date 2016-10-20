@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Home from '../components/pages/Home'
-import * as actions from '../actions/EventActions'
+import * as eventActions from '../actions/EventActions'
+import * as userActions from '../actions/UserActions'
 
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters
@@ -14,8 +15,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onSubmit: (form) => {
-      dispatch(actions.postEvent(form)) },
+    onSubmit: (form)    => {dispatch(eventActions.postEvent(form))},
+    checkEmail: (email) => {dispatch(userActions.checkEmail(email))}
 }}
 
 

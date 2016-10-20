@@ -1,8 +1,8 @@
 import Formatter from './Formatter'
 
 
-const AdapterDTO  = {
-    user:{
+
+    const user ={
       fromDTO: function(DTO) {
         return {
           bio: DTO.bio,
@@ -16,7 +16,7 @@ const AdapterDTO  = {
           createdAt : DTO.createdAt,
           reviewed : DTO.reviewed,
 
-        // user_metadata stuff here
+          // user_metadata stuff here
             address:        DTO.user_metadata.address,
             name:           DTO.user_metadata.firstName + " " + DTO.user_metadata.lastName,
             firstName:      DTO.user_metadata.firstName,
@@ -69,8 +69,8 @@ const AdapterDTO  = {
           }
         }
       }
-    },
-    location:{
+    }
+    const location ={
       fromDTO(DTO){
         return{
           lat:  DTO.lat,
@@ -85,26 +85,46 @@ const AdapterDTO  = {
           name: location.name
         }
       }
-    },
-    event:{
+    }
+    const offer={
       fromDTO:function(DTO){
         return{
-            id: DTO.Id,
-            genres: DTO.Genres,
-            customerId: DTO.CustomerId,
-            offers: DTO.Offers.map(o => this.offer.fromDTO(o)),
-            description: DTO.Description,
-            name: DTO.Name,
-            chosenOfferId: DTO.ChosenOfferId,
-            location: this.location.fromDTO(DTO.LocationDTO),
-            status: DTO.Status,
-            startTime: DTO.StartTime,
-            endTime: DTO.EndTime,
-            guestsCount: DTO.GuestsCount,
-            currency: DTO.Currency,
-            minPrice : DTO.MinPrice,
-            maxPrice: DTO.MaxPrice,
-            needSpeakers: DTO.NeedSpeakers,
+           gigID: DTO.gigID,
+           amount: DTO.amount,
+           currency: DTO.currency,
+           dj: user.fromDTO(DTO.dj)
+          }
+      },
+      toDTO:function(offer){
+        return{
+           GigID: offer.gigID,
+           Amount: offer.amount,
+           Currency: offer.currency,
+           DJ: user.toDTO(offer.dj)
+          }
+      }
+    }
+    const cueupEvent ={
+
+      fromDTO:function(DTO){
+        return{
+            id: DTO.id,
+            genres: DTO.genres,
+            customerId: DTO.customerId,
+            offers: DTO.offers.map(o => offer.fromDTO(o)),
+            description: DTO.description,
+            name: DTO.name,
+            chosenOfferId: DTO.chosenOfferId,
+            location: location.fromDTO(DTO.location),
+            status: DTO.status,
+            startTime: new Date(DTO.startTime),
+            endTime: new Date(DTO.endTime),
+            guestsCount: DTO.guestsCount,
+            currency: DTO.currency,
+            minPrice : DTO.minPrice,
+            maxPrice: DTO.maxPrice,
+            needSpeakers: DTO.needSpeakers,
+            date: Formatter.date.ToEU(DTO.startTime)
           }
       },
       toDTO:function(event){
@@ -113,7 +133,7 @@ const AdapterDTO  = {
           Description: event.description,
           Name: event.name,
           ChosenOfferId: event.chosenOfferId,
-          Location: this.location.toDTO(event.locationDTO),
+          Location: location.toDTO(event.locationDTO),
           StartTime: event.startTime,
           EndTime: event.endTime,
           GuestsCount: event.guestsCount,
@@ -123,25 +143,12 @@ const AdapterDTO  = {
           NeedSpeakers: event.needSpeakers,
           }
       }
-    },
-    offer:{
-      fromDTO:function(DTO){
-        return{
-           gigID: DTO.GigID,
-           amount: DTO.Amount,
-           currency: DTO.Currency,
-           dj: this.user.fromDTO(DTO.DJ)
-          }
-      },
-      toDTO:function(offer){
-        return{
-           GigID: offer.gigID,
-           Amount: offer.amount,
-           Currency: offer.currency,
-           DJ: this.user.toDTO(offer.dj)
-          }
-      }
     }
-}
 
-export default AdapterDTO
+
+
+export default{
+user,
+location,
+offer,
+cueupEvent}

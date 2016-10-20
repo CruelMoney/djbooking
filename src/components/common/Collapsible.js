@@ -11,7 +11,10 @@ export const Collapsible = React.createClass({
 
   render() {
     return(
-      <div className={this.props.collapsed ? "collapsible collapsed" : "collapsible active"}>
+      <div>
+      <div className={
+        this.props.collapsed ? "collapsible collapsed" : "collapsible active"}>
+
         <div
         onClick={() => this.props.handleClick(this.props.number)}
         style={{
@@ -27,7 +30,12 @@ export const Collapsible = React.createClass({
 
             {this.props.children}
 
-      </div>)
+      </div>
+      <div className="divider"/>
+      </div>
+
+
+  )
 
   }
 })
@@ -63,7 +71,7 @@ export const CollapsibleContainer = React.createClass({
 
   render() {
     return(
-      <div>
+      <div className="collapsible-container">
         {this.renderChildren()}
       </div>)
 

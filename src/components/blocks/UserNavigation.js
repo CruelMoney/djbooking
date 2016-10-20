@@ -71,9 +71,9 @@ export default React.createClass({
               : null
             }
 
-            {this.props.isCustomer ?
+            {(this.props.isCustomer && !this.props.isDJ) ?
               <li >
-                <Navlink userNavigation={true} to="events" label="Events"/>
+                <Navlink userNavigation={true} to="user/signup" label="Become DJ"/>
               </li>
               : null
             }

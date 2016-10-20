@@ -14,9 +14,7 @@ var Gigs = React.createClass({
     fetchGigs: PropTypes.func,
   },
 
-  contextTypes: {
-    registerActions: PropTypes.func,
-  },
+
 
   getInitialState(){
     return{
@@ -30,8 +28,6 @@ var Gigs = React.createClass({
         gigs: this.props.gigs
       })
     }
-
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(this.props))
   },
 
   componentWillReceiveProps(nextprops){
@@ -40,12 +36,9 @@ var Gigs = React.createClass({
       gigs: nextprops.gigs
     })
   }
-    this.removeActionsFromContext()
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(nextprops))
   },
 
   componentWillUnmount() {
-    this.removeActionsFromContext()
   },
 
   getActionButtons(props = this.props){

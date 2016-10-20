@@ -13,7 +13,8 @@ export default React.createClass({
     experience: PropTypes.number,
     earned: PropTypes.number,
     birthday: PropTypes.string,
-    genres: PropTypes.arrayOf(PropTypes.string)
+    genres: PropTypes.arrayOf(PropTypes.string),
+    onlyPicture: PropTypes.bool
   },
 
   render() {
@@ -34,8 +35,8 @@ export default React.createClass({
 
     return (
 
-      <Card
-      zDepth={4}
+      <div
+
       className={this.props.className}>
 
             <div
@@ -61,6 +62,7 @@ export default React.createClass({
                 style={{backgroundImage: "url("+this.props.picture+")"}}
                 />
             </div>
+            {this.props.onlyPicture ? null:
             <div className="user-card-text">
               <div className="user-card-about">
               <p>About</p>
@@ -89,7 +91,8 @@ export default React.createClass({
               {genres}
               </div>
             </div>
-      </Card>
+            }
+      </div>
       )
   }
 })

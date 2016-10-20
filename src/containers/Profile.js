@@ -15,10 +15,26 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     toggleEditMode: () => { dispatch(actions.toggleEditMode()) },
+      save: (profile) => {dispatch(actions.save(profile))},
+      resetProfile:  (profile) => {dispatch(actions.resetProfile(profile))},
+      deleteProfile: () => {dispatch(actions.deleteProfile())},
+      updateProfileValue: (name, value) => { dispatch(actions.updateProfileValue(name, value)) },
+
 }}
 
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  return Object.assign({}, ownProps, {
+    profile: stateProps.profile,
+    editMode: stateProps.editMode,
+    updateProfileValue: dispatchProps.updateProfileValue,
+    toggleEditMode: dispatchProps.toggleEditMode,
+    save: () => dispatchProps.save(stateProps.profile),
+    resetProfile: () => dispatchProps.resetProfile(stateProps.resetProfile),
+    deleteProfile: dispatchProps.deleteProfile
+  })}
 
-const SmartProfile = connect(mapStateToProps, mapDispatchToProps)(Profile)
+
+const SmartProfile = connect(mapStateToProps, mapDispatchToProps, mergeProps)(Profile)
 
 export default props => (
     <SmartProfile {...props}/>

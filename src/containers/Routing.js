@@ -72,6 +72,7 @@ var router = React.createClass({
             <Route path="events" component={Events}/>
             <Route path="reviews" component={Reviews}/>
             <Route path="preferences" component={Preferences}/>
+            <Route path="user/signup" component={Signup}/>
           </Route>
 
 

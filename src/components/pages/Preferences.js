@@ -21,26 +21,6 @@ var Preferences = React.createClass({
     deleteAccount: PropTypes.func
   },
 
-  contextTypes: {
-    registerActions: PropTypes.func,
-    save: PropTypes.func.isRequired,
-    reset: PropTypes.func,
-  },
-
-
-  componentWillMount() {
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(this.props))
-  },
-
-  componentWillReceiveProps(nextprops){
-    this.removeActionsFromContext()
-    this.removeActionsFromContext = this.context.registerActions(this.getActionButtons(nextprops))
-  },
-
-  componentWillUnmount() {
-    this.removeActionsFromContext()
-  },
-
   getActionButtons(props = this.props){
     return (
     <div
@@ -53,7 +33,7 @@ var Preferences = React.createClass({
           labelToggled="Save"
           label="Edit preferences"
           onClick={props.toggleEditMode}
-          onClickToggled={this.context.save}
+          onClickToggled={()=>console.log("not implemented")}
           name="edit_profile"
         />
       </div>
@@ -63,7 +43,7 @@ var Preferences = React.createClass({
             rounded={true}
             label="Cancel"
             active={true}
-            onClick={this.context.reset}
+            onClick={()=>console.log("not implemented")}
             name="cancel_edit_profile"
           />
         </div>  : null }

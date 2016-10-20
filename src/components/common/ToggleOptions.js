@@ -7,7 +7,8 @@ var ToggleOptions = React.createClass({
     name: PropTypes.string.isRequired,
     children: PropTypes.node,
     value: PropTypes.string,
-    glued: PropTypes.bool
+    glued: PropTypes.bool,
+    disabled: PropTypes.bool
   },
 
  getDefaultProps() {
@@ -85,19 +86,22 @@ var ToggleOptions = React.createClass({
          return React.cloneElement(child, {
                active: active,
                onClick: this.handleButtonPress,
-               leftRounded: true
+               leftRounded: true,
+               disabled: this.props.disabled
          })
          case length:
          return React.cloneElement(child, {
                active: active,
                onClick: this.handleButtonPress,
-               rightRounded: true
+               rightRounded: true,
+               disabled: this.props.disabled
          })
          default:
          return React.cloneElement(child, {
                active: active,
                onClick: this.handleButtonPress,
-               rounded: false
+               rounded: false,
+               disabled: this.props.disabled
          })
        }
 
@@ -105,7 +109,8 @@ var ToggleOptions = React.createClass({
      }else{
        return React.cloneElement(child, {
              active: active,
-             onClick: this.handleButtonPress
+             onClick: this.handleButtonPress,
+             disabled: this.props.disabled
        })}
    })
  },

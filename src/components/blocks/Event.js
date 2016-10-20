@@ -11,9 +11,14 @@ import TextBox from '../common/TextBox'
 import wNumb from 'wnumb'
 import moment from 'moment'
 import Slider from '../common/Slider'
-import Form from '../../containers/Form'
+import Form from '../../containers/Form-v2'
 import OfferCard from './OfferCard'
-import Paper from 'material-ui/Paper'
+import EventInfoCard from './EventInfoCard'
+import Card from 'material-ui/Paper'
+import TextWrapper from '../common/TextElement'
+import ToggleButton from '../common/ToggleButton'
+import SubmitButton from '../common/SubmitButton'
+
 
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
@@ -22,9 +27,8 @@ var Event = React.createClass({
   propTypes: {
     event: PropTypes.object,
     payEvent: PropTypes.func,
-    updateEvent: PropTypes.func,
     cancelEvent: PropTypes.func,
-    updateEventValue: PropTypes.func
+    saveEventInfo: PropTypes.func
   },
 
   getDefaultProps(){
@@ -43,33 +47,57 @@ var Event = React.createClass({
 
 
   render() {
-
     const styles ={
-      medium:{
+
+      inline:{
+        display: 'inline-block'
+      },
+      flex:{
+        display: 'flex',
+        alignItems: 'center'
+      },
+      large:{
         textarea: {
-          height: '40px',
-          textAlign: 'center',
+          height: '80px',
         },
 
         paragraph: {
-          fontSize: '30px',
-          textAlign: 'center',
+          fontSize: '14px',
         },
 
         input:{
-          fontSize: '30px',
+          fontSize: '24px',
           height: 'initial',
-          textAlign: 'center',
           color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
 
         hint:{
+          bottom: '20px',
           fontSize: '30px',
-          height: 'initial',
           fontWeight: '300',
-          textAlign: 'center',
-          width: '100%'
+        }
+      },
+      medium:{
+        textarea: {
+          height: '40px',
+        },
+
+        paragraph: {
+          fontSize: '14px',
+        },
+
+        input:{
+          fontSize: '14px',
+          height: 'initial',
+          color: this.props.muiTheme.palette.textColor,
+          fontWeight: '300',
+        },
+
+        hint:{
+          bottom: '20px',
+          fontSize: '30px',
+          fontWeight: '300',
         },
 
       },
@@ -100,275 +128,270 @@ var Event = React.createClass({
           display: 'none',
         }
     }
-
         var genres = []
         this.props.event.genres.forEach(function(genre, i) {
            genres.push(<td style={{paddingRight:"10px"}}>{genre}</td>)}
         )
         return (
-        <Paper zDepth={1} style={{padding:'50px'}}>
-          <div className="row">
-            
-            <div className="col-sm-7">
+          <Card
+          z-index={1}
+          className="event">
+
+            <div className="col-xs-4">
+            <div className="event-info-card-wrapper">
+              <EventInfoCard
+                  cueupEvent={this.props.event}
+              />
+            </div>
+            </div>
+            <div className="col-xs-8">
+            <div className="event-name">
+              {this.props.event.name}
+            </div>
+            <div className="event-location">
+              <svg
+                version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 466.583 466.582" style={{enableBackground: "new 0 0 466.583 466.582"}}>
+                <g>
+                  <path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
+                </g>
+              </svg>
+              {" " + this.props.event.location.name}
+            </div>
+
               <CollapsibleContainer>
+
+
+
+
+
+
+
+
+
 
                 <Collapsible
                   name="EventInfo"
                   label="Event Info"
                 >
-                  <div>
-                    <Form
-                      onSubmit={()=>console.log("not implemented")}
-                      buttonText="Save"
-                      name={this.props.event.id + "EventInfo"}
-                    >
-                      <TextField
-                        name="date"
-                        disabled
-                        value={this.props.event.date}
-                        underlineDisabledStyle={styles.plainBorder}
-                        floatingLabelText="Event date"
-                        style={{marginTop:'-20px', height:'70px'}}
+                <Form
+                  onSubmit={()=>console.log("go fuck yourself")}
+                  isloading={false}
+                >
+                <TextWrapper
+                    label="Event name"
+                    text="The name of this event. Please choose a descriptive name.">
+                    <TextField
+                      defaultValue={this.props.event.name}
+                      name="name"
+                      disabled={!this.state.infoEditMode}
+                      style={styles.medium.textarea}
+                      inputStyle={styles.medium.input}
+                      type="text"
+                      validate={['required']}
+                      fullWidth={false}
+                      hintText="Event name"
+                      underlineDisabledStyle={styles.plainBorder}
+                      underlineStyle={styles.dottedBorderStyle}
+                    />
+                  </TextWrapper>
+                  <TextWrapper
+                    label="Description"
+                    text="A good description results in more accurate offers.
+                          What kind of event is this? What services do you need from the DJ?"
+                  >
+                    <TextBox
+                      width="100%"
+                      height="150px"
+                      name="description"
+                      disabled={!this.state.infoEditMode}
+                      value={this.props.event.description}
+                    />
+                  </TextWrapper>
+                  <TextWrapper
+                    label="Guests"
+                    text="How many guests do you expect to attend the event?"
+                  >
+                  <Slider
+                    name="guests"
+                    range={{min:0, max:100}}
+                    step={1}
+                    disabled={!this.state.infoEditMode}
+                    connect="lower"
+                    initialValues={[this.props.event.guestsCount]}
+                    handleChange={(values) => this.setState({
+                      guests: values[0]
+                    })}
+                    format={ wNumb({
+                      decimals: 0,
+                      thousand: ".",
+                    })}
+                  />
+                  <p
+                  style={{margin:"10px 0"}}
+                  >{"Around " + this.state.guests + " people attending the event."}</p>
+                  </TextWrapper>
+
+                  <div
+                    className="event-info-action-buttons"
+                    key="event-info-actions">
+
+                    {this.state.infoEditMode ?
+                      <SubmitButton
+                        active={this.state.infoEditMode}
+                        rounded={true}
+                        label="Save"
+                        onClick={this.props.saveEventInfo}
+                        name="save_event_info"
                       />
-
-                      <TextField
-                        name="eventName"
-                        value={this.props.event.name}
-                        style={{marginTop:'-20px', height:'70px'}}
-                        floatingLabelText="Event name"
-                        disabled={true}
-                        validate={['required']}
-                      />
-
-
-                      <LocationSelector
-                        style={{marginTop:'-20px', height:'70px'}}
-                        floatingLabelText="Event location"
-                        value={this.props.event.location}
-                        name="location"
-                        validate={['required']}
-                      />
-                      <p style={{marginBottom:'30px'}}>Select the city in which your event will happen.</p>
-
-                      <TextField
-                        name="eventAddress"
-                        value={this.props.event.address}
-                        style={{marginTop:'-20px', height:'70px'}}
-                        floatingLabelText="Event address"
-                        validate={['required']}
-                      />
-                      <p style={{marginBottom:'30px'}}>The full address for the this.props.event.</p>
+                    :
+                    null}
+                    <ToggleButton
+                      active={this.state.infoEditMode}
+                      rounded={true}
+                      labelToggled="Cancel edit"
+                      label="Edit"
+                      onClick={()=>{this.setState({infoEditMode:true})}}
+                      onClickToggled={()=>{this.setState({infoEditMode:false})}}
+                      name="edit_event_info"
+                    />
 
 
-
-
-
-                      <h4 style={{textAlign:'center'}}>Guests</h4>
-                      <div style={{
-                        marginTop:'20px',
-                        marginBottom:'20px'
-                      }}>
-                        <Slider
-                          name="guests"
-                          range={{min:0, max:100}}
-                          step={1}
-                          connect="lower"
-                          initialValues={[this.props.event.guests]}
-                          handleChange={(values) => this.setState({
-                            guests: values[0]
-                          })}
-                          format={ wNumb({
-                            decimals: 0,
-                            thousand: ".",
-                          })}
+                    { this.state.infoEditMode ?
+                        <Button
+                          rounded={true}
+                          label="Cancel event"
+                          dangerous={true}
+                          onClick={this.props.cancelEvent}
+                          name="cancel_event"
                         />
+                       : null }
+
                       </div>
-                      <p>{"Around " + (this.state.guests || this.props.event.guests) + " people attending the event."}</p>
-                      <h4 style={{textAlign:'center'}}>Description</h4>
-                      <p>{"Please write any additional information."}</p>
 
-                      <TextBox
-                        width="100%"
-                        height="120px"
-                        name="description"
-                        validate={['required']}
-                        value={this.props.event.description}
-                      />
                     </Form>
-                  </div>
-
                 </Collapsible>
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <Collapsible
                   name="DJRequirements"
                   label="DJ Requirements"
                 >
-                  <Form
-                    onSubmit={()=>console.log("not implemented")}
-                    buttonText="Save"
-                    name={this.props.event.id + "DJRequirements"}
-                  >
-                    <h4 style={{textAlign:'center'}}>Select Genres</h4>
-                    <ToggleButtonHandler
-                      name="genres"
-                      potentialValues={c.GENRES}
-                      columns={3}
-                      preToggled={this.props.event.genres}
-                    />
-
-                    <h4 style={{textAlign:'center'}}>Do you need speakers?</h4>
-                    <ToggleOptions
-                      name="speakers"
-                      glued={true}
-                      validate={['required']}
-                      value={this.props.event.speakers}
-                    >
-                      <Button
-                        name="SPEAKERS_YES"
-                        label="Yes"
-                      />
-
-                      <Button
-                        name="SPEAKERS_UNCERTAIN"
-                        label="Uncertain"
-                      />
-
-                      <Button
-                        name="SPEAKERS_NO"
-                        label="No"
-                      />
-                    </ToggleOptions>
-                    <h4 style={{textAlign:'center'}}>Time</h4>
-                    <div style={{
-                      marginTop:'20px',
-                      marginBottom:'20px'
-                    }}>
-                      <TimeSlider
-                        minDate={this.props.event.minDate}
-                        maxDate={this.props.event.maxDate}
-                        onChange={(values) => {
-                          this.setState({
-                            startTime: values[0],
-                            endTime: values[1]
-                          })}}
-                      />
-                    </div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                      }}>
-                      <p>{"Start: " + moment(Number(this.state.startTime)).format("HH:mm")}</p>
-                      <p>{"Hours: " + moment(Number(this.state.endTime)).diff(moment(Number(this.state.startTime)))/60/60/1000 }</p>
-                      <p>{"End: " + moment(Number(this.state.endTime)).format("HH:mm")}</p>
-                    </div>
-                  </Form>
-                </Collapsible>
-                <Collapsible
-                  name="ContactInfo"
-                  label="Contact Info"
+                <Form
+                  onSubmit={()=>console.log("go fuck yourself")}
+                  isloading={false}
                 >
-                  <Form
-                    onSubmit={()=>console.log("not implemented")}
-                    buttonText="Save"
-                    name={this.props.event.id + "ContactInfo"}
-                  >
-                    <TextField
-                      style={{marginTop:'-20px', height:'70px'}}
-                      floatingLabelText="Your name"
-                      value={this.props.event.contact.name}
-                      name="name"
-                      validate={['required', 'lastName']}
-                    />
-                    <p style={{marginBottom:'30px'}}>Your full name.</p>
-
-                    <TextField
-                      style={{marginTop:'-20px', height:'70px'}}
-                      floatingLabelText="Your email"
-                      value={this.props.event.contact.email}
-                      name="email"
-                      validate={['required', 'email']}
-                    />
-                    <p style={{marginBottom:'30px'}}>We only share your email with DJ's suitable to play at your event.</p>
-
-                    <TextField
-                      style={{marginTop:'-20px', height:'70px'}}
-                      floatingLabelText="Your phone number"
-                      value={this.props.event.contact.phone}
-                      name="phone"
-                      type="number"
-                      validate={['required']}
-                    />
-                    <p style={{marginBottom:'30px'}}>We only share your phone number with DJ's candidates.</p>
-                  </Form>
-                </Collapsible>
-
-                <Collapsible
-                  name="EventPayment"
-                  label="Payment"
+                <TextWrapper
+                  label="Speakers"
+                  text="Do you need the DJ to bring speakers for the event?"
                 >
-                  <Form
-                    onSubmit={()=>console.log("not implemented")}
-                    buttonText="Pay"
-                    name={this.props.event.id + "Payment"}
-                  >
-                    <p style={{marginBottom:'30px'}}>Card number</p>
-                    <TextField
-                      style={{marginTop:'-20px', height:'70px'}}
-                      name="cardNumber"
-                      type="number"
-                      validate={['required', 'validateCardNumber']}
-                    />
-                    <div className="row">
-                      <div className="col-xs-4">
-                        <p style={{marginBottom:'30px'}}>Expires on</p>
-                        <TextField
-                          style={{marginTop:'-20px', height:'70px'}}
-                          name="expMonth"
-                          type="number"
-                          placeholder="MM"
-                          validate={['required']}
+                <ToggleOptions
+                  name="speakers"
+                  glued={true}
+                  validate={['required']}
+                  disabled={!this.state.requirementsEditMode}
+                >
+                  <Button
+                    name="YES"
+                    label="Yes"
+                  />
+
+                  <Button
+                    name="UNCERTAIN"
+                    label="Uncertain"
+                  />
+
+                  <Button
+                    name="NO"
+                    label="No"
+                  />
+                </ToggleOptions>
+                </TextWrapper>
+
+
+                <TextWrapper
+                  label="Time"
+                  text="When do you need the DJ to begin and stop playing?"
+                >
+                <TimeSlider
+                  disabled={!this.state.requirementsEditMode}
+                  date={moment(this.props.event.startTime)}
+                />
+                </TextWrapper>
+
+                    </Form>
+
+                    <div className="event-info-action-buttons">
+
+                      {this.state.requirementsEditMode ?
+                        <SubmitButton
+                          active={this.state.requirementsEditMode}
+                          rounded={true}
+                          label="Save"
+                          onClick={this.props.saveEventInfo}
+                          name="save_requirements_info"
                         />
-                      </div>
-                      <div className="col-xs-4">
-                        <p style={{marginBottom:'50px'}}></p>
-                        <TextField
-                          style={{marginTop:'-20px', height:'70px'}}
-                          name="expYear"
-                          type="number"
-                          placeholder="YYYY"
-                          validate={['required']}
-                        />
-                      </div>
-                      <div className="col-xs-4">
-                        <p style={{marginBottom:'30px'}}>Security code</p>
-                        <TextField
-                          style={{marginTop:'-20px', height:'70px'}}
-                          name="securityCode"
-                          type="number"
-                          validate={['required', 'validateCardCVC']}
-                        />
-                      </div>
-                    </div>
-                  </Form>
+                      :
+                      null}
+                      <ToggleButton
+                        active={this.state.requirementsEditMode}
+                        rounded={true}
+                        labelToggled="Cancel edit"
+                        label="Edit"
+                        onClick={()=>{this.setState({requirementsEditMode:true})}}
+                        onClickToggled={()=>{this.setState({requirementsEditMode:false})}}
+                        name="edit_requirements"
+                      />
+
+                        </div>
+
                 </Collapsible>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                {this.props.event.status === "Finished" ?
+                <Collapsible
+                  name="EventReview"
+                  label="Review"
+                >
+
+                </Collapsible>
+                :
+                <Collapsible
+                  name="EventOffers"
+                  label="Offers"
+                >
+
+                </Collapsible>
+                }
+
               </CollapsibleContainer>
             </div>
-            <div className="col-sm-5"  style={{right:'-70px'}}>
-              {
-                this.props.event.offers.map(function(offer){
-                  return <div
-                    style={{marginTop:"40px", marginBottom:"40px", marginLeft:"40px"}}>
-                    <OfferCard
-                      dj={offer}
-                      price={offer.price}/>
-                  </div>
-                })
-              }
 
-            </div>
-          </div>
-        </Paper>
-
+          </Card>
 
  )
       }

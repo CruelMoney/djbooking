@@ -16,7 +16,7 @@ const events = (state = initialState, action) => {
              }
   case ActionTypes.FETCH_EVENTS_SUCCEEDED:
       return {
-        values: action.value,
+        values: action.events,
         isWaiting: false
              }
  case ActionTypes.FETCH_EVENTS_FAILED:

@@ -1,6 +1,6 @@
 import React  from 'react'
 import { connect } from 'react-redux'
-import Form from '../components/common/Form'
+import Form from '../components/common/Form-v2'
 import * as actions from '../actions/FormActions'
 
 //TODO move magic information about the filters out of container.
@@ -9,6 +9,7 @@ function mapStateToProps(state, ownprops) {
   return {
     activeFilters: state.forms[ownprops.name] ? state.forms[ownprops.name].filters : [],
     children: ownprops.children,
+    form: state.forms[ownprops.name] ? state.forms[ownprops.name] : {},
   }
 }
 
@@ -20,6 +21,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     updateFilters: (filter, value) => {
       dispatch(actions.updateFilters(filter, value, ownProps.name))
     },
+    onSubmit: (form) => ownProps.onSubmit(form)
 }
 }
 
@@ -28,6 +30,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     children: stateProps.children,
     updateValue: dispatchProps.updateValue,
     updateFilters: (filter, value) => dispatchProps.updateFilters(filter, value, ownProps.name),
+    onSubmit: () => dispatchProps.onSubmit(stateProps.form)
   })
 }
 

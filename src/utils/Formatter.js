@@ -19,6 +19,11 @@ const formatter = {
           FromEUStringToUSDate : function (dateString){
             var from = dateString.split("/");
             return new Date(from[2], from[1] - 1, from[0]);
+          },
+
+          ToTime : function(date){
+            const addZero = (n) => ("0"+n).slice(-2)
+            return addZero(date.getHours()) + ":" + addZero(date.getMinutes())
           }
         },
 
@@ -45,6 +50,34 @@ const formatter = {
           var firstName = name.substr(0, name.indexOf(' '))
           var lastName  = name.substr(name.indexOf(' ')+1, name.lastIndexOf(''))
          return {firstName: firstName, lastName: lastName}
+    }
+  },
+
+    cueupEvent: {
+      GetStatus: function(statusEnum){
+        switch (statusEnum) {
+          case "Initial":
+            return "No relevant DJ could be found"
+
+          case "Cancelled":
+            return "The event is cancelled"
+
+          case "Offering":
+            return "Waiting on DJ's to make offers"
+
+          case "Accepted":
+            return "There's an offer"
+
+          case "Confirmed":
+            return "The event is confirmed and payed"
+
+          case "Finished":
+            return "The event is finished"
+
+          default:
+            return statusEnum
+      }
+
     }
   }
 

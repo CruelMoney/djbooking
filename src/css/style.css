@@ -505,9 +505,19 @@ input[type="file"] + label * {
 }
 
 .collapsible{
-  transition: max-height 0.4s;
-  border-bottom: 1px solid #eee;
+  transition: all 0.4s;
+  transition-delay: overflow 0.5s;
   overflow: hidden;
+  /* fix for overflow Hidden */
+  margin: 0px -20px;
+  padding: 0px 20px;
+  /* fix for overflow Hidden */
+
+  padding-bottom: 20px;
+}
+
+.open .collapsible{
+  overflow: visible;
 }
 
 .collapsible.active{
@@ -624,6 +634,14 @@ margin-top: 20px;
 .user-card{
   width: 300px;
   pointer-events: all;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px;
+}
+.fixed .user-card{
+  box-shadow: none;
+}
+.fixed .user-card-text{
+  box-shadow: rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px;
 }
 .user-card-picture{
 width: 100%;
@@ -637,34 +655,46 @@ background-position: center center;
       padding: 20px;
         color: #707070;
 }
-.user-card-text p{
+.event-card-text{
+        color: #707070;
+}
+
+.user-card-text p,
+.event-card-text p{
       text-transform: uppercase;
       font-weight: 500;
       line-height: 20px;
 }
-.user-card-info{
+.user-card-info,
+.event-card-info{
   border-bottom: 2px solid #eee;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-.user-card-fact{
+.user-card-fact,
+.event-card-fact{
     display: flex;
     justify-content: space-between;
 }
-.user-card-fact p{
+.user-card-fact p,
+.event-card-fact p{
     font-weight: 200;
 }
-.user-card-fact:last-child p{
+.user-card-fact:last-child p,
+.event-card-fact:last-child p{
     margin-bottom: 0;
 }
-.user-card-about{
+.user-card-about,
+.event-card-about,
+.event-card-status{
   border-bottom: 2px solid #eee;
   margin-bottom: 20px;
   line-height: 25px;
   padding-bottom: 20px;
   font-weight: 100;
 }
-.user-card-genres{
+.user-card-genres,
+.event-card-genres{
       line-height: 25px;
       font-weight: 100;
 }
@@ -712,7 +742,58 @@ background-position: center center;
   margin-right: 10px;
 }
 .text-element-wrapper{
-  padding-top: 15px;
-  margin-top: 15px;
-  border-top: 2px solid rgb(230, 230, 230);
+margin-bottom: 20px;
+}
+
+.events{
+  margin-top: 80px;
+}
+.event{
+  min-height: 400px;
+  padding: 35px 20px;
+  margin-top: 40px;
+  display: flex;
+}
+.event-info-card-wrapper{
+  width: 240px;
+  position: relative;
+}
+.event-name{
+font-size: 30px;
+line-height: 30px;
+margin-bottom: 5px;
+font-weight: 100;
+}
+.event-location{
+  border-bottom: 2px solid #eee;
+padding-bottom: 10px;
+  fill: #707070;
+font-size: 15px;
+font-weight: 100;
+}
+
+
+[disabled] .noUi-handle
+{
+  border: 7px solid rgb(173, 175, 175) !important;
+  width: 14px !important;
+  height: 14px !important;
+  left: -7px;
+  top: -6px;
+}
+
+.event-info-action-buttons{
+  display: flex;
+}
+
+.event-info-action-buttons div{
+  margin-right: 20px;
+}
+.event-info-action-buttons div:last-child{
+  margin-right: 0px;
+}
+
+.collapsible-container .divider{
+  border-bottom: 2px solid #eee;
+  width: 100%;
 }

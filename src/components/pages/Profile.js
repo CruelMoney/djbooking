@@ -7,6 +7,7 @@ import { default as SimpleMap } from "../common/Map"
 import TextField from '../common/Textfield'
 import TextBox from '../common/TextBox'
 import ExperienceSlider from '../common/ExperienceSlider'
+import without from 'lodash.without'
 
 import TextWrapper from '../common/TextElement'
 import muiThemeable from 'material-ui/styles/muiThemeable'
@@ -16,16 +17,66 @@ import c from '../../constants/constants'
 var Profile = React.createClass({
   propTypes: {
     profile: PropTypes.object,
+    updateProfileValue: PropTypes.func,
     toggleEditMode: PropTypes.func,
     editMode: PropTypes.bool,
-  },
-
-  contextTypes: {
-    registerActions: PropTypes.func,
-    save: PropTypes.func.isRequired,
+    save: PropTypes.func,
     reset: PropTypes.func,
     deleteProfile: PropTypes.func
   },
+  childContextTypes: {
+      update: PropTypes.func,
+      registerValidation: PropTypes.func,
+      updateValue: PropTypes.func,
+  },
+  getChildContext() {
+   return {
+    registerValidation: this.registerValidation,
+    updateValue: this.props.updateProfileValue,
+    }
+  },
+
+  getInitialState() {
+    return {
+      isValid: false,
+    }
+  },
+
+  validations: [],
+
+  registerValidation(isValidFunc) {
+    this.validations = [...this.validations, isValidFunc]
+    return this.removeValidation.bind(null, isValidFunc)
+  },
+
+  removeValidation(ref) {
+    this.validations = without(this.validations, ref)
+  },
+
+
+  isFormValid(showErrors) {
+     var isValid = this.validations.reduce((memo, isValidFunc) =>
+     isValidFunc(showErrors) && memo, true)
+
+     this.setState({
+       isValid
+     })
+     return isValid
+  },
+
+    submit(){
+      if (this.isFormValid(true)) {
+        this.props.save()
+      }
+    },
+
+    resetting: false,
+
+    reset(){
+      this.resetting = true
+      this.props.resetProfile()
+    },
+
 
   getActionButtons(props = this.props){
     return (
@@ -39,7 +90,7 @@ var Profile = React.createClass({
           labelToggled="Save"
           label="Edit profile"
           onClick={props.toggleEditMode}
-          onClickToggled={this.context.save}
+          onClickToggled={this.props.save}
           name="edit_profile"
         />
       </div>
@@ -49,7 +100,7 @@ var Profile = React.createClass({
             rounded={true}
             label="Cancel"
             active={true}
-            onClick={this.context.reset}
+            onClick={this.props.reset}
             name="cancel_edit_profile"
           />
         </div>  : null }
@@ -74,7 +125,7 @@ var Profile = React.createClass({
             rounded={true}
             label="Delete Profile"
             dangerous={true}
-            onClick={this.context.deleteProfile}
+            onClick={this.props.deleteProfile}
             name="delete_profile"
           />
         </div>  : null }

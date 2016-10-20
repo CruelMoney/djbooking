@@ -6,6 +6,7 @@ import wNumb from 'wnumb'
 var TimeSlider = React.createClass({
   propTypes:{
     date: PropTypes.object, //moment object
+    disabled: PropTypes.bool,
     onChange: PropTypes.func
   },
 
@@ -77,6 +78,7 @@ var TimeSlider = React.createClass({
       <div>
         <div>
           <Slider
+            disabled={this.props.disabled}
             name="time"
             range={{
               min: rangeMin.unix(),
@@ -108,7 +110,8 @@ var TimeSlider = React.createClass({
         <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            marginTop: '10px'
           }}>
           <p>{"Start: " + moment.unix(startTime).format("HH:mm")}</p>
           <p>{"Hours: " + moment.unix(endTime).diff(moment.unix(startTime))/60/60/1000 }</p>

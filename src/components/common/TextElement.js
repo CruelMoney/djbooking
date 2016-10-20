@@ -20,7 +20,7 @@ var TextWrapper = React.createClass({
       label: {
         display: 'block',
         marginBottom: '0.5em',
-        fontWeight: '700',
+        fontWeight: '500',
         fontSize: '16px',
       },
 

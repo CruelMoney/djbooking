@@ -14,10 +14,6 @@ var Reviews = React.createClass({
     fetchReviews: PropTypes.func,
   },
 
-  contextTypes: {
-    registerActions: PropTypes.func,
-  },
-
 
   componentWillMount() {
       this.props.fetchReviews()

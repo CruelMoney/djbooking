@@ -10,12 +10,10 @@ import Event from '../components/blocks/Event'
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    updateEventValue: () => {console.log("not implemented")},
     payEvent: () => {console.log("not implemented")},
-    updateEvent: () => {console.log("not implemented")},
+    saveEventInfo: () => {console.log("not implemented")},
     cancelEvent: () => {console.log("not implemented")},
 }}
-
 
 const SmartEvent = connect(state=>state, mapDispatchToProps)(Event)
 

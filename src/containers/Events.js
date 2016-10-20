@@ -13,9 +13,6 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     fetchEvents: () => { dispatch(actions.fetchEvents()) },
-    payEvent: () => {console.log("not implemented")},
-    editEvent: () => {console.log("not implemented")},
-    cancelEvent: () => {console.log("not implemented")},
 }}
 
 

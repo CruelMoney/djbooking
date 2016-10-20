@@ -8,7 +8,6 @@ import ToggleButtonHandler from '../common/ToggleButtonHandler'
 import Form from '../../containers/Form'
 import Slider from '../common/Slider'
 import TimeSlider from '../common/TimeSlider'
-import moment from 'moment'
 
 import TextBox from '../common/TextBox'
 import Popup from '../common/Popup'
@@ -26,7 +25,8 @@ var RequestForm = React.createClass({
     form: PropTypes.object,
     date: PropTypes.object, //moment object
     onSubmit: PropTypes.func,
-    isLoggedIn: PropTypes.bool
+    isLoggedIn: PropTypes.bool,
+    checkEmail: PropTypes.func
   },
 
   getDefaultProps(){
@@ -58,14 +58,10 @@ var RequestForm = React.createClass({
 
 //TODO implement real api
   onSubmit(){
-    console.log("submitting");
-    function checkIfEmailExistsStub(email){return true}
-
     if (this.props.isLoggedIn){
       this.props.onSubmit(this.props.form)
     }else{
-     const result = checkIfEmailExistsStub("email")
-
+      const result = this.props.checkEmail(this.props.form)
       this.setState({
         emailExists: result,
         showPopup: true

@@ -12,149 +12,53 @@ var user = React.createClass({
 
   propTypes: {
     profile: PropTypes.object,
-    editMode: PropTypes.bool,
-    toggleEditMode: PropTypes.func,
-    updateProfileValue: PropTypes.func,
-    save: PropTypes.func,
-    resetProfile: PropTypes.func,
-    deleteProfile: PropTypes.func
   },
 
   childContextTypes: {
-      profile:  PropTypes.object,
-      editMode:PropTypes.bool,
-      toggleEditMode: PropTypes.func,
-      registerActions: PropTypes.func,
-      update: PropTypes.func,
-      registerUpdate: PropTypes.func,
-      registerValidation: PropTypes.func,
-      validForSubmit: PropTypes.bool,
-      reset: PropTypes.func,
-      save: PropTypes.func,
-      resetting: PropTypes.bool,
-      updateValue: PropTypes.func,
-      deleteProfile: PropTypes.func
+      hideUserCard: PropTypes.func,
+      showUserCard: PropTypes.func,
   },
 
   getChildContext() {
    return {
-     profile: this.state.profile,
-     editMode: this.props.editMode,
-     toggleEditMode: this.props.toggleEditMode,
-     registerActions: this.registerActions,
-     update: this.props.updateProfileValue,
-     registerUpdate: this.registerUpdate,
-     registerValidation: this.registerValidation,
-     save: this.submit,
-     reset: this.reset,
-     updateValue: this.props.updateProfileValue,
-     deleteProfile: this.props.deleteProfile
+     hideUserCard: this.hideUserCard,
+     showUserCard: this.showUserCard
     }
   },
 
   getInitialState() {
     return {
-      actions: [],
-      profile: {},
-      isValid: false
+      showUserCard: true
     }
   },
 
-  componentWillMount(){
+
+  hideUserCard(){
     this.setState({
-      profile: this.props.profile
+      showUserCard: false
     })
   },
-
-  componentWillReceiveProps(nextProps){
-
-  },
-
-  actions: [],
-
-  registerActions(action) {
-    this.actions = [...this.actions, action]
+  showUserCard(){
     this.setState({
-      actions: this.actions
+      showUserCard: true
     })
-    return this.removeAction.bind(null, action)
   },
-
-  removeAction(ref) {
-    this.actions = without(this.actions, ref)
-    this.setState({
-      actions: this.actions
-    })
-
-  },
-
-
-  validations: [],
-
-  registerValidation(isValidFunc) {
-    this.validations = [...this.validations, isValidFunc]
-    return this.removeValidation.bind(null, isValidFunc)
-  },
-
-  removeValidation(ref) {
-    this.validations = without(this.validations, ref)
-  },
-
-  getUpdates:[],
-
-  registerUpdate(updateFunc) {
-    this.getUpdates = [...this.getUpdates, updateFunc]
-    return this.removeUpdates.bind(null, updateFunc)
-  },
-
-  removeUpdates(ref) {
-    this.getUpdates = without(this.getUpdates, ref)
-  },
-
-
-
-  isFormValid(showErrors) {
-     var isValid = this.validations.reduce((memo, isValidFunc) =>
-     isValidFunc(showErrors) && memo, true)
-
-     this.setState({
-       isValid
-     })
-     return isValid
-  },
-
-  submit(){
-    if (this.isFormValid(true)) {
-      this.props.save()
-    }
-  },
-
-  resetting: false,
-
-  reset(){
-    this.resetting = true
-    this.props.resetProfile()
-  },
-
 
   render() {
-
     return (
-
       <div>
         <UserHeader
           profile={this.props.profile}
+          hideInfo={!this.state.showUserCard}
         />
 
-
         <div  className="container">
-          <div className="row">
-            <div className="col-xs-4"></div>
-            <div style={{paddingTop:"15px"}} className="col-xs-8">
-
-              {  this.props.children}
-            </div>
+        <div className="row">
+          <div className={this.state.showUserCard ? "col-xs-4" : ""}></div>
+          <div style={{paddingTop:"11px"}} className={this.state.showUserCard ? "col-xs-8" : ""}>
+            {this.props.children}
           </div>
+        </div>
         </div>
       </div>)
 
