@@ -45,6 +45,9 @@ var ToggleButtonHandler = React.createClass({
      this.removeValidationFromContext = this.context.registerValidation(show =>
        this.isValid(show))
 
+      if (this.context.updateValue) {
+        this.context.updateValue(this.props.name, this.props.preToggled)
+      }
    },
 
    componentWillReceiveProps(nextProps){

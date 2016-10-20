@@ -67,6 +67,7 @@ export function updateProfileValue(name, value) {
 }
 
 export function resetProfile(profile) {
+  console.log(profile);
   return function (dispatch) {
     dispatch( function() { return {
         type: ActionTypes.RESET_PROFILE,

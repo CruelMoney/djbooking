@@ -19,7 +19,8 @@ var TextBox = React.createClass({
   contextTypes: {
     registerValidation: PropTypes.func.isRequired,
     updateValue: PropTypes.func,
-    isFormValid: PropTypes.func
+    isFormValid: PropTypes.func,
+    registerReset: PropTypes.func
   },
 
 
@@ -32,20 +33,26 @@ var TextBox = React.createClass({
     this.removeValidationFromContext = this.context.registerValidation(show =>
       this.isValid(show))
 
+    if (this.context.updateValue) {
+      this.context.updateValue(this.props.name, this.props.value)
+    }
+
+    if (this.context.registerReset) {
+      this.removeReset = this.context.registerReset(()=>this.setState({value: this.props.value}))
+    }
+
   },
 
   componentWillUnmount() {
     this.removeValidationFromContext()
-  },
+    if (this.removeReset) {
+      this.removeReset()
+    }  },
 
   timer: null,
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== undefined) {
-    this.setState({
-      value: nextProps.value
-    })
-  }
+
 },
 
   getDefaultProps() {
@@ -128,7 +135,7 @@ var TextBox = React.createClass({
         resize: 'none',
         borderRadius: '6px',
         padding: '4px',
-
+        transition: 'border 0.4s',
         ':focus': {
           borderColor:  this.props.muiTheme.palette.primary1Color
         }

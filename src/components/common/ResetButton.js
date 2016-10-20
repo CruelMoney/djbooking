@@ -8,11 +8,11 @@ export default React.createClass({
   },
 
   contextTypes: {
-      onSubmit: PropTypes.func,
+      reset: PropTypes.func,
     },
 
     handleClick(e){
-    this.context.onSubmit()
+    this.context.reset()
     this.props.onClick()
     },
 

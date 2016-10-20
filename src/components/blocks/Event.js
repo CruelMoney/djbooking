@@ -18,6 +18,7 @@ import Card from 'material-ui/Paper'
 import TextWrapper from '../common/TextElement'
 import ToggleButton from '../common/ToggleButton'
 import SubmitButton from '../common/SubmitButton'
+import ResetButton from '../common/ResetButton'
 
 
 import muiThemeable from 'material-ui/styles/muiThemeable'
@@ -43,6 +44,12 @@ var Event = React.createClass({
       endTime: 0,
       editMode: false
     }
+  },
+
+  componentWillMount(){
+    this.setState({
+      guests: this.props.event.guestsCount
+    })
   },
 
 
@@ -174,7 +181,8 @@ var Event = React.createClass({
                   label="Event Info"
                 >
                 <Form
-                  onSubmit={()=>console.log("go fuck yourself")}
+                  name={"event-info-" + this.props.event.id}
+                  onSubmit={(form)=>console.log("go fuck yourself")}
                   isloading={false}
                 >
                 <TextWrapper
@@ -240,20 +248,26 @@ var Event = React.createClass({
                         active={this.state.infoEditMode}
                         rounded={true}
                         label="Save"
-                        onClick={this.props.saveEventInfo}
                         name="save_event_info"
                       />
                     :
                     null}
-                    <ToggleButton
+                    {this.state.infoEditMode ?
+                      <ResetButton
                       active={this.state.infoEditMode}
                       rounded={true}
-                      labelToggled="Cancel edit"
+                      label="Reset changes"
+                      onClick={()=>{this.setState({infoEditMode:false})}}
+                      name="reset_event_info"/>
+
+                    :
+                    <Button
+                      active={this.state.infoEditMode}
+                      rounded={true}
                       label="Edit"
                       onClick={()=>{this.setState({infoEditMode:true})}}
-                      onClickToggled={()=>{this.setState({infoEditMode:false})}}
                       name="edit_event_info"
-                    />
+                    />}
 
 
                     { this.state.infoEditMode ?
@@ -288,8 +302,9 @@ var Event = React.createClass({
                   label="DJ Requirements"
                 >
                 <Form
-                  onSubmit={()=>console.log("go fuck yourself")}
+                  onSubmit={(form)=>console.log("go fuck yourself")}
                   isloading={false}
+                  name={"event-requirements-" + this.props.event.id}
                 >
                 <TextWrapper
                   label="Speakers"
@@ -298,6 +313,7 @@ var Event = React.createClass({
                 <ToggleOptions
                   name="speakers"
                   glued={true}
+                  value={this.props.event.needSpeakers}
                   validate={['required']}
                   disabled={!this.state.requirementsEditMode}
                 >
@@ -329,31 +345,38 @@ var Event = React.createClass({
                 />
                 </TextWrapper>
 
+                                    <div className="event-info-action-buttons">
+
+
+                                      {this.state.requirementsEditMode ?
+                                        <SubmitButton
+                                          active={this.state.requirementsEditMode}
+                                          rounded={true}
+                                          label="Save"
+                                          name="save_requirements"
+                                        />
+                                      :
+                                      null}
+                                      {this.state.requirementsEditMode ?
+                                        <ResetButton
+                                        active={this.state.requirementsEditMode}
+                                        rounded={true}
+                                        label="Reset changes"
+                                        onClick={()=>{this.setState({requirementsEditMode:false})}}
+                                        name="reset_requirements"/>
+
+                                      :
+                                      <Button
+                                        active={this.state.requirementsEditMode}
+                                        rounded={true}
+                                        label="Edit"
+                                        onClick={()=>{this.setState({requirementsEditMode:true})}}
+                                        name="edit_requirements"
+                                      />}
+
+                                        </div>
                     </Form>
 
-                    <div className="event-info-action-buttons">
-
-                      {this.state.requirementsEditMode ?
-                        <SubmitButton
-                          active={this.state.requirementsEditMode}
-                          rounded={true}
-                          label="Save"
-                          onClick={this.props.saveEventInfo}
-                          name="save_requirements_info"
-                        />
-                      :
-                      null}
-                      <ToggleButton
-                        active={this.state.requirementsEditMode}
-                        rounded={true}
-                        labelToggled="Cancel edit"
-                        label="Edit"
-                        onClick={()=>{this.setState({requirementsEditMode:true})}}
-                        onClickToggled={()=>{this.setState({requirementsEditMode:false})}}
-                        name="edit_requirements"
-                      />
-
-                        </div>
 
                 </Collapsible>
 

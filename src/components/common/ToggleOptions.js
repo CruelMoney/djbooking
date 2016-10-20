@@ -29,6 +29,7 @@ var ToggleOptions = React.createClass({
      updateValue: PropTypes.func,
      values: PropTypes.object.isRequired,
      registerValidation: PropTypes.func.isRequired,
+     registerReset: PropTypes.func
    },
 
    componentWillMount() {
@@ -39,11 +40,22 @@ var ToggleOptions = React.createClass({
      }
      this.removeValidationFromContext = this.context.registerValidation(show =>
        this.isValid(show))
+
+
+     if (this.context.updateValue) {
+       this.context.updateValue(this.props.name, this.props.value)
+     }
+
+     if (this.context.registerReset) {
+       this.removeReset = this.context.registerReset(()=>this.setState({value: this.props.value}))
+     }
    },
 
    componentWillUnmount() {
      this.removeValidationFromContext()
-   },
+     if (this.removeReset) {
+       this.removeReset()
+     }   },
 
    isValid(showErrors) {
      const errors = (!this.state.value) ? ["You have to choose an option"] : []

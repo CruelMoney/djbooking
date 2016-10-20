@@ -26,7 +26,8 @@ var Text = React.createClass({
   contextTypes: {
     registerValidation: PropTypes.func.isRequired,
     updateValue: PropTypes.func,
-    isFormValid: PropTypes.func
+    isFormValid: PropTypes.func,
+  registerReset: PropTypes.func
   },
 
   componentWillMount() {
@@ -36,10 +37,21 @@ var Text = React.createClass({
       this.setState({
         value: this.props.defaultValue || ""
       })
+
+      if (this.context.updateValue) {
+        this.context.updateValue(this.props.name, this.props.defaultValue)
+      }
+
+      if (this.context.registerReset) {
+        this.removeReset = this.context.registerReset(()=>this.setState({value: this.props.defaultValue}))
+      }
   },
 
   componentWillUnmount() {
     this.removeValidationFromContext()
+    if (this.removeReset) {
+      this.removeReset()
+    }
   },
 
 

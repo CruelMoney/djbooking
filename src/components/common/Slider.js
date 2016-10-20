@@ -23,14 +23,26 @@ var Slider = React.createClass({
       values: this.props.initialValues
     })
     this.context.updateValue(this.props.name, this.props.initialValues)
+
+    if (this.context.registerReset) {
+      this.removeReset = this.context.registerReset(()=>{
+      this.handleChange(this.props.initialValues)}
+      )
+    }
   },
+
+  componentWillUnmount(){
+    if (this.removeReset) {
+      this.removeReset()
+    }  },
 
   contextTypes: {
     resetting: PropTypes.bool,
     isFormValid: PropTypes.func,
     registerValidation: PropTypes.func.isRequired,
     updateValue: PropTypes.func,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    registerReset: PropTypes.func
   },
 
 
@@ -42,14 +54,14 @@ var Slider = React.createClass({
       values
     })
 
-    if (this.context) {
-      if (this.context.isFormValid) {
-        this.context.isFormValid(false)
-      }
-      if (this.context.updateValue) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(
+      ()=>{if (this.context.updateValue) {
         this.context.updateValue(this.props.name, values)
-      }
-    }
+      }}
+      , 500);
+
+
   },
 
   render() {
@@ -59,10 +71,10 @@ var Slider = React.createClass({
           disabled={this.props.disabled}
           range={this.props.range}
           step={this.props.step}
-          start={this.state.values}
+          start={this.state.values.map(val => Number(val))}
           connect={this.props.connect}
           onChange={this.handleChange}
-          onSlide={this.props.onSlide}
+          onSlide={this.handleChange}
           format={this.props.format}
         />
     )

@@ -34,11 +34,12 @@ const form = React.createClass({
       updateValue: PropTypes.func,
       isLoading: PropTypes.bool,
       isValid: PropTypes.bool,
-      submit: PropTypes.func
+      submit: PropTypes.func,
+      registerReset: PropTypes.func
     },
     getChildContext() {
       return {
-        reset: this.props.reset,
+        reset: this.reset,
         registerValidation: this.registerValidation,
         isFormValid: this.isFormValid,
         updateFilters: this.updateFilters,
@@ -46,9 +47,26 @@ const form = React.createClass({
         updateValue: this.props.updateValue,
         isLoading: this.props.isLoading,
         isValid: this.state.isValid,
-        submit: this.submit
+        submit: this.submit,
+        registerReset: this.registerReset,
       }
     },
+
+    resetFuncs: [],
+
+    registerReset(resetFunc){
+      this.resetFuncs = [...this.resetFuncs, resetFunc]
+      return this.removeReset.bind(null, resetFunc)
+    },
+
+    removeReset(ref) {
+      this.resetFuncs = without(this.resetFuncs, ref)
+    },
+
+
+   reset(){
+     this.resetFuncs.forEach(f=>f())
+   },
 
    validations: [],
 

@@ -14,7 +14,8 @@ var TimeSlider = React.createClass({
       resetting: PropTypes.bool,
       isFormValid: PropTypes.func,
       registerValidation: PropTypes.func.isRequired,
-      updateValue: PropTypes.func
+      updateValue: PropTypes.func,
+      registerReset: PropTypes.func
     },
 
   componentWillMount(){
@@ -27,7 +28,16 @@ var TimeSlider = React.createClass({
       })
 
       this.updateContext(this.props.date, startTime.unix(), endTime.unix())
+
+      if (this.context.registerReset) {
+        this.removeReset = this.context.registerReset(()=>
+        this.handleChange(
+          [startTime.unix(), endTime.unix()]
+        ))
+      }
   },
+
+
 
   componentWillReceiveProps(nextprops){
     if (nextprops.date.unix() !== this.props.date.unix()) {
@@ -37,6 +47,29 @@ var TimeSlider = React.createClass({
 
 
   componentWillUnmount(){
+    if (this.removeReset) {
+      this.removeReset()
+    }  },
+
+  timer : null,
+
+  handleChange(values){
+    if (this.props.onChange)
+    {this.props.onChange(values)}
+
+    this.setState({
+      startTime: values[0],
+      endTime: values[1]
+    })
+
+    clearTimeout(this.timer);
+    this.timer = setTimeout(
+      ()=>{
+      if (this.context.updateValue) {
+        this.updateContext(this.props.date, values[0], values[1])
+      }}
+      , 500);
+
 
   },
 
@@ -90,17 +123,7 @@ var TimeSlider = React.createClass({
               startTime,
               endTime
             ]}
-            handleChange={(values) => {
-              this.setState({
-                startTime: values[0],
-                endTime: values[1]
-              })
-              if (this.context.updateValue) {
-                this.updateContext(this.props.date, values[0], values[1])
-              }
-              if (this.props.onChange)
-              {this.props.onChange(values)}
-            }}
+            handleChange={this.handleChange}
             format={ wNumb({
               decimals: 0,
             })}
