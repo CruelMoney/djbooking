@@ -66,7 +66,7 @@ var Reviews = React.createClass({
               children={
                 <div style={{width:'30%', textAlign:'right', paddingRight:'37px', float:'right'}}>
                   <div style={{margin:'0px'}}>
-                    <Rating rating={review.rating}/>
+                    <Rating editable={false} rating={review.rating}/>
                   </div>
                 </div>}
             />

@@ -797,3 +797,23 @@ font-weight: 100;
   border-bottom: 2px solid #eee;
   width: 100%;
 }
+
+.form-error{
+  color: rgb(244, 67, 54);
+  margin-top: 10px;
+}
+
+svg{
+  overflow: visible !important;
+}
+.ratingStar{
+  transition: transform 0.1s ease;
+  fill: #cecece ;
+
+}
+.ratingStar.active{
+  fill: #1edaf2 ;
+}
+.ratingStar.active:active{
+  transform: translateX(0px) translateY(0px) scale(1.4);
+}

@@ -97,3 +97,51 @@ export function postEvent(form) {
         }})
   }
 }
+
+
+export function updateEvent(event, callback) {
+  return function(dispatch){
+  var data = converter.cueupEvent.toDTO(event);
+  var id = event.id;
+
+  const token = auth.getToken()
+  cueup.updateEvent(token, id, data, function(err, result){
+    if (err) {
+      (callback(err))
+    }else{
+      (callback(null))
+    }
+  })
+}
+}
+
+export function reviewEvent(review, callback) {
+  return function(dispatch){
+  var data = converter.review.toDTO(review);
+  var id = review.eventId;
+
+  const token = auth.getToken()
+  cueup.reviewEvent(token, id, data, function(err, result){
+    if (err) {
+      (callback(err))
+    }else{
+      (callback(null))
+    }
+  })
+}
+}
+
+
+export function cancelEvent(id, callback) {
+  return function(dispatch){
+
+  const token = auth.getToken()
+  cueup.cancelEvent(token, id, function(err, result){
+    if (err) {
+      (callback(err))
+    }else{
+      (callback(null))
+    }
+  })
+}
+}

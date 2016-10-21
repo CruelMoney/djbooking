@@ -6,6 +6,8 @@ import wNumb from 'wnumb'
 var TimeSlider = React.createClass({
   propTypes:{
     date: PropTypes.object, //moment object
+    startTime: PropTypes.object,
+    endTime: PropTypes.object,
     disabled: PropTypes.bool,
     onChange: PropTypes.func
   },
@@ -18,21 +20,26 @@ var TimeSlider = React.createClass({
       registerReset: PropTypes.func
     },
 
+    initStart: moment().hour(21).minutes(0),
+    initEnd:  moment().hour(27).minutes(0),
+
   componentWillMount(){
-    const startTime =  moment().hour(21).minutes(0)            // default starttime
-    const endTime   =  moment(startTime).hour(27).minutes(0)                   // default endtime
+    if (this.props.startTime && this.props.endTime) {
+      this.initStart = moment(this.props.startTime)
+      this.initEnd   = moment(this.props.endTime)
+    }
 
       this.setState({
-        startTime: startTime.unix(),
-        endTime: endTime.unix()
+        startTime: moment(this.initStart).unix(),
+        endTime: moment(this.initEnd).unix()
       })
 
-      this.updateContext(this.props.date, startTime.unix(), endTime.unix())
+      this.updateContext(this.props.date, this.initStart.unix(), this.initEnd.unix())
 
       if (this.context.registerReset) {
         this.removeReset = this.context.registerReset(()=>
         this.handleChange(
-          [startTime.unix(), endTime.unix()]
+          [this.initStart.unix(), this.initEnd.unix()]
         ))
       }
   },
@@ -101,11 +108,11 @@ var TimeSlider = React.createClass({
 
 
   render() {
-    const rangeMin  =  moment().hour(7).minutes(0)
+    const rangeMin  =  moment(this.initStart).hour(7).minutes(0)
     const rangeMax  =  moment(rangeMin).hour(32).minutes(0)
 
-    const startTime = this.state.startTime
-    const endTime = this.state.endTime
+    const startTime = this.initStart.unix()
+    const endTime = this.initEnd.unix()
 
     return (
       <div>
@@ -136,9 +143,9 @@ var TimeSlider = React.createClass({
             justifyContent: 'space-between',
             marginTop: '10px'
           }}>
-          <p>{"Start: " + moment.unix(startTime).format("HH:mm")}</p>
-          <p>{"Hours: " + moment.unix(endTime).diff(moment.unix(startTime))/60/60/1000 }</p>
-          <p>{"End: " + moment.unix(endTime).format("HH:mm")}</p>
+          <p>{"Start: " + moment.unix(this.state.startTime).format("HH:mm")}</p>
+          <p>{"Hours: " + moment.unix(this.state.endTime).diff(moment.unix(this.state.startTime))/60/60/1000 }</p>
+          <p>{"End: " + moment.unix(this.state.endTime).format("HH:mm")}</p>
         </div>
       </div>
     )

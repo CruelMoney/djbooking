@@ -1,6 +1,44 @@
 import Formatter from './Formatter'
 
 
+    const location ={
+      fromDTO(DTO){
+        return{
+          lat:  DTO.lat,
+          lng:  DTO.lng,
+          name: DTO.name
+        }
+      },
+      toDTO(location){
+        return{
+          lat:  location.lat,
+          lng:  location.lng,
+          name: location.name
+        }
+      }
+    }
+    const review ={
+      fromDTO: function(DTO){
+        return{
+          eventLocation: location.fromDTO(DTO.eventLocation),
+          eventDate: DTO.eventDate,
+          eventName: DTO.eventName,
+          author: DTO.reviewer.name,
+          authorPicture: DTO.reviewer.picture,
+          description: DTO.description,
+          date: new Date(DTO.date),
+          rating: DTO.rating,
+          DJId: DTO.djId
+        }
+      },
+      //The API will automatically assign the rest of the review properties
+      toDTO(review){
+        return{
+        description: review.description,
+        rating: review.rating,
+        }
+      }
+    }
 
     const user ={
       fromDTO: function(DTO) {
@@ -14,7 +52,7 @@ import Formatter from './Formatter'
           user_id   : DTO.user_id,
           genres:     DTO.genres,
           createdAt : DTO.createdAt,
-          reviewed : DTO.reviewed,
+          reviews : DTO.reviews ? DTO.reviews.map(r => review.fromDTO(r)) : [],
 
           // user_metadata stuff here
             address:        DTO.user_metadata.address,
@@ -70,22 +108,7 @@ import Formatter from './Formatter'
         }
       }
     }
-    const location ={
-      fromDTO(DTO){
-        return{
-          lat:  DTO.lat,
-          lng:  DTO.lng,
-          name: DTO.name
-        }
-      },
-      toDTO(location){
-        return{
-          lat:  location.lat,
-          lng:  location.lng,
-          name: location.name
-        }
-      }
-    }
+
     const offer={
       fromDTO:function(DTO){
         return{
@@ -104,6 +127,7 @@ import Formatter from './Formatter'
           }
       }
     }
+
     const cueupEvent ={
 
       fromDTO:function(DTO){
@@ -124,7 +148,8 @@ import Formatter from './Formatter'
             minPrice : DTO.minPrice,
             maxPrice: DTO.maxPrice,
             needSpeakers: DTO.needSpeakers,
-            date: Formatter.date.ToEU(DTO.startTime)
+            date: Formatter.date.ToEU(DTO.startTime),
+            review: DTO.review ? review.fromDTO(DTO.review) : null
           }
       },
       toDTO:function(event){
@@ -133,7 +158,7 @@ import Formatter from './Formatter'
           Description: event.description,
           Name: event.name,
           ChosenOfferId: event.chosenOfferId,
-          Location: location.toDTO(event.locationDTO),
+          Location: location.toDTO(event.location),
           StartTime: event.startTime,
           EndTime: event.endTime,
           GuestsCount: event.guestsCount,
@@ -147,8 +172,11 @@ import Formatter from './Formatter'
 
 
 
+
+
 export default{
 user,
 location,
 offer,
-cueupEvent}
+cueupEvent,
+review}

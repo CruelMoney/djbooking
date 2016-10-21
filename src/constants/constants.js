@@ -47,8 +47,10 @@ module.exports = {
     FETCH_EVENTS_SUCCEEDED:null,
     FETCH_EVENTS_FAILED:null,
 
-    FETCHING_REVIEWS:null,
-    REVIEWS_FETCHED:null,
+    
+    FETCH_REVIEWS_REQUESTED:null,
+    FETCH_REVIEWS_SUCCEEDED:null,
+    FETCH_REVIEWS_FAILED:null,
 
     CREATE_EVENT_REQUESTED:null,
     CREATE_EVENT_FAILED:null,
@@ -57,7 +59,7 @@ module.exports = {
     CHECK_EMAIL_REQUESTED: null,
     CHECK_EMAIL_FAILED: null,
     CHECK_EMAIL_SUCCEEDED:null
-    
+
   }),
    GENRES: [
     {name: "70's"},

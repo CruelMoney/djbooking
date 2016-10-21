@@ -60,7 +60,7 @@ var Button = React.createClass({
         MozTransition: 'all 0.1s ease-in-out',
         transition: 'all 0.1s ease-in-out',
         height: '40px',
-        width: '100%',
+        width: this.props.isLoading ? '40px' : '100%',
         outline: "none",
         animation: this.props.isLoading ? "rotating 2s 0.25s linear infinite" : null,
 

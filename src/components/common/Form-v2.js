@@ -14,7 +14,9 @@ const form = React.createClass({
       updateFilters: PropTypes.func,
       updateValue: PropTypes.func,
       activeFilters: PropTypes.arrayOf(PropTypes.object),
-      isLoading: PropTypes.bool
+      isLoading: PropTypes.bool,
+      err: PropTypes.string,
+      form: PropTypes.object
     },
 
     getInitialState() {
@@ -34,8 +36,8 @@ const form = React.createClass({
       updateValue: PropTypes.func,
       isLoading: PropTypes.bool,
       isValid: PropTypes.bool,
-      submit: PropTypes.func,
-      registerReset: PropTypes.func
+      onSubmit: PropTypes.func,
+      registerReset: PropTypes.func,
     },
     getChildContext() {
       return {
@@ -47,7 +49,7 @@ const form = React.createClass({
         updateValue: this.props.updateValue,
         isLoading: this.props.isLoading,
         isValid: this.state.isValid,
-        submit: this.submit,
+        onSubmit: this.submit,
         registerReset: this.registerReset,
       }
     },
@@ -100,18 +102,27 @@ const form = React.createClass({
        })
    },
 
-   submit(){
+   submit(submitActions){
      if (this.isFormValid(true)) {
-         this.props.onSubmit()
-}
+         this.props.onSubmit(submitActions)
+       }
    },
 
 
   render() {
     return (
+      <div>
       <form >
         {this.props.children}
       </form>
+      {this.props.err ?
+        <div className="form-error">
+        {this.props.err}
+        </div>
+        :null
+      }
+      </div>
+
 
     )
   }

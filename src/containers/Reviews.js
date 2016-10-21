@@ -6,7 +6,7 @@ import * as actions from '../actions/ReviewActions'
 
 function mapStateToProps(state, ownProps) {
   return {
-    reviews:  state.reviews.values,
+    reviews:  state.reviews.values ? state.reviews.values : [],
   }
 }
 

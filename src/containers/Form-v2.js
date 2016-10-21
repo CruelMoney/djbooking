@@ -10,8 +10,12 @@ function mapStateToProps(state, ownprops) {
     activeFilters: state.forms[ownprops.name] ? state.forms[ownprops.name].filters : [],
     children: ownprops.children,
     form: state.forms[ownprops.name] ? state.forms[ownprops.name] : {},
+    isLoading: state.forms[ownprops.name] ? state.forms[ownprops.name].status.submitting : false,
+    err:  state.forms[ownprops.name] ? state.forms[ownprops.name].status.err : null
   }
 }
+
+
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
@@ -21,7 +25,11 @@ function mapDispatchToProps(dispatch, ownProps) {
     updateFilters: (filter, value) => {
       dispatch(actions.updateFilters(filter, value, ownProps.name))
     },
-    onSubmit: (form) => ownProps.onSubmit(form)
+    onSubmit: (form, submitActions) => {
+      dispatch(actions.submitRequested(ownProps.name))
+      submitActions(form,
+        (err)=>dispatch(actions.handleSubmitResult(ownProps.name, err))
+      )}
 }
 }
 
@@ -30,7 +38,10 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     children: stateProps.children,
     updateValue: dispatchProps.updateValue,
     updateFilters: (filter, value) => dispatchProps.updateFilters(filter, value, ownProps.name),
-    onSubmit: () => dispatchProps.onSubmit(stateProps.form)
+    onSubmit: (submitActions) => dispatchProps.onSubmit(stateProps.form, submitActions),
+    err: stateProps.err,
+    isLoading: stateProps.isLoading,
+    form: stateProps.form
   })
 }
 

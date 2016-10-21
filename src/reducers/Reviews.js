@@ -9,16 +9,16 @@ const initialState = { //define initial state - an empty form
 
 const reviews = (state = initialState, action) => {
   switch (action.type) {
-  case ActionTypes.FETCHING_REVIEWS:
+  case ActionTypes.FETCH_REVIEWS_REQUESTED:
       return {
               isWaiting: true
              }
-  case ActionTypes.REVIEWS_FETCHED:
+  case ActionTypes.FETCH_REVIEWS_SUCCEEDED:
       return {
-        values: action.value,
+        values: action.reviews,
         isWaiting: false
              }
- case ActionTypes.REVIEWS_FETCH_FAILED:
+ case ActionTypes.FETCH_REVIEWS_FAILED:
      return {
        err: action.err,
        isWaiting: false

@@ -13,9 +13,12 @@ export default class CueupService {
             return {method: 'GET', headers: headers};
         }
         this.postInit = function(data, headers) {
+          console.log(data);
             return {method: 'POST', headers: headers, body: JSON.stringify(data)};
         }
         this.putInit = function(data, headers) {
+          console.log(data);
+
             return {method: 'PUT', headers: headers, body: JSON.stringify(data)};
         }
         this.deleteInit = function(headers) {
@@ -103,6 +106,12 @@ export default class CueupService {
       this.postInit(data, this.getHeaders("")),
       callback)
    }
+   getUserReviews(token, callback) {
+     return this.fetchHandling(
+       `${this.domain}/api/user/reviews`,
+       this.getInit(this.getHeaders(token)),
+       callback
+     )}
    //USER ACTIONS END
 
 
@@ -122,4 +131,24 @@ export default class CueupService {
        callback
      )}
 
+   updateEvent(token, id, data, callback) {
+     return this.fetchHandling(
+       `${this.domain}/api/event/${id}`,
+       this.putInit(data, this.getHeaders(token)),
+       callback
+     )}
+
+   reviewEvent(token, id, data, callback) {
+     return this.fetchHandling(
+       `${this.domain}/api/event/${id}/review`,
+       this.postInit(data, this.getHeaders(token)),
+       callback
+     )}
+
+   cancelEvent(token, id, callback) {
+     return this.fetchHandling(
+       `${this.domain}/api/event/${id}/cancel`,
+       this.putInit("", this.getHeaders(token)),
+       callback
+     )}
 }

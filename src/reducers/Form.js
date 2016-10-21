@@ -49,7 +49,7 @@ const status  = (state = {submitting:false}, action) => {
     case ActionTypes.FORM_SUBMIT_REQUESTED:
       return {submitting:true}
     case ActionTypes.FORM_SUBMIT_FAILED:
-      return {submitting:false, error: action.err}
+      return {submitting:false, err: action.err}
     case ActionTypes.FORM_SUBMIT_SUCCEEDED:
       return {submitting:false}
   default:

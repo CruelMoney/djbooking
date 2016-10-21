@@ -19,13 +19,17 @@ import TextWrapper from '../common/TextElement'
 import ToggleButton from '../common/ToggleButton'
 import SubmitButton from '../common/SubmitButton'
 import ResetButton from '../common/ResetButton'
-
+import assign from 'lodash.assign'
+import ReviewForm from './ReviewForm'
 
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
 
+
 var Event = React.createClass({
   propTypes: {
+    updateEvent: PropTypes.func,
+    reviewEvent: PropTypes.func,
     event: PropTypes.object,
     payEvent: PropTypes.func,
     cancelEvent: PropTypes.func,
@@ -50,6 +54,26 @@ var Event = React.createClass({
     this.setState({
       guests: this.props.event.guestsCount
     })
+  },
+
+  mergeEventForm(form, event){
+    const updatedEvent = assign(event, form.values, {
+             guestsCount: form.values.guests ? form.values.guests[0] : event.guestsCount
+   })
+   return updatedEvent;
+  },
+
+  updateEvent(form, callback) {
+      this.props.updateEvent(this.mergeEventForm(form, this.props.event), callback)
+  },
+
+  submitReview(form, callback) {
+      const review = assign(form.values, {eventId : this.props.event.id})
+      this.props.reviewEvent(review, callback)
+  },
+
+  cancelEvent(form, callback) {
+      this.props.cancelEvent(this.props.event.id, callback)
   },
 
 
@@ -182,8 +206,6 @@ var Event = React.createClass({
                 >
                 <Form
                   name={"event-info-" + this.props.event.id}
-                  onSubmit={(form)=>console.log("go fuck yourself")}
-                  isloading={false}
                 >
                 <TextWrapper
                     label="Event name"
@@ -249,6 +271,7 @@ var Event = React.createClass({
                         rounded={true}
                         label="Save"
                         name="save_event_info"
+                        onClick={this.updateEvent}
                       />
                     :
                     null}
@@ -271,11 +294,11 @@ var Event = React.createClass({
 
 
                     { this.state.infoEditMode ?
-                        <Button
+                        <SubmitButton
                           rounded={true}
+                          onClick={this.cancelEvent}
                           label="Cancel event"
                           dangerous={true}
-                          onClick={this.props.cancelEvent}
                           name="cancel_event"
                         />
                        : null }
@@ -302,8 +325,6 @@ var Event = React.createClass({
                   label="DJ Requirements"
                 >
                 <Form
-                  onSubmit={(form)=>console.log("go fuck yourself")}
-                  isloading={false}
                   name={"event-requirements-" + this.props.event.id}
                 >
                 <TextWrapper
@@ -311,7 +332,7 @@ var Event = React.createClass({
                   text="Do you need the DJ to bring speakers for the event?"
                 >
                 <ToggleOptions
-                  name="speakers"
+                  name="needSpeakers"
                   glued={true}
                   value={this.props.event.needSpeakers}
                   validate={['required']}
@@ -342,6 +363,9 @@ var Event = React.createClass({
                 <TimeSlider
                   disabled={!this.state.requirementsEditMode}
                   date={moment(this.props.event.startTime)}
+                  startTime={this.props.event.startTime}
+                  endTime={this.props.event.endTime}
+
                 />
                 </TextWrapper>
 
@@ -354,6 +378,7 @@ var Event = React.createClass({
                                           rounded={true}
                                           label="Save"
                                           name="save_requirements"
+                                          onClick={this.updateEvent}
                                         />
                                       :
                                       null}
@@ -400,7 +425,12 @@ var Event = React.createClass({
                   name="EventReview"
                   label="Review"
                 >
-
+                <ReviewForm
+                name={"event-review-" + this.props.event.id}
+                dj={this.props.event.offers.find(e=>e.gigID === this.props.event.chosenOfferId).dj}
+                review={this.props.event.review}
+                submitReview={this.submitReview}
+                />
                 </Collapsible>
                 :
                 <Collapsible
