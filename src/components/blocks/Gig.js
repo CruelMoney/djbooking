@@ -2,7 +2,15 @@ import React, { PropTypes } from 'react'
 import Radium from 'radium'
 import Button from '../common/Button'
 import TextField from 'material-ui/TextField'
-import {Card, CardHeader} from 'material-ui/Card'
+import Formatter from '../../utils/Formatter'
+import {Card} from 'material-ui/Card'
+import TextWrapper from '../common/TextElement'
+import ToggleOptions from '../common/ToggleOptions'
+import {CollapsibleContainer, Collapsible} from '../common/Collapsible'
+import Form from '../../containers/Form-v2'
+import SubmitButton from '../common/SubmitButton'
+import assign from 'lodash.assign'
+
 
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
@@ -10,61 +18,73 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 var Gig = React.createClass({
   propTypes: {
     gig: PropTypes.object,
+    bankInfoIsValid: PropTypes.bool,
+    currency: PropTypes.string,
     declineGig: PropTypes.func,
-    acceptGig: PropTypes.func,
+    cancelGig: PropTypes.func,
     updateGig: PropTypes.func
   },
 
-  getInitialState(){
-    return{
-      price: 0
+  updateOffer(form, callback){
+    if (this.props.bankInfoIsValid) {
+      const offer = assign(form.values, {currency : this.props.currency})
+      this.props.updateGig(offer, callback)
     }
   },
-
-
-  componentWillMount() {
-    if (this.props.gig.price !== undefined) {
-      this.setState({
-        price: this.props.gig.price
-      })
-    }
-  },
-
-  onChangePrice(event){
-    this.setState({
-      price: event.target.value
-    })
-  },
-
 
   render() {
 
     const styles ={
-      medium:{
+
+      inline:{
+        display: 'inline-block'
+      },
+      flex:{
+        display: 'flex',
+        alignItems: 'center'
+      },
+      large:{
         textarea: {
-          height: '40px',
-          textAlign: 'center',
+          height: '80px',
         },
 
         paragraph: {
-          fontSize: '30px',
-          textAlign: 'center',
+          fontSize: '14px',
         },
 
         input:{
-          fontSize: '30px',
+          fontSize: '24px',
           height: 'initial',
-          textAlign: 'center',
           color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
 
         hint:{
+          bottom: '20px',
           fontSize: '30px',
-          height: 'initial',
           fontWeight: '300',
-          textAlign: 'center',
-          width: '100%'
+        }
+      },
+      medium:{
+        textarea: {
+          height: '40px',
+        },
+
+        paragraph: {
+          fontSize: '14px',
+        },
+
+        input:{
+          fontSize: '14px',
+          height: 'initial',
+          color: this.props.muiTheme.palette.textColor,
+          fontWeight: '300',
+        },
+
+        hint:{
+          bottom: '20px',
+          fontSize: '30px',
+          fontWeight: '300',
         },
 
       },
@@ -93,128 +113,302 @@ var Gig = React.createClass({
           position: 'absolute',
           width: '100%',
           display: 'none',
-        }
+        },
+        image:{
+          backgroundImage: 'url('+this.props.gig.customer.picture+')',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundSize: 'auto 150%',
+          width: '68px',
+          height: '68px',
+          borderRadius: '50%',
+        },
     }
 
+    var genres = ""
+    const length = this.props.gig.genres.length
+    this.props.gig.genres.forEach(function(genre, i) {
+      if (i+1 === length) {
+        genres = genres + genre
+      }else{
+        genres = genres + genre + ", "
+      }
+    })
 
-      var genres = []
-      this.props.gig.genres.forEach(function(genre, i) {
-         genres.push(<td style={{paddingRight:"10px"}}>{genre}</td>)}
-      )
 
-    return (
+      return (
+        <Card
+          z-index={1}
+          className="gig"
 
-      <Card
-        initiallyExpanded={this.props.gig.status === "REQUESTED"}
-        style={{marginBottom: '20px',}}>
-        <CardHeader
-          style={{paddingLeft:'50px'}}
-          title={this.props.gig.name }
-          subtitle={this.props.gig.location}
-          actAsExpander={true}
-          showExpandableButton={true}
-          children={
-            <div style={{width:'30%', textAlign:'right', paddingRight:'37px', float:'right'}}>
-              <p style={{margin:'0px'}}>{this.props.gig.date}</p>
-              <p style={{opacity:'0.6'}}>{this.props.gig.startTime + " to " + this.props.gig.endTime}</p>
-            </div>}
-        />
-        <div
-          style={{
-            width:'100%',
-            padding: '50px',
-            paddingTop: '0px',
-            paddingBottom: '20px',
-
-          }}
-          expandable={true}
         >
-          <div className="row">
-            <div className="col-sm-8">
-              <tr style={{fontStyle:'italic'}}>{genres}</tr>
-
-              <p style={{ marginTop: '20px'}}> {this.props.gig.description} </p>
-
-            </div>
-            <div className="col-sm-4" >
-              <div style={{border:"1px solid #eee", padding: "4px", marginTop:'38px'}}>
-                <p style={{textAlign:'right'}} >Around {this.props.gig.guests} guests</p>
-                <p style={{textAlign:'right'}} >Speakers necessary: {this.props.gig.speakers}</p>
-                <p style={{textAlign:'right'}} >{this.props.gig.contact.name}</p>
-                <p style={{textAlign:'right'}} type="tel">{this.props.gig.contact.phone}</p>
-                <p style={{textAlign:'right'}} type="email">{this.props.gig.contact.email}</p>
-              </div>
-            </div>
-          </div>
 
 
-          <div className="row">
-            <div className="col-xs-4 col-xs-offset-4"
-              style={{marginBottom: '20px',marginTop: '20px'}}>
-              <TextField
-                onChange={this.onChangePrice}
-                hintStyle={styles.medium.hint}
-                style={styles.medium.textarea}
-                inputStyle={styles.medium.input}
-                disabled={this.props.gig.status === "LOST" || this.props.gig.status === "CONFIRMED" || this.props.gig.status === "PLAYED" }
-                type="number"
-                fullWidth={true}
-                defaultValue={this.props.gig.price}
-              />
-            </div>
-          </div>
-
-          { (this.props.gig.status === "REQUESTED" ||
-            this.props.gig.status  === "ACCEPTED" ||
-            this.props.gig.status  === "CONFIRMED")
-            ?
-              <div className="row">
-                <div className="col-xs-6">
-                  <Button
-                    rounded={true}
-                    label="Decline"
-                    onClick={ () => this.props.declineGig(this.props.gig.ID)}
-                  />
+          <div className="col-xs-12">
+            <div className="event-top">
+              <div>
+                <div className="event-name">
+                  {this.props.gig.name}
                 </div>
-                {this.props.gig.status === "REQUESTED" ?
-                  <div className="col-xs-6">
-                    <Button
-                      rounded={true}
-                      label="Offer gig"
-                      onClick={ () => this.props.acceptGig(this.props.gig.ID, this.state.price)}
-                    />
-                  </div>
-                  :
-                  this.props.gig.status === "ACCEPTED" ?
-                    <div className="col-xs-6">
-                      <Button
-                        rounded={true}
-                        label="Update price offer"
-                        onClick={ () => this.props.updateGig(this.props.gig.ID, this.state.price)}
+                <div className="event-location">
+                  <svg
+                    version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 466.583 466.582" style={{enableBackground: "new 0 0 466.583 466.582"}}>
+                    <g>
+                      <path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
+                    </g>
+                  </svg>
+                  {" " + this.props.gig.location.name}
+                </div>
+              </div>
+              <div style={styles.image}/>
+            </div>
+
+            <CollapsibleContainer>
+
+
+
+
+
+
+              <Collapsible
+                name="EventInfo"
+                label="Event Info"
+              >
+
+
+                <TextWrapper
+                  label="Description"
+                >
+                  <p>
+                    {this.props.gig.description}
+                  </p>
+                </TextWrapper>
+                <TextWrapper
+                  label="Guests"
+
+                >
+                  <TextField
+                    defaultValue={"Around " + this.props.gig.guestCount + " people attending the event."}
+                    name="guestCount"
+                    disabled={true}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
+                    type="text"
+                    underlineDisabledStyle={styles.plainBorder}
+                    underlineStyle={styles.dottedBorderStyle}
+                  />
+
+                </TextWrapper>
+
+              </Collapsible>
+
+
+
+
+              <Collapsible
+                name="Requirements"
+                label="Requirements"
+              >
+
+                <TextWrapper
+                  label="Speakers"
+                >
+                  <p>
+                    {
+                      this.props.gig.needSpeakers === "YES"
+                      ?
+                      "The customer needs you to bring speakers."
+                      : null
+                    }
+                    {
+                      this.props.gig.needSpeakers === "UNCERTAIN"
+                      ?
+                      "The customer does not know if they need speakers yet."
+                      : null
+                    }
+                    {
+                      this.props.gig.needSpeakers === "NO"
+                      ?
+                      "There's already speakers at the event."
+                      : null
+                    }
+                  </p>
+                </TextWrapper>
+
+
+                <TextWrapper
+                  label="Duration"
+
+                >
+                  <TextField
+                    defaultValue={"The music should start at " + Formatter.date.ToTime(this.props.gig.startTime) + ", and end at " + Formatter.date.ToTime(this.props.gig.endTime) + "."}
+                    name="time"
+                    fullWidth={true}
+                    disabled={true}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
+                    type="text"
+                    underlineDisabledStyle={styles.plainBorder}
+                    underlineStyle={styles.dottedBorderStyle}
+                  />
+
+                </TextWrapper>
+
+                <TextWrapper
+                  label="Genres">
+                  <p>{genres}</p>
+
+                </TextWrapper>
+
+              </Collapsible>
+
+              <Collapsible
+                name="ContactInfo"
+                label="Contact"
+              >
+
+                <TextWrapper
+                  label="Name"
+                >
+                  <p>{this.props.gig.customer.censoredName}</p>
+
+                </TextWrapper>
+
+                <TextWrapper
+                  label="Phone"
+                >
+                  <a href={"tel:"+this.props.gig.customer.phone}>{this.props.gig.customer.phone}</a>
+
+                </TextWrapper>
+
+                <TextWrapper
+                  label="Email"
+                >
+                  <a href={"mailto:"+this.props.gig.customer.email}>{this.props.gig.customer.email}</a>
+
+                </TextWrapper>
+              </Collapsible>
+
+
+
+
+
+              <Collapsible
+                name="Offer"
+                label="Offer"
+              >
+                <Form
+                  name={"gig-offer-" + this.props.gig.id}
+                >
+                  <div className="row">
+                    <div className="col-xs-4 col-xs-offset-4"
+                      style={{marginBottom: '20px',marginTop: '20px'}}>
+
+
+                      <TextField
+                        onChange={this.onChangePrice}
+                        hintStyle={styles.medium.hint}
+                        style={styles.medium.textarea}
+                        inputStyle={styles.medium.input}
+                        disabled={this.props.gig.status === "Cancelled"  || this.props.gig.status === "Lost" || this.props.gig.status === "Confirmed" || this.props.gig.status === "Finished" }
+                        type="number"
+                        fullWidth={true}
+                        defaultValue={this.props.gig.offer.amount}
                       />
+
                     </div>
-                  :
-                  this.props.gig.status === "CONFIRMED" ?
-                    <div className="col-xs-6">
-                      Great! You have been chosen to play this gig.
-                    </div>
-                  :
-                null}
+                  </div>
 
-              </div>
-            :
-            this.props.gig.status === "LOST" ?
-              <div className="col-xs-12">
-                Sorry you have lost this gig to another DJ. <br/>
-                Next time try to set another price or be faster at responding. <br/>
-                Adding info to your profile also helps the customer being comfortable in choosing you.
-              </div>
-            :
+                  <div className="row">
 
-          null}
-        </div>
+                    { this.props.gig.status === "Requested"
+                      ?
+                        <div className="col-xs-6">
+                          <SubmitButton
+                            active={true}
+                            rounded={true}
+                            label="Decline gig"
+                            name="cancel_gig"
+                            onClick={this.props.declineGig}
+                          />
+                        </div>
+                    : null}
 
-      </Card>)
+
+                    { (this.props.gig.status  === "Accepted" ||
+                      this.props.gig.status  === "Confirmed")
+                      ?
+                        <div className="col-xs-6">
+                          <SubmitButton
+                            active={true}
+                            rounded={true}
+                            label="Cancel gig"
+                            name="cancel_gig"
+                            onClick={this.props.cancelGig}
+                          />
+                        </div>
+                    : null}
+
+
+                    {this.props.gig.status === "Requested" ?
+                      <div className="col-xs-6">
+                        <SubmitButton
+                          active={true}
+                          rounded={true}
+                          label="Send offer"
+                          name="send_offer"
+                          onClick={this.updateOffer}
+                        />
+                      </div>
+                    : null}
+
+                    {this.props.gig.status === "Accepted" ?
+                      <div className="col-xs-6">
+                        <SubmitButton
+                          active={true}
+                          rounded={true}
+                          label="Update price offer"
+                          name="update_offer"
+                          onClick={this.updateOffer}
+                        />
+                      </div>
+                    :null}
+
+                    {this.props.gig.status === "Confirmed" ?
+                      <div className="col-xs-6">
+                        Great! You have been chosen to play this gig.
+                      </div>
+                      :
+                    null}
+
+
+                    { this.props.gig.status === "Lost" ?
+                      <div className="col-xs-12">
+                        Sorry you have lost this gig to another DJ. <br/>
+                        Next time try to set another price or be faster at responding. <br/>
+                        Adding info to your profile also helps the customer being comfortable in choosing you.
+                      </div>
+                    :  null}
+
+                    { this.props.gig.status === "Cancelled" ?
+                      <div className="col-xs-12">
+                        Unfortunately the event has been cancelled by the host.
+                      </div>
+                    :  null}
+
+                  </div>
+                </Form>
+
+
+              </Collapsible>
+
+
+
+
+            </CollapsibleContainer>
+          </div>
+
+        </Card>)
 
   }
 })

@@ -41,7 +41,7 @@ const UserMenuItem = React.createClass({
 
 
     return  (  <div style={styles.flex}>
-                <div style={[styles.image, styles.inline]}/>
+      <div style={[styles.image, styles.inline]}/>
                 <div style={[styles.inline]} >
                   {getLabel(this.props.name)}
                 </div>

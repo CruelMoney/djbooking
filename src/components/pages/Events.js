@@ -22,7 +22,9 @@ var Events = React.createClass({
   },
 
   componentWillMount() {
+    if (!this.props.events || !this.props.events.length) {
       this.props.fetchEvents()
+    }
       this.context.hideUserCard()
   },
 

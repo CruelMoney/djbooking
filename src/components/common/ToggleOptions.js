@@ -38,8 +38,10 @@ var ToggleOptions = React.createClass({
          value: this.props.value
        })
      }
-     this.removeValidationFromContext = this.context.registerValidation(show =>
-       this.isValid(show))
+     if (this.context.registerValidation) {
+       this.removeValidationFromContext = this.context.registerValidation(show =>
+         this.isValid(show))
+     }
 
 
      if (this.context.updateValue) {
@@ -52,8 +54,10 @@ var ToggleOptions = React.createClass({
    },
 
    componentWillUnmount() {
-     this.removeValidationFromContext()
-     if (this.removeReset) {
+     if (this.context.removeValidationFromContext) {
+       this.removeValidationFromContext()
+     }
+    if (this.removeReset) {
        this.removeReset()
      }   },
 
@@ -150,7 +154,7 @@ var ToggleOptions = React.createClass({
 
 if (this.props.glued) {
   return (
-    <div>
+    <div className="toggle-options">
       <div style={{display:'flex', flexDirection:'row'}} >
         { this.renderChildren(this.state, this.props).map((el,i) => (
           < div key={i} style={{width:'100%'}}>
@@ -172,7 +176,7 @@ if (this.props.glued) {
         }else{
           return (
 
-            <div>
+            <div className="toggle-options">
               <table style={styles.tableStyle}>
                 <tbody>
                   <tr>

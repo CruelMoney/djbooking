@@ -9,16 +9,16 @@ const initialState = { //define initial state - an empty form
 
 const gigs = (state = initialState, action) => {
   switch (action.type) {
-  case ActionTypes.FETCHING_GIGS:
+  case ActionTypes.FETCH_GIGS_REQUESTED:
       return {
               isWaiting: true
              }
-  case ActionTypes.GIGS_FETCHED:
+  case ActionTypes.FETCH_GIGS_SUCCEEDED:
       return {
-        values: action.value,
+        values: action.gigs,
         isWaiting: false
              }
- case ActionTypes.GIGS_FETCH_FAILED:
+ case ActionTypes.FETCH_GIGS_FAILED:
      return {
        err: action.err,
        isWaiting: false

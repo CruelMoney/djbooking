@@ -18,7 +18,8 @@ var Gigs = React.createClass({
 
   getInitialState(){
     return{
-      gigs: []
+      gigs: [],
+      filter: "requested"
     }
   },
 
@@ -27,6 +28,9 @@ var Gigs = React.createClass({
       this.setState({
         gigs: this.props.gigs
       })
+      if (this.props.gigs.length === 0) {
+        this.props.fetchGigs()
+      }
     }
   },
 
@@ -39,6 +43,9 @@ var Gigs = React.createClass({
   },
 
   componentWillUnmount() {
+    this.setState({
+      gigs: []
+    })
   },
 
   getActionButtons(props = this.props){
@@ -50,32 +57,52 @@ var Gigs = React.createClass({
         <Button
           rounded={true}
           label="Requested gigs"
-
-          onClick={this.props.fetchGigs}
+          name="requested"
+          active={this.state.filter === "requested"}
+          onClick={()=>{
+            this.setState({
+              filter: "requested"
+            })
+          }}
         />
       </div>
       <div style={{marginBottom:"4px"}}>
         <Button
           rounded={true}
           label="Upcoming gigs"
-
-          onClick={this.props.fetchGigs}
+          name="upcoming"
+          active={this.state.filter === "upcoming"}
+          onClick={()=>{
+            this.setState({
+              filter: "upcoming"
+            })
+          }}
         />
       </div>
       <div style={{marginBottom:"4px"}}>
         <Button
           rounded={true}
           label="Lost gigs"
-
-          onClick={this.props.fetchGigs}
+          name="lost"
+          active={this.state.filter === "lost"}
+          onClick={()=>{
+            this.setState({
+              filter: "lost"
+            })
+          }}
         />
       </div>
       <div style={{marginBottom:"4px"}}>
         <Button
           rounded={true}
           label="Finished gigs"
-
-          onClick={this.props.fetchGigs}
+          name="finished"
+          active={this.state.filter === "finished"}
+          onClick={()=>{
+            this.setState({
+              filter: "finished"
+            })
+          }}
         />
       </div>
 
@@ -85,6 +112,9 @@ var Gigs = React.createClass({
           rounded={true}
           label="Request features"
           name="request_features"
+          onClick={()=>{
+            console.log("not implemented");
+          }}
         />
       </div>
 
@@ -95,8 +125,6 @@ var Gigs = React.createClass({
 
   render() {
 
-
-
     var finishedGigs = []
     var lostGigs = []
     var requestedGigs = []
@@ -104,20 +132,22 @@ var Gigs = React.createClass({
 
     this.state.gigs.forEach(function(gig, i) {
       switch (gig.status) {
-
-        case 'PLAYED':
+        case 'Finished':
           finishedGigs.push(<Gig gig={gig}/>)
           break
-        case 'ACCEPTED':
+        case 'Accepted':
           requestedGigs.push(<Gig gig={gig}/>)
           break
-        case 'CONFIRMED':
+        case 'Confirmed':
           upcomingGigs.push(<Gig gig={gig}/>)
           break
-        case 'REQUESTED':
+        case 'Requested':
           requestedGigs.push(<Gig gig={gig}/>)
           break
-        case 'LOST':
+        case 'Lost':
+          lostGigs.push(<Gig gig={gig}/>)
+          break
+        case 'Cancelled':
           lostGigs.push(<Gig gig={gig}/>)
           break
         default:
@@ -125,30 +155,36 @@ var Gigs = React.createClass({
       }
     })
 
+    const renderGigs = (gigs) => {
+      console.log(gigs);
+      if (gigs.length === 0) {
+        return <div
+          className="no-gigs"
+               >
+          No {this.state.filter} gigs.
+        </div>
+      }else {
+        return gigs
+      }
+     }
 
     return(
       <div>
         {this.getActionButtons()}
-        <TextWrapper
-          center={true}
-          label="Upcoming Gigs">
-          {upcomingGigs}
-        </TextWrapper>
-        <TextWrapper
-          center={true}
-          label="Requested Gigs">
-          {requestedGigs}
-        </TextWrapper>
-        <TextWrapper
-          center={true}
-          label="Lost Gigs">
-          {lostGigs}
-        </TextWrapper>
-        <TextWrapper
-          center={true}
-          label="Finished Gigs">
-          {finishedGigs}
-        </TextWrapper>
+        {this.state.filter === "upcoming" ?
+          renderGigs(upcomingGigs)
+        : null}
+        {this.state.filter === "finished" ?
+          renderGigs(finishedGigs)
+        : null}
+        {this.state.filter === "requested" ?
+          renderGigs(requestedGigs)
+        : null}
+        {this.state.filter === "lost" ?
+          renderGigs(lostGigs)
+        : null}
+
+
       </div>)
 
   }

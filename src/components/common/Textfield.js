@@ -31,8 +31,10 @@ var Text = React.createClass({
   },
 
   componentWillMount() {
-    this.removeValidationFromContext = this.context.registerValidation(show =>
-      this.isValid(show))
+    if (this.context.registerValidation) {
+      this.removeValidationFromContext = this.context.registerValidation(show =>
+        this.isValid(show))
+    }
 
       this.setState({
         value: this.props.defaultValue || ""
@@ -48,7 +50,9 @@ var Text = React.createClass({
   },
 
   componentWillUnmount() {
-    this.removeValidationFromContext()
+    if (this.removeValidationFromContext) {
+        this.removeValidationFromContext()
+    }
     if (this.removeReset) {
       this.removeReset()
     }

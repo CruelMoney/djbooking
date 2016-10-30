@@ -32,11 +32,15 @@ var Button = React.createClass({
     handleClick(e){
       e.preventDefault()
 
+      if (true) {
+
+      }
+
       if (this.props.name === undefined) {
       this.props.onClick(this.props.label)
-    }else{
-      this.props.onClick(this.props.name)
-    }
+      }else{
+        this.props.onClick(this.props.name)
+      }
     },
 
   render() {
@@ -53,7 +57,6 @@ var Button = React.createClass({
         color:  this.props.muiTheme.palette.textColor,
         fontWeight: 'bold',
         opacity: (this.props.disabled ? '0.5' : '1'),
-        backgroundColor: 'transparent',
         borderStyle: 'solid',
         borderWidth: "2px",
         WebkitTransition: 'all 0.1s ease-in-out',

@@ -26,6 +26,21 @@ export const Collapsible = React.createClass({
       <h4
       style={{marginBottom:"15px"}}
       >  {this.props.number + ". " + this.props.label} </h4>
+      <span>
+      <svg viewBox="0 0 24 24"
+        style={{
+                position: "absolute",
+                right: "15px",
+                top: "12px",
+                display: "inline-block",
+                color: "rgba(0, 0, 0, 0.870588)",
+                fill: "currentcolor",
+                height: "24px",
+                width: "24px",
+                webkitUserSelect: "none"}}>
+      <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path>
+      </svg>
+      </span>
         </div>
 
             {this.props.children}

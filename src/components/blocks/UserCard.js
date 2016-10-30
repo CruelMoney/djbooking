@@ -62,8 +62,8 @@ export default React.createClass({
                 style={{backgroundImage: "url("+this.props.picture+")"}}
                 />
             </div>
-            {this.props.onlyPicture ? null:
-            <div className="user-card-text">
+
+            <div className={this.props.onlyPicture ? "user-card-text hide" : "user-card-text"}>
               <div className="user-card-about">
               <p>About</p>
               {this.props.about}
@@ -91,7 +91,7 @@ export default React.createClass({
               {genres}
               </div>
             </div>
-            }
+
       </div>
       )
   }

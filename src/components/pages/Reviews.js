@@ -53,7 +53,7 @@ var Reviews = React.createClass({
       function renderReview(review, i){
         return (
           <div
-          style={{borderBottom: "2px solid #e6e6e6"}}
+            style={{borderBottom: "2px solid #e6e6e6"}}
           >
 
             <CardHeader

@@ -1,5 +1,4 @@
 import c from '../constants/constants'
-import m from '../constants/Mocks'
 import AuthService from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
 import CueupService from '../utils/CueupService'
@@ -29,20 +28,6 @@ export function fetchEvents() {
         }
       })
   }
-}
-
-export function fetchGigs() {
-  return function (dispatch) {
-    dispatch( function() { return {
-        type: ActionTypes.FETCHING_GIGS,
-      }}())
-    setTimeout(function(){
-      dispatch( function() { return {
-        type: ActionTypes.GIGS_FETCHED,
-        value: m.GIGS
-        }}())
-    }, 1000)
-      }
 }
 
 

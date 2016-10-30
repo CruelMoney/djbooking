@@ -16,10 +16,10 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     toggleEditMode: () => { dispatch(actions.toggleEditMode()) },
-    connectFacebook: () => null,
-    connectSoundCloud: () => null,
-    connectDB:  () => null,
-    deleteAccount: () => null
+    connectFacebook: () => {console.log("not implemented")},
+    connectSoundCloud: () =>{console.log("not implemented")},
+    connectDB:  () => {console.log("not implemented")},
+    deleteAccount: () => {console.log("not implemented")},
 }}
 
 

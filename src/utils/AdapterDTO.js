@@ -1,4 +1,5 @@
 import Formatter from './Formatter'
+import assign from 'lodash.assign'
 
 
     const location ={
@@ -58,9 +59,12 @@ import Formatter from './Formatter'
             address:        DTO.user_metadata.address,
             name:           DTO.user_metadata.firstName + " " + DTO.user_metadata.lastName,
             firstName:      DTO.user_metadata.firstName,
+            lastName:       DTO.user_metadata.lastName,
+            censoredName:   DTO.user_metadata.firstName + " " + DTO.user_metadata.lastName.slice(0,1) + ".",
             birthDay:       DTO.user_metadata.birthDay,
             city:           DTO.user_metadata.city,
             phone:          DTO.user_metadata.phone,
+            currency:       DTO.user_metadata.currency || "DKK",
 
           //App metadata stuff here
 
@@ -170,6 +174,20 @@ import Formatter from './Formatter'
       }
     }
 
+    const cueupGig ={
+
+      fromDTO:function(DTO){
+        return assign({}, DTO, {
+                startTime: new Date(DTO.startTime),
+                endTime: new Date(DTO.endTime),
+                customer: user.fromDTO(DTO.customer)
+              })
+      },
+      toDTO:function(gig){
+        return gig;
+      }
+    }
+
 
 
 
@@ -179,4 +197,5 @@ user,
 location,
 offer,
 cueupEvent,
-review}
+review,
+cueupGig}

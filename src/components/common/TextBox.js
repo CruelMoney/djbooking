@@ -30,8 +30,11 @@ var TextBox = React.createClass({
         value: this.props.value
       })
     }
-    this.removeValidationFromContext = this.context.registerValidation(show =>
-      this.isValid(show))
+    if (this.context.registerValidation) {
+      this.removeValidationFromContext = this.context.registerValidation(show =>
+        this.isValid(show))
+    }
+
 
     if (this.context.updateValue) {
       this.context.updateValue(this.props.name, this.props.value)
@@ -44,7 +47,10 @@ var TextBox = React.createClass({
   },
 
   componentWillUnmount() {
-    this.removeValidationFromContext()
+    if (this.context.removeValidationFromContext) {
+      this.removeValidationFromContext()
+    }
+
     if (this.removeReset) {
       this.removeReset()
     }  },

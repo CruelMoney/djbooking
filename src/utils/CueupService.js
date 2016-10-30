@@ -3,6 +3,7 @@ export default class CueupService {
         this.domain = 'http://cueup.azurewebsites.net';
 
         this.getHeaders = function(token) {
+          console.log(token);
             var headers = new Headers();
             headers.append('Accept', 'application/json');
             headers.append("Content-Type", "application/json");
@@ -13,7 +14,7 @@ export default class CueupService {
             return {method: 'GET', headers: headers};
         }
         this.postInit = function(data, headers) {
-          console.log(data);
+          console.log(JSON.stringify(data));
             return {method: 'POST', headers: headers, body: JSON.stringify(data)};
         }
         this.putInit = function(data, headers) {
@@ -108,7 +109,7 @@ export default class CueupService {
    }
    getUserReviews(token, callback) {
      return this.fetchHandling(
-       `${this.domain}/api/user/reviews`,
+       `${this.domain}/api/user/review`,
        this.getInit(this.getHeaders(token)),
        callback
      )}
@@ -151,4 +152,14 @@ export default class CueupService {
        this.putInit("", this.getHeaders(token)),
        callback
      )}
+    //EVENT ACTIONS END
+
+
+    //GIG ACTIONS
+    getUserGigs(token, callback) {
+      return this.fetchHandling(
+        `${this.domain}/api/gig/user`,
+        this.getInit(this.getHeaders(token)),
+        callback
+      )}
 }
