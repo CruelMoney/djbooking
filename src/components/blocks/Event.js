@@ -159,6 +159,14 @@ var Event = React.createClass({
           display: 'none',
         }
     }
+var offers = []
+if (this.props.event.offers) {
+  offers = this.props.event.offers.map(o=>
+    <div className="col-sm-6">
+    <OfferCard offer={o}/>
+    </div>
+  )
+}
 
         return (
           <Card
@@ -206,7 +214,7 @@ var Event = React.createClass({
                   >
                     <TextWrapper
                       label="Event name"
-                      text="The name of this event. Please choose a descriptive name.">
+                      text="Please choose a descriptive name.">
                       <TextField
                         defaultValue={this.props.event.name}
                         name="name"
@@ -434,7 +442,11 @@ var Event = React.createClass({
                     name="EventOffers"
                     label="Offers"
                   >
-
+                  <div>
+                  <div className="row">
+                      {offers}
+                  </div>
+                  </div>
                   </Collapsible>
                 }
 

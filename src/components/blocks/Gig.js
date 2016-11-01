@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import Radium from 'radium'
 import Button from '../common/Button'
-import TextField from 'material-ui/TextField'
+import TextField from '../common/Textfield'
 import Formatter from '../../utils/Formatter'
 import {Card} from 'material-ui/Card'
 import TextWrapper from '../common/TextElement'
@@ -10,6 +10,8 @@ import {CollapsibleContainer, Collapsible} from '../common/Collapsible'
 import Form from '../../containers/Form-v2'
 import SubmitButton from '../common/SubmitButton'
 import assign from 'lodash.assign'
+import PayoutForm from './PayoutForm'
+import Popup from '../common/Popup'
 
 
 import muiThemeable from 'material-ui/styles/muiThemeable'
@@ -17,19 +19,28 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var Gig = React.createClass({
   propTypes: {
+    payoutInfoValid: PropTypes.bool,
     gig: PropTypes.object,
-    bankInfoIsValid: PropTypes.bool,
-    currency: PropTypes.string,
     declineGig: PropTypes.func,
     cancelGig: PropTypes.func,
     updateGig: PropTypes.func
   },
 
   updateOffer(form, callback){
-    if (this.props.bankInfoIsValid) {
-      const offer = assign(form.values, {currency : this.props.currency})
+    if (this.props.payoutInfoValid) {
+      const offer = assign(this.props.gig.offer,
+        {
+          currency : "DKK",
+          amount: form.values.amount,
+        })
       this.props.updateGig(offer, callback)
     }
+  },
+
+  hidePopup(){
+    this.setState({
+      showPopup: false
+    })
   },
 
   render() {
@@ -297,60 +308,94 @@ var Gig = React.createClass({
                 name="Offer"
                 label="Offer"
               >
+                <Popup showing={this.state.showPopup}
+                  onClickOutside={this.hidePopup}>
+                  <PayoutForm/>
+                </Popup>
+
                 <Form
                   name={"gig-offer-" + this.props.gig.id}
                 >
-                  <div className="row">
-                    <div className="col-xs-4 col-xs-offset-4"
-                      style={{marginBottom: '20px',marginTop: '20px'}}>
+                  {this.props.payoutInfoValid ?
+                    <div className="row">
+                      <div className="col-xs-4 col-xs-offset-4"
+                        style={{marginBottom: '20px',marginTop: '20px'}}>
 
 
-                      <TextField
-                        onChange={this.onChangePrice}
-                        hintStyle={styles.medium.hint}
-                        style={styles.medium.textarea}
-                        inputStyle={styles.medium.input}
-                        disabled={this.props.gig.status === "Cancelled"  || this.props.gig.status === "Lost" || this.props.gig.status === "Confirmed" || this.props.gig.status === "Finished" }
-                        type="number"
-                        fullWidth={true}
-                        defaultValue={this.props.gig.offer.amount}
-                      />
+                        <TextField
+                          name="amount"
+                          hintStyle={styles.medium.hint}
+                          style={styles.medium.textarea}
+                          inputStyle={styles.medium.input}
+                          disabled={this.props.gig.status === "Cancelled"  || this.props.gig.status === "Lost" || this.props.gig.status === "Confirmed" || this.props.gig.status === "Finished" }
+                          type="number"
+                          fullWidth={true}
+                          defaultValue={this.props.gig.offer.amount}
+                        />
 
+                      </div>
                     </div>
-                  </div>
+                  :null}
+
+
 
                   <div className="row">
 
-                    { this.props.gig.status === "Requested"
-                      ?
-                        <div className="col-xs-6">
-                          <SubmitButton
-                            active={true}
-                            rounded={true}
-                            label="Decline gig"
-                            name="cancel_gig"
-                            onClick={this.props.declineGig}
-                          />
-                        </div>
-                    : null}
+                    {!this.props.payoutInfoValid ?
+
+                      <div className="col-xs-12">
+                        <p>Please update your payout information before making an offer.</p>
+
+                        <Button
+                          rounded={true}
+                          label="Update payout information"
+                          onClick={()=>this.setState({showPopup:true})}
+                          name="show-payout-popup"
+                        />
 
 
-                    { (this.props.gig.status  === "Accepted" ||
-                      this.props.gig.status  === "Confirmed")
-                      ?
-                        <div className="col-xs-6">
-                          <SubmitButton
-                            active={true}
-                            rounded={true}
-                            label="Cancel gig"
-                            name="cancel_gig"
-                            onClick={this.props.cancelGig}
-                          />
-                        </div>
-                    : null}
+
+                      </div>
+
+                    : null }
 
 
-                    {this.props.gig.status === "Requested" ?
+
+                    <Form
+                      name={"gig-cancel-" + this.props.gig.id}
+                    >
+
+                      { this.props.payoutInfoValid && this.props.gig.status === "Requested"
+                        ?
+                          <div className="col-xs-6">
+                            <SubmitButton
+                              active={true}
+                              rounded={true}
+                              label="Decline gig"
+                              name="cancel_gig"
+                              onClick={(form, callback)=>this.props.declineGig(this.props.gig.gigID, callback)}
+                            />
+                          </div>
+                      : null}
+
+
+                      { this.props.payoutInfoValid &&  (this.props.gig.status  === "Accepted" ||
+                        this.props.gig.status  === "Confirmed")
+                        ?
+                          <div className="col-xs-6">
+                            <SubmitButton
+                              active={true}
+                              rounded={true}
+                              label="Cancel gig"
+                              name="cancel_gig"
+                              onClick={(form, callback)=>this.props.cancelGig(this.props.gig.gigID, callback)}
+                            />
+                          </div>
+                      : null}
+
+                    </Form>
+
+                    {this.props.payoutInfoValid && this.props.gig.status === "Requested" ?
                       <div className="col-xs-6">
                         <SubmitButton
                           active={true}
@@ -362,7 +407,7 @@ var Gig = React.createClass({
                       </div>
                     : null}
 
-                    {this.props.gig.status === "Accepted" ?
+                    {this.props.payoutInfoValid && this.props.gig.status === "Accepted" ?
                       <div className="col-xs-6">
                         <SubmitButton
                           active={true}
@@ -374,13 +419,13 @@ var Gig = React.createClass({
                       </div>
                     :null}
 
+
                     {this.props.gig.status === "Confirmed" ?
                       <div className="col-xs-6">
                         Great! You have been chosen to play this gig.
                       </div>
                       :
                     null}
-
 
                     { this.props.gig.status === "Lost" ?
                       <div className="col-xs-12">

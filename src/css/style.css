@@ -77,6 +77,10 @@ body {
 	font-weight: normal;
 	font-style: italic;
 }
+.h4, .h5, .h6, h4, h5, h6 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
 
 h1{
   font-family: 'Ostrich Sans';
@@ -504,7 +508,8 @@ input[type="file"] + label * {
 #content{
   will-change: -webkit-filter;
   transition: -webkit-filter 0.5s;
-  background-color: #f7f7f7;
+  background-color: rgb(251, 251, 251);
+  min-height: 200vh;
 }
 
 .collapsible{
@@ -686,8 +691,11 @@ box-shadow: rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 1
 .user-card-info,
 .event-card-info{
   border-bottom: 2px solid #eee;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 2px solid #eee;
 }
 .user-card-fact,
 .event-card-fact{
@@ -705,10 +713,8 @@ box-shadow: rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 1
 .user-card-about,
 .event-card-about,
 .event-card-status{
-  border-bottom: 2px solid #eee;
   margin-bottom: 20px;
   line-height: 25px;
-  padding-bottom: 20px;
   font-weight: 100;
 }
 .user-card-genres,
@@ -728,7 +734,7 @@ box-shadow: rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 1
   left: 50%;
   display: inline-block;
   border-right: 15px solid transparent;
-  border-bottom: 15px solid #f7f7f7;
+  border-bottom: 15px solid rgb(251, 251, 251);
   border-left: 15px solid transparent;
   content: '';
   transform: translateX(-100vw);
@@ -833,6 +839,12 @@ svg{
   overflow: visible !important;
 }
 .ratingStar{
+  margin-left: 8px;
+}
+.rating svg:first-child{
+  margin-left: 0px;
+}
+.ratingStar{
   transition: transform 0.1s ease;
   fill: #cecece ;
 
@@ -852,6 +864,17 @@ button{
   background-color: white;
 }
 
-.collapsible.active  svg{
+.collapsible.active  .collapsible-arrow{
    transform: rotate(180deg);
+}
+
+
+.offer-card{
+  border: 2px solid #eee;
+  padding: 20px;
+}
+
+.user-bio{
+  overflow: scroll;
+  max-height: 150px;
 }

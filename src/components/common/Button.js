@@ -18,7 +18,8 @@ var Button = React.createClass({
       leftRounded: PropTypes.bool,
       rightRounded: PropTypes.bool,
       isLoading: PropTypes.bool,
-      isNavigationButton: PropTypes.bool
+      isNavigationButton: PropTypes.bool,
+      success: PropTypes.bool
     },
 
 
@@ -155,9 +156,9 @@ var Button = React.createClass({
         styles.containerStyle,
       this.props.leftAlign && styles.left]}>
         <button
-          disabled={this.props.disabled || this.props.isLoading}
+          disabled={this.props.disabled || this.props.isLoading || this.props.success}
           className={
-            this.props.disabled || this.props.isLoading ? "disabled" : ""
+            this.props.disabled || this.props.isLoading || this.props.success ? "disabled" : ""
           }
           style={[
             styles.base,
@@ -178,9 +179,15 @@ var Button = React.createClass({
           onClick={
             this.props.disabled || this.props.isLoading ? null : this.handleClick
           }>
-          {this.props.isLoading ? null :
-
-          this.props.label}
+          {
+            this.props.isLoading ? null :
+            this.props.success ?
+              <svg style={{height: "32px"}} xmlns="http://www.w3.org/2000/svg" version="1.1" width="230" height="200" data-livestyle-extension="available" viewBox="-30 0 230 200">
+                <path d="M 20,130 60,170 200,30" style={{ stroke: "buttonFace", strokeWidth:"20", fill:"none"}}/>
+              </svg>
+            :
+            this.props.label
+          }
         </button>
       </div>
     )

@@ -1,47 +1,52 @@
 
-//Examples of token generation:
 
-// Stripe.card.createToken({
-//   number: $('.card-number').val(),
-//   cvc: $('.card-cvc').val(),
-//   exp_month: $('.card-expiry-month').val(),
-//   exp_year: $('.card-expiry-year').val()
-// }, stripeResponseHandler);
+/*eslint no-undef: 0*/
 
-// Stripe.bankAccount.createToken({
-//   country: $('.country').val(),
-//   currency: $('.currency').val(),
-//   routing_number: $('.routing-number').val(),
-//   account_number: $('.account-number').val(),
-//   account_holder_name: $('.name').val(),
-//   account_holder_type: $('.account_holder_type').val()
-// }, stripeResponseHandler);
+export default class StripeService {
+    constructor() {
+      Stripe.setPublishableKey('pk_test_9HMoU3Zkhtu5aoXTYWDgmEgp')
+    }
 
+       responseHandling(status, response, callback) {
+        if (response.error) { // Problem!
+          return callback(response.error, null)
+        } else {
+          return callback(null, response)
+        }
+      }
 
+    createBankToken(data, callback){
+      Stripe.bankAccount.createToken({
+        country: "US",
+        currency: "USD",
+        routing_number: data.bank_number,
+        account_number: data.account_number,
+        account_holder_name: data.account_holder_name,
+        account_holder_type: "individual"
+      }, (status, response) => this.responseHandling(status, response, callback));
+    }
 
-//Example of responsehandler implementation
+    validateCardNumber(number){
+       return Stripe.card.validateCardNumber(number)
+    }
 
-// function stripeResponseHandler(status, response) {
-//
-//   // Grab the form:
-//   var $form = $('#payment-form');
-//
-//   if (response.error) { // Problem!
-//
-//     // Show the errors on the form
-//     $form.find('.payment-errors').text(response.error.message);
-//     $form.find('button').prop('disabled', false); // Re-enable submission
-//
-//   } else { // Token was created!
-//
-//     // Get the token ID:
-//     var token = response.id;
-//
-//     // Insert the token into the form so it gets submitted to the server:
-//     $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-//
-//     // Submit the form:
-//     $form.get(0).submit();
-//
-//   }
-// }
+    validateCardExpiry(month, year){
+      return Stripe.card.validateExpiry(month, year)
+    }
+
+    validateCardCVC(cvc){
+      return Stripe.card.validateCVC(cvc)
+    }
+
+    getCardType(cardNumber){
+      return Stripe.card.cardType(cardNumber)
+    }
+
+    validateRoutingNumberDKK(num){
+    return Stripe.bankAccount.validateRoutingNumber(num, "DK")
+    }
+
+    validateAccountNumberDKK(num){
+      return Stripe.bankAccount.validateAccountNumber(num, "DK")
+    }
+}

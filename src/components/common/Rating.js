@@ -30,7 +30,7 @@ handleOnClick(){
     var fillStyle ={fill:"url(#gradient-"+this.props.fillPercentage+")"}
     return (
       <svg version="1.1" id="Capa_1" x="0px" y="0px"
-        style={{marginLeft: '8px'}}
+        
         className={this.props.editable && this.props.active ? "ratingStar active" : "ratingStar"}
       	 width="20px" height="20px" viewBox="0 0 306 306" viewPort="0 0 40 40"
          onMouseOver={this.handleMouseOver}
@@ -213,6 +213,7 @@ render: function() {
 
   return (
     <div
+    className="rating"
     onMouseOver={this.handleMouseOver}
     onMouseOut={this.handleMouseOut}
     >

@@ -89,7 +89,7 @@ export default class CueupService {
 
     updateUserBankInfo(token, bankToken, callback) {
           return this.fetchHandling(
-          `${this.domain}/api/user/bank/${bankToken}`,
+          `${this.domain}/api/user/bank/`,
           //not really necessary to use put or include the banktoken here
           this.putInit(bankToken, this.getHeaders(token)),
           callback
@@ -162,4 +162,25 @@ export default class CueupService {
         this.getInit(this.getHeaders(token)),
         callback
       )}
+
+    cancelGig(token, id, callback){
+      return this.fetchHandling(
+        `${this.domain}/api/gig/${id}/cancel`,
+        this.getInit(this.getHeaders(token)),
+        callback
+      )}
+
+    declineGig(token, id, callback){
+        return this.fetchHandling(
+          `${this.domain}/api/gig/${id}/decline`,
+          this.getInit(this.getHeaders(token)),
+          callback
+        )}
+
+    makeOffer(token, id, offerDTO, callback){
+        return this.fetchHandling(
+          `${this.domain}/api/gig/${id}/offer`,
+          this.postInit(offerDTO, this.getHeaders(token)),
+          callback
+        )}
 }

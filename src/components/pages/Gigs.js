@@ -133,22 +133,22 @@ var Gigs = React.createClass({
     this.state.gigs.forEach(function(gig, i) {
       switch (gig.status) {
         case 'Finished':
-          finishedGigs.push(<Gig gig={gig}/>)
+          finishedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
           break
         case 'Accepted':
-          requestedGigs.push(<Gig gig={gig}/>)
+          requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
           break
         case 'Confirmed':
-          upcomingGigs.push(<Gig gig={gig}/>)
+          upcomingGigs.push(<Gig key={gig.name+i} gig={gig}/>)
           break
         case 'Requested':
-          requestedGigs.push(<Gig gig={gig}/>)
+          requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
           break
         case 'Lost':
-          lostGigs.push(<Gig gig={gig}/>)
+          lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
           break
         case 'Cancelled':
-          lostGigs.push(<Gig gig={gig}/>)
+          lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
           break
         default:
 
@@ -156,7 +156,6 @@ var Gigs = React.createClass({
     })
 
     const renderGigs = (gigs) => {
-      console.log(gigs);
       if (gigs.length === 0) {
         return <div
           className="no-gigs"

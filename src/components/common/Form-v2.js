@@ -9,6 +9,7 @@ const form = React.createClass({
     //TO be supplied is name and onsubmit that will be called with the form automatically
     propTypes: {
       name: PropTypes.string,
+      succeeded: PropTypes.bool,
       children: PropTypes.node,
       onSubmit: PropTypes.func,
       updateFilters: PropTypes.func,
@@ -29,6 +30,7 @@ const form = React.createClass({
 
     childContextTypes: {
       reset: PropTypes.func,
+      succeeded: PropTypes.bool,
       registerValidation: PropTypes.func,
       isFormValid: PropTypes.func,
       updateFilters: PropTypes.func,
@@ -42,6 +44,7 @@ const form = React.createClass({
     getChildContext() {
       return {
         reset: this.reset,
+        succeeded: this.props.succeeded,
         registerValidation: this.registerValidation,
         isFormValid: this.isFormValid,
         updateFilters: this.updateFilters,

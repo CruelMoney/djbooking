@@ -126,8 +126,7 @@ import assign from 'lodash.assign'
         return{
            GigID: offer.gigID,
            Amount: offer.amount,
-           Currency: offer.currency,
-           DJ: user.toDTO(offer.dj)
+           Currency: offer.currency
           }
       }
     }

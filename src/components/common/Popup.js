@@ -59,7 +59,7 @@ const Popup = React.createClass({
               style={{
                 padding:"20px",
                 paddingTop: '5px',
-                width: '300px',
+                minWidth: '300px',
                 backgroundColor:"white",
                 zIndex: '1001',
               }}

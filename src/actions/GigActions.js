@@ -28,3 +28,49 @@ export function fetchGigs() {
       })
   }
 }
+
+
+export function makeOffer(offer, callback) {
+  return function(dispatch){
+  var data = converter.offer.toDTO(offer);
+  var id = offer.gigID;
+
+  const token = auth.getToken()
+  cueup.makeOffer(token, id, data, function(err, result){
+    if (err) {
+      (callback(err))
+    }else{
+      (callback(null))
+    }
+  })
+}
+}
+
+export function declineGig(id, callback) {
+  return function(dispatch){
+
+  const token = auth.getToken()
+  cueup.declineGig(token, id, function(err, result){
+    if (err) {
+      (callback(err))
+    }else{
+      (callback(null))
+    }
+  })
+}
+}
+
+
+export function cancelGig(id, callback) {
+  return function(dispatch){
+
+  const token = auth.getToken()
+  cueup.cancelGig(token, id, function(err, result){
+    if (err) {
+      (callback(err))
+    }else{
+      (callback(null))
+    }
+  })
+}
+}

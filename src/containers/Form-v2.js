@@ -11,6 +11,7 @@ function mapStateToProps(state, ownprops) {
     children: ownprops.children,
     form: state.forms[ownprops.name] ? state.forms[ownprops.name] : {},
     isLoading: state.forms[ownprops.name] ? state.forms[ownprops.name].status.submitting : false,
+    succeeded: state.forms[ownprops.name] ? state.forms[ownprops.name].status.succeeded : false,
     err:  state.forms[ownprops.name] ? state.forms[ownprops.name].status.err : null
   }
 }
@@ -41,6 +42,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     onSubmit: (submitActions) => dispatchProps.onSubmit(stateProps.form, submitActions),
     err: stateProps.err,
     isLoading: stateProps.isLoading,
+    succeeded: stateProps.succeeded,
     form: stateProps.form
   })
 }

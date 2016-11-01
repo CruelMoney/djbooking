@@ -43,15 +43,16 @@ const values  = (state = initialState, action) => {
   }
 }
 
-const status  = (state = {submitting:false}, action) => {
+const status  = (state = {submitting:false, succeeded: false}, action) => {
   switch (action.type) {
 
     case ActionTypes.FORM_SUBMIT_REQUESTED:
-      return {submitting:true}
+      return {submitting:true, succeeded: false}
     case ActionTypes.FORM_SUBMIT_FAILED:
-      return {submitting:false, err: action.err}
+      return {submitting:false, succeeded: false, err: action.err}
     case ActionTypes.FORM_SUBMIT_SUCCEEDED:
-      return {submitting:false}
+      return {submitting:false,
+              succeeded: true}
   default:
     return state
   }

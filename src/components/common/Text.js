@@ -84,17 +84,17 @@ export default React.createClass({
     return (
       <div>
         <TextField
-        type={this.props.type}
-        fullWidth={true}
-        hintText={this.props.placeholder}
-        floatingLabelText={this.props.label}
-        onChange={this.onChange}
-        onBlur={this.onBlur}
-        errorText={this.state.errors.length ? (
-           <div>
-             {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
-           </div>
-        ) : null}/>
+          type={this.props.type}
+          fullWidth={true}
+          hintText={this.props.placeholder}
+          floatingLabelText={this.props.label}
+          onChange={this.onChange}
+          onBlur={this.onBlur}
+          errorText={this.state.errors.length ? (
+            <div>
+              {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+            </div>
+          ) : null}/>
       </div>
     );
   }

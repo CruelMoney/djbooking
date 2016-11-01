@@ -170,7 +170,11 @@ var Text = React.createClass({
                   onChange={this.onChange}
                   onBlur={this.onBlur}
                   errorText={this.state.errors.length ? (
-                    <div>
+                    <div style={{
+                      bottom: "-10px",
+                      position: "relative",
+                      zIndex: "1"
+                    }}>
                       {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
                     </div>
                   ) : null}/>

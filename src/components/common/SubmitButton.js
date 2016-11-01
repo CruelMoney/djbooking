@@ -9,7 +9,8 @@ export default React.createClass({
 
   contextTypes: {
       onSubmit: PropTypes.func,
-      isLoading: PropTypes.bool
+      isLoading: PropTypes.bool,
+      succeeded: PropTypes.bool
     },
 
     handleClick(e){
@@ -21,9 +22,10 @@ export default React.createClass({
   render() {
   return(
   <Button
-  {...this.props}
-  isLoading={this.context.isLoading}
-  onClick={this.handleClick}
+    {...this.props}
+    success={this.context.succeeded}
+    isLoading={this.context.isLoading}
+    onClick={this.handleClick}
   />
   )
   }

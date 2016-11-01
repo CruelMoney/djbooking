@@ -3,7 +3,8 @@ import Radium from 'radium'
 import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
 import TextField from '../common/Textfield'
-
+import PayoutForm from '../blocks/PayoutForm'
+import Popup from '../common/Popup'
 
 import TextWrapper from '../common/TextElement'
 import muiThemeable from 'material-ui/styles/muiThemeable'
@@ -11,7 +12,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var Preferences = React.createClass({
   propTypes: {
-    isDJ: PropTypes.bool,
+    user: PropTypes.object,
     provider: PropTypes.string,
     toggleEditMode: PropTypes.func,
     editMode: PropTypes.bool,
@@ -20,6 +21,13 @@ var Preferences = React.createClass({
     connectDB: PropTypes.func,
     deleteAccount: PropTypes.func
   },
+
+
+    hidePopup(){
+      this.setState({
+        showPopup: false
+      })
+    },
 
   getActionButtons(props = this.props){
     return (
@@ -159,96 +167,32 @@ var Preferences = React.createClass({
           display: 'none',
         }
     }
-    const isDJ = this.props.isDJ
+    const isDJ = this.props.user.isDJ
     return(
       <div>
         {this.getActionButtons()}
+
+        <Popup showing={this.state.showPopup}
+          onClickOutside={this.hidePopup}>
+          <PayoutForm/>
+
+        </Popup>
+
         <div className="row">
           <div className="col-lg-6">
 
             {isDJ ?
               <TextWrapper
                 label="Payout"
-                text="Change your payout information here">
-                <div className="row">
-                  <div className="col-xs-6">
-                    <TextField
-                      name="bank_number"
-                      hintStyle={styles.medium.hint}
-                      style={styles.medium.textarea}
-                      inputStyle={styles.medium.input}
-                      disabled={!this.props.editMode}
-                      type="number"
-                      fullWidth={false}
-                      placeholder="Bank number"
-                      underlineDisabledStyle={styles.plainBorder}
-                      underlineStyle={styles.dottedBorderStyle}
-                    />
-                  </div>
-                  <div className="col-xs-6">
-                    <TextField
-                      name="account_number"
-                      hintStyle={styles.medium.hint}
-                      style={styles.medium.textarea}
-                      inputStyle={styles.medium.input}
-                      disabled={!this.props.editMode}
-                      type="number"
-                      fullWidth={false}
-                      placeholder="Account number"
-                      underlineDisabledStyle={styles.plainBorder}
-                      underlineStyle={styles.dottedBorderStyle}
+                text="To get paid, you need to set up a payout method.
+                Cueup releases payouts about 24 hours after a job is finished.">
 
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-xs-6">
-                    <TextField
-                      name="bank_city"
-                      hintStyle={styles.medium.hint}
-                      style={styles.medium.textarea}
-                      inputStyle={styles.medium.input}
-                      disabled={!this.props.editMode}
-                      type="text"
-                      fullWidth={false}
-                      placeholder="City"
-                      underlineDisabledStyle={styles.plainBorder}
-                      underlineStyle={styles.dottedBorderStyle}
-                    />
-                  </div>
-                  <div className="col-xs-6">
-                    <TextField
-                      name="bank_zip"
-                      hintStyle={styles.medium.hint}
-                      style={styles.medium.textarea}
-                      inputStyle={styles.medium.input}
-                      disabled={!this.props.editMode}
-                      type="number"
-                      fullWidth={false}
-                      placeholder="Zip code"
-                      underlineDisabledStyle={styles.plainBorder}
-                      underlineStyle={styles.dottedBorderStyle}
-
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-xs-12">
-                    <TextField
-                      name="bank_address"
-                      hintStyle={styles.medium.hint}
-                      style={styles.medium.textarea}
-                      inputStyle={styles.medium.input}
-                      disabled={!this.props.editMode}
-                      type="text"
-                      fullWidth={false}
-                      placeholder="Address"
-                      underlineDisabledStyle={styles.plainBorder}
-                      underlineStyle={styles.dottedBorderStyle}
-                    />
-
-                  </div>
-                </div>
+                <Button
+                  rounded={true}
+                  label="Update payout information"
+                  onClick={()=>this.setState({showPopup:true})}
+                  name="show-payout-popup"
+                />
               </TextWrapper>
             : null }
 

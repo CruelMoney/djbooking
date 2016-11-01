@@ -12,41 +12,41 @@ export const Collapsible = React.createClass({
   render() {
     return(
       <div>
-      <div className={
+        <div className={
         this.props.collapsed ? "collapsible collapsed" : "collapsible active"}>
 
-        <div
-        onClick={() => this.props.handleClick(this.props.number)}
-        style={{
-        cursor:"pointer",
-        paddingTop: '5px',
-        height: '50px'
-      }}
-        >
-      <h4
-      style={{marginBottom:"15px"}}
-      >  {this.props.number + ". " + this.props.label} </h4>
-      <span>
-      <svg viewBox="0 0 24 24"
-        style={{
-                position: "absolute",
-                right: "15px",
-                top: "12px",
-                display: "inline-block",
-                color: "rgba(0, 0, 0, 0.870588)",
-                fill: "currentcolor",
-                height: "24px",
-                width: "24px",
+          <div
+            onClick={() => this.props.handleClick(this.props.number)}
+            style={{
+              cursor:"pointer",
+              paddingTop: '5px',
+              height: '50px'
+            }}
+          >
+            <h4
+              style={{marginBottom:"15px"}}
+            >  {this.props.number + ". " + this.props.label} </h4>
+            <span>
+              <svg className="collapsible-arrow" viewBox="0 0 24 24"
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "12px",
+                  display: "inline-block",
+                  color: "rgba(0, 0, 0, 0.870588)",
+                  fill: "currentcolor",
+                  height: "24px",
+                  width: "24px",
                 webkitUserSelect: "none"}}>
-      <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path>
-      </svg>
-      </span>
+                <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path>
+              </svg>
+            </span>
+          </div>
+
+          {this.props.children}
+
         </div>
-
-            {this.props.children}
-
-      </div>
-      <div className="divider"/>
+        <div className="divider"/>
       </div>
 
 

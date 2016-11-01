@@ -2,8 +2,11 @@ import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
 import CueupService from '../utils/CueupService'
+import StripeService from '../utils/StripeService'
+
 const cueup = new CueupService()
 const auth = new AuthService()
+const stripe = new StripeService()
 
 var ActionTypes = c.ActionTypes
 
@@ -77,4 +80,34 @@ export function resetProfile(profile) {
       type: ActionTypes.TOGGLE_EDIT_MODE
       }}())
       }
+}
+
+
+export function updatePayoutInfo(data, callback) {
+  return function(dispatch){
+
+  stripe.createBankToken(data, (err, result)=>{
+    if (err) {
+      (callback(err))
+    }else{
+      const token = auth.getToken()
+
+      data = {
+        token: result.id,
+        zip: data.bank_zip,
+        address: data.bank_address,
+        city: data.bank_city
+      }
+      cueup.updateUserBankInfo(token, data, function(err, result){
+        if (err) {
+          (callback(err))
+        }else{
+          (callback(null))
+        }
+      })
+
+    }
+  });
+
+}
 }
