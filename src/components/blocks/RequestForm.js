@@ -5,10 +5,10 @@ import TextField from '../common/Textfield'
 import LocationSelector from '../common/LocationSelectorSimple'
 import ToggleOptions from '../common/ToggleOptions'
 import ToggleButtonHandler from '../common/ToggleButtonHandler'
-import Form from '../../containers/Form'
+import Form from '../../containers/Form-v2'
 import Slider from '../common/Slider'
 import TimeSlider from '../common/TimeSlider'
-
+import SubmitButton from '../common/SubmitButton'
 import TextBox from '../common/TextBox'
 import Popup from '../common/Popup'
 import Signup from '../../containers/Signup'
@@ -26,7 +26,8 @@ var RequestForm = React.createClass({
     date: PropTypes.object, //moment object
     onSubmit: PropTypes.func,
     isLoggedIn: PropTypes.bool,
-    checkEmail: PropTypes.func
+    checkEmail: PropTypes.func,
+    emailExists: PropTypes.bool
   },
 
   getDefaultProps(){
@@ -56,17 +57,14 @@ var RequestForm = React.createClass({
   },
 
 
-//TODO implement real api
-  onSubmit(){
+  onSubmit(form, callback){
     if (this.props.isLoggedIn){
-      this.props.onSubmit(this.props.form)
+      this.props.onSubmit(this.props.form.values, callback)
     }else{
-      const result = this.props.checkEmail(this.props.form)
+      this.props.checkEmail(this.props.form.values.email, callback)
       this.setState({
-        emailExists: result,
         showPopup: true
       })
-
       }
   },
 
@@ -136,12 +134,13 @@ var RequestForm = React.createClass({
     }
 
     const eventDateString = this.props.date.format("dddd Do, MMMM YYYY")
+    console.log(this.props.emailExists);
     return(
       <div>
-        <Popup showing={this.state.showPopup && !this.props.isLoggedIn}
+        <Popup showing={this.props.emailExists != null && this.state.showPopup && !this.props.isLoggedIn}
           onClickOutside={this.hidePopup}>
 
-          {this.state.emailExists ?
+          {this.props.emailExists ?
             <div>
               <p>It looks like there's already an account using that email. Please login before continuing.</p>
               <Login/>
@@ -149,7 +148,7 @@ var RequestForm = React.createClass({
 
             :
             <div>
-              <p>Please signup before continuing. Then you can always login to see the status of your event.</p>
+              <p>Please sign up before continuing. Then you can always login to see the status of your event.</p>
               <Signup
                 profile={this.props.form.values}
               />
@@ -160,8 +159,7 @@ var RequestForm = React.createClass({
 
         <Form
           name="requestForm"
-          onSubmit={this.onSubmit}
-          buttonText="Request DJ"
+
         >
           <div
             style={{
@@ -348,6 +346,15 @@ var RequestForm = React.createClass({
             </div>
 
           </div>
+
+          <SubmitButton
+            noCheckMark={true}
+            rounded={true}
+            label="Request DJ's"
+            name="request_djs_button"
+            onClick={this.onSubmit}
+          />
+
         </Form>
       </div>
 

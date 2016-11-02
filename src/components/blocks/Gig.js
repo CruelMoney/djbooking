@@ -360,45 +360,43 @@ var Gig = React.createClass({
                     : null }
 
 
+                    <div className="col-xs-6">
 
-                    <Form
-                      name={"gig-cancel-" + this.props.gig.id}
-                    >
+                      <Form
+                        name={"gig-cancel-" + this.props.gig.id}
+                      >
 
-                      { this.props.payoutInfoValid && this.props.gig.status === "Requested"
-                        ?
-                          <div className="col-xs-6">
+                        { this.props.payoutInfoValid && this.props.gig.status === "Requested"
+                          ?
                             <SubmitButton
-                              active={true}
                               rounded={true}
                               label="Decline gig"
                               name="cancel_gig"
-                              onClick={(form, callback)=>this.props.declineGig(this.props.gig.gigID, callback)}
+                              onClick={(form, callback)=>this.props.declineGig(this.props.gig.id, callback)}
                             />
-                          </div>
-                      : null}
+                        : null}
 
 
-                      { this.props.payoutInfoValid &&  (this.props.gig.status  === "Accepted" ||
-                        this.props.gig.status  === "Confirmed")
-                        ?
-                          <div className="col-xs-6">
+                        { this.props.payoutInfoValid &&  (this.props.gig.status  === "Accepted" ||
+                          this.props.gig.status  === "Confirmed")
+                          ?
+
                             <SubmitButton
-                              active={true}
                               rounded={true}
                               label="Cancel gig"
                               name="cancel_gig"
-                              onClick={(form, callback)=>this.props.cancelGig(this.props.gig.gigID, callback)}
+                              onClick={(form, callback)=>this.props.cancelGig(this.props.gig.id, callback)}
                             />
-                          </div>
-                      : null}
 
-                    </Form>
+                        : null}
+
+                      </Form>
+
+                    </div>
 
                     {this.props.payoutInfoValid && this.props.gig.status === "Requested" ?
                       <div className="col-xs-6">
                         <SubmitButton
-                          active={true}
                           rounded={true}
                           label="Send offer"
                           name="send_offer"
@@ -410,38 +408,37 @@ var Gig = React.createClass({
                     {this.props.payoutInfoValid && this.props.gig.status === "Accepted" ?
                       <div className="col-xs-6">
                         <SubmitButton
-                          active={true}
                           rounded={true}
-                          label="Update price offer"
-                          name="update_offer"
-                          onClick={this.updateOffer}
-                        />
-                      </div>
-                    :null}
+                            label="Update price offer"
+                            name="update_offer"
+                            onClick={this.updateOffer}
+                          />
+                        </div>
+                      :null}
 
 
-                    {this.props.gig.status === "Confirmed" ?
-                      <div className="col-xs-6">
-                        Great! You have been chosen to play this gig.
-                      </div>
-                      :
-                    null}
+                      {this.props.gig.status === "Confirmed" ?
+                        <div className="col-xs-6">
+                          Great! You have been chosen to play this gig.
+                        </div>
+                        :
+                      null}
 
-                    { this.props.gig.status === "Lost" ?
-                      <div className="col-xs-12">
-                        Sorry you have lost this gig to another DJ. <br/>
-                        Next time try to set another price or be faster at responding. <br/>
-                        Adding info to your profile also helps the customer being comfortable in choosing you.
-                      </div>
-                    :  null}
+                      { this.props.gig.status === "Lost" ?
+                        <div className="col-xs-12">
+                          Sorry you have lost this gig to another DJ. <br/>
+                          Next time try to set another price or be faster at responding. <br/>
+                          Adding info to your profile also helps the customer being comfortable in choosing you.
+                        </div>
+                      :  null}
 
-                    { this.props.gig.status === "Cancelled" ?
-                      <div className="col-xs-12">
-                        Unfortunately the event has been cancelled by the host.
-                      </div>
-                    :  null}
+                      { this.props.gig.status === "Cancelled" ?
+                        <div className="col-xs-12">
+                          Unfortunately the event has been cancelled by the host.
+                        </div>
+                      :  null}
 
-                  </div>
+                    </div>
                 </Form>
 
 

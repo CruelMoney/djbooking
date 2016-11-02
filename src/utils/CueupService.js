@@ -18,8 +18,7 @@ export default class CueupService {
             return {method: 'POST', headers: headers, body: JSON.stringify(data)};
         }
         this.putInit = function(data, headers) {
-          console.log(data);
-
+          console.log(JSON.stringify(data));
             return {method: 'PUT', headers: headers, body: JSON.stringify(data)};
         }
         this.deleteInit = function(headers) {
@@ -29,6 +28,7 @@ export default class CueupService {
     }
 
     responseHandling(response, callback) {
+      console.log(response);
         //Checking if statuscode is in 200-299 interval
         if (response.ok) {
 
@@ -164,6 +164,7 @@ export default class CueupService {
       )}
 
     cancelGig(token, id, callback){
+      console.log(id);
       return this.fetchHandling(
         `${this.domain}/api/gig/${id}/cancel`,
         this.getInit(this.getHeaders(token)),
@@ -180,7 +181,7 @@ export default class CueupService {
     makeOffer(token, id, offerDTO, callback){
         return this.fetchHandling(
           `${this.domain}/api/gig/${id}/offer`,
-          this.postInit(offerDTO, this.getHeaders(token)),
+          this.putInit(offerDTO, this.getHeaders(token)),
           callback
         )}
 }

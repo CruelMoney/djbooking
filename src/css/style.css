@@ -747,9 +747,22 @@ box-shadow: rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 1
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-.review-card-fact{
+.review-card-fact, .pay-fact{
     display: flex;
     justify-content: space-between;
+}
+.pay-form{
+  display: flex;
+}
+.pay-info{
+    width: 180px;
+    margin-left: 40px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+.pay-fact{
+  border-bottom: 1px solid #eee;
+  padding-top: 10px;
 }
 .review-card-fact p{
     font-weight: 200;
@@ -877,4 +890,47 @@ button{
 .user-bio{
   overflow: scroll;
   max-height: 150px;
+}
+
+.lock{
+float: left;
+margin-right: 5px;
+}
+
+.info-popup{
+  float: right;
+  margin-top: 2px;
+  margin-left: 5px;
+  position: relative;
+}
+.info-popup .info{
+  position: absolute;
+  visibility: hidden;
+  width: 140px;
+  border: 1px solid #eee;
+  transform: translatex(-50%);
+  left: 50%;
+  bottom: 30px;
+  background: white;
+  padding: 5px;
+  text-align: center;
+  z-index: 1;
+}
+.info-popup .info:before {
+  content: '';
+  bottom: 0px;
+  position: absolute;
+  left: 50%;
+  transform:  translatex(-50%)  translatey(50%) rotate(45deg);
+  width: 15px;
+  height: 15px;
+  /* top: -12px; */
+  z-index: -1;
+  background-color: white;
+  box-shadow: 1px 1px 0px #eee;
+
+}
+
+.info-popup:hover .info{
+  visibility: visible;
 }

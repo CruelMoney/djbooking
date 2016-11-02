@@ -40,18 +40,20 @@ var ActionTypes = c.ActionTypes
         }
   }
 
-  export function checkEmail(email){
+
+  export function checkEmail(email, callback){
     return function (dispatch) {
-      dispatch( function() { return {type: ActionTypes.CHECK_EMAIL_REQUESTED} }() )
           cueup.checkEmailExists(email, function(err, result){
             if (err) {
-              dispatch( function() { return {type: ActionTypes.CHECK_EMAIL_FAILED, err: err.message}}() )
+              (callback(err))
             }else{
               dispatch( function() { return {type: ActionTypes.CHECK_EMAIL_SUCCEEDED, value: result} }() )
+              callback(null)
             }
           })
         }
   }
+
 
 
 

@@ -39,15 +39,20 @@ export function date(value) {
 }
 
 export function validateCardNumber(number){
+   number = number.replace(/\s/g,'')
+   console.log(number);
    return !stripe.validateCardNumber(number) ? ['The card number is not valid'] : []
 }
 
-export function validateCardExpiry(month, year){
-  return !stripe.validateExpiry(month, year) ? ['The expiry date is not valid'] : []
+export function validateCardExpiry(date){
+  const dateArr = date.split('/');
+  const month = dateArr[0]
+  const year = dateArr[1]
+  return !stripe.validateCardExpiry(month, year) ? ['The expiry date is not valid'] : []
 }
 
 export function validateCardCVC(cvc){
-  return !stripe.validateCVC(cvc) ? ['The security code is not valid'] : []
+  return !stripe.validateCardCVC(cvc) ? ['The security code is not valid'] : []
 }
 
 export function getCardType(cardNumber){

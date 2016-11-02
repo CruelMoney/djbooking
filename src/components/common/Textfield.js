@@ -153,6 +153,7 @@ var Text = React.createClass({
 
     }
     return (
+
                 <TextField
                   value={this.props.controlledValue || this.state.value || null}
                   name={this.props.name}
@@ -178,6 +179,7 @@ var Text = React.createClass({
                       {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
                     </div>
                   ) : null}/>
+
 
 
 

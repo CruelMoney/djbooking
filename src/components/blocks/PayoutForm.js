@@ -114,36 +114,24 @@ var payoutForm = React.createClass({
 
           <TextWrapper
             label="Payout"
+            showLock={true}
             text="All information is encrypted.">
             <div className="row">
-              <div className="col-xs-6">
+              <div className="col-xs-12">
                 <TextField
-                  name="bank_number"
+                  name="bank_address"
                   hintStyle={styles.medium.hint}
                   style={styles.medium.textarea}
                   inputStyle={styles.medium.input}
-                  validate={['required', 'validateRoutingNumberDKK']}
-                  type="number"
-                  fullWidth={false}
-                  placeholder="Registration number"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                />
-              </div>
-              <div className="col-xs-6">
-                <TextField
-                  name="account_number"
-                  hintStyle={styles.medium.hint}
-                  style={styles.medium.textarea}
-                  inputStyle={styles.medium.input}
-                  validate={['required', 'validateAccountNumberDKK']}
-                  type="number"
-                  fullWidth={false}
-                  placeholder="Account number"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
+                  type="text"
+                  validate={['required']}
 
+                  fullWidth={false}
+                  placeholder="Address"
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
                 />
+
               </div>
             </div>
             <div className="row">
@@ -179,34 +167,56 @@ var payoutForm = React.createClass({
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-12">
+              <div className="col-xs-6">
                 <TextField
-                  name="bank_address"
+                  name="bank_number"
                   hintStyle={styles.medium.hint}
                   style={styles.medium.textarea}
                   inputStyle={styles.medium.input}
-                  type="text"
-                  validate={['required']}
-
+                  validate={['required', 'validateRoutingNumberDKK']}
+                  type="number"
                   fullWidth={false}
-                  placeholder="Address"
+                  placeholder="Registration number"
                   underlineDisabledStyle={styles.plainBorder}
                   underlineStyle={styles.dottedBorderStyle}
                 />
 
               </div>
+              <div className="col-xs-6">
+                <TextField
+                  name="account_number"
+                  hintStyle={styles.medium.hint}
+                  style={styles.medium.textarea}
+                  inputStyle={styles.medium.input}
+                  validate={['required', 'validateAccountNumberDKK']}
+                  type="number"
+                  fullWidth={false}
+                  placeholder="Account number"
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
+
+                />
+
+              </div>
             </div>
+
           </TextWrapper>
-          <div style={{display: 'flex'}}>
-            <SubmitButton
-              rounded={true}
-              label="Save"
-              name="save_payout_info"
-              onClick={this.updatePayoutInfo}
-            />
-            <img role="presentation" src={PoweredByStripe}/>
+          <div className="row">
+            <div className="col-xs-6">
+              <SubmitButton
+                rounded={true}
+                label="Save"
+                name="save_payout_info"
+                onClick={this.updatePayoutInfo}
+              />
+            </div>
+            <div className="col-xs-6">
+              <a style={{float: "right"}} href="https://stripe.com/" target="_blank">
+                <img role="presentation" src={PoweredByStripe}/>
+              </a>
+            </div>
           </div>
-        </Form>
+          </Form>
 
       </div>)
 

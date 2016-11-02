@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.6.0",
+    "react-scripts": "0.7.0",
     "webpack-dashboard": "0.0.1"
   },
   "dependencies": {
@@ -34,12 +34,11 @@
     "material-ui": "^0.15.4",
     "postcss-loader": "^0.9.1",
     "radium": "^0.18.1",
-    "react": "^15.2.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-update": "^15.3.2",
     "react-datepicker": "^0.28.2",
-    "react-dom": "^15.3.2",
-    "react-geosuggest": "^1.25.1",
     "react-google-maps": "^4.11.0",
     "react-nouislider": "^1.14.0",
     "react-onclickoutside": "^5.7.0",
@@ -62,4 +61,5 @@
   "eslintConfig": {
     "extends": "react-app"
   }
+
 }

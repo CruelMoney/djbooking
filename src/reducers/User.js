@@ -14,6 +14,12 @@ const initialState = { //define initial state - an empty form
 
 const status = (state = initialState, action) => {
   switch (action.type) {
+
+  case ActionTypes.CHECK_EMAIL_SUCCEEDED:
+      return assign({}, state, {
+              emailExists: action.value
+            })
+
   case ActionTypes.LOGIN_REQUESTED:
       return assign({}, state, {
               isWaiting: true

@@ -9,14 +9,15 @@ import * as userActions from '../actions/UserActions'
 function mapStateToProps(state, ownProps) {
   return {
     isLoggedIn: state.user.status.signedIn,
-    form: state.forms.requestForm
+    form: state.forms.requestForm,
+    emailExists: state.user.status.emailExists
   }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onSubmit: (form)    => {dispatch(eventActions.postEvent(form))},
-    checkEmail: (email) => {dispatch(userActions.checkEmail(email))}
+    onSubmit: (form, callback)    => {dispatch(eventActions.postEvent(form, callback))},
+    checkEmail: (email, callback) => {dispatch(userActions.checkEmail(email, callback))}
 }}
 
 

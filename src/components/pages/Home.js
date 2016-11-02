@@ -11,9 +11,11 @@ scrollIntoView.polyfill()
 
 export default React.createClass({
   propTypes: {
+    checkEmail: PropTypes.func,
     onSubmit: PropTypes.func,
     isLoggedIn: PropTypes.bool,
-    form: PropTypes.object
+    form: PropTypes.object,
+    emailExists: PropTypes.bool
   },
 
 
@@ -91,6 +93,8 @@ handleButtonClick(){
                   onSubmit={this.props.onSubmit}
                   isLoggedIn={this.props.isLoggedIn}
                   form={this.props.form}
+                  checkEmail={this.props.checkEmail}
+                  emailExists={this.props.emailExists}
                 />
               </div>
               <Footer/>

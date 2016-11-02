@@ -52,31 +52,24 @@ function createEvent(form, geoResult){
       }
 
 
-export function postEvent(form) {
+export function postEvent(form, callback) {
   return function (dispatch) {
-    dispatch( function() { return {type: ActionTypes.CREATE_EVENT_REQUESTED} }() )
 
     //Getting the coordinates of the playing location
-    GeoCoder.codeAddress(form.values.location, function(geoResult) {
+    GeoCoder.codeAddress(form.location, function(geoResult) {
         if (geoResult.error) {
-            dispatch(function() {
-                return {
-                    type: ActionTypes.CREATE_EVENT_FAILED,
-                    err: "Error defining location: " + geoResult.error
-                }
-            }())
-            return
+            (callback("Error defining location: " + geoResult.error))
           }
 
         //If the geocoding does not fail
         else {
-          var data = createEvent(form.values, geoResult.position)
+          var data = createEvent(form, geoResult.position)
           const token = auth.getToken()
           cueup.createEvent(token, data, function(err, result){
             if (err) {
-              dispatch( function() { return {type: ActionTypes.CREATE_EVENT_FAILED, err: err.message}}() )
+              (callback(err))
             }else{
-              dispatch( function() { return {type: ActionTypes.CREATE_EVENT_SUCCEEDED} }() )
+              (callback(null))
             }
           })
         }})

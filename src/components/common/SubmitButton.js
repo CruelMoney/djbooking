@@ -5,6 +5,7 @@ export default React.createClass({
 
   propTypes:{
     onClick: PropTypes.func, // has to take to parameters (form, callback)
+    noCheckMark: PropTypes.bool
   },
 
   contextTypes: {
@@ -23,7 +24,7 @@ export default React.createClass({
   return(
   <Button
     {...this.props}
-    success={this.context.succeeded}
+    success={!this.props.noCheckMark && this.context.succeeded}
     isLoading={this.context.isLoading}
     onClick={this.handleClick}
   />
