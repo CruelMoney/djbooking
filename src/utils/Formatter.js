@@ -38,7 +38,35 @@ const formatter = {
         i = parseInt(n = Math.abs(+n || 0).toFixed(c), 10) + "",
         j = i.length > 3 ? i.length % 3 : 0;
        return currency + " " + s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+  },
+  ToStandard: function(number, currency){
+    switch (currency) {
+        case "DKK":
+          number /= 100 //From øre to kroner
+          break
+        case "USD":
+          number /= 100 //From cents to dollar
+          break
+        default:
+          break
+      }
+      return number
+  },
+  ToSmallest: function(number, currency){
+    switch (currency) {
+        case "DKK":
+          number *= 100 //From øre to kroner
+          break
+        case "USD":
+          number *= 100 //From cents to dollar
+          break
+        default:
+          break
+      }
+      return number
   }
+
+
     },
 
     name: {

@@ -65,6 +65,7 @@ import assign from 'lodash.assign'
             city:           DTO.user_metadata.city,
             phone:          DTO.user_metadata.phone,
             currency:       DTO.user_metadata.currency || "DKK",
+            last4:          DTO.user_metadata.last4,
 
           //App metadata stuff here
 
@@ -117,7 +118,7 @@ import assign from 'lodash.assign'
       fromDTO:function(DTO){
         return{
            gigID: DTO.gigID,
-           amount: DTO.amount,
+           amount: Formatter.money.ToStandard(DTO.amount, DTO.currency),
            currency: DTO.currency,
            dj: user.fromDTO(DTO.dj)
           }
@@ -125,7 +126,7 @@ import assign from 'lodash.assign'
       toDTO:function(offer){
         return{
            GigID: offer.gigID,
-           Amount: offer.amount,
+           Amount: Formatter.money.ToSmallest(offer.amount,offer.currency),
            Currency: offer.currency
           }
       }

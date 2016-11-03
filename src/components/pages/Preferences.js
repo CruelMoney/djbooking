@@ -186,10 +186,20 @@ var Preferences = React.createClass({
                 label="Payout"
                 text="To get paid, you need to set up a payout method.
                 Cueup releases payouts about 24 hours after a job is finished.">
+                {this.props.user.last4 ?
+                  <div className="user-card-info">
+                    <div className="user-card-fact">
+                      <p>Current account number</p>
+                      {"**************" + this.props.user.last4}
+                    </div>
+                  </div>
 
+                : null}
                 <Button
                   rounded={true}
-                  label="Update payout information"
+                  label={!this.props.user.last4 ?
+                    "Setup payout info"
+                  : "Update payout info"}
                   onClick={()=>this.setState({showPopup:true})}
                   name="show-payout-popup"
                 />

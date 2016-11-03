@@ -28,7 +28,6 @@ export default class CueupService {
     }
 
     responseHandling(response, callback) {
-      console.log(response);
         //Checking if statuscode is in 200-299 interval
         if (response.ok) {
 
@@ -40,9 +39,7 @@ export default class CueupService {
                 })
             } else {
                 //The case that its not json
-                return callback({
-                    message: "Reply was not json"
-                }, null)
+                return callback(null, "ok")
             }
         } else {
 

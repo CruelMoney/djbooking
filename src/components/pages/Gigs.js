@@ -148,7 +148,7 @@ var Gigs = React.createClass({
           lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
           break
         case 'Cancelled':
-          lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          //lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
           break
         default:
 
