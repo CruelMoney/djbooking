@@ -149,6 +149,13 @@ export default class CueupService {
        this.putInit("", this.getHeaders(token)),
        callback
      )}
+
+     payEvent(token, id, data, callback) {
+       return this.fetchHandling(
+         `${this.domain}/api/event/${id}/pay`,
+         this.putInit(data, this.getHeaders(token)),
+         callback
+       )}
     //EVENT ACTIONS END
 
 

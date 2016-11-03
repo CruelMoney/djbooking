@@ -5,7 +5,8 @@ import CueupService from '../utils/CueupService'
 const cueup = new CueupService()
 const auth = new AuthService()
 import GeoCoder from '../utils/GeoCoder'
-
+import StripeService from '../utils/StripeService'
+const stripe = new StripeService()
 
 
 var ActionTypes = c.ActionTypes
@@ -121,5 +122,38 @@ export function cancelEvent(id, callback) {
       (callback(null))
     }
   })
+}
+}
+
+
+export function payEvent(data, callback) {
+  return function(dispatch){
+
+  stripe.createCardToken(data, (err, result)=>{
+    if (err) {
+      (callback(err))
+    }else{
+      const token = auth.getToken()
+
+      data = {
+        CardToken: result.id,
+        Amount: data.amount,
+        Currency: data.currency,
+        ChosenGigID: data.chosenGigID,
+        City: data.card_city,
+        Zip: data.card_zip,
+        Address: data.card_address
+      }
+      cueup.updateUserBankInfo(token, data, function(err, result){
+        if (err) {
+          (callback(err))
+        }else{
+          (callback(null))
+        }
+      })
+
+    }
+  });
+
 }
 }

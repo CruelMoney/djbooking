@@ -135,6 +135,7 @@ import assign from 'lodash.assign'
     const cueupEvent ={
 
       fromDTO:function(DTO){
+        console.log(DTO);
         return{
             id: DTO.id,
             genres: DTO.genres,

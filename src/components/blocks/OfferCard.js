@@ -40,6 +40,7 @@ var OfferCard = React.createClass({
       <Popup showing={this.state.showPopup}
         onClickOutside={this.hidePopup}>
         <PayForm
+          gigId={this.props.offer.gigID}
           amount={this.props.offer.amount}
           currency={this.props.offer.currency}
         />

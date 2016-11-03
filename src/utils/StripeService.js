@@ -26,6 +26,24 @@ export default class StripeService {
       }, (status, response) => this.responseHandling(status, response, callback));
     }
 
+    createCardToken(data, callback){
+      const dateArr = data.card_expiry.split('/');
+      const month = dateArr[0]
+      const year = dateArr[1]
+
+      Stripe.card.createToken({
+        number: data.card_number,
+        cvc: data.card_cvc,
+        exp_month: month,
+        exp_year:year,
+        address_line1:data.card_address,
+        address_city: data.card_city,
+        address_zip:data.card_zip
+      }, (status, response) => this.responseHandling(status, response, callback));
+    }
+
+
+
     validateCardNumber(number){
        return Stripe.card.validateCardNumber(number)
     }

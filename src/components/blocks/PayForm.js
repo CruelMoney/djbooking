@@ -5,7 +5,7 @@ import PoweredByStripe from '../../assets/powered_by_stripe.png'
 import Form from '../../containers/Form-v2'
 import SubmitButton from '../common/SubmitButton'
 import { connect } from 'react-redux'
-import * as actions from '../../actions/UserActions'
+import * as actions from '../../actions/EventActions'
 import {datePipeCard, cardNumberPipe} from '../../utils/TextPipes'
 import Formatter from '../../utils/Formatter'
 
@@ -15,16 +15,17 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var payForm = React.createClass({
   propTypes: {
-    user: PropTypes.object,
     amount: PropTypes.number,
+    gigId: PropTypes.number,
     currency: PropTypes.string,
     confirmPayment: PropTypes.func
   },
 
   confirmPayment(form, callback) {
       const data = assign(form.values, {
-        amount: this.props.amount,
-        currency: this.props.currency
+        amount: Formatter.money.ToSmallest(this.props.amount, this.props.currency),
+        currency: this.props.currency,
+        chosenGigID: this.props.gigId
       })
 
       this.props.confirmPayment(data, callback)
@@ -123,6 +124,57 @@ var payForm = React.createClass({
               label="Pay"
               showLock={true}
               text="All information is encrypted.">
+
+              <div className="row">
+                <div className="col-xs-12">
+                  <TextField
+                    name="card_address"
+                    hintStyle={styles.medium.hint}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
+                    type="text"
+                    validate={['required']}
+
+                    fullWidth={false}
+                    placeholder="Address"
+                    underlineDisabledStyle={styles.plainBorder}
+                    underlineStyle={styles.dottedBorderStyle}
+                  />
+
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-xs-6">
+                  <TextField
+                    name="card_city"
+                    hintStyle={styles.medium.hint}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
+                    type="text"
+                    fullWidth={false}
+                    validate={['required']}
+                    placeholder="City"
+                    underlineDisabledStyle={styles.plainBorder}
+                    underlineStyle={styles.dottedBorderStyle}
+                  />
+                </div>
+                <div className="col-xs-6">
+                  <TextField
+                    name="card_zip"
+                    hintStyle={styles.medium.hint}
+                    style={styles.medium.textarea}
+                    inputStyle={styles.medium.input}
+                    type="number"
+                    validate={['required']}
+
+                    fullWidth={false}
+                    placeholder="Zip code"
+                    underlineDisabledStyle={styles.plainBorder}
+                    underlineStyle={styles.dottedBorderStyle}
+
+                  />
+                </div>
+              </div>
               <div className="row">
                 <div className="col-xs-12">
                   <TextField
@@ -247,12 +299,11 @@ var styledPay = muiThemeable()(payForm)
 
 
 function mapStateToProps(state, ownprops){
-  return{user:  state.user.profile}
 }
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-      updatePayoutInfo: (data, callback) => dispatch(actions.updatePayoutInfo(data,callback)),
+      confirmPayment: (data, callback) => dispatch(actions.payEvent(data,callback)),
   }
 }
 
