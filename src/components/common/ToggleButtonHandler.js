@@ -38,7 +38,6 @@ var ToggleButtonHandler = React.createClass({
 
 
    componentWillMount() {
-
      this.setState({
        toggledButtons: this.props.preToggled
      })
@@ -48,14 +47,6 @@ var ToggleButtonHandler = React.createClass({
       if (this.context.updateValue) {
         this.context.updateValue(this.props.name, this.props.preToggled)
       }
-   },
-
-   componentWillReceiveProps(nextProps){
-     if (nextProps.preToggled && nextProps.preToggled.length) {
-       this.setState({
-         toggledButtons: nextProps.preToggled
-       })
-     }
    },
 
    componentWillUnmount() {

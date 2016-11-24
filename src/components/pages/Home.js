@@ -53,18 +53,21 @@ handleButtonClick(){
         <div className="home-bg"
           style={{overflow: 'hidden', position:'relative'}}
         >
+        <div id="stripes">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
           <div className="container"
             style={{
               display:'flex',
               alignItems:'center'
             }}>
-            <div className="col-md-5 col-md-offset-1">
-              <DatePicker
-                handleChange={this.handleDateChange}
-                handleButtonClick={this.handleButtonClick}
-              />
-            </div>
-            <div className="col-md-5"
+
+            <div className="row">
+            <div className="col-md-6"
               style={{
                 display:'flex',
                 alignItems:'center'
@@ -75,10 +78,16 @@ handleButtonClick(){
               </div>
             </div>
 
+            <div className="col-md-5 col-md-offset-1">
+              <DatePicker
+                handleChange={this.handleDateChange}
+                handleButtonClick={this.handleButtonClick}
+              />
+            </div>
+            </div>
+
           </div>
-          <video autoPlay loop muted preload="auto">
-            <source src={bgVideo} type="video/mp4"/>
-          </video>
+
         </div>
         <div
           ref={(f) => this.requestForm = f}/>

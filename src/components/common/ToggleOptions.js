@@ -62,7 +62,7 @@ var ToggleOptions = React.createClass({
      }   },
 
    isValid(showErrors) {
-     const errors = (!this.state.value) ? ["You have to choose an option"] : []
+     const errors = (!this.state.value && this.state.value !== 0) ? ["You have to choose an option"] : []
       if (showErrors) {
         this.setState({
             errors

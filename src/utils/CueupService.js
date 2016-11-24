@@ -110,6 +110,12 @@ export default class CueupService {
        this.getInit(this.getHeaders(token)),
        callback
      )}
+     updateSettings(token, data, callback) {
+       return this.fetchHandling(
+       `${this.domain}/api/user/settings`,
+       this.postInit(data, this.getHeaders(token)),
+       callback)
+    }
    //USER ACTIONS END
 
 

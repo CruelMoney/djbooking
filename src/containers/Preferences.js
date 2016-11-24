@@ -9,17 +9,16 @@ function mapStateToProps(state, ownProps) {
   return {
     user:  state.user.profile,
     provider: state.user.profile.provider,
-    editMode: state.user.status.editMode,
   }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    toggleEditMode: () => { dispatch(actions.toggleEditMode()) },
     connectFacebook: () => {console.log("not implemented")},
     connectSoundCloud: () =>{console.log("not implemented")},
     connectDB:  () => {console.log("not implemented")},
-    deleteAccount: () => {console.log("not implemented")},
+    updateSettings: (settings, callback) => dispatch(actions.updateSettings(settings,callback)),
+    deleteAccount: (callback) => dispatch(actions.deleteProfile(callback)),
 }}
 
 

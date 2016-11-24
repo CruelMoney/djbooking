@@ -41,6 +41,16 @@ import assign from 'lodash.assign'
       }
     }
 
+
+    const settings ={
+      fromDTO:function(DTO){
+        return DTO
+      },
+      toDTO:function(settings){
+        return settings;
+      }
+    }
+
     const user ={
       fromDTO: function(DTO) {
         console.log(JSON.stringify(DTO.settings.emailSettings));
@@ -55,6 +65,7 @@ import assign from 'lodash.assign'
           genres:     DTO.genres,
           createdAt : DTO.createdAt,
           reviews : DTO.reviews ? DTO.reviews.map(r => review.fromDTO(r)) : [],
+          settings: settings.fromDTO(DTO.settings),
 
           // user_metadata stuff here
             address:        DTO.user_metadata.address,
@@ -96,6 +107,7 @@ import assign from 'lodash.assign'
           playingRadius : profile.playingRadius,
           user_id   : profile.user_id,
           genres:     profile.genres,
+          settings: settings.toDTO(profile.settings),
 
           user_metadata:{
             address:        profile.address,
@@ -196,6 +208,7 @@ import assign from 'lodash.assign'
 
 export default{
 user,
+settings,
 location,
 offer,
 cueupEvent,

@@ -26,20 +26,20 @@ var ActionTypes = c.ActionTypes
   }
 
 
-  export function deleteProfile(){
-    return function (dispatch) {
-      dispatch( function() { return {type: ActionTypes.DELETE_PROFILE_REQUESTED} }() )
-          const token = auth.getToken()
-          cueup.deleteUser(token, function(err, result){
-            if (err) {
-              dispatch( function() { return {type: ActionTypes.DELETE_PROFILE_FAILED, err: err.message}}() )
-            }else{
-              dispatch( function() { return {type: ActionTypes.DELETE_PROFILE_SUCCEEDED} }() )
-            }
-          })
-        }
-  }
+  export function deleteProfile(callback) {
+    return function(dispatch){
 
+    const token = auth.getToken()
+    cueup.deleteUser(token, function(err, result){
+      if (err) {
+        (callback(err))
+      }else{
+        (callback(null))
+      }
+    })
+  }
+  }
+  
 
   export function checkEmail(email, callback){
     return function (dispatch) {
@@ -111,5 +111,21 @@ export function updatePayoutInfo(data, callback) {
     }
   });
 
+}
+}
+
+
+export function updateSettings(settings, callback) {
+  return function(dispatch){
+  const data = converter.settings.toDTO(settings)
+
+  const token = auth.getToken()
+  cueup.updateSettings(token, data, function(err, result){
+    if (err) {
+      (callback(err))
+    }else{
+      (callback(null))
+    }
+  })
 }
 }

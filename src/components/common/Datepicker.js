@@ -28,9 +28,6 @@ export default React.createClass({
   render: function() {
     return (
       <div className="calendar-container">
-        <h1 style={{color:'white', marginBottom:'20px', marginTop:'0px'}}>
-          Pick date of event
-        </h1>
         <DatePicker
           fixedHeight
           inline
