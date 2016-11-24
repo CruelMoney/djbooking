@@ -82,7 +82,10 @@ const login = React.createClass({
     </div>
   </div>
   <p style={{textAlign:"center"}}>OR</p>
-  <div>
+    <form
+      onSubmit={this.login}
+      >
+      <div>
     <Textfield
       type="email"
       fullWidth={true}
@@ -108,6 +111,7 @@ const login = React.createClass({
       onClick={this.login}
     />
   </div>
+  </form>
   {this.props.error ?
     <p style={{color:'red'}}>
       {this.props.error}

@@ -41,7 +41,6 @@ import assign from 'lodash.assign'
       }
     }
 
-
     const settings ={
       fromDTO:function(DTO){
         return DTO
@@ -53,7 +52,6 @@ import assign from 'lodash.assign'
 
     const user ={
       fromDTO: function(DTO) {
-        console.log(JSON.stringify(DTO.settings.emailSettings));
         return assign({}, DTO, {
           bio: DTO.bio,
           email: DTO.email,

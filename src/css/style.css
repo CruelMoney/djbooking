@@ -131,6 +131,7 @@ align-items: center;
 .main-menu li{
     text-align: right;
     margin-left: 30px;
+    position: relative;
 }
 
 .main-menu li:last-child{
@@ -285,8 +286,9 @@ input[type="file"] + label * {
 
 .loginDropDown{
   position: absolute;
-  top: 75px;
-  margin-left: -336px;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 20px;
   width: 300px;
   background-color: white;
@@ -296,27 +298,14 @@ input[type="file"] + label * {
 
 .loginDropDown:after {
   position: absolute;
-  top: -12px;
-  right: 133px;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
   display: inline-block;
   border-right: 15px solid transparent;
   border-bottom: 15px solid #ffffff;
   border-left: 15px solid transparent;
   content: '';
-}
-
-.loginDropDown:before {
-  content: '';
-  top: -10px;
-  right: 46%;
-  position: absolute;
-  transform: rotate(45deg);
-  width: 20px;
-  height: 20px;
-  /* top: -12px; */
-  z-index: -1;
-  background-color: white;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .home-bg{

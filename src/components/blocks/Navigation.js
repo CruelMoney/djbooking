@@ -116,6 +116,14 @@ var menu = React.createClass({
                     label="Login"
                     isNavigationButton={true}
                     onClick={this.onLoginButton}/>
+                      <Dropdown
+                        expanded={this.state.loginExpanded}
+                        disableOnClickOutside={!this.state.loginExpanded}
+                        onClickOutside={this.onClickOutside}
+                      >
+                        <Login
+                        />
+                      </Dropdown>
                 </li>
               )}
               {this.props.loggedIn ? (
@@ -125,14 +133,7 @@ var menu = React.createClass({
                     <Navlink white={isHome} buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
                   </li>
               )}
-              <Dropdown
-                expanded={this.state.loginExpanded}
-                disableOnClickOutside={!this.state.loginExpanded}
-                onClickOutside={this.onClickOutside}
-              >
-                <Login
-                />
-              </Dropdown>
+
             </ul>
           </nav>
         </div>
