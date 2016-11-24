@@ -43,7 +43,8 @@ import assign from 'lodash.assign'
 
     const user ={
       fromDTO: function(DTO) {
-        return {
+        console.log(JSON.stringify(DTO.settings.emailSettings));
+        return assign({}, DTO, {
           bio: DTO.bio,
           email: DTO.email,
           experienceCount: DTO.experienceCount,
@@ -82,7 +83,7 @@ import assign from 'lodash.assign'
 
           //self calculated extra info here
           provider:         DTO.app_metadata.auth0Id.split("|")[0]
-          }
+              })
         },
 
       toDTO: function(profile) {
@@ -135,7 +136,7 @@ import assign from 'lodash.assign'
     const cueupEvent ={
 
       fromDTO:function(DTO){
-        console.log(DTO);
+
         return{
             id: DTO.id,
             genres: DTO.genres,

@@ -6,8 +6,7 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.7.0",
-    "webpack-dashboard": "0.0.1"
+    "react-scripts": "0.7.0"
   },
   "dependencies": {
     "auth0-js": "^7.2.1",
@@ -31,7 +30,7 @@
     "keymirror": "^0.1.1",
     "lodash.assign": "^4.2.0",
     "lodash.without": "^4.4.0",
-    "material-ui": "^0.15.4",
+    "material-ui": "^0.16.4",
     "postcss-loader": "^0.9.1",
     "radium": "^0.18.1",
     "react": "^15.3.2",
@@ -44,7 +43,7 @@
     "react-onclickoutside": "^5.7.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
-    "react-tap-event-plugin": "^1.0.0",
+    "react-tap-event-plugin": "^2.0.0",
     "redux": "^3.6.0",
     "redux-form": "^5.3.3",
     "redux-logger": "^2.6.1",
