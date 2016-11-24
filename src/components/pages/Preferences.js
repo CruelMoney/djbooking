@@ -15,6 +15,7 @@ export default React.createClass({
   propTypes: {
     user: PropTypes.object,
     provider: PropTypes.string,
+    changePassword: PropTypes.func,
     connectFacebook: PropTypes.func,
     connectSoundCloud: PropTypes.func,
     connectDB: PropTypes.func,
@@ -102,15 +103,7 @@ export default React.createClass({
             name="edit_user_settings"
           />}
 
-        { this.state.infoEditMode ?
-          <SubmitButton
-            rounded={true}
-            onClick={this.deleteAccount}
-            label="Delete account"
-            dangerous={true}
-            name="delete_user"
-          />
-        : null }
+
     </div>
     )
   },
@@ -124,15 +117,13 @@ export default React.createClass({
           <PayoutForm/>
 
         </Popup>
-        <Form
-          name="settings-form"
-          >
 
-
-  {this.getActionButtons()}
         <div className="row">
           <div className="col-lg-12">
-
+            <Form
+              name="settings-form"
+              >
+            {this.getActionButtons()}
             {isDJ ?
               <TextWrapper
                 label="Payout"
@@ -141,8 +132,8 @@ export default React.createClass({
                 {this.props.user.last4 ?
                   <div className="user-card-info">
                     <div className="user-card-fact">
-                      <p>Current account number</p>
-                      {"**************" + this.props.user.last4}
+                      <p>Last 4 digits of current account number</p>
+                      { this.props.user.last4}
                     </div>
                   </div>
 
@@ -234,35 +225,40 @@ export default React.createClass({
                 </TextWrapper>
               </div>
             : null}
+          </Form>
 
+          <Form name="change-password">
             { this.props.provider === "auth0" ?
               <div style={{marginBottom:"4px"}}>
                 <TextWrapper
                   label="Password"
-                  text="Change your password here">
-                  <div className="row">
-                    <div className="col-xs-6">
-                      <TextField
-                        name="password"
-                        disabled={!this.state.infoEditMode}
-                        type="password"
-                        fullWidth={false}
-                        placeholder="Password"
-                      />
-                    </div>
-                    <div className="col-xs-6">
-                      <TextField
-                        name="password_repeat"
-                        disabled={!this.state.infoEditMode}
-                        type="password"
-                        fullWidth={false}
-                        placeholder="Repeat password"
-                      />
-
-                    </div>
-                  </div>
+                  text="Request an email to change your password.">
+                  <SubmitButton
+                    rounded={true}
+                    onClick={(email, callback) => this.props.changePassword(this.props.user.email, callback)}
+                    label="Request email"
+                    name="request_change_password"
+                  />
                 </TextWrapper>
               </div>  : null }
+              </Form>
+
+              <Form name="delete-account">
+                { this.state.infoEditMode ?
+                  <TextWrapper
+                    label="Delete account"
+                    text="If you delete your account all information will be lost. All unfinished payouts or payments will still proceed.">
+                    <SubmitButton
+                      rounded={true}
+                      onClick={this.props.deleteAccount}
+                      label="Delete account"
+                      dangerous={true}
+                      name="delete_user"
+                    />
+                  </TextWrapper>
+
+                : null }
+                  </Form>
 
             {/* <TextWrapper
               label="Connect social platforms"
@@ -301,7 +297,6 @@ export default React.createClass({
 
           </div>
         </div>
-        </Form>
       </div>)
 
   }

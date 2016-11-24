@@ -39,11 +39,24 @@ var ActionTypes = c.ActionTypes
     })
   }
   }
-  
+
+  export function changePassword(email, callback) {
+    return function(dispatch){
+
+    auth.requestPasswordChange(email, function(err, result){
+      if (err) {
+        (callback(err))
+      }else{
+        (callback(null))
+      }
+    })
+  }
+  }
+
 
   export function checkEmail(email, callback){
     return function (dispatch) {
-          cueup.checkEmailExists(email, function(err, result){
+          auth.checkEmailExists(email, function(err, result){
             if (err) {
               (callback(err))
             }else{

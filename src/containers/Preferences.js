@@ -18,7 +18,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     connectSoundCloud: () =>{console.log("not implemented")},
     connectDB:  () => {console.log("not implemented")},
     updateSettings: (settings, callback) => dispatch(actions.updateSettings(settings,callback)),
-    deleteAccount: (callback) => dispatch(actions.deleteProfile(callback)),
+    deleteAccount: (form, callback) => dispatch(actions.deleteProfile(callback)),
+    changePassword: (email, callback) => dispatch(actions.changePassword(email, callback))
 }}
 
 

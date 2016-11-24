@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react'
 import Button from '../common/Button'
 import Textfield from 'material-ui/TextField'
-
+import AuthService from '../../utils/AuthService'
+const auth = new AuthService()
+import CueupService from '../../utils/CueupService'
+const cueup = new CueupService()
 
 const login = React.createClass({
     displayName: 'Login',
@@ -11,7 +14,7 @@ const login = React.createClass({
       loginFacebook: PropTypes.func,
       loginSoundcloud: PropTypes.func,
       isLoading: PropTypes.bool,
-      error: PropTypes.string
+      error: PropTypes.string,
     },
 
     getInitialState() {
@@ -20,6 +23,13 @@ const login = React.createClass({
         password: "",
         isValid: false,
       }
+    },
+
+    componentWillMount(){
+      this.setState({
+        error: this.props.error,
+        message: ""
+      })
     },
 
     componentWillReceiveProps(nextProps){
@@ -54,6 +64,36 @@ const login = React.createClass({
           this.setValidState()
     },
 
+    onRequestChangePassword(){
+      var self = this;
+      if (!this.state.email) {
+        this.setState({error: "Please enter email."})
+        return
+      }
+
+          cueup.checkEmailExists(this.state.email, function(err,resp){
+            if (err) {
+              self.setState({error: "Something went wrong."})
+              return
+            }else{
+              if (resp === false) {
+                self.setState({error: "The email does not exist."})
+                return
+            }else{
+              auth.requestPasswordChange(self.state.email,function(err,resp){
+                if (err) {
+                  self.setState({error: "Something went wrong."})
+                }else{
+                  self.setState({error: "", message: "We've just sent you an email to reset your password."})
+                }
+              })
+            }
+            }
+          })
+
+
+    },
+
 
     login(){
       this.props.login(this.state.email,this.state.password)
@@ -63,7 +103,7 @@ const login = React.createClass({
   render() {
 
     return (
-<div>
+<div className="login">
   <div>
     <div style={{marginBottom:"10px"}} md={6}>
       <Button
@@ -112,14 +152,19 @@ const login = React.createClass({
     />
   </div>
   </form>
-  {this.props.error ?
+  {this.state.error ?
     <p style={{color:'red'}}>
-      {this.props.error}
+      {this.state.error}
     </p>
   :null}
-  <p style={{opacity:'0.5'}}>
+  {this.state.message ?
+    <p style={{color:'green'}}>
+      {this.state.message}
+    </p>
+  :null}
+  <a onClick={this.onRequestChangePassword}>
     Forgot?
-  </p>
+  </a>
 </div>
     )
     }

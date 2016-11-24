@@ -118,10 +118,10 @@ export default class AuthService extends EventEmitter {
             })
     }
 
-    requestPasswordChange(userName, token, callback) {
+    requestPasswordChange(email, callback) {
             this.auth0.changePassword({
           connection: 'Username-Password-Authentication',
-          username:   userName
+          email:   email
         }, function (err, resp) {
           return callback(err,resp)
         })

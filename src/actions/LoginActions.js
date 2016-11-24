@@ -127,6 +127,7 @@ export function loginSoundcloud(callback) {
 }
 
 export function loginEmail(form, callback) {
+  console.log(form);
       auth.login({
         connection: 'Username-Password-Authentication',
         responseType: 'token',
@@ -134,8 +135,6 @@ export function loginEmail(form, callback) {
         password: form.password,
       }, callback)
 }
-
-
 
 export function userLogout() {
      auth.logout()

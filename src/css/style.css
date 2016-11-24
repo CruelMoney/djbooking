@@ -295,6 +295,10 @@ input[type="file"] + label * {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
+.loginDropDown a{
+  color: black;
+  cursor: pointer;
+}
 
 .loginDropDown:after {
   position: absolute;
@@ -771,7 +775,7 @@ box-shadow: rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 1
   margin-right: 10px;
 }
 .text-element-wrapper{
-margin-bottom: 20px;
+margin-bottom: 50px;
 }
 
 .events{
