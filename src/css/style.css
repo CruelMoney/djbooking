@@ -141,6 +141,7 @@ align-items: center;
 
 .copyright{
   color: #CFD7DF;
+  font-family: SourceSansPro-Regular;
 }
 
 .footer-columns{
@@ -980,7 +981,6 @@ margin-right: 5px;
   top: -20px;
     width: 100%;
     height: 760px;
-    overflow: hidden;
     -webkit-transform: skewY(-12deg);
     transform: skewY(-12deg);
     -webkit-transform-origin: 0;
@@ -1047,7 +1047,11 @@ margin-right: 5px;
     #stripes :nth-child(3) {
         width: 33.33333%;
         bottom: -1px;
-        background-image: linear-gradient(90deg, #32DAFF 50%, rgba(113, 106, 255, 0) 100%);
+        background-image: linear-gradient(90deg, #32DAFF 25%, rgba(113, 106, 255, 0) 100%);
+    }
+
+    #stripes :nth-child(3).white {
+        background-image: linear-gradient(90deg, #FFFFFF 25%, rgba(113, 106, 255, 0) 100%);
     }
 }
 
@@ -1104,21 +1108,25 @@ margin-right: 5px;
     flex-direction: column;
     align-items: flex-end;
         padding-bottom: 100px;
-        margin-top: -60px;
+        margin-top: -300px;
+  height: 2100px;
 }
 
 .how-it-works section{
   width: 570px;
   float: right;
-  margin-bottom: 100px;
 }
-.how-it-works section > div{
+.how-it-works section > div > div{
+  padding-top: 200px;
+  margin-bottom: -90px;
+}
+.how-it-works section .how-to-title{
     display: flex;
     margin-bottom: 15px;
     margin-left: -30px;
 }
 
-.how-it-works section > div > h2{
+.how-it-works section .how-to-title > h2{
     width: 194px;
     margin-left: 80px;
     color: #B031FF;
