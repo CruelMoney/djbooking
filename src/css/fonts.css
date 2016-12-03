@@ -15,11 +15,9 @@
 	src: local('☺'), url('../assets/fonts/SourceSansPro-Bold.ttf') format('truetype');
 }
 @font-face {
-	font-family: 'Ostrich Sans';
-	src: url('../assets/fonts/ostrich-sans-light.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-light.woff') format('woff'), url('../assets/fonts/ostrich-sans-light.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-light.svg') format('svg');
-	font-weight: 300;
-	font-style: normal;
+	font-family: 'SourceSansPro-Light';
+	src: url('../assets/fonts/SourceSansPro-Light.ttf');
+	src: local('☺'), url('../assets/fonts/SourceSansPro-Light.ttf') format('truetype');
 }
 
 /* Ostrich Sans Dashed */

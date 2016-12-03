@@ -22,14 +22,6 @@ const Navlink = React.createClass({
     },
 
   render() {
-
-    var styles = {
-
-
-
-
-    }
-
     return    (    <div onClick={this.props.onClick}>
       <RadiumLink {...this.props}
         className={"navLink " + (this.props.borderHover ? "borderHover" : "")}
