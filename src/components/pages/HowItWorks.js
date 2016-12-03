@@ -1,5 +1,5 @@
 import React from 'react';
-import PreFooter from '../blocks/PreFooter'
+import Footer from '../blocks/Footer'
 import Particles from 'react-particles-js';
 import PConfig from '../../assets/particlesjs-config.json';
 import PConfig1 from '../../assets/particlesjs-config-1.json';
@@ -123,7 +123,7 @@ export default React.createClass({
           </div>
         </div>
       </div>
-      <PreFooter
+      <Footer
         color={this.themeColor}
         firstTo="/"
         secondTo="/signup"

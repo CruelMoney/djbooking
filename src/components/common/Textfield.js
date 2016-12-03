@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import TextField from 'material-ui/TextField'
 import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 import * as validators from '../../utils/validators'
 
 
@@ -27,7 +26,8 @@ var Text = React.createClass({
     registerValidation: PropTypes.func.isRequired,
     updateValue: PropTypes.func,
     isFormValid: PropTypes.func,
-  registerReset: PropTypes.func
+    registerReset: PropTypes.func,
+    color: PropTypes.string
   },
 
   componentWillMount() {
@@ -133,6 +133,7 @@ var Text = React.createClass({
 
       textarea: {
         height: '70px',
+        marginTop: "-10px"
       },
 
       paragraph: {
@@ -141,14 +142,17 @@ var Text = React.createClass({
 
       input:{
         fontSize: '30px',
-        color: this.props.muiTheme.palette.primary1Color,
-        fontWeight: '300',
+        color: this.context.color,
+        fontFamily: "AvenirNext-Regular"
       },
-
+      underlineStyle:{
+        borderColor: this.context.color
+      },
       hint:{
-        bottom: '20px',
+        bottom: '23px',
         fontSize: '30px',
-        fontWeight: '300',
+        color: "rgba(187,187,187,0.5)",
+        fontFamily: "AvenirNext-Regular",
       }
 
     }
@@ -163,7 +167,7 @@ var Text = React.createClass({
                   inputStyle={this.props.inputStyle || styles.input}
                   hintStyle={this.props.hintStyle || styles.hint}
                   underlineDisabledStyle={this.props.underlineDisabledStyle}
-                  underlineStyle={this.props.underlineStyle}
+                  underlineFocusStyle={styles.underlineStyle}
                   type={this.props.type}
                   floatingLabelText={this.props.floatingLabelText}
                   fullWidth={this.props.fullWidth || true}
@@ -189,5 +193,4 @@ var Text = React.createClass({
   }
 })
 
-var StyledText = Radium(Text)
-export default muiThemeable()(StyledText)
+export default Radium(Text)

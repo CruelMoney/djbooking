@@ -54,7 +54,6 @@ var RegistrationElement = React.createClass({
       base: {
         fontFamily: this.props.muiTheme.fontFamily,
         opacity: '0.2',
-        minHeight: '210px',
         marginBottom: '20px',
         marginTop: '-35px'
       },

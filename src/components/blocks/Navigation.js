@@ -6,7 +6,6 @@ import UserMenuItem from '../common/UserMenuItem'
 import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import Login from '../../containers/Login'
-import Footer from './Footer'
 import Logo from '../common/Logo'
 
 var menu = React.createClass({
@@ -138,7 +137,6 @@ var menu = React.createClass({
         <div id="content">
           {this.props.children}
         </div>
-        {!isHome ? <Footer/> : null}
       </div>
     )
   }

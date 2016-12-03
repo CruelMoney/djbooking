@@ -22,6 +22,16 @@ var signupForm = React.createClass({
     isloading: PropTypes.bool
   },
 
+  childContextTypes: {
+    color: PropTypes.string
+  },
+  getChildContext() {
+    return {
+      color: "#31DAFF"
+    }
+  },
+
+
 
   render() {
 

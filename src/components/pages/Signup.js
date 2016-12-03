@@ -3,7 +3,7 @@ import SignUpForm from '../../containers/SignupForm'
 import { Link } from 'react-router';
 import vinyl from '../../assets/Vinyl.svg'
 import krIcon from '../../assets/money.svg'
-import PreFooter from '../blocks/PreFooter'
+import Footer from '../blocks/Footer'
 /*animation stuff*/
 import ScrollAnim from 'rc-scroll-anim';
 import QueueAnim from 'rc-queue-anim';
@@ -59,8 +59,8 @@ export default React.createClass({
         <SignUpForm/>
       </div>
     </div>
-      <PreFooter
-        color={this.secondColor}
+      <Footer
+        color={this.themeColor}
         firstTo="/"
         secondTo="/signup"
         firstLabel="Arrange event"

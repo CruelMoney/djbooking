@@ -70,9 +70,7 @@ a:hover{
 input{
   font-family: AvenirNext-Regular !important;
 }
-input::placeholder{
 
-}
 ul {
   list-style-type: none;
   padding: 0;
@@ -1201,8 +1199,13 @@ margin-top: -30px;
   margin-top: 3px;
 }
 .signup p{
-      margin-bottom: 0px;
+  color: #8998AA;
 }
 .errors{
       margin-top: -10px;
+}
+
+.errors p{
+      color: #F44336;
+      margin-bottom: 0;
 }
