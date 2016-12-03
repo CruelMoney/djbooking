@@ -1,4 +1,5 @@
 @import "./nouislider.css";
+@import "./fonts.css";
 
 html{
 overflow-y: scroll;
@@ -9,77 +10,29 @@ body {
   padding: 0;
   font-family: roboto;
   color: #707070;
+   -webkit-font-smoothing: antialiased;
 }
 
-
-@font-face {
-	font-family: 'Ostrich Sans';
-	src: url('../assets/fonts/ostrich-sans-black.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-black.woff') format('woff'), url('../assets/fonts/ostrich-sans-black.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-black.svg') format('svg');
-	font-weight: 900;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'Ostrich Sans';
-	src: url('../assets/fonts/ostrich-sans-bold.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-bold.woff') format('woff'), url('../assets/fonts/ostrich-sans-bold.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-bold.svg') format('svg');
-	font-weight: 700;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'Ostrich Sans';
-	src: url('../assets/fonts/ostrich-sans-regular.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-regular.woff') format('woff'), url('../assets/fonts/ostrich-sans-regular.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-regular.svg') format('svg');
-	font-weight: 400;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'Ostrich Sans';
-	src: url('../assets/fonts/ostrich-sans-light.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-light.woff') format('woff'), url('../assets/fonts/ostrich-sans-light.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-light.svg') format('svg');
-	font-weight: 300;
-	font-style: normal;
+header{
+  height: 740px;
+  padding-top: 140px;
+  color: #FFFFFF;
 }
 
-/* Ostrich Sans Dashed */
-
-@font-face {
-	font-family: 'Ostrich Sans Dashed';
-	src: url('../assets/fonts/ostrich-sans-dashed.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-dashed.woff') format('woff'), url('../assets/fonts/ostrich-sans-dashed.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-dashed.svg') format('svg');
-	font-weight: 500;
-	font-style: normal;
+footer{
+    border-top: 2px solid rgba(207,215,223,.25);
+    padding: 65px 0 55px;
+    color: #8898aa;
+    line-height: 30px;
+    font-size: 15px;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Ostrich Sans Rounded */
-
-@font-face {
-	font-family: 'Ostrich Sans Rounded';
-	src: url('../assets/fonts/ostrich-sans-rounded.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-rounded.woff') format('woff'), url('../assets/fonts/ostrich-sans-rounded.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-rounded.svg') format('svg');
-	font-weight: 500;
-	font-style: normal;
-}
-
-/* Ostrich Sans Inline */
-
-@font-face {
-	font-family: 'Ostrich Sans Inline';
-	src: url('../assets/fonts/ostrich-sans-inline-regular.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-inline-regular.woff') format('woff'), url('../assets/fonts/ostrich-sans-inline-regular.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-inline-regular.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'Ostrich Sans Inline';
-	src: url('../assets/fonts/ostrich-sans-inline-italic.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-inline-italic.woff') format('woff'), url('../assets/fonts/ostrich-sans-inline-italic.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-inline-italic.svg') format('svg');
-	font-weight: normal;
-	font-style: italic;
-}
-.h4, .h5, .h6, h4, h5, h6 {
-    margin-top: 0px;
-    margin-bottom: 10px;
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
 }
 
 h1{
@@ -89,8 +42,37 @@ h1{
   letter-spacing: 1px;
   font-weight: 900;
 }
+h2{
+  font-family: SourceSansPro-Regular;
+  font-size: 42px;
+  margin-left: -3px;
+  margin-bottom: 15px;
+}
+h4{
+  font-family: SourceSansPro-Semibold;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: .025em;
+  margin: 0 0 5px;
+}
 p{
-  font-weight: 300;
+  font-family: SourceSansPro-Regular;
+  font-size: 17px;
+  letter-spacing: 0.41px;
+  line-height: 28px;
+}
+a:hover{
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li{
+  text-align: -webkit-match-parent;
 }
 
 .container{
@@ -139,29 +121,51 @@ align-items: center;
 }
 
 .main-menu a{
+  cursor: pointer;
   color: white;
-  font-weight: bold;
-  text-decoration: none;
-/*  text-shadow: 2px 2px 24px #000; */
-  letter-spacing: 1px;
-  font-family: 'roboto';
-  font-weight: 500 !important;
-    font-size: 15px;
-
+  /* Login: */
+  font-family: "SourceSansPro-Semibold";
+  font-size: 17px;
+  color: #FFFFFF;
+  letter-spacing: 0.3px;
 }
 
 .main-menu a:hover{
 }
-.logo a{
-  font-family: 'Ostrich Sans Inline';
-  font-style: italic;
-  font-size: 70px;
-  color: white;
-  text-decoration: none;
+
+.copyright{
+  color: #CFD7DF;
 }
 
+.footer-columns{
+  display: flex;
+}
+.footer-columns > div{
+  width: 150px;
+}
 
-
+footer a{
+font-family: SourceSansPro-Regular;
+font-size: 15px;
+color: #8998AA;
+letter-spacing: 0.75px;
+margin: auto;
+}
+footer .social a{
+  font-family: SourceSansPro-Bold;
+}
+footer h4{
+  line-height: 30px;
+}
+footer a:hover{
+color:  #32325D !important;
+fill: #32325D !important;
+cursor: pointer;
+}
+footer .social svg{
+  margin-right: 7px;
+  margin-bottom: -1px;
+}
 
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset;
@@ -502,10 +506,7 @@ input[type="file"] + label * {
 }
 
 #content{
-  will-change: -webkit-filter;
-  transition: -webkit-filter 0.5s;
-  background-color: rgb(251, 251, 251);
-  min-height: 200vh;
+
 }
 
 .collapsible{
@@ -934,17 +935,20 @@ margin-right: 5px;
 
 
 #stripes {
+
   position: absolute;
   z-index: -1;
+  top: -20px;
     width: 100%;
-    height: 100%;
+    height: 760px;
     overflow: hidden;
     -webkit-transform: skewY(-12deg);
     transform: skewY(-12deg);
     -webkit-transform-origin: 0;
     transform-origin: 0;
-    background: -webkit-linear-gradient(300deg, #53f 15%, #05d5ff 70%, #a6ffcb 94%);
-    background: linear-gradient(150deg, #53f 15%, #05d5ff 70%, #a6ffcb 94%)
+    background: linear-gradient(330deg, #B031FF 0%, #B031FF 5%, #00D1FF 80%, #31DAFF 90%);
+    /* Rectangle: */
+    background-image:
 }
 
 #stripes span {
@@ -959,22 +963,10 @@ margin-right: 5px;
     width: 50%;
     left: 50%;
     top: 40px;
-    background: #4c29ff
+    background: #31DAFF;
 }
 
-#stripes :nth-child(2) {
-    width: 14%;
-    right: 0;
-    bottom: 40px;
-    background: #2be7ff
-}
 
-#stripes :nth-child(3) {
-    width: 25%;
-    bottom: 0;
-    right: 0;
-    background: #a1ffc8
-}
 
 @media (min-width:670px) {
     #stripes span {
@@ -986,18 +978,6 @@ margin-right: 5px;
         background: #4750ff
     }
 
-    #stripes :nth-child(2) {
-        width: 16.66667%;
-        top: 300px;
-        bottom: auto;
-        background: #0dcfff
-    }
-
-    #stripes :nth-child(3) {
-        width: 33.33333%;
-        right: auto;
-        background: #11bdff
-    }
 }
 
 @media (min-width:880px) {
@@ -1006,37 +986,29 @@ margin-right: 5px;
     }
 
     #stripes :nth-child(1) {
-        width: 33.33333%;
-        left: -16.66666%;
-        background: #53f
+        width: 100%;
+        left: 0;
+        background: #31DAFF;
     }
 
     #stripes :nth-child(2) {
         width: 33.33333%;
-        top: 0;
-        left: 16.66666%;
-        right: auto;
-        background: #4553ff
+        top: 380px;
+        right: -16.66666%;
+        background: #805CFF;
+    }
+
+    #stripes :nth-child(4) {
+        width: 40%;
+        right: -10%;
+        bottom: -1px;
+        background-image: linear-gradient(90deg, rgba(176,48,255,0.00) 19%, #FFFFFF 80%);
     }
 
     #stripes :nth-child(3) {
         width: 33.33333%;
-        left: 49.99999%;
-        bottom: auto;
-        background: #4f40ff
-    }
-
-    #stripes :nth-child(4) {
-        width: 33.33333%;
-        top: 380px;
-        right: -16.66666%;
-        background: #25ddf5
-    }
-
-    #stripes :nth-child(5) {
-        width: 33.33333%;
-        bottom: 0;
-        background: #1fa2ff
+        bottom: -1px;
+        background-image: linear-gradient(90deg, #32DAFF 50%, rgba(113, 106, 255, 0) 100%);
     }
 }
 
@@ -1051,4 +1023,16 @@ margin-right: 5px;
 }
 .react-datepicker{
   width: 100% !important;
+}
+
+
+
+.particles-bg{
+  background-image: linear-gradient(0deg, #B031FF 0%, #B031FF 15%, #00D1FF 85%, #32DAFF 90%);
+  width: 55%;
+  z-index: -2;
+  position: absolute;
+  margin-top: -10vw;
+  height: 2500px;
+  transform:  skewX(5deg) translateX(-30%);
 }

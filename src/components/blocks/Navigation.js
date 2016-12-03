@@ -7,7 +7,7 @@ import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import Login from '../../containers/Login'
 import Footer from './Footer'
-
+import Logo from '../common/Logo'
 
 var menu = React.createClass({
 
@@ -76,31 +76,33 @@ var menu = React.createClass({
     return (
       <div
       >
+
         <div
           ref={(ref) => this.nav = ref}
           className="nav-container">
           <nav
             className="navigation"
-
           >
             <div className="logo">
-              <Navlink white={isHome} to="/">Cueup</Navlink>
+              <Navlink to="/">
+                <Logo />
+              </Navlink>
             </div>
             <ul className="main-menu">
               <li>
-                <Navlink white={isHome}  buttonLook={true} to="/howitworks" label="How it works"/>
+                <Navlink  buttonLook={true} to="/howitworks" label="How it works"/>
               </li>
               {this.props.loggedIn ? (
 
                 <li>
-                  <Navlink white={isHome}  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
+                  <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
                 </li>
                 ) : (
                 null
               )}
               {this.props.loggedIn ? (
                 <li>
-                  <Navlink white={isHome}  buttonLook={true}  to="/profile" important={true} >
+                  <Navlink  buttonLook={true}  to="/profile" important={true} >
                     <UserMenuItem
                       name={this.props.profile.name}
                       picture={this.props.profile.picture}
@@ -109,13 +111,9 @@ var menu = React.createClass({
                 </li>
                 ) : (
                 <li >
-                  <Button
-                    white={isHome}
-                    noBorder={true}
-                    medium={true}
-                    label="Login"
-                    isNavigationButton={true}
-                    onClick={this.onLoginButton}/>
+                  <a
+                    onClick={this.onLoginButton}
+                    >Login</a>
                       <Dropdown
                         expanded={this.state.loginExpanded}
                         disableOnClickOutside={!this.state.loginExpanded}
@@ -130,7 +128,7 @@ var menu = React.createClass({
                 null
                 ) : (
                   <li>
-                    <Navlink white={isHome} buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
+                    <Navlink buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
                   </li>
               )}
 

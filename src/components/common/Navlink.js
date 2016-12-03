@@ -13,7 +13,6 @@ const Navlink = React.createClass({
      borderHover: PropTypes.bool,
      buttonLook: PropTypes.bool,
      userNavigation: PropTypes.bool,
-     white: PropTypes.bool
    },
 
    getDefaultProps() {
@@ -25,82 +24,16 @@ const Navlink = React.createClass({
   render() {
 
     var styles = {
-      base: {
-        color:  this.props.muiTheme.palette.textColor,
-        fontWeight: '400',
-        backgroundColor: 'transparent',
-        height: '40px',
-        outline: "none",
-      },
-
-      buttonLook:{
-        WebkitTransition: '0.1s ease-in-out',
-        MozTransition: '0.1s ease-in-out',
-        transition: '0.1s ease-in-out',
-        textAlign: 'center',
-        verticalAlign: 'middle',
-        display: 'table-cell',
-        paddingLeft: '4px',
-        paddingRight: '4px',
-      },
-
-      active:{
-
-        },
-
-      rounded:{
-        borderRadius: '6px 6px 6px 6px'
-      },
-
-      important:{
-        borderStyle: 'solid',
-        borderWidth: "2px",
-        borderRadius: '6px 6px 6px 6px'
-      },
-
-      container:{
-        display: 'inline',
-      },
-
-      left:{
-        textAlign: 'left'
-      },
-
-      small:{
-        width:'40px'
-      },
-      medium:{
-        width:'120px'
-      },
-      large:{
-        width:'200px'
-      },
-
-      userNavigation:{
-        fontSize: '20px',
-      },
-
-      white:{
-        color:'white',
-        borderColor: 'white',
-      }
 
 
 
 
     }
 
-    return    (    <div style={styles.container} onClick={this.props.onClick}>
+    return    (    <div onClick={this.props.onClick}>
       <RadiumLink {...this.props}
         className={"navLink " + (this.props.borderHover ? "borderHover" : "")}
         onlyActiveOnIndex={true}
-        style={Object.assign({}, styles.base,
-            this.props.buttonLook && styles.buttonLook,
-            this.props.userNavigation && styles.userNavigation,
-             styles.white,
-            this.props.important && styles.important
-          )}
-        activeStyle={this.props.userNavigation && styles.active}
         activeClassName="active"
       >
         {this.props.label ? this.props.label : this.props.children}
