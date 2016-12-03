@@ -176,7 +176,9 @@ var Text = React.createClass({
                       position: "relative",
                       zIndex: "1"
                     }}>
-                      {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+                    <div className="errors">
+                    {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
+                    </div>
                     </div>
                   ) : null}/>
 

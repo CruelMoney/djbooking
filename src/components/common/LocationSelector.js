@@ -65,8 +65,15 @@ export default React.createClass({
   },
 
   onChange(value) {
+    function toTitleCase(str)
+    {
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+
+    value = toTitleCase(value)
+    
     this.updateValue(value);
-    locationService.getQueryPredictions({ input: value, types: ['(cities)'] }, this.updateSuggestions);
+    locationService.getPlacePredictions({ input: value, types: ['(cities)'], componentRestrictions: {country: 'dk'} }, this.updateSuggestions);
   },
 
   onValueSelected(value){

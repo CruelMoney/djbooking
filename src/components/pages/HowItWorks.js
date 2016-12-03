@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import PreFooter from '../blocks/PreFooter'
 import Particles from 'react-particles-js';
 import PConfig from '../../assets/particlesjs-config.json';
 import PConfig1 from '../../assets/particlesjs-config-1.json';
@@ -123,20 +123,15 @@ export default React.createClass({
           </div>
         </div>
       </div>
-      <div className="prefooter">
-        <div className="container">
-          <div className="row">
-          <div className="action-title col-md-7">
-            <span style={{color:this.themeColor}}>Ready to get started?</span>
-            Arrange an event, or become a DJ.
-          </div>
-          <div className="col-md-5 action-buttons">
-            <Link style={{background:this.themeColor, color:"#FFFFFF"}} className="button" to="/">Arrange event</Link>
-            <Link style={{background:"#FFFFFF", color:this.themeColor}} className="button" to="/signup">Become DJ</Link>
-          </div>
-          </div>
-        </div>
-      </div>
+      <PreFooter
+        color={this.themeColor}
+        firstTo="/"
+        secondTo="/signup"
+        firstLabel="Arrange event"
+        secondLabel="Become DJ"
+        title="Ready to get started?"
+        subTitle="Arrange an event, or become a DJ."
+        />
       </div>
 
     )

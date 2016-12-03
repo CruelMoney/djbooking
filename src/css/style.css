@@ -8,7 +8,7 @@ overflow-y: scroll;
 body {
   margin: 0;
   padding: 0;
-  font-family: roboto;
+  font-family: AvenirNext-Regular;
   color: #32325D;
    -webkit-font-smoothing: antialiased;
    overflow: hidden;
@@ -18,6 +18,7 @@ header{
   height: 740px;
   padding-top: 140px;
   color: #FFFFFF;
+  overflow: hidden;
 }
 
 footer{
@@ -66,7 +67,12 @@ a:hover{
   text-decoration: none;
   color: inherit;
 }
+input{
+  font-family: AvenirNext-Regular !important;
+}
+input::placeholder{
 
+}
 ul {
   list-style-type: none;
   padding: 0;
@@ -173,11 +179,14 @@ footer .social svg{
   margin-right: 7px;
   margin-bottom: -1px;
 }
-.prefooter{
+
+#preFooter{
   position: relative;
   padding: 50px 0;
+  height: 229px;
+  width: 100%;
 }
-.prefooter:before{
+#preFooter:before{
   content: '';
 position: absolute;
 left: 0;
@@ -189,17 +198,17 @@ background: #f6f9fc;
 -webkit-transform: skew(0,-12deg);
 transform: skew(0,-12deg);
 }
-.prefooter .action-title {
+#preFooter .action-title {
   margin: .75em 0;
   font-family: SourceSansPro-Regular;
   font-size: 30px;
   color: #32325D;
   letter-spacing: 0.91px;
 }
-.prefooter .action-title > span{
+#preFooter .action-title  span{
   display: block;
 }
-.prefooter .action-buttons{
+#preFooter .action-buttons{
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -244,7 +253,7 @@ form ol {
 }
 
  form li:before {
-   font-family: "Helvetica", "Arial", sans-serif;
+   font-family: AvenirNext-Medium, sans-serif;
   display: inline-block;
   content: counter(item) " → ";
   counter-increment: item;
@@ -1031,22 +1040,23 @@ margin-right: 5px;
     }
 
     #stripes :nth-child(2) {
-        width: 33.33333%;
+        width: 13.33333%;
         top: 380px;
-        right: -16.66666%;
+        right: 0;
         background: #805CFF;
     }
 
     #stripes :nth-child(4) {
-        width: 40%;
-        right: -10%;
+        width: 25%;
+        right: 0;
         bottom: -1px;
-        background-image: linear-gradient(90deg, rgba(176,48,255,0.00) 19%, #FFFFFF 80%);
+        background-image: linear-gradient(90deg, rgba(176,48,255,0.00) 19%, #FFFFFF 115%);
     }
 
     #stripes :nth-child(3) {
         width: 33.33333%;
         bottom: -1px;
+        height: 145px;
         background-image: linear-gradient(90deg, #32DAFF 25%, rgba(113, 106, 255, 0) 100%);
     }
 
@@ -1158,4 +1168,41 @@ margin-right: 5px;
 }
 .how-it-works section > p{
   width: 100%;
+}
+
+.card{
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.08), 0 4px 6px 0 rgba(60,50,94,0.11);
+  border-radius: 6px;
+  background: #FFFFFF;
+  padding: 40px;
+}
+.elevate{
+  box-shadow: 0 15px 35px rgba(50,50,93,.1),0 5px 15px rgba(0,0,0,.07);
+}
+.card h2{
+  margin: 15px 0;
+}
+.glass{
+  background: rgba(255,255,255,0.3333);
+}
+.icon{
+  height: 68px;
+}
+.signup{
+  margin: 0 80px;
+margin-top: -30px;
+}
+.signup > form{
+  margin-left: 40px;
+}
+.signup h2{
+  font-family: SourceSansPro-Regular;
+  font-size: 30px;
+  margin-top: 3px;
+}
+.signup p{
+      margin-bottom: 0px;
+}
+.errors{
+      margin-top: -10px;
 }

@@ -83,12 +83,10 @@ var RegistrationElement = React.createClass({
           style={[
             styles.base,
             this.props.active && styles.active]}>
-            <div style={[
-                styles.label]}>
+            <h2>
                 {this.props.label}
-            </div>
-             <p style={[
-                 styles.paragraph]}>
+            </h2>
+             <p>
                  {this.props.text}
                  {this.props.count}
              </p>
