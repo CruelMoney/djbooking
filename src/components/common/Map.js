@@ -41,7 +41,6 @@ var SimpleMap = React.createClass({
       },
 
       componentWillMount(){
-        console.log("MOUNT");
           this.setState({
           marker: {
             position: this.props.initialPosition,
