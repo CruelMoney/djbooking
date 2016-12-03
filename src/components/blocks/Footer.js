@@ -30,11 +30,13 @@ export default React.createClass({
         <div id="preFooter">
           <div className="container">
             <div className="row">
-            <ScrollOverPack id="footerScroll" style={{marginTop:"-250px", width:"100%"}} hideProps={{ 0: { reverse: true } }}>
+            <ScrollOverPack id="footerScroll" style={{pointerEvents: "none", marginTop:"-300px", width:"100%"}} hideProps={{ 0: { reverse: true } }}>
             <QueueAnim key="1" style={{
-              paddingTop: "250px",
+              marginTop: "300px",
               marginBottom: "-90px",
-              display: "flex", alignItem:"center"}}>
+              display: "flex",
+              alignItem:"center",
+              pointerEvents: "all"}}>
             <div key="preFooterText" className="action-title col-md-7">
             <QueueAnim key="2">
               <span key="preFooterTitle" style={{color:this.props.color}}>{this.props.title}</span>

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import ToggleButton from './ToggleButton'
-import Radium from 'radium'
 
 var ToggleButtonHandler = React.createClass({
 
@@ -34,7 +33,6 @@ var ToggleButtonHandler = React.createClass({
      registerValidation: PropTypes.func.isRequired,
      updateValue: PropTypes.func
    },
-
 
 
    componentWillMount() {
@@ -100,29 +98,6 @@ var ToggleButtonHandler = React.createClass({
  },
 
   render() {
-    var styles = {
-      base: {
-        width: "100%",
-        tableLayout: "fixed",
-          },
-      td:{
-        padding: '5px',
-      },
-      tr:{
-        height: '50px',
-      },
-      errors:{
-        marginTop: '5px',
-        marginBottom: '5px',
-        position: 'relative',
-        fontSize: '12px',
-        lineHeight: '12px',
-        color: 'rgb(244, 67, 54)',
-        transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-        WebkitTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms'
-      }
-
-    }
     var rows = []
     var buttons = []
     var currentRow = 0
@@ -135,12 +110,9 @@ var ToggleButtonHandler = React.createClass({
         isToggled = true
       }
 
-
-
       //Adding to array
       buttons.push(
         <td
-          style={styles.td}
           key={genre.name}>
           <ToggleButton
             rounded={this.props.rounded}
@@ -154,7 +126,6 @@ var ToggleButtonHandler = React.createClass({
         currentRow++
         rows.push(
           <tr
-            style={styles.tr}
             key={currentRow}>
             {buttons}
           </tr>
@@ -164,30 +135,25 @@ var ToggleButtonHandler = React.createClass({
     }.bind(this))
 
     return (
-      <div>
+      <div className="toggle-button-handler">
         {(this.state.errors.length && this.props.errorAbove) ? (
-          < div style={styles.errors}>
-          {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+          < div className="errors">
+          {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
           </div>
           ) : null}
 
-          <table
-          style={[
-          styles.base]}>
+          <table>
           <tbody>{rows}</tbody>
           </table>
           {(this.state.errors.length && !this.props.errorAbove) ? (
-          < div style={styles.errors}>
-          {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+          < div style={{marginTop: "10px"}} className="errors">
+          {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
           </div>
           ) : null}
           </div>
           )
           }
           })
-
-          ToggleButtonHandler = Radium(ToggleButtonHandler)
-
 
 
 export default ToggleButtonHandler

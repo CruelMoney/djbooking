@@ -2,10 +2,9 @@ import React, {PropTypes} from 'react'
 import c from '../../constants/constants'
 import {datePipe} from '../../utils/TextPipes'
 import NumberedList from '../common/NumberedList'
-
+import Button from '../common/Button-v2'
 
 import Form, {
-              Button,
               Textfield,
               RegistrationElement,
               ToggleButtonHandler,
@@ -53,30 +52,18 @@ var signupForm = React.createClass({
 
           <ToggleOptions
             name="signup"
+            glued={false}
+            value="FACEBOOK"
           >
             <Button
-              large={true}
-              leftAlign={true}
               name="FACEBOOK"
-              rounded={true}
-              label="Facebook"
-            />
+            >Facebook</Button>
 
             <Button
-              large={true}
-              leftAlign={true}
               name="SOUNDCLOUD"
-              rounded={true}
-              label="Soundcloud"
-            />
+            >Soundcloud</Button>
 
-            <Button
-              large={true}
-              leftAlign={true}
-              name="EMAIL"
-              rounded={true}
-              label="Email & Password"
-            />
+          <Button name="EMAIL">Email & Password</Button>
 
           </ToggleOptions>
 

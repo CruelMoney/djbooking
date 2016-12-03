@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import Radium from 'radium'
-import Button from './Button'
+import Button from './Button-v2'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
 
@@ -51,7 +51,7 @@ var ToggleButton = React.createClass({
       })
       if(!newToggle)
         {if(this.props.onClickToggled) { this.props.onClickToggled(value)} else {this.props.onClick(value)}}
-        else 
+        else
         {this.props.onClick(value)}
     },
 
@@ -60,12 +60,12 @@ var ToggleButton = React.createClass({
 
       <Button
         {...this.props}
-        label={this.state.toggled
-          ? (this.props.labelToggled ? this.props.labelToggled : this.props.label)
-        : this.props.label}
         active={this.state.toggled}
         onClick={this.props.disabled ? () => null : this.handleClick}
-        />
+        >{this.state.toggled
+          ? (this.props.labelToggled ? this.props.labelToggled : this.props.label)
+        : this.props.label}
+      </Button>
 
     )
   }

@@ -29,7 +29,7 @@ var ToggleOptions = React.createClass({
      updateValue: PropTypes.func,
      values: PropTypes.object.isRequired,
      registerValidation: PropTypes.func.isRequired,
-     registerReset: PropTypes.func
+     registerReset: PropTypes.func,
    },
 
    componentWillMount() {
@@ -133,22 +133,6 @@ var ToggleOptions = React.createClass({
 
   render() {
 
-    var styles = {
-      tableStyle: {
-        textAlign: 'center',
-        width: '100%',
-        tableLayout: 'fixed'
-      },
-      errors:{
-        position: 'relative',
-        bottom: '-10px',
-        fontSize: '12px',
-        lineHeight: '12px',
-        color: 'rgb(244, 67, 54)',
-        transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-        WebkitTransition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms'
-      }
-    }
     var children = this.renderChildren(this.state, this.props)
     children = children.map((el, i) => <td key={i}>{el}</td>)
 
@@ -157,19 +141,14 @@ if (this.props.glued) {
     <div className="toggle-options">
       <div style={{display:'flex', flexDirection:'row'}} >
         { this.renderChildren(this.state, this.props).map((el,i) => (
-          < div key={i} style={{width:'100%'}}>
+          < div className="gluedButton" key={i} >
           {el}
           </div> ))}
 
           </div>
           {this.state.errors.length ? (
-            <div style={{
-              marginTop: '5px',
-            fontSize: '12px',
-            lineHeight: '12px',
-            color: 'rgb(244, 67, 54)'
-          }}>
-            {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+            <div className="errors">
+            {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
           </div>
         ) : null}
         </div>)
@@ -177,7 +156,7 @@ if (this.props.glued) {
           return (
 
             <div className="toggle-options">
-              <table style={styles.tableStyle}>
+              <table>
                 <tbody>
                   <tr>
                     {children}
@@ -185,12 +164,8 @@ if (this.props.glued) {
                 </tbody>
               </table>
               {this.state.errors.length ? (
-                <div style={{
-                  fontSize: '12px',
-                  lineHeight: '12px',
-                  color: 'rgb(244, 67, 54)'
-                }}>
-                  {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+                <div className="errors">
+                  {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
                 </div>
               ) : null}
             </div>

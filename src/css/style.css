@@ -69,6 +69,7 @@ a:hover{
 }
 input{
   font-family: AvenirNext-Regular !important;
+  font-weight: normal;
 }
 
 ul {
@@ -244,9 +245,7 @@ form ol {
 
  form li {
   display: block;
-  margin-bottom: 2em;
-  font-weight: bold;
-  font-weight: 300;
+  margin-bottom: 3em;
   font-size: 30px;
 }
 
@@ -1095,6 +1094,7 @@ margin-right: 5px;
   margin-left: -60px;
 }
 
+/*Link button*/
 .button{
   /* Rectangle: */
   border-radius: 6px;
@@ -1103,12 +1103,45 @@ margin-right: 5px;
   /* Text */
   font-family: SourceSansPro-Semibold;
   font-size: 16px;
-  color: #FFFFFF;
   text-transform: uppercase;
   letter-spacing: 0.39px;
   box-shadow: 0 2px 4px 0 rgba(100,100,100,0.50);
 }
-
+/*Action and toggle buttons*/
+button{
+  outline: none;
+  transition: all 0.1s ease-in-out;
+  line-height: 0;
+  box-shadow: none;
+  border: 2px solid #BBBBBB;
+  color: #BBBBBB;
+  box-shadow: none !important;
+}
+button:hover{
+  color: inherit;
+  border-color: inherit;
+}
+button.active{
+  color: #FFFFFF;
+  border-color: inherit;
+}
+table button{
+  width: 100%;
+}
+.toggle-options table{
+  border-spacing: 20px;
+  border-collapse: separate;
+  margin: -20px;
+  table-layout: fixed;
+  width: 100%;
+}
+.toggle-button-handler table{
+  border-spacing: 10px;
+  border-collapse: separate;
+  margin: -10px;
+  table-layout: fixed;
+  width: 100%;
+}
 
 .how-it-works{
   position: relative;
