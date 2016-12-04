@@ -91,15 +91,65 @@ export default React.createClass({
           name="requestForm">
 
           <div className="request-columns">
-          <div
-            className="col-md-4">
+            <div className="col-md-4">
             <div className="card">
               <Form
                 formValidCallback={(name)=>this.updateProgress(name,true)}
                 formInvalidCallback={(name)=>this.updateProgress(name,false)}
                 name="requestForm-step-1">
               <section>
+              <h4>Event location</h4>
+              <LocationSelector
+                name="location"
+                validate={['required']}
+              />
+            <p>In what city is the event?</p>
+            </section>
+
+            <section>
+              <h4>Event name</h4>
+
+                <TextField
+                  name="eventName"
+                  validate={['required']}
+                />
+              <p>Please choose a descriptive name.</p>
+              </section>
+
+                  <div>
+                    <section><h4>Your name</h4>
+
+                    <TextField
+                        name="name"
+                      validate={['required', 'lastName']}
+                    />
+                  <p >Your first and last name.</p>
+                    </section>
+
+                    <section><h4>Your email</h4>
+                    <TextField
+                        name="email"
+                      validate={['required', 'email']}
+                    />
+                  <p>Your email is only shared with qualified DJs.</p>
+                    </section>
+
+                  </div>
+
+
+                </Form>
+              </div>
+            </div>
+          <div
+            className="col-md-4">
+            <div className="card">
+              <Form
+                formValidCallback={(name)=>this.updateProgress(name,true)}
+                formInvalidCallback={(name)=>this.updateProgress(name,false)}
+                name="requestForm-step-2">
+              <section>
                 <h4>Genres</h4>
+                  <p style={{marginBottom:"10px"}}>What kind of music do you need?</p>
                 <ToggleButtonHandler
                   name="genres"
                   potentialValues={c.GENRES}
@@ -107,6 +157,7 @@ export default React.createClass({
               </section>
               <section>
                 <h4>Speakers</h4>
+                <p style={{marginBottom:"10px"}}>Do you need speakers for the event?</p>
                 <ToggleOptions
                   name="speakers"
                   validate={['required']}
@@ -134,7 +185,7 @@ export default React.createClass({
               <Form
                 formValidCallback={(name)=>this.updateProgress(name,true)}
                 formInvalidCallback={(name)=>this.updateProgress(name,false)}
-                name="requestForm-step-2">
+                name="requestForm-step-3">
                 <section>
                   <h4>Event date</h4>
                   <TextField
@@ -142,7 +193,7 @@ export default React.createClass({
                     disabled
                     controlledValue={eventDateString}
                   />
-                  <p>Select a new date in the calendar to change it.</p>
+                <p>Select a new date in the calendar above to change it.</p>
                   </section>
               <section>
                 <h4>Duration</h4>
@@ -190,55 +241,7 @@ export default React.createClass({
               </div>
             </div>
 
-              <div className="col-md-4">
-              <div className="card">
-                <Form
-                  formValidCallback={(name)=>this.updateProgress(name,true)}
-                  formInvalidCallback={(name)=>this.updateProgress(name,false)}
-                  name="requestForm-step-3">
-                <section>
-                <h4>Event location</h4>
-                <LocationSelector
-                  name="location"
-                  validate={['required']}
-                />
-                <p>Select the city in which your event will happen.</p>
-              </section>
 
-              <section>
-                <h4>Event name</h4>
-
-                  <TextField
-                    name="eventName"
-                    validate={['required']}
-                  />
-                  <p>Write a name reflecting the purpose of your event.</p>
-                </section>
-
-                    <div>
-                      <section><h4>Your name</h4>
-
-                      <TextField
-                          name="name"
-                        validate={['required', 'lastName']}
-                      />
-                      <p >Your full name.</p>
-                      </section>
-
-                      <section><h4>Your email</h4>
-                      <TextField
-                          name="email"
-                        validate={['required', 'email']}
-                      />
-                    <p>We only share your email with DJs qualified to play at your event.</p>
-                      </section>
-
-                    </div>
-
-
-                  </Form>
-                </div>
-              </div>
 
 
           </div>
