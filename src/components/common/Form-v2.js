@@ -9,6 +9,8 @@ const form = React.createClass({
     //TO be supplied is name and onsubmit that will be called with the form automatically
     propTypes: {
       name: PropTypes.string,
+      formValidCallback: PropTypes.func,
+      formInvalidCallback: PropTypes.func,
       succeeded: PropTypes.bool,
       children: PropTypes.node,
       onSubmit: PropTypes.func,
@@ -17,7 +19,7 @@ const form = React.createClass({
       activeFilters: PropTypes.arrayOf(PropTypes.object),
       isLoading: PropTypes.bool,
       err: PropTypes.string,
-      form: PropTypes.object
+      form: PropTypes.object,
     },
 
     getInitialState() {
@@ -27,6 +29,13 @@ const form = React.createClass({
       }
     },
 
+    //Recursive
+    contextTypes: {
+      registerValidation: PropTypes.func.isRequired,
+      updateValue: PropTypes.func,
+      isFormValid: PropTypes.func,
+      registerReset: PropTypes.func,
+    },
 
     childContextTypes: {
       reset: PropTypes.func,
@@ -49,13 +58,41 @@ const form = React.createClass({
         isFormValid: this.isFormValid,
         updateFilters: this.updateFilters,
         activeFilters: this.state.activeFilters,
-        updateValue: this.props.updateValue,
+        updateValue: this.updateValue,
         isLoading: this.props.isLoading,
         isValid: this.state.isValid,
         onSubmit: this.submit,
         registerReset: this.registerReset,
       }
     },
+
+    componentWillMount() {
+      if (this.context.registerValidation) {
+        this.removeValidationFromContext = this.context.registerValidation(show =>
+          this.isFormValid(show))
+      }
+
+        if (this.context.updateValue) {
+          this.context.updateValue(this.props.name, this.props.form.values)
+        }
+
+    },
+
+    componentWillUnmount() {
+      if (this.removeValidationFromContext) {
+          this.removeValidationFromContext()
+      }
+    },
+
+    updateValue(name, value){
+      this.props.updateValue(name,value)
+
+      if (this.context.updateValue) {
+        setTimeout(()=>this.context.updateValue(this.props.name, this.props.form.values), 100)
+      }
+
+    },
+
 
     resetFuncs: [],
 
@@ -93,6 +130,16 @@ const form = React.createClass({
       this.setState({
         isValid: isValid
       })
+
+      if (isValid) {
+        if (this.props.formValidCallback) {
+          this.props.formValidCallback(this.props.name)
+        }
+      }else{
+        if (this.props.formInvalidCallback) {
+          this.props.formInvalidCallback(this.props.name)
+        }
+      }
       return isValid
    },
 

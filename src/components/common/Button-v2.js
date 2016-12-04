@@ -57,7 +57,7 @@ export default React.createClass({
       <button
         name={this.props.name}
         style={style}
-        disabled={this.props.disabled || this.props.succes}
+        disabled={this.props.disabled || this.props.succes || this.props.isLoading}
         className={className}
         onClick={this.handleClick}
         >

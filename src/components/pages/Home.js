@@ -6,16 +6,21 @@ import moment from 'moment'
 import scrollIntoView from 'smoothscroll-polyfill'
 import bgVideo from '../../assets/blurry-night.mp4'
 import Button from '../common/Button-v2'
+import padlock from '../../assets/padlock.svg'
+import note from '../../assets/note.svg'
 
 /*animation stuff*/
 import ScrollAnim from 'rc-scroll-anim';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne from 'rc-tween-one';
 
+const ScrollOverPack = ScrollAnim.OverPack;
+
 scrollIntoView.polyfill()
 
 export default React.createClass({
   themeColor: "#25F4D2",
+  secondColor: "#31DAFF",
 
   propTypes: {
     checkEmail: PropTypes.func,
@@ -105,7 +110,7 @@ handleButtonClick(){
           </div>
 
         </header>
-        <div
+        <div style={{margin:"-10px"}}
           ref={(f) => this.requestForm = f}/>
 
 
@@ -119,18 +124,52 @@ handleButtonClick(){
                   checkEmail={this.props.checkEmail}
                   emailExists={this.props.emailExists}
                 />
+            </div>
+
+            <div className="info-boxes grey">
+              <div className="container">
+                <div className="row">
+                  <ScrollOverPack id="page1" className="page1" hideProps={{ 0: { reverse: true } }}>
+                <QueueAnim key="a" type="top">
+                  <div key="cardA">
+                  <div  className="col-md-6">
+                    <div className="card">
+                      <img src={padlock} alt="icon"/>
+                      <h2 style={{color:this.themeColor}}>Secured booking system</h2>
+                      <p>
+                        Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div key="cardB">
+                <div  className="col-md-6">
+                  <div className="card">
+                    <img src={note} alt="icon"/>
+                    <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
+                    <p>
+                      Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s
+                    </p>
+                  </div>
+                </div>
+                </div>
+              </QueueAnim>
+            </ScrollOverPack>
+                </div>
+              </div>
               </div>
 
               <Footer
-                color={this.themeColor}
-                firstTo="/"
-                secondTo="/signup"
-                firstLabel="Arrange event"
-                secondLabel="Become DJ"
-                title="Ready to get started?"
-                subTitle="Arrange an event, or become a DJ."
+                bgColor="#FFFFFF"
+                color={this.secondColor}
+                firstTo="/signup"
+                secondTo="/howitworks"
+                firstLabel="Become DJ"
+                secondLabel="How it works"
+                title="Are you a DJ?"
+                subTitle="Become a member, or see how it works."
                 />
-              
+
             </div>
 
 

@@ -11,7 +11,7 @@ function mapStateToProps(state, ownprops) {
     form: state.forms[ownprops.name] ? state.forms[ownprops.name] : {},
     isLoading: state.forms[ownprops.name] ? state.forms[ownprops.name].status.submitting : false,
     succeeded: state.forms[ownprops.name] ? state.forms[ownprops.name].status.succeeded : false,
-    err:  state.forms[ownprops.name] ? state.forms[ownprops.name].status.err : null
+    err:  state.forms[ownprops.name] ? state.forms[ownprops.name].status.err : null,
   }
 }
 
@@ -29,7 +29,7 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch(actions.submitRequested(ownProps.name))
       submitActions(form,
         (err)=>dispatch(actions.handleSubmitResult(ownProps.name, err))
-      )}
+      )},
 }
 }
 

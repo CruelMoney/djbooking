@@ -76,7 +76,9 @@ var Text = React.createClass({
 
 
   updateValue(value) {
+    if (this.context.updateValue) {
     this.context.updateValue(this.props.name, value)
+  }
   },
 
   timer : null,
@@ -112,7 +114,6 @@ var Text = React.createClass({
   },
 
   isValid(showErrors) {
-
     const errors = this.props.validate
       .reduce((memo, currentName) =>
         memo.concat(validators[currentName](
@@ -156,16 +157,24 @@ var Text = React.createClass({
     }
     var stylesNormal = {
       textarea: {
-        height: "30px"
+        height: "30px",
+    marginBottom: "5px"
       },
       input:{
         fontSize: '14px',
         color: this.context.color,
         fontFamily: "AvenirNext-Regular",
-        top: "-11px"
+        top: "0",
+        marginTop: "0px",
+        marginBottom: "5px"
+
       },
       underlineStyle:{
-        borderColor: this.context.color
+        borderColor: this.context.color,
+        bottom: "0",
+      },
+      underlineNormalStyle:{
+        bottom: "0",
       },
       hint:{
         fontSize: '14px',
@@ -182,17 +191,18 @@ var Text = React.createClass({
         fontWeight: "500",
         lineHeight: "22px",
         color: "#4A4A4A",
+        top: "6",
       },
       underlineDisabledStyle:{
         borderWidth:" 1px 0px 0px",
-borderStyle: "solid solid",
-borderColor: "rgb(224, 224, 224)"
+        borderStyle: "solid solid",
+        borderColor: "rgb(224, 224, 224)"
       }
 
     }
     var styles = this.props.big ? stylesBig : stylesNormal
     return (
-
+              <div className="text-field">
                 <TextField
                   {...this.props}
                   placeholder=""
@@ -205,6 +215,7 @@ borderColor: "rgb(224, 224, 224)"
                   hintStyle={styles.hint}
                   underlineDisabledStyle={styles.underlineDisabledStyle}
                   underlineFocusStyle={styles.underlineStyle}
+                  underlineStyle={styles.underlineNormalStyle}
                   type={this.props.type}
                   floatingLabelText={this.props.floatingLabelText}
                   floatingLabelStyle={styles.floatingLabelStyle}
@@ -223,6 +234,8 @@ borderColor: "rgb(224, 224, 224)"
                     </div>
                     </div>
                   ) : null}/>
+              </div>
+
 
 
 

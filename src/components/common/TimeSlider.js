@@ -144,7 +144,7 @@ var TimeSlider = React.createClass({
             marginTop: '10px'
           }}>
           <p>{"Start: " + moment.unix(this.state.startTime).format("HH:mm")}</p>
-          <p>{"Hours: " + moment.unix(this.state.endTime).diff(moment.unix(this.state.startTime))/60/60/1000 }</p>
+          <p><span>{moment.unix(this.state.endTime).diff(moment.unix(this.state.startTime))/60/60/1000 } hours</span></p>
           <p>{"End: " + moment.unix(this.state.endTime).format("HH:mm")}</p>
         </div>
       </div>

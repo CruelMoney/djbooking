@@ -32,6 +32,7 @@ footer{
     flex-direction: column;
     align-items: center;
     z-index: 0;
+    position: relative;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -205,16 +206,17 @@ footer .social svg{
   padding: 50px 0;
   height: 229px;
   width: 100%;
+  margin-top: -80px;
 }
-#preFooter:before{
+#preFooterPseudo:before{
   content: '';
 position: absolute;
 left: 0;
 right: 0;
 top: -100px;
-z-index: -1;
+z-index: 0;
 height: 2000px;
-background: #f6f9fc;
+background-color: inherit;
 -webkit-transform: skew(0,-12deg);
 transform: skew(0,-12deg);
 }
@@ -1082,7 +1084,7 @@ background-image: linear-gradient(330deg, #31FFF5 0%, #31FFC5 5%, #00D1FF 80%, #
 .button{
   /* Rectangle: */
   border-radius: 6px;
-  transition: all 0.1s ease-in-out;
+  transition: all 0.2s ease-in-out;
   height: 40px;
   padding: 10px 10px;
   /* Text */
@@ -1091,8 +1093,8 @@ background-image: linear-gradient(330deg, #31FFF5 0%, #31FFC5 5%, #00D1FF 80%, #
   text-transform: uppercase;
   letter-spacing: 0.39px;
   visibility: visible;
-
 }
+
 .button.elevated{
   box-shadow: 0 2px 4px 0 rgba(100,100,100,0.50);
 }
@@ -1133,7 +1135,7 @@ button.submit:hover {
   box-shadow: inherit;
 }
 button:disabled{
-  box-shadow: none !important;
+  box-shadow: none; /*cannot be important because when loading*/
 }
 button.active, .button.active{
   color: #FFFFFF;
@@ -1149,6 +1151,10 @@ button.loading, .button.loading{
   width: 40px;
   border-radius: 100% !important;
 }
+.button.loading :nth-child(1){
+  display: none;
+}
+
 button.succes, .button.succes{
   width: 40px;
   color: inherit;
@@ -1192,8 +1198,8 @@ table{
   display: flex;
     flex-direction: column;
     align-items: flex-end;
-        padding-bottom: 100px;
-        margin-top: -300px;
+margin-bottom: 70px;
+      margin-top: -300px;
   height: 2100px;
 }
 
@@ -1216,12 +1222,14 @@ table{
     margin-left: 80px;
     color: #B031FF;
 }
+.how-it-works .circle{
+  background-color: #B031FF;
+  position: absolute;
+}
 .circle{
-  background: #B031FF;
   font-family: SourceSansPro-Semibold;
   height: 60px;
   width: 60px;
-  position: absolute;
   border-radius: 100%;
   text-align: center;
   color: white;
@@ -1266,6 +1274,9 @@ table{
 .signup{
   margin: 0 80px;
 margin-top: -30px;
+z-index: 1;
+position: relative;
+margin-bottom: 80px;
 }
 .signup form{
   margin-left: 40px;
@@ -1289,7 +1300,11 @@ margin-top: -30px;
 p.error{
     color: #F44336 !important;
 }
-
+.terms{
+  position: relative;
+  z-index: 1;
+  margin-bottom: 80px;
+}
 .terms .subtitle{
   font-family: AvenirNext-Regular;
   font-size: 18px;
@@ -1324,10 +1339,9 @@ color: #32325D;
   line-height: 32px;
 }
 .request-form{
-  margin-top: -80px;
 }
 .request-form .card{
-  padding: 16px;
+  padding: 20px;
 }
 .request-form h4{
 font-family: AvenirNext-Medium;
@@ -1355,6 +1369,10 @@ margin-bottom: 10px;
   font-size: 14px;
   font-family: AvenirNext-Medium;
   text-transform: capitalize;
+  height: 33px;
+}
+.request-form .button.active{
+  font-family: AvenirNext-bold;
 }
 
 .request-form p{
@@ -1370,4 +1388,81 @@ margin: 0;
   margin-right: -15px;
   display: flex;
   align-items: flex-end;
+}
+.text-field{
+  margin-top: -10px;
+}
+.request-form p > span {
+color: #4A4A4A;
+}
+
+.info-boxes{
+  padding: 100px 0;
+min-height: 650px;
+z-index: -1;
+}
+.info-boxes > .container{
+  position: relative;
+  z-index: 1;
+}
+.grey{
+  background: #f6f9fc;
+}
+.progrezz-wrapper{
+    height: 100px;
+    position: relative;
+    margin-bottom: 100px;
+}
+.progrezz-wrapper .button-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.progrezz-wrapper .button{
+  height: 40px;
+
+}
+.progrezz{
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+    align-items: center;
+    width: 66.6666%;
+margin-left: 16.666666%;
+transition: all 0.5s ease;
+height: 100%;
+}
+.progrezz.done{
+  width: 0;
+  margin-left: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.progrezz.done .circle{
+}
+
+.progrezz > div{
+width: 100%;
+}
+.progrezz .circle{
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  font-size: 22px;
+  transition: all 0.3s;
+}
+.progrezz > .circle:first-child{
+  margin-left: -25px;
+}
+.progrezz > .circle:last-child{
+  margin-right: -25px;
+}
+.progrezz .ztep:not(.done){
+  opacity: 0.2;
+}
+.circle > .checkmark{
+  height: 20px;
+margin-top: -5px;
 }

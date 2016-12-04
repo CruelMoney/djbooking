@@ -7,7 +7,7 @@ import ToggleButtonHandler from '../common/ToggleButtonHandler'
 import Form from '../../containers/Form-v2'
 import Slider from '../common/Slider'
 import TimeSlider from '../common/TimeSlider'
-import SubmitButton from '../common/SubmitButton'
+import Progress from '../blocks/ProgressSubmit'
 import TextBox from '../common/TextBox'
 
 
@@ -35,23 +35,15 @@ export default React.createClass({
       showPopup: false,
       emailExists: false,
       guests: 50,
+      step1Done: false,
+      step2Done: false,
+      step3Done: false
     }
-  },
-
-  componentWillMount() {
-
-  },
-
-  componentWillReceiveProps(nextprops){
-
-
-  },
-
-  componentWillUnmount() {
   },
 
 
   onSubmit(form, callback){
+    console.log(form);
     if (this.props.isLoggedIn){
       this.props.onSubmit(this.props.form.values, callback)
     }else{
@@ -68,18 +60,44 @@ export default React.createClass({
     })
   },
 
+  updateProgress(name, finished){
+    switch (name) {
+      case "requestForm-step-1":
+        this.setState({
+          step1Done: finished
+        })
+      break;
+      case "requestForm-step-2":
+      this.setState({
+        step2Done: finished
+      })
+        break;
+      case "requestForm-step-3":
+      this.setState({
+        step3Done: finished
+      })
+        break;
+      default:
+
+    }
+  },
+
   render() {
     const eventDateString = this.props.date.format("dddd Do, MMMM YYYY")
 
     return(
       <div className="request-form">
-
         <Form
           name="requestForm">
+
           <div className="request-columns">
           <div
             className="col-md-4">
             <div className="card">
+              <Form
+                formValidCallback={(name)=>this.updateProgress(name,true)}
+                formInvalidCallback={(name)=>this.updateProgress(name,false)}
+                name="requestForm-step-1">
               <section>
                 <h4>Genres</h4>
                 <ToggleButtonHandler
@@ -106,11 +124,17 @@ export default React.createClass({
                   >No</Button>
                 </ToggleOptions>
               </section>
+            </Form>
+
               </div>
           </div>
           <div
             className="col-md-4">
             <div className="card">
+              <Form
+                formValidCallback={(name)=>this.updateProgress(name,true)}
+                formInvalidCallback={(name)=>this.updateProgress(name,false)}
+                name="requestForm-step-2">
                 <section>
                   <h4>Event date</h4>
                   <TextField
@@ -129,7 +153,7 @@ export default React.createClass({
                 </section>
 
 
-<section>
+              <section>
                 <h4>People</h4>
                 <div>
                   <Slider
@@ -147,9 +171,10 @@ export default React.createClass({
                     })}
                   />
                 </div>
-                <p style={{marginTop:"15px"}}>{"Around " + this.state.guests + " people attending the event."}</p>
-</section>
-<section>
+                <p style={{marginTop:"15px"}}>
+                  Around <span>{this.state.guests} people </span>attending the event.</p>
+          </section>
+          <section>
               <h4>Description</h4>
                 <TextBox
                   height="110px"
@@ -160,13 +185,17 @@ export default React.createClass({
                   name="description"
                   validate={['required']}
                 />
-</section>
-
+            </section>
+            </Form>
               </div>
             </div>
 
               <div className="col-md-4">
               <div className="card">
+                <Form
+                  formValidCallback={(name)=>this.updateProgress(name,true)}
+                  formInvalidCallback={(name)=>this.updateProgress(name,false)}
+                  name="requestForm-step-3">
                 <section>
                 <h4>Event location</h4>
                 <LocationSelector
@@ -176,19 +205,15 @@ export default React.createClass({
                 <p>Select the city in which your event will happen.</p>
               </section>
 
-<section>
-  <h4>Event name</h4>
+              <section>
+                <h4>Event name</h4>
 
                   <TextField
                     name="eventName"
                     validate={['required']}
                   />
                   <p>Write a name reflecting the purpose of your event.</p>
-</section>
-
-
-
-
+                </section>
 
                     <div>
                       <section><h4>Your name</h4>
@@ -205,36 +230,29 @@ export default React.createClass({
                           name="email"
                         validate={['required', 'email']}
                       />
-                      <p>We only share your email with DJ's suitable to play at your event.</p>
-                      </section>
-                      <section><h4>Your phone</h4>
-
-                      <TextField
-                        name="phone"
-                        type="number"
-                        validate={['required']}
-                      />
-                      <p >We only share your phone number with DJ's candidates.</p>
+                    <p>We only share your email with DJs qualified to play at your event.</p>
                       </section>
 
                     </div>
 
 
-
+                  </Form>
                 </div>
               </div>
 
 
           </div>
-          <SubmitButton
-            noCheckMark={true}
-            rounded={true}
-            label="Request DJ's"
-            name="request_djs_button"
-            onClick={this.onSubmit}
+
+
+          <Progress
+            step1Done={this.state.step1Done}
+            step2Done={this.state.step2Done}
+            step3Done={this.state.step3Done}
+            onSubmit={this.onSubmit}
           />
 
-        </Form>
+      </Form>
+
       </div>
 
       )

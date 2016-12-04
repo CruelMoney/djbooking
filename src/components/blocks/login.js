@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import Button from '../common/Button'
-import Textfield from 'material-ui/TextField'
+import Textfield from '../common/Textfield'
 import AuthService from '../../utils/AuthService'
 const auth = new AuthService()
 import CueupService from '../../utils/CueupService'
@@ -125,10 +125,9 @@ const login = React.createClass({
     <form
       onSubmit={this.login}
       >
-      <div>
+      <div style={{marginBottom:'20px'}}>
     <Textfield
       type="email"
-      fullWidth={true}
       floatingLabelText="Email"
       onChange={this.onChangeEmail}
     />
@@ -136,7 +135,6 @@ const login = React.createClass({
   <div style={{marginBottom:'20px'}}>
     <Textfield
       type="password"
-      fullWidth={true}
       floatingLabelText="Password"
       onChange={this.onChangePassword}
     />

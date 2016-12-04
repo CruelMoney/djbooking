@@ -9,9 +9,9 @@ import PConfig4 from '../../assets/particlesjs-config-4.json';
 import PConfig5 from '../../assets/particlesjs-config-5.json';
 
 /*animation stuff*/
-import ScrollAnim from 'rc-scroll-anim';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne from 'rc-tween-one';
+import ScrollAnim from 'rc-scroll-anim';
 
 const ScrollOverPack = ScrollAnim.OverPack;
 
