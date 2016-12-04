@@ -4,28 +4,21 @@ import SignupForm from '../components/blocks/SignUpForm'
 import * as actions from '../actions/SignupActions'
 
 
-function mapStateToProps(state, ownProps) {
-  return {
-    form: state.forms.signupForm,
-    isloading: state.signup.isWaiting
-  }
-}
+// function mapStateToProps(state, ownProps) {
+//   return {
+//     form: state.forms.signupForm,
+//     isloading: state.signup.isWaiting
+//   }
+// }
 
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-    handleSubmit: (form) => dispatch(actions.signup(form.values, true))
+    handleSubmit: (form,callback) => dispatch(actions.signup(form.values, true, callback))
   }
 }
 
-function mergeProps(stateProps, dispatchProps, ownProps) {
-  return Object.assign({}, ownProps, {
-    isloading: stateProps.isloading,
-    handleSubmit: () => dispatchProps.handleSubmit(stateProps.form),
-  })
-}
-
-const SmartSignupForm = connect(mapStateToProps, mapDispatchToProps, mergeProps)(SignupForm)
+const SmartSignupForm = connect(state=>state, mapDispatchToProps)(SignupForm)
 
 
 export default props => (

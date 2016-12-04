@@ -119,8 +119,8 @@ const form = React.createClass({
         {this.props.children}
       </form>
       {this.props.err ?
-        <div className="form-error">
-        {this.props.err}
+        <div className="errors">
+        <p>{this.props.err}</p>
         </div>
         :null
       }

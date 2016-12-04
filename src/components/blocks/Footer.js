@@ -44,8 +44,8 @@ export default React.createClass({
             </QueueAnim>
             </div>
             <div key="preFooterButtons" className="col-md-5 action-buttons">
-              <Link style={{background:this.props.color, color:"#FFFFFF"}} className="button" to={this.props.firstTo}>{this.props.firstLabel}</Link>
-              <Link style={{background:"#FFFFFF", color:this.props.color}} className="button" to={this.props.secondTo}>{this.props.secondLabel}</Link>
+              <Link style={{background:this.props.color, color:"#FFFFFF"}} className="button elevated" to={this.props.firstTo}>{this.props.firstLabel}</Link>
+              <Link style={{background:"#FFFFFF", color:this.props.color}} className="button elevated" to={this.props.secondTo}>{this.props.secondLabel}</Link>
             </div>
             </QueueAnim>
             </ScrollOverPack>

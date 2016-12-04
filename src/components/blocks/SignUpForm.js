@@ -3,8 +3,9 @@ import c from '../../constants/constants'
 import {datePipe} from '../../utils/TextPipes'
 import NumberedList from '../common/NumberedList'
 import Button from '../common/Button-v2'
-
-import Form, {
+import SubmitButton from '../common/SubmitButton'
+import Form from '../../containers/Form-v2'
+import  {
               Textfield,
               RegistrationElement,
               ToggleButtonHandler,
@@ -30,16 +31,15 @@ var signupForm = React.createClass({
     }
   },
 
-
+  signup(form, callback) {
+      this.props.handleSubmit(form, callback)
+  },
 
   render() {
 
   return (
     <Form
-      name="signupForm"
-      onSubmit={this.props.handleSubmit}
-      buttonText="Join"
-      isloading={this.props.isloading}
+      name={"signup-form"}
     >
       <NumberedList>
         <RegistrationElement
@@ -175,8 +175,16 @@ var signupForm = React.createClass({
 
         </RegistrationElement>
       </NumberedList>
-    </Form>
 
+        <SubmitButton
+          active={true}
+          name="signup"
+          onClick={this.signup}
+        >
+        <div style={{width:"100px"}}>JOIN</div>
+        </SubmitButton>
+
+    </Form>
     )
   }
 })

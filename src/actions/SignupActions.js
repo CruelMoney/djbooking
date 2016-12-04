@@ -10,22 +10,21 @@ const cueup = new CueupService()
 var ActionTypes = c.ActionTypes
 const auth = new AuthService()
 
-export function signup(form, isDj) {
+export function signup(form, isDj, callback) {
   return function (dispatch) {
-    dispatch( function() { return {type: ActionTypes.SIGNUP_REQUESTED} }() )
     switch (form.signup) {
       case "EMAIL":
-        return signupEmail(form, handleSignupFeedback(dispatch, form, isDj))
+        return signupEmail(form, handleSignupFeedback(form, isDj, callback))
 
       case "FACEBOOK":
-        return LoginActions.loginFacebook(handleSignupFeedback(dispatch, form, isDj))
+        return LoginActions.loginFacebook(handleSignupFeedback(form, isDj, callback))
 
 
       case "SOUNDCLOUD":
-        return LoginActions.loginSoundcloud(handleSignupFeedback(dispatch, form, isDj))
+        return LoginActions.loginSoundcloud(handleSignupFeedback(form, isDj, callback))
 
       default:
-
+        callback("Something went wrong")
     }
   }
 }
@@ -75,30 +74,13 @@ function createCustomer(form, auth0Profile){
   }
 }
 
-//Create the user
-function postUser(token, user, dispatch){
-  cueup.createUser(token, user, (error, cueupResult) => {
-      if (error) {
-          dispatch(function() {
-              return {type: ActionTypes.SIGNUP_FAILED, err: error.message}
-          }())
-      } else {
-          dispatch(function() {
-              return {type: ActionTypes.SIGNUP_SUCCEEDED}
-          }())
-
-          LoginActions.checkForLogin(false)(dispatch)
-      }
-  })
-}
 
 
-  export function handleSignupFeedback(dispatch, form, isDJ = false) {
+
+  export function handleSignupFeedback(form, isDJ = false, callback) {
     return function(err, result) {
         if (err) {
-            dispatch(function() {
-                return {type: ActionTypes.SIGNUP_FAILED, err}
-            }())
+            callback(err)
         } else {
 
           auth.setToken(result.idToken)
@@ -108,29 +90,36 @@ function postUser(token, user, dispatch){
             //Getting the coordinates of the playing location
             GeoCoder.codeAddress(form.location, function(geoResult) {
                 if (geoResult.error) {
-                    dispatch(function() {
-                        return {
-                            type: ActionTypes.SIGNUP_FAILED,
-                            err: "Error defining location: " + geoResult.error
-                        }
-                    }())
+                    callback("The location could not be found, try another city.")
                     return
                   }
 
                 //If the geocoding does not fail
                 else {
                   var user = createDJ(form, auth0Profile, geoResult)
-                  postUser(result.idToken, user, dispatch)
+                  postUser(result.idToken, user, callback)
                 }})
 
             //If it is not a dj
             } else {
               var user = createCustomer(form, auth0Profile)
-              postUser(result.idToken, user, dispatch)
+              postUser(result.idToken, user, callback)
             }
-              })
+          })
         }
     }
+}
+
+//Create the user
+function postUser(token, user, callback){
+  cueup.createUser(token, user, (error, cueupResult) => {
+      if (error) {
+          callback(error.message)
+      } else {
+        callback(null)
+        //LoginActions.checkForLogin(false)(dispatch)
+      }
+  })
 }
 
 export function signupEmail(form, callback) {

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import checkmark from '../../assets/checkmark.svg'
 
 export default React.createClass({
 
@@ -8,6 +9,7 @@ export default React.createClass({
       disabled: PropTypes.bool,
       isLoading: PropTypes.bool,
       name: PropTypes.string,
+      succes: PropTypes.bool,
     },
 
     getDefaultProps(){
@@ -32,21 +34,34 @@ export default React.createClass({
 
   render() {
     var style={
-      backgroundColor: this.props.active ? this.context.color : "#FFFFFF",
       borderRadius:    this.props.rightRounded ? "0px 6px 6px 0px" :
                        this.props.leftRounded  ? "6px 0px 0px 6px" :
                        this.props.rounded      ? "6px 6px 6px 6px" : "0px 0px 0px 0px",
+      borderLeftColor: this.props.isLoading    ? this.context.color : null,
+      boxShadow:       this.props.isLoading    ? "-10px 0px 40px -5px " + this.context.color : null
     }
+
+    var className = this.props.className ? "button " + this.props.className : "button"
+    if (this.props.active) className = className + " active"
+    if (this.props.isLoading) className = className +" loading"
+
     return (
-      <div style={{borderColor:this.context.color, color: this.context.color}}>
+      <div className="button-wrapper"
+        style={{
+          textAlign: "center",
+          borderColor:this.context.color,
+          color: this.context.color,
+          boxShadow: "0 0px 20px 0px " + this.context.color,
+          backgroundColor: this.context.color
+        }}>
       <button
         name={this.props.name}
         style={style}
-        disabled={this.props.disabled}
-        className={this.props.active ? "button active" : "button"}
+        disabled={this.props.disabled || this.props.success}
+        className={className}
         onClick={this.handleClick}
         >
-          {this.props.children}
+          {this.props.succes ? <img src={checkmark} alt="checkmark"/> : this.props.children}
         </button>
         </div>
     )

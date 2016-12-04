@@ -35,22 +35,6 @@ var menu = React.createClass({
     }
    },
 
-   componentWillMount() {
-     window.addEventListener('scroll', this.handleScroll)
-   },
-   componentWillUnmount(){
-     window.removeEventListener('scroll', this.handleScroll)
-   },
-
-   handleScroll(event){
-
-    let scrollTop = event.srcElement.body.scrollTop
-    if (scrollTop > 20) {
-       this.nav.className =  "nav-container fixed"
-    }else{
-      this.nav.className = "nav-container"
-    }
-   },
 
    onLoginButton(){
        this.setState({
@@ -69,16 +53,12 @@ var menu = React.createClass({
    },
 
   render() {
-
     const isHome = window.location.pathname === '/'
-
+    const page = window.location.pathname.split('/')[1]
     return (
-      <div
-      >
-
+      <div  className={"location_" + page}>
         <div
-          ref={(ref) => this.nav = ref}
-          className="nav-container">
+          className={"nav-container location_"}>
           <nav
             className="navigation"
           >

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import Button from './Button'
+import Button from './Button-v2'
 
 export default React.createClass({
 
@@ -24,6 +24,7 @@ export default React.createClass({
   return(
   <Button
     {...this.props}
+    className="submit"
     success={!this.props.noCheckMark && this.context.succeeded}
     isLoading={this.context.isLoading}
     onClick={this.handleClick}

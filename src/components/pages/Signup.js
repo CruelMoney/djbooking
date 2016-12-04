@@ -61,10 +61,10 @@ export default React.createClass({
     </div>
       <Footer
         color={this.themeColor}
-        firstTo="/"
-        secondTo="/signup"
-        firstLabel="Arrange event"
-        secondLabel="Become DJ"
+        firstTo="/howitworks"
+        secondTo="/"
+        firstLabel="HOW IT WORKS"
+        secondLabel="ARRANGE EVENT"
         title="Wonder how it works?"
         subTitle="See how it works, or arrange an event."
         />

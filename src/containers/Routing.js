@@ -3,6 +3,10 @@ import { Router, Route, browserHistory, IndexRoute, IndexRedirect, Redirect } fr
 import Signup from '../components/pages/Signup'
 import User from './User'
 import HowItWorks from '../components/pages/HowItWorks'
+import Terms from '../components/pages/Terms'
+import Agreements from '../components/pages/terms/Agreements'
+import Privacy from '../components/pages/terms/Privacy'
+
 import Navigation from './Navigation'
 import Profile from './Profile'
 import Preferences from './Preferences'
@@ -19,6 +23,7 @@ import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import * as actions from '../actions/LoginActions'
 import store from '../reducers/Store'
+
 
 const theme = getMuiTheme()
 
@@ -39,7 +44,6 @@ var router = React.createClass({
    },
 
    checkForLogin(nextState, replace){
-     console.log(nextState.location.pathname);
      if (!this.state.didCheckLogin) {
        this.setState({
          didCheckLogin: true
@@ -61,7 +65,7 @@ var router = React.createClass({
   render() {
     return(
     <MuiThemeProvider muiTheme={theme}>
-      <Router history={browserHistory}>
+      <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
         <Route path="/" component={Navigation} onEnter={this.checkForLogin}>
 
           <IndexRoute component={Home}/>
@@ -79,6 +83,11 @@ var router = React.createClass({
 
           <Route path="howitworks" component={HowItWorks}/>
           <Route path="signup" component={Signup}/>
+          <Route path="terms" component={Terms}>
+            <IndexRoute path="agreements" component={Agreements}/>
+            <Route path="agreements" component={Agreements}/>
+            <Route path="privacy" component={Privacy}/>
+          </Route>
 
         </Route>
       </Router>

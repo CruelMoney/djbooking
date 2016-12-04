@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import Form from '../components/common/Form-v2'
 import * as actions from '../actions/FormActions'
 
-//TODO move magic information about the filters out of container.
-//Should be grabbed from the children that are set as filters
+
 function mapStateToProps(state, ownprops) {
   return {
     activeFilters: state.forms[ownprops.name] ? state.forms[ownprops.name].filters : [],

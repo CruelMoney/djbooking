@@ -50,6 +50,7 @@ font-size: 22px;
 letter-spacing: 2px;
 line-height: 30px;
 }
+
 h4{
   font-family: SourceSansPro-Semibold;
   font-size: 15px;
@@ -133,12 +134,24 @@ align-items: center;
 
 .main-menu a{
   cursor: pointer;
-  color: white;
   /* Login: */
   font-family: "SourceSansPro-Semibold";
   font-size: 17px;
   color: #FFFFFF;
   letter-spacing: 0.3px;
+}
+
+.logo svg{
+  fill: #FFFFFF;
+}
+.location_terms .main-menu a{
+  color: #32325D;
+}
+.location_terms .logo svg{
+  fill: #32325D;
+}
+.location_terms nav {
+  border-bottom: 1px solid #F6F9FC;
 }
 
 .main-menu a:hover{
@@ -151,6 +164,7 @@ align-items: center;
 
 .footer-columns{
   display: flex;
+  text-align: center;
 }
 .footer-columns > div{
   width: 150px;
@@ -279,24 +293,7 @@ form ol {
   }
 
 
-  /**
-   * fixed menu on front page
-   */
-  div.fixed{
-    background-color: white !important;
-    border-bottom: 1px solid #eee;
 
-  }
-
-  nav.fixed li a{
-    color: black !important;
-    border-color: black !important;
-  }
-
-  nav.fixed li button{
-    color: black !important;
-    border-color: black !important;
-  }
 
 
   input::-webkit-calendar-picker-indicator{
@@ -534,20 +531,9 @@ input[type="file"] + label * {
 @keyframes rotating {
   from {
     transform: rotate(0deg);
-    border-color: #eee;
-    border-left-color: rgb(0,188,212);
-    border-width: 2px;
-    background-color: transparent;
-    box-shadow: -10px 0px 40px -5px rgb(30,218,242)
   }
   to {
     transform: rotate(360deg);
-    border-color: #eee;
-    border-left-color: rgb(0,188,212);
-    border-width: 2px;
-    background-color: transparent;
-    box-shadow: -9px 0px 40px -5px rgb(30,218,242)
-
   }
 }
 
@@ -1098,6 +1084,7 @@ margin-right: 5px;
 .button{
   /* Rectangle: */
   border-radius: 6px;
+  transition: all 0.1s ease-in-out;
   height: 40px;
   padding: 10px 10px;
   /* Text */
@@ -1105,26 +1092,66 @@ margin-right: 5px;
   font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 0.39px;
+  visibility: visible;
+
+}
+.button.elevated{
   box-shadow: 0 2px 4px 0 rgba(100,100,100,0.50);
 }
+.button.elevated:hover{
+  transform: scale(1.05);
+  box-shadow: 0 2px 14px 0px rgba(100,100,100,0.50);
+}
 /*Action and toggle buttons*/
+.button-wrapper{
+  visibility: hidden;
+}
+.button.flat{
+  border: 2px solid #BBBBBB;
+  color: #BBBBBB;
+  fill: #BBBBBB;
+}
+.button svg{
+  margin-right: 7px;
+}
 button{
+  visibility: visible;
   outline: none;
-  transition: all 0.1s ease-in-out;
   line-height: 0;
   box-shadow: none;
   border: 2px solid #BBBBBB;
   color: #BBBBBB;
-  box-shadow: none !important;
 }
+
 button:hover{
   color: inherit;
   border-color: inherit;
 }
-button.active{
-  color: #FFFFFF;
-  border-color: inherit;
+button.submit{
+  transition: all 0.4s ease-in-out;
 }
+button.submit:hover{
+  transition: all 0.2s ease-in-out;
+  box-shadow: inherit;
+}
+button.active, .button.active{
+  color: #FFFFFF;
+  fill: #FFFFFF;
+  border-color: inherit;
+  background-color: inherit;
+}
+button.loading{
+  border-color: transparent;
+  background-color: transparent !important;
+  animation: rotating 2s 0.25s linear infinite;
+  width: 40px;
+  border-radius: 100% !important;
+}
+button.success{
+  width: 40px;
+  border-radius: 100% !important;
+}
+
 table button{
   width: 100%;
 }
@@ -1223,7 +1250,7 @@ table button{
   margin: 0 80px;
 margin-top: -30px;
 }
-.signup > form{
+.signup form{
   margin-left: 40px;
 }
 .signup h2{
@@ -1241,4 +1268,29 @@ margin-top: -30px;
 .errors p{
       color: #F44336;
       margin-bottom: 0;
+}
+
+.terms .subtitle{
+  font-family: AvenirNext-Regular;
+  font-size: 18px;
+  color: #8998AA;
+  line-height: 26px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #F6F9FC;
+}
+.terms h2{
+font-family: SourceSansPro-Regular;
+font-size: 28px;
+color: #32325D;
+}
+.terms section{
+  margin-top: 30px;
+}
+
+.terms-navigation > a{
+  margin-bottom: 10px;
+}
+.fixed{
+  position: fixed;
+  top: 30px;
 }
