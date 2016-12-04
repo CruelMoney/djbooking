@@ -37,13 +37,13 @@ export default React.createClass({
       borderRadius:    this.props.rightRounded ? "0px 6px 6px 0px" :
                        this.props.leftRounded  ? "6px 0px 0px 6px" :
                        this.props.rounded      ? "6px 6px 6px 6px" : "0px 0px 0px 0px",
-      borderLeftColor: this.props.isLoading    ? this.context.color : null,
       boxShadow:       this.props.isLoading    ? "-10px 0px 40px -5px " + this.context.color : null
     }
 
     var className = this.props.className ? "button " + this.props.className : "button"
     if (this.props.active) className = className + " active"
     if (this.props.isLoading) className = className +" loading"
+    if (this.props.succes) className = className +" succes"
 
     return (
       <div className="button-wrapper"
@@ -57,7 +57,7 @@ export default React.createClass({
       <button
         name={this.props.name}
         style={style}
-        disabled={this.props.disabled || this.props.success}
+        disabled={this.props.disabled || this.props.succes}
         className={className}
         onClick={this.handleClick}
         >

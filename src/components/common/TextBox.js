@@ -20,7 +20,8 @@ var TextBox = React.createClass({
     registerValidation: PropTypes.func.isRequired,
     updateValue: PropTypes.func,
     isFormValid: PropTypes.func,
-    registerReset: PropTypes.func
+    registerReset: PropTypes.func,
+    color: PropTypes.string
   },
 
 
@@ -131,19 +132,18 @@ var TextBox = React.createClass({
       base: {
         height: this.props.height,
         width: this.props.width,
-        fontFamily: this.props.muiTheme.fontFamily,
-        color:  this.props.muiTheme.palette.textColor,
+        color:  this.context.color,
         backgroundColor: 'transparent',
         borderStyle: 'solid',
-        borderWidth: "2px",
-        borderColor: "#eee",
+        borderWidth: "1px",
+        borderColor: "#BBBBBB",
         outline: "none",
         resize: 'none',
         borderRadius: '6px',
         padding: '4px',
         transition: 'border 0.4s',
         ':focus': {
-          borderColor:  this.props.muiTheme.palette.primary1Color
+          borderColor:  this.context.color
         }
       },
 
@@ -167,12 +167,8 @@ var TextBox = React.createClass({
 
                 />
                 {this.state.errors.length ? (
-                  <div style={{
-                    fontSize: '12px',
-                    lineHeight: '12px',
-                    color: 'rgb(244, 67, 54)'
-                  }}>
-                    {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
+                  <div className="errors" style={{marginTop:"5px"}}>
+                    {this.state.errors.map((error, i) => <p  className="error" key={i}>{error}</p>)}
                   </div>
                 ) : null}
               </div>

@@ -9,7 +9,6 @@ export default React.createClass({
 
     propTypes:{
       handleChange: PropTypes.func,
-      handleButtonClick: PropTypes.func
     },
 
   getInitialState: function() {
@@ -17,7 +16,9 @@ export default React.createClass({
       startDate: moment()
     }
   },
-
+  contextTypes:{
+    color: PropTypes.string
+  },
   handleChange: function(date) {
     this.props.handleChange(date)
     this.setState({
@@ -27,21 +28,13 @@ export default React.createClass({
 
   render: function() {
     return (
-      <div className="calendar-container">
+      <div style={{color: this.context.color}} className="calendar-container">
         <DatePicker
           fixedHeight
           inline
           minDate={moment()}
           selected={this.state.startDate}
           onChange={this.handleChange} />
-        <div style={{marginTop:'20px'}}>
-          <Button
-            medium
-            rounded
-            white
-            label="GO!"
-            onClick={this.props.handleButtonClick}/>
-        </div>
       </div>
     )
   }

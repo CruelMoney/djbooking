@@ -25,7 +25,7 @@ export default React.createClass({
   <Button
     {...this.props}
     className="submit"
-    success={!this.props.noCheckMark && this.context.succeeded}
+    succes={!this.props.noCheckMark && this.context.succeeded}
     isLoading={this.context.isLoading}
     onClick={this.handleClick}
   />

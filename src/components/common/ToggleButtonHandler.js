@@ -135,7 +135,8 @@ var ToggleButtonHandler = React.createClass({
     }.bind(this))
 
     return (
-      <div className="toggle-button-handler">
+      <div>
+        <div className="toggle-button-handler">
         {(this.state.errors.length && this.props.errorAbove) ? (
           < div className="errors">
           {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
@@ -145,9 +146,10 @@ var ToggleButtonHandler = React.createClass({
           <table>
           <tbody>{rows}</tbody>
           </table>
+          </div>
           {(this.state.errors.length && !this.props.errorAbove) ? (
           < div style={{marginTop: "10px"}} className="errors">
-          {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
+          {this.state.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
           </div>
           ) : null}
           </div>

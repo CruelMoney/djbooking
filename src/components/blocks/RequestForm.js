@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
-import Button from '../common/Button'
+import Button from '../common/Button-v2'
 import TextField from '../common/Textfield'
 import LocationSelector from '../common/LocationSelectorSimple'
 import ToggleOptions from '../common/ToggleOptions'
@@ -10,17 +9,12 @@ import Slider from '../common/Slider'
 import TimeSlider from '../common/TimeSlider'
 import SubmitButton from '../common/SubmitButton'
 import TextBox from '../common/TextBox'
-import Popup from '../common/Popup'
-import Signup from '../../containers/Signup'
-import Login from '../../containers/Login'
+
 
 import wNumb from 'wnumb'
 import c from '../../constants/constants'
-import {Card} from 'material-ui/Card'
 
-import muiThemeable from 'material-ui/styles/muiThemeable'
-
-var RequestForm = React.createClass({
+export default React.createClass({
   propTypes: {
     form: PropTypes.object,
     date: PropTypes.object, //moment object
@@ -75,278 +69,163 @@ var RequestForm = React.createClass({
   },
 
   render() {
-    const styles ={
-      medium:{
-        textarea: {
-          height: '40px',
-          textAlign: 'center',
-        },
-
-        paragraph: {
-          fontSize: '30px',
-          textAlign: 'center',
-        },
-
-        input:{
-          fontSize: '30px',
-          height: 'initial',
-          textAlign: 'center',
-          color: this.props.muiTheme.palette.textColor,
-          fontWeight: '300',
-        },
-
-        hint:{
-          fontSize: '30px',
-          height: 'initial',
-          fontWeight: '300',
-          textAlign: 'center',
-          width: '100%'
-        },
-
-      },
-       dottedBorderStyle: {
-          borderTop: 'none rgba(0, 0, 0, 1)',
-          borderRight: 'none rgba(0, 0, 0, 1)',
-          borderBottom: '2px dotted rgba(0, 0, 0, 1) ',
-          borderLeft: 'none rgba(0, 0, 0, 1)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          borderColor: 'rgba(0,0,0, 0.5)'
-        },
-        plainBorder:{
-          borderTop: 'none rgb(224, 224, 224)',
-          borderRight: 'none rgb(224, 224, 224)',
-          borderBottom: '1px solid rgb(224, 224, 224)',
-          borderLeft: 'none rgb(224, 224, 224)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          display: 'none',
-        },
-
-    }
-
     const eventDateString = this.props.date.format("dddd Do, MMMM YYYY")
-    console.log(this.props.emailExists);
+
     return(
-      <div>
-        <Popup showing={this.props.emailExists != null && this.state.showPopup && !this.props.isLoggedIn}
-          onClickOutside={this.hidePopup}>
-
-          {this.props.emailExists ?
-            <div>
-              <p>It looks like there's already an account using that email. Please login before continuing.</p>
-              <Login/>
-            </div>
-
-            :
-            <div>
-              <p>Please sign up before continuing. Then you can always login to see the status of your event.</p>
-              <Signup
-                profile={this.props.form.values}
-              />
-            </div>
-          }
-        </Popup>
-
+      <div className="request-form">
 
         <Form
-          name="requestForm"
-
-        >
+          name="requestForm">
+          <div className="request-columns">
           <div
-            style={{
-              marginBottom:"20px",
-              marginTop:"100px",
-              display:"flex",
-              flexDirection:'row',
-              alignItems:'center',
-              alignContent:'center',
-              flexWrap: 'wrap'
-            }}>
+            className="col-md-4">
+            <div className="card">
+              <section>
+                <h4>Genres</h4>
+                <ToggleButtonHandler
+                  name="genres"
+                  potentialValues={c.GENRES}
+                  columns={3} />
+              </section>
+              <section>
+                <h4>Speakers</h4>
+                <ToggleOptions
+                  name="speakers"
+                  validate={['required']}
+                >
+                  <Button
+                    name="YES"
+                  >Yes</Button>
 
-            <div
-              className="col-md-5 no-padding request-card first-card"
-              style={{
-                zIndex:'10'
-              }}>
+                  <Button
+                    name="UNCERTAIN"
+                  >Uncertain</Button>
 
-              <Card
-                expanded>
-                <div style={{padding:'15px'}}>
+                  <Button
+                    name="NO"
+                  >No</Button>
+                </ToggleOptions>
+              </section>
+              </div>
+          </div>
+          <div
+            className="col-md-4">
+            <div className="card">
+                <section>
+                  <h4>Event date</h4>
                   <TextField
                     name="date"
                     disabled
                     controlledValue={eventDateString}
-                    underlineDisabledStyle={styles.plainBorder}
-                    floatingLabelText="Event date"
-                    style={{marginTop:'-20px', height:'70px'}}
                   />
-                  <p style={{marginBottom:'30px'}}>Select a new date in the calendar to change it.</p>
+                  <p>Select a new date in the calendar to change it.</p>
+                  </section>
+              <section>
+                <h4>Duration</h4>
+
+                  <TimeSlider
+                    date={this.props.date}
+                  />
+                </section>
+
+
+<section>
+                <h4>People</h4>
+                <div>
+                  <Slider
+                    name="guests"
+                    range={{min:0, max:100}}
+                    step={1}
+                    connect="lower"
+                    initialValues={[50]}
+                    handleChange={(values) => this.setState({
+                      guests: values[0]
+                    })}
+                    format={ wNumb({
+                      decimals: 0,
+                      thousand: ".",
+                    })}
+                  />
+                </div>
+                <p style={{marginTop:"15px"}}>{"Around " + this.state.guests + " people attending the event."}</p>
+</section>
+<section>
+              <h4>Description</h4>
+                <TextBox
+                  height="110px"
+                  placeholder={"Please tell about your event. \n" +
+                                "What kind of venue is it, what is the age of the guests? \n" +
+                                "Do you have any special requirements? \n" +
+                                "What is the budget?"}
+                  name="description"
+                  validate={['required']}
+                />
+</section>
+
+              </div>
+            </div>
+
+              <div className="col-md-4">
+              <div className="card">
+                <section>
+                <h4>Event location</h4>
+                <LocationSelector
+                  name="location"
+                  validate={['required']}
+                />
+                <p>Select the city in which your event will happen.</p>
+              </section>
+
+<section>
+  <h4>Event name</h4>
 
                   <TextField
                     name="eventName"
-                    style={{marginTop:'-20px', height:'70px'}}
-                    floatingLabelText="Event name"
-
                     validate={['required']}
                   />
-                  <p style={{marginBottom:'30px'}}>Write a name reflecting the purpose of your event.</p>
+                  <p>Write a name reflecting the purpose of your event.</p>
+</section>
 
 
-                  <LocationSelector
-                    style={{marginTop:'-20px', height:'70px'}}
-                    floatingLabelText="Event location"
-
-                    name="location"
-                    validate={['required']}
-                  />
-                  <p style={{marginBottom:'30px'}}>Select the city in which your event will happen.</p>
 
 
-                  {!this.props.isLoggedIn ?
+
                     <div>
-                      <TextField
-                        style={{marginTop:'-20px', height:'70px'}}
-                        floatingLabelText="Your name"
+                      <section><h4>Your name</h4>
 
-                        name="name"
+                      <TextField
+                          name="name"
                         validate={['required', 'lastName']}
                       />
-                      <p style={{marginBottom:'30px'}}>Your full name.</p>
+                      <p >Your full name.</p>
+                      </section>
 
+                      <section><h4>Your email</h4>
                       <TextField
-                        style={{marginTop:'-20px', height:'70px'}}
-                        floatingLabelText="Your email"
-                        name="email"
+                          name="email"
                         validate={['required', 'email']}
                       />
-                      <p style={{marginBottom:'30px'}}>We only share your email with DJ's suitable to play at your event.</p>
+                      <p>We only share your email with DJ's suitable to play at your event.</p>
+                      </section>
+                      <section><h4>Your phone</h4>
 
                       <TextField
-                        style={{marginTop:'-20px', height:'70px'}}
-                        floatingLabelText="Your phone number"
                         name="phone"
                         type="number"
                         validate={['required']}
                       />
-                      <p style={{marginBottom:'30px'}}>We only share your phone number with DJ's candidates.</p>
+                      <p >We only share your phone number with DJ's candidates.</p>
+                      </section>
 
                     </div>
-                  : null}
+
 
 
                 </div>
-              </Card>
-            </div>
-            <div
-              className="col-md-4 no-padding request-card second-card"
-              style={{
-                zIndex:'5'
-              }}>
-              <Card
-                expanded>
+              </div>
 
-                <div style={{padding:'15px'}}>
-                  <h4 style={{textAlign:'center'}}>Select Genres</h4>
-                  <ToggleButtonHandler
-                    name="genres"
-                    potentialValues={c.GENRES}
-                    columns={3} />
-
-                  <h4 style={{textAlign:'center'}}>Do you need speakers?</h4>
-                  <ToggleOptions
-                    name="speakers"
-                    glued={true}
-                    validate={['required']}
-
-                  >
-                    <Button
-                      name="YES"
-                      label="Yes"
-                    />
-
-                    <Button
-                      name="UNCERTAIN"
-                      label="Uncertain"
-                    />
-
-                    <Button
-                      name="NO"
-                      label="No"
-                    />
-                  </ToggleOptions>
-                </div>
-              </Card>
-            </div>
-            <div
-              className="col-md-3 no-padding request-card third-card"
-              style={{
-
-              }}>
-              <Card
-                expanded>
-
-                <div style={{padding:'15px'}}>
-                  <h4 style={{textAlign:'center'}}>Time</h4>
-                  <div style={{
-                    marginTop:'20px',
-                    marginBottom:'20px'
-                  }}>
-                    <TimeSlider
-                      date={this.props.date}
-                    />
-                  </div>
-
-
-
-
-                  <h4 style={{textAlign:'center'}}>Guests</h4>
-                  <div style={{
-                    marginTop:'20px',
-                    marginBottom:'20px'
-                  }}>
-                    <Slider
-                      name="guests"
-                      range={{min:0, max:100}}
-                      step={1}
-                      connect="lower"
-                      initialValues={[50]}
-                      handleChange={(values) => this.setState({
-                        guests: values[0]
-                      })}
-                      format={ wNumb({
-                        decimals: 0,
-                        thousand: ".",
-                      })}
-                    />
-                  </div>
-                  <p>{"Around " + this.state.guests + " people attending the event."}</p>
-                  <h4 style={{textAlign:'center'}}>Description</h4>
-                  <p>{"Please write any additional information."}</p>
-
-                  <TextBox
-                    width="100%"
-                    height="120px"
-                    name="description"
-                    validate={['required']}
-
-                  />
-
-
-                </div>
-              </Card>
-            </div>
 
           </div>
-
           <SubmitButton
             noCheckMark={true}
             rounded={true}
@@ -362,6 +241,3 @@ var RequestForm = React.createClass({
 
   }
 })
-
-var styledRequestForm = Radium(RequestForm)
-export default muiThemeable()(styledRequestForm)

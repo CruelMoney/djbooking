@@ -26,14 +26,12 @@ export default React.createClass({
   render() {
     return (
       <div>
-        <header className=""
-
-        >
+        <header className="">
         <div id="stripes">
-          <span/>
-          <span/>
-          <span/>
-          <span/>
+          <span key="a"/>
+          <span key="b"/>
+          <span key="c"/>
+          <span key="d"/>
         </div>
         <div className="container">
         <TweenOne className="tween-one" key="0" style={{opacity: 0}} animation={{ opacity: 1 }}>

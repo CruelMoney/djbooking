@@ -5,11 +5,18 @@ import RequestForm from '../blocks/RequestForm'
 import moment from 'moment'
 import scrollIntoView from 'smoothscroll-polyfill'
 import bgVideo from '../../assets/blurry-night.mp4'
+import Button from '../common/Button-v2'
 
+/*animation stuff*/
+import ScrollAnim from 'rc-scroll-anim';
+import QueueAnim from 'rc-queue-anim';
+import TweenOne from 'rc-tween-one';
 
 scrollIntoView.polyfill()
 
 export default React.createClass({
+  themeColor: "#25F4D2",
+
   propTypes: {
     checkEmail: PropTypes.func,
     onSubmit: PropTypes.func,
@@ -18,11 +25,19 @@ export default React.createClass({
     emailExists: PropTypes.bool
   },
 
+  childContextTypes: {
+    color: PropTypes.string,
+  },
+  getChildContext() {
+    return {
+      color: this.themeColor
+    }
+  },
+
 
 getInitialState(){
   return {
-    eventDate: null,
-    showForm: false
+    eventDate: moment()
   }
 },
 
@@ -36,27 +51,17 @@ handleDateChange(date){
 requestForm : null,
 
 handleButtonClick(){
-  this.setState({
-    showForm: true
-  })
-  if (!this.state.eventDate) {
-    this.setState({
-      eventDate: moment(),
-    }, ()=>setTimeout(()=>this.requestForm.scrollIntoView({block: "end", behavior: "smooth"}), 100))
-  }else{
- this.requestForm.scrollIntoView({block: "end", behavior: "smooth"})}
+ this.requestForm.scrollIntoView({block: "end", behavior: "smooth"})
 },
 
   render() {
     return (
       <div>
-        <div className="home-bg"
-          style={{overflow: 'hidden', position:'relative'}}
-        >
-        <div id="stripes">
+        <header>
+        <div id="stripes" className="v1">
           <span></span>
           <span></span>
-          <span></span>
+          <span className="white"></span>
           <span></span>
           <span></span>
         </div>
@@ -69,32 +74,41 @@ handleButtonClick(){
             <div className="row">
             <div className="col-md-6"
               style={{
-                display:'flex',
-                alignItems:'center'
+                    marginTop: "30px"
               }}
             >
-              <div className="hero-text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing <span>elit</span>. <span>Consectetur</span> ipsam ut eum nihil consectetur, dignissimos <span>dolor</span> reiciendis repellendus dolore repellat quasi adipisci quidem, id accusamus <span>ducimus</span> autem ratione, obcaecati aut.
-              </div>
+                <QueueAnim key="1">
+                <h1 key="title">DJ service for a perfect event</h1>
+                <p key="paragraph">Stripe is the best software platform for running an internet
+                business. We handle billions of dollars every ythinking businesses around the world. thinking businesses around the world.thinking businesses around the world.ear for forward-
+                thinking businesses around the world.
+                </p>
+              </QueueAnim>
             </div>
 
             <div className="col-md-5 col-md-offset-1">
-              <DatePicker
-                handleChange={this.handleDateChange}
-                handleButtonClick={this.handleButtonClick}
-              />
+              <TweenOne className="tween-one" key="0" style={{opacity: 0}} animation={{ opacity: 1 }}>
+              <div className="card glass">
+                <DatePicker
+                  handleChange={this.handleDateChange}
+                />
+                <Button
+                  className="white"
+                  onClick={this.handleButtonClick}>
+                  <div style={{width:"100px"}}>GO</div>
+                </Button>
+              </div>
+            </TweenOne>
             </div>
             </div>
 
           </div>
 
-        </div>
+        </header>
         <div
           ref={(f) => this.requestForm = f}/>
 
-        {
 
-          this.state.showForm ?
             <div>
               <div   className="container">
                 <RequestForm
@@ -106,10 +120,19 @@ handleButtonClick(){
                   emailExists={this.props.emailExists}
                 />
               </div>
-              <Footer/>
+
+              <Footer
+                color={this.themeColor}
+                firstTo="/"
+                secondTo="/signup"
+                firstLabel="Arrange event"
+                secondLabel="Become DJ"
+                title="Ready to get started?"
+                subTitle="Arrange an event, or become a DJ."
+                />
+              
             </div>
-          : null
-        }
+
 
 
       </div>

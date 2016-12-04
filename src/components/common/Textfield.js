@@ -19,7 +19,8 @@ var Text = React.createClass({
     validate: PropTypes.arrayOf(PropTypes.string),
     onUpdatePipeFunc: PropTypes.func,
     disabled: PropTypes.bool,
-    floatingLabelText: PropTypes.string
+    floatingLabelText: PropTypes.string,
+    big: PropTypes.string
   },
 
   contextTypes: {
@@ -129,15 +130,10 @@ var Text = React.createClass({
   },
 
   render() {
-    var styles = {
-
+    var stylesBig = {
       textarea: {
         height: '70px',
         marginTop: "-10px"
-      },
-
-      paragraph: {
-        fontSize: '14px',
       },
 
       input:{
@@ -153,23 +149,65 @@ var Text = React.createClass({
         fontSize: '30px',
         color: "rgba(187,187,187,0.5)",
         fontFamily: "AvenirNext-Regular",
+      },
+      error:{
+        fontFamily: "SourceSansPro-Regular"
+      }
+    }
+    var stylesNormal = {
+      textarea: {
+        height: "30px"
+      },
+      input:{
+        fontSize: '14px',
+        color: this.context.color,
+        fontFamily: "AvenirNext-Regular",
+        top: "-11px"
+      },
+      underlineStyle:{
+        borderColor: this.context.color
+      },
+      hint:{
+        fontSize: '14px',
+        color: "#BBBBBB",
+        fontFamily: "AvenirNext-Regular",
+      },
+      error:{
+        fontFamily: "AvenirNext-Regular",
+        fontSize: '14px'
+      },
+      floatingLabelStyle:{
+        fontFamily: "AvenirNext-Medium",
+        fontSize: "16px",
+        fontWeight: "500",
+        lineHeight: "22px",
+        color: "#4A4A4A",
+      },
+      underlineDisabledStyle:{
+        borderWidth:" 1px 0px 0px",
+borderStyle: "solid solid",
+borderColor: "rgb(224, 224, 224)"
       }
 
     }
+    var styles = this.props.big ? stylesBig : stylesNormal
     return (
 
                 <TextField
+                  {...this.props}
+                  placeholder=""
                   value={this.props.controlledValue || this.state.value || null}
                   name={this.props.name}
                   disabled={this.props.disabled}
                   maxLength={this.props.maxLength}
-                  style={this.props.style || styles.textarea}
-                  inputStyle={this.props.inputStyle || styles.input}
-                  hintStyle={this.props.hintStyle || styles.hint}
-                  underlineDisabledStyle={this.props.underlineDisabledStyle}
+                  style={styles.textarea}
+                  inputStyle={styles.input}
+                  hintStyle={styles.hint}
+                  underlineDisabledStyle={styles.underlineDisabledStyle}
                   underlineFocusStyle={styles.underlineStyle}
                   type={this.props.type}
                   floatingLabelText={this.props.floatingLabelText}
+                  floatingLabelStyle={styles.floatingLabelStyle}
                   fullWidth={this.props.fullWidth || true}
                   hintText={this.props.placeholder}
                   onChange={this.onChange}
@@ -180,8 +218,8 @@ var Text = React.createClass({
                       position: "relative",
                       zIndex: "1"
                     }}>
-                    <div className="errors">
-                    {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
+                    <div className="errors" style={styles.error}>
+                    {this.state.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
                     </div>
                     </div>
                   ) : null}/>

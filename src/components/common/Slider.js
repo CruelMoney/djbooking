@@ -42,7 +42,8 @@ var Slider = React.createClass({
     registerValidation: PropTypes.func.isRequired,
     updateValue: PropTypes.func,
     disabled: PropTypes.bool,
-    registerReset: PropTypes.func
+    registerReset: PropTypes.func,
+    color: PropTypes.string,
   },
 
 
@@ -67,6 +68,7 @@ var Slider = React.createClass({
   render() {
 
     return (
+      <div style={{visibility:"hidden", color: this.context.color, borderColor: this.context.color}}>
         <Nouislider
           disabled={this.props.disabled}
           range={this.props.range}
@@ -77,6 +79,7 @@ var Slider = React.createClass({
           onSlide={this.handleChange}
           format={this.props.format}
         />
+        </div>
     )
   }
 })

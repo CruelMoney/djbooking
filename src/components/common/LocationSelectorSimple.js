@@ -138,39 +138,69 @@ var Text = React.createClass({
   },
 
   render() {
-    var styles = {
+    var stylesBig = {
+      textarea: {
+        height: '70px',
+        marginTop: "-10px"
+      },
 
-            textarea: {
-              height: '70px',
-              marginTop: "-10px"
-            },
-
-            paragraph: {
-              fontSize: '14px',
-            },
-
-            input:{
-              fontSize: '30px',
-              color: this.context.color,
-              fontFamily: "AvenirNext-Regular"
-            },
-            underlineStyle:{
-              borderColor: this.context.color
-            },
-            hint:{
-              bottom: '23px',
-              fontSize: '30px',
-              color: "rgba(187,187,187,0.5)",
-              fontFamily: "AvenirNext-Regular",
-            }
+      input:{
+        fontSize: '30px',
+        color: this.context.color,
+        fontFamily: "AvenirNext-Regular"
+      },
+      underlineStyle:{
+        borderColor: this.context.color
+      },
+      hint:{
+        bottom: '23px',
+        fontSize: '30px',
+        color: "rgba(187,187,187,0.5)",
+        fontFamily: "AvenirNext-Regular",
+      },
+      error:{
+        fontFamily: "SourceSansPro-Regular"
+      }
+    }
+    var stylesNormal = {
+      textarea: {
+        height: "30px"
+      },
+      input:{
+        fontSize: '14px',
+        color: this.context.color,
+        fontFamily: "AvenirNext-Regular",
+        top: "-11px"
+      },
+      underlineStyle:{
+        borderColor: this.context.color
+      },
+      hint:{
+        fontSize: '14px',
+        color: "rgba(187,187,187,0.5)",
+        fontFamily: "AvenirNext-Regular",
+      },
+      error:{
+        fontFamily: "AvenirNext-Regular",
+        fontSize: '14px'
+      },
+      floatingLabelStyle:{
+        fontFamily: "AvenirNext-Medium",
+        fontSize: "16px",
+        fontWeight: "500",
+        lineHeight: "22px",
+        color: "#4A4A4A",
+      },
 
     }
+    var styles = this.props.big ? stylesBig : stylesNormal
 
     //Fix for not being able to style the input element
-    setTimeout(() => {
-          var elem = document.querySelector('.search-bar__auto-complete')
-          elem.style.height = "70px"
-        }, 100)
+      setTimeout(() => {
+            var elem = document.querySelector('.search-bar__auto-complete')
+            elem.style.height = this.props.big ? "70px" : "30px"
+          }, 100)
+
 
     return (
         <AutoComplete
@@ -178,6 +208,8 @@ var Text = React.createClass({
           style={this.props.style || styles.textarea}
           inputStyle={styles.input}
           hintStyle={styles.hint}
+          underlineDisabledStyle={this.props.underlineDisabledStyle}
+          underlineFocusStyle={styles.underlineStyle}
           floatingLabelText={this.props.floatingLabelText}
           onClick={this.onValueSelected}
           onChange={this.onChange}
@@ -195,7 +227,7 @@ var Text = React.createClass({
               zIndex: "1"
             }}>
             <div className="errors">
-              {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
+              {this.state.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
             </div>
           </div>
           ) : null}/>

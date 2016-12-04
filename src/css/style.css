@@ -63,6 +63,10 @@ p{
   font-size: 17px;
   letter-spacing: 0.41px;
   line-height: 28px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-font-smoothing: antialiased !important;
+  text-rendering: optimizelegibility !important;
 }
 a:hover{
   text-decoration: none;
@@ -80,6 +84,9 @@ ul {
 
 li{
   text-align: -webkit-match-parent;
+}
+section{
+  display: inline-block;
 }
 
 .container{
@@ -415,12 +422,7 @@ input[type="file"] + label * {
   }
 
 
-@media screen and (max-width: 991px) {
-  .request-card{
-    width: 100% !important;
-    margin-top: 20px;
-  }
-}
+
 
 
 
@@ -904,6 +906,7 @@ button{
 
 .toggle-options button{
   background-color: white;
+  border-width: 1px;
 }
 
 .collapsible.active  .collapsible-arrow{
@@ -967,7 +970,6 @@ margin-right: 5px;
 
 
 #stripes {
-
   position: absolute;
   z-index: -1;
   top: -20px;
@@ -978,8 +980,10 @@ margin-right: 5px;
     -webkit-transform-origin: 0;
     transform-origin: 0;
     background: linear-gradient(330deg, #B031FF 0%, #B031FF 5%, #00D1FF 80%, #31DAFF 90%);
-    /* Rectangle: */
-    background-image:
+  }
+
+#stripes.v1{
+background-image: linear-gradient(330deg, #31FFF5 0%, #31FFC5 5%, #00D1FF 80%, #31DAFF 90%);
 }
 
 #stripes span {
@@ -1028,6 +1032,12 @@ margin-right: 5px;
         right: 0;
         background: #805CFF;
     }
+    #stripes.v1 :nth-child(2) {
+        width: 13.33333%;
+        top: 380px;
+        right: 0;
+        background-color: #25F4D2;
+    }
 
     #stripes :nth-child(4) {
         width: 25%;
@@ -1048,18 +1058,6 @@ margin-right: 5px;
     }
 }
 
-.react-datepicker__day, .react-datepicker__day-name{
-  margin: 0 !important;
-  width: calc(100%/7) !important;
-  height: 30px;
-      padding-top: 4px;
-}
-.react-datepicker__current-month{
- height: 30px;
-}
-.react-datepicker{
-  width: 100% !important;
-}
 
 
 
@@ -1121,6 +1119,7 @@ button{
   box-shadow: none;
   border: 2px solid #BBBBBB;
   color: #BBBBBB;
+  transition: all 0.1s ease-in-out;
 }
 
 button:hover{
@@ -1128,11 +1127,13 @@ button:hover{
   border-color: inherit;
 }
 button.submit{
-  transition: all 0.4s ease-in-out;
 }
-button.submit:hover{
+button.submit:hover {
   transition: all 0.2s ease-in-out;
   box-shadow: inherit;
+}
+button:disabled{
+  box-shadow: none !important;
 }
 button.active, .button.active{
   color: #FFFFFF;
@@ -1140,33 +1141,49 @@ button.active, .button.active{
   border-color: inherit;
   background-color: inherit;
 }
-button.loading{
+button.loading, .button.loading{
   border-color: transparent;
+  border-left-color: inherit;
   background-color: transparent !important;
   animation: rotating 2s 0.25s linear infinite;
   width: 40px;
   border-radius: 100% !important;
 }
-button.success{
+button.succes, .button.succes{
   width: 40px;
+  color: inherit;
+  background-color: inherit;
   border-radius: 100% !important;
+}
+button.white{
+  color: inherit;
+  border-color: inherit;
+  background-color: #FFFFFF;
 }
 
 table button{
   width: 100%;
 }
-.toggle-options table{
-  border-spacing: 20px;
-  border-collapse: separate;
-  margin: -20px;
+table{
   table-layout: fixed;
+}
+.toggle-options{
+  margin: -10px;
+}
+.toggle-options table{
+  border-spacing: 10px;
+  border-collapse: separate;
   width: 100%;
+}
+.toggle-button-handler{
+  margin: -10px;
+}
+.toggle-button-handler button{
+  border-width: 1px;
 }
 .toggle-button-handler table{
   border-spacing: 10px;
   border-collapse: separate;
-  margin: -10px;
-  table-layout: fixed;
   width: 100%;
 }
 
@@ -1269,6 +1286,9 @@ margin-top: -30px;
       color: #F44336;
       margin-bottom: 0;
 }
+p.error{
+    color: #F44336 !important;
+}
 
 .terms .subtitle{
   font-family: AvenirNext-Regular;
@@ -1293,4 +1313,61 @@ color: #32325D;
 .fixed{
   position: fixed;
   top: 30px;
+}
+
+.location_ header h1{
+  font-size: 50px;
+    line-height: 70px;
+}
+.location_ header p{
+  font-size: 19px;
+  line-height: 32px;
+}
+.request-form{
+  margin-top: -80px;
+}
+.request-form .card{
+  padding: 16px;
+}
+.request-form h4{
+font-family: AvenirNext-Medium;
+font-size: 16px;
+font-weight: 500;
+line-height: 22px;
+color: #4A4A4A;
+text-transform: capitalize;
+margin-bottom: 10px;
+}
+.request-form section{
+  margin-bottom: 15px;
+  margin-top: 15px;
+  width: 100%;
+}
+.request-form section:first-child{
+  margin-bottom: 15px;
+  margin-top: 0px;
+}
+.request-form section:last-child{
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+.request-form .button{
+  font-size: 14px;
+  font-family: AvenirNext-Medium;
+  text-transform: capitalize;
+}
+
+.request-form p{
+  font-family: AvenirNext-Regular;
+font-size: 14px;
+line-height: 19px;
+color: #BBBBBB;
+margin: 0;
+}
+
+.request-columns{
+  margin-left: -15px;
+  margin-right: -15px;
+  display: flex;
+  align-items: flex-end;
 }

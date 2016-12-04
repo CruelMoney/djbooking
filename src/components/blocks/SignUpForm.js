@@ -77,6 +77,7 @@ var signupForm = React.createClass({
           hideOn={['FACEBOOK']}
         >
           <Textfield
+            big
             name="email"
             validate={['required', 'email']}
             label="Your Email"/>
@@ -89,6 +90,7 @@ var signupForm = React.createClass({
           text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
         >
           <Textfield
+            big
             name="phone"
             type="number"
             validate={['required']}
@@ -103,6 +105,7 @@ var signupForm = React.createClass({
           hideOn={['FACEBOOK','SOUNDCLOUD']}
         >
           <Textfield
+            big
             type="password"
             name="password"
             validate={['required']}
@@ -118,6 +121,7 @@ var signupForm = React.createClass({
           hideOn={['FACEBOOK']}
         >
           <Textfield
+            big
             name="name"
             placeholder="First Last"
             validate={['required', 'lastName']}
@@ -135,6 +139,7 @@ var signupForm = React.createClass({
         >
 
           <Textfield
+            big
             onUpdatePipeFunc={datePipe}
             maxLength="10"
             type="text"
@@ -153,6 +158,7 @@ var signupForm = React.createClass({
         >
 
           <LocationSelectorSimple
+            big
             autocomplete="off"
             name="location"
             validate={['required']}

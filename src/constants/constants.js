@@ -70,7 +70,6 @@ module.exports = {
     {name: "Techno"},
     {name: "R&B"},
     {name: "UKG"},
-    {name: "Drum'n'Bass"},
     {name: "Trap"},
     {name: "Lounge"},
     {name: "Remixes"},

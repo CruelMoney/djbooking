@@ -12,20 +12,21 @@ const auth = new AuthService()
 
 export function signup(form, isDj, callback) {
   return function (dispatch) {
-    switch (form.signup) {
-      case "EMAIL":
-        return signupEmail(form, handleSignupFeedback(form, isDj, callback))
-
-      case "FACEBOOK":
-        return LoginActions.loginFacebook(handleSignupFeedback(form, isDj, callback))
-
-
-      case "SOUNDCLOUD":
-        return LoginActions.loginSoundcloud(handleSignupFeedback(form, isDj, callback))
-
-      default:
-        callback("Something went wrong")
-    }
+    callback()
+    // switch (form.signup) {
+    //   case "EMAIL":
+    //     return signupEmail(form, handleSignupFeedback(form, isDj, callback))
+    //
+    //   case "FACEBOOK":
+    //     return LoginActions.loginFacebook(handleSignupFeedback(form, isDj, callback))
+    //
+    //
+    //   case "SOUNDCLOUD":
+    //     return LoginActions.loginSoundcloud(handleSignupFeedback(form, isDj, callback))
+    //
+    //   default:
+    //     callback("Something went wrong")
+    // }
   }
 }
 
