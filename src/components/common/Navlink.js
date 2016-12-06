@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
-var RadiumLink = Radium(Link)
+
 
 
 const Navlink = React.createClass({
@@ -23,17 +22,17 @@ const Navlink = React.createClass({
 
   render() {
     return    (    <div onClick={this.props.onClick}>
-      <RadiumLink {...this.props}
+      <Link
         className={"navLink " + (this.props.borderHover ? "borderHover" : "")}
         onlyActiveOnIndex={true}
         activeClassName="active"
       >
         {this.props.label ? this.props.label : this.props.children}
-      </RadiumLink>
+      </Link>
     </div>)
 }
 })
 
 
 var StyledNavlink = Radium(Navlink)
-export default muiThemeable()(StyledNavlink)
+export default StyledNavlink

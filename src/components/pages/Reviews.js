@@ -1,11 +1,9 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
 import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
-import {Card, CardHeader} from 'material-ui/Card'
+import {CardHeader} from 'material-ui/Card'
 import Rating from '../common/Rating'
 
-import muiThemeable from 'material-ui/styles/muiThemeable'
 
 
 var Reviews = React.createClass({
@@ -121,5 +119,4 @@ var Reviews = React.createClass({
   }
 })
 
-var styledReviews = Radium(Reviews)
-export default muiThemeable()(styledReviews)
+export default Reviews

@@ -29,33 +29,40 @@ handleOnClick(){
   render: function() {
     var fillStyle ={fill:"url(#gradient-"+this.props.fillPercentage+")"}
     return (
-      <svg version="1.1" id="Capa_1" x="0px" y="0px"
-        
+      <svg
+        width="21px"
+        height="20px"
+        viewBox="0 0 21 20"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xlinkHref="http://www.w3.org/1999/xlink"
         className={this.props.editable && this.props.active ? "ratingStar active" : "ratingStar"}
-      	 width="20px" height="20px" viewBox="0 0 306 306" viewPort="0 0 40 40"
-         onMouseOver={this.handleMouseOver}
-         onMouseOut={this.handleMouseOut}
-         onClick={this.handleOnClick}>
-         <defs>
-             <linearGradient id={"gradient-"+this.props.fillPercentage} x1="0" x2="100%" y1="0" y2="0">
-              <stop
-                offset={this.props.fillPercentage}
-                stopColor={this.props.color}
-                stopOpacity="1"/>
-              <stop
-                offset={this.props.fillPercentage}
-                stopColor={this.props.emptyColor}
-                stopOpacity="1"/>
-             </linearGradient>
-         </defs>
-      <g>
-      	<g id="star-rate">
-      		<polygon
-            style={this.props.editable ? {} : fillStyle}
-            points="153,230.775 247.35,299.625 211.65,187.425 306,121.125 191.25,121.125 153,6.375 114.75,121.125 0,121.125
-      			94.35,187.425 58.65,299.625"/>
-      	</g>
-      </g>
+        onMouseOver={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
+        onClick={this.handleOnClick}>
+          <defs>
+            <linearGradient id={"gradient-"+this.props.fillPercentage} x1="0" x2="100%" y1="0" y2="0">
+             <stop
+               offset={this.props.fillPercentage}
+               stopColor={this.props.color}
+               stopOpacity="1"/>
+             <stop
+               offset={this.props.fillPercentage}
+               stopColor={this.props.emptyColor}
+               stopOpacity="1"/>
+            </linearGradient>
+              <polygon
+                id="path-2"
+                points="452.489618 516.544156 446.006678 519.952439 447.244809 512.733579 442 507.621154 449.248148 506.567936 452.489618 500 455.731088 506.567936 462.979236 507.621154 457.734427 512.733579 458.972559 519.952439"></polygon>
+              <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="20.9792363" height="19.9524394" fill="white">
+                  <use xlinkHref="#path-2"></use>
+              </mask>
+          </defs>
+          <g id="HomePage" stroke="none" stroke-width="1" style={{strokeWidth: "2px"}} fill="none" fill-rule="evenodd">
+              <g id="DJ-profile" transform="translate(-442.000000, -500.000000)" stroke={this.props.color} style={this.props.editable ? {} : fillStyle}>
+                  <use id="Star-Copy-3" mask="url(#mask-3)" xlinkHref="#path-2"></use>
+              </g>
+          </g>
       </svg>
     )
   }
@@ -72,7 +79,8 @@ export default React.createClass({
     registerValidation: PropTypes.func.isRequired,
     updateValue: PropTypes.func,
     isFormValid: PropTypes.func,
-    registerReset: PropTypes.func
+    registerReset: PropTypes.func,
+    color:PropTypes.string
   },
 
   getInitialState() {
@@ -163,10 +171,16 @@ handleMouseOut(){
   }
 },
 
+
 render: function() {
+  console.log(this.state);
+
   const fullStarsCount   = Math.floor(this.state.rating)
   const fillPercentage = ((this.state.rating % 1)*100).toString() + '%'
   var stars = []
+
+  console.log(fullStarsCount);
+  console.log(fillPercentage);
 
   for (var i = 0; i < 5; i++) {
     if (i < fullStarsCount) {
@@ -177,8 +191,8 @@ render: function() {
           onHover={this.updatePotentialRating}
           editable={this.props.editable}
           active={true}
-          color="#1edaf2"
-          emptyColor="#cecece"
+          color={this.context.color}
+          emptyColor="#FFFFFF"
           fillPercentage="100%"
         />
       )
@@ -190,8 +204,8 @@ render: function() {
           onHover={this.updatePotentialRating}
           editable={this.props.editable}
           active={false}
-          color="#1edaf2"
-          emptyColor="#cecece"
+          color={this.context.color}
+          emptyColor="#FFFFFF"
           fillPercentage={fillPercentage}
         />
       )
@@ -203,8 +217,8 @@ render: function() {
           onHover={this.updatePotentialRating}
           editable={this.props.editable}
           active={false}
-          color="#1edaf2"
-          emptyColor="#cecece"
+          color={this.context.color}
+          emptyColor="#FFFFFF"
           fillPercentage="0%"
         />
       )

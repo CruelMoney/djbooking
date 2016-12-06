@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react'
-import {Card} from 'material-ui/Card'
 import Formatter from '../../utils/Formatter'
 import Rating from '../common/Rating'
 import Navlink  from '../common/Navlink'
+import Logo from '../common/Logo'
+
 
 export default React.createClass({
 
@@ -37,58 +38,48 @@ export default React.createClass({
 
       <div
 
-        className={this.props.className}>
+        className={"card " + this.props.className}>
 
         <div
           style={{
-            width: '300px',
-            height: '300px',
+            width: '280px',
+            height: '280px',
             position: 'relative'
           }}
           className="">
           <div className="user-card-picture-overlay">
             <div
               style={{
-                position: 'absolute',
-                top: '216px',
-                left: '20px'
+                position: "absolute",
+                left: "-8px",
+                top: "237px",
+                height: "20px",
               }}
               className="logo">
-              <Navlink white={true} to="/">Cueup</Navlink>
-            </div>
+              <Navlink to="/">
+                <Logo />
+              </Navlink>            </div>
           </div>
           <div
             className="user-card-picture"
-            style={{backgroundImage: "url("+this.props.picture+")"}}
+            style={{backgroundImage: "linear-gradient(20deg, rgba(49, 255, 245,0.8) 0%, rgba(49, 255, 197,0.5) 16%, rgba(0, 209, 255,0.2) 66%, rgba(49, 218, 255, 0.0) 71%),  url("+this.props.picture+")"}}
           />
         </div>
 
         <div className={this.props.onlyPicture ? "user-card-text hide" : "user-card-text"}>
-          <div className="user-card-about">
-            <p>About</p>
-            {this.props.about}
-          </div>
           <div className="user-card-info">
             <div className="user-card-fact">
-              <p>Age</p>
-              {age}
-            </div>
-            <div className="user-card-fact">
-              <p>Rating</p>
-              <Rating rating={this.props.rating}/>
+              <p>Experience</p>
+              {this.props.experience + " Cueup gigs"}
             </div>
             <div className="user-card-fact">
               <p>Earned</p>
               {Formatter.money.FormatNumberToString(this.props.earned, "Dkk")}
             </div>
             <div className="user-card-fact">
-              <p>Experience</p>
-              {this.props.experience + " Cueup gigs"}
+              <p>Rating</p>
+              <Rating rating={this.props.rating}/>
             </div>
-          </div>
-          <div className="user-card-genres">
-            <p>Genres</p>
-            {genres}
           </div>
         </div>
 

@@ -1,11 +1,7 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
 import Button from './Button-v2'
-import muiThemeable from 'material-ui/styles/muiThemeable'
-
 
 var ToggleButton = React.createClass({
-
    propTypes: {
       name: PropTypes.string,
       rounded: PropTypes.bool,
@@ -72,5 +68,4 @@ var ToggleButton = React.createClass({
 })
 
 
-var StyledButton = Radium(ToggleButton)
-export default muiThemeable()(StyledButton)
+export default ToggleButton

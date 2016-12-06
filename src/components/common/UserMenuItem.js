@@ -1,6 +1,4 @@
 import React, { PropTypes } from 'react';
-import Radium from 'radium';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 
 const UserMenuItem = React.createClass({
   propTypes: {
@@ -29,8 +27,6 @@ const UserMenuItem = React.createClass({
         height: '30px',
         marginRight: '4px',
         borderRadius: '50%',
-      },
-      inline:{
         display: 'inline-block'
       },
       flex:{
@@ -41,14 +37,11 @@ const UserMenuItem = React.createClass({
 
 
     return  (  <div style={styles.flex}>
-      <div style={[styles.image, styles.inline]}/>
-                <div style={[styles.inline]} >
-                  {getLabel(this.props.name)}
-                </div>
-              </div>)
+      <div style={styles.image}/>
+      <div style={{display:'inline-block'}} >
+        {getLabel(this.props.name)}
+      </div>
+    </div>)
 }
 })
-
-
-var StyledUserMenuItem = Radium(UserMenuItem);
-export default muiThemeable()(StyledUserMenuItem);
+export default UserMenuItem

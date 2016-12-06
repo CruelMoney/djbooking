@@ -1,10 +1,7 @@
 import React, { PropTypes } from 'react'
 import Navlink  from '../common/Navlink'
-import Button from '../common/Button'
 import Dropdown from '../common/Dropdown'
 import UserMenuItem from '../common/UserMenuItem'
-import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 import Login from '../../containers/Login'
 import Logo from '../common/Logo'
 
@@ -76,7 +73,7 @@ var menu = React.createClass({
                 <li>
                   <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
                 </li>
-                ) : (
+              ) : (
                 null
               )}
               {this.props.loggedIn ? (
@@ -88,27 +85,27 @@ var menu = React.createClass({
                     />
                   </Navlink>
                 </li>
-                ) : (
+              ) : (
                 <li >
                   <a
                     onClick={this.onLoginButton}
-                    >Login</a>
-                      <Dropdown
-                        expanded={this.state.loginExpanded}
-                        disableOnClickOutside={!this.state.loginExpanded}
-                        onClickOutside={this.onClickOutside}
-                      >
-                        <Login
-                        />
-                      </Dropdown>
+                  >Login</a>
+                  <Dropdown
+                    expanded={this.state.loginExpanded}
+                    disableOnClickOutside={!this.state.loginExpanded}
+                    onClickOutside={this.onClickOutside}
+                  >
+                    <Login
+                    />
+                  </Dropdown>
                 </li>
               )}
               {this.props.loggedIn ? (
                 null
-                ) : (
-                  <li>
-                    <Navlink buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
-                  </li>
+              ) : (
+                <li>
+                  <Navlink buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
+                </li>
               )}
 
             </ul>
@@ -122,5 +119,4 @@ var menu = React.createClass({
   }
 })
 
-var styledMenu = Radium(menu)
-export default muiThemeable()(styledMenu)
+export default menu

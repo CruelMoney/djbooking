@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.1 (35376) - http://www.bohemiancoding.com/sketch -->
+    <title>Star Copy 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="50%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#25F4D2" offset="0%"></stop>
+            <stop stop-color="#25F4D2" offset="97.7442724%"></stop>
+            <stop stop-color="#25F4D2" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="452.489618 516.544156 446.006678 519.952439 447.244809 512.733579 442 507.621154 449.248148 506.567936 452.489618 500 455.731088 506.567936 462.979236 507.621154 457.734427 512.733579 458.972559 519.952439"></polygon>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="20.9792363" height="19.9524394" fill="white">
+            <use xlink:href="#path-2"></use>
+        </mask>
+    </defs>
+    <g id="HomePage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="DJ-profile" transform="translate(-442.000000, -500.000000)" stroke="#25F4D2" stroke-width="2" fill="url(#linearGradient-1)">
+            <use id="Star-Copy-3" mask="url(#mask-3)" xlink:href="#path-2"></use>
+        </g>
+    </g>
+</svg>

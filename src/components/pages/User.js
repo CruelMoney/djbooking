@@ -1,14 +1,11 @@
 import React,  { PropTypes } from 'react'
-import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 import UserHeader from '../blocks/UserHeader'
-import without from 'lodash.without'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Footer from '../blocks/Footer'
 
 import '../../css/transitions.css'
 
 var user = React.createClass({
-
+  themeColor: "#25F4D2",
 
   propTypes: {
     profile: PropTypes.object,
@@ -17,21 +14,25 @@ var user = React.createClass({
   childContextTypes: {
       hideUserCard: PropTypes.func,
       showUserCard: PropTypes.func,
+      registerActions: PropTypes.func,
+      color: PropTypes.string
   },
 
   getChildContext() {
    return {
      hideUserCard: this.hideUserCard,
-     showUserCard: this.showUserCard
+     showUserCard: this.showUserCard,
+     registerActions: (actions)=>{this.setState({actions})},
+     color:        this.themeColor
     }
   },
 
   getInitialState() {
     return {
-      showUserCard: true
+      showUserCard: true,
+      actions: []
     }
   },
-
 
   hideUserCard(){
     this.setState({
@@ -50,21 +51,32 @@ var user = React.createClass({
         <UserHeader
           profile={this.props.profile}
           hideInfo={!this.state.showUserCard}
+          actions={this.state.actions}
         />
 
         <div  className="container">
-        <div className="row">
-          <div className={this.state.showUserCard ? "col-xs-4" : ""}></div>
-          <div style={{paddingTop:"11px"}} className={this.state.showUserCard ? "col-xs-8" : ""}>
-            {this.props.children}
+          <div className="row">
+            <div className={this.state.showUserCard ? "col-xs-4" : ""}></div>
+            <div style={{paddingTop:"11px"}} className={this.state.showUserCard ? "col-xs-8" : ""}>
+              {this.props.children}
+            </div>
           </div>
         </div>
-        </div>
-      </div>)
+
+        <Footer
+          color={this.themeColor}
+          firstTo="/"
+          secondTo="/howitworks"
+          firstLabel="Arrange event"
+          secondLabel="How it works"
+          title="Organizing yourself?"
+          subTitle="Arrange event, or see how it works."
+        />
+      </div>
+    )
 
   }
 })
 
 
-var styledUser = Radium(user)
-export default muiThemeable()(styledUser)
+export default user

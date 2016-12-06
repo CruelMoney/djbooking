@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
 import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
 import Event from '../../containers/Event'
 
-import muiThemeable from 'material-ui/styles/muiThemeable'
 
 
 var Events = React.createClass({
@@ -84,5 +82,4 @@ var Events = React.createClass({
   }
 })
 
-var styledEvents = Radium(Events)
-export default muiThemeable()(styledEvents)
+export default Events

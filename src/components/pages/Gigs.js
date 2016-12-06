@@ -1,11 +1,8 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
 import Button from '../common/Button'
-import TextWrapper from '../common/TextElement'
 import Gig from '../../containers/Gig'
 
 
-import muiThemeable from 'material-ui/styles/muiThemeable'
 
 
 var Gigs = React.createClass({
@@ -188,6 +185,4 @@ var Gigs = React.createClass({
 
   }
 })
-
-var styledGigs = Radium(Gigs)
-export default muiThemeable()(styledGigs)
+export default Gigs

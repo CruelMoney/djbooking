@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react'
 import without from 'lodash.without'
-import Radium from 'radium'
 import assign from 'lodash.assign'
 
 const form = React.createClass({
@@ -31,7 +30,7 @@ const form = React.createClass({
 
     //Recursive
     contextTypes: {
-      registerValidation: PropTypes.func.isRequired,
+      registerValidation: PropTypes.func,
       updateValue: PropTypes.func,
       isFormValid: PropTypes.func,
       registerReset: PropTypes.func,
@@ -178,4 +177,4 @@ const form = React.createClass({
   }
 })
 
-export default Radium(form)
+export default form

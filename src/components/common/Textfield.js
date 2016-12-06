@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import TextField from 'material-ui/TextField'
-import Radium from 'radium'
 import * as validators from '../../utils/validators'
 
 
@@ -204,9 +203,9 @@ var Text = React.createClass({
     return (
               <div className="text-field">
                 <TextField
-                  {...this.props}
+
                   placeholder=""
-                  value={this.props.controlledValue || this.state.value || null}
+                  value={this.props.controlledValue || this.state.value || undefined}
                   name={this.props.name}
                   disabled={this.props.disabled}
                   maxLength={this.props.maxLength}
@@ -244,4 +243,4 @@ var Text = React.createClass({
   }
 })
 
-export default Radium(Text)
+export default Text

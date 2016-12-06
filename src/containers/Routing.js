@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Router, Route, browserHistory, IndexRoute, IndexRedirect, Redirect } from 'react-router'
+import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import Signup from '../components/pages/Signup'
 import User from './User'
 import HowItWorks from '../components/pages/HowItWorks'
@@ -84,7 +84,7 @@ var router = React.createClass({
           <Route path="howitworks" component={HowItWorks}/>
           <Route path="signup" component={Signup}/>
           <Route path="terms" component={Terms}>
-            <IndexRoute path="agreements" component={Agreements}/>
+            <IndexRoute  component={Agreements}/>
             <Route path="agreements" component={Agreements}/>
             <Route path="privacy" component={Privacy}/>
           </Route>

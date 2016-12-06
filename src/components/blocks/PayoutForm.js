@@ -7,7 +7,6 @@ import SubmitButton from '../common/SubmitButton'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/UserActions'
 
-import muiThemeable from 'material-ui/styles/muiThemeable'
 
 var payoutForm = React.createClass({
   propTypes: {
@@ -46,7 +45,6 @@ var payoutForm = React.createClass({
         input:{
           fontSize: '24px',
           height: 'initial',
-          color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
 
@@ -68,7 +66,6 @@ var payoutForm = React.createClass({
         input:{
           fontSize: '14px',
           height: 'initial',
-          color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
 
@@ -223,7 +220,6 @@ var payoutForm = React.createClass({
   }
 })
 
-var styledPayout = muiThemeable()(payoutForm)
 
 
 function mapStateToProps(state, ownprops){
@@ -236,7 +232,7 @@ function mapDispatchToProps(dispatch, ownprops) {
   }
 }
 
-const SmartPayout = connect(mapStateToProps, mapDispatchToProps)(styledPayout)
+const SmartPayout = connect(mapStateToProps, mapDispatchToProps)(payoutForm)
 
 
 export default props => (

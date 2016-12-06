@@ -1,0 +1,42 @@
+import React from 'react'
+
+
+
+class Notification extends React.Component {
+  //defigning types
+  props: {
+    message: string,
+  };
+  // state: {
+  //   display: 'static' | 'hover' | 'active';
+  // };
+  // onMouseEnter: () => void;
+  // onMouseLeave: () => void;
+  // onMouseDown: () => void;
+
+  //defining defaults
+  static defaultProps = { message: "You have no new notifications" };
+
+  // state = {
+  //   display: 'static',
+  // }
+  //
+  //   setDisplay = (display) =>  {this.setState({display})}
+  //
+  //   onMouseEnter = () => this.setDisplay('hover');
+  //   onMouseLeave = () => this.setDisplay('static');
+  //   onMouseDown = () => this.setDisplay('active');
+
+
+  render() {
+    return (
+      <div className="notification">
+        <div>
+          <p>{this.props.message}</p>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default Notification

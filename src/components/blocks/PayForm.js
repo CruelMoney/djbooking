@@ -11,8 +11,6 @@ import Formatter from '../../utils/Formatter'
 
 import assign from 'lodash.assign'
 
-import muiThemeable from 'material-ui/styles/muiThemeable'
-
 var payForm = React.createClass({
   propTypes: {
     amount: PropTypes.number,
@@ -54,7 +52,6 @@ var payForm = React.createClass({
         input:{
           fontSize: '24px',
           height: 'initial',
-          color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
 
@@ -76,7 +73,6 @@ var payForm = React.createClass({
         input:{
           fontSize: '14px',
           height: 'initial',
-          color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
 
@@ -295,9 +291,6 @@ var payForm = React.createClass({
   }
 })
 
-var styledPay = muiThemeable()(payForm)
-
-
 function mapStateToProps(state, ownprops){
 }
 
@@ -307,7 +300,7 @@ function mapDispatchToProps(dispatch, ownprops) {
   }
 }
 
-const SmartPay = connect(mapStateToProps, mapDispatchToProps)(styledPay)
+const SmartPay = connect(mapStateToProps, mapDispatchToProps)(payForm)
 
 
 export default props => (

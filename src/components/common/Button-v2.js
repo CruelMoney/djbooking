@@ -41,9 +41,9 @@ export default React.createClass({
     }
 
     var className = this.props.className ? "button " + this.props.className : "button"
-    if (this.props.active) className = className + " active"
-    if (this.props.isLoading) className = className +" loading"
-    if (this.props.succes) className = className +" succes"
+    if (this.props.active) className += " active"
+    if (this.props.isLoading) className += " loading"
+    if (this.props.succes) className += " succes"
 
     return (
       <div className="button-wrapper"

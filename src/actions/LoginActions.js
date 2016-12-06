@@ -49,7 +49,6 @@ return function (err, result) {
 export function checkForLogin(redirect = null){
   return function(dispatch){
     if (auth.loggedIn()) {
-      console.log(auth.getToken());
       cueup.getUser(auth.getToken(), (error, result)=>
       {
         if (error) {
@@ -127,7 +126,6 @@ export function loginSoundcloud(callback) {
 }
 
 export function loginEmail(form, callback) {
-  console.log(form);
       auth.login({
         connection: 'Username-Password-Authentication',
         responseType: 'token',

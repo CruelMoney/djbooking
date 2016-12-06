@@ -174,25 +174,14 @@ var Button = React.createClass({
             this.props.white && styles.white,
             this.props.noBorder && styles.noBorder,
             this.props.isNavigationButton && styles.navigationButton
-
-          ]}
-          onClick={
-            this.props.disabled || this.props.isLoading ? null : this.handleClick
-          }>
-          {
-            this.props.isLoading ? null :
-            this.props.success ?
-              <svg style={{height: "32px"}} xmlns="http://www.w3.org/2000/svg" version="1.1" width="230" height="200" data-livestyle-extension="available" viewBox="-30 0 230 200">
-                <path d="M 20,130 60,170 200,30" style={{ stroke: "buttonFace", strokeWidth:"20", fill:"none"}}/>
-              </svg>
-            :
-            this.props.label
-          }
-        </button>
-      </div>
-    )
-  }
-})
+          ]} onClick={ this.props.disabled || this.props.isLoading ? null :
+          this.handleClick }> { this.props.isLoading ? null : this.props.success ?
+          <svg style={{height: "32px"}} xmlns="http://www.w3.org/2000/svg"
+          version="1.1" width="230" height="200"
+          data-livestyle-extension="available" viewBox="-30 0 230 200"> <path
+          d="M 20,130 60,170 200,30" style={{ stroke: "buttonFace",
+          strokeWidth:"20", fill:"none"}}/> </svg> : this.props.label }
+          </button> </div> ) } })
 
 
 var StyledButton = Radium(Button)

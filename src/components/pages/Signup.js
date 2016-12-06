@@ -1,11 +1,9 @@
 import React from 'react'
 import SignUpForm from '../../containers/SignupForm'
-import { Link } from 'react-router';
 import vinyl from '../../assets/Vinyl.svg'
 import krIcon from '../../assets/money.svg'
 import Footer from '../blocks/Footer'
 /*animation stuff*/
-import ScrollAnim from 'rc-scroll-anim';
 import QueueAnim from 'rc-queue-anim';
 
 export default React.createClass({

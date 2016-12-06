@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import Formatter from '../../utils/Formatter'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 
 
 var Event = React.createClass({
@@ -14,17 +13,17 @@ var Event = React.createClass({
         const length = this.props.cueupEvent.genres.length
         this.props.cueupEvent.genres.forEach(function(genre, i) {
           if (i+1 === length) {
-            genres = genres + genre
+            genres += genre
           }else{
             genres = genres + genre + ", "
           }
         })
         return (
           <div
-          className={this.props.className || ""}>
+            className={this.props.className || ""}>
                 <div className="event-card-text">
 
-            
+
                   <div className="event-card-status">
                   <p>Status</p>
                   {Formatter.cueupEvent.GetStatus(this.props.cueupEvent.status)}
@@ -62,4 +61,4 @@ var Event = React.createClass({
 
 })
 
-export default muiThemeable()(Event)
+export default (Event)

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+
 
 
 var RegistrationElement = React.createClass({
@@ -52,7 +51,6 @@ var RegistrationElement = React.createClass({
   render() {
     var styles = {
       base: {
-        fontFamily: this.props.muiTheme.fontFamily,
         opacity: '0.2',
         marginBottom: '20px',
         marginTop: '-35px'
@@ -79,9 +77,7 @@ var RegistrationElement = React.createClass({
 
       return (
         <div
-          style={[
-            styles.base,
-            this.props.active && styles.active]}>
+          style={styles.base}>
             <h2>
                 {this.props.label}
             </h2>
@@ -96,5 +92,4 @@ var RegistrationElement = React.createClass({
   }
 })
 
-const StyledText = Radium(RegistrationElement)
-export default muiThemeable()(StyledText)
+export default RegistrationElement

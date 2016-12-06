@@ -1,6 +1,4 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 import * as validators from '../../utils/validators'
 
 
@@ -152,14 +150,14 @@ var TextBox = React.createClass({
 
     }
 
+    let { validate, active, ...props} =  this.props
+
     return (
+
               <div>
                 <textarea
-                  {...this.props}
-                  style={[
-                    styles.base,
-
-                  ]}
+                  {...props}
+                  style={styles.base}
                   value={this.state.value}
                   name={this.props.name}
                   onChange={this.onChange}
@@ -181,5 +179,4 @@ var TextBox = React.createClass({
   }
 })
 
-var StyledTextBox = Radium(TextBox)
-export default muiThemeable()(StyledTextBox)
+export default TextBox

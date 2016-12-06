@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+
 
 
 const lockSvg = (
@@ -22,45 +21,16 @@ var TextWrapper = React.createClass({
   },
 
   render() {
-    var styles = {
-      base: {
-        fontFamily: this.props.muiTheme.fontFamily,
-      },
-
-      label: {
-        display: 'block',
-        marginBottom: '0.5em',
-        fontWeight: '500',
-        fontSize: '16px',
-      },
-
-
-      paragraph: {
-        fontSize: '14px',
-      },
-
-      center:{
-          textAlign:'center'
-      }
-
-    }
-
 
       return (
-        <div
-          className="text-element-wrapper"
-          style={[
-            styles.base,
-          ]}>
+        <div     className="text-element-wrapper"
+        >
 
-            {this.props.showLock ? lockSvg : null}
-          <div style={[
-            styles.label,
-          this.props.center && styles.center]}>
+          {this.props.showLock ? lockSvg : null}
+          <div >
             {this.props.label}
           </div>
-          <p style={[
-          styles.paragraph]}>
+          <p>
             {this.props.text}
           </p>
           {this.props.children}
@@ -70,5 +40,4 @@ var TextWrapper = React.createClass({
   }
 })
 
-const StyledTextWrapper = Radium(TextWrapper)
-export default muiThemeable()(StyledTextWrapper)
+export default TextWrapper

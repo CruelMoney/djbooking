@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
 
 var ToggleOptions = React.createClass({
 
@@ -27,7 +26,6 @@ var ToggleOptions = React.createClass({
      isFilter: PropTypes.bool,
      isFormValid: PropTypes.func,
      updateValue: PropTypes.func,
-     values: PropTypes.object.isRequired,
      registerValidation: PropTypes.func.isRequired,
      registerReset: PropTypes.func,
    },
@@ -181,4 +179,4 @@ if (this.props.glued) {
 })
 
 
-export default Radium(ToggleOptions)
+export default ToggleOptions

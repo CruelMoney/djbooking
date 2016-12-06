@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react'
 import AutoComplete from 'material-ui/AutoComplete'
-import Radium from 'radium'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 import * as validators from '../../utils/validators'
 
 
@@ -204,6 +202,7 @@ var Text = React.createClass({
 
     return (
         <AutoComplete
+          name={this.props.name}
           className="search-bar__auto-complete"
           style={this.props.style || styles.textarea}
           inputStyle={styles.input}
@@ -235,5 +234,4 @@ var Text = React.createClass({
   }
 })
 
-var StyledText = Radium(Text)
-export default muiThemeable()(StyledText)
+export default Text

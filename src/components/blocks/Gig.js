@@ -1,21 +1,15 @@
 import React, { PropTypes } from 'react'
-import Radium from 'radium'
 import Button from '../common/Button'
 import TextField from '../common/Textfield'
 import Formatter from '../../utils/Formatter'
 import {Card} from 'material-ui/Card'
 import TextWrapper from '../common/TextElement'
-import ToggleOptions from '../common/ToggleOptions'
 import {CollapsibleContainer, Collapsible} from '../common/Collapsible'
 import Form from '../../containers/Form-v2'
 import SubmitButton from '../common/SubmitButton'
 import assign from 'lodash.assign'
 import PayoutForm from './PayoutForm'
 import Popup from '../common/Popup'
-
-
-import muiThemeable from 'material-ui/styles/muiThemeable'
-
 
 var Gig = React.createClass({
   propTypes: {
@@ -66,7 +60,6 @@ var Gig = React.createClass({
         input:{
           fontSize: '24px',
           height: 'initial',
-          color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
 
@@ -88,7 +81,6 @@ var Gig = React.createClass({
         input:{
           fontSize: '14px',
           height: 'initial',
-          color: this.props.muiTheme.palette.textColor,
           fontWeight: '300',
         },
 
@@ -140,7 +132,7 @@ var Gig = React.createClass({
     const length = this.props.gig.genres.length
     this.props.gig.genres.forEach(function(genre, i) {
       if (i+1 === length) {
-        genres = genres + genre
+        genres += genre
       }else{
         genres = genres + genre + ", "
       }
@@ -455,5 +447,4 @@ var Gig = React.createClass({
   }
 })
 
-var StyledGig = Radium(Gig)
-export default muiThemeable()(StyledGig)
+export default (Gig)
