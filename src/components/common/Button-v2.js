@@ -54,14 +54,14 @@ export default React.createClass({
           boxShadow: "0 0px 20px 0px " + this.context.color,
           backgroundColor: this.context.color
         }}>
-      <button
-        name={this.props.name}
-        style={style}
-        disabled={this.props.disabled || this.props.succes || this.props.isLoading}
-        className={className}
-        onClick={this.handleClick}
+        <button
+          name={this.props.name}
+          style={style}
+          disabled={this.props.disabled || this.props.succes || this.props.isLoading}
+          className={className}
+          onClick={this.handleClick}
         >
-          {this.props.succes ? <img src={checkmark} alt="checkmark"/> : this.props.children}
+          {this.props.succes ? <img  src={checkmark} alt="checkmark"/> : this.props.children}
         </button>
         </div>
     )

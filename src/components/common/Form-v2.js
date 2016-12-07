@@ -10,13 +10,12 @@ const form = React.createClass({
       name: PropTypes.string,
       formValidCallback: PropTypes.func,
       formInvalidCallback: PropTypes.func,
-      succeeded: PropTypes.bool,
+      status: PropTypes.object,
       children: PropTypes.node,
       onSubmit: PropTypes.func,
       updateFilters: PropTypes.func,
       updateValue: PropTypes.func,
       activeFilters: PropTypes.arrayOf(PropTypes.object),
-      isLoading: PropTypes.bool,
       err: PropTypes.string,
       form: PropTypes.object,
     },
@@ -24,7 +23,7 @@ const form = React.createClass({
     getInitialState() {
       return{
         isValid: false,
-        activeFilters: []
+        activeFilters: [],
       }
     },
 
@@ -38,13 +37,12 @@ const form = React.createClass({
 
     childContextTypes: {
       reset: PropTypes.func,
-      succeeded: PropTypes.bool,
+      status: PropTypes.object,
       registerValidation: PropTypes.func,
       isFormValid: PropTypes.func,
       updateFilters: PropTypes.func,
       activeFilters: PropTypes.arrayOf(PropTypes.object),
       updateValue: PropTypes.func,
-      isLoading: PropTypes.bool,
       isValid: PropTypes.bool,
       onSubmit: PropTypes.func,
       registerReset: PropTypes.func,
@@ -52,13 +50,12 @@ const form = React.createClass({
     getChildContext() {
       return {
         reset: this.reset,
-        succeeded: this.props.succeeded,
+        status: this.props.status,
         registerValidation: this.registerValidation,
         isFormValid: this.isFormValid,
         updateFilters: this.updateFilters,
         activeFilters: this.state.activeFilters,
         updateValue: this.updateValue,
-        isLoading: this.props.isLoading,
         isValid: this.state.isValid,
         onSubmit: this.submit,
         registerReset: this.registerReset,
@@ -151,9 +148,9 @@ const form = React.createClass({
        })
    },
 
-   submit(submitActions){
+   submit(submitActions, submitName){
      if (this.isFormValid(true)) {
-         this.props.onSubmit(submitActions)
+         this.props.onSubmit(submitActions, submitName)
        }
    },
 

@@ -1203,6 +1203,7 @@ button.succes, .button.succes{
   width: 40px;
   color: inherit;
   background-color: inherit;
+  border-color: inherit;
   border-radius: 100% !important;
 }
 button.white{

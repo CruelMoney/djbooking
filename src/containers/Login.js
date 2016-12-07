@@ -4,22 +4,16 @@ import Login from '../components/blocks/Login'
 import * as actions from '../actions/LoginActions'
 
 
-function mapStateToProps(state, ownProps){
-  return{
-    isLoading: state.login.isWaiting,
-    error: state.login.err
-  }
-}
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-    login: (email, password) => dispatch(actions.login({type:"EMAIL", email, password})),
-    loginFacebook: ()        => dispatch(actions.login({type:"FACEBOOK"})),
-    loginSoundcloud: ()      => dispatch(actions.login({type:"SOUNDCLOUD"})),
+    login: (email, password, callback) => dispatch(actions.login({type:"EMAIL", email, password}, callback)),
+    loginFacebook: (form,callback)        => dispatch(actions.login({type:"FACEBOOK"},callback)),
+    loginSoundcloud: (form,callback)      => dispatch(actions.login({type:"SOUNDCLOUD"},callback)),
   }
 }
 
-const SmartLogin = connect(mapStateToProps, mapDispatchToProps)(Login)
+const SmartLogin = connect(state=>state, mapDispatchToProps)(Login)
 
 
 export default props => (

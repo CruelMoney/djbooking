@@ -18,27 +18,30 @@ export function updateFilters(filter, value, formName) {
   }
 }
 
-export function submitRequested(formName) {
+export function submitRequested(formName, submitName) {
   return {
     type: ActionTypes.FORM_SUBMIT_REQUESTED,
-    formName
+    formName,
+    submitName
   }
 }
 
 
-export function handleSubmitResult(formName, err) {
+export function handleSubmitResult(formName, err, submitName) {
   return function(dispatch) {
     if (err) {
       dispatch(function() {
         return {
         type: ActionTypes.FORM_SUBMIT_FAILED,
         formName,
-        err: err.message
+        submitName,
+        err: err
       }}())
     }else{
       dispatch(function() { return {
         type: ActionTypes.FORM_SUBMIT_SUCCEEDED,
-        formName
+        formName,
+        submitName
       }}())
     }
   }

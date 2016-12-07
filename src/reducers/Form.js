@@ -43,16 +43,36 @@ const values  = (state = initialState, action) => {
   }
 }
 
-const status  = (state = {submitting:false, succeeded: false}, action) => {
+const status  = (state = {loading: {}, succeeded:{}}, action) => {
   switch (action.type) {
 
     case ActionTypes.FORM_SUBMIT_REQUESTED:
-      return {submitting:true, succeeded: false}
+      return {
+        succeeded: assign({}, state.succeeded, {
+          [action.submitName] : false
+      }),
+        loading: assign({}, state.loading, {
+          [action.submitName] : true
+      })}
     case ActionTypes.FORM_SUBMIT_FAILED:
-      return {submitting:false, succeeded: false, err: action.err}
+      return {
+        succeeded: assign({}, state.succeeded, {
+          [action.submitName] : false
+      }),
+        loading: assign({}, state.loading, {
+          [action.submitName] : false
+      }),
+       err: action.err
+    }
     case ActionTypes.FORM_SUBMIT_SUCCEEDED:
-      return {submitting:false,
-              succeeded: true}
+     return {
+        succeeded: assign({}, state.succeeded, {
+          [action.submitName] : true
+      }),
+        loading: assign({}, state.loading, {
+          [action.submitName] : false
+      })
+    }
   default:
     return state
   }

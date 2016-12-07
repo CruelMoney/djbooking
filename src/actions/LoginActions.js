@@ -12,15 +12,16 @@ const cueup = new CueupService()
 
 
 
-function handleLoginFeedback(dispatch){
+function handleLoginFeedback(dispatch, callback){
 return function (err, result) {
     if (err){
       dispatch( function() { return {
           type: ActionTypes.LOGIN_FAILED,
           err : err.message
         }}())
-
+        callback(err.message)
     }else {
+
       auth.setToken(result.idToken)
       cueup.getUser(result.idToken, (error, result)=>
       {
@@ -29,11 +30,14 @@ return function (err, result) {
               type: ActionTypes.LOGIN_FAILED,
               err: error.message
             }}())
+            callback(error.message)
         }else{
           dispatch (function() {return {
               type: ActionTypes.LOGIN_SUCCEEDED,
               profile: converter.user.fromDTO(result)
             }}())
+          console.log(callback)
+          callback(null)
         }
       })
     }
@@ -78,7 +82,7 @@ export function checkForLogin(redirect = null){
 }
 
 
-export function login(form){
+export function login(form, callback){
   return function (dispatch) {
 
     // First dispatch: the app state is updated to inform
@@ -94,14 +98,14 @@ export function login(form){
 
     switch (form.type) {
       case "EMAIL":
-        return loginEmail(form, handleLoginFeedback(dispatch))
+        return loginEmail(form, handleLoginFeedback(dispatch, callback))
 
       case "FACEBOOK":
-        return loginFacebook(handleLoginFeedback(dispatch))
+        return loginFacebook(handleLoginFeedback(dispatch, callback))
 
 
       case "SOUNDCLOUD":
-        return loginSoundcloud(handleLoginFeedback(dispatch))
+        return loginSoundcloud(handleLoginFeedback(dispatch, callback))
 
       default:
     }
@@ -126,6 +130,7 @@ export function loginSoundcloud(callback) {
 }
 
 export function loginEmail(form, callback) {
+    console.log(form);
       auth.login({
         connection: 'Username-Password-Authentication',
         responseType: 'token',
