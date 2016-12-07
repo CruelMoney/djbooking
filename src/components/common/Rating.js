@@ -173,14 +173,12 @@ handleMouseOut(){
 
 
 render: function() {
-  console.log(this.state);
 
   const fullStarsCount   = Math.floor(this.state.rating)
   const fillPercentage = ((this.state.rating % 1)*100).toString() + '%'
   var stars = []
 
-  console.log(fullStarsCount);
-  console.log(fillPercentage);
+
 
   for (var i = 0; i < 5; i++) {
     if (i < fullStarsCount) {

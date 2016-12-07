@@ -80,7 +80,7 @@ const login = React.createClass({
 
 
     login(form, callback){
-      this.props.login(this.form.values.email,this.form.values.password, callback)
+      this.props.login( form.values.email, form.values.password, callback)
     },
 
 
@@ -88,31 +88,37 @@ const login = React.createClass({
 
     return (
 <div className="login">
-  <Form
-    name="login-form"
-  >
-    <div>
+
+  <div className="social-login">
+    <Form
+      name="social-login">
       <SubmitButton
+        active
         name="facebook_login"
         onClick={this.props.loginFacebook}
       >Facebook</SubmitButton>
 
       <SubmitButton
+        active
         name="soundcloud_login"
         onClick={this.props.loginSoundcloud}
       >SoundCloud</SubmitButton>
-    </div>
-    <p style={{textAlign:"center"}}>OR</p>
-
-    <div style={{marginBottom:'20px'}}>
+    </Form>
+  </div>
+  <p style={{textAlign:"center"}}>OR</p>
+  <Form
+    name="email-login"
+  >
+    <div>
       <Textfield
         name="email"
         type="email"
+        validate={['required', 'email']}
         floatingLabelText="Email"
         onChange={this.onChangeEmail}
       />
     </div>
-    <div style={{marginBottom:'20px'}}>
+    <div >
       <Textfield
         name="password"
         type="password"
@@ -120,8 +126,9 @@ const login = React.createClass({
         onChange={this.onChangePassword}
       />
     </div>
-    <div style={{marginBottom:'20px'}}>
+    <div >
       <SubmitButton
+        active
         name="email_login"
         onClick={this.login}
       >Login</SubmitButton>

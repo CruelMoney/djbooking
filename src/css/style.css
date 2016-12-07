@@ -350,9 +350,49 @@ input[type="file"] + label * {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
-.loginDropDown a{
-  color: black;
-  cursor: pointer;
+.loginDropDown button{
+  width: 100%;
+}
+.loginDropDown button.submit:hover{
+  box-shadow: none;
+}
+
+.loginDropDown .errors{
+  text-align: left;
+  margin-top: 0;
+}
+.login > p {
+      color: #BBBBBB;
+}
+.loginDropDown .errors p {
+  font-size: 14px;
+}
+.loginDropDown .text-field{
+  margin-top: 20px;
+}
+.loginDropDown .text-field:last-child{
+      margin-bottom: 20px;
+}
+.loginDropDown button:first-child{
+  margin-bottom: 10px;
+}
+.social-login form .button-wrapper:last-child{
+    border-color: #ff7700 !important;
+    color:  #ff7700 !important;
+    box-shadow:  #ff7700 0px 0px 20px 0px !important;
+    background-color:  #ff7700 !important;
+}
+.social-login form .button-wrapper:first-child{
+    border-color: #3b5998 !important;
+    color:  #3b5998 !important;
+    box-shadow:  #3b5998 0px 0px 20px 0px !important;
+    background-color:  #3b5998 !important;
+}
+
+
+
+.loginDropDown p{
+  margin-bottom: 10px;
 }
 
 .loginDropDown:after {
@@ -366,6 +406,7 @@ input[type="file"] + label * {
   border-left: 15px solid transparent;
   content: '';
 }
+
 
 .home-bg{
     height: 100vh;
@@ -736,6 +777,7 @@ transition: opacity 0.8s ease;
     padding-bottom: 20px;
     padding-top: 20px;
     border-top: 2px solid #F6F9FC;
+    margin-bottom: 10px;
 }
 .user-card-fact,
 .event-card-fact{
@@ -1188,12 +1230,15 @@ button.active, .button.active{
   background-color: inherit;
 }
 button.loading, .button.loading{
+  box-shadow: inherit;
+
   border-color: transparent;
   border-left-color: inherit;
   background-color: transparent !important;
   animation: rotating 2s 0.25s linear infinite;
   width: 40px;
   border-radius: 100% !important;
+  text-indent: -99999px;
 }
 .button.loading :nth-child(1){
   display: none;

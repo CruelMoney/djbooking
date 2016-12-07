@@ -136,7 +136,7 @@ export default React.createClass({
                     <div className="user-card-info">
                       <div className="user-card-fact">
                         <p>Last 4 digits of current account number</p>
-                        { this.props.user.last4}
+                        {"..." + this.props.user.last4}
                       </div>
                     </div>
 

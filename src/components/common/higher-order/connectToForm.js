@@ -38,6 +38,8 @@ function connectToForm(Component) {
       }
     },
 
+    timer : null,
+
     onChange(value) {
       if (this.props.onUpdatePipeFunc) {
           value = this.props.onUpdatePipeFunc(this.state.value, value)
@@ -45,22 +47,20 @@ function connectToForm(Component) {
       this.setState({
         value:value
       })
-      this.isValid(true, value)
-      this.updateValue(value)
-
+      clearTimeout(this.timer)
+        this.timer = setTimeout(() =>{
+          this.isValid(true, value)
+          this.updateValue(value)}
+      , 500)
       if (this.props.onChange) {
         this.props.onChange(value)
       }
     },
 
-    timer : null,
 
     updateValue(value) {
       if (this.context.updateValue) {
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() =>
           this.context.updateValue(this.props.name, value)
-        , 500)
       }
     },
 
