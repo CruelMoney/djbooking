@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import * as validators from '../../utils/validators'
+import connectToForm from './higher-order/connectToForm'
 
 
 var TextBox = React.createClass({
@@ -23,105 +23,12 @@ var TextBox = React.createClass({
   },
 
 
-  componentWillMount() {
-    if (this.props.value !== undefined) {
-      this.setState({
-        value: this.props.value
-      })
-    }
-    if (this.context.registerValidation) {
-      this.removeValidationFromContext = this.context.registerValidation(show =>
-        this.isValid(show))
-    }
-
-
-    if (this.context.updateValue) {
-      this.context.updateValue(this.props.name, this.props.value)
-    }
-
-    if (this.context.registerReset) {
-      this.removeReset = this.context.registerReset(()=>this.setState({value: this.props.value}))
-    }
-
-  },
-
-  componentWillUnmount() {
-    if (this.context.removeValidationFromContext) {
-      this.removeValidationFromContext()
-    }
-
-    if (this.removeReset) {
-      this.removeReset()
-    }  },
-
-  timer: null,
-
-  componentWillReceiveProps(nextProps) {
-
-},
-
   getDefaultProps() {
     return {
       active: true,
       validate: [],
       height: '100%', width: '100%',
     }
-  },
-
-  getInitialState() {
-    return {
-      value: "",
-      errors: []
-    }
-  },
-
-  updateValue(value) {
-    this.setState({
-      value: value
-    }, ()=>  {
-      if (this.context.isFormValid) {
-        this.context.isFormValid(false)
-      }})
-
-
-    setTimeout(() => {
-        this.isValid(true)
-        }, 100)
-
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() =>
-      this.context.updateValue(this.props.name, value), 500)
-  },
-
-  onChange(event) {
-    var value = event.target.value
-    if (this.props.onUpdatePipeFunc) {
-        value = this.props.onUpdatePipeFunc(this.state.value, event.target.value)
-    }
-    this.updateValue(value)
-  },
-
-  onBlur() {
-    setTimeout(() => {
-        this.isValid(true)
-        }, 100)
-  },
-
-  isValid(showErrors) {
-    const errors = this.props.validate
-      .reduce((memo, currentName) =>
-        memo.concat(validators[currentName](
-          this.state.value
-        )), [])
-
-
-    if (showErrors) {
-      this.setState({
-        errors
-      })
-    }
-
-    return !errors.length
   },
 
   render() {
@@ -145,9 +52,6 @@ var TextBox = React.createClass({
         }
       },
 
-
-
-
     }
 
     let { validate, active, ...props} =  this.props
@@ -159,15 +63,14 @@ var TextBox = React.createClass({
                 <textarea
                   {...props}
                   style={styles.base}
-                  value={this.state.value}
+                  value={this.props.value}
                   name={this.props.name}
-                  onChange={this.onChange}
-
+                  onChange={(e)=>this.props.onChange(e.target.value)}
 
                 />
-                {this.state.errors.length ? (
+                {this.props.errors.length ? (
                   <div className="errors" style={{marginTop:"5px"}}>
-                    {this.state.errors.map((error, i) => <p  className="error" key={i}>{error}</p>)}
+                    {this.props.errors.map((error, i) => <p  className="error" key={i}>{error}</p>)}
                   </div>
                 ) : null}
               </div>
@@ -180,4 +83,4 @@ var TextBox = React.createClass({
   }
 })
 
-export default TextBox
+export default connectToForm(TextBox)

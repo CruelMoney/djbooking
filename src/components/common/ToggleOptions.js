@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import connectToForm from './higher-order/connectToForm'
 
 var ToggleOptions = React.createClass({
 
@@ -10,88 +11,15 @@ var ToggleOptions = React.createClass({
     disabled: PropTypes.bool
   },
 
- getDefaultProps() {
-     return {
-     }
-   },
-
-   getInitialState(){
-     return {
-        value: "",
-        errors: []
-     }
-   },
-
-   contextTypes: {
-     isFilter: PropTypes.bool,
-     isFormValid: PropTypes.func,
-     updateValue: PropTypes.func,
-     registerValidation: PropTypes.func.isRequired,
-     registerReset: PropTypes.func,
-   },
-
-   componentWillMount() {
-     if (this.props.value !== undefined) {
-       this.setState({
-         value: this.props.value
-       })
-     }
-     if (this.context.registerValidation) {
-       this.removeValidationFromContext = this.context.registerValidation(show =>
-         this.isValid(show))
-     }
-
-
-     if (this.context.updateValue) {
-       this.context.updateValue(this.props.name, this.props.value)
-     }
-
-     if (this.context.registerReset) {
-       this.removeReset = this.context.registerReset(()=>this.setState({value: this.props.value}))
-     }
-   },
-
-   componentWillUnmount() {
-     if (this.context.removeValidationFromContext) {
-       this.removeValidationFromContext()
-     }
-    if (this.removeReset) {
-       this.removeReset()
-     }   },
-
-   isValid(showErrors) {
-     const errors = (!this.state.value && this.state.value !== 0) ? ["You have to choose an option"] : []
-      if (showErrors) {
-        this.setState({
-            errors
-        })
-      }
-      return !errors.length
-   },
-
-  updateValue(value){
-    this.setState({
-        value
-    }, ()=>  {
-      if (this.context.isFormValid) {
-        this.context.isFormValid(false)
-      }})
-
-    this.context.updateValue(this.props.name, value)
-
-  },
-
   handleButtonPress: function(value) {
-  setTimeout(() => this.isValid(true), 0)
-
-   this.updateValue(value)
+    this.props.onChange(value)
  },
 
- renderChildren(state, props) {
+ renderChildren(props) {
    var count = 0
    const length = props.children.length
    return React.Children.map(props.children, child => {
-       const active = state.value===child.props.name
+       const active = props.value===child.props.name
        count += 1
        //Creating glued look
        if (props.glued) {
@@ -131,7 +59,7 @@ var ToggleOptions = React.createClass({
 
   render() {
 
-    var children = this.renderChildren(this.state, this.props)
+    var children = this.renderChildren(this.props)
     children = children.map((el, i) => <td key={i}>{el}</td>)
 
 if (this.props.glued) {
@@ -139,16 +67,16 @@ if (this.props.glued) {
     <div>
       <div className="glued toggle-options">
         <div style={{display:'flex', flexDirection:'row'}} >
-          { this.renderChildren(this.state, this.props).map((el,i) => (
+          { this.renderChildren(this.props).map((el,i) => (
             < div className="gluedButton" key={i} >
             {el}
           </div> ))}
 
         </div>
       </div>
-      {this.state.errors.length ? (
+      {this.props.errors.length ? (
         <div className="errors">
-          {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
+          {this.props.errors.map((error, i) => <p key={i}>{error}</p>)}
         </div>
       ) : null}
     </div>)
@@ -165,9 +93,9 @@ if (this.props.glued) {
                 </table>
               </div>
 
-              {this.state.errors.length ? (
+              {this.props.errors.length ? (
                 < div style={{marginTop: "10px"}} className="errors">
-                {this.state.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
+                {this.props.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
                 </div>
               ) : null}
             </div>
@@ -179,4 +107,4 @@ if (this.props.glued) {
 })
 
 
-export default ToggleOptions
+export default connectToForm(ToggleOptions)

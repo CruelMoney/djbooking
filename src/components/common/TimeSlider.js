@@ -126,11 +126,11 @@ var TimeSlider = React.createClass({
             }}
             step={30 * 60} //Steps of half hour
             connect={true}
-            initialValues={[
+            value={[
               startTime,
               endTime
             ]}
-            handleChange={this.handleChange}
+            onChange={this.handleChange}
             format={ wNumb({
               decimals: 0,
             })}

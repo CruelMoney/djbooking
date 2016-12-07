@@ -67,11 +67,6 @@ const form = React.createClass({
         this.removeValidationFromContext = this.context.registerValidation(show =>
           this.isFormValid(show))
       }
-
-        if (this.context.updateValue) {
-          this.context.updateValue(this.props.name, this.props.form.values)
-        }
-
     },
 
     componentWillUnmount() {
@@ -83,10 +78,11 @@ const form = React.createClass({
     updateValue(name, value){
       this.props.updateValue(name,value)
 
-      if (this.context.updateValue) {
-        setTimeout(()=>this.context.updateValue(this.props.name, this.props.form.values), 100)
+      if (setTimeout(()=>this.isFormValid(false), 0)) {
+        if (this.context.updateValue) {
+          this.context.updateValue(this.props.name, this.props.form.values)
+        }
       }
-
     },
 
 
@@ -131,6 +127,7 @@ const form = React.createClass({
         if (this.props.formValidCallback) {
           this.props.formValidCallback(this.props.name)
         }
+
       }else{
         if (this.props.formInvalidCallback) {
           this.props.formInvalidCallback(this.props.name)

@@ -151,6 +151,7 @@ export default React.createClass({
                     <h4>Genres</h4>
                     <p style={{marginBottom:"10px"}}>What kind of music do you need?</p>
                     <ToggleButtonHandler
+                      validate={['required']}
                       name="genres"
                       potentialValues={c.GENRES}
                       columns={3} />
@@ -191,7 +192,7 @@ export default React.createClass({
                     <TextField
                       name="date"
                       disabled
-                      controlledValue={eventDateString}
+                      value={eventDateString}
                     />
                     <p>Select a new date in the calendar above to change it.</p>
                   </section>
@@ -212,8 +213,8 @@ export default React.createClass({
                         range={{min:0, max:100}}
                         step={1}
                         connect="lower"
-                        initialValues={[50]}
-                        handleChange={(values) => this.setState({
+                        value={[50]}
+                        onChange={(values) => this.setState({
                           guests: values[0]
                         })}
                         format={ wNumb({

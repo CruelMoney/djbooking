@@ -4,7 +4,11 @@ import StripeService from './StripeService'
 var stripe = new StripeService();
 
 export function required(value) {
-  return !value ? ['This field cannot be empty'] : []
+  if (Array.isArray(value)) {
+    return !value.length ? ["At least 1 option should be selected"] : []
+  }else{
+    return (!value) ? ['This field cannot be empty'] : []
+  }
 }
 
 export function lastName(value) {

@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react'
 import ToggleButton from './ToggleButton'
+import connectToForm from './higher-order/connectToForm'
 
 var ToggleButtonHandler = React.createClass({
 
   propTypes: {
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
-    preToggled: PropTypes.arrayOf(PropTypes.string),
+    value: PropTypes.arrayOf(PropTypes.string),
     required: PropTypes.bool
   },
 
@@ -15,63 +16,20 @@ var ToggleButtonHandler = React.createClass({
        rounded: true,
        columns: 3,
        potentialValues: [],
-       preToggled: [],
+       value: [],
        errorAbove: false,
        required: true,
      }
    },
 
-   getInitialState(){
-     return {
-        toggledButtons: [],
-        errors: []
-     }
-   },
-
-   contextTypes: {
-     isFormValid: PropTypes.func,
-     registerValidation: PropTypes.func.isRequired,
-     updateValue: PropTypes.func
-   },
-
-
-   componentWillMount() {
-     this.setState({
-       toggledButtons: this.props.preToggled
-     })
-     this.removeValidationFromContext = this.context.registerValidation(show =>
-       this.isValid(show))
-
-      if (this.context.updateValue) {
-        this.context.updateValue(this.props.name, this.props.preToggled)
-      }
-   },
-
-   componentWillUnmount() {
-     this.removeValidationFromContext()
-   },
-
-   isValid(showErrors) {
-      const errors = !this.state.toggledButtons.length && this.props.required
-                      ? ["At least 1 option should be selected"] : []
-      if (showErrors) {
-        this.setState({
-          errors
-        })
-      }
-
-      return !errors.length
-   },
 
   spliceHelper(list, index){
     list.splice(index,1)
     return list
   },
 
-
-  updateValue(value){
-
-    var toggledButtons = this.state.toggledButtons
+  handleButtonPress(value) {
+    var toggledButtons = this.props.value
     var valueIndex = toggledButtons.indexOf(value)
 
     var newList = (valueIndex===-1)
@@ -79,22 +37,7 @@ var ToggleButtonHandler = React.createClass({
                    : this.spliceHelper(toggledButtons, valueIndex)
 
 
-    this.setState({
-       toggledButtons: newList,
-    }, ()=>  {
-      if (this.context.isFormValid) {
-        this.context.isFormValid(false)
-      }})
-
-
-        this.context.updateValue(this.props.name, newList)
-
-
-  },
-
-  handleButtonPress(value) {
-    setTimeout(() => this.isValid(true), 0)
-    this.updateValue(value)
+    this.props.onChange(newList)
  },
 
   render() {
@@ -104,7 +47,7 @@ var ToggleButtonHandler = React.createClass({
     this.props.potentialValues.forEach(function(genre, i) {
 
       var isToggled = false
-      var toggledButtons = this.state.toggledButtons
+      var toggledButtons = this.props.value
 
       if (toggledButtons.indexOf(genre.name)!==-1){
         isToggled = true
@@ -137,19 +80,19 @@ var ToggleButtonHandler = React.createClass({
     return (
       <div>
         <div className="toggle-button-handler">
-        {(this.state.errors.length && this.props.errorAbove) ? (
-          < div className="errors">
-          {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
-          </div>
+          {(this.props.errors.length && this.props.errorAbove) ? (
+            < div className="errors">
+            {this.props.errors.map((error, i) => <p key={i}>{error}</p>)}
+            </div>
           ) : null}
 
           <table>
-          <tbody>{rows}</tbody>
+            <tbody>{rows}</tbody>
           </table>
-          </div>
-          {(this.state.errors.length && !this.props.errorAbove) ? (
+        </div>
+        {(this.props.errors.length && !this.props.errorAbove) ? (
           < div style={{marginTop: "10px"}} className="errors">
-          {this.state.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
+          {this.props.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
           </div>
           ) : null}
           </div>
@@ -158,4 +101,4 @@ var ToggleButtonHandler = React.createClass({
           })
 
 
-export default ToggleButtonHandler
+export default connectToForm(ToggleButtonHandler)

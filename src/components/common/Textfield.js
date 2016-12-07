@@ -1,15 +1,13 @@
 import React, { PropTypes } from 'react'
 import TextField from 'material-ui/TextField'
-import * as validators from '../../utils/validators'
-
+import connectToForm from './higher-order/connectToForm'
 
 var Text = React.createClass({
 
   displayName: 'Textfield',
 
   propTypes: {
-    defaultValue: PropTypes.string,
-    controlledValue: PropTypes.string,
+    value: PropTypes.string,
     maxLength:PropTypes.number,
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
@@ -23,110 +21,14 @@ var Text = React.createClass({
   },
 
   contextTypes: {
-    registerValidation: PropTypes.func.isRequired,
-    updateValue: PropTypes.func,
-    isFormValid: PropTypes.func,
-    registerReset: PropTypes.func,
     color: PropTypes.string
   },
-
-  componentWillMount() {
-    if (this.context.registerValidation) {
-      this.removeValidationFromContext = this.context.registerValidation(show =>
-        this.isValid(show))
-    }
-
-      this.setState({
-        value: this.props.defaultValue || ""
-      })
-
-      if (this.context.updateValue) {
-        this.context.updateValue(this.props.name, this.props.defaultValue)
-      }
-
-      if (this.context.registerReset) {
-        this.removeReset = this.context.registerReset(()=>this.setState({value: this.props.defaultValue}))
-      }
-  },
-
-  componentWillUnmount() {
-    if (this.removeValidationFromContext) {
-        this.removeValidationFromContext()
-    }
-    if (this.removeReset) {
-      this.removeReset()
-    }
-  },
-
-
 
   getDefaultProps() {
     return {
       type: "string",
       validate: []
     }
-  },
-
-  getInitialState() {
-    return {
-      errors: []
-    }
-  },
-
-
-  updateValue(value) {
-    if (this.context.updateValue) {
-    this.context.updateValue(this.props.name, value)
-  }
-  },
-
-  timer : null,
-
-  onChange(event) {
-    var value = event.target.value
-    if (this.props.onUpdatePipeFunc) {
-        value = this.props.onUpdatePipeFunc(this.state.value, event.target.value)
-    }
-
-    this.setState({
-      value:value
-    }, ()=>  {
-      if (this.context.isFormValid) {
-        this.context.isFormValid(false)
-      }})
-
-
-    setTimeout(() => {
-        this.isValid(true)
-        }, 100)
-
-
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() => this.updateValue(value), 500)
-
-  },
-
-  onBlur() {
-    setTimeout(() => {
-        this.isValid(true)
-        }, 100)
-  },
-
-  isValid(showErrors) {
-    const errors = this.props.validate
-      .reduce((memo, currentName) =>
-        memo.concat(validators[currentName](
-          this.state.value
-        )), [])
-
-
-    if (showErrors) {
-      this.setState({
-        errors
-      })
-    }
-
-    return !errors.length
   },
 
   render() {
@@ -203,9 +105,8 @@ var Text = React.createClass({
     return (
               <div className="text-field">
                 <TextField
-
                   placeholder=""
-                  value={this.props.controlledValue || this.state.value || undefined}
+                  value={this.props.value || undefined}
                   name={this.props.name}
                   disabled={this.props.disabled}
                   maxLength={this.props.maxLength}
@@ -220,27 +121,22 @@ var Text = React.createClass({
                   floatingLabelStyle={styles.floatingLabelStyle}
                   fullWidth={this.props.fullWidth || true}
                   hintText={this.props.placeholder}
-                  onChange={this.onChange}
-                  onBlur={this.onBlur}
-                  errorText={this.state.errors.length ? (
+                  onChange={(e)=>this.props.onChange(e.target.value)}
+                  onBlur={this.props.onBlur}
+                  errorText={this.props.errors.length ? (
                     <div style={{
                       bottom: "-10px",
                       position: "relative",
                       zIndex: "1"
                     }}>
-                    <div className="errors" style={styles.error}>
-                    {this.state.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
-                    </div>
+                      <div className="errors" style={styles.error}>
+                        {this.props.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
+                      </div>
                     </div>
                   ) : null}/>
               </div>
-
-
-
-
-
     )
   }
 })
 
-export default Text
+export default connectToForm(Text)
