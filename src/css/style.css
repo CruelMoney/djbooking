@@ -1392,11 +1392,10 @@ color: #32325D;
 }
 .request-form h4{
 font-family: AvenirNext-Medium;
-font-size: 16px;
+font-size: 14px;
 font-weight: 500;
 line-height: 22px;
 color: #4A4A4A;
-text-transform: capitalize;
 margin-bottom: 10px;
 }
 .request-form section{
@@ -1535,4 +1534,5 @@ transform: translateX(-50%);
   width: 100%;
   margin-top: 15px;
   pointer-events: auto;
+  background: #FFFFFF;
 }

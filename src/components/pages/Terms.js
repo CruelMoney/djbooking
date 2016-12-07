@@ -1,8 +1,6 @@
 import React from 'react';
 import Footer from '../blocks/Footer'
 import { Link } from 'react-router';
-import Book from '../../assets/Book.svg'
-import Button from '../common/Button-v2'
 
 export default React.createClass({
   themeColor:"#25F4D2",

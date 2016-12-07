@@ -4,6 +4,9 @@ import Dropdown from '../common/Dropdown'
 import UserMenuItem from '../common/UserMenuItem'
 import Login from '../../containers/Login'
 import Logo from '../common/Logo'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+const theme = getMuiTheme()
 
 var menu = React.createClass({
 
@@ -50,71 +53,74 @@ var menu = React.createClass({
    },
 
   render() {
-    const isHome = window.location.pathname === '/'
+    //const isHome = window.location.pathname === '/'
     const page = window.location.pathname.split('/')[1]
     return (
-      <div  className={"location_" + page}>
-        <div
-          className={"nav-container location_"}>
-          <nav
-            className="navigation"
-          >
-            <div className="logo">
-              <Navlink to="/">
-                <Logo />
-              </Navlink>
-            </div>
-            <ul className="main-menu">
-              <li>
-                <Navlink  buttonLook={true} to="/howitworks" label="How it works"/>
-              </li>
-              {this.props.loggedIn ? (
+      <MuiThemeProvider muiTheme={theme}>
+        <div  className={"location_" + page}>
+          <div
+            className={"nav-container location_"}>
+            <nav
+              className="navigation"
+            >
+              <div className="logo">
+                <Navlink to="/">
+                  <Logo />
+                </Navlink>
+              </div>
+              <ul className="main-menu">
+                <li>
+                  <Navlink  buttonLook={true} to="/howitworks" label="How it works"/>
+                </li>
+                {this.props.loggedIn ? (
 
-                <li>
-                  <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
-                </li>
-              ) : (
-                null
-              )}
-              {this.props.loggedIn ? (
-                <li>
-                  <Navlink  buttonLook={true}  to="/profile" important={true} >
-                    <UserMenuItem
-                      name={this.props.profile.name}
-                      picture={this.props.profile.picture}
-                    />
-                  </Navlink>
-                </li>
-              ) : (
-                <li >
-                  <a
-                    onClick={this.onLoginButton}
-                  >Login</a>
-                  <Dropdown
-                    expanded={this.state.loginExpanded}
-                    disableOnClickOutside={!this.state.loginExpanded}
-                    onClickOutside={this.onClickOutside}
-                  >
-                    <Login
-                    />
-                  </Dropdown>
-                </li>
-              )}
-              {this.props.loggedIn ? (
-                null
-              ) : (
-                <li>
-                  <Navlink buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
-                </li>
-              )}
+                  <li>
+                    <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
+                  </li>
+                ) : (
+                  null
+                )}
+                {this.props.loggedIn ? (
+                  <li>
+                    <Navlink  buttonLook={true}  to="/profile" important={true} >
+                      <UserMenuItem
+                        name={this.props.profile.name}
+                        picture={this.props.profile.picture}
+                      />
+                    </Navlink>
+                  </li>
+                ) : (
+                  <li >
+                    <a
+                      onClick={this.onLoginButton}
+                    >Login</a>
+                    <Dropdown
+                      expanded={this.state.loginExpanded}
+                      disableOnClickOutside={!this.state.loginExpanded}
+                      onClickOutside={this.onClickOutside}
+                    >
+                      <Login
+                      />
+                    </Dropdown>
+                  </li>
+                )}
+                {this.props.loggedIn ? (
+                  null
+                ) : (
+                  <li>
+                    <Navlink buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
+                  </li>
+                )}
 
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          </div>
+          <div id="content">
+            {this.props.children}
+          </div>
         </div>
-        <div id="content">
-          {this.props.children}
-        </div>
-      </div>
+
+      </MuiThemeProvider>
     )
   }
 })

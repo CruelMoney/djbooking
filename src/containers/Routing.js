@@ -14,8 +14,8 @@ import Gigs from './Gigs'
 import Events from './Events'
 import Reviews from './Reviews'
 import Home from '../containers/Home'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
+
 import { createStore, applyMiddleware } from 'redux'
 import { connect } from 'react-redux'
 import { Provider } from 'react-redux'
@@ -25,7 +25,6 @@ import * as actions from '../actions/LoginActions'
 import store from '../reducers/Store'
 
 
-const theme = getMuiTheme()
 
 var router = React.createClass({
 
@@ -64,7 +63,6 @@ var router = React.createClass({
 
   render() {
     return(
-    <MuiThemeProvider muiTheme={theme}>
       <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
         <Route path="/" component={Navigation} onEnter={this.checkForLogin}>
 
@@ -91,7 +89,6 @@ var router = React.createClass({
 
         </Route>
       </Router>
-    </MuiThemeProvider>
 )
 }
 })

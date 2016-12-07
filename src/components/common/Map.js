@@ -25,7 +25,8 @@ var SimpleMap = React.createClass({
       contextTypes: {
         resetting: PropTypes.bool,
         registerValidation: PropTypes.func.isRequired,
-        updateValue: PropTypes.func
+        updateValue: PropTypes.func,
+        color: PropTypes.string
       },
 
       getInitialState(){
@@ -80,7 +81,7 @@ var SimpleMap = React.createClass({
     render(){
       console.log(this.state);
     return(
-      <section style={{ height: `500px` }}>
+      <div style={{ height: `500px` }}>
         <GoogleMapLoader
           containerElement={
             <div
@@ -113,7 +114,7 @@ var SimpleMap = React.createClass({
                   "featureType": "landscape",
                   "stylers": [
                   { "visibility": "on" },
-                  { "color": "#000000" }
+                  { "color": "#32325D" }
                   ]
                 },{
                   "featureType": "administrative.locality",
@@ -126,7 +127,7 @@ var SimpleMap = React.createClass({
                   "featureType": "administrative.locality",
                   "elementType": "labels.text.stroke",
                   "stylers": [
-                  { "color": "#000000" },
+                  { "color": "#32325D" },
                   { "visibility": "on" }
                   ]
                 },{
@@ -151,7 +152,7 @@ var SimpleMap = React.createClass({
                   "featureType": "administrative.province",
                   "elementType": "labels.text.stroke",
                   "stylers": [
-                  { "color": "#000000" },
+                  { "color": "#32325D" },
                   { "visibility": "on" }
                   ]
                 },{
@@ -170,7 +171,7 @@ var SimpleMap = React.createClass({
                   "featureType": "administrative.country",
                   "elementType": "labels.text.stroke",
                   "stylers": [
-                  { "color": "#000000" },
+                  { "color": "#32325D" },
                   { "visibility": "on" }
                   ]
                 }
@@ -181,7 +182,7 @@ var SimpleMap = React.createClass({
               <Circle
                 ref={(c) => this.circle = c}
                 defaultOptions={{
-                  fillColor: this.props.themeColor,
+                  fillColor: this.context.color,
                   strokeWeight: 0,
                   suppressUndo: true
                 }}
@@ -196,7 +197,7 @@ var SimpleMap = React.createClass({
             </GoogleMap>
           }
         />
-      </section>
+      </div>
     )}
 
 })

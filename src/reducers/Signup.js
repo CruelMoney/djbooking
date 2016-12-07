@@ -1,5 +1,4 @@
 import c from '../constants/constants'
-import assign from 'lodash.assign'
 
 
 var ActionTypes = c.ActionTypes

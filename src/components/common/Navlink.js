@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
-import Radium from 'radium'
 
 
 
@@ -23,6 +22,7 @@ const Navlink = React.createClass({
   render() {
     return    (    <div onClick={this.props.onClick}>
       <Link
+        to={this.props.to}
         className={"navLink " + (this.props.borderHover ? "borderHover" : "")}
         onlyActiveOnIndex={true}
         activeClassName="active"
@@ -34,5 +34,4 @@ const Navlink = React.createClass({
 })
 
 
-var StyledNavlink = Radium(Navlink)
-export default StyledNavlink
+export default Navlink

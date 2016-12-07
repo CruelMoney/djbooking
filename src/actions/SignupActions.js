@@ -1,13 +1,10 @@
-import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
-import * as LoginActions from './LoginActions'
 import CueupService from '../utils/CueupService'
 import Formatter from '../utils/Formatter'
 import GeoCoder from '../utils/GeoCoder'
 
 const cueup = new CueupService()
 
-var ActionTypes = c.ActionTypes
 const auth = new AuthService()
 
 export function signup(form, isDj, callback) {

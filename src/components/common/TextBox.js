@@ -151,7 +151,8 @@ var TextBox = React.createClass({
     }
 
     let { validate, active, ...props} =  this.props
-
+    validate = active
+    active = validate
     return (
 
               <div>

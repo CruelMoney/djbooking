@@ -20,9 +20,9 @@ export default React.createClass({
 
   render() {
     //calculating the age
-    var cur = new Date();
-    var diff = cur- new Date(this.props.birthday);
-    var age = Math.floor(diff/31536000000);
+    //var cur = new Date();
+    //var diff = cur- new Date(this.props.birthday);
+    //var age = Math.floor(diff/31536000000);
 
     var genres = []
     const genresCount = this.props.genres.length;
