@@ -137,33 +137,33 @@ var ToggleOptions = React.createClass({
 if (this.props.glued) {
   return (
     <div>
-    <div className="toggle-options">
-      <div style={{display:'flex', flexDirection:'row'}} >
-        { this.renderChildren(this.state, this.props).map((el,i) => (
-          < div className="gluedButton" key={i} >
-          {el}
+      <div className="glued toggle-options">
+        <div style={{display:'flex', flexDirection:'row'}} >
+          { this.renderChildren(this.state, this.props).map((el,i) => (
+            < div className="gluedButton" key={i} >
+            {el}
           </div> ))}
 
-          </div>
-          </div>
-          {this.state.errors.length ? (
-            <div className="errors">
-            {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
-          </div>
-        ) : null}
-        </div>)
+        </div>
+      </div>
+      {this.state.errors.length ? (
+        <div className="errors">
+          {this.state.errors.map((error, i) => <p key={i}>{error}</p>)}
+        </div>
+      ) : null}
+    </div>)
         }else{
           return (
             <div>
-            <div className="toggle-options">
-              <table>
-                <tbody>
-                  <tr>
-                    {children}
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              <div className="toggle-options">
+                <table>
+                  <tbody>
+                    <tr>
+                      {children}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
               {this.state.errors.length ? (
                 < div style={{marginTop: "10px"}} className="errors">

@@ -925,10 +925,7 @@ button{
   background-color: transparent;
 }
 
-.toggle-options button{
-  background-color: white;
-  border-width: 1px;
-}
+
 
 .collapsible.active  .collapsible-arrow{
    transform: rotate(180deg);
@@ -1055,7 +1052,6 @@ background-image: linear-gradient(330deg, #31FFF5 0%, #31FFC5 5%, #00D1FF 80%, #
 
     #stripes :nth-child(1) {
         top: 0;
-        background: #4750ff
     }
 
 }
@@ -1136,7 +1132,21 @@ background-image: linear-gradient(330deg, #31FFF5 0%, #31FFC5 5%, #00D1FF 80%, #
   text-transform: uppercase;
   letter-spacing: 0.39px;
   visibility: visible;
+  white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
 }
+button{
+  visibility: visible;
+  outline: none;
+  line-height: 0;
+  box-shadow: none;
+  border: 2px solid #BBBBBB;
+  color: #BBBBBB;
+  transition: all 0.1s ease-in-out;
+  line-height: 1px;
+}
+
 
 .button.elevated{
   box-shadow: 0 2px 4px 0 rgba(100,100,100,0.50);
@@ -1156,15 +1166,6 @@ background-image: linear-gradient(330deg, #31FFF5 0%, #31FFC5 5%, #00D1FF 80%, #
 }
 .button svg{
   margin-right: 7px;
-}
-button{
-  visibility: visible;
-  outline: none;
-  line-height: 0;
-  box-shadow: none;
-  border: 2px solid #BBBBBB;
-  color: #BBBBBB;
-  transition: all 0.1s ease-in-out;
 }
 
 button:hover{
@@ -1219,16 +1220,29 @@ table{
 .toggle-options{
   margin: -10px;
 }
+.toggle-options.glued{
+  margin: 0px;
+}
 .toggle-options table{
   border-spacing: 10px;
   border-collapse: separate;
   width: 100%;
+}
+.toggle-options button{
+  background-color: white;
+  border-width: 1px;
+  padding: 10px 3px;
+}
+.toggle-options.glued button{
+  padding: 10px;
 }
 .toggle-button-handler{
   margin: -10px;
 }
 .toggle-button-handler button{
   border-width: 1px;
+  font-size: 99%;
+  padding: 10px 3px;
 }
 .toggle-button-handler table{
   border-spacing: 10px;
@@ -1535,4 +1549,12 @@ transform: translateX(-50%);
   margin-top: 15px;
   pointer-events: auto;
   background: #FFFFFF;
+}
+.user-container{
+  margin-bottom: 330px;
+}
+
+.user-container p,
+.user-container input{
+  font-size: 15px !important;
 }

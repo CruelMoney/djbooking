@@ -51,9 +51,9 @@ var RegistrationElement = React.createClass({
   render() {
     var styles = {
       base: {
-        opacity: '0.2',
         marginBottom: '20px',
-        marginTop: '-35px'
+        marginTop: '-35px',
+        opacity: this.props.active ? "1" : "0.2"
       },
 
       label: {
@@ -62,11 +62,6 @@ var RegistrationElement = React.createClass({
         fontWeight: '300',
         fontSize: '30px',
       },
-
-      active:{
-        opacity: '1'
-      },
-
 
       paragraph: {
         fontSize: '14px',

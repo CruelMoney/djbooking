@@ -6,6 +6,7 @@ import '../../css/transitions.css'
 
 var user = React.createClass({
   themeColor: "#25F4D2",
+  secondColor: "#31DAFF",
 
   propTypes: {
     profile: PropTypes.object,
@@ -47,24 +48,24 @@ var user = React.createClass({
 
   render() {
     return (
-      <div>
+      <div >
         <UserHeader
           profile={this.props.profile}
           hideInfo={!this.state.showUserCard}
           actions={this.state.actions}
         />
 
-        <div  className="container">
+      <div  className="user-container container">
           <div className="row">
-            <div className={this.state.showUserCard ? "col-xs-4" : ""}></div>
-            <div style={{paddingTop:"11px"}} className={this.state.showUserCard ? "col-xs-8" : ""}>
+            <div className={"col-xs-4"}></div>
+            <div style={{paddingTop:"11px"}} className={"col-xs-8"}>
               {this.props.children}
             </div>
           </div>
         </div>
 
         <Footer
-          color={this.themeColor}
+          color={this.secondColor}
           firstTo="/"
           secondTo="/howitworks"
           firstLabel="Arrange event"

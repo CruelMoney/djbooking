@@ -25,9 +25,9 @@ var TextWrapper = React.createClass({
         >
 
           {this.props.showLock ? lockSvg : null}
-          <div >
+          <h4 >
             {this.props.label}
-          </div>
+          </h4>
           <p>
             {this.props.text}
           </p>
