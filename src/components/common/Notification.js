@@ -3,7 +3,7 @@ import React from 'react'
 
 
 class Notification extends React.Component {
-  //defigning types
+  //defining types
   props: {
     message: string,
   };

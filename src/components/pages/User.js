@@ -55,7 +55,7 @@ var user = React.createClass({
           actions={this.state.actions}
         />
 
-      <div  className="user-container container">
+        <div  className="user-container container">
           <div className="row">
             <div className={"col-xs-4"}></div>
             <div style={{paddingTop:"11px"}} className={"col-xs-8"}>

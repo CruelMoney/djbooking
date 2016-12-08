@@ -198,7 +198,6 @@ export default React.createClass({
                   </section>
                   <section>
                     <h4>Duration</h4>
-
                     <TimeSlider
                       date={this.props.date}
                     />

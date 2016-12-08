@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import checkmark from '../../assets/checkmark.svg'
 
-export default React.createClass({
+class Button extends React.Component {
 
    propTypes: {
       onClick: PropTypes.func,
@@ -10,55 +10,57 @@ export default React.createClass({
       isLoading: PropTypes.bool,
       name: PropTypes.string,
       succes: PropTypes.bool,
-    },
-
-    getDefaultProps(){
-      return {
-      rounded: true
     }
-    },
 
-    contextTypes:{
+    static contextTypes={
       color: PropTypes.string
-    },
+    }
 
-    handleClick(e){
+    static defaultProps= {
+        rounded: true
+    }
+
+    handleClick = (e) => {
       e.preventDefault()
-
       if (this.props.name === undefined) {
-      this.props.onClick(this.props.label)
+        this.props.onClick(this.props.label)
       }else{
         this.props.onClick(this.props.name)
       }
-    },
+    }
 
-  render() {
-    var style={
+    className = () => {
+      var className = this.props.className ? "button " + this.props.className : "button"
+      if (this.props.active) className += " active"
+      if (this.props.isLoading) className += " loading"
+      if (this.props.succes) className += " succes"
+      return className
+    }
+
+    style={
       borderRadius:    this.props.rightRounded ? "0px 6px 6px 0px" :
                        this.props.leftRounded  ? "6px 0px 0px 6px" :
                        this.props.rounded      ? "6px 6px 6px 6px" : "0px 0px 0px 0px",
       boxShadow:       this.props.isLoading    ? "-10px 0px 40px -5px " + this.context.color : null
     }
 
-    var className = this.props.className ? "button " + this.props.className : "button"
-    if (this.props.active) className += " active"
-    if (this.props.isLoading) className += " loading"
-    if (this.props.succes) className += " succes"
+    wrapperStyle={
+      textAlign: "center",
+      borderColor:this.context.color,
+      color: this.context.color,
+      boxShadow: "0 0px 20px 0px " + this.context.color,
+      backgroundColor: this.context.color
+    }
 
+  render() {
     return (
       <div className="button-wrapper"
-        style={{
-          textAlign: "center",
-          borderColor:this.context.color,
-          color: this.context.color,
-          boxShadow: "0 0px 20px 0px " + this.context.color,
-          backgroundColor: this.context.color
-        }}>
+        style={this.wrapperStyle}>
         <button
           name={this.props.name}
-          style={style}
+          style={this.style}
           disabled={this.props.disabled || this.props.succes || this.props.isLoading}
-          className={className}
+          className={this.className()}
           onClick={this.handleClick}
         >
           {this.props.succes ? <img  src={checkmark} alt="checkmark"/> : this.props.children}
@@ -66,4 +68,6 @@ export default React.createClass({
         </div>
     )
   }
-})
+}
+
+export default Button
