@@ -376,13 +376,17 @@ input[type="file"] + label * {
 .loginDropDown button:first-child{
   margin-bottom: 10px;
 }
-.social-login form .button-wrapper:last-child{
+
+.social-login form .button-wrapper:last-child,
+.social-signup tr td:nth-child(2) .button-wrapper{
     border-color: #ff7700 !important;
     color:  #ff7700 !important;
     box-shadow:  #ff7700 0px 0px 20px 0px !important;
     background-color:  #ff7700 !important;
 }
-.social-login form .button-wrapper:first-child{
+
+.social-login form .button-wrapper:first-child,
+.social-signup tr td:first-child .button-wrapper{
     border-color: #3b5998 !important;
     color:  #3b5998 !important;
     box-shadow:  #3b5998 0px 0px 20px 0px !important;

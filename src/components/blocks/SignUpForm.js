@@ -42,33 +42,35 @@ var signupForm = React.createClass({
       name={"signup-form"}
     >
       <NumberedList>
-        <RegistrationElement
-          isFilter={true}
-          name='signup'
-          label="Sign Up"
-          active={true}
-          text="Do you want to sign up using soundcloud, facebook or your email"
-        >
+        <div className="social-signup">
+          <RegistrationElement
 
-          <ToggleOptions
-            name="signup"
-            glued={false}
-            value="FACEBOOK"
+            isFilter={true}
+            name='signup'
+            label="Sign Up"
+            active={true}
+            text="Do you want to sign up using soundcloud, facebook or your email"
           >
-            <Button
-              name="FACEBOOK"
-            >Facebook</Button>
 
-            <Button
-              name="SOUNDCLOUD"
-            >Soundcloud</Button>
+            <ToggleOptions
+              name="signup"
+              glued={false}
+              value="FACEBOOK"
+            >
+              <Button
+                name="FACEBOOK"
+              >Facebook</Button>
 
-          <Button name="EMAIL">Email & Password</Button>
+              <Button
+                name="SOUNDCLOUD"
+              >Soundcloud</Button>
 
-          </ToggleOptions>
+              <Button name="EMAIL">Email & Password</Button>
 
-        </RegistrationElement>
+            </ToggleOptions>
 
+          </RegistrationElement>
+        </div>
         <RegistrationElement
           name="email"
           label="E-mail"
