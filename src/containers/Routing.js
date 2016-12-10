@@ -14,6 +14,7 @@ import Gigs from './Gigs'
 import Events from './Events'
 import Reviews from './Reviews'
 import Home from '../containers/Home'
+import Event from './Event'
 
 
 import { createStore, applyMiddleware } from 'redux'
@@ -77,7 +78,9 @@ var router = React.createClass({
             <Route path="user/signup" component={Signup}/>
           </Route>
 
+          <Route path="event/:id" component={Event}>
 
+          </Route>
 
           <Route path="howitworks" component={HowItWorks}/>
           <Route path="signup" component={Signup}/>

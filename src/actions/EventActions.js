@@ -32,6 +32,25 @@ export function fetchEvents() {
 }
 
 
+export function fetchEvent(id, authID) {
+  return function (dispatch) {
+
+    dispatch( function() { return {
+        type: ActionTypes.FETCH_EVENTS_REQUESTED,
+      }}())
+
+      const token = auth.getToken()
+      cueup.getEvent(token, id, function(err, result){
+        if (err) {
+          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_FAILED, err: err.message}}() )
+        }else{
+          var event = converter.cueupEvent.fromDTO(result)
+          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_SUCCEEDED, events: event} }() )
+        }
+      })
+  }
+}
+
 function createEvent(form, geoResult){
       return {
             Name: form.eventName,
