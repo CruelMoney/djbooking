@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import TextField from 'material-ui/TextField'
-import connectToForm from './higher-order/connectToForm'
+import connectToForm from '../higher-order/connectToForm'
 
 var Text = React.createClass({
 

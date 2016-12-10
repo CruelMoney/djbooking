@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import Button from '../common/Button'
+import Button from '../common/Button-v2'
 import Gig from '../../containers/Gig'
 
 
@@ -10,8 +10,9 @@ var Gigs = React.createClass({
     gigs: PropTypes.arrayOf(PropTypes.object),
     fetchGigs: PropTypes.func,
   },
-
-
+  contextTypes:{
+    registerActions: PropTypes.func,
+  },
 
   getInitialState(){
     return{
@@ -29,6 +30,7 @@ var Gigs = React.createClass({
         this.props.fetchGigs()
       }
     }
+    this.context.registerActions(this.getActionButtons())
   },
 
   componentWillReceiveProps(nextprops){
@@ -48,12 +50,10 @@ var Gigs = React.createClass({
   getActionButtons(props = this.props){
     return (
     <div
-      className="action-buttons"
+      className="context-actions"
       key="profile_actions">
       <div style={{marginBottom:"4px"}}>
         <Button
-          rounded={true}
-          label="Requested gigs"
           name="requested"
           active={this.state.filter === "requested"}
           onClick={()=>{
@@ -61,12 +61,10 @@ var Gigs = React.createClass({
               filter: "requested"
             })
           }}
-        />
+        >Requested</Button>
       </div>
       <div style={{marginBottom:"4px"}}>
         <Button
-          rounded={true}
-          label="Upcoming gigs"
           name="upcoming"
           active={this.state.filter === "upcoming"}
           onClick={()=>{
@@ -74,12 +72,10 @@ var Gigs = React.createClass({
               filter: "upcoming"
             })
           }}
-        />
+        >Upcoming</Button>
       </div>
       <div style={{marginBottom:"4px"}}>
         <Button
-          rounded={true}
-          label="Lost gigs"
           name="lost"
           active={this.state.filter === "lost"}
           onClick={()=>{
@@ -87,12 +83,10 @@ var Gigs = React.createClass({
               filter: "lost"
             })
           }}
-        />
+        >Lost</Button>
       </div>
       <div style={{marginBottom:"4px"}}>
         <Button
-          rounded={true}
-          label="Finished gigs"
           name="finished"
           active={this.state.filter === "finished"}
           onClick={()=>{
@@ -100,19 +94,17 @@ var Gigs = React.createClass({
               filter: "finished"
             })
           }}
-        />
+        >Finished</Button>
       </div>
 
 
       <div style={{marginBottom:"4px"}}>
         <Button
-          rounded={true}
-          label="Request features"
           name="request_features"
           onClick={()=>{
             console.log("not implemented");
           }}
-        />
+        >Request features</Button>
       </div>
 
     </div>
@@ -166,7 +158,6 @@ var Gigs = React.createClass({
 
     return(
       <div>
-        {this.getActionButtons()}
         {this.state.filter === "upcoming" ?
           renderGigs(upcomingGigs)
         : null}

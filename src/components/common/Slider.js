@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import Nouislider from 'react-nouislider'
-import connectToForm from './higher-order/connectToForm'
+import connectToForm from '../higher-order/connectToForm'
 
 /**
  * The slider bar can have a set minimum and maximum, and the value can be

@@ -21,12 +21,13 @@ import profilePic from '../assets/default-profile-pic.png'
     }
     const review ={
       fromDTO: function(DTO){
+        console.log(DTO);
         return{
           eventLocation: location.fromDTO(DTO.eventLocation),
-          eventDate: new Date(DTO.eventDate),
+          eventDate: DTO.eventDate,
           eventName: DTO.eventName,
-          author: DTO.reviewer ? DTO.reviewer.name : "Deleted user",
-          authorPicture: DTO.reviewer ? DTO.reviewer.picture : profilePic,
+          author: DTO.reviewer.name ? DTO.reviewer.name : "Deleted",
+          authorPicture: DTO.reviewer.picture ? DTO.reviewer.picture : {profilePic},
           description: DTO.description,
           date: new Date(DTO.date),
           rating: DTO.rating,

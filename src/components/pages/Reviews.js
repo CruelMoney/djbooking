@@ -3,13 +3,14 @@ import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button'
 import {CardHeader} from 'material-ui/Card'
 import Rating from '../common/Rating'
-
+import Formatter from '../../utils/Formatter'
 
 
 var Reviews = React.createClass({
   propTypes: {
     reviews: PropTypes.arrayOf(PropTypes.object),
     fetchReviews: PropTypes.func,
+    loading: PropTypes.bool
   },
 
 
@@ -51,16 +52,16 @@ var Reviews = React.createClass({
       function renderReview(review, i){
         return (
           <div
-            style={{borderBottom: "2px solid #e6e6e6"}}
+            style={{borderBottom: "2px solid rgb(246, 249, 252)"}}
           >
-
+            
             <CardHeader
               style={{paddingLeft:'50px'}}
               title={review.author }
-              subtitle={review.date}
+              subtitle={Formatter.date.ToEU(review.date)}
               actAsExpander={true}
               showExpandableButton={true}
-              avatar={review.picture}
+              avatar={review.authorPicture}
               children={
                 <div style={{width:'30%', textAlign:'right', paddingRight:'37px', float:'right'}}>
                   <div style={{margin:'0px'}}>
@@ -76,9 +77,8 @@ var Reviews = React.createClass({
                 paddingBottom: '20px',
 
               }}
-              expandable={true}
             >
-              <div style={{ marginTop: '20px'}} className="row">
+              <div  className="row">
                 <div className="col-sm-7">
                   <p > {review.description} </p>
 
@@ -86,18 +86,18 @@ var Reviews = React.createClass({
 
                 <div className="col-sm-5" >
                   <div className="review-card-info">
-                      <div className="review-card-fact">
+                    <div className="review-card-fact">
                       <p>Event</p>
-                      {review.event.name}
-                      </div>
-                      <div className="review-card-fact">
+                      {review.eventName}
+                    </div>
+                    <div className="review-card-fact">
                       <p>Location</p>
-                      {review.event.location}
-                      </div>
-                      <div className="review-card-fact">
+                      {review.eventLocation.name}
+                    </div>
+                    <div className="review-card-fact">
                       <p>Date</p>
-                      {review.event.date}
-                      </div>
+                      {Formatter.date.ToEU(review.eventDate)}
+                    </div>
                   </div>
                 </div>
 
@@ -109,11 +109,40 @@ var Reviews = React.createClass({
         </div>)
       }
 
+      function renderLoadingItem(){
+        let loadingitem = (
+          <div className="timeline-wrapper">
+            <div className="timeline-item">
+              <div className="animated-background">
+                <div className="background-masker header-top"></div>
+                <div className="background-masker header-left"></div>
+                <div className="background-masker header-right"></div>
+                <div className="background-masker header-bottom"></div>
+                <div className="background-masker subheader-left"></div>
+                <div className="background-masker subheader-right"></div>
+                <div className="background-masker subheader-bottom"></div>
+                <div className="background-masker content-top"></div>
+                <div className="background-masker content-first-end"></div>
+                <div className="background-masker content-second-line"></div>
+                <div className="background-masker content-second-end"></div>
+                <div className="background-masker content-third-line"></div>
+                <div className="background-masker content-third-end"></div>
+              </div>
+            </div>
+          </div>
+        )
+        return [loadingitem, loadingitem, loadingitem, loadingitem, loadingitem]
+      }
+
 
 
     return(
       <div>
-        {this.props.reviews.map((review, i) => renderReview(review, i))}
+        {this.props.loading ?
+          renderLoadingItem()
+          :
+          this.props.reviews.map((review, i) => renderReview(review, i))
+        }
       </div>)
 
   }

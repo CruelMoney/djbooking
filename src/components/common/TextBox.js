@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import connectToForm from './higher-order/connectToForm'
+import connectToForm from '../higher-order/connectToForm'
 
 
 var TextBox = React.createClass({

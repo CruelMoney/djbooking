@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import ToggleButton from './ToggleButton'
-import connectToForm from './higher-order/connectToForm'
+import connectToForm from '../higher-order/connectToForm'
 
 var ToggleButtonHandler = React.createClass({
 

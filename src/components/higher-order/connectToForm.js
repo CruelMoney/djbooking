@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import * as validators from '../../../utils/validators'
+import * as validators from '../../utils/validators'
 
 function connectToForm (
   Component

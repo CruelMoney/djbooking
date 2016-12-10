@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import AutoComplete from 'material-ui/AutoComplete'
-import connectToForm from './higher-order/connectToForm'
+import connectToForm from '../higher-order/connectToForm'
 
 /*eslint no-undef: 0*/
 var locationService = new google.maps.places.AutocompleteService()

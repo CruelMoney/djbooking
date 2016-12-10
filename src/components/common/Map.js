@@ -1,6 +1,6 @@
 import  React, {PropTypes} from "react"
 import { GoogleMapLoader, GoogleMap, Circle } from "react-google-maps"
-
+import connectToForm from '../higher-order/connectToForm'
 
 /*
  * This is the modify version of:
@@ -11,75 +11,68 @@ import { GoogleMapLoader, GoogleMap, Circle } from "react-google-maps"
  * We use React 0.14 stateless function components here.
  * https://facebook.github.io/react/blog/2015/09/10/react-v0.14-rc1.html#stateless-function-components
  */
-var SimpleMap = React.createClass({
-      circle: {},
+class SimpleMap extends React.Component{
+      circle = {}
 
-      propTypes:{
+      static propTypes:{
         editable:        PropTypes.bool,
-        initialPosition: PropTypes.object,
+        value: PropTypes.object,
         radius:          PropTypes.number,
         radiusName: PropTypes.string,
         locationName: PropTypes.string
-      },
+      }
 
-      contextTypes: {
-        resetting: PropTypes.bool,
-        registerValidation: PropTypes.func.isRequired,
-        updateValue: PropTypes.func,
+      static contextTypes = {
         color: PropTypes.string
-      },
+      }
 
-      getInitialState(){
-        return{
+      state={
+
         marker: {
           position: {lat: 56.00, lng: 10.00
           },
           radius: 250000,
           key: `Denmark`,
           defaultAnimation: 2,
-        },
         }
-      },
+
+      }
 
       componentWillMount(){
           this.setState({
           marker: {
-            position: this.props.initialPosition,
+            position: this.props.value,
             radius: this.props.radius,
             key: Date.now(),
             defaultAnimation: 2,
           }
         })
-      },
+      }
 
-      shouldComponentUpdate: function(nextProps, nextState) {
+      shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.editable !== this.props.editable) {
           return true
         }
         return false;
-      },
+      }
 
-        handleRadiusChange(circle) {
-             this.context.updateValue(this.props.radiusName,
-              circle.getRadius()
-            )
+      handleRadiusChange = (circle) => {
+           this.context.updateValue(this.props.radiusName,
+            circle.getRadius()
+          )
+      }
 
-
-        },
-
-        handleLocationChange(circle) {
-            this.context.updateValue(this.props.locationName,
-            {lat: circle.getCenter().lat(),
-             lng: circle.getCenter().lng()
-            })
-
-
-        },
+      handleLocationChange = (circle) => {
+          this.context.updateValue(this.props.locationName,
+          {lat: circle.getCenter().lat(),
+           lng: circle.getCenter().lng()
+          })
+        }
 
 
 
     render(){
-      console.log(this.state);
+      console.log(this);
     return(
       <div style={{ height: `500px` }}>
         <GoogleMapLoader
@@ -199,7 +192,6 @@ var SimpleMap = React.createClass({
         />
       </div>
     )}
+}
 
-})
-
-export default SimpleMap
+export default connectToForm(SimpleMap)
