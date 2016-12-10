@@ -45,7 +45,7 @@ var userHeader = React.createClass({
             <span></span>
           </div>
 
-          <Notification />
+          <Notification message={this.props.notification}/>
 
 
           <div className="container">

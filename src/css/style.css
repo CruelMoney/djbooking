@@ -1,3 +1,4 @@
+@import "../assets/css/bootstrap.min.css";
 @import "./nouislider.css";
 @import "./fonts.css";
 
@@ -68,6 +69,9 @@ p{
   -moz-font-smoothing: antialiased !important;
   text-rendering: optimizelegibility !important;
 }
+a{
+  text-decoration: none;
+}
 a:hover{
   text-decoration: none;
   color: inherit;
@@ -96,7 +100,10 @@ section{
 .container{
   width: 990px;
   padding: 0;
+  margin: auto;
 }
+
+
 
 .row{
   display: flex;
@@ -894,8 +901,24 @@ text-transform: capitalize;
 margin-bottom: 50px;
 }
 
-.events{
-  margin-top: 80px;
+.event-card{
+display: flex;
+justify-content: space-between;
+margin-bottom: 20px;
+border: 2px solid #BBBBBB;
+color: #BBBBBB;
+border-radius: 6px;
+padding: 20px;
+transition: all 0.1s ease-in-out;
+
+}
+.event-card:hover{
+  border-color: inherit;
+}
+
+.event-right{
+  text-align: right;
+      margin-top: 16px;
 }
 .event, .gig{
   padding: 35px 10px;
