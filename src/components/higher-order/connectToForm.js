@@ -44,14 +44,14 @@ function connectToForm (
 
     componentWillMount() {
         if (this.props.value) {
-          this.updateValue(this.props.value)
+          this.onChange(this.props.value)
         }
         if (this.context.registerValidation) {
           this.removeValidationFromContext = this.context.registerValidation(show =>
             this.isValid(show))
         }
         if (this.context.registerReset) {
-          this.removeReset = this.context.registerReset(()=>this.setState({value: this.props.defaultValue}))
+          this.removeReset = this.context.registerReset(()=>this.setState({value: this.props.value}))
         }
     }
 
@@ -70,6 +70,7 @@ function connectToForm (
       if (this.props.onUpdatePipeFunc) {
           value = this.props.onUpdatePipeFunc(this.state.value, value)
       }
+
       this.setState({
         value:value
       })

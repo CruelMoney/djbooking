@@ -31,6 +31,12 @@ var Text = React.createClass({
     }
   },
 
+  onChange(e){
+    var value = e.target.value
+
+    this.props.onChange(value)
+  },
+
   render() {
     var stylesBig = {
       textarea: {
@@ -81,6 +87,7 @@ var Text = React.createClass({
         fontSize: '14px',
         color: "#BBBBBB",
         fontFamily: "AvenirNext-Regular",
+        bottom: "0"
       },
       error:{
         fontFamily: "AvenirNext-Regular",
@@ -121,7 +128,7 @@ var Text = React.createClass({
                   floatingLabelStyle={styles.floatingLabelStyle}
                   fullWidth={this.props.fullWidth || true}
                   hintText={this.props.placeholder}
-                  onChange={(e)=>this.props.onChange(e.target.value)}
+                  onChange={(e)=>this.onChange(e)}
                   onBlur={this.props.onBlur}
                   errorText={this.props.errors.length ? (
                     <div style={{

@@ -10,6 +10,7 @@ class Button extends React.Component {
       isLoading: PropTypes.bool,
       name: PropTypes.string,
       succes: PropTypes.bool,
+      dangerous: PropTypes.bool
     }
 
     static contextTypes={
@@ -22,10 +23,15 @@ class Button extends React.Component {
 
     handleClick = (e) => {
       e.preventDefault()
-      if (this.props.name === undefined) {
-        this.props.onClick(this.props.label)
-      }else{
-        this.props.onClick(this.props.name)
+      if (this.props.dangerous) {
+        var confirmed = !confirm(this.props.warning)
+      }
+      if (!confirmed) {
+        if (this.props.name === undefined) {
+          this.props.onClick(this.props.label)
+        }else{
+          this.props.onClick(this.props.name)
+        }
       }
     }
 
@@ -34,6 +40,7 @@ class Button extends React.Component {
       if (this.props.active) className += " active"
       if (this.props.isLoading) className += " loading"
       if (this.props.succes) className += " succes"
+      if (this.props.dangerous) className += " dangerous"
       return className
     }
 
@@ -46,10 +53,10 @@ class Button extends React.Component {
 
     wrapperStyle={
       textAlign: "center",
-      borderColor:this.context.color,
-      color: this.context.color,
-      boxShadow: "0 0px 20px 0px " + this.context.color,
-      backgroundColor: this.context.color
+      borderColor: this.props.dangerous ? "#F44336" : this.context.color,
+      color: this.props.dangerous ? "#F44336" : this.context.color,
+      boxShadow: "0 0px 20px 0px " + this.props.dangerous ? "#F44336" : this.context.color,
+      backgroundColor: this.props.dangerous ? "#F44336" : this.context.color
     }
 
   render() {

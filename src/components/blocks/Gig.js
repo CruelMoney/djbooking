@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react'
-import Button from '../common/Button'
+import Button from '../common/Button-v2'
 import TextField from '../common/Textfield'
 import Formatter from '../../utils/Formatter'
-import {Card} from 'material-ui/Card'
 import TextWrapper from '../common/TextElement'
 import {CollapsibleContainer, Collapsible} from '../common/Collapsible'
 import Form from '../../containers/Form-v2'
@@ -10,6 +9,7 @@ import SubmitButton from '../common/SubmitButton'
 import assign from 'lodash.assign'
 import PayoutForm from './PayoutForm'
 import Popup from '../common/Popup'
+import {moneyPipe} from '../../utils/TextPipes'
 
 var Gig = React.createClass({
   propTypes: {
@@ -28,6 +28,12 @@ var Gig = React.createClass({
           amount: form.values.amount,
         })
       this.props.updateGig(offer, callback)
+    }
+  },
+
+  getInitialState(){
+    return{
+      showPopup: false
     }
   },
 
@@ -121,7 +127,7 @@ var Gig = React.createClass({
           backgroundImage: 'url('+this.props.gig.customer.picture+')',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          backgroundSize: 'auto 150%',
+          backgroundSize: 'auto 100%',
           width: '68px',
           height: '68px',
           borderRadius: '50%',
@@ -140,9 +146,8 @@ var Gig = React.createClass({
 
 
       return (
-        <Card
-          z-index={1}
-          className="gig"
+        <div
+          className="card gig"
 
         >
 
@@ -190,16 +195,10 @@ var Gig = React.createClass({
                   label="Guests"
 
                 >
-                  <TextField
-                    defaultValue={"Around " + this.props.gig.guestCount + " people attending the event."}
-                    name="guestCount"
-                    disabled={true}
-                    style={styles.medium.textarea}
-                    inputStyle={styles.medium.input}
-                    type="text"
-                    underlineDisabledStyle={styles.plainBorder}
-                    underlineStyle={styles.dottedBorderStyle}
-                  />
+                  <p>
+                    {"Around " + this.props.gig.guestCount + " people attending the event."}
+                  </p>
+
 
                 </TextWrapper>
 
@@ -243,18 +242,9 @@ var Gig = React.createClass({
                   label="Duration"
 
                 >
-                  <TextField
-                    defaultValue={"The music should start at " + Formatter.date.ToTime(this.props.gig.startTime) + ", and end at " + Formatter.date.ToTime(this.props.gig.endTime) + "."}
-                    name="time"
-                    fullWidth={true}
-                    disabled={true}
-                    style={styles.medium.textarea}
-                    inputStyle={styles.medium.input}
-                    type="text"
-                    underlineDisabledStyle={styles.plainBorder}
-                    underlineStyle={styles.dottedBorderStyle}
-                  />
-
+                  <p>
+                    {"The music should start at " + Formatter.date.ToTime(this.props.gig.startTime) + ", and end at " + Formatter.date.ToTime(this.props.gig.endTime) + "."}
+                  </p>
                 </TextWrapper>
 
                 <TextWrapper
@@ -309,128 +299,118 @@ var Gig = React.createClass({
                   name={"gig-offer-" + this.props.gig.id}
                 >
                   {this.props.payoutInfoValid ?
-                    <div className="row">
-                      <div className="col-xs-4 col-xs-offset-4"
-                        style={{marginBottom: '20px',marginTop: '20px'}}>
 
+                    <div>
+                      <p>Enter your price to play this gig.
+                      You can always update the offer until it has been paid.</p>
 
-                        <TextField
-                          name="amount"
-                          hintStyle={styles.medium.hint}
-                          style={styles.medium.textarea}
-                          inputStyle={styles.medium.input}
-                          disabled={this.props.gig.status === "Cancelled"  || this.props.gig.status === "Lost" || this.props.gig.status === "Confirmed" || this.props.gig.status === "Finished" }
-                          type="number"
-                          fullWidth={true}
-                          defaultValue={this.props.gig.offer.amount}
-                        />
-
-                      </div>
+                      <TextField
+                        name="amount"
+                        hintStyle={styles.medium.hint}
+                        style={styles.medium.textarea}
+                        placeholder="DKK 0,00"
+                        onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
+                        inputStyle={styles.medium.input}
+                        disabled={this.props.gig.status === "Cancelled"  || this.props.gig.status === "Lost" || this.props.gig.status === "Confirmed" || this.props.gig.status === "Finished" }
+                        type="string"
+                        fullWidth={true}
+                        value={this.props.gig.offer.amount}
+                      />
                     </div>
+
                   :null}
 
 
 
-                  <div className="row">
 
-                    {!this.props.payoutInfoValid ?
+                  {!this.props.payoutInfoValid ?
 
-                      <div className="col-xs-12">
-                        <p>Please update your payout information before making an offer.</p>
+                    <div >
+                      <p>Please update your payout information before making an offer.</p>
 
-                        <Button
-                          rounded={true}
-                          label="Update payout information"
-                          onClick={()=>this.setState({showPopup:true})}
-                          name="show-payout-popup"
-                        />
+                      <Button
+                        rounded={true}
+                        onClick={()=>this.setState({showPopup:true})}
+                        name="show-payout-popup"
+                      >Update payout information</Button>
 
 
-
-                      </div>
-
-                    : null }
-
-
-                    <div className="col-xs-6">
-
-                      <Form
-                        name={"gig-cancel-" + this.props.gig.id}
-                      >
-
-                        { this.props.payoutInfoValid && this.props.gig.status === "Requested"
-                          ?
-                            <SubmitButton
-                              rounded={true}
-                              label="Decline gig"
-                              name="cancel_gig"
-                              onClick={(form, callback)=>this.props.declineGig(this.props.gig.id, callback)}
-                            />
-                        : null}
-
-
-                        { this.props.payoutInfoValid &&  (this.props.gig.status  === "Accepted" ||
-                          this.props.gig.status  === "Confirmed")
-                          ?
-
-                            <SubmitButton
-                              rounded={true}
-                              label="Cancel gig"
-                              name="cancel_gig"
-                              onClick={(form, callback)=>this.props.cancelGig(this.props.gig.id, callback)}
-                            />
-
-                        : null}
-
-                      </Form>
 
                     </div>
 
+                  : null }
+
+                  <div className="offer-buttons">
+
+                    <Form
+                      name={"gig-cancel-" + this.props.gig.id}
+                    >
+
+                      { this.props.payoutInfoValid && this.props.gig.status === "Requested"
+                        ?
+                          <SubmitButton
+                            rounded={true}
+                            dangerous
+                            warning="Are you sure you want to decline the gig?"
+                            name="cancel_gig"
+                            onClick={(form, callback)=>this.props.declineGig(this.props.gig.id, callback)}
+                          >Decline gig</SubmitButton>
+                      : null}
+
+
+                      { this.props.payoutInfoValid &&  (this.props.gig.status  === "Accepted" ||
+                      this.props.gig.status  === "Confirmed")
+                        ?
+
+                          <SubmitButton
+                            rounded={true}
+                            dangerous
+                            name="cancel_gig"
+                            onClick={(form, callback)=>this.props.cancelGig(this.props.gig.id, callback)}
+                          >Cancel gig</SubmitButton>
+
+                      : null}
+
+                    </Form>
+
+
                     {this.props.payoutInfoValid && this.props.gig.status === "Requested" ?
-                      <div className="col-xs-6">
-                        <SubmitButton
-                          rounded={true}
-                          label="Send offer"
-                          name="send_offer"
-                          onClick={this.updateOffer}
-                        />
-                      </div>
+                      <SubmitButton
+                        rounded={true}
+                        name="send_offer"
+                        onClick={this.updateOffer}
+                      >Send offer</SubmitButton>
                     : null}
 
                     {this.props.payoutInfoValid && this.props.gig.status === "Accepted" ?
-                      <div className="col-xs-6">
-                        <SubmitButton
-                          rounded={true}
-                            label="Update price offer"
-                            name="update_offer"
-                            onClick={this.updateOffer}
-                          />
-                        </div>
-                      :null}
+                      <SubmitButton
+                        rounded={true}
+                        name="update_offer"
+                        onClick={this.updateOffer}
+                      >Update price offer</SubmitButton>
+                    :null}
 
+                  </div>
 
-                      {this.props.gig.status === "Confirmed" ?
-                        <div className="col-xs-6">
-                          Great! You have been chosen to play this gig.
-                        </div>
-                        :
-                      null}
+                  {this.props.gig.status === "Confirmed" ?
 
-                      { this.props.gig.status === "Lost" ?
-                        <div className="col-xs-12">
-                          Sorry you have lost this gig to another DJ. <br/>
-                          Next time try to set another price or be faster at responding. <br/>
-                          Adding info to your profile also helps the customer being comfortable in choosing you.
-                        </div>
-                      :  null}
+                    <p>Great! You have been chosen to play this gig.</p>
 
-                      { this.props.gig.status === "Cancelled" ?
-                        <div className="col-xs-12">
-                          Unfortunately the event has been cancelled by the host.
-                        </div>
-                      :  null}
+                    :
+                  null}
 
-                    </div>
+                  { this.props.gig.status === "Lost" ?
+                    <p>
+                      Sorry you have lost this gig to another DJ. <br/>
+                      Next time try to set another price or be faster at responding. <br/>
+                      Adding info to your profile also helps the customer being comfortable in choosing you.
+                    </p>
+                  :  null}
+
+                  { this.props.gig.status === "Cancelled" ?
+                    <p>Unfortunately the event has been cancelled by the host.</p>
+                  :  null}
+
                 </Form>
 
 
@@ -442,7 +422,7 @@ var Gig = React.createClass({
             </CollapsibleContainer>
           </div>
 
-        </Card>)
+        </div>)
 
   }
 })

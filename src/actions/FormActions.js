@@ -35,7 +35,7 @@ export function handleSubmitResult(formName, err, submitName) {
         type: ActionTypes.FORM_SUBMIT_FAILED,
         formName,
         submitName,
-        err: err
+        err: err.message ? err.message : err
       }}())
     }else{
       dispatch(function() { return {

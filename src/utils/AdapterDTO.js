@@ -3,7 +3,16 @@ import assign from 'lodash.assign'
 import profilePic from '../assets/default-profile-pic.png'
 
 
-    const location ={
+const deletedUser={
+  bio: "",
+  email: "",
+  picture: profilePic,
+    censoredName:   "User deleted",
+    phone:          ""
+
+}
+
+    var location ={
       fromDTO(DTO){
         return{
           lat:  DTO.lat,
@@ -19,7 +28,7 @@ import profilePic from '../assets/default-profile-pic.png'
         }
       }
     }
-    const review ={
+    var review ={
       fromDTO: function(DTO){
         return{
           eventLocation: location.fromDTO(DTO.eventLocation),
@@ -42,7 +51,7 @@ import profilePic from '../assets/default-profile-pic.png'
       }
     }
 
-    const settings ={
+    var settings ={
       fromDTO:function(DTO){
         return DTO
       },
@@ -51,7 +60,7 @@ import profilePic from '../assets/default-profile-pic.png'
       }
     }
 
-    const user ={
+    var user ={
       fromDTO: function(DTO) {
         return assign({}, DTO, {
           bio: DTO.bio,
@@ -126,7 +135,7 @@ import profilePic from '../assets/default-profile-pic.png'
       }
     }
 
-    const offer={
+    var offer={
       fromDTO:function(DTO){
         return{
            gigID: DTO.gigID,
@@ -144,7 +153,7 @@ import profilePic from '../assets/default-profile-pic.png'
       }
     }
 
-    const cueupEvent ={
+    var cueupEvent ={
 
       fromDTO:function(DTO){
 
@@ -187,19 +196,20 @@ import profilePic from '../assets/default-profile-pic.png'
       }
     }
 
-    const cueupGig ={
+    var cueupGig ={
 
       fromDTO:function(DTO){
         return assign({}, DTO, {
                 startTime: new Date(DTO.startTime),
                 endTime: new Date(DTO.endTime),
-                customer: user.fromDTO(DTO.customer)
+                customer: DTO.customer ? user.fromDTO(DTO.customer) : deletedUser
               })
       },
       toDTO:function(gig){
         return gig;
       }
     }
+
 
 
 

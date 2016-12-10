@@ -19,12 +19,11 @@ export const Collapsible = React.createClass({
             onClick={() => this.props.handleClick(this.props.number)}
             style={{
               cursor:"pointer",
-              paddingTop: '5px',
               height: '50px'
             }}
           >
             <h4
-              style={{marginBottom:"15px"}}
+              style={{margin:"16px 0"}}
             >  {this.props.number + ". " + this.props.label} </h4>
             <span>
               <svg className="collapsible-arrow" viewBox="0 0 24 24"
@@ -42,9 +41,9 @@ export const Collapsible = React.createClass({
               </svg>
             </span>
           </div>
-
-          {this.props.children}
-
+          <div style={{padding: "0 16px"}}>
+            {this.props.children}
+          </div>
         </div>
         <div className="divider"/>
       </div>
@@ -62,14 +61,21 @@ export const CollapsibleContainer = React.createClass({
 
   getInitialState(){
     return {
-      activeChild: 1
+      activeChild: 0
     }
   },
 
   toggleChild(count){
-    this.setState({
-      activeChild: count
-    })
+    if (this.state.activeChild === count) {
+      this.setState({
+        activeChild: 0
+      })
+    }else{
+      this.setState({
+        activeChild: count
+      })
+    }
+
   },
 
   renderChildren(){

@@ -7,7 +7,7 @@ export function required(value) {
   if (Array.isArray(value)) {
     return !value.length ? ["At least 1 option should be selected"] : []
   }else{
-    return (!value) ? ['This field cannot be empty'] : []
+    return (!value && value !== 0) ? ['This field cannot be empty'] : []
   }
 }
 

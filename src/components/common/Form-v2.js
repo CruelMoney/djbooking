@@ -155,12 +155,12 @@ const form = React.createClass({
   render() {
     return (
       <div>
-      <form >
-        {this.props.children}
-      </form>
-      {this.props.err ?
-        <div className="errors">
-        <p>{this.props.err}</p>
+        <form >
+          {this.props.children}
+        </form>
+        {this.props.err ?
+          <div className="errors">
+            <p>{this.props.err}</p>
         </div>
         :null
       }

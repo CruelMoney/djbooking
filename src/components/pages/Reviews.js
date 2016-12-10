@@ -4,7 +4,7 @@ import Button from '../common/Button'
 import {CardHeader} from 'material-ui/Card'
 import Rating from '../common/Rating'
 import Formatter from '../../utils/Formatter'
-
+import LoadingPlaceholder from '../common/LoadingPlaceholder'
 
 var Reviews = React.createClass({
   propTypes: {
@@ -54,7 +54,7 @@ var Reviews = React.createClass({
           <div
             style={{borderBottom: "2px solid rgb(246, 249, 252)"}}
           >
-            
+
             <CardHeader
               style={{paddingLeft:'50px'}}
               title={review.author }
@@ -110,28 +110,12 @@ var Reviews = React.createClass({
       }
 
       function renderLoadingItem(){
-        let loadingitem = (
-          <div className="timeline-wrapper">
-            <div className="timeline-item">
-              <div className="animated-background">
-                <div className="background-masker header-top"></div>
-                <div className="background-masker header-left"></div>
-                <div className="background-masker header-right"></div>
-                <div className="background-masker header-bottom"></div>
-                <div className="background-masker subheader-left"></div>
-                <div className="background-masker subheader-right"></div>
-                <div className="background-masker subheader-bottom"></div>
-                <div className="background-masker content-top"></div>
-                <div className="background-masker content-first-end"></div>
-                <div className="background-masker content-second-line"></div>
-                <div className="background-masker content-second-end"></div>
-                <div className="background-masker content-third-line"></div>
-                <div className="background-masker content-third-end"></div>
-              </div>
-            </div>
-          </div>
-        )
-        return [loadingitem, loadingitem, loadingitem, loadingitem, loadingitem]
+        return [
+          <LoadingPlaceholder/>, 
+            <LoadingPlaceholder/>, 
+              <LoadingPlaceholder/>, 
+                <LoadingPlaceholder/>, 
+                  <LoadingPlaceholder/>]
       }
 
 

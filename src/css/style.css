@@ -641,7 +641,7 @@ input[type="file"] + label * {
   top: -260px;
   position: fixed;
 }
-.user-header.fixed ~ div{
+.user-header.fixed + div{
   margin-top: 330px;
 }
 
@@ -898,9 +898,8 @@ margin-bottom: 50px;
   margin-top: 80px;
 }
 .event, .gig{
-  min-height: 400px;
-  padding: 35px 20px;
-  margin-top: 40px;
+  padding: 35px 10px;
+  margin-bottom: 40px;
   display: flex;
 }
 
@@ -919,7 +918,7 @@ margin-bottom: 5px;
 font-weight: 100;
 }
 .event-location{
-  fill: #707070;
+  fill: #32325D;
 font-size: 15px;
 font-weight: 100;
 }
@@ -953,6 +952,13 @@ border-bottom: 2px solid #eee;
 .collapsible-container .divider{
   border-bottom: 2px solid #eee;
   width: 100%;
+}
+
+.collapsible .text-element-wrapper{
+  margin-bottom: 30px;
+}
+.collapsible .text-element-wrapper:last-child{
+  margin-bottom: 0px;
 }
 
 .form-error{
@@ -1379,7 +1385,8 @@ margin-bottom: 70px;
   border-radius: 6px;
   background: #FFFFFF;
   padding: 40px;
-
+  z-index: 1;
+  position: relative;
 }
 .card.user-card{
   padding: 0;
@@ -1615,7 +1622,7 @@ transform: translateX(-50%);
   background: #FFFFFF;
 }
 .user-container{
-  margin-bottom: 330px;
+
 }
 
 .user-container p,
@@ -1747,4 +1754,14 @@ transform: translateX(-50%);
 .background-masker.content-third-end {
     left: 300px;
     top: 88px;
+}
+
+.offer-buttons{
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 15px;
+}
+.offer-buttons > div{
+  margin-right: 10px;
+
 }

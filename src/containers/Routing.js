@@ -63,7 +63,10 @@ var router = React.createClass({
 
   render() {
     return(
-      <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
+      <Router
+        //onUpdate={(e) => {window.scrollTo(0, 0)}} 
+        history={browserHistory}
+      >
         <Route path="/" component={Navigation} onEnter={this.checkForLogin}>
 
           <IndexRoute component={Home}/>

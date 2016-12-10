@@ -1,3 +1,4 @@
+import Formatter from './Formatter'
 
 //Will insert / in between values
 export function datePipe(lastValue, value){
@@ -69,6 +70,26 @@ export function cardNumberPipe(lastValue, value){
       return parts.join(' ')
     } else {
       return value
+    }
+
+}
+
+export function moneyPipe(lastValue, value, currency){
+    if (!isNaN(value)) {
+      return Formatter.money.FormatNumberToString(value, currency)
+    }
+    if (isNaN(value.charAt(value.length - 1))) {
+      return lastValue ? lastValue : Formatter.money.FormatNumberToString(0, currency)
+    }else{
+      if (lastValue && value.length < lastValue.length) {
+        lastValue = lastValue.replace(/[^\d]/gi, '')
+        lastValue = lastValue.slice(0,lastValue.length-3)
+        return Formatter.money.FormatNumberToString(lastValue, currency)
+      }
+      lastValue = lastValue ? lastValue.replace(/[^\d]/gi, '') : "  "
+      lastValue = lastValue.slice(0, lastValue.length-2)
+      value = value.slice(value.length-1,value.length)
+      return Formatter.money.FormatNumberToString([lastValue ? lastValue : ""]+[value], currency)
     }
 
 }

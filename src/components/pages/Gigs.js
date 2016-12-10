@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import Button from '../common/Button-v2'
 import Gig from '../../containers/Gig'
-
+import LoadingPlaceholder from '../common/LoadingPlaceholder'
 
 
 
@@ -9,6 +9,7 @@ var Gigs = React.createClass({
   propTypes: {
     gigs: PropTypes.arrayOf(PropTypes.object),
     fetchGigs: PropTypes.func,
+    loading: PropTypes.bool
   },
   contextTypes:{
     registerActions: PropTypes.func,
@@ -22,14 +23,9 @@ var Gigs = React.createClass({
   },
 
   componentWillMount() {
-    if (this.props.gigs !== undefined) {
-      this.setState({
-        gigs: this.props.gigs
-      })
-      if (this.props.gigs.length === 0) {
+
         this.props.fetchGigs()
-      }
-    }
+
     this.context.registerActions(this.getActionButtons())
   },
 
@@ -154,24 +150,37 @@ var Gigs = React.createClass({
       }else {
         return gigs
       }
-     }
+    }
+
+    function renderLoadingItem(){
+      return [
+        <LoadingPlaceholder/>,
+          <LoadingPlaceholder/>,
+            <LoadingPlaceholder/>,
+              <LoadingPlaceholder/>,
+                <LoadingPlaceholder/>]
+    }
+
 
     return(
       <div>
-        {this.state.filter === "upcoming" ?
+        {
+          this.props.loading ?
+          renderLoadingItem()
+          :
+          this.state.filter === "upcoming" ?
           renderGigs(upcomingGigs)
-        : null}
-        {this.state.filter === "finished" ?
+          :
+          this.state.filter === "finished" ?
           renderGigs(finishedGigs)
-        : null}
-        {this.state.filter === "requested" ?
+          :
+          this.state.filter === "requested" ?
           renderGigs(requestedGigs)
-        : null}
-        {this.state.filter === "lost" ?
+          :
+          this.state.filter === "lost" ?
           renderGigs(lostGigs)
-        : null}
-
-
+          : null
+        }
       </div>)
 
   }

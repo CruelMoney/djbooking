@@ -7,6 +7,7 @@ import * as actions from '../actions/GigActions'
 function mapStateToProps(state, ownProps) {
   return {
     gigs:  state.gigs.values,
+    loading: state.gigs.isWaiting
   }
 }
 
