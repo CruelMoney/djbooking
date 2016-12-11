@@ -67,7 +67,7 @@ var Event = React.createClass({
           <div className="row event-information">
             <Form
               name="event-information-form">
-              <div className="context-actions" key="profile_actions">
+              <div className="context-actions">
                 <SubmitButton
                   onClick={this.updateEvent}
                   name="update_event">

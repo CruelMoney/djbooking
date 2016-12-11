@@ -7,7 +7,8 @@ function mapStateToProps(state, ownProps) {
   return {
     event:  state.events.values[0],
     profile: state.login.profile,
-    loading: state.events.isWaiting
+    loading: state.events.isWaiting,
+    loggedIn: state.login.signedIn
   }
 }
 

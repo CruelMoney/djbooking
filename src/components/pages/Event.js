@@ -57,6 +57,7 @@ var event = React.createClass({
           event={this.props.event}
           profile={this.props.profile}
           notification={this.state.notification}
+          loggedIn={this.props.loggedIn}
         />
 
         <div  className="user-container container">

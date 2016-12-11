@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react'
-
+import Navlink from '../common/Navlink'
 import EventNavigation from './EventNavigation'
-import UserCard from './UserCard'
 import Notification from '../common/Notification'
 
 var eventHeader = React.createClass({
@@ -10,6 +9,7 @@ var eventHeader = React.createClass({
     profile: PropTypes.object,
     event: PropTypes.object,
     notification: PropTypes.string,
+    loggedIn: PropTypes.bool
   },
 
    componentWillMount() {
@@ -57,7 +57,11 @@ var eventHeader = React.createClass({
               className="row">
 
 
-
+              {this.props.loggedIn ?
+                <div className="back-button userNavigation">
+                  <Navlink to={"/events"} label="< Events"/>
+                </div>
+              :null}
               <div className="event-header-content col-xs-7">
                 <div className="header-info">
                   <div className="user-name">

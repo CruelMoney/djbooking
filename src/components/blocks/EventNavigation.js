@@ -5,12 +5,12 @@ import Navlink  from '../common/Navlink'
 export default React.createClass({
 
   propTypes: {
-    id: PropTypes.number,
     auth0Id: PropTypes.string,
    },
 
 
   render() {
+    console.log(this);
 
     return (
       <div>
@@ -40,17 +40,17 @@ export default React.createClass({
               }}>
 
 
-              <li>
-                <Navlink to={"/event/"+this.props.id} label="Event information"/>
-              </li>
+            <li>
+              <Navlink to={"/event/"+this.props.id} label="Event information"/>
+            </li>
 
-              <li>
-                <Navlink to={"/event/"+this.props.id/+"offers"} label="Dj offers"/>
-              </li>
+            <li>
+              <Navlink to={"/event/"+this.props.id+"/offers"} label="Dj offers"/>
+            </li>
 
-              <li >
-                <Navlink to={"/event/"+this.props.id/+"profile"} label="Your information"/>
-              </li>
+            <li >
+              <Navlink to={"/event/"+this.props.id+"/user"} label="Your information"/>
+            </li>
 
 
           </ul>

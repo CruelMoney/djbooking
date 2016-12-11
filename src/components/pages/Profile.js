@@ -30,7 +30,10 @@ var Profile = React.createClass({
     },
 
     componentWillMount(){
-      this.context.registerActions(this.getActionButtons())
+      if ( this.context.registerActions) {
+          this.context.registerActions(this.getActionButtons())
+      }
+
     },
 
     getChildContext() {

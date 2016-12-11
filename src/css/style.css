@@ -71,6 +71,7 @@ p{
 }
 a{
   text-decoration: none;
+  color: #FFFFFF;
 }
 a:hover{
   text-decoration: none;
@@ -107,6 +108,7 @@ section{
 
 .row{
   display: flex;
+  position: relative;
 }
 
 .nav-container{
@@ -782,6 +784,10 @@ transition: opacity 0.8s ease;
   position: absolute;
 
 }
+.event-information > div{
+  width: 100%;
+}
+
 .event-information .context-actions button{
   margin-bottom: 15px;
   margin-top: 0px;
@@ -1811,4 +1817,9 @@ transform: translateX(-50%);
 }
 .event-header-content{
   padding: 0;
+}
+.back-button{
+  position: absolute;
+bottom: 20px;
+left: 0;
 }
