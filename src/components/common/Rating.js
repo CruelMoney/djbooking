@@ -27,44 +27,47 @@ handleOnClick(){
 
 
   render: function() {
-    const fillID =  "gradient-" + this.props.fillPercentage
+    const fillID =  "gradient-" + this.props.fillPercentage + "-" + this.props.index
     var fillStyle ={fill:"url(#"+fillID+")"}
     return (
-      <svg
-        width="21px"
-        height="20px"
-        viewBox="0 0 21 20"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        xlinkHref="http://www.w3.org/1999/xlink"
+      <div
         className={this.props.editable && this.props.active ? "ratingStar active" : "ratingStar"}
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}
         onClick={this.handleOnClick}>
-        <defs>
-          <linearGradient id={fillID} x1="0" x2="100%" y1="0" y2="0">
-            <stop
-              offset={this.props.fillPercentage}
-              stopColor={this.props.color}
-              stopOpacity="1"/>
-            <stop
-              offset={this.props.fillPercentage}
-              stopColor={this.props.emptyColor}
-              stopOpacity="1"/>
-          </linearGradient>
-          <polygon
-            id="path-2"
-            points="452.489618 516.544156 446.006678 519.952439 447.244809 512.733579 442 507.621154 449.248148 506.567936 452.489618 500 455.731088 506.567936 462.979236 507.621154 457.734427 512.733579 458.972559 519.952439"></polygon>
-          <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="20.9792363" height="19.9524394" fill="white">
-            <use xlinkHref="#path-2"></use>
-          </mask>
-        </defs>
-        <g id="HomePage" stroke="none" stroke-width="1" style={{strokeWidth: "2px"}} fill="none" fill-rule="evenodd">
-          <g id="DJ-profile" transform="translate(-442.000000, -500.000000)" stroke={this.props.color} style={this.props.editable ? {} : fillStyle}>
-            <use id="Star-Copy-3" mask="url(#mask-3)" xlinkHref="#path-2"></use>
-              </g>
+        <svg
+          width="21px"
+          height="20px"
+          viewBox="0 0 21 20"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          xlinkHref="http://www.w3.org/1999/xlink">
+
+          <defs>
+            <linearGradient id={fillID} x1="0" x2="100%" y1="0" y2="0">
+              <stop
+                offset={this.props.fillPercentage}
+                stopColor={this.props.color}
+                stopOpacity="1"/>
+              <stop
+                offset={this.props.fillPercentage}
+                stopColor={this.props.emptyColor}
+                stopOpacity="1"/>
+            </linearGradient>
+            <polygon
+              id={"path-"+this.props.index}
+              points="452.489618 516.544156 446.006678 519.952439 447.244809 512.733579 442 507.621154 449.248148 506.567936 452.489618 500 455.731088 506.567936 462.979236 507.621154 457.734427 512.733579 458.972559 519.952439"></polygon>
+            <mask id={"mask-"+this.props.index }maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="20.9792363" height="19.9524394" fill="white">
+              <use xlinkHref={"#path-"+this.props.index}></use>
+            </mask>
+          </defs>
+          <g stroke="none" stroke-width="1" style={{strokeWidth: "2px"}} fill="none" fill-rule="evenodd">
+            <g  transform="translate(-442.000000, -500.000000)" stroke={this.props.color} style={fillStyle}>
+              <use  mask={"url(#mask-"+this.props.index+")"} xlinkHref={"#path-"+this.props.index}></use>
+            </g>
           </g>
-      </svg>
+        </svg>
+      </div>
     )
   }
 })
@@ -151,6 +154,7 @@ updateRating(i){
 },
 
 updatePotentialRating(i){
+
   this.setState({
     potRating: i+1,
   })
@@ -158,6 +162,7 @@ updatePotentialRating(i){
 
 handleMouseOver(){
   if (this.props.editable) {
+
     this.setState({
       rating: this.state.potRating
     })
@@ -174,7 +179,6 @@ handleMouseOut(){
 
 
 render: function() {
-
   const fullStarsCount   = Math.floor(this.state.rating)
   const fillPercentage = ((this.state.rating % 1)*100).toString() + '%'
   var stars = []

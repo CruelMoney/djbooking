@@ -78,6 +78,7 @@ var eventHeader = React.createClass({
                 <div className="header-divider"/>
 
                 <EventNavigation
+                  isFinished={this.props.event.status === "Finished"}
                   id={this.props.event.id}
                   auth0Id={this.props.profile.auth0Id}
                 />

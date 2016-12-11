@@ -2,12 +2,12 @@ import React, { PropTypes } from 'react'
 import SubmitButton from '../common/SubmitButton'
 import TextBox from '../common/TextBox'
 import TextWrapper from '../common/TextElement'
-
+import Button from '../common/Button-v2'
 import Rating from '../common/Rating'
 import Form from '../../containers/Form-v2'
 
 
-export default React.createClass({
+var Review = React.createClass({
   propTypes: {
     name: PropTypes.string,
     dj: PropTypes.object,
@@ -21,60 +21,95 @@ export default React.createClass({
     })
   },
 
+  getInitialState(){
+    return{
+      formValid: true
+    }
+  },
+
   submitReview(form, callback){
     this.props.submitReview(form, callback)
   },
 
   render() {
         return (
-          <div>
+          <div className="row event-information">
+            <Form
+              formInvalidCallback={()=>this.setState({formValid:false})}
+              formValidCallback={()=>this.setState({formValid:true})}
+              name="event-review">
+              <div className="context-actions" key="profile_actions">
 
-          <Form
-           name={this.props.name} >
+                <SubmitButton
+                  active={this.state.formValid}
+                  name="submit_review"
+                  onClick={this.submitReview}
+                >
 
-          <TextWrapper
-            label="Rating"
-          >
-                  <div style={{width: "150px"}}>
-                    <Rating
-                    rating={!this.state.editable ? this.props.review.rating : 0}
-                    editable={this.state.editable}
-                    name="rating"
+                Submit review</SubmitButton>
+
+                <Button
+                  onClick={()=>console.log("not implemented")}
+                  name="request_features">
+                Request features</Button>
+              </div>
+              <div className="event-card-wrapper">
+                <div className="card profile col-md-7">
+
+
+                  <TextWrapper
+                    label="Rating"
+                    text="Click on the stars to rate, and save your review on the button to the left."
+                  >
+                    <div style={{width: "150px"}}>
+                      <Rating
+                        rating={this.props.review.rating ? this.props.review.rating : 0}
+                        editable={true}
+                        name="rating"
+                        validate={['required']}
+                      />
+                    </div>
+                  </TextWrapper>
+
+                  <div
+                    style={{
+                      width:'100%',
+                      paddingTop: '0px',
+                      paddingBottom: '20px',
+
+                    }}
+                  >
+
+                    <TextBox
+                      width="100%"
+                      height="100px"
+                      name="description"
+                      value={this.props.review.description ? this.props.review.description : ""}
+                      placeholder="Optionally tell us how you liked the DJ!"
                     />
+
                   </div>
-            </TextWrapper>
-
-            <div
-              style={{
-                width:'100%',
-                paddingTop: '0px',
-                paddingBottom: '20px',
-
-              }}
-              expandable={true}
-            >
-
-              <TextBox
-                width="100%"
-                height="100px"
-                name="description"
-                disabled={!this.state.editable}
-                value={!this.state.editable ? this.props.review.description : ""}
-                placeholder="Optionally tell us how you liked the DJ!"
-              />
-              {
-              this.state.editable ?
-              <SubmitButton
-              rounded={true}
-              onClick={this.submitReview}
-              label="Submit review"
-              />
-              : null
-              }
-
+                  </div>
+                </div>
+              </Form>
             </div>
-          </Form>
-
-        </div>)
-    }
+    )}
   })
+
+  import {connect} from 'react-redux';
+  import * as actions from '../../actions/EventActions'
+
+  export const mapStateToProps = (state) => {
+    let event = state.events.values[0]
+    return {
+      dj: event.offers.filter(o=>o.gigID !== event.chosenOfferId)[0].dj,
+      review: event.review ? event.review : {}
+    }
+  }
+
+  export const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+      submitReview: (review, callback) => dispatch(actions.reviewEvent(review,callback)),
+  }}
+
+  export default connect(mapStateToProps, mapDispatchToProps)(Review);

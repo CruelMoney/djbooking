@@ -1018,20 +1018,20 @@ border-bottom: 2px solid #eee;
 svg{
   overflow: visible !important;
 }
-.ratingStar{
-  margin-left: 8px;
+.rating{
+  display: flex;
 }
-.rating svg:first-child{
-  margin-left: 0px;
+.ratingStar{
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.rating .ratingStar:first-child{
+  padding-left:  0px;
 }
 .ratingStar{
   transition: transform 0.1s ease;
-  fill: #cecece ;
+}
 
-}
-.ratingStar.active{
-  fill: #1edaf2 ;
-}
 .ratingStar.active:active{
   transform: translateX(0px) translateY(0px) scale(1.4);
 }

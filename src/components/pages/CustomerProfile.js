@@ -39,8 +39,13 @@ var Profile = React.createClass({
               </div>
               <div className="event-card-wrapper">
                 <div className="card profile col-md-7">
+                  <TextWrapper label="Name" text="What is the name of the contact person?">
+                    <TextField
+                      value={this.props.profile.name} name="name"
+                      validate={['required']} />
+                  </TextWrapper>
                   <TextWrapper label="E-mail" text="We only share your email with qualified dj's. If you change your email you will have to confirm it again.">
-                    <TextField value={this.props.profile.email} name="email"  //hintStyle = {styles.hint}
+                    <TextField value={this.props.profile.email} name="email"
                       type="email" validate={['required', 'email']} />
                   </TextWrapper>
 

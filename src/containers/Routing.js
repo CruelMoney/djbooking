@@ -6,7 +6,7 @@ import HowItWorks from '../components/pages/HowItWorks'
 import Terms from '../components/pages/Terms'
 import Agreements from '../components/pages/terms/Agreements'
 import Privacy from '../components/pages/terms/Privacy'
-
+import Review from '../components/blocks/ReviewForm'
 import Navigation from './Navigation'
 import Profile from './Profile'
 import Preferences from './Preferences'
@@ -85,7 +85,7 @@ var router = React.createClass({
           <Route path="event/:id" component={Event}>
             <IndexRoute  component={EventInformation}/>
             <Route path="user" component={CustomerProfile}/>
-
+            <Route path="review" component={Review}/>
           </Route>
 
           <Route path="howitworks" component={HowItWorks}/>
