@@ -43,7 +43,6 @@ export default React.createClass({
 
 
   onSubmit(form, callback){
-    console.log(form);
     if (this.props.isLoggedIn){
       this.props.onSubmit(this.props.form.values, callback)
     }else{
@@ -237,7 +236,7 @@ export default React.createClass({
                       validate={['required']}
                     />
                   </section>
-            </Form>
+                </Form>
               </div>
             </div>
 

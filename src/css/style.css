@@ -641,7 +641,7 @@ input[type="file"] + label * {
   position: relative;
   z-index: 2;
   padding-top: 130px;
-  height: 330px;
+  height: 315px;
   width: 100%;
 }
 .user-header.fixed{
@@ -649,7 +649,7 @@ input[type="file"] + label * {
   position: fixed;
 }
 .user-header.fixed + div{
-  margin-top: 330px;
+  margin-top: 315px;
 }
 
 .user-header.fixed .user-card-wrapper{
@@ -775,10 +775,30 @@ transition: opacity 0.8s ease;
   transform: translateY(-300px);
   opacity: 0;
   z-index: -1;
+
 }
+.event-information .context-actions{
+  width: 200px;
+  position: absolute;
+
+}
+.event-information .context-actions button{
+  margin-bottom: 15px;
+  margin-top: 0px;
+}
+.user-header.fixed + div .event-information .context-actions{
+  position: fixed;
+    top: 65px;
+}
+.event-card-wrapper{
+  display: flex;
+  justify-content: center;
+}
+
 .event-card-text{
         color: #707070;
 }
+
 
 .user-card-text p,
 .event-card-text p{
@@ -1413,6 +1433,7 @@ margin-bottom: 70px;
 }
 .card.user-card{
   padding: 0;
+  margin-bottom: 15px;
 }
 .elevate{
   box-shadow: 0 15px 35px rgba(50,50,93,.1),0 5px 15px rgba(0,0,0,.07);
@@ -1640,7 +1661,7 @@ transform: translateX(-50%);
 }
 .context-actions button{
   width: 100%;
-  margin-top: 15px;
+  margin-bottom: 15px;
   pointer-events: auto;
   background: #FFFFFF;
 }
@@ -1787,4 +1808,7 @@ transform: translateX(-50%);
 .offer-buttons > div{
   margin-right: 10px;
 
+}
+.event-header-content{
+  padding: 0;
 }

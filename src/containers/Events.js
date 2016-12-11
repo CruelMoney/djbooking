@@ -7,6 +7,7 @@ import * as actions from '../actions/EventActions'
 function mapStateToProps(state, ownProps) {
   return {
     events:  state.events.values,
+    loading: state.events.isWaiting
   }
 }
 

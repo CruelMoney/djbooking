@@ -45,7 +45,7 @@ export function fetchEvent(id, authID) {
           dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_FAILED, err: err.message}}() )
         }else{
           var event = converter.cueupEvent.fromDTO(result)
-          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_SUCCEEDED, events: event} }() )
+          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_SUCCEEDED, events: [event]} }() )
         }
       })
   }

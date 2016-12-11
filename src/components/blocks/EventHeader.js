@@ -49,16 +49,16 @@ var eventHeader = React.createClass({
 
           <div className="container">
             <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              textAlign: "center"
-            }}
-            className="row">
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                textAlign: "center"
+              }}
+              className="row">
 
 
 
-              <div className="user-header-content col-xs-8">
+              <div className="event-header-content col-xs-7">
                 <div className="header-info">
                   <div className="user-name">
                     <h1>{"Welcome " + this.props.profile.firstName}</h1>

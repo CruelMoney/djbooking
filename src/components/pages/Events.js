@@ -4,7 +4,7 @@ import Button from '../common/Button-v2'
 import Event from '../../containers/Event'
 import Formatter from '../../utils/Formatter'
 import NavLink from '../common/Navlink'
-
+import LoadingPlaceholder from '../common/LoadingPlaceholder'
 
 var Events = React.createClass({
   propTypes: {
@@ -12,7 +12,8 @@ var Events = React.createClass({
     fetchEvents: PropTypes.func,
     payEvent: PropTypes.func,
     editEvent: PropTypes.func,
-    cancelEvent: PropTypes.func
+    cancelEvent: PropTypes.func,
+    loading: PropTypes.bool
   },
 
   contextTypes:{
@@ -81,16 +82,24 @@ var Events = React.createClass({
       )
     }
 
+        function renderLoadingItem(){
+          return [
+            <LoadingPlaceholder/>,
+              <LoadingPlaceholder/>,
+                <LoadingPlaceholder/>,
+                  <LoadingPlaceholder/>,
+                    <LoadingPlaceholder/>]
+        }
+
     return(
       <div className="events">
-      {this.props.events ?
-        this.props.events.map(function(event, i){
+        { this.props.loading ?
+          renderLoadingItem() :
+          this.props.events.map(function(event, i){
             return renderEvent(event, i)
-        })
-      :
-      <div>No events homie</div>
-    }
-    </div>  )
+          })
+        }
+      </div>  )
 
   }
 })

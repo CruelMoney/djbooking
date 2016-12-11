@@ -15,7 +15,7 @@ import Events from './Events'
 import Reviews from './Reviews'
 import Home from '../containers/Home'
 import Event from './Event'
-
+import EventInformation from '../components/blocks/Event'
 
 import { createStore, applyMiddleware } from 'redux'
 import { connect } from 'react-redux'
@@ -65,7 +65,7 @@ var router = React.createClass({
   render() {
     return(
       <Router
-        //onUpdate={(e) => {window.scrollTo(0, 0)}} 
+        //onUpdate={(e) => {window.scrollTo(0, 0)}}
         history={browserHistory}
       >
         <Route path="/" component={Navigation} onEnter={this.checkForLogin}>
@@ -82,6 +82,7 @@ var router = React.createClass({
           </Route>
 
           <Route path="event/:id" component={Event}>
+            <IndexRoute  component={EventInformation}/>
 
           </Route>
 

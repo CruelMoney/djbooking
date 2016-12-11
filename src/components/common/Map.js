@@ -16,10 +16,10 @@ class SimpleMap extends React.Component{
 
       static propTypes:{
         editable:        PropTypes.bool,
-        value: PropTypes.object,
+        value:           PropTypes.object,
         radius:          PropTypes.number,
-        radiusName: PropTypes.string,
-        locationName: PropTypes.string
+        radiusName:      PropTypes.string,
+        locationName:    PropTypes.string
       }
 
       static contextTypes = {
@@ -74,7 +74,7 @@ class SimpleMap extends React.Component{
     render(){
       console.log(this);
     return(
-      <div style={{ height: `500px` }}>
+      <div style={{ height: this.props.height || `500px` }}>
         <GoogleMapLoader
           containerElement={
             <div
@@ -85,7 +85,7 @@ class SimpleMap extends React.Component{
           }
           googleMapElement={
             <GoogleMap
-              defaultZoom={8}
+              defaultZoom={this.props.zoom || 8}
               defaultCenter={ this.state.marker.position }
               streetViewControl={false}
               defaultOptions={{

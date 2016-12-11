@@ -1,6 +1,8 @@
 import React,  { PropTypes } from 'react'
 import EventHeader from '../blocks/EventHeader'
 import Footer from '../blocks/Footer'
+import LoadingPlaceholder from '../common/LoadingPlaceholder'
+
 
 import '../../css/transitions.css'
 
@@ -12,7 +14,8 @@ var event = React.createClass({
     fetchEvent: PropTypes.func,
     event: PropTypes.object,
     profile: PropTypes.object,
-    params: PropTypes.object
+    params: PropTypes.object,
+    loading: PropTypes.bool
   },
 
   childContextTypes: {
@@ -36,8 +39,18 @@ var event = React.createClass({
     }
   },
 
+
   render() {
-console.log(this);
+
+      function renderLoadingItem(){
+        return [
+          <LoadingPlaceholder/>,
+            <LoadingPlaceholder/>,
+              <LoadingPlaceholder/>,
+                <LoadingPlaceholder/>,
+                  <LoadingPlaceholder/>]
+      }
+
     return (
       <div >
         <EventHeader
@@ -49,7 +62,13 @@ console.log(this);
         <div  className="user-container container">
           <div className="row">
             <div style={{paddingTop:"11px"}} className={"col-xs-12"}>
-              {this.props.children}
+              {this.props.loading ?
+                <div className="row">
+                  <div className="col-xs-push-3 col-xs-7">
+                    {renderLoadingItem()}
+                  </div>
+                </div>
+              : this.props.children}
             </div>
           </div>
         </div>

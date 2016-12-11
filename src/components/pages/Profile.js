@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 import ToggleButton from '../common/ToggleButton'
-import Button from '../common/Button'
+import Button from '../common/Button-v2'
 import Genres from '../common/ToggleButtonHandler'
 import {default as SimpleMap} from "../common/Map"
 import TextField from '../common/Textfield'

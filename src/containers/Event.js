@@ -5,8 +5,9 @@ import * as actions from '../actions/EventActions'
 
 function mapStateToProps(state, ownProps) {
   return {
-    event:  state.events.values,
-    profile: state.login.profile
+    event:  state.events.values[0],
+    profile: state.login.profile,
+    loading: state.events.isWaiting
   }
 }
 
