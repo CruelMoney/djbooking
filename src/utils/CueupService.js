@@ -3,6 +3,7 @@ export default class CueupService {
         this.domain = 'http://cueup.azurewebsites.net';
 
         this.getHeaders = function(token) {
+          console.log(token);
             var headers = new Headers();
             headers.append('Accept', 'application/json');
             headers.append("Content-Type", "application/json");

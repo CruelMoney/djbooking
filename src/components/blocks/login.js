@@ -49,11 +49,9 @@ const login = React.createClass({
     },
 
     onRequestChangePassword(form, callback){
-      var email = form.values.email;
+      var email = this.state.email;
       let self = this
-      console.log(form)
       if (!email) {
-        console.log("no email")
         return callback("Please enter email.")
       }
           cueup.checkEmailExists(email, function(err,resp){
@@ -78,9 +76,21 @@ const login = React.createClass({
           })
     },
 
+    onChangeEmail(email){
+      this.setState({
+        email
+      })
+    },
+
+    onChangePassword(password){
+      this.setState({
+        password
+      })
+    },
+
 
     login(form, callback){
-      this.props.login( form.values.email, form.values.password, callback)
+      this.props.login( this.state.email, this.state.password, callback)
     },
 
 
@@ -123,6 +133,7 @@ const login = React.createClass({
     <div >
       <Textfield
         name="password"
+        validate={['required']}
         type="password"
         floatingLabelText="Password"
         onChange={this.onChangePassword}
@@ -136,7 +147,8 @@ const login = React.createClass({
         onClick={this.login}
       >Login</SubmitButton>
     </div>
-
+  </Form>
+  <Form name="forgot_password">
     <SubmitButton
       name="forgot_password"
       onClick={this.onRequestChangePassword}>
@@ -148,6 +160,7 @@ const login = React.createClass({
       </p>
     :null}
   </Form>
+
 
 </div>
     )

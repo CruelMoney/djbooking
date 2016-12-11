@@ -6,9 +6,8 @@ import events from './Events'
 import reviews from './Reviews'
 import signup from './Signup'
 import login from './Login'
-
-
-
+import c from '../constants/constants'
+var ActionTypes = c.ActionTypes
 
 
 const store = combineReducers({
@@ -21,4 +20,17 @@ const store = combineReducers({
   events
 })
 
-export default store
+const rootReducer = (state, action) => {
+  switch (action.type) {
+  case ActionTypes.LOGOUT_SUCCEEDED:
+      state = undefined
+      break
+      
+  default:
+      break
+  }
+
+  return store(state, action)
+}
+
+export default rootReducer
