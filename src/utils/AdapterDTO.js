@@ -138,10 +138,12 @@ const deletedUser={
     var offer={
       fromDTO:function(DTO){
         return{
+
            gigID: DTO.gigID,
            amount: Formatter.money.ToStandard(DTO.amount, DTO.currency),
            currency: DTO.currency,
-           dj: user.fromDTO(DTO.dj)
+           dj: user.fromDTO(DTO.dj),
+           status: DTO.GigStatus
           }
       },
       toDTO:function(offer){

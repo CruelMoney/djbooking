@@ -367,7 +367,6 @@ input[type="file"] + label * {
   width: 100%;
 }
 .loginDropDown button.submit:hover{
-  box-shadow: none;
 }
 
 .loginDropDown .errors{
@@ -820,7 +819,10 @@ transition: opacity 0.8s ease;
 }
 .user-card-fact,
 .event-card-fact,
-.review-card-fact{
+.review-card-fact,
+.user-card-fact a,
+.event-card-fact a,
+.review-card-fact a{
     display: flex;
     justify-content: space-between;
     color: #32325D;
@@ -1046,15 +1048,42 @@ button{
    transform: rotate(180deg);
 }
 
+.offer-card {
+  color: #32325D;
+  fill: #32325D;
+}
+.offer-card .user-card-info{
+  padding-bottom: 15px;
+   padding-top: 15px;
+   margin-bottom: 15px;
+}
+.offer-card .user-card-info a,
+.offer-card .user-card-info p{
+  margin: 0;
+      line-height: 1em;
+}
 
-.offer-card{
-  border: 2px solid #eee;
-  padding: 20px;
+
+
+.offer-card h4{
+  font-family: AvenirNext-Regular;
+  text-transform: capitalize;
+  font-size: 18px;
+  line-height: 15px;
+  margin-top: 6px;
+}
+.dj-location{
+  margin-bottom: 8px;
+  font-size: 12px;
 }
 
 .user-bio{
   overflow: scroll;
-  max-height: 150px;
+max-height: 150px;
+padding-top: 15px;
+border-top: 2px solid #F6F9FC;
+margin-top: 15px;
+margin-bottom: 15px;
 }
 
 .lock{
@@ -1291,7 +1320,6 @@ button.submit{
 }
 button.submit:hover {
   transition: all 0.2s ease-in-out;
-  box-shadow: inherit;
 }
 button:disabled{
   box-shadow: none; /*cannot be important because when loading*/
@@ -1302,9 +1330,11 @@ button.active, .button.active{
   border-color: inherit;
   background-color: inherit;
 }
+button.glow:hover, .button.glow:hover{
+box-shadow: inherit;
+}
 button.loading, .button.loading{
   box-shadow: inherit;
-
   border-color: transparent;
   border-left-color: inherit;
   background-color: transparent !important;
@@ -1546,7 +1576,7 @@ margin-bottom: 10px;
   margin-top: 15px;
   margin-bottom: 0px;
 }
-.request-form .button{
+.request-form .button:not(.submit){
   font-size: 14px;
   font-family: AvenirNext-Medium;
   text-transform: capitalize;
@@ -1813,7 +1843,14 @@ transform: translateX(-50%);
 }
 .offer-buttons > div{
   margin-right: 10px;
-
+}
+.offer-card button{
+  width: 150px;
+}
+.offer-price{
+font-size: 18px;
+line-height: 26px;
+color: #4A4A4A;
 }
 .event-header-content{
   padding: 0;

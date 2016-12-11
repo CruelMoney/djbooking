@@ -17,7 +17,7 @@ import Home from '../containers/Home'
 import Event from './Event'
 import EventInformation from '../components/blocks/Event'
 import CustomerProfile from '../components/pages/CustomerProfile'
-
+import Offers from '../components/pages/EventOffers'
 import { createStore, applyMiddleware } from 'redux'
 import { connect } from 'react-redux'
 import { Provider } from 'react-redux'
@@ -86,6 +86,8 @@ var router = React.createClass({
             <IndexRoute  component={EventInformation}/>
             <Route path="user" component={CustomerProfile}/>
             <Route path="review" component={Review}/>
+            <Route path="offers" component={Offers}/>
+
           </Route>
 
           <Route path="howitworks" component={HowItWorks}/>

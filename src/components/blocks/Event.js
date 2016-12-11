@@ -217,7 +217,7 @@ var Event = React.createClass({
                   </TextWrapper>
 
                 </div>
-                </div>
+              </div>
             </Form>
 
           </div>

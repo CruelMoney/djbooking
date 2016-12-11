@@ -10,7 +10,8 @@ class Button extends React.Component {
       isLoading: PropTypes.bool,
       name: PropTypes.string,
       succes: PropTypes.bool,
-      dangerous: PropTypes.bool
+      dangerous: PropTypes.bool,
+        glow: PropTypes.bool
     }
 
     static contextTypes={
@@ -41,6 +42,8 @@ class Button extends React.Component {
       if (this.props.isLoading) className += " loading"
       if (this.props.succes) className += " succes"
       if (this.props.dangerous) className += " dangerous"
+      if (this.props.glow) className += " glow"
+
       return className
     }
 
@@ -55,7 +58,7 @@ class Button extends React.Component {
       textAlign: "center",
       borderColor: this.props.dangerous ? "#F44336" : this.context.color,
       color: this.props.dangerous ? "#F44336" : this.context.color,
-      boxShadow: "0 0px 20px 0px " + this.props.dangerous ? "#F44336" : this.context.color,
+      boxShadow: "0 0px 20px 0px " + (this.props.dangerous ? "#F44336" : this.context.color),
       backgroundColor: this.props.dangerous ? "#F44336" : this.context.color
     }
 

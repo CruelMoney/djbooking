@@ -93,12 +93,14 @@ const login = React.createClass({
     <Form
       name="social-login">
       <SubmitButton
+        glow
         active
         name="facebook_login"
         onClick={this.props.loginFacebook}
       >Facebook</SubmitButton>
 
       <SubmitButton
+        glow
         active
         name="soundcloud_login"
         onClick={this.props.loginSoundcloud}
@@ -128,6 +130,7 @@ const login = React.createClass({
     </div>
     <div >
       <SubmitButton
+        glow
         active
         name="email_login"
         onClick={this.login}
