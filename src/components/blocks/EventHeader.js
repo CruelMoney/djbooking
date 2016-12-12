@@ -29,6 +29,7 @@ var eventHeader = React.createClass({
    }
   },
 
+
   render() {
 
 
@@ -45,7 +46,6 @@ var eventHeader = React.createClass({
           </div>
 
           <Notification message={this.props.notification}/>
-
 
           <div className="container">
             <div

@@ -6,7 +6,7 @@ import {default as SimpleMap} from "../common/Map"
 import TextField from '../common/Textfield'
 import TextBox from '../common/TextBox'
 import without from 'lodash.without'
-
+import LoadingPlaceholder from '../common/LoadingPlaceholder'
 import TextWrapper from '../common/TextElement'
 import c from '../../constants/constants'
 
@@ -18,7 +18,8 @@ var Profile = React.createClass({
         editMode: PropTypes.bool,
         save: PropTypes.func,
         reset: PropTypes.func,
-        deleteProfile: PropTypes.func
+        deleteProfile: PropTypes.func,
+        loading: PropTypes.bool
     },
     childContextTypes: {
         update: PropTypes.func,
@@ -107,7 +108,7 @@ var Profile = React.createClass({
 
     render() {
 
-        const styles = {
+        const styles = this.props.loading ? null : {
             image: {
                 backgroundImage: 'url(' + this.props.profile.picture + ')',
                 backgroundRepeat: 'no-repeat',
@@ -192,49 +193,60 @@ var Profile = React.createClass({
                 width: '100%',
                 display: 'none'
             }
-        }
+          }
+
 
         const isDJ = this.props.profile.isDJ
 
         return (
-            <div>
-              <div className="profile">
-                <TextWrapper label="E-mail" text="We wont share your email until you agree to play a gig.">
-                  <TextField value={this.props.profile.email} name="email" disabled={!this.props.editMode} style={styles.medium.textarea} inputStyle={styles.medium.input} //hintStyle = {styles.hint}
-                    type="email" validate={['required', 'email']} fullWidth={false} hintText="E-mail" underlineDisabledStyle={styles.plainBorder} underlineStyle={styles.dottedBorderStyle}/>
-                </TextWrapper>
-
-                {isDJ
-                  ? <TextWrapper label="Genres" text="Select your genres">
-                    <Genres name="genres" errorAbove={true} potentialValues={c.GENRES} columns={4} value={this.props.profile.genres} disabled={!this.props.editMode}/>
-                  </TextWrapper>
-                  : null
-                }
-
-                {isDJ
-                  ? <TextWrapper label="Bio" text={this.props.profile.firstName + ", tell us a little bit of your story."}>
-                    <TextBox width="100%" height="150px" name="bio" disabled={!this.props.editMode} value={this.props.profile.bio}/>
-
-                  </TextWrapper>
-                : null}
-                {/* {isDJ
-                  ? <TextWrapper label="Experience" text="How much experience do you have?">
-                  <ExperienceSlider queupGigs={this.props.profile.gigsCount} otherGigs={this.props.profile.experienceCount} disabled={!this.props.editMode} name="experienceCount"/>
-                  </TextWrapper>
-                : null} */}
-
-                <TextWrapper label="Phone" text="We wont share your phone number until you agree to play a gig.">
-                  <TextField name="phone" value={this.props.profile.phone} style={styles.medium.textarea} inputStyle={styles.medium.input} disabled={!this.props.editMode} type="tel" fullWidth={false} hintText="Phone" underlineDisabledStyle={styles.plainBorder} underlineStyle={styles.dottedBorderStyle}/>
-                </TextWrapper>
-
-                {isDJ
-                  ? <TextWrapper label="Location" text={this.props.profile.firstName + ", tell us where youd like to play."}>
-                    <SimpleMap radius={this.props.profile.playingRadius} value={this.props.profile.playingLocation} editable={this.props.editMode} themeColor={this.context.color} radiusName="playingRadius" locationName="playingLocation"/>
-                  </TextWrapper>
-                : null}
-
+          <div>
+            { this.props.loading ?
+              <div>
+                <LoadingPlaceholder/>
+                <LoadingPlaceholder/>
+                <LoadingPlaceholder/>
+                <LoadingPlaceholder/>
               </div>
-            </div>
+              :
+              <div>
+                <div className="profile">
+                  <TextWrapper label="E-mail" text="We wont share your email until you agree to play a gig.">
+                    <TextField value={this.props.profile.email} name="email" disabled={!this.props.editMode} style={styles.medium.textarea} inputStyle={styles.medium.input} //hintStyle = {styles.hint}
+                      type="email" validate={['required', 'email']} fullWidth={false} hintText="E-mail" underlineDisabledStyle={styles.plainBorder} underlineStyle={styles.dottedBorderStyle}/>
+                  </TextWrapper>
+
+                  {isDJ
+                    ? <TextWrapper label="Genres" text="Select your genres">
+                      <Genres name="genres" errorAbove={true} potentialValues={c.GENRES} columns={4} value={this.props.profile.genres} disabled={!this.props.editMode}/>
+                    </TextWrapper>
+                    : null
+                  }
+
+                  {isDJ
+                    ? <TextWrapper label="Bio" text={this.props.profile.firstName + ", tell us a little bit of your story."}>
+                      <TextBox width="100%" height="150px" name="bio" disabled={!this.props.editMode} value={this.props.profile.bio}/>
+
+                    </TextWrapper>
+                  : null}
+                  {/* {isDJ
+                    ? <TextWrapper label="Experience" text="How much experience do you have?">
+                    <ExperienceSlider queupGigs={this.props.profile.gigsCount} otherGigs={this.props.profile.experienceCount} disabled={!this.props.editMode} name="experienceCount"/>
+                    </TextWrapper>
+                  : null} */}
+
+                  <TextWrapper label="Phone" text="We wont share your phone number until you agree to play a gig.">
+                    <TextField name="phone" value={this.props.profile.phone} style={styles.medium.textarea} inputStyle={styles.medium.input} disabled={!this.props.editMode} type="tel" fullWidth={false} hintText="Phone" underlineDisabledStyle={styles.plainBorder} underlineStyle={styles.dottedBorderStyle}/>
+                  </TextWrapper>
+
+                  {isDJ
+                    ? <TextWrapper label="Location" text={this.props.profile.firstName + ", tell us where youd like to play."}>
+                      <SimpleMap radius={this.props.profile.playingRadius} value={this.props.profile.playingLocation} editable={this.props.editMode} themeColor={this.context.color} radiusName="playingRadius" locationName="playingLocation"/>
+                    </TextWrapper>
+                  : null}
+
+                </div>
+              </div>}
+          </div>
         )
 
     }

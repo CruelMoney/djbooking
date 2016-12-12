@@ -10,6 +10,7 @@ function mapStateToProps(state, ownProps) {
     profile:  state.user.status.editMode ? state.user.editableProfile : state.user.profile,
     originalProfile: state.user.profile,
     editMode: state.user.status.editMode,
+    loading: state.user.status.isWaiting
   }
 }
 
@@ -31,7 +32,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     toggleEditMode: dispatchProps.toggleEditMode,
     save: () => dispatchProps.save(stateProps.profile),
     reset: () => dispatchProps.reset(stateProps.originalProfile),
-    deleteProfile: dispatchProps.deleteProfile
+    deleteProfile: dispatchProps.deleteProfile,
+    loading: stateProps.loading
   })}
 
 

@@ -7,6 +7,7 @@ import User from '../components/pages/User'
 function mapStateToProps(state, ownProps) {
   return {
     profile:  state.user.profile,
+    loading: state.user.status.isWaiting
   }
 }
 

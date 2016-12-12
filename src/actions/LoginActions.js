@@ -53,12 +53,13 @@ return function (err, result) {
 export function checkForLogin(redirect = null){
   return function(dispatch){
     if (auth.loggedIn()) {
+      dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }())
       cueup.getUser(auth.getToken(), (error, result)=>
       {
         if (error) {
           dispatch( function() { return {
               type: ActionTypes.LOGIN_FAILED,
-              err:  error.message
+              err:  ""
             }}())
             if (redirect) {browserHistory.push('/')}
         }else{

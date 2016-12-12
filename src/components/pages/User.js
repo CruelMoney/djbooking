@@ -60,6 +60,7 @@ var user = React.createClass({
           hideInfo={!this.state.showUserCard}
           actions={this.state.actions}
           notification={this.state.notification}
+          loading={this.props.loading}
         />
 
         <div  className="user-container container">

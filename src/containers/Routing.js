@@ -73,7 +73,7 @@ var router = React.createClass({
 
           <IndexRoute component={Home}/>
 
-          <Route component={User} onEnter={this.redirectNotAuth}>
+          <Route component={User}>
             <Route path="profile" component={Profile}/>
             <Route path="gigs" component={Gigs}/>
             <Route path="events" component={Events}/>
