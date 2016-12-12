@@ -25,7 +25,9 @@ import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import * as actions from '../actions/LoginActions'
 import store from '../reducers/Store'
+import AuthService from '../utils/AuthService'
 
+const auth = new AuthService()
 
 
 var router = React.createClass({
@@ -36,7 +38,7 @@ var router = React.createClass({
    },
    getInitialState() {
      return{
-       didCheckLogin: false
+       didCheckLogin: false,
      }
    },
 
@@ -47,14 +49,15 @@ var router = React.createClass({
    checkForLogin(nextState, replace){
      if (!this.state.didCheckLogin) {
        this.setState({
-         didCheckLogin: true
+         didCheckLogin: true,
+         checking: true,
        }, this.props.checkForLogin(nextState.location.pathname))
 
      }
     },
 
  redirectNotAuth(nextState, replace){
-      if (!this.props.loggedIn) {
+      if (!auth.loggedIn()) {
         replace({
         pathname: '/',
         state: { nextPathname: nextState.location.pathname }
@@ -73,7 +76,7 @@ var router = React.createClass({
 
           <IndexRoute component={Home}/>
 
-          <Route component={User}>
+          <Route component={User} onEnter={this.redirectNotAuth}>
             <Route path="profile" component={Profile}/>
             <Route path="gigs" component={Gigs}/>
             <Route path="events" component={Events}/>
