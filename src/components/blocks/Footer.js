@@ -15,7 +15,8 @@ export default React.createClass({
     firstLabel: PropTypes.string,
     secondLabel: PropTypes.string,
     title: PropTypes.string,
-    subTitle:PropTypes.string
+    subTitle:PropTypes.string,
+    noSkew: PropTypes.bool
   },
 
   getDefaultProps(){
@@ -27,8 +28,8 @@ export default React.createClass({
 
   render() {
     return <div >
-      <div id="preFooter">
-        <div  style={{backgroundColor: this.props.bgColor}}  id="preFooterPseudo"> </div>
+      <div className={this.props.noSkew ? "noSkew" : ""}  id="preFooter" >
+        <div className={this.props.noSkew ? "noSkew" : ""} style={{backgroundColor: this.props.bgColor}}  id="preFooterPseudo"> </div>
         <div className="container">
           <div className="row">
             <ScrollOverPack id="footerScroll" style={{pointerEvents: "none", marginTop:"-300px", width:"100%"}} hideProps={{ 0: { reverse: true } }}>

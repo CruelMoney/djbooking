@@ -1,6 +1,7 @@
 import React,  { PropTypes } from 'react'
 import UserHeader from '../blocks/UserHeader'
 import Footer from '../blocks/Footer'
+import Form from '../../containers/Form-v2'
 
 import '../../css/transitions.css'
 
@@ -16,7 +17,11 @@ var user = React.createClass({
       hideUserCard: PropTypes.func,
       showUserCard: PropTypes.func,
       registerActions: PropTypes.func,
-      color: PropTypes.string
+      toggleEditMode: PropTypes.func,
+      editing: PropTypes.bool,
+      valid: PropTypes.bool,
+      color: PropTypes.string,
+      loading: PropTypes.bool
   },
 
   componentWillReceiveProps(nextProps){
@@ -33,19 +38,38 @@ var user = React.createClass({
 
   },
 
+  setActions(){
+     this.setState({actions: this.getActions()})
+  },
+
   getChildContext() {
    return {
      hideUserCard: this.hideUserCard,
      showUserCard: this.showUserCard,
-     registerActions: (actions)=>{this.setState({actions})},
-     color:        this.themeColor
+     registerActions: (getActionsFunc)=>{
+       this.getActions = getActionsFunc
+       this.setActions()
+     },
+     toggleEditMode:  ()=>{
+       this.setState(
+         {
+         editing: !this.state.editing,
+     },this.setActions)
+
+     },
+     color:        this.themeColor,
+     editing:     this.state.editing,
+     valid:        this.state.valid,
+     loading: this.props.loading
     }
   },
 
   getInitialState() {
     return {
       showUserCard: true,
-      actions: []
+      actions: [],
+      editing: false,
+      valid: false
     }
   },
 
@@ -63,32 +87,47 @@ var user = React.createClass({
   render() {
     return (
       <div >
-        <UserHeader
-          profile={this.props.profile}
-          hideInfo={!this.state.showUserCard}
-          actions={this.state.actions}
-          notification={this.state.notification}
-          loading={this.props.loading}
-        />
+        <Form
+          name="user-form"
+          formValidCallback={
+            ()=>{this.setState({valid:true}, this.setActions)
 
-        <div  className="user-container container">
-          <div className="row">
-            <div className={"col-xs-4"}></div>
-            <div style={{paddingTop:"11px", minHeight: "640px"}} className={"col-xs-8"}>
-              {this.props.children}
+            }
+          }
+          formInvalidCallback={()=>{
+            this.setState({valid:false},this.setActions)
+
+          }}
+        >
+          <UserHeader
+            profile={this.props.profile}
+            hideInfo={!this.state.showUserCard}
+            actions={this.state.actions}
+            notification={this.state.notification}
+            loading={this.props.loading}
+          />
+
+          <div  className="user-container container">
+            <div className="row">
+              <div className={"col-xs-4"}></div>
+              <div style={{paddingTop:"11px", minHeight: "640px"}} className={"col-xs-8"}>
+
+                {this.props.children}
+              </div>
             </div>
           </div>
-        </div>
+        </Form>
 
-        <Footer
-          color={this.secondColor}
-          firstTo="/"
-          secondTo="/howitworks"
-          firstLabel="Arrange event"
-          secondLabel="How it works"
-          title="Organizing yourself?"
-          subTitle="Arrange event, or see how it works."
-        />
+          <Footer
+            noSkew
+            color={this.secondColor}
+            firstTo="/"
+            secondTo="/howitworks"
+            firstLabel="Arrange event"
+            secondLabel="How it works"
+            title="Organizing yourself?"
+            subTitle="Arrange event, or see how it works."
+          />
       </div>
     )
 

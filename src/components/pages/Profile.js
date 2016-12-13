@@ -1,206 +1,88 @@
 import React, {PropTypes} from 'react'
-import ToggleButton from '../common/ToggleButton'
 import Button from '../common/Button-v2'
+import SubmitButton from '../common/SubmitButton'
 import Genres from '../common/ToggleButtonHandler'
+import connectToForm from '../higher-order/connectToForm'
 import {default as SimpleMap} from "../common/Map"
 import TextField from '../common/Textfield'
 import TextBox from '../common/TextBox'
-import without from 'lodash.without'
 import LoadingPlaceholder from '../common/LoadingPlaceholder'
 import TextWrapper from '../common/TextElement'
 import c from '../../constants/constants'
 
+const Map = connectToForm(SimpleMap)
+
 var Profile = React.createClass({
     propTypes: {
         profile: PropTypes.object,
-        updateProfileValue: PropTypes.func,
-        toggleEditMode: PropTypes.func,
-        editMode: PropTypes.bool,
         save: PropTypes.func,
-        reset: PropTypes.func,
         deleteProfile: PropTypes.func,
-        loading: PropTypes.bool
     },
-    childContextTypes: {
-        update: PropTypes.func,
-        registerValidation: PropTypes.func,
-        updateValue: PropTypes.func,
-    },
+
     contextTypes:{
+      loading:         PropTypes.bool,
+      reset:           PropTypes.func,
       registerActions: PropTypes.func,
+      toggleEditMode:  PropTypes.func,
+      editing:         PropTypes.bool,
+      valid:           PropTypes.bool
     },
 
     componentWillMount(){
       if ( this.context.registerActions) {
-          this.context.registerActions(this.getActionButtons())
+          this.context.registerActions(this.getActionButtons)
       }
-
     },
 
-    getChildContext() {
-        return {registerValidation: this.registerValidation, updateValue: this.props.updateProfileValue}
+    submit(form, callback) {
+      const profile = {
+        ...this.props.profile,
+        ...form.values
+      }
+      console.log(profile);
+
+      this.props.save(profile, callback)
     },
 
-    getInitialState() {
-        return {isValid: false}
-    },
-
-    validations: [],
-
-    registerValidation(isValidFunc) {
-        this.validations = [
-            ...this.validations,
-            isValidFunc
-        ]
-        return this.removeValidation.bind(null, isValidFunc)
-    },
-
-    removeValidation(ref) {
-        this.validations = without(this.validations, ref)
-    },
-
-    isFormValid(showErrors) {
-        var isValid = this.validations.reduce((memo, isValidFunc) => isValidFunc(showErrors) && memo, true)
-
-        this.setState({isValid})
-        return isValid
-    },
-
-    submit() {
-        if (this.isFormValid(true)) {
-            this.props.save()
-        }
-    },
-
-    resetting: false,
-
-    reset() {
-        this.resetting = true
-        this.props.resetProfile()
-    },
 
     getActionButtons(props = this.props) {
+        const editing = this.context.editing
+
         return (
             <div className="context-actions" key="profile_actions">
-              <div>
-                <ToggleButton active={props.editMode} rounded={true} labelToggled="Save" label="Edit profile" onClick={props.toggleEditMode} onClickToggled={this.props.save} name="edit_profile"/>
-              </div>
-              {props.editMode
-                ? <div>
-                  <Button rounded={true} label="Cancel" active={true} onClick={this.props.reset} name="cancel_edit_profile"/>
-                </div>
-              : null}
-              <div>
-                <ToggleButton rounded={true} label="Public profile" name="see_public_profile"/>
-              </div>
-              <div>
-                <ToggleButton rounded={true} label="Request features" name="request_features"/>
-              </div>
-              {props.editMode
-                ? <div>
-                  <Button rounded={true} label="Delete Profile" dangerous={true} onClick={this.props.deleteProfile} name="delete_profile"/>
-                </div>
-              : null}
+              {editing
+                ?
+                  <SubmitButton
+                    active={this.context.valid}
+                    onClick={this.submit}
+                    name="save_edit_profile"
+                  > Save
+                  </SubmitButton>
+                : <Button
+                  onClick={this.context.toggleEditMode}
+                  name="edit_profile"
+                  >Edit profile
+                </Button>
+              }
+
+
+              <SubmitButton
+                dangerous
+                warning="Are you sure you want to delete? All future gigs, events and payments will be lost."
+                onClick={this.props.deleteProfile}
+                name="Delete_profile"
+              > Delete profile
+              </SubmitButton>
             </div>
 
         )
     },
 
     render() {
-
-        const styles = this.props.loading ? null : {
-            image: {
-                backgroundImage: 'url(' + this.props.profile.picture + ')',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                backgroundSize: '100% auto',
-                width: '200px',
-                height: '200px',
-                borderRadius: '50%'
-            },
-            inline: {
-                display: 'inline-block'
-            },
-            flex: {
-                display: 'flex',
-                alignItems: 'center'
-            },
-            large: {
-                textarea: {
-                    height: '80px'
-                },
-
-                paragraph: {
-                    fontSize: '14px'
-                },
-
-                input: {
-                    fontSize: '24px',
-                    height: 'initial',
-                    fontWeight: '300'
-                },
-
-                hint: {
-                    bottom: '20px',
-                    fontSize: '30px',
-                    fontWeight: '300'
-                }
-            },
-            medium: {
-                textarea: {
-                    height: '40px'
-                },
-
-                paragraph: {
-                    fontSize: '14px'
-                },
-
-                input: {
-                    fontSize: '14px',
-                    height: 'initial',
-                    fontWeight: '300'
-                },
-
-                hint: {
-                    bottom: '20px',
-                    fontSize: '30px',
-                    fontWeight: '300'
-                }
-            },
-            dottedBorderStyle: {
-                borderTop: 'none rgba(0, 0, 0, 1)',
-                borderRight: 'none rgba(0, 0, 0, 1)',
-                borderBottom: '2px dotted rgba(0, 0, 0, 1) ',
-                borderLeft: 'none rgba(0, 0, 0, 1)',
-                borderImage: 'initial',
-                bottom: '8px',
-                boxSizing: 'content-box',
-                margin: '0px',
-                position: 'absolute',
-                width: '100%',
-                borderColor: 'rgba(0,0,0, 0.5)'
-            },
-            plainBorder: {
-                borderTop: 'none rgb(224, 224, 224)',
-                borderRight: 'none rgb(224, 224, 224)',
-                borderBottom: '1px solid rgb(224, 224, 224)',
-                borderLeft: 'none rgb(224, 224, 224)',
-                borderImage: 'initial',
-                bottom: '8px',
-                boxSizing: 'content-box',
-                margin: '0px',
-                position: 'absolute',
-                width: '100%',
-                display: 'none'
-            }
-          }
-
-
         const isDJ = this.props.profile.isDJ
-
         return (
           <div>
-            { this.props.loading ?
+            { this.context.loading ?
               <div>
                 <LoadingPlaceholder/>
                 <LoadingPlaceholder/>
@@ -210,37 +92,77 @@ var Profile = React.createClass({
               :
               <div>
                 <div className="profile">
-                  <TextWrapper label="E-mail" text="We wont share your email until you agree to play a gig.">
-                    <TextField value={this.props.profile.email} name="email" disabled={!this.props.editMode} style={styles.medium.textarea} inputStyle={styles.medium.input} //hintStyle = {styles.hint}
-                      type="email" validate={['required', 'email']} fullWidth={false} hintText="E-mail" underlineDisabledStyle={styles.plainBorder} underlineStyle={styles.dottedBorderStyle}/>
+                  <TextWrapper label="Name" text="What's your full name. We only share your first name.">
+                    <TextField
+                      value={this.props.profile.name}
+                      name="name"
+                      disabled={!this.context.editing}
+                      type="text"
+                      validate={['required', 'lastName']}
+                    />
+                  </TextWrapper>
+                  <TextWrapper label="E-mail" text="We wont share your email until you agree to play a gig. Updating your mail means you have to confirm it again.">
+                    <TextField
+                      value={this.props.profile.email}
+                      name="email"
+                      disabled={!this.context.editing}
+                      type="email"
+                      validate={['required', 'email']}
+                    />
+                  </TextWrapper>
+
+                  <TextWrapper label="Phone" text="We wont share your phone number until you agree to play a gig.">
+                    <TextField
+                      validate={['required']}
+                      name="phone"
+                      value={this.props.profile.phone}
+                      disabled={!this.context.editing}
+                      type="tel"
+                      hintText="Phone" />
                   </TextWrapper>
 
                   {isDJ
                     ? <TextWrapper label="Genres" text="Select your genres">
-                      <Genres name="genres" errorAbove={true} potentialValues={c.GENRES} columns={4} value={this.props.profile.genres} disabled={!this.props.editMode}/>
+                      <Genres
+                        name="genres"
+                        validate={['required']}
+                        potentialValues={c.GENRES}
+                        columns={4}
+                        value={this.props.profile.genres}
+                        disabled={!this.context.editing}/>
                     </TextWrapper>
                     : null
                   }
 
                   {isDJ
                     ? <TextWrapper label="Bio" text={this.props.profile.firstName + ", tell us a little bit of your story."}>
-                      <TextBox width="100%" height="150px" name="bio" disabled={!this.props.editMode} value={this.props.profile.bio}/>
+                      <TextBox
+                        validate={['required']}
+                        width="100%"
+                        height="150px"
+                        name="bio"
+                        disabled={!this.context.editing}
+                        value={this.props.profile.bio}/>
 
                     </TextWrapper>
                   : null}
                   {/* {isDJ
                     ? <TextWrapper label="Experience" text="How much experience do you have?">
-                    <ExperienceSlider queupGigs={this.props.profile.gigsCount} otherGigs={this.props.profile.experienceCount} disabled={!this.props.editMode} name="experienceCount"/>
+                    <ExperienceSlider queupGigs={this.props.profile.gigsCount} otherGigs={this.props.profile.experienceCount} disabled={!this.context.editing} name="experienceCount"/>
                     </TextWrapper>
                   : null} */}
 
-                  <TextWrapper label="Phone" text="We wont share your phone number until you agree to play a gig.">
-                    <TextField name="phone" value={this.props.profile.phone} style={styles.medium.textarea} inputStyle={styles.medium.input} disabled={!this.props.editMode} type="tel" fullWidth={false} hintText="Phone" underlineDisabledStyle={styles.plainBorder} underlineStyle={styles.dottedBorderStyle}/>
-                  </TextWrapper>
+
 
                   {isDJ
                     ? <TextWrapper label="Location" text={this.props.profile.firstName + ", tell us where youd like to play."}>
-                      <SimpleMap radius={this.props.profile.playingRadius} value={this.props.profile.playingLocation} editable={this.props.editMode} themeColor={this.context.color} radiusName="playingRadius" locationName="playingLocation"/>
+                      <Map
+                        radius={this.props.profile.playingRadius}
+                        value={this.props.profile.playingLocation}
+                        editable={this.context.editing}
+                        themeColor={this.context.color}
+                        radiusName="playingRadius"
+                        locationName="playingLocation"/>
                     </TextWrapper>
                   : null}
 

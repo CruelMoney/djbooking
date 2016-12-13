@@ -7,37 +7,25 @@ import * as actions from '../actions/UserActions'
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownProps) {
   return {
-    profile:  state.user.status.editMode ? state.user.editableProfile : state.user.profile,
-    originalProfile: state.user.profile,
-    editMode: state.user.status.editMode,
-    loading: state.user.status.isWaiting
+    profile:   state.user.profile,
   }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    toggleEditMode: () => { dispatch(actions.toggleEditMode()) },
-      save: (profile) => {dispatch(actions.save(profile))},
-      reset:  (profile) => {dispatch(actions.resetProfile(profile))},
-      deleteProfile: () => {dispatch(actions.deleteProfile())},
-      updateProfileValue: (name, value) => { dispatch(actions.updateProfileValue(name, value)) },
-
+      save: (profile,callback) => {dispatch(actions.save(profile, callback))},
+      deleteProfile: (callback) => {dispatch(actions.deleteProfile(callback))},
 }}
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
   return Object.assign({}, ownProps, {
     profile: stateProps.profile,
-    editMode: stateProps.editMode,
-    updateProfileValue: dispatchProps.updateProfileValue,
-    toggleEditMode: dispatchProps.toggleEditMode,
-    save: () => dispatchProps.save(stateProps.profile),
-    reset: () => dispatchProps.reset(stateProps.originalProfile),
+    save: dispatchProps.save,
     deleteProfile: dispatchProps.deleteProfile,
-    loading: stateProps.loading
   })}
 
 
-const SmartProfile = connect(mapStateToProps, mapDispatchToProps, mergeProps)(Profile)
+const SmartProfile = connect(mapStateToProps, mapDispatchToProps, mergeProps, { pure: false })(Profile)
 
 export default props => (
     <SmartProfile {...props}/>

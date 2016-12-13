@@ -101,7 +101,10 @@ const deletedUser={
             tosAcceptanceDate :  DTO.app_metadata.tosAcceptanceDate,
 
           //self calculated extra info here
-          provider:         DTO.app_metadata.auth0Id.split("|")[0]
+          provider:         DTO.app_metadata.auth0Id.split("|")[0],
+          user_metadata: null,
+          app_metadata: null
+
               })
         },
 

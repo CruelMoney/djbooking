@@ -23,11 +23,13 @@ class SimpleMap extends React.Component{
       }
 
       static contextTypes = {
-        color: PropTypes.string
+        color: PropTypes.string,
+        updateValue: PropTypes.func,
+        registerReset: PropTypes.func,
       }
 
-      state={
 
+      state={
         marker: {
           position: {lat: 56.00, lng: 10.00
           },

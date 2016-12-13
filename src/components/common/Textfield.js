@@ -109,8 +109,11 @@ var Text = React.createClass({
 
     }
     var styles = this.props.big ? stylesBig : stylesNormal
+
+    var className = "text-field"
+    className += this.props.disabled ? " disabled" : ""
     return (
-              <div className="text-field">
+              <div className={className}>
                 <TextField
                   placeholder=""
                   value={this.props.value || undefined}

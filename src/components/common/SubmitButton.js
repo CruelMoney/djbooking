@@ -22,6 +22,7 @@ export default React.createClass({
     },
 
   render() {
+
   let succes = this.context.status.succeeded ? this.context.status.succeeded[this.props.name] : false
   let loading = this.context.status.loading ? this.context.status.loading[this.props.name] : false
 

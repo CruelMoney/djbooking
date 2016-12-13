@@ -75,7 +75,8 @@ getInitialState(){
             maxWidth: 500,
             maxHeight: 500,
            cover: true,
-           orientation: true
+           orientation: true,
+           crop: true
        }
       );
 
@@ -244,7 +245,7 @@ getInitialState(){
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-    updatePicture: (profile, callback) => actions.save(dispatch, profile, callback),
+    updatePicture: (profile, callback) => {dispatch(actions.save(profile, callback))},
   }
 }
 

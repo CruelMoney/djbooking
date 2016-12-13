@@ -82,7 +82,7 @@ input{
   font-weight: normal;
 }
 input:disabled,
-.text-field > div{
+.text-field.disabled > div{
   cursor: default !important;
 }
 
@@ -232,6 +232,21 @@ background-color: inherit;
 -webkit-transform: skew(0,-12deg);
 transform: skew(0,-12deg);
 }
+#preFooterPseudo.noSkew:before{
+  content: '';
+position: absolute;
+left: 0;
+right: 0;
+top: -100px;
+z-index: 0;
+height: 2000px;
+background-color: inherit;
+transform: none;
+top: 0;
+}
+#preFooter.noSkew{
+  margin-top: 0;
+}
 #preFooter .action-title {
   margin: .75em 0;
   font-family: SourceSansPro-Regular;
@@ -278,13 +293,13 @@ form ol {
   margin-left:-40px;
 }
 
- form li {
+ .signup form li {
   display: block;
   margin-bottom: 3em;
   font-size: 30px;
 }
 
- form li:before {
+ .signup form li:before {
    font-family: AvenirNext-Medium, sans-serif;
   display: inline-block;
   content: counter(item) " → ";
@@ -1357,13 +1372,16 @@ button:hover{
   color: inherit;
   border-color: inherit;
 }
+
 button.submit{
 }
 button.submit:hover {
   transition: all 0.2s ease-in-out;
 }
-button:disabled{
+button[disabled]{
   box-shadow: none; /*cannot be important because when loading*/
+  color: normal;
+  border-color: normal;
 }
 button.active, .button.active{
   color: #FFFFFF;
