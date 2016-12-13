@@ -3,7 +3,6 @@ import React, {PropTypes} from 'react'
 import UserNavigation from './UserNavigation'
 import UserCard from './UserCard'
 import Notification from '../common/Notification'
-import LoadingPlaceholder from '../common/LoadingPlaceholder'
 import UserPic from '../../assets/default-profile-pic.png'
 var userHeader = React.createClass({
 
@@ -73,6 +72,7 @@ var userHeader = React.createClass({
 
               <div className="user-card-wrapper">
                 <UserCard
+                  profile={this.props.profile}
                   className="user-card"
                   onlyPicture={this.props.hideInfo}
                   picture={this.props.loading ? UserPic : this.props.profile.picture}

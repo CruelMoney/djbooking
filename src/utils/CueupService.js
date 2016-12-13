@@ -18,7 +18,6 @@ export default class CueupService {
             return {method: 'POST', headers: headers, body: JSON.stringify(data)};
         }
         this.putInit = function(data, headers) {
-          console.log(JSON.stringify(data));
             return {method: 'PUT', headers: headers, body: JSON.stringify(data)};
         }
         this.deleteInit = function(headers) {

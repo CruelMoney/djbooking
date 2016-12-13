@@ -36,7 +36,6 @@ return function (err, result) {
               type: ActionTypes.LOGIN_SUCCEEDED,
               profile: converter.user.fromDTO(result)
             }}())
-          console.log(callback)
           callback(null)
         }
       })

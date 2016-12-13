@@ -66,7 +66,7 @@ const deletedUser={
           bio: DTO.bio,
           email: DTO.email,
           experienceCount: DTO.experienceCount,
-          picture: DTO.picture,
+          picture: DTO.picture.indexOf("default-profile-pic") !== -1 ? profilePic : DTO.picture,
           playingLocation : DTO.playingLocation,
           playingRadius : DTO.playingRadius,
           user_id   : DTO.user_id,

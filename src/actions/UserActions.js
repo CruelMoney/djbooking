@@ -10,19 +10,40 @@ const stripe = new StripeService()
 
 var ActionTypes = c.ActionTypes
 
-  export function save(profile){
-    return function (dispatch) {
-      dispatch( function() { return {type: ActionTypes.UPDATEPROFILE_REQUESTED} }() )
+  export function save(dispatch, profile, callback){
+
+
           const token = auth.getToken()
           const data = converter.user.toDTO(profile)
-          cueup.updateUser(token, data, function(err, result){
+          cueup.updateUser(token, data, (err, result)=>{
+
             if (err) {
-              dispatch( function() { return {type: ActionTypes.UPDATEPROFILE_FAILED, err: err.message}}() )
+              callback(err.message)
             }else{
-              dispatch( function() { return {type: ActionTypes.UPDATEPROFILE_SUCCEEDED, profile} }() )
+              this.getUser(dispatch,callback)
             }
           })
-        }
+
+  }
+
+  export function getUser(dispatch, callback){
+    const token = auth.getToken()
+    cueup.getUser(token, (error, result)=>
+    {
+      if (error) {
+        dispatch (function() {return {
+            type: ActionTypes.LOGIN_FAILED,
+            err: error.message
+          }}())
+          callback(error.message)
+      }else{
+        dispatch (function() {return {
+            type: ActionTypes.LOGIN_SUCCEEDED,
+            profile: converter.user.fromDTO(result)
+          }}())
+        callback(null)
+      }
+    })
   }
 
 
