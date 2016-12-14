@@ -65,14 +65,6 @@ var Profile = React.createClass({
                 </Button>
               }
 
-
-              <SubmitButton
-                dangerous
-                warning="Are you sure you want to delete? All future gigs, events and payments will be lost."
-                onClick={this.props.deleteProfile}
-                name="Delete_profile"
-              > Delete profile
-              </SubmitButton>
             </div>
 
         )

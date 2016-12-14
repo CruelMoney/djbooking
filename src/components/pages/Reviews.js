@@ -5,6 +5,7 @@ import {CardHeader} from 'material-ui/Card'
 import Rating from '../common/Rating'
 import Formatter from '../../utils/Formatter'
 import LoadingPlaceholder from '../common/LoadingPlaceholder'
+import EmptyPage from '../common/EmptyPage'
 
 var Reviews = React.createClass({
   propTypes: {
@@ -111,10 +112,10 @@ var Reviews = React.createClass({
 
       function renderLoadingItem(){
         return [
-          <LoadingPlaceholder/>, 
-            <LoadingPlaceholder/>, 
-              <LoadingPlaceholder/>, 
-                <LoadingPlaceholder/>, 
+          <LoadingPlaceholder/>,
+            <LoadingPlaceholder/>,
+              <LoadingPlaceholder/>,
+                <LoadingPlaceholder/>,
                   <LoadingPlaceholder/>]
       }
 
@@ -124,6 +125,10 @@ var Reviews = React.createClass({
       <div>
         {this.props.loading ?
           renderLoadingItem()
+          :
+          this.props.reviews.length === 0 ?
+            <EmptyPage message={<div>Ask your customers to leave a review <br/>
+            It will help you get more gigs</div>}/>
           :
           this.props.reviews.map((review, i) => renderReview(review, i))
         }

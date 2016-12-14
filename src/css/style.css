@@ -1213,7 +1213,7 @@ background-image: linear-gradient(330deg, #31FFF5 0%, #31FFC5 5%, #00D1FF 80%, #
 #stripes.v2 :nth-child(1),
 #stripes.v2 :nth-child(2),
 #stripes.v2 :nth-child(5){
-  opacity: 0;
+  display: none;
 }
 
 #stripes.v2 :nth-child(3){
@@ -1790,7 +1790,7 @@ transform: translateX(-50%);
     animation-iteration-count: infinite;
     animation-name: placeHolderShimmer;
     animation-timing-function: linear;
-    background: rgb(246, 249, 252);
+    background: #f6f9fc;
     background: linear-gradient(to right, rgb(246, 249, 252) 8%, #FFFFFF 18%, rgb(246, 249, 252) 33%);
     background-size: 800px 104px;
     height: 96px;
@@ -1918,4 +1918,17 @@ color: #4A4A4A;
   position: absolute;
 bottom: 20px;
 left: 0;
+}
+
+.empty-page-message{
+   min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #8998AA;
+}
+.empty-page-message img{
+  margin: 40px;
 }

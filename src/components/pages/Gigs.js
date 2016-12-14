@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import Button from '../common/Button-v2'
 import Gig from '../../containers/Gig'
 import LoadingPlaceholder from '../common/LoadingPlaceholder'
-
+import EmptyPage from '../common/EmptyPage'
 
 
 var Gigs = React.createClass({
@@ -26,7 +26,7 @@ var Gigs = React.createClass({
 
         this.props.fetchGigs()
 
-    this.context.registerActions(this.getActionButtons())
+    this.context.registerActions(this.getActionButtons)
   },
 
   componentWillReceiveProps(nextprops){
@@ -142,11 +142,11 @@ var Gigs = React.createClass({
 
     const renderGigs = (gigs) => {
       if (gigs.length === 0) {
-        return <div
-          className="no-gigs"
-               >
-          No {this.state.filter} gigs.
-        </div>
+        return <EmptyPage
+          message={
+            <div> No {this.state.filter} gigs<br/>
+            You will get a notification when new gigs are available</div>
+          }/>
       }else {
         return gigs
       }

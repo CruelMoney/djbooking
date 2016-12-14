@@ -15,9 +15,11 @@ function mapDispatchToProps(dispatch, ownProps) {
   return {
     fetchReviews: () => { dispatch(actions.fetchReviews()) },
 }}
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  return {...stateProps, ...dispatchProps}
+}
 
-
-const SmartReviews = connect(mapStateToProps, mapDispatchToProps)(Reviews)
+const SmartReviews = connect(mapStateToProps, mapDispatchToProps, mergeProps,{ pure: false })(Reviews)
 
 export default props => (
     <SmartReviews {...props}/>

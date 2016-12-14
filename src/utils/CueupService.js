@@ -115,6 +115,11 @@ export default class CueupService {
        this.postInit(data, this.getHeaders(token)),
        callback)
     }
+    resendVerification(token, callback){
+      return this.fetchHandling(
+      `${this.domain}/api/user/send_verification_email`,
+      this.postInit({}, this.getHeaders(token)),
+    )}
    //USER ACTIONS END
 
 

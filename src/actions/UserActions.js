@@ -25,6 +25,19 @@ var ActionTypes = c.ActionTypes
       }
   }
 
+  export function resendVerification(callback){
+      return function(dispatch){
+          const token = auth.getToken()
+          cueup.resendVerification(token, (err, result)=>{
+            if (err) {
+              callback(err.message)
+            }else{
+              callback()
+            }
+          })
+      }
+  }
+
   export function getUser(callback){
     return function(dispatch){
       const token = auth.getToken()

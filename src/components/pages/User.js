@@ -48,7 +48,10 @@ var user = React.createClass({
      showUserCard: this.showUserCard,
      registerActions: (getActionsFunc)=>{
        this.getActions = getActionsFunc
-       this.setActions()
+       this.setState({
+         editing: false
+       }, this.setActions())
+
      },
      toggleEditMode:  ()=>{
        this.setState(
@@ -88,15 +91,14 @@ var user = React.createClass({
     return (
       <div >
         <Form
+          noError
           name="user-form"
           formValidCallback={
             ()=>{this.setState({valid:true}, this.setActions)
-
             }
           }
           formInvalidCallback={()=>{
             this.setState({valid:false},this.setActions)
-
           }}
         >
           <UserHeader
@@ -110,7 +112,7 @@ var user = React.createClass({
           <div  className="user-container container">
             <div className="row">
               <div className={"col-xs-4"}></div>
-              <div style={{paddingTop:"11px", minHeight: "640px"}} className={"col-xs-8"}>
+              <div style={{paddingTop:"11px", minHeight: "500px"}} className={"col-xs-8"}>
 
                 {this.props.children}
               </div>

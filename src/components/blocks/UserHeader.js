@@ -4,6 +4,8 @@ import UserNavigation from './UserNavigation'
 import UserCard from './UserCard'
 import Notification from '../common/Notification'
 import UserPic from '../../assets/default-profile-pic.png'
+import ErrorMessage from '../common/ErrorMessage'
+
 var userHeader = React.createClass({
 
   propTypes: {
@@ -26,6 +28,7 @@ var userHeader = React.createClass({
 
    componentWillUnmount(){
      window.removeEventListener('scroll', this.handleScroll)
+     clearInterval(this.intervalID);
    },
 
   handleScroll(event){
@@ -39,14 +42,21 @@ var userHeader = React.createClass({
 
     loadingStringPlaceholder(){
       var self = this
-      window.setInterval( function(){
-      var load = self.state.loadString
-       if (load.length === 4) {
-         self.setState({loadString: "."})
+
+      this.intervalID = window.setInterval( function(){
+        if (self.props.loading)
+        {
+        var load = self.state.loadString
+         if (load.length === 4) {
+           self.setState({loadString: "."})
+         }else{
+           self.setState({loadString: load += "."})
+         }
        }else{
-         self.setState({loadString: load += "."})
+          clearInterval(self.intervalID);
        }
-     }, 300);
+       }, 300)
+
     },
 
   render() {
@@ -85,6 +95,7 @@ var userHeader = React.createClass({
                   loading={this.props.loading}
                 />
                 {this.props.actions}
+                <ErrorMessage></ErrorMessage>
               </div>
 
 

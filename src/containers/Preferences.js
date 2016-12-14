@@ -18,12 +18,18 @@ function mapDispatchToProps(dispatch, ownProps) {
     connectSoundCloud: () =>{console.log("not implemented")},
     connectDB:  () => {console.log("not implemented")},
     updateSettings: (settings, callback) => dispatch(actions.updateSettings(settings,callback)),
-    deleteAccount: (form, callback) => dispatch(actions.deleteProfile(callback)),
-    changePassword: (email, callback) => dispatch(actions.changePassword(email, callback))
+    deleteProfile: (callback) => {dispatch(actions.deleteProfile(callback))},
+    changePassword: (email, callback) => dispatch(actions.changePassword(email, callback)),
+    resendVerification: (form, callback) => dispatch(actions.resendVerification(callback))
 }}
 
 
-const SmartPreferences = connect(mapStateToProps, mapDispatchToProps)(Preferences)
+  function mergeProps(stateProps, dispatchProps, ownProps) {
+    return {...stateProps, ...dispatchProps}
+  }
+
+
+const SmartPreferences = connect(mapStateToProps, mapDispatchToProps, mergeProps, { pure: false })(Preferences)
 
 export default props => (
     <SmartPreferences {...props}/>

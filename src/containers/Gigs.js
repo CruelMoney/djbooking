@@ -18,8 +18,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     declineGig: (gigID) => {dispatch(actions.declineGig(gigID))},
 }}
 
-
-const SmartPreferences = connect(mapStateToProps, mapDispatchToProps)(Gigs)
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  return {...stateProps, ...dispatchProps}
+}
+const SmartPreferences = connect(mapStateToProps, mapDispatchToProps,  mergeProps,{ pure: false })(Gigs)
 
 export default props => (
     <SmartPreferences {...props}/>

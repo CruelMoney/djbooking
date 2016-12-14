@@ -46,6 +46,7 @@ const form = React.createClass({
       isValid: PropTypes.bool,
       onSubmit: PropTypes.func,
       registerReset: PropTypes.func,
+      errorMessage: PropTypes.string
     },
     getChildContext() {
       return {
@@ -59,6 +60,7 @@ const form = React.createClass({
         isValid: this.state.isValid,
         onSubmit: this.submit,
         registerReset: this.registerReset,
+        errorMessage : this.props.err
       }
     },
 
@@ -153,17 +155,18 @@ const form = React.createClass({
 
 
   render() {
+    console.log(this);
     return (
       <div>
         <form >
           {this.props.children}
         </form>
-        {this.props.err ?
+        {this.props.err && !this.props.noError ?
           <div className="errors">
             <p>{this.props.err}</p>
-        </div>
-        :null
-      }
+          </div>
+          :null
+        }
       </div>
 
 
