@@ -155,7 +155,6 @@ const form = React.createClass({
 
 
   render() {
-    console.log(this);
     return (
       <div>
         <form >

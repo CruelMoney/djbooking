@@ -9,7 +9,6 @@ var EventOffers = React.createClass({
 
 
     render() {
-console.log(this);
         var left =[]
         var right = []
 

@@ -6,10 +6,10 @@ class ErrorMessage extends React.Component {
   }
 
   render() {
-    console.log(this);
-    return <div className="errors">
+    return (
+    <div className="errors">
       <p>{this.context.errorMessage ? this.context.errorMessage : ""}</p>
-    </div>
+    </div>)
   }
 }
 

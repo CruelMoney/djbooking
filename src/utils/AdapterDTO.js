@@ -2,6 +2,24 @@ import Formatter from './Formatter'
 import assign from 'lodash.assign'
 import profilePic from '../assets/default-profile-pic.png'
 
+const filterEmailSettings = (settings, isDj, isCustomer) => {
+  console.log(settings, isDj, isCustomer);
+  if (!isDj) {
+     delete settings["Event Cancelled"]
+     delete settings["Event Info Updated"]
+     delete settings["Event Opened For Offer"]
+     delete settings["New Gig Request"]
+     delete settings["Offer Accepted"]
+  }
+  if (!isCustomer) {
+    delete settings["DJ Cancelled"]
+    delete settings["Event Can Be Payed Now"]
+    delete settings["New DJ Offer"]
+    delete settings["Payment Recipe"]
+  }
+  return settings
+}
+
 
 const deletedUser={
   bio: "",
@@ -52,8 +70,8 @@ const deletedUser={
     }
 
     var settings ={
-      fromDTO:function(DTO){
-        return DTO
+      fromDTO:function(DTO, isDj, isCustomer){
+        return {...DTO, emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer)}
       },
       toDTO:function(settings){
         return settings;
@@ -73,7 +91,7 @@ const deletedUser={
           genres:     DTO.genres,
           createdAt : DTO.createdAt,
           reviews : DTO.reviews ? DTO.reviews.map(r => review.fromDTO(r)) : [],
-          settings: settings.fromDTO(DTO.settings),
+          settings: settings.fromDTO(DTO.settings, DTO.app_metadata.isDJ, DTO.app_metadata.isCustomer),
 
           // user_metadata stuff here
             address:        DTO.user_metadata.address,
@@ -214,8 +232,6 @@ const deletedUser={
         return gig;
       }
     }
-
-
 
 
 

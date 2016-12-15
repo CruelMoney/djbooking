@@ -74,7 +74,6 @@ class SimpleMap extends React.Component{
 
 
     render(){
-      console.log(this);
     return(
       <div style={{ height: this.props.height || `500px` }}>
         <GoogleMapLoader
