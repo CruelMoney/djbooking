@@ -9,7 +9,12 @@ import * as userActions from '../actions/UserActions'
 function mapStateToProps(state, ownProps) {
   return {
     isLoggedIn: state.user.status.signedIn,
-    form: state.forms.requestForm,
+    form:   Object.assign(
+        {},
+        state.forms["requestForm-step-1"] ? state.forms["requestForm-step-1"].values : {} ,
+        state.forms["requestForm-step-2"] ? state.forms["requestForm-step-2"].values : {} ,
+        state.forms["requestForm-step-3"] ? state.forms["requestForm-step-3"].values : {} ,
+      ),
     emailExists: state.user.status.emailExists
   }
 }

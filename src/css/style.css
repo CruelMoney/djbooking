@@ -40,7 +40,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1{
-  font-family: SourceSansPro-Regular;
+  font-family: SourceSansPro-SemiBold;
   font-size: 42px;
   margin-left: -3px;
   margin-bottom: 15px;
@@ -381,29 +381,29 @@ input[type="file"] + label * {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
-.loginDropDown button{
+.login button{
   width: 100%;
 }
-.loginDropDown button.submit:hover{
+.login button.submit:hover{
 }
 
-.loginDropDown .errors{
+.login .errors{
   text-align: left;
   margin-top: 0;
 }
 .login > p {
       color: #BBBBBB;
 }
-.loginDropDown .errors p {
+.login .errors p {
   font-size: 14px;
 }
-.loginDropDown .text-field{
+.login .text-field{
   margin-top: 20px;
 }
-.loginDropDown .text-field:last-child{
+.login .text-field:last-child{
       margin-bottom: 20px;
 }
-.loginDropDown button:first-child{
+.login button:first-child{
   margin-bottom: 10px;
 }
 
@@ -425,7 +425,7 @@ input[type="file"] + label * {
 
 
 
-.loginDropDown p{
+.login p{
   margin-bottom: 10px;
 }
 
@@ -1640,9 +1640,6 @@ margin-bottom: 10px;
   font-family: AvenirNext-Medium;
   text-transform: capitalize;
   height: 33px;
-}
-.request-form .button.active{
-  font-family: AvenirNext-bold;
 }
 
 .request-form p{

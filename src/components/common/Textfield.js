@@ -133,7 +133,7 @@ var Text = React.createClass({
                   hintText={this.props.placeholder}
                   onChange={(e)=>this.onChange(e)}
                   onBlur={this.props.onBlur}
-                  errorText={this.props.errors.length ? (
+                  errorText={this.props.errors ? this.props.errors.length ? (
                     <div style={{
                       bottom: "-10px",
                       position: "relative",
@@ -143,10 +143,11 @@ var Text = React.createClass({
                         {this.props.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
                       </div>
                     </div>
-                  ) : null}/>
+                  ) : null : null}/>
               </div>
     )
   }
 })
 
 export default connectToForm(Text)
+export {Text as TexfieldDisconnected}

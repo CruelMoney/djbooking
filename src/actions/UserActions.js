@@ -91,15 +91,17 @@ var ActionTypes = c.ActionTypes
 
   export function checkEmail(email, callback){
     return function (dispatch) {
-          auth.checkEmailExists(email, function(err, result){
-            if (err) {
-              (callback(err))
-            }else{
-              dispatch( function() { return {type: ActionTypes.CHECK_EMAIL_SUCCEEDED, value: result} }() )
-              callback(null)
-            }
-          })
+      if (!email) {
+        return callback("Please enter email.")
+      }
+      cueup.checkEmailExists(email, function(err,resp){
+        if (err) {
+          callback("Something went wrong.")
+        }else{
+          callback(null, resp)
         }
+      })
+    }
   }
 
 

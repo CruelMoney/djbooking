@@ -27,13 +27,6 @@ const form = React.createClass({
       }
     },
 
-    //Recursive
-    contextTypes: {
-      registerValidation: PropTypes.func,
-      updateValue: PropTypes.func,
-      isFormValid: PropTypes.func,
-      registerReset: PropTypes.func,
-    },
 
     childContextTypes: {
       reset: PropTypes.func,
@@ -64,26 +57,12 @@ const form = React.createClass({
       }
     },
 
-    componentWillMount() {
-      if (this.context.registerValidation) {
-        this.removeValidationFromContext = this.context.registerValidation(show =>
-          this.isFormValid(show))
-      }
-    },
-
-    componentWillUnmount() {
-      if (this.removeValidationFromContext) {
-          this.removeValidationFromContext()
-      }
-    },
 
     updateValue(name, value){
       this.props.updateValue(name,value)
 
       if (setTimeout(()=>this.isFormValid(false), 0)) {
-        if (this.context.updateValue) {
-          this.context.updateValue(this.props.name, this.props.form.values)
-        }
+
       }
     },
 
