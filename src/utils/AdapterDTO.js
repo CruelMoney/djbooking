@@ -111,7 +111,7 @@ const deletedUser={
 
             auth0Id: DTO.app_metadata.auth0Id,
             avgRating : DTO.app_metadata.avgRating,
-            earned    :  DTO.app_metadata.earned,
+            earned    :  Formatter.money.ToStandard(DTO.app_metadata.earned, "DKK"),
             email_verified :  DTO.app_metadata.email_verified,
             gigsCount : DTO.app_metadata.gigsCount,
             isCustomer :  DTO.app_metadata.isCustomer,
@@ -186,7 +186,6 @@ const deletedUser={
     var cueupEvent ={
 
       fromDTO:function(DTO){
-          console.log(DTO);
         return{
             ...DTO,
             id: DTO.id,
@@ -234,6 +233,7 @@ const deletedUser={
 
       fromDTO:function(DTO){
         return assign({}, DTO, {
+                offer: offer.fromDTO(DTO.offer),
                 startTime: new Date(DTO.startTime),
                 endTime: new Date(DTO.endTime),
                 customer: DTO.customer ? user.fromDTO(DTO.customer) : deletedUser

@@ -10,6 +10,9 @@ import LoadingPlaceholder from '../common/LoadingPlaceholder'
 import TextWrapper from '../common/TextElement'
 import c from '../../constants/constants'
 import ErrorMessage from '../common/ErrorMessage'
+import Popup from '../common/Popup'
+import m from '../../constants/Mocks'
+import OfferCard from '../blocks/OfferCard'
 
 const Map = connectToForm(SimpleMap)
 
@@ -45,6 +48,19 @@ var Profile = React.createClass({
       this.props.save(profile, callback)
     },
 
+    getInitialState(){
+      return{
+        showPopup:false
+      }
+    },
+
+
+    hidePopup(){
+      this.setState({
+        showPopup: false
+      })
+    },
+
 
     getActionButtons(props = this.props) {
         const editing = this.context.editing
@@ -65,6 +81,11 @@ var Profile = React.createClass({
                   >Edit profile
                 </Button>
               }
+              <Button
+                onClick={()=>this.setState({showPopup:true})}
+                name="public_profile"
+              >See offer example
+              </Button>
               <ErrorMessage/>
             </div>
 
@@ -73,8 +94,23 @@ var Profile = React.createClass({
 
     render() {
         const isDJ = this.props.profile.isDJ
+        var OfferMock = m.MockOffer
+            if (this.props.profile.settings) {
+              OfferMock.refundPercentage = this.props.profile.settings.refundPercentage
+              OfferMock.cancelationDays = this.props.profile.settings.cancelationDays
+              OfferMock.dj = this.props.profile
+            }
+
         return (
           <div>
+            <Popup
+              noBackground
+              showing={this.state.showPopup}
+              onClickOutside={this.hidePopup}>
+              <div style={{width:"450px"}}>
+                <OfferCard offer={OfferMock}/>
+              </div>
+            </Popup>
             { this.context.loading ?
               <div>
                 <LoadingPlaceholder/>

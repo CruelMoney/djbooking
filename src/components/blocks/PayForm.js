@@ -23,17 +23,23 @@ var payForm = React.createClass({
   confirmPayment(form, callback) {
       const data = assign(form.values, {
         amount: Formatter.money.ToSmallest(this.props.amount, this.props.currency),
+        fee: Formatter.money.ToSmallest(this.props.fee, this.props.currency),
         currency: this.props.currency,
         chosenGigID: this.props.gigId
       })
 
-      this.props.confirmPayment(data, callback)
+      this.props.confirmPayment(this.props.event.id, this.props.event.hashKey, data, callback)
   },
 
   notify(form, callback) {
-    console.log(this.props);
       this.props.notify(this.props.event.id, this.props.event.hashKey, callback)
   },
+
+getInitialState(){
+  return{
+    valid:false
+  }
+},
 
   render() {
 
@@ -124,7 +130,10 @@ var payForm = React.createClass({
 
 
         <div className="pay-form">
-          <Form name="pay-form">
+          <Form
+            formValidCallback={()=>this.setState({valid:true})}
+            formInvalidCallback={()=>this.setState({valid:false})}
+            name="pay-form">
             <TextWrapper
               label="Pay"
               showLock={true}
@@ -244,6 +253,8 @@ var payForm = React.createClass({
 
             <div style={{display: 'flex'}}>
               <SubmitButton
+                glow
+                active={this.state.valid}
                 rounded={true}
                 name="confirm_payment"
                 onClick={this.props.paymentPossible ? this.confirmPayment : this.notify}
@@ -315,7 +326,7 @@ function mapStateToProps(state, ownprops){
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-      confirmPayment: (data, callback) => dispatch(actions.payEvent(data,callback)),
+      confirmPayment: (id,hash,data, callback) => dispatch(actions.payEvent(id,hash,data,callback)),
       notify: (id, hash, callback) => dispatch(actions.notifyPayment(id, hash,callback)),
   }
 }

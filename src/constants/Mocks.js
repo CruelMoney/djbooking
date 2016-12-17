@@ -1,6 +1,12 @@
 
 module.exports = {
-
+  MockOffer:{
+    "gigID": 0,
+    "amount": 4000,
+    "fee": 80,
+    "currency": "DKK",
+    "gigStatus": "Finished"
+},
   REVIEWS: [
 {
   picture: "http://images.medicaldaily.com/sites/medicaldaily.com/files/2014/06/06/old-lady.jpg",

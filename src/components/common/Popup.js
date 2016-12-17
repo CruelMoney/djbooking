@@ -61,7 +61,7 @@ const Popup = React.createClass({
                 paddingTop: '5px',
                 minWidth: '300px',
                 width: this.props.width ? this.props.width  : null,
-                backgroundColor:"white",
+                backgroundColor: this.props.noBackground ? "transparent" : "white",
                 zIndex: '1001',
               }}
               className="popup"

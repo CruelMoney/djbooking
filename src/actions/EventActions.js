@@ -171,7 +171,7 @@ export function cancelEvent(id, hash, callback) {
 }
 
 
-export function payEvent(data, callback) {
+export function payEvent(id, hash, data, callback) {
   return function(dispatch){
 
   stripe.createCardToken(data, (err, result)=>{
@@ -183,13 +183,14 @@ export function payEvent(data, callback) {
       data = {
         CardToken: result.id,
         Amount: data.amount,
+        Fee: data.fee,
         Currency: data.currency,
         ChosenGigID: data.chosenGigID,
         City: data.card_city,
         Zip: data.card_zip,
         Address: data.card_address
       }
-      cueup.updateUserBankInfo(token, data, function(err, result){
+      cueup.payEvent(token, id, hash, data, function(err, result){
         if (err) {
           (callback(err))
         }else{

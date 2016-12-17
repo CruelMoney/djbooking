@@ -95,18 +95,24 @@ var OfferCard = React.createClass({
 
           </div>
           <div style={{display: "flex", alignItems: "center"}}>
-            <div className="offer-price" style={{width: "100%"}}>{Formatter.money.FormatNumberToString(
-              this.props.offer.amount+this.props.offer.fee,
-            this.props.offer.currency)}</div>
-            
-            <Button
-              glow
-              active={true}
-              onClick={()=>this.setState({showPopup:true})}
-              name="show-payout-popup"
-            >Confirm</Button>
+            <div
+              className="offer-price"
+              style={{
+                width: "100%",
+                textAlign: this.props.offer.gigStatus === "Confirmed" || this.props.offer.gigStatus === "Finished" ? "center" : "left"
+              }}>{Formatter.money.FormatNumberToString(
+                this.props.offer.amount+this.props.offer.fee,
+              this.props.offer.currency)}</div>
 
+            {this.props.offer.gigStatus === "Confirmed" || this.props.offer.gigStatus === "Finished" ? null :
+              <Button
+                glow
+                active={true}
+                onClick={()=>this.setState({showPopup:true})}
+                name="show-payout-popup"
+              >Confirm</Button>
 
+            }
           </div>
         </div>
       </div>

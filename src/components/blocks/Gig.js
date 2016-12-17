@@ -151,7 +151,7 @@ var Gig = React.createClass({
             onClickOutside={this.hidePopup}>
             <PayoutForm/>
           </Popup>
-          
+
           <div
             className="card gig"
 
@@ -174,7 +174,7 @@ var Gig = React.createClass({
                     {" " + this.props.gig.location.name}
                   </div>
                 </div>
-                <div style={{marginRight: "3px", color:"#8998AA"}}>
+                <div style={{right: "18px", color:"#8998AA", position: "absolute"}}>
                   {this.props.gig.status === "Cancelled" ?
                     "The event has been cancelled ☹️"
                     :this.props.gig.status === "Requested" ?
