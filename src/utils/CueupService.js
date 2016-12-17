@@ -138,36 +138,36 @@ export default class CueupService {
        this.getInit(this.getHeaders(token)),
        callback
      )}
-     getEvent(token, id, callback) {
+     getEvent(token, id, hash, callback) {
        return this.fetchHandling(
-         `${this.domain}/api/event/${id}`,
+         `${this.domain}/api/event/${id}/${hash}`,
          this.getInit(this.getHeaders(token)),
          callback
        )}
    updateEvent(token, id, data, callback) {
      return this.fetchHandling(
-       `${this.domain}/api/event/${id}`,
+       `${this.domain}/api/event/${id}/`,
        this.putInit(data, this.getHeaders(token)),
        callback
      )}
 
-   reviewEvent(token, id, data, callback) {
+   reviewEvent(token, id, hash, data, callback) {
      return this.fetchHandling(
-       `${this.domain}/api/event/${id}/review`,
+       `${this.domain}/api/event/${id}/${hash}/review`,
        this.postInit(data, this.getHeaders(token)),
        callback
      )}
 
-   cancelEvent(token, id, callback) {
+   cancelEvent(token, id, hash, callback) {
      return this.fetchHandling(
-       `${this.domain}/api/event/${id}/cancel`,
+       `${this.domain}/api/event/${id}/${hash}/cancel`,
        this.putInit("", this.getHeaders(token)),
        callback
      )}
 
-     payEvent(token, id, data, callback) {
+     payEvent(token, id, hash, data, callback) {
        return this.fetchHandling(
-         `${this.domain}/api/event/${id}/pay`,
+         `${this.domain}/api/event/${id}/${hash}/pay`,
          this.putInit(data, this.getHeaders(token)),
          callback
        )}

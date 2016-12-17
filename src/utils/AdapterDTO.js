@@ -181,6 +181,7 @@ const deletedUser={
       fromDTO:function(DTO){
 
         return{
+            ...DTO,
             id: DTO.id,
             genres: DTO.genres,
             customerId: DTO.customerId,
@@ -202,7 +203,9 @@ const deletedUser={
           }
       },
       toDTO:function(event){
+        console.log(event);
         return{
+          ...event,
           Genres: event.genres,
           Description: event.description,
           Name: event.name,

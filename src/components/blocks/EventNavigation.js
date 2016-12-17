@@ -4,10 +4,6 @@ import Navlink  from '../common/Navlink'
 
 export default React.createClass({
 
-  propTypes: {
-    auth0Id: PropTypes.string,
-   },
-
 
   render() {
     return (
@@ -27,18 +23,18 @@ export default React.createClass({
 
 
             <li>
-              <Navlink to={"/event/"+this.props.id} label="Event information"/>
+              <Navlink to={"/event/"+this.props.id+"/"+this.props.hash} label="Event information"/>
             </li>
 
             <li>
-              <Navlink to={"/event/"+this.props.id+"/offers"} label="Dj offers"/>
+              <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/offers"} label="Dj offers"/>
             </li>
 
             <li >
               { this.props.isFinished ?
-                <Navlink to={"/event/"+this.props.id+"/review"} label="Review"/>
+                <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/review"} label="Review"/>
                 :
-                <Navlink to={"/event/"+this.props.id+"/user"} label="Your information"/>}
+                <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/user"} label="Contact information"/>}
             </li>
 
 

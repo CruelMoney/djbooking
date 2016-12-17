@@ -14,7 +14,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchEvent: (id, authId) => dispatch(actions.fetchEvent(id, authId)),
+    fetchEvent: (id, hash, authId) => dispatch(actions.fetchEvent(id, hash, authId)),
     updateEvent: (event, callback) => dispatch(actions.updateEvent(event,callback)),
     payEvent: () => {console.log("not implemented")},
     reviewEvent: (review, callback) => dispatch(actions.reviewEvent(review,callback)),

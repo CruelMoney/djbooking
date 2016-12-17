@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import checkmark from '../../assets/checkmark.svg'
 import SubmitButton from '../common/SubmitButton'
 import dot from '../../assets/dot.svg'
-
+import ErrorMessage from '../common/ErrorMessage'
 export default React.createClass({
 
    propTypes: {
@@ -55,10 +55,11 @@ export default React.createClass({
             name="request_djs_button"
             onClick={this.props.onSubmit}
             glow
-        >
-          <div style={{width:"150px"}}>Send event</div>
-        </SubmitButton>
-      : null}
+          >
+            <div style={{width:"150px"}}>Send event</div>
+          </SubmitButton>
+        : null}
+        <ErrorMessage/>
 
        </div>
     )

@@ -85,7 +85,7 @@ var router = React.createClass({
             <Route path="user/signup" component={Signup}/>
           </Route>
 
-          <Route path="event/:id" component={Event}>
+          <Route path="event/:id/:hash" component={Event}>
             <IndexRoute  component={EventInformation}/>
             <Route path="user" component={CustomerProfile}/>
             <Route path="review" component={Review}/>

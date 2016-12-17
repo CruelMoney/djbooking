@@ -95,6 +95,17 @@ var Text = React.createClass({
       underlineStyle:{
         borderColor: this.context.color
       },
+      underlineDisabledStyle:{
+        borderWidth: "1px 0px 0px",
+      borderStyle: "solid",
+      borderColor: "rgb(224, 224, 224)",
+      borderImage: "initial",
+      bottom: "11px",
+      boxSizing: "content-box",
+      margin: "0px",
+      position: "absolute",
+      width: "100%",
+      },
       hint:{
         fontSize: '14px',
         color: "rgba(187,187,187,0.5)",
@@ -129,7 +140,7 @@ var Text = React.createClass({
           style={this.props.style || styles.textarea}
           inputStyle={styles.input}
           hintStyle={styles.hint}
-          underlineDisabledStyle={this.props.underlineDisabledStyle}
+          underlineDisabledStyle={styles.underlineDisabledStyle}
           underlineFocusStyle={styles.underlineStyle}
           floatingLabelText={this.props.floatingLabelText}
           onClick={this.onValueSelected}
@@ -141,6 +152,7 @@ var Text = React.createClass({
           onUpdateInput={this.onChange}
           onNewRequest={this.onValueSelected}
           onBlur={this.onBlur}
+          disabled={this.props.disabled}
           errorText={this.props.errors.length ? (
             <div style={{
               bottom: "-10px",

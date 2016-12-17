@@ -13,7 +13,6 @@ var event = React.createClass({
   propTypes: {
     fetchEvent: PropTypes.func,
     event: PropTypes.object,
-    profile: PropTypes.object,
     params: PropTypes.object,
     loading: PropTypes.bool
   },
@@ -27,10 +26,13 @@ var event = React.createClass({
   },
 
   componentWillMount(){
-    if (!this.props.profile.email_verified) {
+    this.props.fetchEvent(this.props.params.id, this.props.params.hash, null)
+  },
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.event && !nextProps.event.emailVerified) {
       this.setState({notification:"You won't receive any offers before you confirm your email-address."})
     }
-    this.props.fetchEvent(this.props.params.id, this.props.profile.auth0Id)
   },
 
   getChildContext() {
@@ -55,15 +57,16 @@ var event = React.createClass({
       <div >
         <EventHeader
           event={this.props.event}
-          profile={this.props.profile}
           notification={this.state.notification}
           loggedIn={this.props.loggedIn}
+          loading={this.props.loading}
+          hash={this.props.params.hash}
         />
 
         <div  className="user-container container">
           <div className="row">
             <div style={{paddingTop:"11px"}} className={"col-xs-12"}>
-              {this.props.loading ?
+              {this.props.loading || !this.props.event ?
                 <div className="row">
                   <div className="col-xs-push-3 col-xs-7">
                     {renderLoadingItem()}

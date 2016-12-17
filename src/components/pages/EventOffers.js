@@ -1,11 +1,9 @@
 import React, {PropTypes} from 'react'
 import OfferCard from '../blocks/OfferCard'
 import {connect} from 'react-redux';
+import EmptyPage from '../common/EmptyPage'
 
 var EventOffers = React.createClass({
-    propTypes: {
-        offers: PropTypes.object,
-    },
 
 
     render() {
@@ -21,18 +19,23 @@ var EventOffers = React.createClass({
         })
 
         return (
-          <div className="row event-information">
-            <div className="row">
-              <div className="col-md-5 col-md-push-1">
-                {left}
+          <div>
+            {this.props.offers.length ?
+              <div className="row event-information">
+                <div className="row">
+                  <div className="col-md-5 col-md-push-1">
+                    {left}
+                  </div>
+                  <div className="col-md-5 col-md-push-1">
+                    {right}
+                  </div>
+                </div>
               </div>
-              <div className="col-md-5 col-md-push-1">
-                {right}
-              </div>
-            </div>
+              :
+              <EmptyPage message={<div>The djs are currently creating offers for you.<br/>
+              You will be notified whenever there's new offers.</div>}/>
+            }
           </div>
-
-
 
         )
     }
@@ -43,7 +46,6 @@ function mapDispatchToProps(dispatch, ownProps){
   return {}
 }
 function mapStateToProps(state, ownProps) {
-  console.log(this);
   return {
     offers:  state.events.values[0].offers,
   }

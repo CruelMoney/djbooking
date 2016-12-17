@@ -745,8 +745,11 @@ pointer-events: none;
   transition: opacity 0.3s;
 }
 .user-header nav{
-  margin-bottom: 20px;
-}
+  position: absolute;
+      bottom: 10px;
+      width: 100%;
+      margin: 0;
+    }
 
 .user-name{
   color: white;
@@ -761,8 +764,10 @@ letter-spacing: normal;
 }
 .header-divider{
   border-bottom: 2px white solid;
-margin-bottom: 10px;
-margin-top: 35px;
+
+position: absolute;
+bottom: 50px;
+width: 100%;
 }
 .user-card-wrapper{
   position: absolute;
@@ -924,16 +929,16 @@ transition: opacity 0.3s ease;
 }
 .userNavigation .navLink:after{
   position: absolute;
-top: 28px;
-left: 50%;
-display: inline-block;
-border-right: 12px solid transparent;
-border-bottom: 12px solid #FFFFFF;
-border-left: 12px solid transparent;
-content: '';
--webkit-transform: translateX(-100vw);
--ms-transform: translateX(-100vw);
-transform: translateX(-100vw);
+  top: 30px;
+  left: 50%;
+  display: inline-block;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid #FFFFFF;
+  border-left: 12px solid transparent;
+  content: '';
+  -webkit-transform: translateX(-100vw);
+  -ms-transform: translateX(-100vw);
+  transform: translateX(-100vw);
 }
 
 .userNavigation a{
@@ -1565,11 +1570,14 @@ margin-bottom: 80px;
 }
 
 .errors p{
-      color: #F44336;
+      color: #F44336 !important;
       margin-bottom: 0;
 }
 p.error{
     color: #F44336 !important;
+}
+.request-form .erros{
+  text-align: center;
 }
 .terms{
   position: relative;
@@ -1910,6 +1918,7 @@ transform: translateX(-50%);
 }
 .event-header-content{
   padding: 0;
+  height: 180px;
 }
 .back-button{
   position: absolute;

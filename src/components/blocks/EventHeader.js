@@ -6,7 +6,6 @@ import Notification from '../common/Notification'
 var eventHeader = React.createClass({
 
   propTypes: {
-    profile: PropTypes.object,
     event: PropTypes.object,
     notification: PropTypes.string,
     loggedIn: PropTypes.bool
@@ -14,10 +13,19 @@ var eventHeader = React.createClass({
 
    componentWillMount() {
      window.addEventListener('scroll', this.handleScroll)
+     this.setState({
+       loadString: "..."
+     }, ()=>this.loadingStringPlaceholder())
    },
 
    componentWillUnmount(){
      window.removeEventListener('scroll', this.handleScroll)
+     clearInterval(this.intervalID);
+
+   },
+
+   getInitialState(){
+     return{loadString:"..."}
    },
 
   handleScroll(event){
@@ -29,9 +37,27 @@ var eventHeader = React.createClass({
    }
   },
 
+  loadingStringPlaceholder(){
+    var self = this
+
+    this.intervalID = window.setInterval( function(){
+      if (self.props.loading)
+      {
+      var load = self.state.loadString
+       if (load.length === 4) {
+         self.setState({loadString: "."})
+       }else{
+         self.setState({loadString: load += "."})
+       }
+     }else{
+        clearInterval(self.intervalID);
+     }
+     }, 300)
+
+  },
+
 
   render() {
-
 
     return (
 
@@ -65,24 +91,24 @@ var eventHeader = React.createClass({
               <div className="event-header-content col-xs-7">
                 <div className="header-info">
                   <div className="user-name">
-                    <h1>{"Welcome " + this.props.profile.firstName}</h1>
+                    <h1>{this.props.loading || !this.props.event ? this.state.loadString : "Welcome " + this.props.event.contactName }</h1>
                   </div>
                   <div className="user-location">
                     <h2>
 
-                      {"Event: " + (this.props.event ? this.props.event.name : "...")}
+                      {this.props.loading || !this.props.event ? this.state.loadString : "Event: " + this.props.event.name }
                     </h2>
                   </div>
                 </div>
 
                 <div className="header-divider"/>
-
-                <EventNavigation
-                  isFinished={this.props.event.status === "Finished"}
-                  id={this.props.event.id}
-                  auth0Id={this.props.profile.auth0Id}
-                />
-
+                {this.props.loading || !this.props.event ? null :
+                  <EventNavigation
+                    hash={this.props.hash}
+                    isFinished={this.props.event.status === "Finished"}
+                    id={this.props.event.id}
+                  />
+                }
               </div>
             </div>
           </div>

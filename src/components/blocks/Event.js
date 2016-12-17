@@ -17,6 +17,7 @@ import c from '../../constants/constants'
 import moment from 'moment'
 import LocationSelector from '../common/LocationSelectorSimple'
 import {connect} from 'react-redux';
+import ErrorMessage from '../common/ErrorMessage'
 
 
 var Event = React.createClass({
@@ -31,7 +32,7 @@ var Event = React.createClass({
     },
 
     getInitialState() {
-        return {startTime: 0, endTime: 0, editMode: false}
+        return {startTime: 0, endTime: 0, editMode: false, formValid: false}
     },
 
     componentWillMount() {
@@ -57,7 +58,7 @@ var Event = React.createClass({
     },
 
     cancelEvent(id, callback) {
-        this.props.cancelEvent(id, callback)
+        this.props.cancelEvent(id, this.props.event.hashKey, callback)
     },
 
     render() {
@@ -66,21 +67,29 @@ var Event = React.createClass({
         return (
           <div className="row event-information">
             <Form
+              noError
+              formInvalidCallback={()=>this.setState({formValid:false})}
+              formValidCallback={()=>this.setState({formValid:true})}
               name="event-information-form">
               <div className="context-actions">
                 <SubmitButton
+                  active={this.state.formValid}
+
                   onClick={this.updateEvent}
                   name="update_event">
                 Save changes</SubmitButton>
                 <SubmitButton
                   dangerous={true}
+                  warning="Are you sure you want to cancel the event?"
                   onClick={(form, callback)=>this.cancelEvent(this.props.event.id, callback)}
                   name="cancel_event">
                 Cancel event</SubmitButton>
                 <Button
                   onClick={()=>console.log("not implemented")}
-                  name="cancel_event">
+
+                  name="request_features">
                 Request features</Button>
+                <ErrorMessage/>
               </div>
               <div className="event-card-wrapper">
                 <div className="card col-md-7">
@@ -92,7 +101,7 @@ var Event = React.createClass({
                     text="Please choose a descriptive name.">
 
                     <TextField
-                      name="eventName"
+                      name="name"
                       value={this.props.event.name}
                       validate={['required']}
                     />
@@ -136,6 +145,7 @@ var Event = React.createClass({
                     <ToggleButtonHandler
                       validate={['required']}
                       name="genres"
+                      disabled
                       value={this.props.event.genres}
                       potentialValues={c.GENRES}
                       columns={3} />
@@ -170,6 +180,7 @@ var Event = React.createClass({
                     label="Duration"
                     text="How much time should the dj play?">
                     <TimeSlider
+                      disabled
                       date={moment(this.props.event.startTime)}
                       startTime={this.props.event.startTime}
                       endTime={this.props.event.endTime}
@@ -240,7 +251,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     updateEvent: (event, callback) => dispatch(actions.updateEvent(event,callback)),
-    cancelEvent: (id, callback) => dispatch(actions.cancelEvent(id,callback)),
+    cancelEvent: (id, hash, callback) => dispatch(actions.cancelEvent(id, hash, callback)),
 }}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Event);

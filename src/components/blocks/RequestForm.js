@@ -11,7 +11,7 @@ import TimeSlider from '../common/TimeSlider'
 import Progress from '../blocks/ProgressSubmit'
 import TextBox from '../common/TextBox'
 import Popup from '../common/Popup'
-import Login from '../blocks/Login'
+import Login from '../../containers/Login'
 
 import wNumb from 'wnumb'
 import c from '../../constants/constants'
@@ -44,8 +44,7 @@ export default React.createClass({
   },
 
   formToEvent(form){
-    console.log(form);
-    return form
+    return {...form, guestsCount: form.guests[0]}
   },
 
   onSubmit(form, callback){
@@ -55,7 +54,7 @@ export default React.createClass({
     if (this.props.isLoggedIn){
       self.props.onSubmit(event, callback)
     }else{
-      self.props.checkEmail(event.email, (err, res)=>{
+      self.props.checkEmail(event.contactEmail, (err, res)=>{
         if (err) {
           callback(err,res)
         }
@@ -63,7 +62,7 @@ export default React.createClass({
           self.setState({
             showPopup: true
           })
-          callback(err,res)
+          callback("Email already exists, please login",null)
         }else{
           self.props.onSubmit(event, callback)
         }
@@ -135,7 +134,7 @@ export default React.createClass({
                   <h4>Event name</h4>
 
                   <TextField
-                    name="eventName"
+                    name="name"
                     validate={['required']}
                   />
                   <p>Please choose a descriptive name.</p>
@@ -145,7 +144,7 @@ export default React.createClass({
                   <section><h4>Your name</h4>
 
                     <TextField
-                      name="name"
+                      name="contactName"
                       validate={['required', 'lastName']}
                     />
                     <p >Your first and last name.</p>
@@ -153,7 +152,7 @@ export default React.createClass({
 
                   <section><h4>Your email</h4>
                     <TextField
-                      name="email"
+                      name="contactEmail"
                       validate={['required', 'email']}
                     />
                     <p>Your email is only shared with qualified DJs.</p>
@@ -185,7 +184,7 @@ export default React.createClass({
                   <h4>Speakers</h4>
                   <p style={{marginBottom:"10px"}}>Do you need speakers for the event?</p>
                   <ToggleOptions
-                    name="speakers"
+                    name="needSpeakers"
                     validate={['required']}
                   >
                     <Button
@@ -272,6 +271,7 @@ export default React.createClass({
         </div>
 
         <Form
+          noError
           name="requestForm">
 
           <Progress

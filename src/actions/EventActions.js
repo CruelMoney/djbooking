@@ -32,7 +32,7 @@ export function fetchEvents() {
 }
 
 
-export function fetchEvent(id, authID) {
+export function fetchEvent(id, hash, authID, callback = null) {
   return function (dispatch) {
 
     dispatch( function() { return {
@@ -40,12 +40,18 @@ export function fetchEvent(id, authID) {
       }}())
 
       const token = auth.getToken()
-      cueup.getEvent(token, id, function(err, result){
+      cueup.getEvent(token, id, hash, function(err, result){
         if (err) {
           dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_FAILED, err: err.message}}() )
+          if (callback) {
+            callback(err.message)
+          }
         }else{
           var event = converter.cueupEvent.fromDTO(result)
           dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_SUCCEEDED, events: [event]} }() )
+          if (callback) {
+            callback(null)
+          }
         }
       })
   }
@@ -72,6 +78,7 @@ function createEvent(form, geoResult){
       }
 
 
+
 export function postEvent(form, callback) {
   return function (dispatch) {
 
@@ -83,7 +90,11 @@ export function postEvent(form, callback) {
 
         //If the geocoding does not fail
         else {
-          var data = createEvent(form, geoResult.position)
+          var event = converter.cueupEvent.toDTO(form);
+          var data ={...event, location:{
+            lat:geoResult.position.lat,
+            lng: geoResult.position.lng,
+            name: event.location}, }
           const token = auth.getToken()
           cueup.createEvent(token, data, function(err, result){
             if (err) {
@@ -98,6 +109,7 @@ export function postEvent(form, callback) {
 
 
 export function updateEvent(event, callback) {
+  var self = this
   return function(dispatch){
   var data = converter.cueupEvent.toDTO(event);
   var id = event.id;
@@ -107,7 +119,7 @@ export function updateEvent(event, callback) {
     if (err) {
       (callback(err))
     }else{
-      (callback(null))
+      dispatch(self.fetchEvent(event.id, event.hashKey, null, callback))
     }
   })
 }
@@ -130,11 +142,11 @@ export function reviewEvent(review, callback) {
 }
 
 
-export function cancelEvent(id, callback) {
+export function cancelEvent(id, hash, callback) {
   return function(dispatch){
 
   const token = auth.getToken()
-  cueup.cancelEvent(token, id, function(err, result){
+  cueup.cancelEvent(token, id, hash, function(err, result){
     if (err) {
       (callback(err))
     }else{

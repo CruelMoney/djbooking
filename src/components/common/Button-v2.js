@@ -51,7 +51,6 @@ class Button extends React.Component {
       borderRadius:    this.props.rightRounded ? "0px 6px 6px 0px" :
                        this.props.leftRounded  ? "6px 0px 0px 6px" :
                        this.props.rounded      ? "6px 6px 6px 6px" : "0px 0px 0px 0px",
-      boxShadow:       this.props.isLoading    ? "-10px 0px 40px -5px " + this.context.color : null
     }
 
     wrapperStyle={
