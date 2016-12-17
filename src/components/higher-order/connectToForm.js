@@ -43,7 +43,7 @@ function connectToForm (
     }
 
     componentWillMount() {
-        if (this.props.value) {
+        if (typeof this.props.value !== 'undefined' && this.props.value !== null) {
           this.onChange(this.props.value)
         }
         if (this.context.registerValidation) {

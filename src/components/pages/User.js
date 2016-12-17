@@ -24,14 +24,28 @@ var user = React.createClass({
       loading: PropTypes.bool
   },
 
+  componentWillMount(){
+
+    if (!this.props.profile.email_verified) {
+      this.setState({notification:"You won't receive any gigs before you confirm your email-address."})
+      return
+    }
+    if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
+      this.setState({notification:"You should update your profile picture."})
+      return
+    }
+    this.setState({notification:"You don't have any new notifications."})
+
+  },
+
   componentWillReceiveProps(nextProps){
 
     if (!nextProps.profile.email_verified) {
       this.setState({notification:"You won't receive any gigs before you confirm your email-address."})
       return
     }
-    if (nextProps.profile.picture && nextProps.profile.picture.indexOf("default-profile-pic.png") !== -1) {
-      this.setState({notification:"You should change your profile picture."})
+    if (nextProps.profile.picture && nextProps.profile.picture.indexOf("default-profile-pic") !== -1) {
+      this.setState({notification:"You should update your profile picture."})
       return
     }
     this.setState({notification:"You don't have any new notifications."})

@@ -1916,9 +1916,11 @@ transform: translateX(-50%);
   line-height: 26px;
   color: #4A4A4A;
 }
+.event-header-content, .user-header-content{
+  height: 180px;
+}
 .event-header-content{
   padding: 0;
-  height: 180px;
 }
 .back-button{
   position: absolute;

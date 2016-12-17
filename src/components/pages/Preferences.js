@@ -8,6 +8,8 @@ import SubmitButton from '../common/SubmitButton'
 import TextWrapper from '../common/TextElement'
 import assign from 'lodash.assign'
 import LoadingPlaceholder from '../common/LoadingPlaceholder'
+import wNumb from 'wnumb'
+import Slider from '../common/Slider'
 
 export default React.createClass({
   propTypes: {
@@ -55,7 +57,8 @@ export default React.createClass({
                             })
 
     var settings = assign({}, form.values, {
-            emailSettings: eSettings
+            emailSettings: eSettings,
+            refundPercentage: this.state.refundPercentage
           })
 
     this.props.updateSettings(settings,callback)
@@ -182,7 +185,7 @@ export default React.createClass({
                   <TextWrapper
                     label="Cancelation policy"
                     text="How many days notice do you allow for cancelations?
-                    If the organizer wants to cancel the event within less days, no money will be refunded.
+                    If the organizer wants to cancel the event within less days, the percentage specified below will be refunded.
                     The organizer will have to agree to this policy when confirming your offer.">
 
                     <ToggleOptions
@@ -215,6 +218,27 @@ export default React.createClass({
                     </ToggleOptions>
                   </TextWrapper>
                   <TextWrapper
+                    label="Refund percentage"
+                    text="How many percentage of the offer should be returned if the organizer cancels within less days than the minimum notice?">
+                    <Slider
+                      disabled={!this.context.editing}
+                      name="refundPercentage"
+                      range={{min:0, max:100}}
+                      step={1}
+                      connect="lower"
+                      value={[this.props.user.settings.refundPercentage]}
+                      onChange={(values) => this.setState({
+                              refundPercentage: values[0]
+                      })}
+                      format={ wNumb({
+                              decimals: 0,
+                              thousand: ".",
+                      })}
+                    />
+                    <p style={{marginTop:"15px"}}>
+                      <span>{this.state.refundPercentage}% </span>will be refunded.</p>
+                  </TextWrapper>
+                  <TextWrapper
                     label="Standby"
                     text="Are you unavailable to play at the moment? You will not receive requests if you're unavailable.">
 
@@ -222,14 +246,14 @@ export default React.createClass({
                       name="standby"
                       glued={true}
                       disabled={!this.context.editing}
-                      value={this.props.user.settings.standby ? 1 : 0}
+                      value={this.props.user.settings.standby ? true : false}
 
                     >
                       <Button
-                        name={1}
+                        name={true}
                       >Unavailable</Button>
                       <Button
-                        name={0}
+                        name={false}
                       >Available</Button>
                     </ToggleOptions>
                   </TextWrapper>

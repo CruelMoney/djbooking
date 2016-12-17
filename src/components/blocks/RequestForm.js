@@ -233,7 +233,12 @@ export default React.createClass({
                   <div>
                     <Slider
                       name="guests"
-                      range={{min:0, max:100}}
+                      range={{
+                        'min': [  1 ],
+                        '50%': [  100 ],
+                        '80%': [  500 ],
+                        'max': [ 1000 ]
+                      }}
                       step={1}
                       connect="lower"
                       value={[50]}
@@ -242,12 +247,11 @@ export default React.createClass({
                       })}
                       format={ wNumb({
                           decimals: 0,
-                          thousand: ".",
                       })}
                     />
                   </div>
                   <p style={{marginTop:"15px"}}>
-                    Around <span>{this.state.guests} people </span>attending the event.</p>
+                    {this.state.guests === "1000" ? "Over " : "Around "} <span>{this.state.guests} people </span>attending the event.</p>
                 </section>
                 <section>
                   <h4>Description</h4>

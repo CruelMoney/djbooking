@@ -2,7 +2,7 @@ import AuthService from '../utils/AuthService'
 import CueupService from '../utils/CueupService'
 import Formatter from '../utils/Formatter'
 import GeoCoder from '../utils/GeoCoder'
-import LoginActions from './LoginActions'
+import * as LoginActions from './LoginActions'
 const cueup = new CueupService()
 
 const auth = new AuthService()

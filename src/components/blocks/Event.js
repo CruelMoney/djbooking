@@ -193,20 +193,25 @@ var Event = React.createClass({
                     text="How many people do you expect at the event?">
                     <Slider
                       name="guests"
-                      range={{min:0, max:100}}
+                      range={{
+                        'min': [  1 ],
+                        '50%': [  100 ],
+                        '80%': [  500 ],
+                        'max': [ 1000 ]
+                      }}
                       step={1}
                       connect="lower"
-                      value={[this.props.event.guestsCount]}
+                      value={[50]}
                       onChange={(values) => this.setState({
-                              guests: values[0]
+                          guests: values[0]
                       })}
                       format={ wNumb({
-                              decimals: 0,
-                              thousand: ".",
+                          decimals: 0,
                       })}
                     />
                     <p style={{marginTop:"15px"}}>
-                      Around <span>{this.state.guests} people </span>attending the event.</p>
+                    {this.state.guests === "1000" ? "Over " : "Around "} <span>{this.state.guests} people </span>attending the event.</p>
+
                   </TextWrapper>
 
                   <TextWrapper
