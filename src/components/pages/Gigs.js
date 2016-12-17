@@ -48,51 +48,50 @@ var Gigs = React.createClass({
     <div
       className="context-actions"
       key="profile_actions">
-      <div style={{marginBottom:"4px"}}>
-        <Button
+      {/* <Button
           name="requested"
           active={this.state.filter === "requested"}
           onClick={()=>{
-            this.setState({
-              filter: "requested"
-            })
+          this.setState({
+          filter: "requested"
+          })
           }}
-        >Requested</Button>
-      </div>
-      <div style={{marginBottom:"4px"}}>
-        <Button
+          >Requested</Button>
+          </div>
+          <div style={{marginBottom:"4px"}}>
+          <Button
           name="upcoming"
           active={this.state.filter === "upcoming"}
           onClick={()=>{
-            this.setState({
-              filter: "upcoming"
-            })
+          this.setState({
+          filter: "upcoming"
+          })
           }}
-        >Upcoming</Button>
-      </div>
-      <div style={{marginBottom:"4px"}}>
-        <Button
+          >Upcoming</Button>
+          </div>
+          <div style={{marginBottom:"4px"}}>
+          <Button
           name="lost"
           active={this.state.filter === "lost"}
           onClick={()=>{
-            this.setState({
-              filter: "lost"
-            })
+          this.setState({
+          filter: "lost"
+          })
           }}
-        >Lost</Button>
-      </div>
-      <div style={{marginBottom:"4px"}}>
-        <Button
+          >Lost</Button>
+          </div>
+          <div style={{marginBottom:"4px"}}>
+          <Button
           name="finished"
           active={this.state.filter === "finished"}
           onClick={()=>{
-            this.setState({
-              filter: "finished"
-            })
+          this.setState({
+          filter: "finished"
+          })
           }}
-        >Finished</Button>
-      </div>
-
+          >Finished</Button>
+          </div>
+        */}
 
       <div style={{marginBottom:"4px"}}>
         <Button
@@ -114,37 +113,38 @@ var Gigs = React.createClass({
     var lostGigs = []
     var requestedGigs = []
     var upcomingGigs = []
+    var gigs = []
 
     this.state.gigs.forEach(function(gig, i) {
-      switch (gig.status) {
-        case 'Finished':
-          finishedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-          break
-        case 'Accepted':
-          requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-          break
-        case 'Confirmed':
-          upcomingGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-          break
-        case 'Requested':
-          requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-          break
-        case 'Lost':
-          lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-          break
-        case 'Cancelled':
-          //lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-          break
-        default:
+      // switch (gig.status) {
+      //   case 'Finished':
+      //     finishedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
+      //     break
+      //   case 'Accepted':
+      //     requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
+      //     break
+      //   case 'Confirmed':
+      //     upcomingGigs.push(<Gig key={gig.name+i} gig={gig}/>)
+      //     break
+      //   case 'Requested':
+      //     requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
+      //     break
+      //   case 'Lost':
+      //     lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
+      //     break
+      //   case 'Cancelled':
+      //     lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
+      //     break
+      //   default:
+        gigs.push(<Gig key={gig.name+i} gig={gig}/>)
 
-      }
     })
 
     const renderGigs = (gigs) => {
       if (gigs.length === 0) {
         return <EmptyPage
           message={
-            <div> No {this.state.filter} gigs<br/>
+            <div> No gigs<br/>
             You will get a notification when new gigs are available</div>
           }/>
       }else {
@@ -164,23 +164,17 @@ var Gigs = React.createClass({
 
     return(
       <div>
-        {
-          this.props.loading ?
+
+        {this.props.loading ?
           renderLoadingItem()
           :
-          this.state.filter === "upcoming" ?
-          renderGigs(upcomingGigs)
-          :
-          this.state.filter === "finished" ?
-          renderGigs(finishedGigs)
-          :
-          this.state.filter === "requested" ?
-          renderGigs(requestedGigs)
-          :
-          this.state.filter === "lost" ?
-          renderGigs(lostGigs)
-          : null
+            <div>
+              {renderGigs(gigs)}
+            </div>
         }
+
+
+
       </div>)
 
   }

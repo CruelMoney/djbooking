@@ -37,6 +37,14 @@ footer{
 
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
+
+}
+h4 svg{
+  margin-bottom: -3px;
+      margin-right: 10px;
+}
+h4 path{
+    fill: #32325D;
 }
 
 h1{
@@ -291,6 +299,10 @@ input:-webkit-autofill {
 form ol {
   counter-reset: item;
   margin-left:-40px;
+}
+
+form a{
+  color: #32325D;
 }
 
  .signup form li {
@@ -657,7 +669,6 @@ input[type="file"] + label * {
 }
 
 .user-header{
-  position: relative;
   z-index: 2;
   padding-top: 130px;
   height: 315px;
@@ -1576,7 +1587,7 @@ margin-bottom: 80px;
 p.error{
     color: #F44336 !important;
 }
-.request-form .erros{
+.progrezz-wrapper .errors{
   text-align: center;
 }
 .terms{
@@ -1939,4 +1950,15 @@ transform: translateX(-50%);
 }
 .empty-page-message img{
   margin: 40px;
+}
+
+.payout-form button{
+  width: 100%;
+}
+
+.payout-form .text-field{
+  margin-top: 0;
+}
+.payout-form .errors{
+  margin-top: 5px;
 }

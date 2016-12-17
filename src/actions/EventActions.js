@@ -40,6 +40,7 @@ export function fetchEvent(id, hash, authID, callback = null) {
       }}())
 
       const token = auth.getToken()
+
       cueup.getEvent(token, id, hash, function(err, result){
         if (err) {
           dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_FAILED, err: err.message}}() )

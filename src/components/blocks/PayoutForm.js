@@ -22,6 +22,14 @@ var payoutForm = React.createClass({
       this.props.updatePayoutInfo(info, callback)
   },
 
+
+    getInitialState() {
+      return {
+        valid: false
+      }
+    },
+
+
   render() {
 
     const styles ={
@@ -105,9 +113,17 @@ var payoutForm = React.createClass({
         }
     }
     return(
-      <div>
+      <div className="payout-form" >
 
-        <Form name="payout-form">
+        <Form
+          formValidCallback={
+            ()=>{this.setState({valid:true})
+            }
+          }
+          formInvalidCallback={()=>{
+            this.setState({valid:false})
+          }}
+          name="payout-form">
 
           <TextWrapper
             label="Payout"
@@ -186,7 +202,7 @@ var payoutForm = React.createClass({
                   style={styles.medium.textarea}
                   inputStyle={styles.medium.input}
                   validate={['required', 'validateAccountNumberDKK']}
-                  type="number"
+                  type="text"
                   fullWidth={false}
                   placeholder="Account number"
                   underlineDisabledStyle={styles.plainBorder}
@@ -201,11 +217,11 @@ var payoutForm = React.createClass({
           <div className="row">
             <div className="col-xs-6">
               <SubmitButton
-                rounded={true}
-                label="Save"
+                glow
+                active={this.state.valid}
                 name="save_payout_info"
                 onClick={this.updatePayoutInfo}
-              />
+              >Save</SubmitButton>
             </div>
             <div className="col-xs-6">
               <a style={{float: "right"}} href="https://stripe.com/" target="_blank">

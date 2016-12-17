@@ -4,7 +4,6 @@ import UserNavigation from './UserNavigation'
 import UserCard from './UserCard'
 import Notification from '../common/Notification'
 import UserPic from '../../assets/default-profile-pic.png'
-import ErrorMessage from '../common/ErrorMessage'
 
 var userHeader = React.createClass({
 
@@ -101,7 +100,7 @@ var userHeader = React.createClass({
             loading={this.props.loading}
           />
           {this.props.actions}
-          <ErrorMessage></ErrorMessage>
+
         </div>
 
 

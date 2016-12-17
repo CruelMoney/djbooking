@@ -9,6 +9,7 @@ import TextBox from '../common/TextBox'
 import LoadingPlaceholder from '../common/LoadingPlaceholder'
 import TextWrapper from '../common/TextElement'
 import c from '../../constants/constants'
+import ErrorMessage from '../common/ErrorMessage'
 
 const Map = connectToForm(SimpleMap)
 
@@ -64,7 +65,7 @@ var Profile = React.createClass({
                   >Edit profile
                 </Button>
               }
-
+              <ErrorMessage/>
             </div>
 
         )

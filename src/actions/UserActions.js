@@ -90,6 +90,8 @@ var ActionTypes = c.ActionTypes
 
 
   export function checkEmail(email, callback){
+    var self=this
+
     return function (dispatch) {
       if (!email) {
         return callback("Please enter email.")
@@ -136,6 +138,8 @@ export function resetProfile(profile) {
 
 
 export function updatePayoutInfo(data, callback) {
+  var self=this
+
   return function(dispatch){
 
   stripe.createBankToken(data, (err, result)=>{
@@ -154,7 +158,7 @@ export function updatePayoutInfo(data, callback) {
         if (err) {
           (callback(err))
         }else{
-          (callback(null))
+          dispatch(self.getUser(callback))
         }
       })
 
@@ -166,6 +170,7 @@ export function updatePayoutInfo(data, callback) {
 
 
 export function updateSettings(settings, callback) {
+  var self=this
   return function(dispatch){
   const data = converter.settings.toDTO(settings)
 
@@ -174,7 +179,7 @@ export function updateSettings(settings, callback) {
     if (err) {
       (callback(err))
     }else{
-      (callback(null))
+      dispatch(self.getUser(callback))
     }
   })
 }

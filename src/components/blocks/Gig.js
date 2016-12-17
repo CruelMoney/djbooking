@@ -146,282 +146,287 @@ var Gig = React.createClass({
 
 
       return (
-        <div
-          className="card gig"
+        <div>
+          <Popup showing={this.state.showPopup}
+            onClickOutside={this.hidePopup}>
+            <PayoutForm/>
+          </Popup>
 
-        >
+          <div
+            className="card gig"
+
+          >
 
 
-          <div className="col-xs-12">
-            <div className="event-top">
-              <div>
-                <div className="event-name">
-                  {this.props.gig.name}
+            <div className="col-xs-12">
+              <div className="event-top">
+                <div>
+                  <div className="event-name">
+                    {this.props.gig.name}
+                  </div>
+                  <div className="event-location">
+                    <svg
+                      version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 466.583 466.582" style={{enableBackground: "new 0 0 466.583 466.582"}}>
+                      <g>
+                        <path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
+                      </g>
+                    </svg>
+                    {" " + this.props.gig.location.name}
+                  </div>
                 </div>
-                <div className="event-location">
-                  <svg
-                    version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 466.583 466.582" style={{enableBackground: "new 0 0 466.583 466.582"}}>
-                    <g>
-                      <path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
-                    </g>
-                  </svg>
-                  {" " + this.props.gig.location.name}
-                </div>
+                <div style={styles.image}/>
               </div>
-              <div style={styles.image}/>
-            </div>
 
-            <CollapsibleContainer>
+              <CollapsibleContainer>
 
 
 
 
 
 
-              <Collapsible
-                name="EventInfo"
-                label="Event Info"
-              >
-
-
-                <TextWrapper
-                  label="Description"
+                <Collapsible
+                  name="EventInfo"
+                  label="Event Info"
                 >
-                  <p>
-                    {this.props.gig.description}
-                  </p>
-                </TextWrapper>
-                <TextWrapper
-                  label="Guests"
 
+
+                  <TextWrapper
+                    label="Description"
+                  >
+                    <p>
+                      {this.props.gig.description}
+                    </p>
+                  </TextWrapper>
+                  <TextWrapper
+                    label="Guests"
+
+                  >
+                    <p>
+                      {"Around " + this.props.gig.guestCount + " people attending the event."}
+                    </p>
+
+
+                  </TextWrapper>
+
+                </Collapsible>
+
+
+
+
+                <Collapsible
+                  name="Requirements"
+                  label="Requirements"
                 >
-                  <p>
-                    {"Around " + this.props.gig.guestCount + " people attending the event."}
-                  </p>
+
+                  <TextWrapper
+                    label="Speakers"
+                  >
+                    <p>
+                      {
+                        this.props.gig.needSpeakers === "YES"
+                        ?
+                        "The customer needs you to bring speakers."
+                        : null
+                      }
+                      {
+                        this.props.gig.needSpeakers === "UNCERTAIN"
+                        ?
+                        "The customer does not know if they need speakers yet."
+                        : null
+                      }
+                      {
+                        this.props.gig.needSpeakers === "NO"
+                        ?
+                        "There's already speakers at the event."
+                        : null
+                      }
+                    </p>
+                  </TextWrapper>
 
 
-                </TextWrapper>
+                  <TextWrapper
+                    label="Duration"
 
-              </Collapsible>
+                  >
+                    <p>
+                      {"The music should start at " + Formatter.date.ToTime(this.props.gig.startTime) + ", and end at " + Formatter.date.ToTime(this.props.gig.endTime) + "."}
+                    </p>
+                  </TextWrapper>
 
+                  <TextWrapper
+                    label="Genres">
+                    <p>{genres}</p>
 
+                  </TextWrapper>
 
+                </Collapsible>
 
-              <Collapsible
-                name="Requirements"
-                label="Requirements"
-              >
-
-                <TextWrapper
-                  label="Speakers"
+                <Collapsible
+                  name="ContactInfo"
+                  label="Contact"
                 >
-                  <p>
-                    {
-                      this.props.gig.needSpeakers === "YES"
-                      ?
-                      "The customer needs you to bring speakers."
-                      : null
-                    }
-                    {
-                      this.props.gig.needSpeakers === "UNCERTAIN"
-                      ?
-                      "The customer does not know if they need speakers yet."
-                      : null
-                    }
-                    {
-                      this.props.gig.needSpeakers === "NO"
-                      ?
-                      "There's already speakers at the event."
-                      : null
-                    }
-                  </p>
-                </TextWrapper>
 
+                  <TextWrapper
+                    label="Name"
+                  >
+                    <p>{this.props.gig.contactName}</p>
 
-                <TextWrapper
-                  label="Duration"
+                  </TextWrapper>
 
-                >
-                  <p>
-                    {"The music should start at " + Formatter.date.ToTime(this.props.gig.startTime) + ", and end at " + Formatter.date.ToTime(this.props.gig.endTime) + "."}
-                  </p>
-                </TextWrapper>
-
-                <TextWrapper
-                  label="Genres">
-                  <p>{genres}</p>
-
-                </TextWrapper>
-
-              </Collapsible>
-
-              <Collapsible
-                name="ContactInfo"
-                label="Contact"
-              >
-
-                <TextWrapper
-                  label="Name"
-                >
-                  <p>{this.props.gig.customer.censoredName}</p>
-
-                </TextWrapper>
-
-                <TextWrapper
-                  label="Phone"
-                >
-                  <a href={"tel:"+this.props.gig.customer.phone}>{this.props.gig.customer.phone}</a>
-
-                </TextWrapper>
-
-                <TextWrapper
-                  label="Email"
-                >
-                  <a href={"mailto:"+this.props.gig.customer.email}>{this.props.gig.customer.email}</a>
-
-                </TextWrapper>
-              </Collapsible>
-
-
-
-
-
-              <Collapsible
-                name="Offer"
-                label="Offer"
-              >
-                <Popup showing={this.state.showPopup}
-                  onClickOutside={this.hidePopup}>
-                  <PayoutForm/>
-                </Popup>
-
-                <Form
-                  name={"gig-offer-" + this.props.gig.id}
-                >
-                  {this.props.payoutInfoValid ?
-
-                    <div>
-                      <p>Enter your price to play this gig.
-                      You can always update the offer until it has been paid.</p>
-
-                      <TextField
-                        name="amount"
-                        hintStyle={styles.medium.hint}
-                        style={styles.medium.textarea}
-                        placeholder="DKK 0,00"
-                        onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
-                        inputStyle={styles.medium.input}
-                        disabled={this.props.gig.status === "Cancelled"  || this.props.gig.status === "Lost" || this.props.gig.status === "Confirmed" || this.props.gig.status === "Finished" }
-                        type="string"
-                        fullWidth={true}
-                        value={this.props.gig.offer.amount}
-                      />
-                    </div>
-
-                  :null}
-
-
-
-
-                  {!this.props.payoutInfoValid ?
-
-                    <div >
-                      <p>Please update your payout information before making an offer.</p>
-
-                      <Button
-                        rounded={true}
-                        onClick={()=>this.setState({showPopup:true})}
-                        name="show-payout-popup"
-                      >Update payout information</Button>
-
-
-
-                    </div>
-
-                  : null }
-
-                  <div className="offer-buttons">
-
-                    <Form
-                      name={"gig-cancel-" + this.props.gig.id}
+                  {this.props.gig.contactPhone ?
+                    <TextWrapper
+                      label="Phone"
                     >
+                      <a href={"tel:"+this.props.gig.contactPhone}>{this.props.gig.contactPhone}</a>
 
-                      { this.props.payoutInfoValid && this.props.gig.status === "Requested"
-                        ?
-                          <SubmitButton
-                            rounded={true}
-                            dangerous
-                            warning="Are you sure you want to decline the gig?"
-                            name="cancel_gig"
-                            onClick={(form, callback)=>this.props.declineGig(this.props.gig.id, callback)}
-                          >Decline gig</SubmitButton>
-                      : null}
+                    </TextWrapper>
+                  : null}
 
 
-                      { this.props.payoutInfoValid &&  (this.props.gig.status  === "Accepted" ||
-                      this.props.gig.status  === "Confirmed")
-                        ?
+                  <TextWrapper
+                    label="Email"
+                  >
+                    <a href={"mailto:"+this.props.gig.contactEmail}>{this.props.gig.contactEmail}</a>
 
-                          <SubmitButton
-                            rounded={true}
-                            dangerous
-                            name="cancel_gig"
-                            onClick={(form, callback)=>this.props.cancelGig(this.props.gig.id, callback)}
-                          >Cancel gig</SubmitButton>
-
-                      : null}
-
-                    </Form>
+                  </TextWrapper>
+                </Collapsible>
 
 
-                    {this.props.payoutInfoValid && this.props.gig.status === "Requested" ?
-                      <SubmitButton
-                        rounded={true}
-                        name="send_offer"
-                        onClick={this.updateOffer}
-                      >Send offer</SubmitButton>
-                    : null}
 
-                    {this.props.payoutInfoValid && this.props.gig.status === "Accepted" ?
-                      <SubmitButton
-                        rounded={true}
-                        name="update_offer"
-                        onClick={this.updateOffer}
-                      >Update price offer</SubmitButton>
+
+
+                <Collapsible
+                  name="Offer"
+                  label="Offer"
+                >
+
+                  <Form
+                    name={"gig-offer-" + this.props.gig.id}
+                  >
+                    {this.props.payoutInfoValid ?
+
+                      <div>
+                        <p>Enter your price to play this gig.
+                        You can always update the offer until it has been paid.</p>
+
+                        <TextField
+                          name="amount"
+                          hintStyle={styles.medium.hint}
+                          style={styles.medium.textarea}
+                          placeholder="DKK 0,00"
+                          onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
+                          inputStyle={styles.medium.input}
+                          disabled={this.props.gig.status === "Cancelled"  || this.props.gig.status === "Lost" || this.props.gig.status === "Confirmed" || this.props.gig.status === "Finished" }
+                          type="string"
+                          fullWidth={true}
+                          value={this.props.gig.offer.amount}
+                        />
+                      </div>
+
                     :null}
 
-                  </div>
-
-                  {this.props.gig.status === "Confirmed" ?
-
-                    <p>Great! You have been chosen to play this gig.</p>
-
-                    :
-                  null}
-
-                  { this.props.gig.status === "Lost" ?
-                    <p>
-                      Sorry you have lost this gig to another DJ. <br/>
-                      Next time try to set another price or be faster at responding. <br/>
-                      Adding info to your profile also helps the customer being comfortable in choosing you.
-                    </p>
-                  :  null}
-
-                  { this.props.gig.status === "Cancelled" ?
-                    <p>Unfortunately the event has been cancelled by the host.</p>
-                  :  null}
-
-                </Form>
-
-
-              </Collapsible>
 
 
 
+                    {!this.props.payoutInfoValid ?
 
-            </CollapsibleContainer>
+                      <div >
+                        <p>Please update your payout information before making an offer.</p>
+
+                        <Button
+                          rounded={true}
+                          onClick={()=>this.setState({showPopup:true})}
+                          name="show-payout-popup"
+                        >Update payout information</Button>
+
+
+
+                      </div>
+
+                    : null }
+
+                    <div className="offer-buttons">
+
+                      <Form
+                        name={"gig-cancel-" + this.props.gig.id}
+                      >
+
+                        { this.props.payoutInfoValid && this.props.gig.status === "Requested"
+                          ?
+                            <SubmitButton
+                              rounded={true}
+                              dangerous
+                              warning="Are you sure you want to decline the gig?"
+                              name="cancel_gig"
+                              onClick={(form, callback)=>this.props.declineGig(this.props.gig.id, callback)}
+                            >Decline gig</SubmitButton>
+                        : null}
+
+
+                        { this.props.payoutInfoValid &&  (this.props.gig.status  === "Accepted" ||
+                        this.props.gig.status  === "Confirmed")
+                          ?
+
+                            <SubmitButton
+                              rounded={true}
+                              dangerous
+                              name="cancel_gig"
+                              onClick={(form, callback)=>this.props.cancelGig(this.props.gig.id, callback)}
+                            >Cancel gig</SubmitButton>
+
+                        : null}
+
+                      </Form>
+
+
+                      {this.props.payoutInfoValid && this.props.gig.status === "Requested" ?
+                        <SubmitButton
+                          rounded={true}
+                          name="send_offer"
+                          onClick={this.updateOffer}
+                        >Send offer</SubmitButton>
+                      : null}
+
+                      {this.props.payoutInfoValid && this.props.gig.status === "Accepted" ?
+                        <SubmitButton
+                          rounded={true}
+                          name="update_offer"
+                          onClick={this.updateOffer}
+                        >Update price offer</SubmitButton>
+                      :null}
+
+                    </div>
+
+                    {this.props.gig.status === "Confirmed" ?
+
+                      <p>Great! You have been chosen to play this gig.</p>
+
+                      :
+                    null}
+
+                    { this.props.gig.status === "Lost" ?
+                      <p>
+                        Sorry you have lost this gig to another DJ. <br/>
+                        Next time try to set another price or be faster at responding. <br/>
+                        Adding info to your profile also helps the customer being comfortable in choosing you.
+                      </p>
+                    :  null}
+
+                    { this.props.gig.status === "Cancelled" ?
+                      <p>Unfortunately the event has been cancelled by the host.</p>
+                    :  null}
+
+                  </Form>
+
+
+                </Collapsible>
+
+
+
+
+              </CollapsibleContainer>
+            </div>
           </div>
-
         </div>)
 
   }

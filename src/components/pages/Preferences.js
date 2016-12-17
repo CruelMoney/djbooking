@@ -10,6 +10,7 @@ import assign from 'lodash.assign'
 import LoadingPlaceholder from '../common/LoadingPlaceholder'
 import wNumb from 'wnumb'
 import Slider from '../common/Slider'
+import ErrorMessage from '../common/ErrorMessage'
 
 export default React.createClass({
   propTypes: {
@@ -112,6 +113,8 @@ export default React.createClass({
               name="Delete_profile"
             > Delete profile
             </SubmitButton>
+            <ErrorMessage/>
+
           </div>
 
       )
@@ -132,7 +135,7 @@ export default React.createClass({
           <Popup showing={this.state.showPopup}
             onClickOutside={this.hidePopup}>
             <PayoutForm/>
-
+            
           </Popup>
 
           <div className="row">

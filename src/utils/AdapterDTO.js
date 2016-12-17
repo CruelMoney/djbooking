@@ -70,6 +70,7 @@ const deletedUser={
     }
 
     var settings ={
+
       fromDTO:function(DTO, isDj, isCustomer){
         return {...DTO, emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer)}
       },
@@ -79,12 +80,13 @@ const deletedUser={
     }
 
     var user ={
+
       fromDTO: function(DTO) {
         return assign({}, DTO, {
           bio: DTO.bio,
           email: DTO.email,
           experienceCount: DTO.experienceCount,
-          picture: DTO.picture.indexOf("default-profile-pic") !== -1 ? profilePic : DTO.picture,
+          picture: !DTO.picture || DTO.picture.indexOf("default-profile-pic") !== -1 ? profilePic : DTO.picture,
           playingLocation : DTO.playingLocation,
           playingRadius : DTO.playingRadius,
           user_id   : DTO.user_id,
@@ -159,11 +161,11 @@ const deletedUser={
     var offer={
       fromDTO:function(DTO){
         return{
-
+            ...DTO,
            gigID: DTO.gigID,
            amount: Formatter.money.ToStandard(DTO.amount, DTO.currency),
            currency: DTO.currency,
-           dj: user.fromDTO(DTO.dj),
+           //dj: user.fromDTO(DTO.dj),
            status: DTO.GigStatus
           }
       },
@@ -179,13 +181,15 @@ const deletedUser={
     var cueupEvent ={
 
       fromDTO:function(DTO){
-
+          console.log(DTO);
         return{
             ...DTO,
             id: DTO.id,
             genres: DTO.genres,
             customerId: DTO.customerId,
-            offers: DTO.offers.map(o => offer.fromDTO(o)),
+            offers: DTO.offers
+                  .filter(o=>o.gigStatus !== "Requested" && o.gigStatus !== "Declined" && o.gigStatus !== "Lost" && o.gigStatus !== "Cancelled")
+                  .map(o => offer.fromDTO(o)),
             description: DTO.description,
             name: DTO.name,
             chosenOfferId: DTO.chosenOfferId,

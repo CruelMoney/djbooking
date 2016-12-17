@@ -65,7 +65,7 @@ var Profile = React.createClass({
                   <TextWrapper label="Phone" text="We only share your phone number with qualified dj's">
                     <TextField name="contactPhone" value={this.props.event.contactPhone}
                       type="tel"
-                      validate={['required']}/>
+                    />
                   </TextWrapper>
 
                   { !this.props.loggedIn ?
