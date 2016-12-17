@@ -151,7 +151,7 @@ var Gig = React.createClass({
             onClickOutside={this.hidePopup}>
             <PayoutForm/>
           </Popup>
-
+          
           <div
             className="card gig"
 
@@ -174,7 +174,23 @@ var Gig = React.createClass({
                     {" " + this.props.gig.location.name}
                   </div>
                 </div>
-                <div style={styles.image}/>
+                <div style={{marginRight: "3px", color:"#8998AA"}}>
+                  {this.props.gig.status === "Cancelled" ?
+                    "The event has been cancelled ☹️"
+                    :this.props.gig.status === "Requested" ?
+                    "Waiting on your offer 🤔"
+                    :this.props.gig.status === "Accepted" ?
+                    "Waiting on confirmation from organizer 😊"
+                    :this.props.gig.status === "Declined" ?
+                    "You have declined the gig 😮"
+                    :this.props.gig.status === "Lost" ?
+                    "You have lost the gig ☹️"
+                    :this.props.gig.status === "Confirmed" ?
+                    "The gig has been confirmed, get ready to play 😁"
+                    :this.props.gig.status === "Finished" ?
+                    "The gig is finished ☺️"
+                  :null}
+                </div>
               </div>
 
               <CollapsibleContainer>
@@ -189,6 +205,9 @@ var Gig = React.createClass({
                   label="Event Info"
                 >
 
+                  <p style={{marginBottom:"30px"}}>
+                    If the below information is not enough to give an offer, don't hesitate contacting the organizer!
+                  </p>
 
                   <TextWrapper
                     label="Description"
@@ -266,6 +285,10 @@ var Gig = React.createClass({
                   label="Contact"
                 >
 
+                  <p style={{marginBottom:"30px"}}>
+                    Feel free to contact the organizer to discuss the price, or figure out additional details.
+                  </p>
+
                   <TextWrapper
                     label="Name"
                   >
@@ -327,6 +350,14 @@ var Gig = React.createClass({
 
 
 
+                    { this.props.gig.status === "Lost" ?
+                      <p>
+                        Sorry you have lost this gig to another DJ. <br/>
+                        Next time try to set another price or be faster at responding. <br/>
+                        Adding info to your profile also helps the organizer being comfortable in choosing you.
+                      </p>
+                    :  null}
+
 
                     {!this.props.payoutInfoValid ?
 
@@ -351,7 +382,7 @@ var Gig = React.createClass({
                         name={"gig-cancel-" + this.props.gig.id}
                       >
 
-                        { this.props.payoutInfoValid && this.props.gig.status === "Requested"
+                        { this.props.payoutInfoValid && (this.props.gig.status === "Requested" || this.props.gig.status  === "Accepted")
                           ?
                             <SubmitButton
                               rounded={true}
@@ -363,8 +394,8 @@ var Gig = React.createClass({
                         : null}
 
 
-                        { this.props.payoutInfoValid &&  (this.props.gig.status  === "Accepted" ||
-                        this.props.gig.status  === "Confirmed")
+                        { this.props.payoutInfoValid &&
+                          this.props.gig.status  === "Confirmed"
                           ?
 
                             <SubmitButton
@@ -397,24 +428,6 @@ var Gig = React.createClass({
 
                     </div>
 
-                    {this.props.gig.status === "Confirmed" ?
-
-                      <p>Great! You have been chosen to play this gig.</p>
-
-                      :
-                    null}
-
-                    { this.props.gig.status === "Lost" ?
-                      <p>
-                        Sorry you have lost this gig to another DJ. <br/>
-                        Next time try to set another price or be faster at responding. <br/>
-                        Adding info to your profile also helps the customer being comfortable in choosing you.
-                      </p>
-                    :  null}
-
-                    { this.props.gig.status === "Cancelled" ?
-                      <p>Unfortunately the event has been cancelled by the host.</p>
-                    :  null}
 
                   </Form>
 

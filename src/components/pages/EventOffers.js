@@ -6,15 +6,27 @@ import EmptyPage from '../common/EmptyPage'
 var EventOffers = React.createClass({
 
 
+  componentWillMount(){
+    var daysUntil = (this.props.eventDate.getTime() - Date.now())/(24*3600*1000)
+
+    this.setState({
+      paymentPossible: daysUntil <= 28
+    })
+  },
+
     render() {
         var left =[]
         var right = []
 
         this.props.offers.forEach((o,i)=>{
           if (i % 2 === 0) {
-            left.push(<OfferCard offer={o}/>)
+            left.push(<OfferCard
+              paymentPossible={this.state.paymentPossible}
+              offer={o}/>)
           }else{
-            right.push(<OfferCard offer={o}/>)
+            right.push(<OfferCard
+              paymentPossible={this.state.paymentPossible}
+              offer={o}/>)
           }
         })
 
@@ -48,6 +60,7 @@ function mapDispatchToProps(dispatch, ownProps){
 function mapStateToProps(state, ownProps) {
   return {
     offers:  state.events.values[0].offers,
+    eventDate: state.events.values[0].startTime
   }
 }
 

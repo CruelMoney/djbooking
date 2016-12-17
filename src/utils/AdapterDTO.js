@@ -93,7 +93,7 @@ const deletedUser={
           genres:     DTO.genres,
           createdAt : DTO.createdAt,
           reviews : DTO.reviews ? DTO.reviews.map(r => review.fromDTO(r)) : [],
-          settings: settings.fromDTO(DTO.settings, DTO.app_metadata.isDJ, DTO.app_metadata.isCustomer),
+          settings: DTO.settings ? settings.fromDTO(DTO.settings, DTO.app_metadata.isDJ, DTO.app_metadata.isCustomer) : null,
 
           // user_metadata stuff here
             address:        DTO.user_metadata.address,
@@ -165,14 +165,19 @@ const deletedUser={
            gigID: DTO.gigID,
            amount: Formatter.money.ToStandard(DTO.amount, DTO.currency),
            currency: DTO.currency,
-           //dj: user.fromDTO(DTO.dj),
+           dj: user.fromDTO(DTO.dj),
+           fee:Formatter.money.ToStandard(DTO.fee, DTO.currency),
            status: DTO.GigStatus
           }
       },
       toDTO:function(offer){
         return{
            GigID: offer.gigID,
-           Amount: Formatter.money.ToSmallest(offer.amount,offer.currency),
+           Amount:
+           Formatter.money.ToSmallest(
+             Formatter.money.ExtractFromString(offer.amount)
+             ,offer.currency
+           ),
            Currency: offer.currency
           }
       }
@@ -207,7 +212,6 @@ const deletedUser={
           }
       },
       toDTO:function(event){
-        console.log(event);
         return{
           ...event,
           Genres: event.genres,

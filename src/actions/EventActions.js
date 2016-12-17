@@ -125,6 +125,19 @@ export function updateEvent(event, callback) {
   })
 }
 }
+export function notifyPayment(id, hash, callback) {
+  return function(dispatch){
+
+  const token = auth.getToken()
+  cueup.notifyPayEvent(token, id, hash, function(err, result){
+    if (err) {
+      (callback(err))
+    }else{
+      dispatch(null)
+    }
+  })
+}
+}
 
 export function reviewEvent(review, callback) {
   return function(dispatch){

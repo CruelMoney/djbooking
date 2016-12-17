@@ -934,7 +934,21 @@ transition: opacity 0.3s ease;
 }
 .navLink{
   position: relative;
+  transition: all 0.15s ease-out;
+  display: block;
 }
+.userNavigation .navLink.active{
+  transform: translateY(-7px);
+}
+.userNavigation .navLink:not(.active):hover{
+  transform: translateY(-3px);
+  height: 30px;
+}
+.back-button .navLink:hover{
+  transform: none !important;
+  height: auto !important;
+}
+
 .userNavigation .navLink.active:after {
   transform: translateX(-50%);
 }
@@ -943,9 +957,9 @@ transition: opacity 0.3s ease;
   top: 30px;
   left: 50%;
   display: inline-block;
-  border-right: 12px solid transparent;
-  border-bottom: 12px solid #FFFFFF;
-  border-left: 12px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid #FFFFFF;
+  border-left: 20px solid transparent;
   content: '';
   -webkit-transform: translateX(-100vw);
   -ms-transform: translateX(-100vw);
@@ -976,14 +990,21 @@ text-transform: capitalize;
   display: flex;
 }
 .pay-info{
-    width: 180px;
+  width: 180px;
     margin-left: 40px;
-    margin-top: 50px;
-    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .pay-fact{
   border-bottom: 1px solid rgb(246, 249, 252);
-  padding-top: 10px;
+  margin-top: 10px;
+      padding-bottom: 10px;
+      align-items: center;
+
+}
+.pay-fact p{
+  margin: 0px;
 }
 
 .review-card-fact:last-child p{
@@ -1049,6 +1070,7 @@ font-weight: 100;
   display: flex;
 justify-content: space-between;
 padding-bottom: 10px;
+align-items: flex-end;
 border-bottom: 2px solid #eee;
 }
 
@@ -1114,10 +1136,18 @@ button{
   background-color: transparent;
 }
 
+.collapsible-arrow{
+   transition: all ease-out .15s!important;
+   transform: rotate(180deg);
+}
 
+.collapsible.collapsed>div:hover .collapsible-arrow{
+  margin-top: 3px;
+  opacity: 0.8;
+}
 
 .collapsible.active  .collapsible-arrow{
-   transform: rotate(180deg);
+   transform: rotate(0deg);
 }
 
 .offer-card {
@@ -1149,7 +1179,8 @@ button{
   font-size: 12px;
 }
 
-.user-bio{
+.user-bio,
+.cancelation-policy{
   overflow: scroll;
 max-height: 150px;
 padding-top: 15px;
@@ -1165,7 +1196,7 @@ margin-right: 5px;
 
 .info-popup{
   float: right;
-  margin-top: 2px;
+  margin-top: 7px;
   margin-left: 5px;
   position: relative;
 }
@@ -1577,7 +1608,7 @@ margin-bottom: 80px;
   color: #8998AA;
 }
 .errors{
-      margin-top: -10px;
+      margin-top: 5px;
 }
 
 .errors p{
@@ -1777,7 +1808,7 @@ transform: translateX(-50%);
   background: #FFFFFF;
 }
 .user-container{
-
+    margin-bottom: 60px;
 }
 
 .user-container p,
@@ -1935,7 +1966,7 @@ transform: translateX(-50%);
 }
 .back-button{
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 0;
 }
 
@@ -1952,13 +1983,16 @@ transform: translateX(-50%);
   margin: 40px;
 }
 
-.payout-form button{
+.pay-form > div{
+  max-width: 350px;
+}
+.payout-form button,
+.pay-form button,
+.pay-form .button-wrapper{
   width: 100%;
 }
 
-.payout-form .text-field{
+.payout-form .text-field,
+.pay-form .text-field{
   margin-top: 0;
-}
-.payout-form .errors{
-  margin-top: 5px;
 }

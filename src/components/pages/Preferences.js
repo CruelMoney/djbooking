@@ -135,7 +135,7 @@ export default React.createClass({
           <Popup showing={this.state.showPopup}
             onClickOutside={this.hidePopup}>
             <PayoutForm/>
-            
+
           </Popup>
 
           <div className="row">
@@ -197,9 +197,7 @@ export default React.createClass({
                       glued={true}
                       value={this.props.user.settings.cancelationDays}
                     >
-                      <Button
-                        name={0}
-                      >Same day</Button>
+                      
                       <Button
                         name={1}
                       >1 day</Button>

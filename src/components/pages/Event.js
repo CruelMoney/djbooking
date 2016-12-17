@@ -32,8 +32,27 @@ var event = React.createClass({
   componentWillReceiveProps(nextProps){
     if (nextProps.event && !nextProps.event.emailVerified) {
       this.setState({notification:"You won't receive any offers before you confirm your email-address."})
-    }
+    }else{
+      this.setState({notification:
+      nextProps.event.status === "Cancelled" ?
+      "The event is cancelled ☹️"
+      :nextProps.event.status === "Initial" ?
+      "Waiting on you to verify your email ☺️"
+      :nextProps.event.status === "Offering" ?
+      "Waiting on offers from djs 😊"
+      :nextProps.event.status === "NoMatches" ?
+      "No djs could be found 😮"
+      :nextProps.event.status === "Accepted" ?
+      "A dj has made an offer 😊"
+      :nextProps.event.status === "Confirmed" ?
+      "The event has been payed & confirmed, get ready to rock 😁"
+      :nextProps.event.status === "Finished" ?
+      "The event is finished ☺️"
+    :"You have no new notifications"})
+  }
   },
+
+
 
   getChildContext() {
    return {

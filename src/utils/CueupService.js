@@ -18,6 +18,7 @@ export default class CueupService {
             return {method: 'POST', headers: headers, body: JSON.stringify(data)};
         }
         this.putInit = function(data, headers) {
+          console.log(JSON.stringify(data));
             return {method: 'PUT', headers: headers, body: JSON.stringify(data)};
         }
         this.deleteInit = function(headers) {
@@ -53,8 +54,10 @@ export default class CueupService {
       var self = this;
       return fetch(uri, init)
         .then(function(response) {
+          console.log(response);
           return self.responseHandling(response, callback);
       }).catch(function(error) {
+        console.log(error);
           return callback({
               message: 'There has been a problem with your fetch operation: ' + error.message
           }, null)
@@ -118,7 +121,7 @@ export default class CueupService {
     resendVerification(token, callback){
       return this.fetchHandling(
       `${this.domain}/api/user/send_verification_email`,
-      this.postInit({}, this.getHeaders(token)),
+      this.getInit(this.getHeaders(token)),
     )}
    //USER ACTIONS END
 
@@ -169,6 +172,12 @@ export default class CueupService {
        return this.fetchHandling(
          `${this.domain}/api/event/${id}/${hash}/pay`,
          this.putInit(data, this.getHeaders(token)),
+         callback
+       )}
+     notifyPayEvent(token, id, hash, callback) {
+       return this.fetchHandling(
+         `${this.domain}/api/event/${id}/${hash}/notifyPay`,
+         this.getInit(this.getHeaders(token)),
          callback
        )}
     //EVENT ACTIONS END

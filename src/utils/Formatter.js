@@ -28,6 +28,15 @@ const formatter = {
         },
 
     money:{
+
+      ExtractFromString: function(value){
+        if (!isNaN(value)) {
+          return value
+        }
+          value = value.replace(/[^\d]/gi, '')
+          return value.slice(0,value.length-2)
+        },
+
       //Example formatter.money.Format(2500, "Dkk")
       FormatNumberToString : function(number, currency){
         var n = number,
