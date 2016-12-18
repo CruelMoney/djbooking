@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import Button from '../common/Button'
 import Textfield from 'material-ui/TextField'
 
-
 const signup = React.createClass({
     displayName: 'Signup',
 
