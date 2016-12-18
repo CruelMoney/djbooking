@@ -23,13 +23,13 @@
 @font-face {
 	font-family: 'AvenirNext-Regular';
 	src: url('../assets/fonts/AvenirNext-Regular.ttf');
-	src: local('☺'), url('../assets/fonts/AvenirNext-Regular.ttf') format('truetype');
+	src: local('☺'), url('../assets/fonts/AvenirNext-regular.woff') format('woff'), url('../assets/fonts/AvenirNext-Regular.ttf') format('truetype');
 }
 
 @font-face {
 	font-family: 'AvenirNext-Medium';
 	src: url('../assets/fonts/AvenirNext-Medium.ttf');
-	src: local('☺'), url('../assets/fonts/AvenirNext-Medium.ttf') format('truetype');
+	src: local('☺'), url('../assets/fonts/AvenirNext-Medium.woff') format('woff'), url('../assets/fonts/AvenirNext-Medium.ttf') format('truetype');
 }
 
 /* Ostrich Sans Rounded */
