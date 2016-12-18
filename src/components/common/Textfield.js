@@ -135,7 +135,6 @@ var Text = React.createClass({
                   onBlur={this.props.onBlur}
                   errorText={this.props.errors ? this.props.errors.length ? (
                     <div style={{
-                      bottom: "-10px",
                       position: "relative",
                       zIndex: "1"
                     }}>
