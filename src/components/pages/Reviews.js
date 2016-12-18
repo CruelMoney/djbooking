@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react'
-import ToggleButton from '../common/ToggleButton'
-import Button from '../common/Button'
+import Button from '../common/Button-v2'
 import {CardHeader} from 'material-ui/Card'
 import Rating from '../common/Rating'
 import Formatter from '../../utils/Formatter'
 import LoadingPlaceholder from '../common/LoadingPlaceholder'
 import EmptyPage from '../common/EmptyPage'
+
+
+/*eslint no-undef: 0*/
 
 var Reviews = React.createClass({
   propTypes: {
@@ -14,33 +16,33 @@ var Reviews = React.createClass({
     loading: PropTypes.bool
   },
 
+  contextTypes:{
+    registerActions: PropTypes.func,
+  },
+
 
   componentWillMount() {
       this.props.fetchReviews()
+      this.context.registerActions(this.getActionButtons)
+
   },
 
 
   getActionButtons(props = this.props){
     return (
-    <div key="profile_actions">
-
-      <div style={{marginBottom:"4px"}}>
-        <Button
-          rounded={true}
-          label="Load more reviews"
-          active={true}
-          onClick={this.props.fetchReviews}
-        />
-      </div>
+      <div
+        className="context-actions"
+        key="review_actions">
 
 
 
-      <div style={{marginBottom:"4px"}}>
-        <ToggleButton
-          rounded={true}
-          label="Request features"
-          name="request_features"
-        />
+        <div style={{marginBottom:"4px"}}>
+          <Button
+            name="request_features"
+            onClick={()=>{
+            olark('api.box.expand');
+          }}
+        >Request features</Button>
       </div>
 
     </div>

@@ -1,9 +1,10 @@
-import React, { PropTypes } from 'react'
+n bvcføæimport React, { PropTypes } from 'react'
 import Button from '../common/Button-v2'
 import Gig from '../../containers/Gig'
 import LoadingPlaceholder from '../common/LoadingPlaceholder'
 import EmptyPage from '../common/EmptyPage'
 
+/*eslint no-undef: 0*/
 
 var Gigs = React.createClass({
   propTypes: {
@@ -18,7 +19,7 @@ var Gigs = React.createClass({
   getInitialState(){
     return{
       gigs: [],
-      filter: "requested"
+      filter: "requested",
     }
   },
 
@@ -43,64 +44,63 @@ var Gigs = React.createClass({
     })
   },
 
+
   getActionButtons(props = this.props){
     return (
     <div
       className="context-actions"
       key="profile_actions">
       {/* <Button
-          name="requested"
-          active={this.state.filter === "requested"}
-          onClick={()=>{
-          this.setState({
-          filter: "requested"
-          })
-          }}
-          >Requested</Button>
-          </div>
-          <div style={{marginBottom:"4px"}}>
-          <Button
-          name="upcoming"
-          active={this.state.filter === "upcoming"}
-          onClick={()=>{
-          this.setState({
-          filter: "upcoming"
-          })
-          }}
-          >Upcoming</Button>
-          </div>
-          <div style={{marginBottom:"4px"}}>
-          <Button
-          name="lost"
-          active={this.state.filter === "lost"}
-          onClick={()=>{
-          this.setState({
-          filter: "lost"
-          })
-          }}
-          >Lost</Button>
-          </div>
-          <div style={{marginBottom:"4px"}}>
-          <Button
-          name="finished"
-          active={this.state.filter === "finished"}
-          onClick={()=>{
-          this.setState({
-          filter: "finished"
-          })
-          }}
-          >Finished</Button>
-          </div>
-        */}
-
-      <div style={{marginBottom:"4px"}}>
+        name="requested"
+        active={this.state.filter === "requested"}
+        onClick={()=>{
+        this.setState({
+        filter: "requested"
+        })
+        }}
+        >Requested</Button>
+        </div>
+        <div style={{marginBottom:"4px"}}>
         <Button
-          name="request_features"
-          onClick={()=>{
-            console.log("not implemented");
-          }}
-        >Request features</Button>
-      </div>
+        name="upcoming"
+        active={this.state.filter === "upcoming"}
+        onClick={()=>{
+        this.setState({
+        filter: "upcoming"
+        })
+        }}
+        >Upcoming</Button>
+        </div>
+        <div style={{marginBottom:"4px"}}>
+        <Button
+        name="lost"
+        active={this.state.filter === "lost"}
+        onClick={()=>{
+        this.setState({
+        filter: "lost"
+        })
+        }}
+        >Lost</Button>
+        </div>
+        <div style={{marginBottom:"4px"}}>
+        <Button
+        name="finished"
+        active={this.state.filter === "finished"}
+        onClick={()=>{n bvcføæ
+        this.setState({
+        filter: "finished"
+        })
+        }}
+        >Finished</Button>
+        </div>
+      */}
+
+      <Button
+        name="request_features"
+        onClick={()=>{
+          olark('api.box.expand');
+        }}
+      >Request features</Button>
 
     </div>
 
