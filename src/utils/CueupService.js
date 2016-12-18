@@ -31,13 +31,16 @@ export default class CueupService {
         //Checking if statuscode is in 200-299 interval
         if (response.ok) {
 
+        
             //Checking if response content is json
             var contentType = response.headers.get("content-type");
+
             if (contentType && contentType.indexOf("application/json") !== -1) {
                 response.json().then(function(result) {
                     return callback(null, result)
                 })
             } else {
+              console.log("heyho");
                 //The case that its not json
                 return callback(null, "ok")
             }
@@ -54,13 +57,9 @@ export default class CueupService {
       var self = this;
       return fetch(uri, init)
         .then(function(response) {
-          console.log(response);
           return self.responseHandling(response, callback);
       }).catch(function(error) {
-        console.log(error);
-          return callback({
-              message: 'There has been a problem with your fetch operation: ' + error.message
-          }, null)
+          console.log(error);
       });
     }
 

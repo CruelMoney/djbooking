@@ -256,7 +256,7 @@ getInitialState(){
                 glow
                 active={this.state.valid}
                 rounded={true}
-                name="confirm_payment"
+                name={this.props.paymentPossible ? "confirm_payment" : "notify_payment"}
                 onClick={this.props.paymentPossible ? this.confirmPayment : this.notify}
               >{this.props.paymentPossible ? "Confirm & Pay" : "Notify"}</SubmitButton>
               <a style={{marginLeft: "70px"}} href="https://stripe.com/" target="_blank">
