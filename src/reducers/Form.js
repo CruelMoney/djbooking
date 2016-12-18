@@ -45,7 +45,8 @@ const values  = (state = initialState, action) => {
 
 const status  = (state = {loading: {}, succeeded:{}}, action) => {
   switch (action.type) {
-
+    case ActionTypes.FORM_RESET:
+      return initialState
     case ActionTypes.FORM_SUBMIT_REQUESTED:
       return {
         succeeded: assign({}, state.succeeded, {

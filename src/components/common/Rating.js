@@ -118,6 +118,13 @@ componentWillMount(){
     }
 },
 
+componentWillReceiveProps(nextProps){
+  this.setState({
+    origRating: nextProps.rating || 0,
+    rating: nextProps.rating || 0
+  })
+},
+
 
 
 componentWillUnmount() {

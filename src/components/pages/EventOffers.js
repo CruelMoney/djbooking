@@ -44,7 +44,7 @@ var EventOffers = React.createClass({
                 </div>
               </div>
               :
-              <EmptyPage message={<div>The djs are currently creating offers for you.<br/>
+              <EmptyPage message={<div style={{marginBottom:"180px"}}>The djs are currently creating offers for you.<br/>
               You will be notified whenever there's new offers.</div>}/>
             }
           </div>

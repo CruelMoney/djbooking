@@ -37,7 +37,7 @@ var Profile = React.createClass({
                 <SubmitButton
                   active={this.state.formValid}
                   onClick={this.update}
-                  name="update_profile">
+                  name="update_settings">
                 Save changes</SubmitButton>
 
                 <Button
@@ -51,10 +51,10 @@ var Profile = React.createClass({
                 <div className="card profile col-md-7">
                   <TextWrapper label="contactName" text="What is the name of the contact person?">
                     <TextField
-                      value={this.props.event.contactName} name="name"
+                      value={this.props.event.contactName} name="contactName"
                       validate={['required']} />
                   </TextWrapper>
-                  <TextWrapper label="E-mail" text="We only share your email with qualified dj's. If you change your email you will have to confirm it again.">
+                  <TextWrapper label="E-mail" text="We only share your email with qualified dj's. Login to change email.">
                     <TextField value={this.props.event.contactEmail} name="email"
                       type="email" validate={['required', 'email']}
                       disabled

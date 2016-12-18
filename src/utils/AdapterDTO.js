@@ -3,18 +3,19 @@ import assign from 'lodash.assign'
 import profilePic from '../assets/default-profile-pic.png'
 
 const filterEmailSettings = (settings, isDj, isCustomer) => {
-  console.log(settings, isDj, isCustomer);
+  console.log(settings);
+
   if (!isDj) {
-     delete settings["Event Cancelled"]
-     delete settings["Event Info Updated"]
-     delete settings["Event Opened For Offer"]
-     delete settings["New Gig Request"]
-     delete settings["Offer Accepted"]
+     delete settings["Event cancelation"]
+     delete settings["Event update"]
+     delete settings["Event opened for offer"]
+     delete settings["New request"]
+     delete settings["Offer accepted"]
   }
   if (!isCustomer) {
-    delete settings["DJ Cancelled"]
+    delete settings["DJ cancelation"]
     delete settings["Event Can Be Payed Now"]
-    delete settings["New DJ Offer"]
+    delete settings["New DJ offer"]
     delete settings["Payment Recipe"]
   }
   return settings
@@ -62,6 +63,7 @@ const deletedUser={
       },
       //The API will automatically assign the rest of the review properties
       toDTO(review){
+        console.log(review);
         return{
         description: review.description,
         rating: review.rating,
@@ -72,6 +74,7 @@ const deletedUser={
     var settings ={
 
       fromDTO:function(DTO, isDj, isCustomer){
+        console.log(DTO);
         return {...DTO, emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer)}
       },
       toDTO:function(settings){

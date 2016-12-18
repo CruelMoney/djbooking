@@ -26,6 +26,13 @@ export function submitRequested(formName, submitName) {
   }
 }
 
+export function resetState(formName){
+  return {
+    type: ActionTypes.FORM_RESET,
+    formName
+  }
+}
+
 
 export function handleSubmitResult(formName, err, submitName) {
   return function(dispatch) {
@@ -44,13 +51,5 @@ export function handleSubmitResult(formName, err, submitName) {
         submitName
       }}())
     }
-  }
-}
-
-
-export function resetForm(formName) {
-  return {
-    type: ActionTypes.FORM_RESET,
-    formName
   }
 }

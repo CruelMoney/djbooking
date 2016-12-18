@@ -28,7 +28,7 @@ var Review = React.createClass({
   },
 
   submitReview(form, callback){
-    this.props.submitReview(form, callback)
+    this.props.submitReview(this.props.eventId, this.props.hashKey, form.values, callback)
   },
 
   render() {
@@ -101,15 +101,18 @@ var Review = React.createClass({
 
   export const mapStateToProps = (state) => {
     let event = state.events.values[0]
+    let offer = event.offers.filter(o=>o.gigID === event.chosenOfferId)[0]
     return {
-      dj: event.offers.filter(o=>o.gigID !== event.chosenOfferId)[0].dj,
+      dj: offer.dj,
+      eventId: event.id,
+      hashKey: event.hashKey,
       review: event.review ? event.review : {}
     }
   }
 
   export const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-      submitReview: (review, callback) => dispatch(actions.reviewEvent(review,callback)),
+      submitReview: (id, hash, review, callback) => dispatch(actions.reviewEvent(id, hash, review,callback)),
   }}
 
   export default connect(mapStateToProps, mapDispatchToProps)(Review);

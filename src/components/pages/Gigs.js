@@ -1,4 +1,4 @@
-n bvcføæimport React, { PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import Button from '../common/Button-v2'
 import Gig from '../../containers/Gig'
 import LoadingPlaceholder from '../common/LoadingPlaceholder'

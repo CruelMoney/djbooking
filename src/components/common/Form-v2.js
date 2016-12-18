@@ -14,10 +14,15 @@ const form = React.createClass({
       children: PropTypes.node,
       onSubmit: PropTypes.func,
       updateFilters: PropTypes.func,
+      resetState: PropTypes.func,
       updateValue: PropTypes.func,
       activeFilters: PropTypes.arrayOf(PropTypes.object),
       err: PropTypes.string,
       form: PropTypes.object,
+    },
+
+    componentWillUnmount(){
+      this.props.resetState()
     },
 
     getInitialState() {

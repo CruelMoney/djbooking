@@ -206,7 +206,7 @@ getInitialState(){
               this.state.err ?
                 <label htmlFor="fileupload"><span>{this.state.err}</span></label>
               :
-                <label htmlFor="fileupload"><span>Change image</span></label>
+              <label htmlFor="fileupload"><span>Change image</span></label>
             }
           </div>
 

@@ -24,6 +24,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     updateFilters: (filter, value) => {
       dispatch(actions.updateFilters(filter, value, ownProps.name))
     },
+    resetState: () => {
+      dispatch(actions.resetState(ownProps.name))
+    },
     onSubmit: (form, submitActions, submitName) => {
       dispatch(actions.submitRequested(ownProps.name, submitName))
       submitActions(form,
@@ -40,7 +43,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     onSubmit: (submitActions, submitName) => dispatchProps.onSubmit(stateProps.form, submitActions, submitName),
     err: stateProps.err,
     status: stateProps.status,
-    form: stateProps.form
+    form: stateProps.form,
+    resetState: dispatchProps.resetState
   })
 }
 
