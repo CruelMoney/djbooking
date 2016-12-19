@@ -20,8 +20,8 @@ EOT;
 // Check whether client is allowed to trigger an update
 $allowed_ips = array(
 	'207.97.227.', '50.57.128.', '108.171.174.', '50.57.231.', '204.232.175.', '192.30.252.', '192.30.253.', // GitHub
-	'195.37.139.','193.174.' // VZG
-
+	'195.37.139.','193.174.', // VZG
+  '185.118.250.'
 );
 $allowed = false;
 $headers = apache_request_headers();
