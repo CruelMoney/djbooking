@@ -10,12 +10,12 @@
     $commands = array(
         'echo $PWD',
         'whoami',
-        'git fetch',
-        'git pull',
-        'git status',
-        'git submodule sync',
-        'git submodule update',
-        'git submodule status',
+        'sudo -i -u chris git fetch',
+        'sudo -i -u chris git pull',
+        'sudo -i -u chris git status',
+        'sudo -i -u chris git submodule sync',
+        'sudo -i -u chris git submodule update',
+        'sudo -i -u chris git submodule status',
     );
 
     // exec commands
