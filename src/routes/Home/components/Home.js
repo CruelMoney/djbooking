@@ -82,10 +82,11 @@ handleButtonClick(){
                 }}
               >
                 <QueueAnim key="1">
-                  <h1 key="title">DJ service for a perfect event</h1>
-                  <p key="paragraph">Stripe is the best software platform for running an internet
-                    business. We handle billions of dollars every ythinking businesses around the world. thinking businesses around the world.thinking businesses around the world.ear for forward-
-                    thinking businesses around the world.
+                  <h1 key="title">The perfect dj for the perfect event</h1>
+                  <p key="paragraph">
+                    Cueup offers connection to hundreds of available djs and helps you find the most qualified for your event - at the best price.
+                    Select the date of your event in the calendar and fill in the remaining information below.
+                    Soon you will find offers from the most qualified djs for your event. Nothing is binding.
                   </p>
                 </QueueAnim>
               </div>
@@ -136,7 +137,7 @@ handleButtonClick(){
                           <img src={padlock} alt="icon"/>
                       <h2 style={{color:this.themeColor}}>Secured booking system</h2>
                       <p>
-                        Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                       </p>
                     </div>
                   </div>
@@ -147,7 +148,7 @@ handleButtonClick(){
                     <img src={note} alt="icon"/>
                     <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
                     <p>
-                      Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
                     </p>
                   </div>
                 </div>
