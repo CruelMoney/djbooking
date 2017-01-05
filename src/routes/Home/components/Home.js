@@ -69,18 +69,10 @@ handleButtonClick(){
             <span></span>
             <span></span>
           </div>
-          <div className="container"
-            style={{
-              display:'flex',
-              alignItems:'center'
-            }}>
+          <div className="container">
 
             <div className="row">
-              <div className="col-md-6"
-                style={{
-                    marginTop: "30px"
-                }}
-              >
+              <div className="col-md-6">
                 <QueueAnim key="1">
                   <h1 key="title">The perfect dj for the perfect event</h1>
                   <p key="paragraph">

@@ -122,7 +122,6 @@ var Text = React.createClass({
         lineHeight: "22px",
         color: "#4A4A4A",
       },
-
     }
     var styles = this.props.big ? stylesBig : stylesNormal
 
@@ -137,7 +136,7 @@ var Text = React.createClass({
         <AutoComplete
           name={this.props.name}
           className="search-bar__auto-complete"
-          style={this.props.style || styles.textarea}
+          style={styles.textarea}
           inputStyle={styles.input}
           hintStyle={styles.hint}
           underlineDisabledStyle={styles.underlineDisabledStyle}

@@ -16,6 +16,21 @@ export default React.createClass({
       color: PropTypes.string
     },
 
+    getInitialState(){
+      return{
+        msg: null
+      }
+    },
+
+    onSubmit(form, callback){
+      this.props.onSubmit(form, (err,res)=>{
+        if (!err) {
+          this.setState({msg: "Thank you for using our service. We will send you an email with confirmation of the event."})
+        }
+        callback(err,res)
+      })
+    },
+
   render() {
     const finished = this.props.step1Done && this.props.step2Done && this.props.step3Done
     var className = finished ? "done progrezz" : "progrezz"
@@ -53,14 +68,14 @@ export default React.createClass({
           <SubmitButton
             active
             name="request_djs_button"
-            onClick={this.props.onSubmit}
+            onClick={this.onSubmit}
             glow
           >
             <div style={{width:"150px"}}>Send event</div>
           </SubmitButton>
         : null}
         <ErrorMessage/>
-
+        {this.state.msg ? <div style={{textAlign:"center"}}><p style={{fontSize:"20px"}}>{this.state.msg}</p></div> : null}
        </div>
     )
   }

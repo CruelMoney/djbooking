@@ -3,6 +3,7 @@ module.exports = {
 
   getIndexRoute(partialNextState, callback) {
     require.ensure([], function (require) {
+      console.log("requirering 1");
       callback(null, {
         component: require('./routes/EventInformation'),
       })
@@ -14,7 +15,8 @@ module.exports = {
       cb(null, [
         require('./routes/Offers'),
         require('./routes/Review'),
-        require('./routes/User')
+        require('./routes/User'),
+        require('./routes/EventInformation'),
       ])
     })
   },

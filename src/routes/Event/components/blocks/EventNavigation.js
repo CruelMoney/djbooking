@@ -23,7 +23,7 @@ export default React.createClass({
 
 
             <li>
-              <Navlink to={"/event/"+this.props.id+"/"+this.props.hash} label="Event information"/>
+              <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/info"} label="Event information"/>
             </li>
 
             <li>

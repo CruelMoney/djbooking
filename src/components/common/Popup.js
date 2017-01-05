@@ -64,7 +64,7 @@ const Popup = React.createClass({
                 backgroundColor: this.props.noBackground ? "transparent" : "white",
                 zIndex: '1001',
               }}
-              className="popup"
+              className="card popup"
               onClick={function(event){
                 event.stopPropagation()
               }}

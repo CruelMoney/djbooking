@@ -10,7 +10,7 @@ var EventOffers = React.createClass({
     var daysUntil = (this.props.eventDate.getTime() - Date.now())/(24*3600*1000)
 
     this.setState({
-      paymentPossible: daysUntil <= -2
+      paymentPossible: daysUntil <= 28
     })
   },
 

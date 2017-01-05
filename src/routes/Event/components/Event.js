@@ -32,7 +32,7 @@ var event = React.createClass({
   componentWillReceiveProps(nextProps){
     if (nextProps.event && !nextProps.event.emailVerified) {
       this.setState({notification:"You won't receive any offers before you confirm your email-address 🙄"})
-    }else{
+    }else if(nextProps.event){
       this.setState({notification:
       nextProps.event.status === "Cancelled" ?
       "The event is cancelled ☹️"
@@ -49,6 +49,9 @@ var event = React.createClass({
       :nextProps.event.status === "Finished" ?
       "The event is finished, please leave a review ☺️"
     :"You have no new notifications"})
+  }else{
+    this.setState({notification
+        :"You have no new notifications"})
   }
   },
 

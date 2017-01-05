@@ -35,6 +35,7 @@ var Event = React.createClass({
     },
 
     componentWillMount() {
+      console.log("MOunting eventcard");
         this.setState({guests: this.props.event.guestsCount})
     },
 
