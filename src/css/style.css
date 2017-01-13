@@ -167,9 +167,9 @@ margin: auto;
   transform: rotate3d(1,1,0,-15deg);
   transform-origin: 100% 0;
   opacity: 0;
-  will-change: transform,opacity;
-  transition-property: transform,opacity;
-  transition-duration: .25s;
+  will-change: transform,opacity,height;
+  transition-property: transform,opacity,height;
+  transition-duration: .35s;
   border-radius: 6px;
   box-shadow: 0 50px 100px rgba(50,50,93,.1), 0 15px 35px rgba(50,50,93,.15), 0 5px 15px rgba(0,0,0,.1);
 }
@@ -829,6 +829,13 @@ overflow: hidden;
   animationDuration: '0.5s',*/
   background-color: rgba(0,0,0,0.4);
   -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+.filter-background.active{
+  opacity: 1;
+  pointer-events: auto;;
 }
 
 .user-header{
@@ -1360,6 +1367,21 @@ margin-bottom: 15px;
 .lock{
 float: left;
 margin-right: 5px;
+}
+
+.popup{
+  transform: rotate3d(1,1,0,-15deg);
+  transform-origin: 100% 0;
+  opacity: 0;
+  will-change: transform,opacity;
+  transition-property: transform,opacity;
+  transition-duration: .35s;
+  pointer-events: none;
+}
+.popup.active{
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .info-popup{

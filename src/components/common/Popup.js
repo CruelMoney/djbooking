@@ -38,9 +38,9 @@ const Popup = React.createClass({
 
       <div>
 
-        {this.state.showing ?
+
           <div
-            className="filter-background"
+            className={"filter-background" + (this.state.showing ? " active" :"")}
             style={{
               position: 'fixed',
               zIndex: '1000',
@@ -55,6 +55,7 @@ const Popup = React.createClass({
             }}
             onClick={this.handleClickOutside}
           >
+
             <div
               style={{
                 padding:"20px",
@@ -64,7 +65,7 @@ const Popup = React.createClass({
                 backgroundColor: this.props.noBackground ? "transparent" : "white",
                 zIndex: '1001',
               }}
-              className="card popup"
+              className={"card popup" + (this.state.showing ? " active":"")}
               onClick={function(event){
                 event.stopPropagation()
               }}
@@ -92,7 +93,7 @@ const Popup = React.createClass({
             </div>
           </div>
 
-        : null }
+
 
       </div>
   )}})
