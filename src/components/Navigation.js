@@ -4,6 +4,7 @@ import Dropdown from './common/Dropdown'
 import UserMenuItem from './common/UserMenuItem'
 import Login from './common/Login'
 import Logo from './common/Logo'
+import MobileMenu from './MobileMenu'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 const theme = getMuiTheme()
@@ -52,12 +53,31 @@ var menu = React.createClass({
      }), 10)
    },
 
+
+     componentWillMount() {
+       window.addEventListener('scroll', this.handleScroll)
+     },
+     componentWillUnmount(){
+       window.removeEventListener('scroll', this.handleScroll)
+     },
+     handleScroll(event){
+      let scrollTop = event.srcElement.body.scrollTop
+      if (scrollTop > 150) {
+        this.mobileMenu.className = "mobileMenuButton fixed"
+      }else{
+        this.mobileMenu.className = "mobileMenuButton"
+      }
+    },
+
   render() {
     //const isHome = window.location.pathname === '/'
     const page = window.location.pathname.split('/')[1]
     return (
       <MuiThemeProvider muiTheme={theme}>
         <div  className={"location_" + page}>
+          <MobileMenu
+            onClosing={()=>this.setState({showMenu:false})}
+            show={this.state.showMenu}/>
           <div
             className={"nav-container location_"}>
             <nav
@@ -67,6 +87,15 @@ var menu = React.createClass({
                 <Navlink to="/">
                   <Logo />
                 </Navlink>
+                <a
+                  ref={ref=>this.mobileMenu=ref}
+                  className="mobileMenuButton"
+                  onClick={()=>{
+                    console.log("click");
+                    this.setState({showMenu:true})}}
+                  >
+                  <h2>Menu</h2>
+                </a>
               </div>
               <ul className="main-menu">
                 <li>

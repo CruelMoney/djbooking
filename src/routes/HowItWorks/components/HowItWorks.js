@@ -65,7 +65,6 @@ export default React.createClass({
                 </div>
               </section>
               <section>
-
                     <div key="a" className="how-to-title">
                       <div className="circle">2</div>
                       <h2>Qualified DJs return offer</h2>
@@ -93,7 +92,7 @@ export default React.createClass({
                       <h2>Payout is released</h2>
                     </div>
                     <p key="b">Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s </p>
-  
+
               </section>
           </div>
         </div>
