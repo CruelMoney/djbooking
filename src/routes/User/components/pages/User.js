@@ -130,7 +130,9 @@ var user = React.createClass({
             <div className="row">
               <div className={"col-xs-4"}></div>
               <div className={"col-md-8"}>
-
+                <div className="mobileActions">
+                  {this.state.actions}
+                </div>
                 {this.props.children}
               </div>
             </div>

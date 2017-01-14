@@ -2204,6 +2204,9 @@ transform: translateY(-15px);
   margin-top: 0;
 }
 
+.mobileActions{
+  display: none;
+}
 
 /* Mobile */
 @media only screen and (max-device-width: 480px) {
@@ -2231,6 +2234,17 @@ transform: translateY(-15px);
     margin-bottom: 30px;
   }
 
+  .mobileActions{
+    display: block;
+  }
+  .mobileActions .context-actions{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .user-card-fact{
+    text-align: left;   
+  }
   #stripes,
   header{
     height: 985px;
