@@ -22,7 +22,7 @@ const UserMenuItem = React.createClass({
         backgroundImage: 'url('+this.props.picture+')',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        backgroundSize: 'auto 150%',
+        backgroundSize: 'auto 100%',
         width: '30px',
         height: '30px',
         marginRight: '4px',

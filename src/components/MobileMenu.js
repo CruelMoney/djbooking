@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import Navlink  from './common/Navlink'
+import Navlink    from './common/Navlink'
 import Popup from './common/Popup'
 import Login from './common/Login'
 import {connect} from 'react-redux';
@@ -99,50 +99,50 @@ class MobileMenu extends React.Component {
             <ul >
               {this.props.profile.isDJ ?
                 <li>
-                  <Navlink userNavigation={true} to="profile" label="Profile"/>
+                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to="profile" label="Profile"/>
                 </li>
               : null}
 
               {this.props.profile.isCustomer ?
                 <li>
-                  <Navlink userNavigation={true} to="events" label="Events"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="events" label="Events"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink userNavigation={true} to="gigs" label="Gigs"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="gigs" label="Gigs"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink userNavigation={true} to="reviews" label="Reviews"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="reviews" label="Reviews"/>
                 </li>
                 : null
               }
 
               {(this.props.isCustomer && !this.props.isDJ) ?
                 <li >
-                  <Navlink userNavigation={true} to="user/signup" label="Become DJ"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="user/signup" label="Become DJ"/>
                 </li>
                 : null
               }
               {this.props.loggedIn ?
                 <li>
-                  <Navlink userNavigation={true} to="preferences" label="Preferences"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="preferences" label="Preferences"/>
                 </li>
                 : null
               }
 
 
               <li>
-                <Navlink  buttonLook={true} to="/howitworks" label="How it works"/>
+                <Navlink onClick={()=>this.handleClose()}   buttonLook={true} to="/howitworks" label="How it works"/>
               </li>
               {this.props.loggedIn ? (
 
                 <li>
-                  <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
+                  <Navlink onClick={()=>this.handleClose()}   buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
                 </li>
               ) : (
                 null
@@ -151,7 +151,7 @@ class MobileMenu extends React.Component {
                 null
               ) : (
                 <li>
-                  <Navlink buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
+                  <Navlink onClick={()=>this.handleClose()}  buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
                 </li>
               )}
               {this.props.loggedIn ? (

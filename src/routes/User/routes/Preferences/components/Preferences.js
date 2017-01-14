@@ -138,8 +138,7 @@ const preferences = React.createClass({
 
           </Popup>
 
-          <div className="row">
-            <div className="col-lg-12">
+            <div >
               {isDJ ?
                 <TextWrapper
                   label="Payout"
@@ -326,7 +325,6 @@ const preferences = React.createClass({
               </TextWrapper> */}
 
 
-            </div>
           </div>
         </div>
       }

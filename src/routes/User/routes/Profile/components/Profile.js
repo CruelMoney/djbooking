@@ -103,14 +103,16 @@ var Profile = React.createClass({
 
         return (
           <div>
-            <Popup
-              noBackground
-              showing={this.state.showPopup}
-              onClickOutside={this.hidePopup}>
-              <div style={{width:"450px"}}>
-                <OfferCard offer={OfferMock}/>
-              </div>
-            </Popup>
+            {OfferMock.dj ?
+              <Popup
+                showing={this.state.showPopup}
+                onClickOutside={this.hidePopup}>
+                <div style={{width:"450px"}}>
+                  <OfferCard offer={OfferMock}/>
+                </div>
+              </Popup>
+              : null}
+
             { this.context.loading ?
               <div>
                 <LoadingPlaceholder/>

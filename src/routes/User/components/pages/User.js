@@ -126,7 +126,7 @@ var user = React.createClass({
           <div  className="user-container container">
             <div className="row">
               <div className={"col-xs-4"}></div>
-              <div style={{paddingTop:"11px", minHeight: "500px"}} className={"col-xs-8"}>
+              <div className={"col-md-8"}>
 
                 {this.props.children}
               </div>

@@ -63,9 +63,9 @@ var menu = React.createClass({
      handleScroll(event){
       let scrollTop = event.srcElement.body.scrollTop
       if (scrollTop > 150) {
-        this.mobileMenu.className = "mobileMenuButton fixed"
+        this.mobileMenu.className = "buttonFixed"
       }else{
-        this.mobileMenu.className = "mobileMenuButton"
+        this.mobileMenu.className = ""
       }
     },
 
@@ -87,8 +87,10 @@ var menu = React.createClass({
                 <Navlink to="/">
                   <Logo />
                 </Navlink>
-                <a
+                <div className=""
                   ref={ref=>this.mobileMenu=ref}
+                  >
+                <a
                   className="mobileMenuButton"
                   onClick={()=>{
                     console.log("click");
@@ -96,6 +98,7 @@ var menu = React.createClass({
                   >
                   <h2>Menu</h2>
                 </a>
+                </div>
               </div>
               <ul className="main-menu">
                 <li>

@@ -30,9 +30,11 @@ class Notification extends React.Component {
 
   render() {
     return (
-      <div className="notification">
-        <div>
-          <p>{this.props.message}</p>
+      <div className="center">
+        <div className="notification">
+          <div>
+            <p>{this.props.message}</p>
+          </div>
         </div>
       </div>
     );
