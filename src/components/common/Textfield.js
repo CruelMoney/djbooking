@@ -17,7 +17,8 @@ var Text = React.createClass({
     onUpdatePipeFunc: PropTypes.func,
     disabled: PropTypes.bool,
     floatingLabelText: PropTypes.string,
-    big: PropTypes.string
+    big: PropTypes.string,
+    textColor: PropTypes.string
   },
 
   contextTypes: {
@@ -46,11 +47,11 @@ var Text = React.createClass({
 
       input:{
         fontSize: '30px',
-        color: this.context.color,
+        color: this.context.textColor ? this.context.textColor : this.context.color,
         fontFamily: "AvenirNext-Regular"
       },
       underlineStyle:{
-        borderColor: this.context.color
+        borderColor: this.context.textColor  ? this.context.textColor : this.context.color
       },
       hint:{
         bottom: '23px',

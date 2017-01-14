@@ -855,7 +855,7 @@ overflow: hidden;
   position: fixed;
 }
 .user-header.fixed + div{
-  margin-top: 315px;
+  margin-top: 335px;
 }
 
 .user-header.fixed .user-card-wrapper{

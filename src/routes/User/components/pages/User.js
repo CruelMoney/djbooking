@@ -7,6 +7,7 @@ import '../../../../css/transitions.css'
 
 var user = React.createClass({
   themeColor: "#25F4D2",
+  textColor: "rgb(18, 119, 103)",
   secondColor: "#31DAFF",
 
   propTypes: {
@@ -21,7 +22,8 @@ var user = React.createClass({
       editing: PropTypes.bool,
       valid: PropTypes.bool,
       color: PropTypes.string,
-      loading: PropTypes.bool
+      loading: PropTypes.bool,
+      textColor: PropTypes.string
   },
 
   componentWillMount(){
@@ -77,7 +79,8 @@ var user = React.createClass({
      color:        this.themeColor,
      editing:     this.state.editing,
      valid:        this.state.valid,
-     loading: this.props.loading
+     loading: this.props.loading,
+     textColor: this.textColor
     }
   },
 
