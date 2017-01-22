@@ -798,7 +798,6 @@ input[type="file"] + label * {
 }
 
 #content{
-overflow: hidden;
 }
 
 .collapsible{
@@ -1869,13 +1868,14 @@ color: #32325D;
 .request-form .card{
   padding: 20px;
 }
-.request-form h4{
+.request-form label{
 font-family: AvenirNext-Medium;
 font-size: 14px;
 font-weight: 500;
 line-height: 22px;
 color: #4A4A4A;
 margin-bottom: 10px;
+text-transform: uppercase;
 }
 .request-form section{
   margin-bottom: 15px;

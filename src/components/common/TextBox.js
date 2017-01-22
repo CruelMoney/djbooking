@@ -62,6 +62,7 @@ var TextBox = React.createClass({
               <div>
                 <textarea
                   {...props}
+                  id={this.props.name}
                   style={styles.base}
                   value={this.props.value}
                   name={this.props.name}

@@ -50,7 +50,7 @@ var Events = React.createClass({
   render() {
     let renderEvent = (event, i) => {
       return(
-  <NavLink to={"/event/"+event.id}>
+  <NavLink to={"/event/"+event.id+'/'+event.hashKey+'/info'}>
   <div style={{borderColor:this.context.color}}>
         <div className="event-card" key={i}>
 

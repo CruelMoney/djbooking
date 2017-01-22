@@ -36,9 +36,7 @@ export default class StripeService {
         cvc: data.card_cvc,
         exp_month: month,
         exp_year:year,
-        address_line1:data.card_address,
-        address_city: data.card_city,
-        address_zip:data.card_zip
+        name:data.name
       }, (status, response) => this.responseHandling(status, response, callback));
     }
 

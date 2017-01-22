@@ -1,8 +1,11 @@
 import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
+import LoginActions from './LoginActions'
 import CueupService from '../utils/CueupService'
 import StripeService from '../utils/StripeService'
+import { browserHistory } from 'react-router'
+
 
 const cueup = new CueupService()
 const auth = new AuthService()
@@ -70,6 +73,7 @@ var ActionTypes = c.ActionTypes
         (callback(err))
       }else{
         (callback(null))
+        LoginActions.userLogout()
       }
     })
   }
@@ -124,7 +128,6 @@ export function updateProfileValue(name, value) {
 }
 
 export function resetProfile(profile) {
-  console.log(profile);
   return function (dispatch) {
     dispatch( function() { return {
         type: ActionTypes.RESET_PROFILE,

@@ -143,55 +143,24 @@ getInitialState(){
                 ?
                   <div>
                     <div className="row">
-                      <div className="col-xs-12">
-                        <TextField
-                          name="card_address"
-                          hintStyle={styles.medium.hint}
-                          style={styles.medium.textarea}
-                          inputStyle={styles.medium.input}
-                          type="text"
-                          validate={['required']}
+                        <div className="col-xs-12">
+                          <TextField
+                            name="card_name"
+                            hintStyle={styles.medium.hint}
+                            style={styles.medium.textarea}
+                            inputStyle={styles.medium.input}
+                            type="text"
+                            maxLength="19"
+                            validate={['required', 'lastName']}
+                            onUpdatePipeFunc={cardNumberPipe}
+                            fullWidth={false}
+                            placeholder="Cardholder name"
+                            underlineDisabledStyle={styles.plainBorder}
+                            underlineStyle={styles.dottedBorderStyle}
+                          />
 
-                          fullWidth={false}
-                          placeholder="Address"
-                          underlineDisabledStyle={styles.plainBorder}
-                          underlineStyle={styles.dottedBorderStyle}
-                        />
-
+                        </div>
                       </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-xs-6">
-                        <TextField
-                          name="card_city"
-                          hintStyle={styles.medium.hint}
-                          style={styles.medium.textarea}
-                          inputStyle={styles.medium.input}
-                          type="text"
-                          fullWidth={false}
-                          validate={['required']}
-                          placeholder="City"
-                          underlineDisabledStyle={styles.plainBorder}
-                          underlineStyle={styles.dottedBorderStyle}
-                        />
-                      </div>
-                      <div className="col-xs-6">
-                        <TextField
-                          name="card_zip"
-                          hintStyle={styles.medium.hint}
-                          style={styles.medium.textarea}
-                          inputStyle={styles.medium.input}
-                          type="number"
-                          validate={['required']}
-
-                          fullWidth={false}
-                          placeholder="Zip code"
-                          underlineDisabledStyle={styles.plainBorder}
-                          underlineStyle={styles.dottedBorderStyle}
-
-                        />
-                      </div>
-                    </div>
                     <div className="row">
                       <div className="col-xs-12">
                         <TextField

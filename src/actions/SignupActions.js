@@ -10,8 +10,7 @@ const auth = new AuthService()
 export function signup(form, isDj, callback) {
   return function (dispatch) {
     try {
-      locationExists(form.location, (res)=>{
-        if (res) {
+
           switch (form.signup) {
             case "EMAIL":
               return signupEmail(form, handleSignupFeedback(form, isDj, callback))
@@ -26,11 +25,7 @@ export function signup(form, isDj, callback) {
             default:
               callback("Something went wrong")
           }
-        }else{
-          callback("Something went wrong")
-        }
 
-      })
 
     } catch (e) {
       callback("Something went wrong")
@@ -42,9 +37,9 @@ export function signup(form, isDj, callback) {
 export function locationExists(location, callback){
     GeoCoder.codeAddress(location, function(geoResult) {
         if (geoResult.error) {
-           callback(false)
+           callback(true, null)
           }else{
-           callback(true)
+           callback(false, location)
           }
         })
 }
@@ -52,6 +47,7 @@ export function locationExists(location, callback){
 
 
 function createDJ(form, auth0Profile, geoResult){
+  console.log(geoResult);
       return {
           email: form.email || auth0Profile.email,
           picture: auth0Profile.picture_large || auth0Profile.picture,
@@ -60,8 +56,8 @@ function createDJ(form, auth0Profile, geoResult){
           bio: form.bio || "",
           playingRadius: form.playingRadius || 25000,
           playingLocation: {
-              lat: geoResult.position.lat,
-              lng: geoResult.position.lng,
+              lat: !geoResult.error ? geoResult.position.lat : 55.6760979, // defaulting to copenhagen if theres an error finding the location
+              lng: !geoResult.error ? geoResult.position.lng : 12.5683374, // defaulting to copenhagen if theres an error finding the location
           },
           app_metadata: {
               auth0Id: auth0Profile.user_id,
@@ -111,16 +107,17 @@ function createCustomer(form, auth0Profile){
           if (isDJ){
             //Getting the coordinates of the playing location
             GeoCoder.codeAddress(form.location, function(geoResult) {
-                if (geoResult.error) {
-                    callback("The location could not be found, try another city.")
-                    return
-                  }
+                // if (geoResult.error) {
+                //     callback("The location could not be found, try another city.")
+                //     return
+                //   }
 
                 //If the geocoding does not fail
-                else {
+                // else {
                   var user = createDJ(form, auth0Profile, geoResult)
                   postUser(result.idToken, user, callback)
-                }})
+                // }
+              })
 
             //If it is not a dj
             } else {

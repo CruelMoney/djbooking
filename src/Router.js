@@ -44,7 +44,8 @@ class app extends React.Component {
             require('./routes/User'),
             require('./routes/HowItWorks'),
             require('./routes/Signup'),
-            require('./routes/Terms')
+            require('./routes/Terms'),
+            require('./routes/NotFound')
           ]
         } ]
       }

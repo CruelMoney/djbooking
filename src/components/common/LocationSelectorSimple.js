@@ -134,6 +134,7 @@ var Text = React.createClass({
 
     return (
         <AutoComplete
+          id={this.props.name}
           name={this.props.name}
           className="search-bar__auto-complete"
           style={styles.textarea}
@@ -154,7 +155,7 @@ var Text = React.createClass({
           disabled={this.props.disabled}
           errorText={this.props.errors.length ? (
             <div style={{
-              bottom: "-10px",
+
               position: "relative",
               zIndex: "1"
             }}>

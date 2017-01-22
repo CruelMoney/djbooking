@@ -49,7 +49,7 @@ var Profile = React.createClass({
               </div>
               <div className="event-card-wrapper">
                 <div className="card profile col-md-7">
-                  <TextWrapper label="contactName" text="What is the name of the contact person?">
+                  <TextWrapper label="contact Name" text="What is the name of the contact person?">
                     <TextField
                       value={this.props.event.contactName} name="contactName"
                       validate={['required']} />

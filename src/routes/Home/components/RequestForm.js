@@ -122,7 +122,7 @@ export default React.createClass({
                 formInvalidCallback={(name)=>this.updateProgress(name,false)}
                 name="requestForm-step-1">
                 <section>
-                  <h4>Event location</h4>
+                  <label htmlFor="location">Event location</label>
                   <LocationSelector
                     name="location"
                     validate={['required']}
@@ -131,7 +131,7 @@ export default React.createClass({
                 </section>
 
                 <section>
-                  <h4>Event name</h4>
+                  <label htmlFor="name">Event name</label>
 
                   <TextField
                     name="name"
@@ -141,7 +141,7 @@ export default React.createClass({
                 </section>
 
                 <div>
-                  <section><h4>Your name</h4>
+                  <section><label htmlFor="contactName">Contact name</label>
 
                     <TextField
                       name="contactName"
@@ -150,7 +150,7 @@ export default React.createClass({
                     <p >Your first and last name.</p>
                   </section>
 
-                  <section><h4>Your email</h4>
+                  <section><label htmlFor="contactEmail">Contact email</label>
                     <TextField
                       name="contactEmail"
                       validate={['required', 'email']}
@@ -172,7 +172,7 @@ export default React.createClass({
                 formInvalidCallback={(name)=>this.updateProgress(name,false)}
                 name="requestForm-step-2">
                 <section>
-                  <h4>Genres</h4>
+                  <label>Genres</label>
                   <p style={{marginBottom:"10px"}}>What kind of music do you need?</p>
                   <ToggleButtonHandler
                     validate={['required']}
@@ -181,7 +181,7 @@ export default React.createClass({
                     columns={3} />
                 </section>
                 <section>
-                  <h4>Speakers</h4>
+                  <label>Speakers</label>
                   <p style={{marginBottom:"10px"}}>Do you need speakers for the event?</p>
                   <ToggleOptions
                     name="needSpeakers"
@@ -212,7 +212,7 @@ export default React.createClass({
                 formInvalidCallback={(name)=>this.updateProgress(name,false)}
                 name="requestForm-step-3">
                 <section>
-                  <h4>Event date</h4>
+                  <label>Event date</label>
                   <TexfieldDisconnected
                     name="date"
                     disabled
@@ -221,7 +221,7 @@ export default React.createClass({
                   <p>Select a new date in the calendar above to change it.</p>
                 </section>
                 <section>
-                  <h4>Duration</h4>
+                  <label>Duration</label>
                   <TimeSlider
                     date={this.props.date}
                   />
@@ -229,7 +229,7 @@ export default React.createClass({
 
 
                 <section>
-                  <h4>People</h4>
+                  <label>People</label>
                   <div>
                     <Slider
                       name="guests"
@@ -254,7 +254,7 @@ export default React.createClass({
                     {this.state.guests === "1000" ? "Over " : "Around "} <span>{this.state.guests} people </span>attending the event.</p>
                 </section>
                 <section>
-                  <h4>Description</h4>
+                  <label htmlFor="description">Description</label>
                   <TextBox
                     height="110px"
                     placeholder={"Please tell about your event. \n" +
