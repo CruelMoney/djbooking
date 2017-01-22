@@ -577,6 +577,7 @@ input[type="file"] + label * {
 }
 .login .errors p {
   font-size: 14px;
+      margin-top: 10px;
 }
 .login .text-field{
   margin-top: 20px;
@@ -1700,7 +1701,6 @@ table{
 }
 .toggle-button-handler button{
   border-width: 1px;
-  font-size: 99%;
   padding: 10px 3px;
 }
 .toggle-button-handler table{
@@ -1807,6 +1807,7 @@ margin-bottom: 80px;
   font-family: SourceSansPro-Regular;
   font-size: 30px;
   margin-top: 3px;
+  margin-bottom: 10px;
 }
 .signup p{
   color: #8998AA;
@@ -1925,6 +1926,9 @@ z-index: -1;
 .info-boxes > .container{
   position: relative;
   z-index: 1;
+}
+header .info-boxes{
+  padding: 0;
 }
 .grey{
   background: #f6f9fc;
@@ -2243,14 +2247,15 @@ transform: translateY(-15px);
     width: 100%;
   }
   .user-card-fact{
-    text-align: left;   
+    text-align: left;
   }
-  #stripes,
-  header{
-    height: 985px;
+  #stripes{
+    height: 100%;
   }
   header{
     padding-top: 90px;
+    height: 100%;
+    position: relative;
   }
   .user-header{
     padding-top: 80px;
@@ -2378,6 +2383,16 @@ footer{
 }
 .notification{
   transform: none;
+}
+.signup{
+  margin: 0 20px;
+      margin-bottom: 80px;
+}
+.location_ header .card {
+      margin-bottom: 60px;
+}
+table td{
+  display: block;
 }
 }
 

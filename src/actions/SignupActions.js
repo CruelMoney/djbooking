@@ -9,22 +9,47 @@ const auth = new AuthService()
 
 export function signup(form, isDj, callback) {
   return function (dispatch) {
-    switch (form.signup) {
-      case "EMAIL":
-        return signupEmail(form, handleSignupFeedback(form, isDj, callback))
+    try {
+      locationExists(form.location, (res)=>{
+        if (res) {
+          switch (form.signup) {
+            case "EMAIL":
+              return signupEmail(form, handleSignupFeedback(form, isDj, callback))
 
-      case "FACEBOOK":
-        return LoginActions.loginFacebook(handleSignupFeedback(form, isDj, callback))
+            case "FACEBOOK":
+              return LoginActions.loginFacebook(handleSignupFeedback(form, isDj, callback))
 
 
-      case "SOUNDCLOUD":
-        return LoginActions.loginSoundcloud(handleSignupFeedback(form, isDj, callback))
+            case "SOUNDCLOUD":
+              return LoginActions.loginSoundcloud(handleSignupFeedback(form, isDj, callback))
 
-      default:
-        callback("Something went wrong")
+            default:
+              callback("Something went wrong")
+          }
+        }else{
+          callback("Something went wrong")
+        }
+
+      })
+
+    } catch (e) {
+      callback("Something went wrong")
+    } finally {
     }
   }
 }
+
+export function locationExists(location, callback){
+    GeoCoder.codeAddress(location, function(geoResult) {
+        if (geoResult.error) {
+           callback(false)
+          }else{
+           callback(true)
+          }
+        })
+}
+
+
 
 function createDJ(form, auth0Profile, geoResult){
       return {
@@ -124,6 +149,7 @@ export function signupEmail(form, callback) {
         popup: true,
         connection: 'Username-Password-Authentication',
         responseType: 'token',
+        sso: false,
         email: form.email,
         password: form.password,
       }, callback)

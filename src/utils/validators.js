@@ -2,6 +2,8 @@ import emailValidator from 'email-validator'
 import dateValidator from 'is-my-date-valid'
 import StripeService from './StripeService'
 var stripe = new StripeService();
+import GeoCoder from '../utils/GeoCoder'
+
 
 export function required(value) {
   if (Array.isArray(value)) {
@@ -14,7 +16,6 @@ export function required(value) {
 export function lastName(value) {
   return !value.split(' ')[1] ? ['Please enter your last name'] : []
 }
-
 
 export function email(value) {
   return !emailValidator.validate(value) ? ['This email address is invalid']: []

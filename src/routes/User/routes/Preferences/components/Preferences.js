@@ -109,7 +109,7 @@ const preferences = React.createClass({
             <SubmitButton
               dangerous
               warning="Are you sure you want to delete? All future gigs, events and payments will be lost."
-              onClick={this.props.deleteProfile}
+              onClick={(form, callback) => this.props.deleteProfile(callback)}
               name="Delete_profile"
             > Delete profile
             </SubmitButton>

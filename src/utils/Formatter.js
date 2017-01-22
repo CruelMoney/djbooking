@@ -24,6 +24,10 @@ const formatter = {
           ToTime : function(date){
             const addZero = (n) => ("0"+n).slice(-2)
             return addZero(date.getHours()) + ":" + addZero(date.getMinutes())
+          },
+          ToLocalString : function(date){
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString("da-DK", options)
           }
         },
 

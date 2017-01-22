@@ -19,12 +19,12 @@ function connectToForm (
     isValid = (showErrors:boolean, value:any = this.state.value) => {
       if (this.props.validate) {
         if (typeof value !== 'undefined') {
+
         const errors = this.props.validate
           .reduce((memo, currentName) =>
             memo.concat(validators[currentName](
               value
             )), [])
-
 
         if (showErrors) {
           this.setState({

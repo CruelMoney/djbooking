@@ -206,8 +206,15 @@ var Gig = React.createClass({
                 >
 
                   <p style={{marginBottom:"30px"}}>
-                    If the below information is not enough to give an offer, don't hesitate contacting the organizer!
+                    If the information below is not enough to give an offer, don't hesitate contacting the organizer!
                   </p>
+                  <TextWrapper
+                    label="Date"
+                  >
+                    <p>
+                      {Formatter.date.ToLocalString(this.props.gig.startTime)}
+                    </p>
+                  </TextWrapper>
 
                   <TextWrapper
                     label="Description"

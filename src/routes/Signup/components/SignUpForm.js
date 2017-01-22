@@ -32,7 +32,9 @@ var signupForm = React.createClass({
   },
 
   signup(form, callback) {
-      this.props.handleSubmit(form, callback)
+
+        this.props.handleSubmit(form, callback)
+
   },
 
   render() {
@@ -212,7 +214,8 @@ import * as actions from '../../../actions/SignupActions'
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-    handleSubmit: (form,callback) => dispatch(actions.signup(form.values, true, callback))
+    handleSubmit: (form,callback) => dispatch(actions.signup(form.values, true, callback)),
+    locationExists: (location, callback) => actions.locationExists(location, callback)
   }
 }
 

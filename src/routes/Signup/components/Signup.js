@@ -22,7 +22,7 @@ export default React.createClass({
         <span className="white"/>
         <span/>
       </div>
-      <div className="container">
+      <div className="container info-boxes">
         <div className="row">
         <QueueAnim type="top">
           <div key="cardA">
@@ -52,8 +52,8 @@ export default React.createClass({
       </div>
 
     </header>
-    <div className="container">
-      <div className="card elevate signup">
+    <div className="container"  style={{marginTop: "80px", marginBottom: "80px"}}>
+      <div className="signup">
         <SignUpForm/>
       </div>
     </div>

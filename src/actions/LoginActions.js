@@ -15,6 +15,7 @@ const cueup = new CueupService()
 function handleLoginFeedback(dispatch, callback){
 return function (err, result) {
     if (err){
+      console.log(err);
       dispatch( function() { return {
           type: ActionTypes.LOGIN_FAILED,
           err : err.message
@@ -116,6 +117,7 @@ export function login(form, callback){
 export function loginFacebook(callback) {
       auth.login({
         popup: true,
+        sso: false,
         connection: 'facebook',
         responseType: 'token',
       }, callback)
@@ -124,6 +126,7 @@ export function loginFacebook(callback) {
 export function loginSoundcloud(callback) {
       auth.login({
         popup: true,
+        sso: false,
         connection: 'soundcloud',
         responseType: 'token',
       }, callback)
@@ -133,6 +136,7 @@ export function loginEmail(form, callback) {
     console.log(form);
       auth.login({
         connection: 'Username-Password-Authentication',
+        sso: false,
         responseType: 'token',
         email: form.email,
         password: form.password,
