@@ -798,6 +798,10 @@ input[type="file"] + label * {
 }
 
 #content{
+
+}
+#content > div{
+  overflow-y: hidden;
 }
 
 .collapsible{

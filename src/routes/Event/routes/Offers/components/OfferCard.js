@@ -99,12 +99,14 @@ var OfferCard = React.createClass({
               className="offer-price"
               style={{
                 width: "100%",
-                textAlign: this.props.offer.gigStatus === "Confirmed" || this.props.offer.gigStatus === "Finished" ? "center" : "left"
+                textAlign: this.props.offer.gigStatus === "Confirmed" ||   this.props.eventFinished ? "center" : "left"
               }}>{Formatter.money.FormatNumberToString(
                 this.props.offer.amount+this.props.offer.fee,
               this.props.offer.currency)}</div>
 
-            {this.props.offer.gigStatus === "Confirmed" || this.props.offer.gigStatus === "Finished" ? null :
+            {this.props.offer.gigStatus === "Confirmed" ||
+              this.props.eventFinished
+              ? null :
               <Button
                 glow
                 active={true}

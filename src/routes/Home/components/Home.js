@@ -55,7 +55,11 @@ handleDateChange(date){
 requestForm : null,
 
 handleButtonClick(){
- this.requestForm.scrollIntoView({block: "end", behavior: "smooth"})
+ scroll({
+  top: this.requestForm.offsetTop-20,
+  left: 0,
+  behavior: 'smooth'
+});
 },
 
   render() {
@@ -102,13 +106,13 @@ handleButtonClick(){
           </div>
 
         </header>
-        <div style={{margin:"-10px"}}
-          ref={(f) => this.requestForm = f}/>
 
 
-        <div>
+
           <div   className="container">
+            <div ref={(f) => this.requestForm = f}></div>
             <RequestForm
+
               date={this.state.eventDate}
               onSubmit={this.props.onSubmit}
               isLoggedIn={this.props.isLoggedIn}
@@ -166,7 +170,6 @@ handleButtonClick(){
 
 
 
-      </div>
     )
   }
 })

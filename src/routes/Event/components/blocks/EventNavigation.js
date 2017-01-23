@@ -26,12 +26,13 @@ export default React.createClass({
               <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/info"} label="Event information"/>
             </li>
 
+
             <li>
               <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/offers"} label="Dj offers"/>
             </li>
 
             <li >
-              { this.props.isFinished ?
+              { this.props.isFinished && this.props.paid ? 
                 <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/review"} label="Review"/>
                 :
                 <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/user"} label="Contact information"/>}

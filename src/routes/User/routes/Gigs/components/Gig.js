@@ -175,20 +175,25 @@ var Gig = React.createClass({
                   </div>
                 </div>
                 <div style={{right: "18px", color:"#8998AA", position: "absolute"}}>
-                  {this.props.gig.status === "Cancelled" ?
+                  {
+
+                    this.props.gig.status === "Cancelled" ?
                     "The event has been cancelled ☹️"
-                    :this.props.gig.status === "Requested" ?
-                    "Waiting on your offer 🤔"
-                    :this.props.gig.status === "Accepted" ?
-                    "Waiting on confirmation from organizer 😊"
                     :this.props.gig.status === "Declined" ?
                     "You have declined the gig 😮"
                     :this.props.gig.status === "Lost" ?
                     "You have lost the gig ☹️"
                     :this.props.gig.status === "Confirmed" ?
                     "The gig has been confirmed, get ready to play 😁"
-                    :this.props.gig.status === "Finished" ?
+                    :this.props.gig.status === "Finished"  ?
                     "The gig is finished ☺️"
+                    :(this.props.gig.startTime.getTime() - Date.now()) <= 0 ?
+                    "The event is finished ☺️"
+                    :this.props.gig.status === "Accepted" ?
+                    "Waiting on confirmation from organizer 😊"
+                    :this.props.gig.status === "Requested" ?
+                    "Waiting on your offer 🤔"
+
                   :null}
                 </div>
               </div>

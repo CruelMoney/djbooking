@@ -10,7 +10,8 @@ var EventOffers = React.createClass({
     var daysUntil = (this.props.eventDate.getTime() - Date.now())/(24*3600*1000)
 
     this.setState({
-      paymentPossible: daysUntil <= 28
+      paymentPossible: daysUntil <= 28,
+      eventFinished:  daysUntil < 0
     })
   },
 
@@ -22,10 +23,12 @@ var EventOffers = React.createClass({
           if (i % 2 === 0) {
             left.push(<OfferCard
               paymentPossible={this.state.paymentPossible}
+              eventFinished={this.state.eventFinished}
               offer={o}/>)
           }else{
             right.push(<OfferCard
               paymentPossible={this.state.paymentPossible}
+              eventFinished={this.state.eventFinished}
               offer={o}/>)
           }
         })

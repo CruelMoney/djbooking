@@ -104,6 +104,7 @@ var eventHeader = React.createClass({
                 <div className="header-divider"/>
                 {this.props.loading || !this.props.event ? null :
                   <EventNavigation
+                    paid={this.props.event.chosenOfferId !== 0}
                     hash={this.props.hash}
                     isFinished={this.props.event.status === "Finished"}
                     id={this.props.event.id}

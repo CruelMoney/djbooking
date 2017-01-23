@@ -46,6 +46,8 @@ var event = React.createClass({
       "A dj has made an offer 😊"
       :nextProps.event.status === "Confirmed" ?
       "The event has been payed & confirmed, get ready to rock 😁"
+      :nextProps.event.status === "Finished" && nextProps.event.chosenOfferId === 0 ?
+      "The event is finished ☺️"
       :nextProps.event.status === "Finished" ?
       "The event is finished, please leave a review ☺️"
     :"You have no new notifications"})

@@ -172,6 +172,7 @@ export function cancelEvent(id, hash, callback) {
 
 
 export function payEvent(id, hash, data, callback) {
+  var self = this
   return function(dispatch){
 
   stripe.createCardToken(data, (err, result)=>{
@@ -195,7 +196,7 @@ export function payEvent(id, hash, data, callback) {
         if (err) {
           (callback(err))
         }else{
-          (callback(null))
+          dispatch(self.fetchEvent(id, hash, null, callback))
         }
       })
 
