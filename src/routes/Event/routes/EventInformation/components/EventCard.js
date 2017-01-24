@@ -155,7 +155,7 @@ var Event = React.createClass({
                     text="Do you need speakers for the event?">
 
                     <ToggleOptions
-                      name="speakers"
+                      name="needSpeakers"
                       value={this.props.event.needSpeakers}
                       validate={['required']}
                     >
@@ -201,7 +201,7 @@ var Event = React.createClass({
                       }}
                       step={1}
                       connect="lower"
-                      value={[50]}
+                      value={[this.props.event.guestsCount]}
                       onChange={(values) => this.setState({
                           guests: values[0]
                       })}

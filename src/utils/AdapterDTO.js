@@ -3,7 +3,6 @@ import assign from 'lodash.assign'
 import profilePic from '../assets/default-profile-pic.png'
 
 const filterEmailSettings = (settings, isDj, isCustomer) => {
-  console.log(settings);
 
   if (!isDj) {
      delete settings["Event cancelation"]
@@ -47,29 +46,8 @@ const deletedUser={
         }
       }
     }
-    var review ={
-      fromDTO: function(DTO){
-        return{
-          eventLocation: location.fromDTO(DTO.eventLocation),
-          eventDate: new Date(DTO.eventDate),
-          eventName: DTO.eventName,
-          author: DTO.reviewer ? DTO.reviewer.name : "Deleted user",
-          authorPicture: DTO.reviewer ? DTO.reviewer.picture : profilePic,
-          description: DTO.description,
-          date: new Date(DTO.date),
-          rating: DTO.rating,
-          DJId: DTO.djId
-        }
-      },
-      //The API will automatically assign the rest of the review properties
-      toDTO(review){
-        console.log(review);
-        return{
-        description: review.description,
-        rating: review.rating,
-        }
-      }
-    }
+
+
 
     var settings ={
 
@@ -95,7 +73,7 @@ const deletedUser={
           user_id   : DTO.user_id,
           genres:     DTO.genres,
           createdAt : DTO.createdAt,
-          reviews : DTO.reviews ? DTO.reviews.map(r => review.fromDTO(r)) : [],
+        //  reviews : DTO.reviews ? DTO.reviews.map(r => review.fromDTO(r)) : [],
           settings: DTO.settings ? settings.fromDTO(DTO.settings, DTO.app_metadata.isDJ, DTO.app_metadata.isCustomer) : null,
 
           // user_metadata stuff here
@@ -157,6 +135,31 @@ const deletedUser={
           app_metadata:{
 
           }
+        }
+      }
+    }
+
+    var review ={
+      fromDTO: function(DTO){
+
+        return{
+          eventLocation: location.fromDTO(DTO.eventLocation),
+          eventDate: new Date(DTO.eventDate),
+          eventName: DTO.eventName,
+          author: DTO.reviewer ? user.fromDTO(DTO.reviewer).censoredName : "Deleted user",
+          authorPicture: DTO.reviewer ? user.fromDTO(DTO.reviewer).picture : profilePic,
+          description: DTO.description,
+          date: new Date(DTO.date),
+          rating: DTO.rating,
+          DJId: DTO.djId
+        }
+      },
+      //The API will automatically assign the rest of the review properties
+      toDTO(review){
+        console.log(review);
+        return{
+        description: review.description,
+        rating: review.rating,
         }
       }
     }

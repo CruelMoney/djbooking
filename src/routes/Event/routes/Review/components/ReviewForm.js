@@ -61,7 +61,7 @@ var Review = React.createClass({
                     label="Rating"
                     text="Click on the stars to rate, and save your review on the button to the left."
                   >
-                    <div style={{width: "150px"}}>
+                    <div style={{width: "100%"}}>
                       <Rating
                         rating={this.props.review.rating ? this.props.review.rating : 0}
                         editable={true}

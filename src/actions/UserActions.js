@@ -1,7 +1,7 @@
 import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
-import LoginActions from './LoginActions'
+import * as LoginActions from './LoginActions'
 import CueupService from '../utils/CueupService'
 import StripeService from '../utils/StripeService'
 import { browserHistory } from 'react-router'
@@ -66,14 +66,13 @@ var ActionTypes = c.ActionTypes
 
   export function deleteProfile(callback) {
     return function(dispatch){
-
     const token = auth.getToken()
     cueup.deleteUser(token, function(err, result){
       if (err) {
         (callback(err))
       }else{
         (callback(null))
-        LoginActions.userLogout()
+      
       }
     })
   }
@@ -81,7 +80,6 @@ var ActionTypes = c.ActionTypes
 
   export function changePassword(email, callback) {
     return function(dispatch){
-
     auth.requestPasswordChange(email, function(err, result){
       if (err) {
         (callback(err))

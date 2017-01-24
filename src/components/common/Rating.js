@@ -118,12 +118,12 @@ componentWillMount(){
     }
 },
 
-componentWillReceiveProps(nextProps){
-  this.setState({
-    origRating: nextProps.rating || 0,
-    rating: nextProps.rating || 0
-  })
-},
+// componentWillReceiveProps(nextProps){
+//   this.setState({
+//     origRating: nextProps.rating || 0,
+//     rating: nextProps.rating || 0
+//   })
+// },
 
 
 
@@ -153,23 +153,26 @@ isValid(showErrors) {
 },
 
 updateRating(i){
-  this.setState({
-    origRating: i+1,
-  })
+  if (this.props.editable) {
+    this.setState({
+      origRating: i+1,
+      rating: i+1
+    })
 
-  this.context.updateValue(this.props.name, i+1)
+    this.context.updateValue(this.props.name, i+1)
+  }
 },
 
 updatePotentialRating(i){
-
+  if (this.props.editable) {
   this.setState({
     potRating: i+1,
   })
+}
 },
 
 handleMouseOver(){
   if (this.props.editable) {
-
     this.setState({
       rating: this.state.potRating
     })
@@ -237,13 +240,13 @@ render: function() {
 
   return (
     <div
-    className="rating"
-    onMouseOver={this.handleMouseOver}
-    onMouseOut={this.handleMouseOut}
+      className="rating"
+      onMouseOver={this.handleMouseOver}
+      onMouseOut={this.handleMouseOut}
     >
       {stars}
       {this.state.errors.length ? (
-        <div className="form-error">
+        <div className="form-error" style={{marginTop: "0", marginLeft: "10px"}}>
           {this.state.errors.map((error, i) => <div key={i}>{error}</div>)}
         </div>
       ) : null}
