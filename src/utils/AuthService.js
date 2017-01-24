@@ -14,10 +14,12 @@ export default class AuthService extends EventEmitter {
         super()
             // Configure Auth0
         this.auth0 = new Auth0({
-            clientID: 'vsGIZE2f4TIyHNV1l5meZSiXyYrV2JP9',
-            domain: 'queup.eu.auth0.com',
+            clientID: process.env.REACT_APP_AUTH0_CLIENTID,
+            domain: process.env.REACT_APP_AUTH0_DOMAIN,
             callbackOnLocationHash: true,
-            callbackURL: 'http://localhost:8888/',
+            callbackURL: process.env.NODE_ENV === "production"
+                        ? process.env.REACT_APP_AUTH0_PROD_CALLBACK_DOMAIN
+                        : process.env.REACT_APP_AUTH0_DEV_CALLBACK_DOMAIN,
         })
 
         this.domain = 'queup.eu.auth0.com' // setting domain parameter as an instance attribute

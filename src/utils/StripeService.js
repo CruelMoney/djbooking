@@ -4,7 +4,7 @@
 
 export default class StripeService {
     constructor() {
-      Stripe.setPublishableKey('pk_test_9HMoU3Zkhtu5aoXTYWDgmEgp')
+      Stripe.setPublishableKey(process.env.REACT_APP_STRIPE_PUB_KEY)
     }
 
        responseHandling(status, response, callback) {

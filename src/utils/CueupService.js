@@ -1,6 +1,8 @@
 export default class CueupService {
     constructor() {
-        this.domain = 'http://cueup.azurewebsites.net';
+        this.domain = process.env.NODE_ENV === "production"
+                    ? process.env.REACT_APP_CUEUP_PROD_DOMAIN
+                    : process.env.REACT_APP_CUEUP_DEV_DOMAIN
 
         this.getHeaders = function(token) {
           console.log(token);
@@ -30,8 +32,6 @@ export default class CueupService {
     responseHandling(response, callback) {
         //Checking if statuscode is in 200-299 interval
         if (response.ok) {
-
-        
             //Checking if response content is json
             var contentType = response.headers.get("content-type");
 
@@ -40,7 +40,6 @@ export default class CueupService {
                     return callback(null, result)
                 })
             } else {
-              console.log("heyho");
                 //The case that its not json
                 return callback(null, "ok")
             }
@@ -59,7 +58,7 @@ export default class CueupService {
         .then(function(response) {
           return self.responseHandling(response, callback);
       }).catch(function(error) {
-          console.log(error);
+          callback(error)
       });
     }
 
