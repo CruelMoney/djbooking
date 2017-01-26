@@ -1339,6 +1339,7 @@ button{
 .offer-card {
   color: #32325D;
   fill: #32325D;
+  margin-bottom: 20px;
 }
 .offer-card .user-card-info{
   padding-bottom: 15px;

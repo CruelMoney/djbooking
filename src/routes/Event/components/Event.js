@@ -37,7 +37,7 @@ var event = React.createClass({
       nextProps.event.status === "Cancelled" ?
       "The event is cancelled ☹️"
       :nextProps.event.status === "Initial" ?
-      "Waiting on you to verify your email ☺️"
+      "The event has been confirmed 😊"
       :nextProps.event.status === "Offering" ?
       "Waiting on offers from djs 😊"
       :nextProps.event.status === "NoMatches" ?

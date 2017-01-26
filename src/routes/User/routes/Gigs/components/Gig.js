@@ -178,7 +178,7 @@ var Gig = React.createClass({
                   {
 
                     this.props.gig.status === "Cancelled" ?
-                    "The event has been cancelled ☹️"
+                    "The gig has been cancelled ☹️"
                     :this.props.gig.status === "Declined" ?
                     "You have declined the gig 😮"
                     :this.props.gig.status === "Lost" ?

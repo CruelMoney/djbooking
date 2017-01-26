@@ -148,7 +148,7 @@ var Gigs = React.createClass({
             You will get a notification when new gigs are available</div>
           }/>
       }else {
-        return gigs
+        return gigs.reverse()
       }
     }
 

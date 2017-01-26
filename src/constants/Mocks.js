@@ -2,7 +2,7 @@
 module.exports = {
   MockOffer:{
     "gigID": 0,
-    "amount": 4000,
+    "amount": 5000,
     "fee": 80,
     "currency": "DKK",
     "gigStatus": "Finished"

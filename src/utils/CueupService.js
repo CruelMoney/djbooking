@@ -38,17 +38,17 @@ export default class CueupService {
             if (contentType && contentType.indexOf("application/json") !== -1) {
                 response.json().then(function(result) {
                     return callback(null, result)
-                })
+                }).catch(function(error){console.log(error)})
             } else {
                 //The case that its not json
                 return callback(null, "ok")
             }
         } else {
-
+            console.log(response);
             //The case that Network response was not ok
-            response.text().then(function(result) {
-                return callback({message:result}, null)
-            })
+            response.json().then(function(result) {
+                return callback({message:result.message}, null)
+            }).catch((e)=>  callback({message:"Something went wrong"}, null))
         }
     }
 
@@ -58,6 +58,7 @@ export default class CueupService {
         .then(function(response) {
           return self.responseHandling(response, callback);
       }).catch(function(error) {
+          console.log(error);
           callback(error)
       });
     }

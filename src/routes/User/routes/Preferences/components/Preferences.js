@@ -83,6 +83,8 @@ const preferences = React.createClass({
   getPotentialEmailNotifications(){
    const  vals = Object.keys(this.props.user.settings.emailSettings)
                   .map(function(s){return{name:s}})
+
+
     return vals
   },
 

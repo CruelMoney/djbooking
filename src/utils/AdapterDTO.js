@@ -10,12 +10,14 @@ const filterEmailSettings = (settings, isDj, isCustomer) => {
      delete settings["Event opened for offer"]
      delete settings["New request"]
      delete settings["Offer accepted"]
+     delete settings["New review"]
   }
   if (!isCustomer) {
     delete settings["DJ cancelation"]
     delete settings["Event Can Be Payed Now"]
     delete settings["New DJ offer"]
     delete settings["Payment Recipe"]
+
   }
   return settings
 }
@@ -24,6 +26,9 @@ const filterEmailSettings = (settings, isDj, isCustomer) => {
 const deletedUser={
   bio: "",
   email: "",
+  playingLocation: {name:"deleted"},
+  city: "deleted",
+  avgRating: 0,
   picture: profilePic,
     censoredName:   "User deleted",
     phone:          ""
@@ -171,7 +176,7 @@ const deletedUser={
            gigID: DTO.gigID,
            amount: Formatter.money.ToStandard(DTO.amount, DTO.currency),
            currency: DTO.currency,
-           dj: user.fromDTO(DTO.dj),
+           dj: DTO.dj ? user.fromDTO(DTO.dj) : deletedUser,
            fee:Formatter.money.ToStandard(DTO.fee, DTO.currency),
            status: DTO.GigStatus
           }

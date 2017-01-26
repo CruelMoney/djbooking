@@ -97,7 +97,7 @@ var Events = React.createClass({
       <div className="events">
         { this.props.loading ?
           renderLoadingItem() :
-          this.props.events.map(function(event, i){
+          this.props.events.reverse().map(function(event, i){
             return renderEvent(event, i)
           })
         }

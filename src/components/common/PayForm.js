@@ -143,23 +143,23 @@ getInitialState(){
                 ?
                   <div>
                     <div className="row">
-                        <div className="col-xs-12">
-                          <TextField
-                            name="card_name"
-                            hintStyle={styles.medium.hint}
-                            style={styles.medium.textarea}
-                            inputStyle={styles.medium.input}
-                            type="text"
-                            maxLength="19"
-                            validate={['required', 'lastName']}
-                            onUpdatePipeFunc={cardNumberPipe}
-                            fullWidth={false}
-                            placeholder="Cardholder name"
-                            underlineDisabledStyle={styles.plainBorder}
-                            underlineStyle={styles.dottedBorderStyle}
-                          />
+                      <div className="col-xs-12">
+                        <TextField
+                          name="card_name"
+                          hintStyle={styles.medium.hint}
+                          style={styles.medium.textarea}
+                          inputStyle={styles.medium.input}
+                          type="text"
+                          maxLength="19"
+                          validate={['required', 'lastName']}
+                          onUpdatePipeFunc={cardNumberPipe}
+                          fullWidth={false}
+                          placeholder="Cardholder name"
+                          underlineDisabledStyle={styles.plainBorder}
+                          underlineStyle={styles.dottedBorderStyle}
+                        />
 
-                        </div>
+                      </div>
                       </div>
                     <div className="row">
                       <div className="col-xs-12">

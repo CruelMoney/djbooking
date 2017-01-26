@@ -190,7 +190,7 @@ export function payEvent(id, hash, data, callback) {
         City: data.card_city,
         Zip: data.card_zip,
         Address: data.card_address,
-        Name: data.name
+        Name: data.card_name
       }
       cueup.payEvent(token, id, hash, data, function(err, result){
         if (err) {
