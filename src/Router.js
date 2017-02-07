@@ -73,10 +73,18 @@ function mapDispatchToProps(dispatch, ownprops) {
 }
 
 const SmartApp = connect(mapStateToProps, mapDispatchToProps)(app)
-const reduxMiddleware = applyMiddleware(thunkMiddleware, createLogger())
+var appStore
 
-let appStore = createStore(store,reduxMiddleware)
-console.log(appStore.getState())
+if (process.env.NODE_ENV === "development"){
+  const reduxMiddleware = applyMiddleware(thunkMiddleware, createLogger())
+  appStore = createStore(store,reduxMiddleware)
+  console.log(appStore.getState())
+
+}else{
+  appStore = createStore(store)
+}
+            
+
 
 export default props => (
   <Provider store={appStore}>
