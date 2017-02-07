@@ -28,6 +28,23 @@ var ActionTypes = c.ActionTypes
       }
   }
 
+  export function SaveProfilePicture(img, profile, callback){
+    var self = this
+      return function(dispatch){
+          const token = auth.getToken()
+          const data = converter.user.toDTO(profile)
+          data.picture = img
+          
+          cueup.updateUser(token, data, (err, result)=>{
+            if (err) {
+              callback(err.message)
+            }else{
+              dispatch(self.getUser(callback))
+            }
+          })
+      }
+  }
+
   export function resendVerification(callback){
       return function(dispatch){
           const token = auth.getToken()

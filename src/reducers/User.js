@@ -81,6 +81,11 @@ const status = (state = initialState, action) => {
         isWaiting: false
       })
 
+    case ActionTypes.UPDATE_GEOLOCATION:
+      return assign({}, state, {
+              geoLocation: action.value
+            })
+
 
   default:
     return state

@@ -212,6 +212,7 @@ export default props => (
 )
 export {default as Text} from './Text'
 export {default as Textfield} from './Textfield'
+export {default as TextBox} from './TextBox'
 export {default as LocationSelector} from './LocationSelector'
 export {default as LocationSelectorSimple} from './LocationSelectorSimple'
 export {default as ToggleButton} from './ToggleButton'

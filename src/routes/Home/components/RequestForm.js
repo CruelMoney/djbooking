@@ -62,7 +62,7 @@ export default React.createClass({
           self.setState({
             showPopup: true
           })
-          callback("Email already exists, please login",null)
+          callback(" ",null)
         }else{
           self.props.onSubmit(event, callback)
         }
@@ -106,8 +106,9 @@ export default React.createClass({
           onClickOutside={this.hidePopup}>
           <div>
             <p style={{marginBottom:"20px"}}>
-              It looks like there's already an account using that email. Please login before continuing.<br/>
-              If you don't have a login yet, press the forgot button to create a password.
+              It looks like there's already an account using that email. Please login to continue.<br/>
+              If you don't have a login yet, press the forgot button to create a password. <br/>
+              Then come back here to login and create the event.
             </p>
             <Login/>
           </div>

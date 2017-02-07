@@ -4,8 +4,9 @@ import {datePipe} from '../../../utils/TextPipes'
 import NumberedList from '../../../components/common/NumberedList'
 import Button from '../../../components/common/Button-v2'
 import SubmitButton from '../../../components/common/SubmitButton'
+
 import Form from '../../../components/common/Form-v2'
-import  {
+import  {     TextBox,
               Textfield,
               RegistrationElement,
               ToggleButtonHandler,
@@ -112,7 +113,7 @@ var signupForm = React.createClass({
             big
             type="password"
             name="password"
-            validate={['required']}
+            validate={['required', 'minLength']}
             label="Your password"/>
         </RegistrationElement>
 
@@ -184,6 +185,23 @@ var signupForm = React.createClass({
             columns={4} />
 
         </RegistrationElement>
+
+    <RegistrationElement
+          name="bio"
+          label="About you"
+          active={true}
+          text="Please tell us a bit about yourself. What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?"
+          
+        >
+          <TextBox
+            validate={['required']}
+            width="100%"
+            height="150px"
+            name="bio"
+            />
+        </RegistrationElement>
+
+
       </NumberedList>
 
       <SubmitButton

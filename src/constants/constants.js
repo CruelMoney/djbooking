@@ -58,7 +58,9 @@ module.exports = {
 
     CHECK_EMAIL_REQUESTED: null,
     CHECK_EMAIL_FAILED: null,
-    CHECK_EMAIL_SUCCEEDED:null
+    CHECK_EMAIL_SUCCEEDED:null,
+
+    UPDATE_GEOLOCATION:null
 
   }),
    GENRES: [

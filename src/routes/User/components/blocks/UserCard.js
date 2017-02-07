@@ -54,9 +54,8 @@ getInitialState(){
                      })
               } else {
                     var imageData = img.toDataURL();
-                    const profile = {...self.props.profile, picture: imageData}
 
-                    self.props.updatePicture(profile, (err)=>{
+                    self.props.updatePicture(imageData, (err)=>{
                       if (err) {
                         self.setState({
                           loading: false,
@@ -222,9 +221,12 @@ getInitialState(){
 
         <div className={this.props.onlyPicture ? "user-card-text hide" : "user-card-text"}>
           <div className="user-card-info">
+            
+            {this.props.profile.isDJ ? 
+            <div>
             <div className="user-card-fact">
               <p>Experience</p>
-              {this.props.experience + " Cueup gigs"}
+              {this.props.experience + " gigs"}
             </div>
             <div className="user-card-fact">
               <p>Earned</p>
@@ -233,8 +235,26 @@ getInitialState(){
             <div className="user-card-fact">
               <p>Rating</p>
               {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : "No reviews yet"}
-
             </div>
+            </div>
+            
+            : null}
+
+             {this.props.profile.isCustomer ? 
+            <div>
+            <div className="user-card-fact">
+              <p>Upcoming</p>
+              {this.props.profile.upcomingEvents + " events"}
+            </div>
+            <div className="user-card-fact">
+              <p>Finished</p>
+               {this.props.profile.finishedEvents + " events"}
+            </div>
+            
+            </div>
+            
+            : null}
+            
           </div>
         </div>
 
@@ -246,7 +266,7 @@ getInitialState(){
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-    updatePicture: (profile, callback) => {dispatch(actions.save(profile, callback))},
+    updatePicture: (img, callback) => {dispatch(actions.SaveProfilePicture(img, ownprops.profile, callback))},
   }
 }
 

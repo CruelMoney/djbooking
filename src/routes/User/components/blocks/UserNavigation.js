@@ -45,11 +45,12 @@ export default React.createClass({
                 justifyContent: 'space-between'
               }}>
 
-            {this.props.isDJ ?
+          
+          
               <li>
                 <Navlink userNavigation={true} to="profile" label="Profile"/>
               </li>
-            : null}
+       
 
             {this.props.isCustomer ?
               <li>
@@ -66,13 +67,6 @@ export default React.createClass({
             {this.props.isDJ ?
               <li >
                 <Navlink userNavigation={true} to="reviews" label="Reviews"/>
-              </li>
-              : null
-            }
-
-            {(this.props.isCustomer && !this.props.isDJ) ?
-              <li >
-                <Navlink userNavigation={true} to="user/signup" label="Become DJ"/>
               </li>
               : null
             }

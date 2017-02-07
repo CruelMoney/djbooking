@@ -119,6 +119,9 @@ var user = React.createClass({
           }}
         >
           <UserHeader
+            geoAddress={this.props.geoLocation ? 
+              (+ this.props.geoLocation.city_name ? this.props.geoLocation.city_name + ", " : "" +
+                 this.props.geoLocation.country_name ? this.props.geoLocation.country_name : "") : ""}
             profile={this.props.profile}
             hideInfo={!this.state.showUserCard}
             actions={this.state.actions}
@@ -163,7 +166,8 @@ import { connect } from 'react-redux'
 function mapStateToProps(state, ownProps) {
   return {
     profile:  state.user.profile,
-    loading: state.user.status.isWaiting
+    loading: state.user.status.isWaiting,
+    geoLocation: state.user.status.geoLocation
   }
 }
 

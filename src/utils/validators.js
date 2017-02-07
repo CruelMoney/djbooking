@@ -17,6 +17,10 @@ export function lastName(value) {
   return !value.split(' ')[1] ? ['Please enter your last name'] : []
 }
 
+export function minLength(str) {
+  return str.length < 6 ? ["Password must be 6 or more characters"] : []
+}
+
 export function email(value) {
   return !emailValidator.validate(value) ? ['This email address is invalid']: []
 }

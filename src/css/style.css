@@ -1064,7 +1064,6 @@ transition: opacity 0.3s ease;
 .user-card-info,
 .event-card-info{
   border-bottom: 2px solid #F6F9FC;
-    padding-bottom: 20px;
     padding-top: 20px;
     border-top: 2px solid #F6F9FC;
     margin-bottom: 10px;
@@ -1084,7 +1083,6 @@ transition: opacity 0.3s ease;
 .user-card-fact:last-child,
 .event-card-fact:last-child,
 .review-card-fact:last-child{
-  margin-bottom: 0px;
 }
 
 .user-card-fact p,
@@ -1098,7 +1096,6 @@ transition: opacity 0.3s ease;
 }
 .user-card-fact:last-child p,
 .event-card-fact:last-child p{
-    margin-bottom: 0;
 }
 .user-card-about,
 .event-card-about,
@@ -1139,9 +1136,9 @@ transition: opacity 0.3s ease;
   top: 33px;
   left: 50%;
   display: inline-block;
-  border-right: 20px solid transparent;
-  border-bottom: 20px solid #FFFFFF;
-  border-left: 20px solid transparent;
+  border-right: 13px solid transparent;
+  border-bottom: 13px solid #FFFFFF;
+  border-left: 13px solid transparent;
   content: '';
   transform: translateX(-50%) translateY(20px);
   opacity: 0;
@@ -1213,7 +1210,7 @@ display: flex;
 justify-content: space-between;
 margin-bottom: 20px;
 border: 2px solid #BBBBBB;
-color: #BBBBBB;
+color: #32325D;
 border-radius: 6px;
 padding: 20px;
 transition: all 0.1s ease-in-out;
@@ -1639,6 +1636,16 @@ button[disabled]{
   color: normal;
   border-color: normal;
 }
+button[disabled]:hover{
+    border-color: #BBBBBB;
+    color: #BBBBBB;
+     box-shadow: none !important;
+ }
+
+ button.active[disabled]:hover{
+    color: white ;
+ }
+
 button.active, .button.active{
   color: #FFFFFF;
   fill: #FFFFFF;
@@ -1815,6 +1822,8 @@ margin-bottom: 80px;
 }
 .signup p{
   color: #8998AA;
+  z-index: 1;
+  position: relative;
 }
 .errors{
       margin-top: 5px;

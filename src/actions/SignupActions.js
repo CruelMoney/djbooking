@@ -47,7 +47,6 @@ export function locationExists(location, callback){
 
 
 function createDJ(form, auth0Profile, geoResult){
-  console.log(geoResult);
       return {
           email: form.email || auth0Profile.email,
           picture: auth0Profile.picture_large || auth0Profile.picture,
@@ -102,7 +101,7 @@ function createCustomer(form, auth0Profile){
         } else {
 
           auth.setToken(result.idToken)
-          auth.getProfileFromToken(result.idToken, function(auth0Profile){
+          auth.getProfileFromToken(result.idToken, function(err, auth0Profile){
 
           if (isDJ){
             //Getting the coordinates of the playing location

@@ -86,7 +86,7 @@ export function postEvent(form, callback) {
     //Getting the coordinates of the playing location
     GeoCoder.codeAddress(form.location, function(geoResult) {
         if (geoResult.error) {
-            (callback("Error defining location: " + geoResult.error))
+            (callback("The location could not be found, try another city"))
           }
 
         //If the geocoding does not fail

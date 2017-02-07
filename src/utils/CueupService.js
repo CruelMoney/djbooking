@@ -120,7 +120,7 @@ export default class CueupService {
     resendVerification(token, callback){
       return this.fetchHandling(
       `${this.domain}/api/user/send_verification_email`,
-      this.getInit(this.getHeaders(token)),
+      this.getInit(this.getHeaders(token)),callback
     )}
    //USER ACTIONS END
 

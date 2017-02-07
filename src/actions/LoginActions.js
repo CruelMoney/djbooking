@@ -21,9 +21,9 @@ return function (err, result) {
         }}())
         callback(err.message)
     }else {
-
-      auth.setToken(result.idToken)
-      cueup.getUser(result.idToken, (error, result)=>
+      const token = result.idToken;
+      auth.setToken(token)
+      cueup.getUser(token, (error, result)=>
       {
         if (error) {
           dispatch (function() {return {
@@ -32,13 +32,26 @@ return function (err, result) {
             }}())
             callback(error.message)
         }else{
+          var user = converter.user.fromDTO(result)
+          
+          auth.getProfileFromToken(token, (err, authProfile)=>{
+
+         if(!err){
+              dispatch (function() {return {
+                type: ActionTypes.UPDATE_GEOLOCATION,
+                value: authProfile.user_metadata.geoip
+              }}())
+            }
+
+
           dispatch (function() {return {
               type: ActionTypes.LOGIN_SUCCEEDED,
-              profile: converter.user.fromDTO(result)
+              profile: user
             }}())
           callback(null)
-        }
-      })
+        
+        })
+      }})
     }
   }
 }
@@ -53,7 +66,10 @@ export function checkForLogin(redirect = null){
   return function(dispatch){
     if (auth.loggedIn()) {
       dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }())
-      cueup.getUser(auth.getToken(), (error, result)=>
+    
+      const token = auth.getToken()
+
+      cueup.getUser(token, (error, result)=>
       {
         if (error) {
           dispatch( function() { return {
@@ -62,16 +78,27 @@ export function checkForLogin(redirect = null){
             }}())
             if (redirect) {browserHistory.push('/')}
         }else{
+
+          var user = converter.user.fromDTO(result)
+          
+          auth.getProfileFromToken(token, (err, authProfile)=>{
+              
+            if(!err){
+              dispatch (function() {return {
+                type: ActionTypes.UPDATE_GEOLOCATION,
+                value: authProfile.user_metadata.geoip
+              }}())
+            }
+
           dispatch (function() {return {
               type: ActionTypes.LOGIN_SUCCEEDED,
-              profile: converter.user.fromDTO(result)
+              profile: user
             }}())
-          if (redirect) {
+           if (redirect) {
             console.log("redirecting!");
             browserHistory.push(redirect) }
-        }
-      })
-
+        })
+        }})
     }else{
       //If trying to access user restricted area, but not logged in
       // if (window.location.pathname.split('/')[1] === 'user') {

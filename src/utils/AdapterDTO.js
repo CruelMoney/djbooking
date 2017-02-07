@@ -92,6 +92,8 @@ const deletedUser={
             phone:          DTO.user_metadata.phone,
             currency:       DTO.user_metadata.currency || "DKK",
             last4:          DTO.user_metadata.last4,
+            geoCity:        DTO.user_metadata.geoCity,
+            geoCountry:     DTO.user_metadata.geoCountry,
 
           //App metadata stuff here
 
@@ -100,6 +102,8 @@ const deletedUser={
             earned    :  Formatter.money.ToStandard(DTO.app_metadata.earned, "DKK"),
             email_verified :  DTO.app_metadata.email_verified,
             gigsCount : DTO.app_metadata.gigsCount,
+            upcomingEvents: DTO.app_metadata.upcomingEvents,
+            finishedEvents: DTO.app_metadata.finishedEvents,
             isCustomer :  DTO.app_metadata.isCustomer,
             isDJ :  DTO.app_metadata.isDJ,
             stripeID :  DTO.app_metadata.stripeID,
@@ -119,7 +123,7 @@ const deletedUser={
           bio: profile.bio,
           email: profile.email,
           experienceCount: profile.experienceCount,
-          picture: profile.picture,
+         // picture: profile.picture,
           playingLocation : profile.playingLocation,
           playingRadius : profile.playingRadius,
           user_id   : profile.user_id,
@@ -134,7 +138,9 @@ const deletedUser={
                               ? Formatter.date.FromEUStringToUSDate(profile.birthday)
                               : profile.birthday,
             city:           profile.city,
-            phone:          profile.phone
+            phone:          profile.phone,
+            geoCity:        profile.geoCity,
+            geoCountry:     profile.geoCountry
           },
           //nothing is set here because it cant be updated in the client
           app_metadata:{
@@ -224,6 +230,7 @@ const deletedUser={
       toDTO:function(event){
         return{
           ...event,
+          offers: [],
           Genres: event.genres,
           Description: event.description,
           Name: event.name,

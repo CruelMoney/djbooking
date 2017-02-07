@@ -168,7 +168,7 @@ const preferences = React.createClass({
                 </TextWrapper>
               : null }
 
-              {isDJ ?
+          
                 <div>
                   <TextWrapper
                     label="Email notifications"
@@ -182,8 +182,7 @@ const preferences = React.createClass({
                     />
                   </TextWrapper>
                 </div>
-              : null}
-
+           
               {isDJ ?
                 <div>
                   <TextWrapper
@@ -270,7 +269,11 @@ const preferences = React.createClass({
                   text="Request an email to change your password.">
                   <div style={{display:"inline-block"}}>
                     <SubmitButton
-                      onClick={(email, callback) => this.props.changePassword(this.props.user.email, callback)}
+                      onClick={(email, callback) => {
+                        console.log("Clicked")
+                        console.log(email)
+                        console.log(callback)
+                        this.props.changePassword(this.props.user.email, callback)}}
                       name="request_change_password"
                     >Request email</SubmitButton>
                   </div>

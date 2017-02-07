@@ -38,7 +38,6 @@ export default class AuthService extends EventEmitter {
     login(params, onError) {
         //redirects the call to auth0 instance
         this.auth0.login(params, (err,result)=>{
-            console.log(err)
             if(err !=null && err.message === "invalid_user_password"){
               onError({message:"The email or password is wrong"}, result)
             }else{
@@ -54,7 +53,7 @@ export default class AuthService extends EventEmitter {
 
     getProfileFromToken(token, callback) {
         this.auth0.getProfile(token, function(err, profile) {
-            return callback(profile)
+            return callback(err,profile)
         })
     }
 
