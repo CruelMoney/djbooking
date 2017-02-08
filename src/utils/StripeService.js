@@ -19,8 +19,8 @@ export default class StripeService {
 
     createBankToken(data, callback){
       Stripe.bankAccount.createToken({
-        country: "US",
-        currency: "USD",
+        country: "DK",
+        currency: "DKK",
         routing_number: data.bank_number,
         account_number: data.account_number,
         account_holder_name: data.account_holder_name,

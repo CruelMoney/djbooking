@@ -128,7 +128,8 @@ var payoutForm = React.createClass({
           <TextWrapper
             label="Payout"
             showLock={true}
-            text="All information is encrypted.">
+            text="All information is encrypted. You can choose to use either your IBAN-number or your regular bankaccount-number. 
+            If using your regular account-number pleaser enter the SWIFT code for your country as well.">
             <div className="row">
               <div className="col-xs-12">
                 <TextField
@@ -180,21 +181,7 @@ var payoutForm = React.createClass({
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-6">
-                <TextField
-                  name="bank_number"
-                  hintStyle={styles.medium.hint}
-                  style={styles.medium.textarea}
-                  inputStyle={styles.medium.input}
-                  validate={['required', 'validateRoutingNumberDKK']}
-                  type="number"
-                  fullWidth={false}
-                  placeholder="Registration number"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                />
-
-              </div>
+             
               <div className="col-xs-6">
                 <TextField
                   name="account_number"
@@ -204,10 +191,25 @@ var payoutForm = React.createClass({
                   validate={['required', 'validateAccountNumberDKK']}
                   type="text"
                   fullWidth={false}
-                  placeholder="Account number"
+                  placeholder="Account- or IBAN-number"
                   underlineDisabledStyle={styles.plainBorder}
                   underlineStyle={styles.dottedBorderStyle}
 
+                />
+
+              </div>
+               <div className="col-xs-6">
+                <TextField
+                  name="bank_number"
+                  hintStyle={styles.medium.hint}
+                  style={styles.medium.textarea}
+                  inputStyle={styles.medium.input}
+                  validate={['required', 'validateRoutingNumberDKK']}
+                  type="string"
+                  fullWidth={false}
+                  placeholder="Optionally SWIFT"
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
                 />
 
               </div>
