@@ -1378,8 +1378,9 @@ float: left;
 margin-right: 5px;
 }
 
-.popup,.loginDropDown{
-  transform: rotate3d(1,1,0,-15deg);
+.popup,
+.loginDropDown{
+  transform: rotate3d(1,1,0,-15deg) translateX(-50%);
   transform-origin: 100% 0;
   opacity: 0;
   will-change: transform,opacity;
@@ -1387,8 +1388,14 @@ margin-right: 5px;
   transition-duration: .35s;
   pointer-events: none;
 }
-.popup.active,loginDropDown.active{
+.popup.active{
   transform: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.loginDropDown.active{
+  transform: translateX(-50%);
   opacity: 1;
   pointer-events: auto;
 }

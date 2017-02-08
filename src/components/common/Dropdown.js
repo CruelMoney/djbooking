@@ -30,11 +30,10 @@ const Dropdown = onClickOutside(React.createClass({
   render() {
 
     return (
-<div>
-  {this.state.expanded ?
-    <div className="loginDropDown">
+<div>  
+    <div className={this.state.expanded ? "loginDropDown active" : "loginDropDown"}>
       {this.props.children}
-    </div> : null }
+    </div> 
     </div>
     )
     }
