@@ -129,8 +129,9 @@ var payoutForm = React.createClass({
             label="Payout"
             showLock={true}
             text="
-            All information is encrypted. We are using IBAN numbers to allow deals between </br>
-            countries. That way you can play gigs in foreign contries if your traveling. </br>">
+            All information is encrypted. We are using IBAN numbers to <br>
+            allow deals between countries. That way you can play gigs <br>
+            in foreign contries if your traveling.">
             <div className="row">
               <div className="col-xs-12">
                 <TextField
@@ -183,7 +184,7 @@ var payoutForm = React.createClass({
             </div>
             <div className="row">
              
-              <div className="col-xs-6">
+              <div className="col-xs-12">
                 <TextField
                   name="account_number"
                   hintStyle={styles.medium.hint}

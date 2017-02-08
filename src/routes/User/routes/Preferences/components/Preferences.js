@@ -11,6 +11,7 @@ import LoadingPlaceholder from '../../../../../components/common/LoadingPlacehol
 import wNumb from 'wnumb'
 import Slider from '../../../../../components/common/Slider'
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
+import entries from 'object.entries';
 
 const preferences = React.createClass({
   propTypes: {
@@ -72,7 +73,10 @@ const preferences = React.createClass({
   },
 
   getUserEmailNotifications(){
-    var vals = Object.entries(this.props.user.settings.emailSettings)
+   // Using the experimental Object.entries
+   // var vals = Object.entries(this.props.user.settings.emailSettings)
+   // using shim from npm instead
+    var vals = entries(this.props.user.settings.emailSettings)
       .filter(s=>s[1] === true)
       .map(s=>s[0])
 
