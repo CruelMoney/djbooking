@@ -1645,13 +1645,13 @@ button[disabled]{
   color: normal;
   border-color: normal;
 }
-button[disabled]:hover{
+button[disabled]:hover:not(.loading){
     border-color: #BBBBBB;
     color: #BBBBBB;
      box-shadow: none !important;
  }
 
- button.active[disabled]:hover{
+ button.active[disabled]:hover:not(.loading){
     color: white ;
  }
 
