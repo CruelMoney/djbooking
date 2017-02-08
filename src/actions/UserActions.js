@@ -97,7 +97,7 @@ var ActionTypes = c.ActionTypes
 
   export function changePassword(email, callback) {
     return function(dispatch){
-    auth.requestPasswordChange(email, function(err, result){
+    cueup.requestPasswordChange(email, function(err, result){
       if (err) {
         (callback(err))
       }else{

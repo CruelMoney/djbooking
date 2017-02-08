@@ -150,7 +150,6 @@ getInitialState(){
                           style={styles.medium.textarea}
                           inputStyle={styles.medium.input}
                           type="text"
-                          maxLength="19"
                           validate={['required', 'lastName']}
                           onUpdatePipeFunc={cardNumberPipe}
                           fullWidth={false}
@@ -205,7 +204,6 @@ getInitialState(){
                           inputStyle={styles.medium.input}
                           validate={['required', 'validateCardCVC']}
                           type="number"
-                          maxLength="3"
                           fullWidth={false}
                           placeholder="CVC"
                           underlineDisabledStyle={styles.plainBorder}

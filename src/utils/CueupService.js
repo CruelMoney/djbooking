@@ -122,6 +122,11 @@ export default class CueupService {
       `${this.domain}/api/user/send_verification_email`,
       this.getInit(this.getHeaders(token)),callback
     )}
+    requestPasswordChange(email, callback){
+      return this.fetchHandling(
+      `${this.domain}/api/user/change_password/${email}`,
+      this.postInit(this.getHeaders("")),callback
+    )}
    //USER ACTIONS END
 
 

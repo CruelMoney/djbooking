@@ -63,7 +63,7 @@ const login = React.createClass({
                 callback("The email does not exist.")
                 return
             }else{
-              auth.requestPasswordChange(email,function(err,resp){
+              cueup.requestPasswordChange(email,function(err,resp){
                 if (err) {
                   callback("Something went wrong.")
                 }else{
