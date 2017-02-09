@@ -104,14 +104,7 @@ var menu = React.createClass({
                 <li>
                   <Navlink  buttonLook={true} to="/howitworks" label="How it works"/>
                 </li>
-                {this.props.loggedIn ? (
-
-                  <li>
-                    <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
-                  </li>
-                ) : (
-                  null
-                )}
+               
 
                 {!this.props.loggedIn ? (
                   <li >
@@ -129,12 +122,22 @@ var menu = React.createClass({
                   </li>
                 ) : null}
 
-              {(this.props.loggedIn && this.props.profile.isDj) ? (
+         
+
+              {(this.props.loggedIn && this.props.profile.isDJ) ? (
                   null
                 ) : (
                   <li>
                     <Navlink buttonLook={true} to="/signup" label="Become DJ" important={true}/>
                   </li>
+                )}
+                   {this.props.loggedIn ? (
+
+                  <li>
+                    <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
+                  </li>
+                ) : (
+                  null
                 )}
 
                 {this.props.loggedIn ? (

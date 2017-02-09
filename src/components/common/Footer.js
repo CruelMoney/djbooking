@@ -80,6 +80,9 @@ export default React.createClass({
                 <li>
                   <Link to="/blog">Blog</Link>
                 </li>
+                <li>
+                  <Link to="/faq/dj">Faqs</Link>
+                </li>
               </ul>
             </div>
             <div>
@@ -92,7 +95,7 @@ export default React.createClass({
                   <a href="mailto:chris@cueup.io?Subject=Hello">Contact</a>
                 </li>
                 <li>
-                  <Link to="/terms">Privacy & terms</Link>
+                  <Link to="/terms/agreements">Privacy & terms</Link>
                 </li>
               </ul>
             </div>

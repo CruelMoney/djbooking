@@ -1,9 +1,9 @@
 module.exports = {
   path: 'event/:id/:hash',
 
-  getIndexRoute(partialNextState, callback) {
+  getIndexRoute(partialNextState, cb) {
     require.ensure([], function (require) {
-      callback(null, {
+      cb(null, {
         component: require('./routes/EventInformation'),
       })
     })

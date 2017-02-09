@@ -6,7 +6,8 @@ export const Collapsible = React.createClass({
     label: PropTypes.string,
     number: PropTypes.number,
     collapsed: PropTypes.bool,
-    handleClick: PropTypes.func
+    handleClick: PropTypes.func,
+    numbered: PropTypes.bool
   },
 
   render() {
@@ -16,21 +17,22 @@ export const Collapsible = React.createClass({
         this.props.collapsed ? "collapsible collapsed" : "collapsible active"}>
 
           <div
+          
             onClick={() => this.props.handleClick(this.props.number)}
             style={{
-              cursor:"pointer",
-              height: '50px'
+              cursor:"pointer"
+              
             }}
           >
             <h4
               style={{margin:"16px 0"}}
-            >  {this.props.number + ". " + this.props.label} </h4>
+            >  {(this.props.numbered ? (this.props.number + ". ") : "")+ this.props.label} </h4>
             <span>
               <svg className="collapsible-arrow" viewBox="0 0 24 24"
                 style={{
                   position: "absolute",
                   right: "15px",
-                  top: "12px",
+                  top: "0px",
                   display: "inline-block",
                   color: "rgba(0, 0, 0, 0.870588)",
                   fill: "currentcolor",
@@ -41,7 +43,7 @@ export const Collapsible = React.createClass({
               </svg>
             </span>
           </div>
-          <div style={{padding: "0 16px"}}>
+          <div className="collapsible-container" style={ this.props.numbered ? {padding: "0 16px"} : {}}>
             {this.props.children}
           </div>
         </div>
@@ -56,7 +58,13 @@ export const Collapsible = React.createClass({
 
 export const CollapsibleContainer = React.createClass({
   propTypes: {
+    numbered: PropTypes.bool
+  },
 
+  getDefaultProps(){
+    return{
+      numbered: true
+    }
   },
 
   getInitialState(){
@@ -85,7 +93,8 @@ export const CollapsibleContainer = React.createClass({
       return React.cloneElement(child, {
         number: count,
         collapsed: count !== this.state.activeChild,
-        handleClick: this.toggleChild
+        handleClick: this.toggleChild,
+        numbered: this.props.numbered
       })
   })
 },

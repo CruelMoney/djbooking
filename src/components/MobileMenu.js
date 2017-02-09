@@ -99,38 +99,38 @@ class MobileMenu extends React.Component {
             <ul >
               {this.props.profile.isDJ ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to="profile" label="Profile"/>
+                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to="/profile" label="Profile"/>
                 </li>
               : null}
 
               {this.props.profile.isCustomer ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="events" label="Events"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/events" label="Events"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="gigs" label="Gigs"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/gigs" label="Gigs"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="reviews" label="Reviews"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/reviews" label="Reviews"/>
                 </li>
                 : null
               }
 
               {(this.props.isCustomer && !this.props.isDJ) ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="user/signup" label="Become DJ"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/signup" label="Become DJ"/>
                 </li>
                 : null
               }
               {this.props.loggedIn ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="preferences" label="Preferences"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/preferences" label="Preferences"/>
                 </li>
                 : null
               }

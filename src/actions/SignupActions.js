@@ -13,20 +13,16 @@ export function signup(form, isDj, callback) {
             
               switch (form.signup) {
               case "EMAIL":
-                //the case that a logged in customer wants be dj
-                if(auth.loggedIn()){
-                    return handleSignupFeedback(form, isDj=true, callback)(null, {idToken: auth.getToken()})
-                }else{
-                  //normal dj signup
-                    return signupEmail(form, handleSignupFeedback(form, isDj, callback))
-                }
+                  return signupEmail(form, handleSignupFeedback(form, isDj, callback))
 
               case "FACEBOOK":
                 return LoginActions.loginFacebook(handleSignupFeedback(form, isDj, callback))
 
-
               case "SOUNDCLOUD":
                 return LoginActions.loginSoundcloud(handleSignupFeedback(form, isDj, callback))
+
+              case "SIGNED_IN":
+                return handleSignupFeedback(form, isDj=true, callback)(null, {idToken: auth.getToken()})
 
               default:
                 callback("Something went wrong")

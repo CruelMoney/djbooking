@@ -22,22 +22,14 @@ export default React.createClass({
   },
   render() {
     return (
-      <div style={{marginTop:"110px"}}>
+      <div className="terms-content">
         <div className="container">
           <div className="row">
             <div className="col-md-3">
               <div ref={(ref) => this.nav = ref}>
                 <div
                   className="button-wrapper terms-navigation"
-                  style={{
-                    color:this.themeColor,
-                    borderColor:this.themeColor,
-                    backgroundColor:this.themeColor,
-                    display: "flex",
-                    flexDirection: "column",
-                    textAlign: "center",
-                    lineHeight: "0",
-                  width:"200px"}}>
+                 >
                   <Link className="button flat" activeClassName="active" to="/terms/agreements">
                     <svg width="16px" height="13px" viewBox="0 0 16 13" version="1.1" xmlns="http://www.w3.org/2000/svg" >
                       <defs></defs>

@@ -333,13 +333,36 @@ align-items: center;
 .logo svg{
   fill: #FFFFFF;
 }
-.location_terms .main-menu a{
+.location_terms .main-menu a,
+.location_faq .main-menu a
+{
   color: #32325D;
 }
-.location_terms .logo svg{
+.location_terms .logo svg,
+.location_faq .logo svg{
   fill: #32325D;
 }
-.location_terms nav {
+.location_terms  .mobileMenuButton h2,
+.location_terms .mobileMenuButton h2:after,
+.location_terms .mobileMenuButton h2:before,
+.location_faq .mobileMenuButton h2,
+.location_faq .mobileMenuButton h2:after,
+.location_faq .mobileMenuButton h2:before{
+  background: #32325D;
+}
+
+.location_terms  .buttonFixed .mobileMenuButton h2,
+.location_terms .buttonFixed .mobileMenuButton h2:after,
+.location_terms .buttonFixed .mobileMenuButton h2:before,
+.location_faq .buttonFixed .mobileMenuButton h2,
+.location_faq .buttonFixed .mobileMenuButton h2:after,
+.location_faq .buttonFixed .mobileMenuButton h2:before{
+  background: white;
+}
+
+
+.location_terms nav,
+.location_faq  nav{
   border-bottom: 1px solid #F6F9FC;
 }
 
@@ -806,29 +829,31 @@ input[type="file"] + label * {
 
 .collapsible{
   position: relative;
-  transition: all 0.4s;
-  transition-delay: overflow 0.5s;
-  overflow: hidden;
   /* fix for overflow Hidden */
   margin: 0px -20px;
   padding: 0px 20px;
-  /* fix for overflow Hidden */
-
-  padding-bottom: 20px;
 }
 
-.open .collapsible{
-  overflow: visible;
+.collapsible > div{
+  margin-top: 10px;
 }
 
-.collapsible.active{
+
+.collapsible-container{
+    transition: all 0.4s;
+    transition-delay: overflow 0.5s;
+    overflow: hidden;
+}
+.collapsible-container h4{
+  width: 90%;
+}
+.collapsible.active .collapsible-container{
   max-height: 1000px;
   transition-delay: 0.4s;
 }
 
-
-.collapsible.collapsed{
-  max-height: 50px;
+.collapsible.collapsed .collapsible-container{
+  max-height: 0px;
 }
 
 
@@ -1285,9 +1310,7 @@ border-bottom: 2px solid #eee;
 .collapsible .text-element-wrapper{
   margin-bottom: 30px;
 }
-.collapsible .text-element-wrapper:last-child{
-  margin-bottom: 0px;
-}
+
 
 .form-error{
   color: rgb(244, 67, 54);
@@ -1597,6 +1620,9 @@ margin-right: 5px;
   white-space: nowrap;
    overflow: hidden;
    text-overflow: ellipsis;
+   display: flex;
+    justify-content: center;
+    align-items: center;
 }
 button{
   visibility: visible;
@@ -1620,6 +1646,8 @@ button{
 /*Action and toggle buttons*/
 .button-wrapper{
   visibility: hidden;
+  display: flex;
+    justify-content: center;
 }
 .button.flat{
   border: 2px solid #BBBBBB;
@@ -1630,10 +1658,16 @@ button{
   margin-right: 7px;
 }
 
-button:hover{
+button:hover,
+.button:hover{
+  fill: inherit;
   color: inherit;
   border-color: inherit;
 }
+.button .svg{
+  fill: inherit;
+}
+
 
 button.submit{
 }
@@ -1872,6 +1906,17 @@ color: #32325D;
 
 .terms-navigation > a{
   margin-bottom: 10px;
+}
+.terms-navigation.button-wrapper{
+    fill: rgb(37, 244, 210);
+    color: rgb(37, 244, 210);
+    border-color: rgb(37, 244, 210);
+    background-color: rgb(37, 244, 210);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    line-height: 0;
+    width: 200px;
 }
 .fixed{
   position: fixed;
@@ -2238,6 +2283,12 @@ transform: translateY(-15px);
   display: none;
 }
 
+.terms-content,
+.faq-content{
+  margin-top: 80px;
+  padding-top: 30px;
+}
+
 /* Mobile */
 @media only screen and (max-device-width: 480px) {
   h1,
@@ -2420,10 +2471,44 @@ footer{
 table td{
   display: block;
 }
+.terms-navigation.button-wrapper {
+  flex-direction: row;
+  width: 100%;
 }
+.terms-navigation.button-wrapper  a{
+  margin-right: 5px;
+  min-width: 100px;
+}
+.navigation{
+  height: 60px;
+}
+
+.terms-content,
+.faq-content{
+  margin-top: 60px;
+}
+
+
+
+}
+
+/* Mobile END */
 
 
 .popup .card{
   box-shadow: none;
   padding: 0px;
+}
+
+.location_faq .collapsible-container .divider{
+  border-width: 1px;
+}
+.location_faq .card h4{
+  text-transform: none;
+  margin: 13px 0px !important; 
+  font-size: 20px;
+  font-family: "SourceSansPro-Regular";
+}
+.location_faq .subtitle{
+  margin-bottom: 0px;
 }

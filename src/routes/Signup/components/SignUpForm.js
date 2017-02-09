@@ -18,6 +18,7 @@ import  {     TextBox,
 
 var signupForm = React.createClass({
   propTypes:{
+    isLoggedIn: PropTypes.bool,
     handleSubmit: PropTypes.func,
     form: PropTypes.object,
     isloading: PropTypes.bool
@@ -39,7 +40,7 @@ var signupForm = React.createClass({
   },
 
   render() {
-
+    console.log(this.props)
   return (
     <Form
       name={"signup-form"}
@@ -53,12 +54,13 @@ var signupForm = React.createClass({
             label="Sign Up"
             active={true}
             text="Do you want to sign up using soundcloud, facebook or your email"
+            hideOn={['SIGNED_IN']}
           >
-
+           
             <ToggleOptions
               name="signup"
               glued={false}
-              value="FACEBOOK"
+              value={this.props.isLoggedIn ? 'SIGNED_IN' : "FACEBOOK"}
             >
               <Button
                 name="FACEBOOK"
@@ -79,7 +81,7 @@ var signupForm = React.createClass({
           label="E-mail"
           active={true}
           text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-          hideOn={['FACEBOOK']}
+          hideOn={['FACEBOOK', 'SIGNED_IN']}
         >
           <Textfield
             big
@@ -107,7 +109,7 @@ var signupForm = React.createClass({
           label="Password"
           active={true}
           text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
-          hideOn={['FACEBOOK','SOUNDCLOUD']}
+          hideOn={['FACEBOOK','SOUNDCLOUD', 'SIGNED_IN']}
         >
           <Textfield
             big
@@ -222,12 +224,11 @@ import { connect } from 'react-redux'
 import * as actions from '../../../actions/SignupActions'
 
 
-// function mapStateToProps(state, ownProps) {
-//   return {
-//     form: state.forms.signupForm,
-//     isloading: state.signup.isWaiting
-//   }
-// }
+function mapStateToProps(state, ownProps) {
+  return {
+    isLoggedIn: state.user.status.signedIn,
+  }
+}
 
 
 function mapDispatchToProps(dispatch, ownprops) {
@@ -237,7 +238,7 @@ function mapDispatchToProps(dispatch, ownprops) {
   }
 }
 
-const SmartSignupForm = connect(state=>state, mapDispatchToProps)(signupForm)
+const SmartSignupForm = connect(mapStateToProps, mapDispatchToProps)(signupForm)
 
 
 export default props => (

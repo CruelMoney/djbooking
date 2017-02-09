@@ -45,6 +45,7 @@ class app extends React.Component {
             require('./routes/HowItWorks'),
             require('./routes/Signup'),
             require('./routes/Terms'),
+            require('./routes/Faq'),
             require('./routes/NotFound')
           ]
         } ]
@@ -52,7 +53,7 @@ class app extends React.Component {
 
         return  ( <Router
           routes={routes}
-          //onUpdate={(e) => {window.scrollTo(0, 0)}}
+          onUpdate={(e) => {window.scrollTo(0, 0)}}
           history={browserHistory}
                   />)
       }

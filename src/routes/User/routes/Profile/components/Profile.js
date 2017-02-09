@@ -81,11 +81,14 @@ var Profile = React.createClass({
                   >Edit profile
                 </Button>
               }
+              {this.props.profile.isDJ ?
               <Button
                 onClick={()=>this.setState({showPopup:true})}
                 name="public_profile"
               >See offer example
               </Button>
+              : null}
+          
               <ErrorMessage/>
             </div>
 
