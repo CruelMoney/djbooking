@@ -89,7 +89,11 @@ export default React.createClass({
               <h4>RESOURCES</h4>
               <ul>
                 <li>
-                  <a href="mailto:chris@cueup.io?Subject=Support">Support</a>
+                  <a 
+                    onClick={
+                      /*eslint no-undef: 0*/
+                    () =>  olark('api.box.expand')}
+                  >Support</a>
                 </li>
                 <li>
                   <a href="mailto:chris@cueup.io?Subject=Hello">Contact</a>

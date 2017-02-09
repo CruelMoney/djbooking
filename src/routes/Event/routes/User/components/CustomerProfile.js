@@ -7,6 +7,7 @@ import TextWrapper from '../../../../../components/common/TextElement'
 import * as actions from '../../../../../actions/UserActions'
 import * as eActions from '../../../../../actions/EventActions'
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
+import {requestFeatures} from '../../../../../actions/Common'
 
 var Profile = React.createClass({
     propTypes: {
@@ -41,7 +42,7 @@ var Profile = React.createClass({
                 Save changes</SubmitButton>
 
                 <Button
-                  onClick={()=>console.log("not implemented")}
+                  onClick={()=>requestFeatures()}
                   name="request_features">
                 Request features</Button>
                 <ErrorMessage/>

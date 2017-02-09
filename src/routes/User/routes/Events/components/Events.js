@@ -4,6 +4,7 @@ import Button from '../../../../../components/common/Button-v2'
 import Formatter from '../../../../../utils/Formatter'
 import NavLink from '../../../../../components/common/Navlink'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
+import {requestFeatures} from '../../../../../actions/Common'
 
 var Events = React.createClass({
   propTypes: {
@@ -37,6 +38,7 @@ var Events = React.createClass({
           rounded={true}
           label=""
           name="request_features"
+          onClick={requestFeatures}
         >Request features</Button>
 
 

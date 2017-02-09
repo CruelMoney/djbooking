@@ -3,6 +3,7 @@ import Button from '../../../../../components/common/Button-v2'
 import Gig from './Gig'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
 import EmptyPage from '../../../../../components/common/EmptyPage'
+import {requestFeatures} from '../../../../../actions/Common'
 
 /*eslint no-undef: 0*/
 
@@ -98,7 +99,7 @@ var Gigs = React.createClass({
       <Button
         name="request_features"
         onClick={()=>{
-          olark('api.box.expand');
+           requestFeatures()
         }}
       >Request features</Button>
 

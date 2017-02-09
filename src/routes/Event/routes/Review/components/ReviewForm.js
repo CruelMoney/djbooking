@@ -5,6 +5,7 @@ import TextWrapper from '../../../../../components/common/TextElement'
 import Button from '../../../../../components/common/Button-v2'
 import Rating from '../../../../../components/common/Rating'
 import Form from '../../../../../components/common/Form-v2'
+import {requestFeatures} from '../../../../../actions/Common'
 
 
 var Review = React.createClass({
@@ -49,7 +50,7 @@ var Review = React.createClass({
                 Submit review</SubmitButton>
 
                 <Button
-                  onClick={()=>console.log("not implemented")}
+                  onClick={()=>requestFeatures()}
                   name="request_features">
                 Request features</Button>
               </div>

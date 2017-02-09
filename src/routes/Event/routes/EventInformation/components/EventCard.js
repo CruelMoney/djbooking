@@ -17,6 +17,7 @@ import moment from 'moment'
 import LocationSelector from '../../../../../components/common/LocationSelectorSimple'
 import {connect} from 'react-redux';
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
+import {requestFeatures} from '../../../../../actions/Common'
 
 
 var Event = React.createClass({
@@ -85,7 +86,7 @@ var Event = React.createClass({
                   name="cancel_event">
                 Cancel event</SubmitButton>
                 <Button
-                  onClick={()=>console.log("not implemented")}
+                  onClick={()=>requestFeatures()}
 
                   name="request_features">
                 Request features</Button>
