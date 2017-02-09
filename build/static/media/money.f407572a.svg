@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="68px" height="68px" viewBox="0 0 68 68" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.1 (35376) - http://www.bohemiancoding.com/sketch -->
+    <title>Combined Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="77.4307522%" y1="116.774781%" x2="-12.3282%" y2="-32.0202082%" id="linearGradient-1">
+            <stop stop-color="#B031FF" offset="0%"></stop>
+            <stop stop-color="#B031FF" offset="21.7952806%"></stop>
+            <stop stop-color="#00D1FF" offset="92.6877392%"></stop>
+            <stop stop-color="#31DAFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="HomePage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Becom-dj" transform="translate(-268.000000, -184.000000)" fill="url(#linearGradient-1)">
+            <g id="Info-section" transform="translate(229.000000, 142.000000)">
+                <g id="Kr-icon" transform="translate(39.000000, 42.000000)">
+                    <path d="M34,68 C52.7776815,68 68,52.7776815 68,34 C68,15.2223185 52.7776815,0 34,0 C15.2223185,0 0,15.2223185 0,34 C0,52.7776815 15.2223185,68 34,68 Z M34,63 C50.0162577,63 63,50.0162577 63,34 C63,17.9837423 50.0162577,5 34,5 C17.9837423,5 5,17.9837423 5,34 C5,50.0162577 17.9837423,63 34,63 Z M20,41.51 L26.71,41.51 L26.71,39.64 L25.06,38.98 L25.06,34.8 L26.666,34.8 L29.68,38.98 L28.36,39.64 L28.36,41.51 L35.07,41.51 L35.07,39.64 L33.42,38.98 L29.328,33.348 L32.21,28.552 L34.3,27.936 L34.3,26 L30.23,26.11 L26.556,32.38 L25.06,32.38 L25.06,28.596 L26.71,27.936 L26.71,26 L20,26.11 L20,27.936 L21.65,28.596 L21.65,38.98 L20,39.64 L20,41.51 Z M42.46,29.63 L37.84,29.74 L37.84,31.5 L39.6,32.05 L39.6,39.2 L37.84,39.75 L37.84,41.51 L45.1,41.51 L45.1,39.75 L42.9,39.2 L42.9,33.392 C42.9,33.392 44,32.16 45.276,32.16 L45.606,34.03 L47.586,34.03 L47.762,29.806 C47.762,29.806 46.926,29.41 45.716,29.41 C44.242,29.41 42.658,31.148 42.658,31.148 L42.46,29.63 Z" id="Combined-Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
