@@ -112,16 +112,8 @@ var menu = React.createClass({
                 ) : (
                   null
                 )}
-                {this.props.loggedIn ? (
-                  <li>
-                    <Navlink  buttonLook={true}  to="/profile" important={true} >
-                      <UserMenuItem
-                        name={this.props.profile.name}
-                        picture={this.props.profile.picture}
-                      />
-                    </Navlink>
-                  </li>
-                ) : (
+
+                {!this.props.loggedIn ? (
                   <li >
                     <a
                       onClick={this.onLoginButton}
@@ -135,14 +127,29 @@ var menu = React.createClass({
                       />
                     </Dropdown>
                   </li>
-                )}
-                {this.props.loggedIn ? (
+                ) : null}
+
+              {(this.props.loggedIn && this.props.profile.isDj) ? (
                   null
                 ) : (
                   <li>
-                    <Navlink buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
+                    <Navlink buttonLook={true} to="/signup" label="Become DJ" important={true}/>
                   </li>
                 )}
+
+                {this.props.loggedIn ? (
+                  <li>
+                    <Navlink  buttonLook={true}  to="/profile" important={true} >
+                      <UserMenuItem
+                        name={this.props.profile.name}
+                        picture={this.props.profile.picture}
+                      />
+                    </Navlink>
+                  </li>
+                ) : (null)}
+                 
+                
+                
 
               </ul>
             </nav>
