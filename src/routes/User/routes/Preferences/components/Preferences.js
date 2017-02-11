@@ -102,7 +102,7 @@ const preferences = React.createClass({
                 <SubmitButton
                   active={this.context.valid}
                   onClick={this.updateSettings}
-                  name="save_edit_profile"
+                  name="save_edit_preferences"
                 > Save
                 </SubmitButton>
               : <Button

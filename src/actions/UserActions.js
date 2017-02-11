@@ -5,7 +5,7 @@ import * as LoginActions from './LoginActions'
 import CueupService from '../utils/CueupService'
 import StripeService from '../utils/StripeService'
 import { browserHistory } from 'react-router'
-
+import cpr from 'danish-ssn'
 
 const cueup = new CueupService()
 const auth = new AuthService()
@@ -109,8 +109,6 @@ var ActionTypes = c.ActionTypes
 
 
   export function checkEmail(email, callback){
-    var self=this
-
     return function (dispatch) {
       if (!email) {
         return callback("Please enter email.")
@@ -158,8 +156,9 @@ export function resetProfile(profile) {
 export function updatePayoutInfo(data, callback) {
   var self=this
 
-  return function(dispatch){
 
+  return function(dispatch){
+    
   stripe.createBankToken(data, (err, result)=>{
     if (err) {
       (callback(err))
@@ -170,7 +169,9 @@ export function updatePayoutInfo(data, callback) {
         token: result.id,
         zip: data.bank_zip,
         address: data.bank_address,
-        city: data.bank_city
+        city: data.bank_city,
+        ssn: data.ssn_number,
+        birthday: cpr(data.ssn_number).date
       }
       cueup.updateUserBankInfo(token, data, function(err, result){
         if (err) {

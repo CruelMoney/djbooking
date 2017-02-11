@@ -81,7 +81,7 @@ export default React.createClass({
                   <Link to="/blog">Blog</Link>
                 </li>
                 <li>
-                  <Link to="/faq/dj">Faqs</Link>
+                  <Link to="/faq/dj">FAQ</Link>
                 </li>
               </ul>
             </div>

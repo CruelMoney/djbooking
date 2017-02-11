@@ -218,6 +218,13 @@ getInitialState(){
               }
             </TextWrapper>
 
+          <div className="row">
+            <div className="col-xs-12">
+              <p className="terms_link">By clicking save you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a></p>
+            </div>
+          </div>
+
+
             <div style={{display: 'flex'}}>
               <SubmitButton
                 glow

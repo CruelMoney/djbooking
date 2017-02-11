@@ -334,12 +334,14 @@ align-items: center;
   fill: #FFFFFF;
 }
 .location_terms .main-menu a,
-.location_faq .main-menu a
+.location_faq .main-menu a,
+.location_about .main-menu a
 {
   color: #32325D;
 }
 .location_terms .logo svg,
-.location_faq .logo svg{
+.location_faq .logo svg,
+.location_about .logo svg{
   fill: #32325D;
 }
 .location_terms  .mobileMenuButton h2,
@@ -347,7 +349,10 @@ align-items: center;
 .location_terms .mobileMenuButton h2:before,
 .location_faq .mobileMenuButton h2,
 .location_faq .mobileMenuButton h2:after,
-.location_faq .mobileMenuButton h2:before{
+.location_faq .mobileMenuButton h2:before,
+.location_about .mobileMenuButton h2,
+.location_about .mobileMenuButton h2:after,
+.location_about .mobileMenuButton h2:before{
   background: #32325D;
 }
 
@@ -356,13 +361,17 @@ align-items: center;
 .location_terms .buttonFixed .mobileMenuButton h2:before,
 .location_faq .buttonFixed .mobileMenuButton h2,
 .location_faq .buttonFixed .mobileMenuButton h2:after,
-.location_faq .buttonFixed .mobileMenuButton h2:before{
+.location_faq .buttonFixed .mobileMenuButton h2:before,
+.location_about .buttonFixed .mobileMenuButton h2,
+.location_about .buttonFixed .mobileMenuButton h2:after,
+.location_about .buttonFixed .mobileMenuButton h2:before{
   background: white;
 }
 
 
 .location_terms nav,
-.location_faq  nav{
+.location_faq  nav,
+.location_about  nav{
   border-bottom: 1px solid #F6F9FC;
 }
 
@@ -1679,13 +1688,13 @@ button[disabled]{
   color: normal;
   border-color: normal;
 }
-button[disabled]:hover:not(.loading){
+button[disabled]:hover:not(.loading):not(.succes){
     border-color: #BBBBBB;
     color: #BBBBBB;
      box-shadow: none !important;
  }
 
- button.active[disabled]:hover:not(.loading){
+ button.active[disabled]:hover:not(.loading):not(.succes){
     color: white ;
  }
 
@@ -1875,12 +1884,14 @@ margin-bottom: 80px;
 .errors p{
       color: #F44336 !important;
       margin-bottom: 0;
+      line-height: 15px;
 }
 p.error{
     color: #F44336 !important;
 }
 .progrezz-wrapper .errors{
   text-align: center;
+  margin-top: -23px;
 }
 .terms{
   position: relative;
@@ -1932,6 +1943,7 @@ color: #32325D;
   line-height: 32px;
 }
 .request-form{
+  margin-bottom: 100px;
 }
 .request-form .card{
   padding: 20px;
@@ -1978,6 +1990,7 @@ margin: 0;
   margin-right: -15px;
   display: flex;
   align-items: flex-end;
+  margin-bottom: 20px;
 }
 .text-field{
   margin-top: -10px;
@@ -2004,7 +2017,6 @@ header .info-boxes{
 .progrezz-wrapper{
     height: 100px;
     position: relative;
-    margin-bottom: 100px;
 }
 .progrezz-wrapper .button-wrapper{
     display: flex;
@@ -2224,7 +2236,7 @@ transform: translateY(-15px);
 .offer-buttons{
   display: flex;
   justify-content: flex-start;
-  margin-top: 15px;
+  margin: 15px 0;
 }
 .offer-buttons > div{
   margin-right: 10px;
@@ -2278,13 +2290,17 @@ transform: translateY(-15px);
 .payout-form{
   max-width: 430px;
 }
+.payout-form  .text-element-wrapper{
+  margin-bottom: 30px;
+}
 
 .mobileActions{
   display: none;
 }
 
 .terms-content,
-.faq-content{
+.faq-content,
+.about-content{
   margin-top: 80px;
   padding-top: 30px;
 }
@@ -2435,6 +2451,7 @@ transform: translateY(-15px);
 }
 footer{
   padding: 30px 0 30px;
+  margin-top: 20px;
 }
 .mobileMenuButton{
   display: inline-block;
@@ -2484,8 +2501,13 @@ table td{
 }
 
 .terms-content,
-.faq-content{
+.faq-content,
+.about-content{
   margin-top: 60px;
+}
+
+.people{
+  margin-bottom: 20px;
 }
 
 
@@ -2511,4 +2533,39 @@ table td{
 }
 .location_faq .subtitle{
   margin-bottom: 0px;
+}
+.terms_link,
+.terms_link a{
+    color: #8998aa;
+}
+.terms_link a{
+  text-decoration: underline;
+}
+.terms_link a:hover{
+  color: #32325D;
+}
+
+.about-content{
+  text-align: center;
+}
+.about-content h1{
+  font-family: SourceSansPro-Light;
+}
+.person{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.person a{
+  color: #32325D;
+}
+.person-img{
+      width: 10em;
+    height: 10em;
+    background-position: 50%;
+    background-size: cover;
+    border-radius: 100%;
+    display: inline-block;
+    border: 2px solid #fff;
+    margin-bottom: .2em;
 }

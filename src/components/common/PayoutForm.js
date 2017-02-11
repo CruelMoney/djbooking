@@ -183,7 +183,22 @@ var payoutForm = React.createClass({
               </div>
             </div>
             <div className="row">
-             
+             <div className="col-xs-12">
+                <TextField
+                  name="ssn_number"
+                  hintStyle={styles.medium.hint}
+                  style={styles.medium.textarea}
+                  inputStyle={styles.medium.input}
+                  validate={['required', 'validateDKSSN']}
+                  type="number"
+                  maxLength="10"
+                  fullWidth={false}
+                  placeholder="CPR-number ddmmyyxxxx"
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
+                />
+              </div>
+
               <div className="col-xs-12">
                 <TextField
                   name="account_number"
@@ -204,6 +219,13 @@ var payoutForm = React.createClass({
             </div>
 
           </TextWrapper>
+
+          <div className="row">
+            <div className="col-xs-12">
+              <p className="terms_link">By clicking save you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a></p>
+            </div>
+          </div>
+
           <div className="row">
             <div className="col-xs-6">
               <SubmitButton

@@ -26,7 +26,7 @@ class app extends React.Component {
          this.setState({
            didCheckLogin: true,
            checking: true,
-         }, this.props.checkForLogin(nextState.location.pathname))
+         }, this.props.checkForLogin())
 
        }
      }
@@ -46,7 +46,8 @@ class app extends React.Component {
             require('./routes/Signup'),
             require('./routes/Terms'),
             require('./routes/Faq'),
-            require('./routes/NotFound')
+            require('./routes/About'),
+            require('./routes/NotFound'),
           ]
         } ]
       }

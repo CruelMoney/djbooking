@@ -112,7 +112,6 @@ handleButtonClick(){
           <div   className="container">
             <div ref={(f) => this.requestForm = f}></div>
             <RequestForm
-
               date={this.state.eventDate}
               onSubmit={this.props.onSubmit}
               isLoggedIn={this.props.isLoggedIn}

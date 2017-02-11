@@ -388,13 +388,16 @@ var Gig = React.createClass({
 
                     : null }
 
+                    {
+                      (((this.props.gig.startTime.getTime() - Date.now()) > 0) && this.props.payoutInfoValid) ? 
+                     
+                   
                     <div className="offer-buttons">
-
                       <Form
                         name={"gig-cancel-" + this.props.gig.id}
                       >
 
-                        { this.props.payoutInfoValid && (this.props.gig.status === "Requested" || this.props.gig.status  === "Accepted")
+                        {  (this.props.gig.status === "Requested" || this.props.gig.status  === "Accepted")
                           ?
                             <SubmitButton
                               rounded={true}
@@ -406,7 +409,7 @@ var Gig = React.createClass({
                         : null}
 
 
-                        { this.props.payoutInfoValid &&
+                        { 
                           this.props.gig.status  === "Confirmed"
                           ?
 
@@ -422,7 +425,7 @@ var Gig = React.createClass({
                       </Form>
 
 
-                      {this.props.payoutInfoValid && this.props.gig.status === "Requested" ?
+                      { this.props.gig.status === "Requested" ?
                         <SubmitButton
                           rounded={true}
                           name="send_offer"
@@ -430,7 +433,7 @@ var Gig = React.createClass({
                         >Send offer</SubmitButton>
                       : null}
 
-                      {this.props.payoutInfoValid && this.props.gig.status === "Accepted" ?
+                      { this.props.gig.status === "Accepted" ?
                         <SubmitButton
                           rounded={true}
                           name="update_offer"
@@ -440,6 +443,8 @@ var Gig = React.createClass({
 
                     </div>
 
+                  : null
+                  }
 
                   </Form>
 

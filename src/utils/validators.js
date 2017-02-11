@@ -1,6 +1,7 @@
 import emailValidator from 'email-validator'
 import dateValidator from 'is-my-date-valid'
 import StripeService from './StripeService'
+import cpr from 'danish-ssn'
 var stripe = new StripeService();
 import GeoCoder from '../utils/GeoCoder'
 
@@ -74,4 +75,14 @@ return !stripe.validateRoutingNumberDKK(num) ? ['The routing number is not valid
 
 export function validateAccountNumberDKK(num){
   return !stripe.validateAccountNumberDKK(num) ? ['The account number is not valid'] : []
+}
+
+export function validateDKSSN(num){
+  try {
+    var ssn = cpr(num)
+    console.log(ssn)
+    return ssn.valid ? [] : ["The CPR is invalid"]
+  } catch (error) {
+    return [error.message] 
+  }  
 }

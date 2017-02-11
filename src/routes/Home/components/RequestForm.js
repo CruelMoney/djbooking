@@ -275,6 +275,8 @@ export default React.createClass({
 
         </div>
 
+
+
       <div style={{position:"relative"}}>
         <Form
           noError
@@ -286,9 +288,21 @@ export default React.createClass({
             step3Done={this.state.step3Done}
             onSubmit={this.onSubmit}
           />
+            <div className="row">
+            <div className="col-xs-12">
+              <p 
+              style={{textAlign: "center"}} 
+              className="terms_link">
+                By clicking send event you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>
+              </p>
+            </div>
+          </div>
 
       </Form>
     </div>
+
+     
+
 
       </div>
 
