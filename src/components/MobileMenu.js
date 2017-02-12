@@ -88,7 +88,7 @@ class MobileMenu extends React.Component {
                     </div>
                     <div className="user-card-fact">
                       <p>Rating</p>
-                      <Rating rating={this.props.profile.avgRating}/>
+                        {this.props.profile.avgRating > 0 ? <Rating rating={this.props.profile.avgRating}/> : "No reviews yet"}
                     </div>
                   </div>
                 </div>

@@ -93,7 +93,6 @@ var menu = React.createClass({
                 <a
                   className="mobileMenuButton"
                   onClick={()=>{
-                    console.log("click");
                     this.setState({showMenu:true})}}
                   >
                   <h2>Menu</h2>

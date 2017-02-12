@@ -124,8 +124,6 @@ handleButtonClick(){
           <div className="info-boxes grey">
             <div className="container">
               <div className="row">
-                <ScrollOverPack id="page1" className="page1" hideProps={{ 0: { reverse: true } }}>
-                  <QueueAnim key="a" type="top">
                     <div key="cardA">
                       <div  className="col-md-6">
                         <div className="card">
@@ -148,8 +146,6 @@ handleButtonClick(){
                   </div>
                 </div>
                 </div>
-              </QueueAnim>
-            </ScrollOverPack>
                 </div>
               </div>
               </div>

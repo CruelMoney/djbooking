@@ -59,7 +59,7 @@ var TextBox = React.createClass({
     active = validate
     return (
 
-              <div>
+              <div style={{borderColor: this.context.color, borderWidth: "0px"}}>
                 <textarea
                   {...props}
                   id={this.props.name}

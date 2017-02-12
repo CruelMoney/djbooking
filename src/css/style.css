@@ -17,7 +17,7 @@ body {
 
 header{
   height: 740px;
-  padding-top: 140px;
+  padding-top: 70px;
   color: #FFFFFF;
 }
 
@@ -93,6 +93,12 @@ input:disabled,
 .text-field.disabled > div{
   cursor: default !important;
 }
+textarea{
+  -webkit-appearance: none;
+}
+textarea:focus{
+  border-color: inherit !important;
+}
 
 ul {
   list-style-type: none;
@@ -129,14 +135,14 @@ margin: auto;
 }
 
 .navigation{
-     z-index: 100;
+    z-index: 100;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-      height: 80px;
-      align-items: center;
-      position: absolute;
+    height: 80px;
+    align-items: center;
+    position: absolute;
     width: inherit;
 }
 
@@ -160,6 +166,7 @@ margin: auto;
     box-shadow: 0 3px 15px 0 rgba(0,0,0,.25)!important;
     transform: translateY(90px);
     transition: transform 0.25s ease;
+    backface-visibility: hidden;
 }
 
 .mobileMenu{
@@ -172,6 +179,7 @@ margin: auto;
   pointer-events: none;
   transform: rotate3d(1,1,0,-15deg);
   transform-origin: 100% 0;
+  backface-visibility: hidden;
   opacity: 0;
   will-change: transform,opacity,height;
   transition-property: transform,opacity,height;
@@ -236,6 +244,7 @@ margin: auto;
   height: 3px;
   border-radius: 1px;
   background: white;
+  transform: translate3d(0, 0, 0);
 }
 .mobileMenuButton h2{
   font-size: 0;
@@ -829,8 +838,8 @@ input[type="file"] + label * {
   }
 }
 
-#content{
-
+#content {
+    margin-top: 80px;
 }
 #content > div{
   overflow-y: hidden;
@@ -1623,6 +1632,7 @@ margin-right: 5px;
   /* Text */
   font-family: SourceSansPro-Semibold;
   font-size: 16px;
+  line-height: 16px;
   text-transform: uppercase;
   letter-spacing: 0.39px;
   visibility: visible;
@@ -1632,6 +1642,7 @@ margin-right: 5px;
    display: flex;
     justify-content: center;
     align-items: center;
+  display: inline-block;
 }
 button{
   visibility: visible;
@@ -1642,6 +1653,7 @@ button{
   color: #BBBBBB;
   transition: all 0.1s ease-in-out;
   line-height: 1px;
+  display: inline-block;
 }
 
 
@@ -2301,12 +2313,15 @@ transform: translateY(-15px);
 .terms-content,
 .faq-content,
 .about-content{
-  margin-top: 80px;
-  padding-top: 30px;
+  padding-top: 100px;
 }
 
 /* Mobile */
 @media only screen and (max-device-width: 480px) {
+  #content {
+    margin-top: 0px;
+  }
+
   h1,
   .location_ header h1 {
     font-size: 40px;
@@ -2395,11 +2410,11 @@ transform: translateY(-15px);
   }
 
   .progrezz-wrapper{
-    height: 1255px;
+    height: 1750px;
     width: 100%;
     position: absolute;
     /* margin-bottom: 100px; */
-    top: -1280px;
+    top: -1780px;
   }
   .progrezz{
     background-image: url('../assets/dot_vertical.svg') !important;
@@ -2417,7 +2432,7 @@ transform: translateY(-15px);
   }
   .progrezz > .circle:nth-child(2)
   {
-    margin-top: -30px;
+    margin-top: 470px;
   }
 
 .progrezz-wrapper .button-wrapper{
@@ -2503,14 +2518,32 @@ table td{
 .terms-content,
 .faq-content,
 .about-content{
-  margin-top: 60px;
 }
 
 .people{
   margin-bottom: 20px;
 }
 
-
+.toggle-options td,
+.toggle-button-handler td{
+  margin-bottom: 5px;
+}
+.toggle-button-handler td:last-child{
+  margin-bottom: -5px;
+}
+.signup form{
+  margin-left: 0px;
+}
+.signup h2{
+  margin-left: 30px;
+}
+.signup form li:before{
+  margin-left: 0;
+}
+.fixed{
+  position: initial;
+  top: initial;
+}
 
 }
 

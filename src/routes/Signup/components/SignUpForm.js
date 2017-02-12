@@ -33,14 +33,23 @@ var signupForm = React.createClass({
     }
   },
 
+  getInitialState(){
+      return{
+        msg: null
+      }
+    },
+
   signup(form, callback) {
-
-        this.props.handleSubmit(form, callback)
-
+        this.props.handleSubmit(form, (err,res)=>{
+           if (!err) {
+          this.setState({msg: "Great! You can now login 😁"})
+            }
+            callback(err,res)
+          })
+        
   },
 
   render() {
-    console.log(this.props)
   return (
     <Form
       name={"signup-form"}
@@ -214,7 +223,7 @@ var signupForm = React.createClass({
         >
         <div style={{width:"100px"}}>JOIN</div>
         </SubmitButton>
-
+        {this.state.msg ? <div style={{textAlign:"center"}}><p style={{fontSize:"20px"}}>{this.state.msg}</p></div> : null}
     </Form>
     )
   }
