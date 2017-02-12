@@ -78,6 +78,7 @@ var menu = React.createClass({
           <MobileMenu
             onClosing={()=>this.setState({showMenu:false})}
             show={this.state.showMenu}/>
+            <div className="container">
           <div
             className={"nav-container location_"}>
             <nav
@@ -156,11 +157,12 @@ var menu = React.createClass({
               </ul>
             </nav>
           </div>
+         </div>
+
           <div id="content">
             {this.props.children}
           </div>
         </div>
-
       </MuiThemeProvider>
     )
   }

@@ -26,7 +26,7 @@ export default React.createClass({
         <div className="row">
         <QueueAnim type="top">
           <div key="cardA">
-          <div  className="col-md-6">
+          <div  className="col-sm-6">
             <div className="card glass">
               <img src={krIcon} alt="Money icon"/>
               <h2>Membership free of charge</h2>
@@ -37,7 +37,7 @@ export default React.createClass({
           </div>
         </div>
         <div key="cardB">
-        <div  className="col-md-6">
+        <div  className="col-sm-6">
           <div className="card glass">
             <img src={vinyl} alt="vinyl icon"/>
             <h2>Get the gigs you want to play</h2>

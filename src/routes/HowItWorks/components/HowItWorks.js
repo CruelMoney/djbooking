@@ -28,16 +28,19 @@ export default React.createClass({
             <span key="d"/>
           </div>
           <div className="container">
-             <div className="col-md-7 col-md-pull-7">
+            <div className="row">
+            <div className="col-sm-7 col-sm-push-5">
                 <h1 key="title">How it works</h1>
                 <p key="paragraph">Stripe is the best software platform for running an internet
                   business. We handle billions of dollars every ythinking businesses around the world. thinking businesses around the world.thinking businesses around the world.ear for forward-
                   thinking businesses around the world.
                 </p>
             </div>
-              <div className="col-md-5 col-md-push-7 particles">
+              <div className="col-sm-5 col-sm-pull-7 particles">
                 <Particles params={PConfig} width="100%" height="300px"/>
               </div>
+            </div>
+             
 
            
 

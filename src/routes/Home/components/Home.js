@@ -87,7 +87,7 @@ handleButtonClick(){
                 </QueueAnim>
               </div>
 
-              <div className="col-md-5 col-md-offset-1">
+              <div className="col-lg-5 col-lg-offset-1 col-md-6">
                 <TweenOne className="tween-one" key="0" style={{opacity: 0}} animation={{ opacity: 1 }}>
                   <div className="card glass">
                     <DatePicker
@@ -124,7 +124,7 @@ handleButtonClick(){
           <div className="info-boxes grey">
             <div className="container">
               <div className="row">
-                      <div  className="col-md-6">
+                      <div  className="col-sm-6">
                         <div className="card">
                           <img src={padlock} alt="icon"/>
                       <h2 style={{color:this.themeColor}}>Secured booking system</h2>
@@ -133,7 +133,7 @@ handleButtonClick(){
                       </p>
                   </div>
                 </div>
-                <div  className="col-md-6">
+                <div  className="col-sm-6">
                   <div className="card">
                     <img src={note} alt="icon"/>
                     <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>

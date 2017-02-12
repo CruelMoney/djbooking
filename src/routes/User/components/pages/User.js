@@ -131,7 +131,7 @@ var user = React.createClass({
 
           <div  className="user-container container">
             <div className="row">
-              <div className={"col-xs-4"}></div>
+              <div className={"col-md-4"}></div>
               <div className={"col-md-8"}>
                 <div className="mobileActions">
                   {this.state.actions}

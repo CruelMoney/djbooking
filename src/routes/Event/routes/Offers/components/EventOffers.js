@@ -37,14 +37,12 @@ var EventOffers = React.createClass({
           <div>
             {this.props.offers.length ?
               <div className="row event-information">
-                <div className="row">
-                  <div className="col-md-5 col-md-push-1">
+                  <div className="col-sm-6 ">
                     {left}
                   </div>
-                  <div className="col-md-5 col-md-push-1">
+                  <div className="col-sm-6 ">
                     {right}
                   </div>
-                </div>
               </div>
               :
               <EmptyPage message={<div style={{marginBottom:"180px"}}>The djs are currently creating offers for you.<br/>

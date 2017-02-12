@@ -112,12 +112,6 @@ section{
   display: inline-block;
 }
 
-.container{
-  width: 990px;
-  padding: 0;
-  margin: auto;
-}
-
 
 
 .row{
@@ -127,11 +121,10 @@ section{
 
 .nav-container{
   display: flex;
-align-items: center;
-flex-direction: column;
-    position: relative;
-width: 990px;
-margin: auto;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
 }
 
 .navigation{
@@ -1008,7 +1001,7 @@ letter-spacing: normal;
   border-bottom: 2px white solid;
 
 position: absolute;
-bottom: 50px;
+bottom: 51px;
 width: 100%;
 }
 .user-card-wrapper{
@@ -1908,9 +1901,7 @@ z-index: 1;
 position: relative;
 margin-bottom: 80px;
 }
-.signup form{
-  margin-left: 40px;
-}
+
 .signup h2{
   font-family: SourceSansPro-Regular;
   font-size: 30px;
@@ -2353,12 +2344,146 @@ position: absolute;
 .terms-content,
 .faq-content,
 .about-content{
-  padding-top: 100px;
+  padding-top: 30px;
 }
 
   .showMobile{
     display: none;
   }
+
+/* TABLET BEGIN */
+@media only screen 
+  and (max-device-width : 768px)
+  and (min-device-width: 480px)  {
+    #preFooterPseudo:before{
+      top:-50px;
+    }
+   .request-columns{
+    display: block;
+    margin: 30px 5px;
+  }
+  .request-columns .card{
+    margin-bottom: 100px;
+  }
+
+  .progrezz-wrapper{
+    height: 1240px;
+    width: 100%;
+    position: absolute;
+    /* margin-bottom: 100px; */
+    top: -1260px;
+  }
+  .progrezz{
+    background-image: url('../assets/dot_vertical.svg') !important;
+    background-repeat: repeat-y !important;
+    background-position: center;
+    flex-direction: column;
+  }
+  .progrezz .circle:first-child,
+  .progrezz .circle:last-child{
+    margin: 0;
+  }
+  .progrezz > .circle:nth-child(1)
+  {
+    margin-top: 25px;
+  }
+  .progrezz > .circle:nth-child(2)
+  {
+    margin-top: -20px;
+  }
+
+.progrezz-wrapper .button-wrapper{
+      align-items: flex-end;
+}
+.location_howitworks header,
+.location_howitworks #stripes{
+  height: 550px;
+}
+.how-it-works{
+  margin-top: -120px;
+  height: 2040px;
+}
+.how-it-works section{
+  width: 475px;
+}
+
+.how-it-works section:nth-child(2){
+  width: 445px;
+}
+.how-it-works section:nth-child(3){
+  width: 415px;
+}
+.how-it-works section:nth-child(4){
+  width: 375px;
+}
+.how-it-works section:nth-child(5){
+  width: 340px;
+}
+.terms-content .row,
+.faq-content .row,
+.about-content .row{
+  flex-direction: column;
+}
+.terms-content .button-wrapper,
+.faq-content .button-wrapper,
+.about-content .button-wrapper{
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.terms-content .button-wrapper a,
+.faq-content .button-wrapper a,
+.about-content .button-wrapper a{
+  margin: 0 5px;
+  min-width: 100px;
+}
+.terms-content .fixed,
+.faq-content .fixed,
+.about-content .fixed{
+  position: relative;
+  top: initial;
+}
+.user-container > .row{
+  flex-direction: column;
+}
+.user-header .row{
+  flex-direction: column;
+}
+  .user-card-wrapper
+  {
+    display: none !important;
+  }
+   .mobileActions{
+    display: block;
+  }
+  .mobileActions .context-actions{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    position: relative;
+  }
+  .event-information .context-actions{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    top: -10px !important;
+    position: relative;
+}
+  .mobileActions .context-actions > div,
+   .event-information .context-actions > div{
+    margin-right: 10px;
+    display: inline-block;
+  }
+  .userNavigation{
+    margin-right: 40px !important;
+  }
+  .header-divider{
+    width: 95%;
+  }
+
+}
+/* TABLET END*/
 
 /* Mobile */
 @media only screen and (max-device-width: 480px) {
