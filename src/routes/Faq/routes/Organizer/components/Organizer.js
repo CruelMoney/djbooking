@@ -91,6 +91,12 @@ export default React.createClass({
                         Everywhere
                     </p>
                 </Collapsible>
+                <Collapsible
+                  label="Can I change the location of my event?"> 
+                    <p>
+                        Everywhere
+                    </p>
+                </Collapsible>
               </CollapsibleContainer>
       </div>
 

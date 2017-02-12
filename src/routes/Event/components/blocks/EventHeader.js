@@ -78,7 +78,8 @@ var eventHeader = React.createClass({
               style={{
                 display: "flex",
                 justifyContent: "center",
-                textAlign: "center"
+                textAlign: "center",
+                alignItems: "center"
               }}
               className="row">
 

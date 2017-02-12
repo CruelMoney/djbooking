@@ -110,8 +110,10 @@ var Profile = React.createClass({
               <Popup
                 showing={this.state.showPopup}
                 onClickOutside={this.hidePopup}>
-                <div style={{width:"450px"}}>
-                  <OfferCard offer={OfferMock}/>
+                <div className="offer-example">
+                  <OfferCard 
+                  disabled
+                  offer={OfferMock}/>
                 </div>
               </Popup>
               : null}

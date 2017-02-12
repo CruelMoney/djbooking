@@ -8,7 +8,8 @@ import Formatter from '../../../../../utils/Formatter'
 var OfferCard = React.createClass({
   propTypes:{
     offer: PropTypes.object,
-    paymentPossible: PropTypes.bool
+    paymentPossible: PropTypes.bool,
+    disabled: PropTypes.bool
   },
 
   componentWillMount(){
@@ -109,6 +110,7 @@ var OfferCard = React.createClass({
               ? null :
               <Button
                 glow
+                disabled={this.props.disabled}
                 active={true}
                 onClick={()=>this.setState({showPopup:true})}
                 name="show-payout-popup"

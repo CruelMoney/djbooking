@@ -64,7 +64,11 @@ export default React.createClass({
           })
           callback(" ",null)
         }else{
-          self.props.onSubmit(event, callback)
+        try {
+           self.props.onSubmit(event, callback)
+        } catch (error) {
+          callback("Something went wrong")
+        }
         }
       })
       }
@@ -288,7 +292,7 @@ export default React.createClass({
             step3Done={this.state.step3Done}
             onSubmit={this.onSubmit}
           />
-            <div className="row">
+            <div className="row" style={{top: "50px"}}>
             <div className="col-xs-12">
               <p 
               style={{textAlign: "center"}} 

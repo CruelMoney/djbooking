@@ -174,7 +174,7 @@ var Gig = React.createClass({
                     {" " + this.props.gig.location.name}
                   </div>
                 </div>
-                <div style={{right: "18px", color:"#8998AA", position: "absolute"}}>
+                <div className="gig-status" >
                   {
 
                     this.props.gig.status === "Cancelled" ?

@@ -52,6 +52,7 @@ const Popup = React.createClass({
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              padding: "10px",
             }}
             onClick={this.handleClickOutside}
           >

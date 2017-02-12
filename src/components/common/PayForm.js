@@ -27,12 +27,19 @@ var payForm = React.createClass({
         currency: this.props.currency,
         chosenGigID: this.props.gigId
       })
-
-      this.props.confirmPayment(this.props.event.id, this.props.event.hashKey, data, callback)
+      try {
+         this.props.confirmPayment(this.props.event.id, this.props.event.hashKey, data, callback)
+      } catch (error) {
+        callback("Something went wrong, the payment has not been made")
+      }
   },
 
   notify(form, callback) {
-      this.props.notify(this.props.event.id, this.props.event.hashKey, callback)
+      try {
+       this.props.notify(this.props.event.id, this.props.event.hashKey, callback)
+      } catch (error) {
+        callback("Something went wrong")
+      }
   },
 
 getInitialState(){
@@ -130,7 +137,14 @@ getInitialState(){
 
 
         <div className="pay-form">
+          <div className="row">
+
+
+
+
+          </div>
           <Form
+
             formValidCallback={()=>this.setState({valid:true})}
             formInvalidCallback={()=>this.setState({valid:false})}
             name="pay-form">
@@ -218,9 +232,11 @@ getInitialState(){
               }
             </TextWrapper>
 
+         
+          
           <div className="row">
             <div className="col-xs-12">
-              <p className="terms_link">By clicking save you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a></p>
+              <p className="terms_link">By clicking confirm you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a></p>
             </div>
           </div>
 

@@ -151,7 +151,7 @@ var payoutForm = React.createClass({
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-6">
+              <div className="col-sm-6">
                 <TextField
                   name="bank_city"
                   hintStyle={styles.medium.hint}
@@ -165,7 +165,7 @@ var payoutForm = React.createClass({
                   underlineStyle={styles.dottedBorderStyle}
                 />
               </div>
-              <div className="col-xs-6">
+              <div className="col-sm-6">
                 <TextField
                   name="bank_zip"
                   hintStyle={styles.medium.hint}
@@ -226,7 +226,7 @@ var payoutForm = React.createClass({
             </div>
           </div>
 
-          <div className="row">
+          <div className="row buttons-wrapper">
             <div className="col-xs-6">
               <SubmitButton
                 glow

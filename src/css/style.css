@@ -893,8 +893,8 @@ input[type="file"] + label * {
 
 .user-header{
   z-index: 2;
-  padding-top: 92px;
-  height: 315px;
+margin-top: -20px;
+  height: 250px;
   width: 100%;
 }
 .user-header.fixed{
@@ -1276,6 +1276,11 @@ transition: all 0.1s ease-in-out;
 .gig > div{
   width: 100%;
 }
+.gig-status{
+  right: 18px;
+  color: #8998AA;
+  position: absolute;
+}
 
 .event-info-card-wrapper{
   width: 240px;
@@ -1358,6 +1363,7 @@ svg{
 
 button{
   background-color: transparent;
+  line-height: 0px;
 }
 
 .collapsible-arrow{
@@ -1390,7 +1396,9 @@ button{
       line-height: 1em;
 }
 
-
+.offer-example{
+  width: 450px;
+}
 
 .offer-card h4{
   font-family: AvenirNext-Regular;
@@ -1650,7 +1658,7 @@ a.button{
 button{
   visibility: visible;
   outline: none;
-  line-height: 0;
+  line-height: 0px !important;
   box-shadow: none;
   border: 2px solid #BBBBBB;
   color: #BBBBBB;
@@ -1908,6 +1916,9 @@ p.error{
   text-align: center;
   margin-top: -23px;
 }
+.progrezz-wrapper .button-wrapper{
+  margin-top: -10px;
+}
 .terms{
   position: relative;
   z-index: 1;
@@ -2094,7 +2105,8 @@ margin-top: -5px;
 }
 
 .notification{
-transform: translateY(-15px);
+transform: translateY(-50px);
+position: absolute;
 }
 
 .notification > div{
@@ -2370,7 +2382,7 @@ transform: translateY(-15px);
     position: relative;
   }
   .user-header{
-    padding-top: 80px;
+    padding-top: 120px;
   }
   .card{
     padding: 30px;
@@ -2414,11 +2426,11 @@ transform: translateY(-15px);
   }
 
   .progrezz-wrapper{
-    height: 1750px;
+    height: 1730px;
     width: 100%;
     position: absolute;
     /* margin-bottom: 100px; */
-    top: -1780px;
+    top: -1750px;
   }
   .progrezz{
     background-image: url('../assets/dot_vertical.svg') !important;
@@ -2436,7 +2448,7 @@ transform: translateY(-15px);
   }
   .progrezz > .circle:nth-child(2)
   {
-    margin-top: 470px;
+    margin-top: 435px;
   }
 
 .progrezz-wrapper .button-wrapper{
@@ -2490,12 +2502,13 @@ footer{
 }
 .user-header.fixed + div{
   margin-top: 20px;
+  margin-bottom: 70px;
 }
 .user-container{
   margin: 20px 0px;
 }
 .notification{
-  transform: none;
+  transform: translateY(-30px);
 }
 .signup{
   margin: 0 20px;
@@ -2578,10 +2591,36 @@ table td{
 .location_howitworks #preFooterPseudo:before{
   top: -30px;
 }
-
+.offer-example{
+  width: 100%;
+}
+.payout-form .row{
+  margin: 0 -15px;
+}
+.payout-form .buttons-wrapper{
+  flex-direction: row;
+}
+.progrezz-wrapper .errors {
+    margin-top: 8px;
+}
+.event-top{
+    flex-direction: column;
+    align-items: flex-start;
+}
+.gig-status{
+  position: relative;
+  right: 0;
+}
+.event-information .context-actions{
+    width: 100%;
+    position: relative !important;
+    top: -10px !important;
+}
 }
 
 /* Mobile END */
+
+
 
 
 .popup .card{

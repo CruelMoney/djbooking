@@ -66,7 +66,7 @@ if (this.props.glued) {
   return (
     <div>
       <div className="glued toggle-options">
-        <div style={{display:'flex', flexDirection:'row'}} >
+        <div style={{display:'flex', flexDirection:'row', flexWrap: "wrap"}} >
           { this.renderChildren(this.props).map((el,i) => (
             < div className="gluedButton" key={i} >
             {el}
