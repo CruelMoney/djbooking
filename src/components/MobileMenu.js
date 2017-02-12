@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import Formatter from '../utils/Formatter'
 import Rating from './common/Rating'
 import * as actions from '../actions/LoginActions'
+import entries from 'object.entries';
 
 
 class MobileMenu extends React.Component {
@@ -60,6 +61,19 @@ class MobileMenu extends React.Component {
     }), 10)
   }
 
+  getMenuItems = ()=>{
+      var items = entries(this.props.registeredMenuItems)
+                      .filter(item=>item[1]!==null)
+                      .map((item)=>{
+                        return(
+                            <li>
+                              <Navlink onClick={()=>this.handleClose()} to={item[1]} label={item[0]}/>
+                            </li>
+                        )
+                  })
+      return items
+    }
+
 
   render() {
     return(
@@ -97,6 +111,10 @@ class MobileMenu extends React.Component {
             }
             <div className="menu">
             <ul >
+
+             {this.getMenuItems()}
+
+
               {this.props.profile.isDJ ?
                 <li>
                   <Navlink onClick={()=>this.handleClose()} userNavigation={true} to="/profile" label="Profile"/>
@@ -165,7 +183,6 @@ class MobileMenu extends React.Component {
                 </li>
               )}
 
-
             </ul>
             </div>
         </div>
@@ -187,7 +204,8 @@ class MobileMenu extends React.Component {
 export const mapStateToProps = (state) => {
   return {
     profile: state.user.profile,
-    loggedIn: state.user.status.signedIn
+    loggedIn: state.user.status.signedIn,
+    registeredMenuItems: state.menu
   }
 }
 

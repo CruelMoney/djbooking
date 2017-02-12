@@ -6,6 +6,8 @@ import events from './Events'
 import reviews from './Reviews'
 import signup from './Signup'
 import login from './Login'
+import menu from './Menu'
+
 import c from '../constants/constants'
 var ActionTypes = c.ActionTypes
 
@@ -17,7 +19,8 @@ const store = combineReducers({
   user,
   signup,
   login,
-  events
+  events,
+  menu
 })
 
 const rootReducer = (state, action) => {

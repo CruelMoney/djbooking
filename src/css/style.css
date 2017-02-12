@@ -168,19 +168,26 @@ margin: auto;
     transition: transform 0.25s ease;
     backface-visibility: hidden;
 }
-
-.mobileMenu{
+.mobileMenu {
   position: fixed;
-  background: white;
-  width: 92vw;
-  margin-top: 4vw;
-  z-index: 101;
-  margin-left: 4vw;
+  width: 100vw;
+  height: 100vh;
+  padding: 4vw;
   pointer-events: none;
+  backface-visibility: hidden;
+  opacity: 0;
+  z-index: 101;
+  overflow: scroll;
+
+}
+.mobileMenu .menuArea{
+  padding: 20px;
+  background: white;
+  z-index: 101;
+  width: 100%;
   transform: rotate3d(1,1,0,-15deg);
   transform-origin: 100% 0;
   backface-visibility: hidden;
-  opacity: 0;
   will-change: transform,opacity,height;
   transition-property: transform,opacity,height;
   transition-duration: .35s;
@@ -199,13 +206,12 @@ margin: auto;
 }
 .mobileMenu.active{
   opacity: 1;
-  transform: none;
   pointer-events: all;
 }
-.menuArea{
-  height: 100%;
-  padding: 20px;
+.mobileMenu.active .menuArea{
+  transform: none;
 }
+
 .mobileMenu .menu{
   /*height: 100%;*/
   display: flex;
@@ -300,8 +306,8 @@ margin: auto;
 }
 
 .mobileMenu .menu ul {
-      column-count: 2;
-      width: 100%;
+    column-count: 1;
+    width: 100%;
 }
 
 
@@ -893,20 +899,22 @@ input[type="file"] + label * {
 
 .user-header{
   z-index: 2;
-margin-top: -20px;
   height: 250px;
   width: 100%;
 }
 .user-header.fixed{
-  top: -260px;
+  top: -200px;
   position: fixed;
 }
 .user-header.fixed + div{
-  margin-top: 335px;
+  margin-top: 270px;
+}
+.user-header.fixed #stripes{
+  height: 270px;
 }
 
 .user-header.fixed .user-card-wrapper{
-    transform: translate3d(0,-100px,0);
+    transform: translate3d(0,-150px,0);
 }
 .user-card-picture-overlay{
   position: absolute;
@@ -1137,6 +1145,19 @@ transition: opacity 0.3s ease;
     font-weight: 500;
     line-height: 20px;
 }
+.review-text{
+   width: 100%;
+   padding:  50px;
+   padding-top:  0px;
+   padding-bottom:  20px;
+}
+.review-rating{
+  width: 30%; 
+  text-align: right; 
+  padding-right: 37px; 
+  float: right; 
+}
+
 .user-card-fact:last-child p,
 .event-card-fact:last-child p{
 }
@@ -1213,11 +1234,12 @@ text-transform: capitalize;
 }
 
 .pay-form{
-  display: flex;
+  width:600px;
+}
+.pay-form .text-element-wrapper{
+  margin-bottom: 0px;
 }
 .pay-info{
-  width: 180px;
-    margin-left: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1511,7 +1533,7 @@ margin-right: 5px;
 #stripes.v2{
   background-image: linear-gradient(330deg, #31FFF5 0%, #31FFC5 30%, #00D1FF 90%, #31DAFF 100%);
   transform: skewX(0deg);
-  height: 330px;
+  height: 350px;
 }
 
 #stripes.v2 :nth-child(1),
@@ -2109,6 +2131,10 @@ transform: translateY(-50px);
 position: absolute;
 }
 
+.notification p{
+  text-align: center;
+}
+
 .notification > div{
   background-color: rgba(0,0,0,0.1);
     border-radius: 30px;
@@ -2265,6 +2291,7 @@ position: absolute;
   display: flex;
   justify-content: flex-start;
   margin: 15px 0;
+  flex-wrap: wrap;
 }
 .offer-buttons > div{
   margin-right: 10px;
@@ -2302,9 +2329,6 @@ position: absolute;
   margin: 40px;
 }
 
-.pay-form > div{
-  max-width: 350px;
-}
 .payout-form button,
 .pay-form button,
 .pay-form .button-wrapper{
@@ -2332,8 +2356,16 @@ position: absolute;
   padding-top: 100px;
 }
 
+  .showMobile{
+    display: none;
+  }
+
 /* Mobile */
 @media only screen and (max-device-width: 480px) {
+  .showMobile{
+    display: block;
+  }
+  
   #content {
     margin-top: 0px;
   }
@@ -2385,7 +2417,7 @@ position: absolute;
     padding-top: 120px;
   }
   .card{
-    padding: 30px;
+    padding: 20px;
   }
   .nav-container {
     width: auto;
@@ -2489,9 +2521,10 @@ footer{
 }
 .user-header{
   position: relative;
-  height: auto;
-  padding-bottom: 20px;
-  overflow: hidden;
+    height: auto;
+    padding-bottom: 0px;
+    overflow: hidden;
+    padding-top: 70px;
 }
 .user-header-content{
   height: auto;
@@ -2502,13 +2535,14 @@ footer{
 }
 .user-header.fixed + div{
   margin-top: 20px;
-  margin-bottom: 70px;
 }
 .user-container{
-  margin: 20px 0px;
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 .notification{
-  transform: translateY(-30px);
+  transform: none;
+  position: relative;
 }
 .signup{
   margin: 0 20px;
@@ -2588,14 +2622,16 @@ table td{
 .how-it-works section .how-to-title{
   margin-left: 0px;
 }
-.location_howitworks #preFooterPseudo:before{
+ #preFooterPseudo:before{
   top: -30px;
 }
 .offer-example{
   width: 100%;
 }
-.payout-form .row{
+.payout-form .row,
+.pay-form .row{
   margin: 0 -15px;
+  flex-direction: row;
 }
 .payout-form .buttons-wrapper{
   flex-direction: row;
@@ -2615,6 +2651,39 @@ table td{
     width: 100%;
     position: relative !important;
     top: -10px !important;
+}
+.pay-form {
+    width: 100%;
+}
+.mobileColumn{
+  flex-direction: column !important;
+}
+.pay-info{
+      margin-bottom: 20px;
+}
+.header-info{
+      margin-bottom: 20px;
+}
+.event-header-content, .user-header-content {
+    height: auto;
+}
+.review-text{
+  padding: 0;
+}
+.review > div:first-child{
+  padding: 0px !important;
+  margin-bottom: 10px;
+}
+.review > div:first-child > div:first-child{
+  padding-right: 0px !important;
+}
+.review-rating{
+  float: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.hideMobile{
+  display: none !important;
 }
 }
 

@@ -57,7 +57,6 @@ var Review = React.createClass({
               <div className="event-card-wrapper">
                 <div className="card profile col-md-7">
 
-
                   <TextWrapper
                     label="Rating"
                     text="Click on the stars to rate, and save your review on the button to the left."

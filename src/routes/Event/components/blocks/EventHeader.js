@@ -30,7 +30,7 @@ var eventHeader = React.createClass({
 
   handleScroll(event){
    let scrollTop = event.srcElement.body.scrollTop
-   if (scrollTop > 260) {
+   if (scrollTop > 280) {
      this.eventHeader.className =  "user-header fixed"
    }else{
      this.eventHeader.className = "user-header"
@@ -83,13 +83,12 @@ var eventHeader = React.createClass({
               }}
               className="row">
 
-
               {this.props.loggedIn ?
                 <div className="back-button userNavigation">
                   <Navlink to={"/events"} label="< Events"/>
                 </div>
               :null}
-              <div className="event-header-content col-xs-7">
+              <div className="event-header-content col-sm-7">
                 <div className="header-info">
                   <div className="user-name">
                     <h1>{this.props.loading || !this.props.event ? this.state.loadString : "Welcome " + this.props.event.contactName }</h1>

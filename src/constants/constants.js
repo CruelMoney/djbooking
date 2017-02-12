@@ -60,7 +60,10 @@ module.exports = {
     CHECK_EMAIL_FAILED: null,
     CHECK_EMAIL_SUCCEEDED:null,
 
-    UPDATE_GEOLOCATION:null
+    UPDATE_GEOLOCATION:null,
+
+    REMOVE_MENU_ITEM:null,
+    REGISTER_MENU_ITEM:null
 
   }),
    GENRES: [

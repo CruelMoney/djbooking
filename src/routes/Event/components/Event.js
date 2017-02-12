@@ -45,7 +45,7 @@ var event = React.createClass({
       :nextProps.event.status === "Accepted" ?
       "A dj has made an offer 😊"
       :nextProps.event.status === "Confirmed" ?
-      "The event has been payed & confirmed, get ready to rock 😁"
+      "The event has been paid & confirmed, get ready to rock 😁"
       :nextProps.event.status === "Finished" && nextProps.event.chosenOfferId === 0 ?
       "The event is finished ☺️"
       :nextProps.event.status === "Finished" ?
@@ -119,6 +119,7 @@ var event = React.createClass({
 
 import { connect } from 'react-redux'
 import * as actions from '../../../actions/EventActions'
+import * as commonActions from '../../../actions/Common'
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -136,6 +137,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     payEvent: () => {console.log("not implemented")},
     reviewEvent: (review, callback) => dispatch(actions.reviewEvent(review,callback)),
     cancelEvent: (id, callback) => dispatch(actions.cancelEvent(id,callback)),
+    registerMenuItem: (name, route) => dispatch(commonActions.registerMenuItem(name,route)),
+    removeMenuItem: (name) => dispatch(commonActions.registerMenuItem(name))
 }}
 
 const SmartEvent = connect(mapStateToProps, mapDispatchToProps)(event)

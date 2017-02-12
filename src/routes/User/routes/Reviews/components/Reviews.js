@@ -55,32 +55,34 @@ var Reviews = React.createClass({
       function renderReview(review, i){
         return (
           <div
+            className="review"
             style={{borderBottom: "2px solid rgb(246, 249, 252)"}}
           >
 
             <CardHeader
-              style={{paddingLeft:'50px'}}
+              
               title={review.author }
               subtitle={Formatter.date.ToEU(review.date)}
               actAsExpander={true}
               showExpandableButton={true}
               avatar={review.authorPicture}
               children={
-                <div style={{width:'30%', textAlign:'right', paddingRight:'37px', float:'right'}}>
+                <div className="review-rating hideMobile">
                   <div style={{margin:'0px'}}>
                     <Rating editable={false} rating={review.rating}/>
                   </div>
                 </div>}
             />
             <div
-              style={{
-                width:'100%',
-                padding: '50px',
-                paddingTop: '0px',
-                paddingBottom: '20px',
-
-              }}
-            >
+              className="review-text"
+              >
+              <div className="row">
+                <div className="col-sm-12">
+                  <div className="review-rating showMobile">
+                    <Rating editable={false} rating={review.rating}/>
+                </div>
+                </div>
+              </div>
               <div  className="row">
                 <div className="col-sm-7">
                   <p > {review.description} </p>

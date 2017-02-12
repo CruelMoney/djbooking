@@ -1,4 +1,6 @@
 import c from '../constants/constants'
+var ActionTypes = c.ActionTypes
+
 import AuthService from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
 import CueupService from '../utils/CueupService'
@@ -9,7 +11,6 @@ import StripeService from '../utils/StripeService'
 const stripe = new StripeService()
 
 
-var ActionTypes = c.ActionTypes
 
 
 export function fetchEvents() {
