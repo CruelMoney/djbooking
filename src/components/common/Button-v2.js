@@ -15,6 +15,7 @@ class Button extends React.Component {
     
     componentWillMount(){
       this.color = this.props.color ? this.props.color : 
+                   this.props.dangerous ? "#F44336" : 
                    this.context.color ? this.context.color :
                    ""
     }
@@ -50,12 +51,10 @@ class Button extends React.Component {
                        this.props.leftRounded  ? "6px 0px 0px 6px" :
                        this.props.rounded      ? "6px 6px 6px 6px" : "0px 0px 0px 0px",
       backgroundColor: this.props.isLoading ? "transparent" : 
-                       this.props.dangerous ? "#F44336" : 
                        this.props.active ?  this.color :
                        this.props.succes ?  this.color :
                        null,
       borderColor:     this.props.isLoading ? "transparent" : 
-                       this.props.dangerous ? "#F44336" : 
                        this.props.active ?  this.color :
                        this.props.succes ?  this.color :
                        null,

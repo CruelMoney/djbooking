@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import { Link } from 'react-router';
+import ButtonLink from './ButtonLink'
 
 /*animation stuff*/
 import QueueAnim from 'rc-queue-anim';
@@ -41,8 +42,8 @@ export default React.createClass({
                   </QueueAnim>
                 </div>
                 <div key="preFooterButtons" className="col-md-5 action-buttons">
-                  <Link style={{background:this.props.color, color:"#FFFFFF"}} className="button elevated" to={this.props.firstTo}>{this.props.firstLabel}</Link>
-                  <Link style={{background:"#FFFFFF", color:this.props.color}} className="button elevated" to={this.props.secondTo}>{this.props.secondLabel}</Link>
+                  <ButtonLink color={this.props.color} className="button elevated" to={this.props.firstTo}>{this.props.firstLabel}</ButtonLink>
+                  <ButtonLink color={this.props.color} className="button elevated" to={this.props.secondTo}>{this.props.secondLabel}</ButtonLink>
                 </div>
               </QueueAnim>
             </ScrollOverPack>

@@ -27,7 +27,7 @@ handleOnClick(){
 
 
   render: function() {
-    const fillID =  "gradient-" + this.props.fillPercentage + "-" + this.props.index
+    const fillID =  "gradient-" + this.props.fillPercentage + "-" + this.props.index + "-" + Math.random()
     var fillStyle ={fill:"url(#"+fillID+")"}
     return (
       <div

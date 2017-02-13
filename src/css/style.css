@@ -16,7 +16,7 @@ body {
 }
 
 header{
-  height: 740px;
+  height: auto;
   padding-top: 70px;
   color: #FFFFFF;
 }
@@ -168,7 +168,6 @@ section{
   padding: 4vw;
   pointer-events: none;
   backface-visibility: hidden;
-  opacity: 0;
   z-index: 101;
   overflow: scroll;
 
@@ -178,6 +177,7 @@ section{
   background: white;
   z-index: 101;
   width: 100%;
+    opacity: 0;
   transform: rotate3d(1,1,0,-15deg);
   transform-origin: 100% 0;
   backface-visibility: hidden;
@@ -198,11 +198,11 @@ section{
   margin-bottom: 20px;
 }
 .mobileMenu.active{
-  opacity: 1;
   pointer-events: all;
 }
 .mobileMenu.active .menuArea{
   transform: none;
+  opacity: 1;
 }
 
 .mobileMenu .menu{
@@ -480,6 +480,17 @@ top: 0;
   align-items: center;
 }
 
+#preFooter .action-buttons .button-wrapper:first-child a{
+  background-color: inherit !important;
+  border-color: inherit !important;
+  color: white !important;
+}
+#preFooter .action-buttons .button-wrapper:last-child a{
+  background-color: transparent !important;
+  border-color: inherit !important;
+  color: inherit !important;
+}
+
 
 
 input:-webkit-autofill {
@@ -707,7 +718,16 @@ input[type="file"] + label * {
 
 
 
-
+.Header-title{
+    font-family: "SourceSansPro-Light";
+    text-align: center;
+    margin: 0;
+    padding: 0em 0 1.5em;
+    margin-top: -1em;
+}
+.Header-title span{
+      display: block;
+}
 
 .first-card {
     -moz-animation-name: dropHeader;
@@ -1278,6 +1298,7 @@ transition: all 0.1s ease-in-out;
 }
 .gig-status{
   right: 18px;
+  top: 36px;
   color: #8998AA;
   position: absolute;
 }
@@ -1615,7 +1636,7 @@ margin-right: 5px;
 
 .particles-bg{
   background-image: linear-gradient(0deg, #B031FF 0%, #B031FF 15%, #00D1FF 85%, #32DAFF 90%);
-  width: 55%;
+  width: 65%;
   z-index: -2;
   position: absolute;
   margin-top: -20vw;
@@ -1625,7 +1646,7 @@ margin-right: 5px;
 
 #particles{
   position: absolute;
-  z-index: -2;
+  z-index: 1;
   margin-top: -70px;
   margin-left: -60px;
 }
@@ -1634,7 +1655,7 @@ margin-right: 5px;
 .button{
   /* Rectangle: */
   border-radius: 6px;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
   height: 40px;
   padding: 10px 10px;
   /* Text */
@@ -1649,12 +1670,13 @@ margin-right: 5px;
    text-overflow: ellipsis;
    display: flex;
     justify-content: center;
-    align-items: center;
-  display: inline-block;
+   align-items: center;
+   display: inline-block;
+     border: 2px solid #BBBBBB;
+   color: #BBBBBB;
+   fill: #BBBBBB;
 }
-a.button{
-  line-height: 20px;
-}
+
 button{
   visibility: visible;
   outline: none;
@@ -1690,7 +1712,7 @@ button{
   margin-right: 7px;
 }
 
-button:hover,
+ button:hover,
 .button:hover{
   fill: inherit;
   color: inherit;
@@ -1877,7 +1899,7 @@ table{
   height: 68px;
 }
 .signup{
-  margin: 0 80px;
+  margin: 0 200px;
 margin-top: -30px;
 z-index: 1;
 position: relative;
@@ -1907,9 +1929,14 @@ margin-bottom: 80px;
 p.error{
     color: #F44336 !important;
 }
-.progrezz-wrapper .errors{
+.event-submit-wrapper{
+  position: relative; 
+  margin-bottom: 20px;
+}
+.event-submit-wrapper .errors{
   text-align: center;
-  margin-top: -23px;
+  margin: 0;
+  margin-top: 10px;
 }
 .progrezz-wrapper .button-wrapper{
   margin-top: -10px;
@@ -1963,6 +1990,12 @@ color: #32325D;
   font-size: 19px;
   line-height: 32px;
 }
+.request-form-wrapper{
+  margin-top: 150px;
+}
+.how-it-works-wrapper{
+  margin-top: 300px;
+}
 .request-form{
   margin-bottom: 100px;
 }
@@ -2007,9 +2040,7 @@ color: #8998aa;
 margin: 0;
 }
 
-.request-columns{
-  margin-left: -15px;
-  margin-right: -15px;
+.request-columns .row{
   display: flex;
   align-items: flex-end;
   margin-bottom: 20px;
@@ -2037,8 +2068,10 @@ header .info-boxes{
   background: #f6f9fc;
 }
 .progrezz-wrapper{
-    height: 100px;
-    position: relative;
+    height: auto;
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
 }
 .progrezz-wrapper .button-wrapper{
     display: flex;
@@ -2051,7 +2084,7 @@ header .info-boxes{
 
 }
 .progrezz{
-  position: absolute;
+  position: relative;
   display: flex;
   justify-content: space-between;
     align-items: center;
@@ -2059,15 +2092,13 @@ header .info-boxes{
 margin-left: 16.666666%;
 transition: all 0.5s ease;
 height: 100%;
+
 }
 .progrezz.done{
   width: 0;
   margin-left: 50%;
   opacity: 0;
   pointer-events: none;
-}
-
-.progrezz.done .circle{
 }
 
 .progrezz > div{
@@ -2078,7 +2109,7 @@ width: 100%;
   width: 50px;
   line-height: 50px;
   font-size: 22px;
-  transition: all 0.3s;
+  transition: opacity 0.3s;
 }
 .progrezz > .circle:first-child{
   margin-left: -25px;
@@ -2100,8 +2131,9 @@ margin-top: -5px;
 }
 
 .notification{
-transform: translateY(-50px);
+transform: translateY(-50px) translateX(-50%);
 position: absolute;
+left: 50%;
 }
 
 .notification p{
@@ -2332,6 +2364,15 @@ position: absolute;
   .showMobile{
     display: none;
   }
+/* SMALL COM BEGIN */
+@media only screen 
+  and (max-device-width : 992px)
+  and (min-device-width: 768px)  {
+    .request-columns .row{
+      display: block;
+    }
+}
+/* SMALL COM END */
 
 /* TABLET BEGIN */
 @media only screen 
@@ -2342,10 +2383,16 @@ position: absolute;
     }
    .request-columns{
     display: block;
-    margin: 30px 5px;
+    margin: 0;
   }
   .request-columns .card{
     margin-bottom: 100px;
+  }
+  .request-columns .row > div:last-child .card{
+    margin-bottom: 10px;
+  }
+  .signup{
+  margin: 0 80px;
   }
 
   .progrezz-wrapper{
@@ -2353,7 +2400,7 @@ position: absolute;
     width: 100%;
     position: absolute;
     /* margin-bottom: 100px; */
-    top: -1260px;
+    bottom: 0;
   }
   .progrezz{
     background-image: url('../assets/dot_vertical.svg') !important;
@@ -2377,10 +2424,16 @@ position: absolute;
 .progrezz-wrapper .button-wrapper{
       align-items: flex-end;
 }
-.location_howitworks header,
 .location_howitworks #stripes{
-  height: 550px;
+  height: 570px;
 }
+.how-it-works-wrapper{
+  margin-top: 210px;
+}
+.particles-bg{
+  width: 55%;
+}
+
 .how-it-works{
   margin-top: -120px;
   height: 2040px;
@@ -2472,6 +2525,10 @@ position: absolute;
   .showMobile{
     display: block;
   }
+
+  .Header-title {
+    margin-top: 0.5em;
+}
   
   #content {
     margin-top: 0px;
@@ -2489,7 +2546,7 @@ position: absolute;
   }
 
   .row{
-    margin: 0;
+    margin: 0 -15px;
     flex-direction: column;
   }
 
@@ -2506,7 +2563,7 @@ position: absolute;
   }
   .mobileActions .context-actions{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 100%;
   }
   .user-card-fact{
@@ -2528,8 +2585,8 @@ position: absolute;
   }
   .nav-container {
     width: auto;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
   }
 
   .navigation{
@@ -2558,10 +2615,13 @@ position: absolute;
   }
   .request-columns{
     display: block;
-    margin: 30px 5px;
+    margin: 0;
   }
   .request-columns .card{
     margin-bottom: 100px;
+  }
+  .request-columns .row > div:last-child .card{
+    margin-bottom: 10px;
   }
 
   .progrezz-wrapper{
@@ -2569,13 +2629,14 @@ position: absolute;
     width: 100%;
     position: absolute;
     /* margin-bottom: 100px; */
-    top: -1750px;
+    bottom:0;
   }
   .progrezz{
     background-image: url('../assets/dot_vertical.svg') !important;
     background-repeat: repeat-y !important;
     background-position: center;
     flex-direction: column;
+    height: 100%;
   }
   .progrezz .circle:first-child,
   .progrezz .circle:last-child{
@@ -2650,6 +2711,7 @@ footer{
 .notification{
   transform: none;
   position: relative;
+      left: 0;
 }
 .signup{
   margin: 0 20px;
@@ -2743,9 +2805,7 @@ table td{
 .payout-form .buttons-wrapper{
   flex-direction: row;
 }
-.progrezz-wrapper .errors {
-    margin-top: 8px;
-}
+
 .event-top{
     flex-direction: column;
     align-items: flex-start;
@@ -2753,6 +2813,7 @@ table td{
 .gig-status{
   position: relative;
   right: 0;
+      top: 4px;
 }
 .event-information .context-actions{
     width: 100%;
@@ -2792,8 +2853,11 @@ table td{
 .hideMobile{
   display: none !important;
 }
+.how-it-works-wrapper,
+.request-form-wrapper{
+  margin-top: 0;
 }
-
+}
 /* Mobile END */
 
 

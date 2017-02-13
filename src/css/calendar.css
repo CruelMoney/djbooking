@@ -6,6 +6,7 @@
 	color: inherit;
 	font-family: SourceSansPro-SemiBold;
 	width: 280px;
+	height: 310px;
 }
 
 .react-datepicker__current-month{
@@ -14,7 +15,7 @@
 
 .react-datepicker__day, .react-datepicker__day-name{
   margin: 0 !important;
-  width: calc(100%/7) !important;
+  width: calc(99%/7) !important;
 	color: white;
 	line-height: 0px;
 	border: 2px solid transparent;

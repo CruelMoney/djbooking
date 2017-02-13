@@ -36,6 +36,7 @@ export default React.createClass({
     var className = finished ? "done progrezz" : "progrezz"
     var dotBg = "url(" + dot + ")"
     return (
+      <div className="event-submit-wrapper"> 
       <div className="progrezz-wrapper">
         <div
           style={{
@@ -64,7 +65,10 @@ export default React.createClass({
           </div>
 
         </div>
-        {finished ?
+        
+       </div>
+        
+        <div style={{transition: "opacity 0.3s", opacity: finished ? 1 : 0}}>
           <SubmitButton
             active
             name="request_djs_button"
@@ -73,9 +77,9 @@ export default React.createClass({
           >
             <div style={{width:"150px"}}>Send event</div>
           </SubmitButton>
-        : null}
+        </div>
         <ErrorMessage/>
-        {this.state.msg ? <div style={{textAlign:"center"}}><p style={{fontSize:"20px"}}>{this.state.msg}</p></div> : null}
+        {this.state.msg ? <div style={{textAlign:"center", margin: "10px 0"}}><p style={{fontSize:"20px"}}>{this.state.msg}</p></div> : null}
        </div>
     )
   }

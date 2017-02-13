@@ -120,7 +120,8 @@ export default React.createClass({
 
 
         <div className="request-columns">
-          <div className="col-sm-4">
+          <div className="row">
+          <div className="col-md-4">
             <div className="card">
               <Form
                 formValidCallback={(name)=>this.updateProgress(name,true)}
@@ -170,7 +171,7 @@ export default React.createClass({
             </div>
           </div>
           <div
-            className="col-sm-4">
+            className="col-md-4">
             <div className="card">
               <Form
                 formValidCallback={(name)=>this.updateProgress(name,true)}
@@ -210,7 +211,7 @@ export default React.createClass({
             </div>
           </div>
           <div
-            className="col-sm-4">
+            className="col-md-4">
             <div className="card">
               <Form
                 formValidCallback={(name)=>this.updateProgress(name,true)}
@@ -271,6 +272,8 @@ export default React.createClass({
                   />
                 </section>
               </Form>
+
+            </div>
             </div>
           </div>
 
@@ -292,7 +295,7 @@ export default React.createClass({
             step3Done={this.state.step3Done}
             onSubmit={this.onSubmit}
           />
-            <div className="row" style={{top: "50px"}}>
+            <div className="row">
             <div className="col-xs-12">
               <p 
               style={{textAlign: "center"}} 

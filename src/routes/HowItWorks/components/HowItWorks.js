@@ -29,14 +29,14 @@ export default React.createClass({
           </div>
           <div className="container">
             <div className="row">
-            <div className="col-sm-7 col-sm-push-5">
+            <div className="col-sm-6 col-sm-push-5">
                 <h1 key="title">How it works</h1>
                 <p key="paragraph">Stripe is the best software platform for running an internet
                   business. We handle billions of dollars every ythinking businesses around the world. thinking businesses around the world.thinking businesses around the world.ear for forward-
                   thinking businesses around the world.
                 </p>
             </div>
-              <div className="col-sm-5 col-sm-pull-7 particles">
+              <div className="col-sm-4 col-sm-pull-5 particles">
                 <Particles params={PConfig} width="100%" height="300px"/>
               </div>
             </div>
@@ -46,7 +46,7 @@ export default React.createClass({
 
           </div>
         </header>
-        <div style={{position:"relative"}} >
+        <div  className="how-it-works-wrapper" style={{position:"relative"}} >
           <div className="particles-bg" />
           <div className="container">
             <div id="particles">
