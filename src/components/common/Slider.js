@@ -135,7 +135,7 @@ var Slider = React.createClass({
           format={this.props.format}
         connect={this.props.connect}*/
     return (
-      <div style={{ backgroundColor: this.context.color, borderColor: this.context.color}}>
+      <div style={{ visibility:"hidden", display:"flex", backgroundColor: this.context.color, borderColor: this.context.color}}>
         {this.props.value.length > 1 ? 
           <Range
             disabled={this.props.disabled}
