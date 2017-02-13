@@ -1,0 +1,2 @@
+webpackJsonp([11,14],{226:function(t,n,e){"use strict";t.exports={path:"agreements",getComponent:function(t,n){e.e(28,function(t){n(null,e(580).default)})}}},1094:function(t,n,e){"use strict";t.exports={path:"privacy",getComponent:function(t,n){e.e(27,function(t){n(null,e(1093).default)})}}}});
+//# sourceMappingURL=11.4ac92c0d.chunk.js.map
