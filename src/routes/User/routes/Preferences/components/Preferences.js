@@ -235,10 +235,6 @@ const preferences = React.createClass({
                       onChange={(values) => this.setState({
                               refundPercentage: values[0]
                       })}
-                      format={ wNumb({
-                              decimals: 0,
-                              thousand: ".",
-                      })}
                     />
                     <p style={{marginTop:"15px"}}>
                       <span>{this.state.refundPercentage}% </span>will be refunded.</p>
@@ -274,9 +270,6 @@ const preferences = React.createClass({
                   <div style={{display:"inline-block"}}>
                     <SubmitButton
                       onClick={(email, callback) => {
-                        console.log("Clicked")
-                        console.log(email)
-                        console.log(callback)
                         this.props.changePassword(this.props.user.email, callback)}}
                       name="request_change_password"
                     >Request email</SubmitButton>

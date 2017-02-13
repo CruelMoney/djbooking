@@ -120,7 +120,7 @@ export default React.createClass({
 
 
         <div className="request-columns">
-          <div className="col-md-4">
+          <div className="col-sm-4">
             <div className="card">
               <Form
                 formValidCallback={(name)=>this.updateProgress(name,true)}
@@ -170,7 +170,7 @@ export default React.createClass({
             </div>
           </div>
           <div
-            className="col-md-4">
+            className="col-sm-4">
             <div className="card">
               <Form
                 formValidCallback={(name)=>this.updateProgress(name,true)}
@@ -210,7 +210,7 @@ export default React.createClass({
             </div>
           </div>
           <div
-            className="col-md-4">
+            className="col-sm-4">
             <div className="card">
               <Form
                 formValidCallback={(name)=>this.updateProgress(name,true)}
@@ -239,24 +239,24 @@ export default React.createClass({
                     <Slider
                       name="guests"
                       range={{
-                        'min': [  1 ],
-                        '50%': [  100 ],
-                        '80%': [  500 ],
-                        'max': [ 1000 ]
+                        'min':   1 ,
+                        '50%':   100 ,
+                        '80%':  500 ,
+                        'max':  1000 
                       }}
                       step={1}
                       connect="lower"
                       value={[50]}
-                      onChange={(values) => this.setState({
+                      onChange={(values) => {this.setState({
                           guests: values[0]
-                      })}
+                      })}}
                       format={ wNumb({
                           decimals: 0,
                       })}
                     />
                   </div>
                   <p style={{marginTop:"15px"}}>
-                    {this.state.guests === "1000" ? "Over " : "Around "} <span>{this.state.guests} people </span>attending the event.</p>
+                    {this.state.guests === 1000 ? "Over " : "Around "} <span>{this.state.guests} people </span>attending the event.</p>
                 </section>
                 <section>
                   <label htmlFor="description">Description</label>

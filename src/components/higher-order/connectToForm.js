@@ -86,7 +86,6 @@ function connectToForm (
 
 
     updateValue = (value) => {
-      console.log("Updateing value");
       if (this.context.updateValue) {
           this.context.updateValue(this.props.name, value)
       }

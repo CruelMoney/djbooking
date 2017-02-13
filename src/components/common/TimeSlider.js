@@ -125,7 +125,6 @@ var TimeSlider = React.createClass({
               max: rangeMax.unix()
             }}
             step={30 * 60} //Steps of half hour
-            connect={true}
             value={[
               startTime,
               endTime

@@ -195,10 +195,10 @@ var Event = React.createClass({
                     <Slider
                       name="guests"
                       range={{
-                        'min': [  1 ],
-                        '50%': [  100 ],
-                        '80%': [  500 ],
-                        'max': [ 1000 ]
+                        'min':   1 ,
+                        '50%':   100 ,
+                        '80%':   500 ,
+                        'max':  1000 
                       }}
                       step={1}
                       connect="lower"

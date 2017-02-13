@@ -44,6 +44,7 @@
     "radium": "^0.18.1",
     "rc-queue-anim": "^0.12.6",
     "rc-scroll-anim": "^0.5.3",
+    "rc-slider": "^6.1.0",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-update": "^15.3.2",
