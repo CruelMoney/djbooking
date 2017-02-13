@@ -3,23 +3,20 @@ import checkmark from '../../assets/checkmark.svg'
 
 class Button extends React.Component {
 
-   propTypes: {
-      onClick: PropTypes.func,
-      active: PropTypes.bool,
-      disabled: PropTypes.bool,
-      isLoading: PropTypes.bool,
-      name: PropTypes.string,
-      succes: PropTypes.bool,
-      dangerous: PropTypes.bool,
-        glow: PropTypes.bool
-    }
-
     static contextTypes={
       color: PropTypes.string
     }
 
     static defaultProps= {
         rounded: true
+    }
+
+    color = ""
+    
+    componentWillMount(){
+      this.color = this.props.color ? this.props.color : 
+                   this.context.color ? this.context.color :
+                   ""
     }
 
     handleClick = (e) => {
@@ -46,28 +43,45 @@ class Button extends React.Component {
 
       return className
     }
-
-    style={
+    
+    style=()=>{
+      return{
       borderRadius:    this.props.rightRounded ? "0px 6px 6px 0px" :
                        this.props.leftRounded  ? "6px 0px 0px 6px" :
                        this.props.rounded      ? "6px 6px 6px 6px" : "0px 0px 0px 0px",
+      backgroundColor: this.props.isLoading ? "transparent" : 
+                       this.props.dangerous ? "#F44336" : 
+                       this.props.active ?  this.color :
+                       this.props.succes ?  this.color :
+                       null,
+      borderColor:     this.props.isLoading ? "transparent" : 
+                       this.props.dangerous ? "#F44336" : 
+                       this.props.active ?  this.color :
+                       this.props.succes ?  this.color :
+                       null,
+        borderLeftColor: this.props.isLoading ? this.color  :                        
+                          null,
+    
+
+        }
     }
 
-    wrapperStyle={
+    wrapperStyle=()=>{
+      return{
       textAlign: "center",
-      borderColor: this.props.dangerous ? "#F44336" : this.context.color,
-      color: this.props.dangerous ? "#F44336" : this.context.color,
-      boxShadow: "0 0px 20px 0px " + (this.props.dangerous ? "#F44336" : this.context.color),
-      backgroundColor: this.props.dangerous ? "#F44336" : this.context.color
-    }
+      borderColor: this.props.dangerous ? "#F44336" : this.color,
+      color: this.props.dangerous ? "#F44336" : this.color,
+      boxShadow: "0 0px 20px 0px " + (this.props.dangerous ? "#F44336" : this.color),
+      backgroundColor: this.props.dangerous ? "#F44336" : this.color
+   } }
 
   render() {
     return (
       <div className="button-wrapper"
-        style={this.wrapperStyle}>
+        style={this.wrapperStyle()}>
         <button
           name={this.props.name}
-          style={this.style}
+          style={this.style()}
           disabled={this.props.disabled || this.props.succes || this.props.isLoading}
           className={this.className()}
           onClick={this.handleClick}

@@ -105,6 +105,7 @@ const login = React.createClass({
       <SubmitButton
         glow
         active
+        color="#3b5998"
         name="facebook_login"
         onClick={this.props.loginFacebook}
       >Facebook</SubmitButton>
@@ -112,6 +113,7 @@ const login = React.createClass({
       <SubmitButton
         glow
         active
+        color="#ff7700"
         name="soundcloud_login"
         onClick={this.props.loginSoundcloud}
       >SoundCloud</SubmitButton>

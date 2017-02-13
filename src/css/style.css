@@ -629,21 +629,6 @@ input[type="file"] + label * {
   margin-bottom: 10px;
 }
 
-.social-login form .button-wrapper:last-child,
-.social-signup tr td:nth-child(2) .button-wrapper{
-    border-color: #ff7700 !important;
-    color:  #ff7700 !important;
-    box-shadow:  #ff7700 0px 0px 20px 0px !important;
-    background-color:  #ff7700 !important;
-}
-
-.social-login form .button-wrapper:first-child,
-.social-signup tr td:first-child .button-wrapper{
-    border-color: #3b5998 !important;
-    color:  #3b5998 !important;
-    box-shadow:  #3b5998 0px 0px 20px 0px !important;
-    background-color:  #3b5998 !important;
-}
 
 
 
@@ -1694,7 +1679,7 @@ button{
 .button-wrapper{
   visibility: hidden;
   display: flex;
-    justify-content: center;
+  justify-content: center;
 }
 .button.flat{
   border: 2px solid #BBBBBB;
@@ -1740,7 +1725,6 @@ button.active, .button.active{
   color: #FFFFFF;
   fill: #FFFFFF;
   border-color: inherit;
-  background-color: inherit;
 }
 button.glow:hover, .button.glow:hover{
 box-shadow: inherit;
@@ -1749,7 +1733,6 @@ button.loading, .button.loading{
   box-shadow: inherit;
   border-color: transparent;
   border-left-color: inherit;
-  background-color: transparent !important;
   animation: rotating 2s 0.25s linear infinite;
   width: 40px;
   border-radius: 100% !important;
@@ -1762,7 +1745,6 @@ button.loading, .button.loading{
 button.succes, .button.succes{
   width: 40px;
   color: inherit;
-  background-color: inherit;
   border-color: inherit;
   border-radius: 100% !important;
 }

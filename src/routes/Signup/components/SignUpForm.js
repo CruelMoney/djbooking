@@ -73,9 +73,11 @@ var signupForm = React.createClass({
             >
               <Button
                 name="FACEBOOK"
-              >Facebook</Button>
+              color="#3b5998"
+             >Facebook</Button>
 
               <Button
+                color="#ff7700"  
                 name="SOUNDCLOUD"
               >Soundcloud</Button>
 
