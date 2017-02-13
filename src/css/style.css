@@ -174,6 +174,7 @@ section{
 }
 .mobileMenu .menuArea{
   padding: 20px;
+  position: relative;
   background: white;
   z-index: 101;
   width: 100%;
