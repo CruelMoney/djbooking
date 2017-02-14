@@ -29,7 +29,7 @@ var user = React.createClass({
   componentWillMount(){
 
     if (!this.props.profile.email_verified) {
-      this.setState({notification:"You won't receive any gigs before you confirm your email-address."})
+      this.setState({notification:"You won't receive any gigs before you have confirm your email-address."})
       return
     }
     if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
