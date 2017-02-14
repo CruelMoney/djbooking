@@ -17,6 +17,7 @@
         'git submodule status',
         'npm install',
         'npm run build',
+        'cp -a ../build/. ./',
     );
 
     // exec commands

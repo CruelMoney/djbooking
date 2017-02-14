@@ -1,32 +1,130 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'run', 'build' ]
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
 2 info using npm@3.10.8
 3 info using node@v6.9.1
-4 verbose stack Error: Failed to parse json
-4 verbose stack Trailing comma in object at 80:1
-4 verbose stack }
-4 verbose stack ^
-4 verbose stack     at parseError (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:390:11)
-4 verbose stack     at parseJson (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:79:23)
-4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:48:5
-4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:78:16
-4 verbose stack     at tryToString (fs.js:455:3)
-4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:442:12)
-5 verbose cwd /www/Cueup
-6 error Darwin 16.3.0
-7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "build"
-8 error node v6.9.1
-9 error npm  v3.10.8
-10 error file /www/Cueup/package.json
-11 error code EJSONPARSE
-12 error Failed to parse json
-12 error Trailing comma in object at 80:1
-12 error }
-12 error ^
-13 error File: /www/Cueup/package.json
-14 error Failed to parse package.json data.
-14 error package.json must be actual JSON, not just JavaScript.
-14 error
-14 error This is not a bug in npm.
-14 error Tell the package author to fix their package.json file. JSON.parse
-15 verbose exit [ 1, true ]
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/www/Cueup',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/christopherdengso/.npm/Cueup/1.0.0/package.tgz not in flight; packing
+9 verbose correctMkdir /Users/christopherdengso/.npm correctMkdir not in flight; initializing
+10 info lifecycle Cueup@1.0.0~prepublish: Cueup@1.0.0
+11 silly lifecycle Cueup@1.0.0~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ '/Users/christopherdengso/.npm/Cueup/1.0.0/package.tgz',
+12 verbose tar pack   '/www/Cueup' ]
+13 verbose tarball /Users/christopherdengso/.npm/Cueup/1.0.0/package.tgz
+14 verbose folder /www/Cueup
+15 verbose addLocalTarball adding from inside cache /Users/christopherdengso/.npm/Cueup/1.0.0/package.tgz
+16 verbose correctMkdir /Users/christopherdengso/.npm correctMkdir not in flight; initializing
+17 silly cache afterAdd Cueup@1.0.0
+18 verbose afterAdd /Users/christopherdengso/.npm/Cueup/1.0.0/package/package.json not in flight; writing
+19 verbose correctMkdir /Users/christopherdengso/.npm correctMkdir not in flight; initializing
+20 verbose afterAdd /Users/christopherdengso/.npm/Cueup/1.0.0/package/package.json written
+21 silly publish { name: 'Cueup',
+21 silly publish   description: 'Cueup before your friends',
+21 silly publish   author: { name: 'Christopher Dengsø' },
+21 silly publish   license: 'ISC',
+21 silly publish   version: '1.0.0',
+21 silly publish   private: true,
+21 silly publish   devDependencies:
+21 silly publish    { 'babel-eslint': '^7.0.0',
+21 silly publish      eslint: '^3.8.1',
+21 silly publish      'eslint-config-react-app': '^0.5.0',
+21 silly publish      'eslint-plugin-flowtype': '^2.21.0',
+21 silly publish      'eslint-plugin-import': '^2.0.1',
+21 silly publish      'eslint-plugin-jsx-a11y': '^2.2.3',
+21 silly publish      'eslint-plugin-react': '^6.4.1',
+21 silly publish      'flow-bin': '^0.36.0',
+21 silly publish      'react-scripts': '0.7.0' },
+21 silly publish   dependencies:
+21 silly publish    { 'auth0-js': '^7.6.1',
+21 silly publish      autoprefixer: '^6.5.0',
+21 silly publish      'babel-preset-es2015': '^6.16.0',
+21 silly publish      'babel-preset-react': '^6.16.0',
+21 silly publish      'case-sensitive-paths-webpack-plugin': '^1.1.3',
+21 silly publish      compression: '^1.6.2',
+21 silly publish      'css-loader': '^0.23.1',
+21 silly publish      'danish-ssn': '^1.0.0',
+21 silly publish      'email-validator': '^1.0.7',
+21 silly publish      eslint: '^3.1.1',
+21 silly publish      'eslint-loader': '^1.4.1',
+21 silly publish      'eslint-plugin-flowtype': '^2.4.0',
+21 silly publish      'eslint-plugin-jsx-a11y': '^2.0.1',
+21 silly publish      'eslint-plugin-react': '^5.2.2',
+21 silly publish      express: '^4.14.0',
+21 silly publish      history: '^3.2.1',
+21 silly publish      'http-proxy-middleware': '^0.17.0',
+21 silly publish      'if-env': '^1.0.0',
+21 silly publish      'is-my-date-valid': '^0.1.0',
+21 silly publish      keymirror: '^0.1.1',
+21 silly publish      'lodash.assign': '^4.2.0',
+21 silly publish      'lodash.without': '^4.4.0',
+21 silly publish      'material-ui': '^0.16.4',
+21 silly publish      'object.entries': '^1.0.4',
+21 silly publish      'postcss-loader': '^0.9.1',
+21 silly publish      radium: '^0.18.1',
+21 silly publish      'rc-queue-anim': '^0.12.6',
+21 silly publish      'rc-scroll-anim': '^0.5.3',
+21 silly publish      'rc-slider': '^6.1.0',
+21 silly publish      react: '^15.3.2',
+21 silly publish      'react-addons-css-transition-group': '^15.3.2',
+21 silly publish      'react-addons-update': '^15.3.2',
+21 silly publish      'react-datepicker': '^0.28.2',
+21 silly publish      'react-dom': '^15.3.2',
+21 silly publish      'react-google-maps': '^4.11.0',
+21 silly publish      'react-inlinesvg': '^0.5.4',
+21 silly publish      'react-onclickoutside': '^5.7.0',
+21 silly publish      'react-particles-js': '^1.3.0',
+21 silly publish      'react-redux': '^4.4.5',
+21 silly publish      'react-router': '^2.8.1',
+21 silly publish      'react-tap-event-plugin': '^2.0.0',
+21 silly publish      redux: '^3.6.0',
+21 silly publish      'redux-form': '^5.3.3',
+21 silly publish      'redux-logger': '^2.6.1',
+21 silly publish      'redux-thunk': '^2.1.0',
+21 silly publish      'smoothscroll-polyfill': '^0.3.3',
+21 silly publish      wnumb: '^1.0.4' },
+21 silly publish   scripts:
+21 silly publish    { start: 'react-scripts start',
+21 silly publish      startProd: 'NODE_ENV=production react-scripts start',
+21 silly publish      build: 'react-scripts build',
+21 silly publish      test: 'react-scripts test --env=jsdom',
+21 silly publish      eject: 'react-scripts eject',
+21 silly publish      flow: 'flow; test $? -eq 0 -o $? -eq 2' },
+21 silly publish   eslintConfig: { extends: 'react-app' },
+21 silly publish   readme: '# Hello\nThis project is build using ES6 with Babel and Webpack.\nThe core libraries used are React and Redux. \n\nThe folder structure is as follows:\n\n```\nroot\n│   index.html\n│   ...   \n│\n└───assets\n│\n└───output   \n│   \n└───src  \n│   │   App.js\n│   │\n│   └───actions  \n│   │\n│   └───components\n│   │   │\n│   │   └───blocks\n│   │   └───common\n│   │   └───pages\n│   │    \n│   └───constants\n│   │    \n│   └───containers\n│   │    \n│   └───css\n│   │    \n│   └───reducers\n│   │    \n│   └───utils\n```\n\nThe react components are in three folders. \nCommon are the smaller components that are used a lot. \nBlocks are bigger components build using the common components. \nPages are components build using the blocks, and each represent a route on the website. \nThe App.js is the entry point and defines the routes using the pages.\n\nThe actions folder contains all the actions creators used by redux. \nThe container-files connects the react components to the redux store. \nIn the reducers folder all the redux reducers defines the redux store. \n\nInstall dependencies using <code>npm install</code>\n\nRun Webpack dev server using <code>npm run start</code>\n',
+21 silly publish   readmeFilename: 'README.md',
+21 silly publish   gitHead: '28a2d97a6ef5a9dd46040ef3366ca81460d5e4f1',
+21 silly publish   _id: 'Cueup@1.0.0',
+21 silly publish   _shasum: '0eb389374b1c2a0e9f22d2de8b0217f7c4fc38fa',
+21 silly publish   _from: '.' }
+22 verbose getPublishConfig undefined
+23 verbose stack Error: This package has been marked as private
+23 verbose stack Remove the 'private' field from the package.json to publish it.
+23 verbose stack     at publish_ (/usr/local/lib/node_modules/npm/lib/publish.js:101:15)
+23 verbose stack     at Array.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/slide/lib/bind-actor.js:15:8)
+23 verbose stack     at LOOP (/usr/local/lib/node_modules/npm/node_modules/slide/lib/chain.js:15:14)
+23 verbose stack     at LOOP (/usr/local/lib/node_modules/npm/node_modules/slide/lib/chain.js:14:28)
+23 verbose stack     at chain (/usr/local/lib/node_modules/npm/node_modules/slide/lib/chain.js:20:5)
+23 verbose stack     at /usr/local/lib/node_modules/npm/lib/publish.js:73:5
+23 verbose stack     at RES (/usr/local/lib/node_modules/npm/node_modules/inflight/inflight.js:23:14)
+23 verbose stack     at f (/usr/local/lib/node_modules/npm/node_modules/once/once.js:25:25)
+23 verbose stack     at /usr/local/lib/node_modules/npm/lib/cache.js:363:16
+23 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/write-file-atomic/index.js:50:11
+24 verbose cwd /www/Cueup
+25 error Darwin 16.3.0
+26 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+27 error node v6.9.1
+28 error npm  v3.10.8
+29 error This package has been marked as private
+29 error Remove the 'private' field from the package.json to publish it.
+30 error If you need help, you may report this error at:
+30 error     <https://github.com/npm/npm/issues>
+31 verbose exit [ 1, true ]
