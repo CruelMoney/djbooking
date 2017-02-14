@@ -372,20 +372,8 @@ var Gig = React.createClass({
 
 
                     {!this.props.payoutInfoValid ?
-
-                      <div >
                         <p>Please update your payout information before making an offer.</p>
-
-                        <Button
-                          rounded={true}
-                          onClick={()=>this.setState({showPopup:true})}
-                          name="show-payout-popup"
-                        >Update payout information</Button>
-
-
-
-                      </div>
-
+          
                     : null }
 
                     {
@@ -440,6 +428,14 @@ var Gig = React.createClass({
                           onClick={this.updateOffer}
                         >Update price offer</SubmitButton>
                       :null}
+
+                      {!this.props.payoutInfoValid ?
+                        <Button
+                          rounded={true}
+                          onClick={()=>this.setState({showPopup:true})}
+                          name="show-payout-popup"
+                        >Update payout information</Button>
+                    : null }
 
                     </div>
 
