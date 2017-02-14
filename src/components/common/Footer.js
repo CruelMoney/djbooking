@@ -79,7 +79,7 @@ export default React.createClass({
                   <Link to="/about">About</Link>
                 </li>
                 <li>
-                  <Link to="/blog">Blog</Link>
+                  <Link href="https://medium.com/@Cueup" target="blank" >Blog</Link>
                 </li>
                 <li>
                   <Link to="/faq/dj">FAQ</Link>
