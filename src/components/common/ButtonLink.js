@@ -66,6 +66,7 @@ class ButtonLink extends React.Component {
       textAlign: "center",
       borderColor: this.props.dangerous ? "#F44336" : this.color,
       color: this.props.dangerous ? "#F44336" : this.color,
+      fill: this.props.dangerous ? "#F44336" : this.color,
       boxShadow: "0 0px 20px 0px " + (this.props.dangerous ? "#F44336" : this.color),
       backgroundColor: this.props.dangerous ? "#F44336" : this.color
    } }

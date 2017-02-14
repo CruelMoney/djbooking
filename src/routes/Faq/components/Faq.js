@@ -1,6 +1,8 @@
 import React from 'react';
 import Footer from '../../../components/common/Footer'
 import { Link } from 'react-router';
+import ButtonLink from '../../../components/common/ButtonLink'
+
 
 export default React.createClass({
   themeColor:"#25F4D2",
@@ -15,9 +17,9 @@ export default React.createClass({
   handleScroll(event){
    let scrollTop = event.srcElement.body.scrollTop
    if (scrollTop > 80) {
-      this.nav.className =  "fixed"
+      this.nav.className =  "fixed terms-navigation"
    }else{
-     this.nav.className = ""
+     this.nav.className = "terms-navigation"
    }
   },
   render() {
@@ -26,17 +28,16 @@ export default React.createClass({
         <div className="container">
           <div className="row">
             <div className="col-md-3">
-              <div ref={(ref) => this.nav = ref}>
-                <div
-                  className="button-wrapper terms-navigation"
-                  >
-                  <Link className="button flat" activeClassName="active" to="/faq/dj">
+              <div 
+                className="terms-navigation"
+                ref={(ref) => this.nav = ref}>
+               
+                  <ButtonLink color={this.themeColor} to="/faq/dj">
                     DJ
-                  </Link>
-                  <Link className="button flat" activeClassName="active" to="/faq/organizer">
+                  </ButtonLink>
+                  <ButtonLink color={this.themeColor} to="/faq/organizer">
                    Organizer
-                  </Link>
-                </div>
+                  </ButtonLink>
               </div>
             </div>
 

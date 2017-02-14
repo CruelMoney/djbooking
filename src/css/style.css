@@ -1964,20 +1964,11 @@ color: #32325D;
   margin-top: 30px;
 }
 
-.terms-navigation > a{
+.terms-navigation  .button-wrapper {
   margin-bottom: 10px;
+  width: 200px;
 }
-.terms-navigation.button-wrapper{
-    fill: rgb(37, 244, 210);
-    color: rgb(37, 244, 210);
-    border-color: rgb(37, 244, 210);
-    background-color: rgb(37, 244, 210);
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    line-height: 0;
-    width: 200px;
-}
+
 .fixed{
   position: fixed;
   top: 30px;
@@ -2724,11 +2715,11 @@ footer{
 table td{
   display: block;
 }
-.terms-navigation.button-wrapper {
+.terms-navigation {
   flex-direction: row;
   width: 100%;
 }
-.terms-navigation.button-wrapper  a{
+.terms-navigation  .button-wrapper{
   margin-right: 5px;
   min-width: 100px;
 }
