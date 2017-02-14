@@ -40,6 +40,7 @@
     "lodash.assign": "^4.2.0",
     "lodash.without": "^4.4.0",
     "material-ui": "^0.16.4",
+    "object.entries": "^1.0.4",
     "postcss-loader": "^0.9.1",
     "radium": "^0.18.1",
     "rc-queue-anim": "^0.12.6",
@@ -74,5 +75,6 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  }
+  },
+  "files":["public"]
 }

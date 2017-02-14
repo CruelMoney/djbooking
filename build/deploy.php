@@ -15,6 +15,8 @@
         'git submodule sync',
         'git submodule update',
         'git submodule status',
+        'npm install',
+        'npm run build',
     );
 
     // exec commands
