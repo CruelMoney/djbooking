@@ -1,2 +1,0 @@
-webpackJsonp([12],{1080:function(n,t,e){"use strict";n.exports={path:"dj",getComponent:function(n,t){e.e(26,function(n){t(null,e(1079).default)})}}},1082:function(n,t,e){"use strict";n.exports={path:"organizer",getComponent:function(n,t){e.e(25,function(n){t(null,e(1081).default)})}}}});
-//# sourceMappingURL=12.1d06ff13.chunk.js.map
