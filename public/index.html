@@ -3,19 +3,38 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Testing 2| Cueup.io</title>
+    <title>Request a DJ or become DJ | Cueup.io</title>
     <link rel="shortcut icon" href="favicon.ico">
 
-    <meta property="og:title"              content="Sign Up to get DJ jobs or Request a DJ" />
-    <meta property="og:description"        content="Cueup is an online platform connecting DJs and organizers." />
+    <meta property="og:title"              content="Request a DJ or become DJ" />
+    <meta property="og:description"        content="Cueup is an online platform connecting DJs and event organizers." />
     <meta property="og:image"              content="http://i.imgur.com/WEbgqyT.png" />
+
+    <!-- Adds an event listener to capture uncaught errors. -->
+    <script>addEventListener('error', window.__e=function f(e){f.q=f.q||[];f.q.push(e)});</script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+    <script async src="./autotrack.js"></script>
 
     <script async defer type="text/javascript" src="https://js.stripe.com/v2/">  </script>
     <script async  defertype="text/javascript" src="particles.min.js">  </script>
 
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ&libraries=geometry,places,visualization,geocode"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ&libraries=geometry,places,visualization,geocode"></script>
     <script async defer type="text/javascript" src="load-image.all.min.js">  </script>
+
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-59876038-4', 'auto');
+        ga('set', 'transport', 'beacon');
+        ga('send', 'pageview');
+
+    </script>
 
 </head>
 

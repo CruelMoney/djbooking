@@ -7,20 +7,22 @@ import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import * as actions from './actions/LoginActions'
 import store from './reducers/Store'
+import {init as analytics} from './utils/analytics/autotrack'
+
 
 class app extends React.Component {
-    propTypes: {
-       loggedIn: PropTypes.bool,
-       checkForLogin: PropTypes.func.isRequired,
-     }
-
+   
      state = {
          didCheckLogin: false,
      }
 
      componentWillMount() {
-
+       if(process.env.NODE_ENV === "production"){
+          analytics()
+       }
      }
+
+
      checkForLogin = (nextState, replace) => {
        if (!this.state.didCheckLogin) {
          this.setState({
