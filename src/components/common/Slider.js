@@ -147,7 +147,7 @@ var Slider = React.createClass({
           />
           :  
           <RCSlider
-            disabled={false}
+             disabled={this.props.disabled}
             min={this.props.range.min}
             max={this.props.range.max}
             step={this.props.step}

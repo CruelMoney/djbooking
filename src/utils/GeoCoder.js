@@ -1,8 +1,9 @@
 /*eslint no-undef: 0*/
-var geocoder = new google.maps.Geocoder()
 
 export default {
    codeAddress: function(address, callback)  {
+     console.log("Coding addreesss")
+    var geocoder = new google.maps.Geocoder()
     geocoder.geocode( { 'address': address}, function(results, status) {
          if (status === google.maps.GeocoderStatus.OK) {
            var lat = (results[0].geometry.location.lat())

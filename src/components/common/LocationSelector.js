@@ -3,11 +3,11 @@ import AutoComplete from 'material-ui/AutoComplete';
 import * as validators from '../../utils/validators';
 
 /*eslint no-undef: 0*/
-var locationService = new google.maps.places.AutocompleteService();
 
 export default React.createClass({
 
   displayName: 'LocationSelector',
+  locationService: new google.maps.places.AutocompleteService(),
 
   propTypes: {
     name: PropTypes.string.isRequired,
@@ -73,7 +73,7 @@ export default React.createClass({
     value = toTitleCase(value)
     
     this.updateValue(value);
-    locationService.getPlacePredictions({ input: value, types: ['(cities)'], componentRestrictions: {country: 'dk'} }, this.updateSuggestions);
+    this.locationService.getPlacePredictions({ input: value, types: ['(cities)'], componentRestrictions: {country: 'dk'} }, this.updateSuggestions);
   },
 
   onValueSelected(value){
