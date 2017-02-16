@@ -404,6 +404,7 @@ var Gig = React.createClass({
                             <SubmitButton
                               rounded={true}
                               dangerous
+                              warning="Are you sure you want to cancel the gig? All money will be refunded to the organizer."
                               name="cancel_gig"
                               onClick={(form, callback)=>this.props.cancelGig(this.props.gig.id, callback)}
                             >Cancel gig</SubmitButton>
