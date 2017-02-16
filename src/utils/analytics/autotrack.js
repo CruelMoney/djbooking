@@ -170,11 +170,11 @@ const trackCustomDimensions = () => {
  * respective configuration options.
  */
 const requireAutotrackPlugins = () => {
-  ga('require', 'cleanUrlTracker', {
-    stripQuery: true,
+/*  ga('require', 'cleanUrlTracker', {
+    stripQuery: false,
     queryDimensionIndex: getDefinitionIndex(dimensions.URL_QUERY_PARAMS),
     trailingSlash: 'remove',
-  });
+  });*/
   ga('require', 'maxScrollTracker', {
     sessionTimeout: 30,
     timeZone: 'America/Los_Angeles',
