@@ -14,9 +14,11 @@ export default React.createClass({
       <h1>Questions and answers</h1>
       <p className="subtitle">For DJs</p>
         <CollapsibleContainer
+          changeHash
         >
              <Collapsible
-                  label="How much does it cost?"  
+                  label="How much does it cost?" 
+                 
                 > 
                 <p>
                     LASIK, or “laser-assisted in situ keratomileusis,” is the most common refractive surgery procedure. Refractive surgeries, including LASIK, reshape the cornea to correct distorted vision often eliminating the need for glasses or contacts.

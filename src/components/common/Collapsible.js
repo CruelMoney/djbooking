@@ -58,7 +58,8 @@ export const Collapsible = React.createClass({
 
 export const CollapsibleContainer = React.createClass({
   propTypes: {
-    numbered: PropTypes.bool
+    numbered: PropTypes.bool,
+    changeHash: PropTypes.bool
   },
 
   getDefaultProps(){
@@ -78,10 +79,16 @@ export const CollapsibleContainer = React.createClass({
       this.setState({
         activeChild: 0
       })
+      if(this.props.changeHash){
+         window.location.hash = ""
+      }
     }else{
       this.setState({
         activeChild: count
       })
+      if(this.props.changeHash){
+         window.location.hash = this.props.children[count-1].props.label
+      }
     }
 
   },

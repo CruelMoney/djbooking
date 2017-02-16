@@ -15,6 +15,7 @@ export default React.createClass({
       <h1>Questions and answers</h1>
       <p className="subtitle">For organizers</p>
        <CollapsibleContainer
+       changeHash
         >
              <Collapsible
                   label="How much does it cost?"  
