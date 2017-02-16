@@ -48,7 +48,7 @@ export default React.createClass({
           
           
               <li>
-                <Navlink userNavigation={true} to="profile" label="Profile"/>
+                <Navlink userNavigation={true} to="profile" label="Information"/>
               </li>
        
 

@@ -78,7 +78,7 @@ var Profile = React.createClass({
                 : <Button
                   onClick={this.context.toggleEditMode}
                   name="edit_profile"
-                  >Edit profile
+                  >Edit information
                 </Button>
               }
               {this.props.profile.isDJ ?

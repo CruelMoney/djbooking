@@ -67,11 +67,12 @@ var Slider = React.createClass({
     },
     getValue(max,min,perc){
       const newMax = max-min
-      return Math.floor(((newMax/100)*perc)+min)
+      const res = Math.floor(((newMax/100)*perc)+min)
+      return isNaN(res) ? 1 : res
     },
 
   handleNonLinear(val){
-    //calculate the percentage of the max
+    //calculate the percentage of the max value
     //Find the range it falls between
     //calculate linear between those
     var perc = this.getPercentage(
@@ -79,23 +80,23 @@ var Slider = React.createClass({
       this.props.range.min,
       val)
     
-    var withinRange = []
-    withinRange[0] = []
-    withinRange[1] = []
+    var withinRange = [] //Array of 2 arrays [[val, perc][val, perc]]
+    withinRange[0] = [] //the value it is above
+    withinRange[1] = [] //the value it is below
 
-    this.parsedRange.reduce((last,currentValue,index,arr)=>{
+    this.parsedRange.reduce((last,current,index,arr)=>{
       //still not in the range
-      if(currentValue[0] < perc){
-        return currentValue
+      if(current[0] < perc){
+        return current
       }else if(last[0] < perc){
         //the range has been found
         withinRange[0][0] = last[0]
         withinRange[0][1] = last[1]
-        withinRange[1][0] = currentValue[0]
-        withinRange[1][1] = currentValue[1]
-        return currentValue
+        withinRange[1][0] = current[0]
+        withinRange[1][1] = current[1]
+        return current
       }else{
-        return currentValue
+        return current
       }
     })
 
