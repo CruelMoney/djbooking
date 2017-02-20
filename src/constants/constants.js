@@ -67,10 +67,13 @@ module.exports = {
 
   }),
    GENRES: [
-    {name: "70's"},
     {name: "80's"},
     {name: "90's"},
     {name: "00's"},
+
+    {name: "R&B"},
+    {name: "Hip Hop"},
+    {name: 'Reggae'},
 
     {name: 'Disco'},
     {name: "Rock"},
@@ -83,9 +86,6 @@ module.exports = {
     {name: "UKG"},
     {name: "Lounge"},
 
-    {name: "R&B"},
-    {name: "Hip Hop"},
-    {name: 'Reggae'},
 
     {name: 'Top 40'},
     {name: "Remixes"},
