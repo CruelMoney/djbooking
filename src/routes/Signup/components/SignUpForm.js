@@ -226,6 +226,16 @@ var signupForm = React.createClass({
         <div style={{width:"100px"}}>JOIN</div>
         </SubmitButton>
         {this.state.msg ? <div style={{textAlign:"center"}}><p style={{fontSize:"20px"}}>{this.state.msg}</p></div> : null}
+    <div className="row">
+            <div className="col-xs-12">
+              <p 
+              style={{textAlign: "center", marginTop: "10px"}} 
+              className="terms_link">
+                By clicking join you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>
+              </p>
+            </div>
+          </div>
+    
     </Form>
     )
   }

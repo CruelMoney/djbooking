@@ -227,7 +227,7 @@ export default React.createClass({
                   <p>Select a new date in the calendar above to change it.</p>
                 </section>
                 <section>
-                  <label>Duration</label>
+                  <label>Music Duration</label>
                   <TimeSlider
                     date={this.props.date}
                   />
@@ -263,10 +263,13 @@ export default React.createClass({
                   <label htmlFor="description">Description</label>
                   <TextBox
                     height="110px"
-                    placeholder={"Please tell about your event. \n" +
-                      "What kind of venue is it, what is the age of the guests? \n" +
-                      "Do you have any special requirements? \n" +
-                    "What is the budget?"}
+                    placeholder={
+                      "Please tell about your event. \n" +
+                      "What is the budget? \n" +
+                      "What is the age of the guests? \n" +
+                      "What kind of venue is it? \n" +
+                      "Do you have any special requirements? \n" 
+                    }
                     name="description"
                     validate={['required']}
                   />

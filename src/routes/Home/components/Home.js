@@ -78,11 +78,9 @@ handleButtonClick(){
             <div className="row">
               <div className="col-md-5 col-md-push-1">
                 <QueueAnim key="1">
-                  <h1 key="title">The perfect dj for the perfect event</h1>
+                  <h1 key="title">Book qualified DJs with ease.</h1>
                   <p key="paragraph">
-                    Cueup offers connection to hundreds of available djs and helps you find the most qualified for your event - at the best price.
-                    Select the date of your event in the calendar and fill in the remaining information below.
-                    Soon you will find offers from the most qualified djs for your event. Nothing is binding.
+                    Cueup is the easiest way for you to get a great DJ for your event. Select the event date and fill out the form below. Then the most qualified DJs will be chosen and asked to leave you an offer within your budget. Afterwards you are free to choose between the offers, discuss the price or decline the offers.
                   </p>
                 </QueueAnim>
               </div>
@@ -129,7 +127,8 @@ handleButtonClick(){
                           <img src={padlock} alt="icon"/>
                       <h2 style={{color:this.themeColor}}>Secured booking system</h2>
                       <p>
- Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.                      </p>
+At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money are instantly refunded. Otherwise the money are disbursed when the DJ has played at the event.              
+</p>
                   </div>
                 </div>
                 <div  className="col-sm-5 col-sm-push-1">
@@ -137,7 +136,7 @@ handleButtonClick(){
                     <img src={note} alt="icon"/>
                     <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
+                 At Cueup we focus on finding the most qualified DJs for your event, so you don’t have to. Don’t waste time searching for DJs when you can have offers send directly to you.  Each offer shows the DJ, their reviews and rating so you can confidently choose one. 
                     </p>
                   </div>
                 </div>
