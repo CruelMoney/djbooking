@@ -33,8 +33,10 @@ export default React.createClass({
              
         </div>
         </div>
-      <div className="container info-boxes">
-        
+      <div className="container">
+        <div className="info-boxes">
+
+ 
         <div className="row">
         <QueueAnim type="top">
           <div key="cardA">
@@ -43,7 +45,10 @@ export default React.createClass({
               <img src={krIcon} alt="Money icon"/>
               <h2 style={{color:"rgb(176, 49, 255)"}}>Membership free of charge</h2>
               <p style={{color:"#32325D"}}>
-                Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s
+                At Cueup you don't have to pay anything to start getting gigs. 
+                In fact you don't have to pay anything at anytime. 
+                For each gig you play a service fee will be added to the price you have offered, and in that way the event organizers pay to keep the platform running.
+                To get started - just sign up below.
               </p>
             </div>
           </div>
@@ -52,9 +57,13 @@ export default React.createClass({
         <div  className="col-sm-6 col-md-5 col-md-push-1">
           <div className="card">
             <img src={vinyl} alt="vinyl icon"/>
-            <h2 style={{color:"rgb(176, 49, 255)"}}>Get the gigs you want to play</h2>
+            <h2 style={{color:"rgb(176, 49, 255)"}}>Get the kind of gigs you want</h2>
             <p style={{color:"#32325D"}}>
-              Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s
+              Cueup is build for the DJs! 
+              By specifying what genres you like to play and telling us about yourself, we can do our best to get you the gigs that suites your style. 
+              At the same time you have the freedom to decline any gig. 
+              We also try to make sure that all DJs get the chance to play an equal amount of gigs. 
+              
             </p>
           </div>
         </div>
@@ -62,6 +71,7 @@ export default React.createClass({
       </QueueAnim>
         </div>
       </div>
+   </div>
 
     </header>
     <div className="container"  style={{marginTop: "80px", marginBottom: "80px"}}>

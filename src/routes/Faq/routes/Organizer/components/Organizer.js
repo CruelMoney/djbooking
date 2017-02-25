@@ -45,7 +45,7 @@ export default React.createClass({
                     </p>
                 </Collapsible>
                <Collapsible
-                  label="Can I talk to the DJ before paying?"> 
+                  label="Can I contact the DJ before booking?"> 
                     <p>
                         Everywhere
                     </p>

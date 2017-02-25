@@ -127,8 +127,7 @@ handleButtonClick(){
                           <img src={padlock} alt="icon"/>
                       <h2 style={{color:this.themeColor}}>Secured booking system</h2>
                       <p>
-At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money are instantly refunded. Otherwise the money are disbursed when the DJ has played at the event.              
-</p>
+At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money are instantly refunded. Otherwise the money are disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
                   </div>
                 </div>
                 <div  className="col-sm-5 col-sm-push-1">
@@ -136,8 +135,7 @@ At Cueup the process of booking ensures that both the organizer and the DJ are p
                     <img src={note} alt="icon"/>
                     <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
                     <p>
-                 At Cueup we focus on finding the most qualified DJs for your event, so you don’t have to. Don’t waste time searching for DJs when you can have offers send directly to you.  Each offer shows the DJ, their reviews and rating so you can confidently choose one. 
-                    </p>
+At Cueup we focus on finding the most qualified DJs for your event - so you don’t have to. Don’t waste time searching for DJs when you can have offers from great DJs send directly to you.  Each offer shows the DJ, their reviews and rating so you can confidently choose a DJ you can trust.                     </p>
                   </div>
                 </div>
                 </div>

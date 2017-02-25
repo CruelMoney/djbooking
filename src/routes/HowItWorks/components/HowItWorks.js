@@ -29,14 +29,12 @@ export default React.createClass({
           </div>
           <div className="container">
             <div className="row">
-            <div className="col-sm-6 col-sm-push-5">
+            <div className="col-sm-4 col-sm-push-6">
                 <h1 key="title">How it works</h1>
-                <p key="paragraph">Stripe is the best software platform for running an internet
-                  business. We handle billions of dollars every ythinking businesses around the world. thinking businesses around the world.thinking businesses around the world.ear for forward-
-                  thinking businesses around the world.
+                <p key="paragraph">The booking process at Cueup is designed to be secure and easy to use for both DJs and bookers. Learn more about the booking process below. If you have additional questions check out the faq or write us a message. 
                 </p>
             </div>
-              <div className="col-sm-4 col-sm-pull-5 particles">
+              <div className="col-sm-4 col-sm-pull-3 particles">
                 <Particles params={PConfig} width="100%" height="300px"/>
               </div>
             </div>
@@ -64,7 +62,10 @@ export default React.createClass({
                       <div className="circle">1</div>
                       <h2>Organizer creates event</h2>
                     </div>
-                    <p key="b">Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s </p>
+                    <p key="b">
+                      Organizers will send details about their event and what requirements they have. After creating an event, the most qualified djs that meet the requirements of the event will be found and asked to give an offer. 
+
+                    </p>
                   </div>
                 </div>
               </section>
@@ -73,21 +74,24 @@ export default React.createClass({
                       <div className="circle">2</div>
                       <h2>Qualified DJs return offer</h2>
                     </div>
-                    <p key="b">Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s </p>
+                    <p key="b">
+The DJs will either decline the event or specify their offer for the event. If necessary they can contact the organizer and discuss the requirements further. As soon as an offer is made, the organizer will be notified.                       </p>
               </section>
               <section>
                     <div key="a" className="how-to-title">
                       <div className="circle">3</div>
                       <h2>Organizer confirms an offer</h2>
                     </div>
-                    <p key="b">Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s </p>
+                    <p key="b">
+When the organizer receives an offer, they can confirm the offer by paying the specified amount using Cueup's build in payment system. If necessary the organizer can contact the DJ to clear up uncertainties. The offer contains information about the DJ and their cancelation policy.                      </p>
               </section>
               <section>
                     <div key="a" className="how-to-title">
                       <div className="circle">4</div>
                       <h2>DJ plays at event</h2>
                     </div>
-                    <p key="b">Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s </p>
+                    <p key="b">
+The next step is for the DJ to play the gig. If for any reason the DJ has to cancel, the full amount will be refunded instantly. If for any reason the organizer has to cancel, the amount specified by the DJ’s cancelation policy will be refunded.                       </p>
               </section>
               <section>
 
@@ -95,7 +99,9 @@ export default React.createClass({
                       <div className="circle">5</div>
                       <h2>Payout is released</h2>
                     </div>
-                    <p key="b">Stripe builds the most powerful and flexible tools for internet commerce. Whether you’re creating a subscription service, an on-demand marketplace, an e-commerce store, or a crowdfunding platform, Stripe’s meticulously-designed APIs and unmatched functionality help you create the best possible product for your users. Hundreds of thousands of the world’s </p>
+                    <p key="b">
+                      A day after the event is finished the money are transferred to the DJ’s bank account.  
+                      </p>
 
               </section>
           </div>

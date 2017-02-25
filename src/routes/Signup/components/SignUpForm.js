@@ -91,7 +91,7 @@ var signupForm = React.createClass({
           name="email"
           label="E-mail"
           active={true}
-          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          text="Your email is used to notify you whenever you get a gig or if we have some other important news. It is only shared with organizers and only when you make them an offer."
           hideOn={['FACEBOOK', 'SIGNED_IN']}
         >
           <Textfield
@@ -105,7 +105,7 @@ var signupForm = React.createClass({
           name="phone"
           label="Phone"
           active={true}
-          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          text="Your phone number is used to help organizers get in contact with you. It is only shared with organizers after you have made them an offer."
         >
           <Textfield
             big
@@ -119,7 +119,7 @@ var signupForm = React.createClass({
           name="password"
           label="Password"
           active={true}
-          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          text="Please specify a password with a minimum length of 6 characters."
           hideOn={['FACEBOOK','SOUNDCLOUD', 'SIGNED_IN']}
         >
           <Textfield
@@ -135,7 +135,7 @@ var signupForm = React.createClass({
           name="name"
           label="Name"
           active={true}
-          text="Please enter your first and last name. It is important that the given information is correct. Otherwise you can't receive your payment."
+          text="Please enter your first and last name. It is important that the given information is correct. Otherwise you can't receive payments."
           hideOn={['FACEBOOK']}
         >
           <Textfield
@@ -151,9 +151,8 @@ var signupForm = React.createClass({
           name="bday"
           label="Birthday"
           active={true}
-          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          text="Please specify your birthday."
           hideOn={['FACEBOOK']}
-
         >
 
           <Textfield
@@ -172,7 +171,7 @@ var signupForm = React.createClass({
           name="location"
           label="Location"
           active={true}
-          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          text="Tell us what city you want to play in. You will be offered gigs in a radius of 25 km around the city, but you can always change both this and the city in your preferences."
         >
 
           <LocationSelectorSimple
@@ -189,7 +188,7 @@ var signupForm = React.createClass({
           name="genres"
           label="Genres"
           active={true}
-          text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quia tempore perspiciatis excepturi rem magnam! Iste explicabo, quod eligendi tenetur vero non atque sit architecto earum ad error reiciendis et."
+          text="What genres do you wan't to play? You can always change this in your preferences."
         >
 
           <ToggleButtonHandler

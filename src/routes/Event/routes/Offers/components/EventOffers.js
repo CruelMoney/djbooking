@@ -37,6 +37,14 @@ var EventOffers = React.createClass({
           <div>
             {this.props.offers.length ?
               <div className="row event-information">
+                <div className="col-lg-12">
+                  <p>
+                    Keep in mind that quality often follows price.
+                  </p>
+                  <p>
+                    You can always contact the DJ to discuss the price. If a DJ updates the price it will be shown here.
+                  </p>
+                </div>
                   <div className="col-sm-6 ">
                     {left}
                   </div>
