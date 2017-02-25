@@ -85,7 +85,7 @@ var Review = React.createClass({
                       height="100px"
                       name="description"
                       value={this.props.review.description ? this.props.review.description : ""}
-                      placeholder="Optionally tell us how you liked the DJ!"
+                      placeholder="Optionally tell us how the DJ performed."
                     />
 
                   </div>

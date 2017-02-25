@@ -42,7 +42,7 @@ var EventOffers = React.createClass({
                     <p style={{textAlign:"center"}}>
                       Keep in mind that quality often follows price.
                     </p>
-                    <p style={{textAlign:"center"}}>
+                    <p style={{textAlign:"center", marginBottom: "20px"}}>
                       You can always contact the DJ to discuss the price. If a DJ updates the price it will be shown here.
                     </p>
                   </div>
@@ -58,7 +58,7 @@ var EventOffers = React.createClass({
               </div>
               :
               <EmptyPage message={<div style={{marginBottom:"180px"}}>The DJs are currently creating offers for you.<br/>
-              You will be notified whenever there's new offers.</div>}/>
+              You will be notified whenever there's a new offer.</div>}/>
             }
           </div>
 

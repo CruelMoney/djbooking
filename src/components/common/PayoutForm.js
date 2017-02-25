@@ -193,7 +193,7 @@ var payoutForm = React.createClass({
                   type="number"
                   maxLength="10"
                   fullWidth={false}
-                  placeholder="CPR-number ddmmyyxxxx"
+                  placeholder="CPR-number"
                   underlineDisabledStyle={styles.plainBorder}
                   underlineStyle={styles.dottedBorderStyle}
                 />

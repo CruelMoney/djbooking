@@ -2,6 +2,7 @@ import React from 'react';
 import Footer from '../../../components/common/Footer'
 import { Link } from 'react-router';
 import chrisPic from '../../../assets/chris.jpg'
+import martinPic from '../../../assets/martin.jpg'
 
 export default React.createClass({
   themeColor:"#25F4D2",
@@ -23,17 +24,27 @@ export default React.createClass({
           </div>
           <div style={{marginBottom:"100px"}} className="row">
             <div className="col-sm-2"></div>
-            <div className="people col-sm-4">
+            <div className="col-sm-4">
              <h2 style={{marginBottom:"10px"}}>PEOPLE</h2>
-             <div className="person">
+             <div className="people">
+              <div className="person">
                <a href="https://twitter.com/ChrisDengso">
                  <div className="person-img" style={{backgroundImage: "url(" + chrisPic +")"}}></div>
                </a>
                <a href="https://twitter.com/ChrisDengso">@ChrisDengso</a>
-               <div className="person-info">Founder</div>
+               <div className="person-info">Founder & Developer</div>
+             </div> 
+             <div className="person">
+               <a href="https://www.mdadigital.dk/">
+                 <div className="person-img" style={{backgroundImage: "url(" + martinPic +")"}}></div>
+               </a>
+               <a href="https://www.instagram.com/moremartindahl/">@MoreMartinDahl</a>
+               <div className="person-info">Marketing</div>
              </div>
-            </div>
-          
+             </div>
+             
+        </div>
+
             <div className="col-sm-4">
              <h2 style={{marginBottom:"10px"}}>COMPANY</h2>
                 <p>CPH SOUND IVS</p>

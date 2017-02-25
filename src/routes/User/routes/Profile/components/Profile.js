@@ -128,7 +128,7 @@ var Profile = React.createClass({
               :
               <div>
                 <div className="profile">
-                  <TextWrapper label="Name" text="What's your full name. We only share your first name.">
+                  <TextWrapper label="Name" text="Your full name. We only share your first name.">
                     <TextField
                       value={this.props.profile.name}
                       name="name"
@@ -137,7 +137,7 @@ var Profile = React.createClass({
                       validate={['required', 'lastName']}
                     />
                   </TextWrapper>
-                  <TextWrapper label="E-mail" text="We wont share your email until you agree to play a gig. Updating your mail means you have to confirm it again.">
+                  <TextWrapper label="E-mail" text="Updating your email means you have to confirm it again.">
                     <TextField
                       value={this.props.profile.email}
                       name="email"
@@ -147,7 +147,7 @@ var Profile = React.createClass({
                     />
                   </TextWrapper>
 
-                  <TextWrapper label="Phone" text="We wont share your phone number until you agree to play a gig.">
+                  <TextWrapper label="Phone" text={"We only share your number with " + isDJ ? "organizers of events you have accepted." : "DJs qualified for your events."}>
                     <TextField
                       validate={['required']}
                       name="phone"
@@ -158,7 +158,7 @@ var Profile = React.createClass({
                   </TextWrapper>
 
                   {isDJ
-                    ? <TextWrapper label="Genres" text="Select your genres">
+                    ? <TextWrapper label="Genres" text="The genres you would like to play.">
                       <Genres
                         name="genres"
                         validate={['required']}
@@ -171,7 +171,7 @@ var Profile = React.createClass({
                   }
 
                   {isDJ
-                    ? <TextWrapper label="Bio" text={this.props.profile.firstName + ", tell us a little bit of your story."}>
+                    ? <TextWrapper label="Bio" text={this.props.profile.firstName + ", please tell us a bit about yourself. What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?"}>
                       <TextBox
                         validate={['required']}
                         width="100%"
@@ -191,7 +191,7 @@ var Profile = React.createClass({
 
 
                   {isDJ
-                    ? <TextWrapper label="Location" text={this.props.profile.firstName + ", tell us where youd like to play."}>
+                    ? <TextWrapper label="Location" text={this.props.profile.firstName + ", please tell us where you would like to play."}>
                       <Map
                         radius={this.props.profile.playingRadius}
                         value={this.props.profile.playingLocation}

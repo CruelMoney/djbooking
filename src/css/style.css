@@ -2889,12 +2889,18 @@ table td{
   text-align: center;
 }
 .about-content h1{
-  font-family: SourceSansPro-Light;
+  font-
+  family: SourceSansPro-Light;
+}
+.people{
+    display: flex;
+    justify-content: center;
 }
 .person{
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0 10px;
 }
 .person a{
   color: #32325D;

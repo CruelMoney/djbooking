@@ -80,7 +80,7 @@ handleButtonClick(){
                 <QueueAnim key="1">
                   <h1 key="title">Book qualified DJs with ease.</h1>
                   <p key="paragraph">
-                    Cueup is the easiest way for you to get a great DJ for your event. Select the event date and fill out the form below. Then the most qualified DJs will be chosen and asked to leave you an offer within your budget. Afterwards you are free to choose between the offers, discuss the price or decline the offers.
+                    Cueup is the easiest way for you to get a great DJ for your event. Select the date of the event and fill out the form below. Then the most qualified DJs will be chosen and asked to leave you an offer within your budget. Afterwards you are free to choose between the offers, discuss the price or decline the offers.
                   </p>
                 </QueueAnim>
               </div>
