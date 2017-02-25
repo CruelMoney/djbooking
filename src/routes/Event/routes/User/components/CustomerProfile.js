@@ -55,7 +55,7 @@ var Profile = React.createClass({
                       value={this.props.event.contactName} name="contactName"
                       validate={['required']} />
                   </TextWrapper>
-                  <TextWrapper label="E-mail" text="We only share your email with qualified dj's. Login to change email.">
+                  <TextWrapper label="E-mail" text="We only share your email with qualified DJs. Login to change email.">
                     <TextField value={this.props.event.contactEmail} name="email"
                       type="email" validate={['required', 'email']}
                       disabled
@@ -63,7 +63,7 @@ var Profile = React.createClass({
 
                   </TextWrapper>
 
-                  <TextWrapper label="Phone" text="We only share your phone number with qualified dj's">
+                  <TextWrapper label="Phone" text="We only share your phone number with qualified DJs">
                     <TextField name="contactPhone" value={this.props.event.contactPhone}
                       type="tel"
                     />

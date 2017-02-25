@@ -148,7 +148,10 @@ getInitialState(){
             <TextWrapper
               label="Pay"
               showLock={true}
-              text={this.props.paymentPossible ? "All information is encrypted." : "The offer can be confirmed and paid up to 28 days before the event. To get notified by email click notify."}>
+              text={this.props.paymentPossible ?
+               "Please enter payment information below. In case of cancelation by the DJ all money will be refunded. All information is encrypted. " 
+               : 
+               "The offer can be confirmed and paid up to 28 days before the event. To get notified by email click notify."}>
             </TextWrapper>
             </div>
 
@@ -288,7 +291,7 @@ getInitialState(){
           </div>
            <div style={{marginTop:"20px"}} className="row">
             <div className="col-md-7">
-              <p className="terms_link">By clicking confirm you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a></p>
+              <p className="terms_link">By clicking confirm you agree to our <a target="_blank" href="/terms/agreements">terms and conditions, and the cancelation policy specified by the DJ.</a></p>
             </div>
           </div>
           <div className="row">

@@ -36,15 +36,18 @@ var EventOffers = React.createClass({
         return (
           <div>
             {this.props.offers.length ?
-              <div className="row event-information">
-                <div className="col-lg-12">
-                  <p>
-                    Keep in mind that quality often follows price.
-                  </p>
-                  <p>
-                    You can always contact the DJ to discuss the price. If a DJ updates the price it will be shown here.
-                  </p>
+            <div>
+             <div className="row">
+                  <div className="col-lg-12">
+                    <p>
+                      Keep in mind that quality often follows price.
+                    </p>
+                    <p>
+                      You can always contact the DJ to discuss the price. If a DJ updates the price it will be shown here.
+                    </p>
+                  </div>
                 </div>
+              <div className="row event-information">
                   <div className="col-sm-6 ">
                     {left}
                   </div>
@@ -52,8 +55,9 @@ var EventOffers = React.createClass({
                     {right}
                   </div>
               </div>
+              </div>
               :
-              <EmptyPage message={<div style={{marginBottom:"180px"}}>The djs are currently creating offers for you.<br/>
+              <EmptyPage message={<div style={{marginBottom:"180px"}}>The DJs are currently creating offers for you.<br/>
               You will be notified whenever there's new offers.</div>}/>
             }
           </div>
