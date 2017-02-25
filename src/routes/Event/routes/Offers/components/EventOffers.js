@@ -39,10 +39,10 @@ var EventOffers = React.createClass({
             <div>
              <div className="row">
                   <div className="col-lg-12">
-                    <p>
+                    <p style={{textAlign:"center"}}>
                       Keep in mind that quality often follows price.
                     </p>
-                    <p>
+                    <p style={{textAlign:"center"}}>
                       You can always contact the DJ to discuss the price. If a DJ updates the price it will be shown here.
                     </p>
                   </div>
