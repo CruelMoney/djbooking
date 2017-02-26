@@ -1,6 +1,9 @@
 module.exports = {
   path: 'event/:id/:hash',
 
+  onEnter: () =>  document.title = "Event | Cueup",
+
+
   getIndexRoute(partialNextState, cb) {
     require.ensure([], function (require) {
       cb(null, {

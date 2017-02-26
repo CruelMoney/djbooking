@@ -169,7 +169,7 @@ class MobileMenu extends React.Component {
                 null
               ) : (
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  buttonLook={true} to="/signup" label="Become a DJ" important={true}/>
+                  <Navlink onClick={()=>this.handleClose()}  buttonLook={true} to="/signup" label="Become DJ" important={true}/>
                 </li>
               )}
               {this.props.loggedIn ? (
