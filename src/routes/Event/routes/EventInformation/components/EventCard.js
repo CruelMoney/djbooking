@@ -36,7 +36,7 @@ var Event = React.createClass({
     },
 
     componentWillMount() {
-      console.log("MOunting eventcard");
+        document.title = this.props.event.name + " | Cueup"
         this.setState({guests: this.props.event.guestsCount})
     },
 

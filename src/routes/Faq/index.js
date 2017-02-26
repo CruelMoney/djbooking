@@ -1,5 +1,6 @@
 module.exports = {
   path: 'faq',
+  onEnter: () => document.title = "FAQ | Cueup",
 
   getChildRoutes(partialNextState, cb) {
     require.ensure([], (require) => {

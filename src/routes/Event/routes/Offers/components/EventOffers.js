@@ -7,6 +7,8 @@ var EventOffers = React.createClass({
 
 
   componentWillMount(){
+    document.title = this.props.eventName + " | Offers"
+
     var daysUntil = (this.props.eventDate.getTime() - Date.now())/(24*3600*1000)
 
     this.setState({
@@ -72,6 +74,7 @@ function mapDispatchToProps(dispatch, ownProps){
 }
 function mapStateToProps(state, ownProps) {
   return {
+    eventName: state.events[0].name,
     offers:  state.events.values[0].offers,
     eventDate: state.events.values[0].startTime
   }

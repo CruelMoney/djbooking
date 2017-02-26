@@ -27,6 +27,7 @@ var user = React.createClass({
   },
 
   componentWillMount(){
+    document.title = this.props.profile.firstName + " | Cueup"
 
     if (!this.props.profile.email_verified) {
       this.setState({notification:"You won't receive any gigs before you have confirm your email-address."})

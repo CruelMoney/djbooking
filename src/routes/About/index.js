@@ -1,5 +1,6 @@
 module.exports = {
   path: 'about',
+  onEnter: () =>  document.title = "About | Cueup",
 
   getComponent(nextState, cb) {
     require.ensure([], (require) => {

@@ -17,6 +17,8 @@ var Review = React.createClass({
   },
 
   componentWillMount() {
+    document.title = this.props.event.name + " | Review"
+
     this.setState({
       editable : this.props.review ? false : true
     })

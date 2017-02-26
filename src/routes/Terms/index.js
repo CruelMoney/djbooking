@@ -1,5 +1,6 @@
 module.exports = {
   path: 'terms',
+  onEnter: () =>  document.title = "Terms & Conditions | Cueup",
 
   getIndexRoute(partialNextState, callback) {
     require.ensure([], function (require) {

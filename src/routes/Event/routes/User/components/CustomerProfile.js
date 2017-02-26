@@ -15,6 +15,10 @@ var Profile = React.createClass({
         save: PropTypes.func,
     },
 
+    componentWillMount(){
+          document.title = this.props.event.name + " | Contact information"
+    },
+
     getInitialState(){
       return{
         formValid: false
