@@ -74,7 +74,7 @@ function mapDispatchToProps(dispatch, ownProps){
 }
 function mapStateToProps(state, ownProps) {
   return {
-    eventName: state.events[0].name,
+    eventName: state.events.values[0].name,
     offers:  state.events.values[0].offers,
     eventDate: state.events.values[0].startTime
   }
