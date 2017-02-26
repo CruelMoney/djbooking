@@ -17,7 +17,7 @@ var Review = React.createClass({
   },
 
   componentWillMount() {
-    document.title = this.props.event.name + " | Review"
+    document.title = this.props.eventName + " | Review"
 
     this.setState({
       editable : this.props.review ? false : true
@@ -105,6 +105,7 @@ var Review = React.createClass({
     let event = state.events.values[0]
     let offer = event.offers.filter(o=>o.gigID === event.chosenOfferId)[0]
     return {
+      eventName: event.name,
       dj: offer.dj,
       eventId: event.id,
       hashKey: event.hashKey,
