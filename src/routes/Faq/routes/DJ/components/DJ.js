@@ -18,93 +18,102 @@ export default React.createClass({
         >
              <Collapsible
                   label="How much does it cost?" 
-                 
                 > 
                 <p>
-                    LASIK, or “laser-assisted in situ keratomileusis,” is the most common refractive surgery procedure. Refractive surgeries, including LASIK, reshape the cornea to correct distorted vision often eliminating the need for glasses or contacts.
-
-                  Higher-order aberrations are visual problems not captured in a traditional eye exam. In a young healthy eye, the level of higher-order aberrations are typically low and insignificant. Concern has long plagued the tendency of refractive surgeries to induce higher-order aberration not correctible by traditional contacts or glasses. The advancement of lasik technique and technologies has helped eliminate the risk of clinically significant visual impairment after the surgery.
-
-                  The following are some of the more frequently reported complications of LASIK:
-
-                  1. Dry eyes
-
-                  2. Overcorrection or undercorrection
+                   The membership at Cueup is free of charge. 
                   </p>
                 </Collapsible>
                 <Collapsible
                   label="How much can I earn?"> 
                     <p>
-                        Everywhere
+                        You set your own prices, so that is entirely up to you. We will do all we can to get you as many gigs as possible.
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="Where can I play?"> 
                     <p>
-                        Everywhere
+                        Technically you can play in the whole world.
+                        At the moment we are focused on growing in Denmark. 
+                        Therefore the prices are in DKK, but at a later point it will be possible to choose between different currencies. 
+                        
                     </p>
                 </Collapsible>
                 <Collapsible
-                  label="Can I talk to the organizer before paying?"> 
+                  label="Can I talk to the organizer before playing?"> 
                     <p>
-                        Everywhere
+                        Yes. 
+                        As soon as you receive a request to make an offer, 
+                        you can contact the organizer on either email or phone.
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="What if the organizer cancels the event?"> 
                     <p>
-                        Everywhere
+                        If the organizer cancels an event where you have been confirmed to play, the organizer will be refunded in regards to your cancelation policy.
+                        You can set your own cancelation policy in your preferences specifying how many percentages are refunded to the organizer if he cancels.
+                        After the organizer has cancelled, the rest of the money will be transferred to your bank account.
                     </p>
                 </Collapsible>
                 <Collapsible
                 label="What if I cancel the gig?"> 
                   <p>
-                      Everywhere
+                      If you cancel a confirmed gig, all the money will be refunded to the organizer immediately. 
                   </p>
               </Collapsible>
               <Collapsible
                 label="What to do if the organizer want's to pay under the table?"> 
                   <p>
-                      Everywhere
+                      If the organizer asks if he can pay in another way than using Cueup, you should refuse. 
+                      The payment process at Cueup ensures safety for both you and the organizer. 
+                      If the event is not paid through Cueup, it won't count as an experience, and you can't get a rating for that event thus lowering your trustworthiness.
+                      When a organizer sees your offer, the experience will be showed alongside and it will help justify a higher price if you have played at more events.
+                      To see an example of what the organizer sees, go to your profile and select "price offer example". 
                   </p>
               </Collapsible>
                 <Collapsible
                   label="Does the organizer always choose the cheapest offer?"> 
                     <p>
-                        Everywhere
+                        The organizer will be able to see many things in addition to the price you have set. 
+                        For example having a good description of yourself often helps getting the gig.
+                        Your experience will also be shown and will help you justify a higher price if you have played at more events.
+                        <br/>
+                        <br/>
+                        When setting a price for your offer, an additional fee is added to to price to help us run the platform.
+                        This fee is a calculated percentage of your price where the percentage is higher for a small offer and lower for a large offer.
+                        <br/>
+                        <br/>
+                        A simplified example is an offer on 1000 kr. that could have a service fee of 10% equal to 100 kr.,
+                        whereas an offer on 10.000 kr. could have a service fee of 5% equal to 500kr.
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="Can my own customers pay through Cueup?"> 
                     <p>
-                        Everywhere
+                        At the moment there is no way to refer your own customers to pay through Cueup.
+                        It is a very high priority to add this functionality. 
+                        When referring your own customer the service fee will be at the lowest possible percentage.
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="How quickly do I get my money?"> 
                     <p>
-                        Everywhere
+                        When you have played a gig, the transfer to your bankaccount will be made a day after the event is finished.
+                        Depending on the bank you are using, the transfer can take up to a week. 
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="Does Cueup pay my taxes?"> 
                     <p>
-                        Everywhere
+                        Currently Cueup does not pay any of the taxes you have to pay when. 
+                        In the near future this functionality will be added. 
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="Is my profile public?"  
                 > 
                 <p>
-                    LASIK, or “laser-assisted in situ keratomileusis,” is the most common refractive surgery procedure. Refractive surgeries, including LASIK, reshape the cornea to correct distorted vision often eliminating the need for glasses or contacts.
-
-                  Higher-order aberrations are visual problems not captured in a traditional eye exam. In a young healthy eye, the level of higher-order aberrations are typically low and insignificant. Concern has long plagued the tendency of refractive surgeries to induce higher-order aberration not correctible by traditional contacts or glasses. The advancement of lasik technique and technologies has helped eliminate the risk of clinically significant visual impairment after the surgery.
-
-                  The following are some of the more frequently reported complications of LASIK:
-
-                  1. Dry eyes
-
-                  2. Overcorrection or undercorrection
+                    No. Only you can see the page you see when logged in.
+                    To see an example of what the organizer sees, go to your profile and select "price offer example". 
                   </p>
                 </Collapsible>
               </CollapsibleContainer>

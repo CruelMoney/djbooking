@@ -11,11 +11,13 @@ export default React.createClass({
     return (
       <div className="">
         <div className="about-content container">
-          <div style={{marginBottom:"30px"}} className="row">
-            <div className="col-md-12">
+          <div style={{marginBottom:"100px"}} className="row">
+            <div className="col-md-2"></div>
+            <div className="col-md-8">
               <h1>About Cueup</h1>
               <p style={{marginBottom:"30px"}}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt necessitatibus, tempore ad, voluptatibus sint ipsa quod suscipit impedit enim eligendi nam quis voluptatem minima ex earum odit nobis officia fugit?
+                Cueup is the easiest way to book a DJ for your event. <br/>
+                We are all about making sure both DJs and organizers are satisfied.
               </p>
               <p className="terms_link">Have questions? Read the <a target="_blank" href="/faq/dj">FAQ</a></p>
               <p className="terms_link">By using Cueup, you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a></p>
@@ -39,7 +41,7 @@ export default React.createClass({
                  <div className="person-img" style={{backgroundImage: "url(" + martinPic +")"}}></div>
                </a>
                <a href="https://www.instagram.com/moremartindahl/">@MoreMartinDahl</a>
-               <div className="person-info">Marketing</div>
+               <div className="person-info">Marketing & Media</div>
              </div>
              </div>
              

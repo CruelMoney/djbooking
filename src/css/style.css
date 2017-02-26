@@ -2914,6 +2914,11 @@ table td{
     display: inline-block;
     border: 2px solid #fff;
     margin-bottom: .2em;
+    filter: grayscale(100%);
+    transition: filter 0.5s;
+}
+.person-img:hover{
+  filter: none;
 }
 
 .rc-slider {

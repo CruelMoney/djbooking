@@ -56,7 +56,10 @@ class app extends React.Component {
 
         return  ( <Router
           routes={routes}
-          onUpdate={(e) => {window.scrollTo(0, 0)}}
+          onUpdate={(e) => {
+            if(!window.location.hash){
+            window.scrollTo(0, 0)}}
+            }
           history={browserHistory}
                   />)
       }
