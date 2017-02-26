@@ -12,8 +12,8 @@ export default React.createClass({
       <div className="">
         <div className="about-content container">
           <div style={{marginBottom:"100px"}} className="row">
-            <div className="col-md-2"></div>
-            <div className="col-md-8">
+            <div className="col-sm-2"></div>
+            <div className="col-sm-8">
               <h1>About Cueup</h1>
               <p style={{marginBottom:"30px"}}>
                 Cueup is the easiest way to book a DJ for your event. <br/>
@@ -25,8 +25,8 @@ export default React.createClass({
             </div>
           </div>
           <div style={{marginBottom:"100px"}} className="row">
-            <div className="col-sm-2"></div>
-            <div className="col-sm-4">
+            <div className="col-md-2"></div>
+            <div className="col-md-4">
              <h2 style={{marginBottom:"10px"}}>PEOPLE</h2>
              <div className="people">
               <div className="person">
@@ -47,7 +47,7 @@ export default React.createClass({
              
         </div>
 
-            <div className="col-sm-4">
+            <div className="col-md-4">
              <h2 style={{marginBottom:"10px"}}>COMPANY</h2>
                 <p>CPH SOUND IVS</p>
                 <p>CVR: 37237515</p>

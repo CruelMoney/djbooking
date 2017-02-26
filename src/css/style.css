@@ -2509,6 +2509,9 @@ left: 50%;
   .header-divider{
     width: 95%;
   }
+  .terms-navigation{
+    display: flex;
+  }
 
 }
 /* TABLET END*/
@@ -2525,6 +2528,11 @@ left: 50%;
   
   #content {
     margin-top: 0px;
+  }
+  .location_about #content,
+  .location_faq #content,
+  .location_terms #content{
+    margin-top: 50px;
   }
 
   h1,
@@ -2724,6 +2732,9 @@ table td{
   margin-right: 5px;
   min-width: 100px;
 }
+.terms-navigation  .button-wrapper:last-child{
+  margin-right: 0px;
+}
 .navigation{
   height: 60px;
 }
@@ -2851,6 +2862,9 @@ table td{
 .request-form-wrapper{
   margin-top: 0;
 }
+.terms-navigation{
+    display: flex;
+  }
 }
 /* Mobile END */
 
