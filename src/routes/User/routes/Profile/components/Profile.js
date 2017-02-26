@@ -146,7 +146,7 @@ var Profile = React.createClass({
                     />
                   </TextWrapper>
 
-                  <TextWrapper label="Phone" text={"We only share your number with " + isDJ ? "organizers of events you have accepted." : "DJs qualified for your events."}>
+                  <TextWrapper label="Phone" text={"We only share your number with " + (isDJ ? "organizers of events you have accepted." : "DJs qualified for your events.")}>
                     <TextField
                       validate={['required']}
                       name="phone"

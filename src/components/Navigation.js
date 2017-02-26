@@ -124,7 +124,7 @@ var menu = React.createClass({
 
          
 
-              {(this.props.loggedIn && this.props.profile.isDJ) ? (
+              {(this.props.loggedIn) ? (
                   null
                 ) : (
                   <li>
