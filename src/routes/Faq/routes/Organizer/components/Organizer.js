@@ -21,81 +21,87 @@ export default React.createClass({
                   label="How much does it cost?"  
                 > 
                 <p>
-                    LASIK, or “laser-assisted in situ keratomileusis,” is the most common refractive surgery procedure. Refractive surgeries, including LASIK, reshape the cornea to correct distorted vision often eliminating the need for glasses or contacts.
-
-                  Higher-order aberrations are visual problems not captured in a traditional eye exam. In a young healthy eye, the level of higher-order aberrations are typically low and insignificant. Concern has long plagued the tendency of refractive surgeries to induce higher-order aberration not correctible by traditional contacts or glasses. The advancement of lasik technique and technologies has helped eliminate the risk of clinically significant visual impairment after the surgery.
-
-                  The following are some of the more frequently reported complications of LASIK:
-
-                  1. Dry eyes
-
-                  2. Overcorrection or undercorrection
+                    At Cueup the DJs set their own prices, therefore we can't guarentee finding a DJ within your budget. 
+                    It will help a lot if you write what your budget is when posting the event. 
+                    <br/>
+                    In addition to the price offered by the DJ, a service fee will be added. 
+                    This service fee is what keeps the platform running. 
+                    The fee will range between 3% and 12% of the DJs offer, and is calculated primarily based on the original price set by the DJ. 
                   </p>
                 </Collapsible>
                 <Collapsible
                   label="Is it safe?"> 
                     <p>
-                        Everywhere
+                        The booking process at Cueup is very safe. 
+                        When choosing between offers from the DJs, you can see previous reviews, their average rating and pictures. 
+                        That way you can choose a DJ that you trust. 
+                        <br/>
+                        In the case that a DJ cancels all your money will be refunded. 
+                        If you are not satisfied for some other reason, please contact us and we will do our best to help your case.
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="Where are the DJs available?"> 
                     <p>
-                        Everywhere
+                        DJs can be located all over the world, but currently we are focusing on growing in Denmark.
+                        When posting an event, you will get notified if no DJs could be found in the area. 
                     </p>
                 </Collapsible>
                <Collapsible
                   label="Can I contact the DJ before booking?"> 
                     <p>
-                        Everywhere
+                        Yes. When receiving an offer, you get the contact information for the DJ, including email and phone number.
+                        You can then contact the DJ to discuss the price for example.  
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="What if the DJ cancels?"> 
                     <p>
-                        Everywhere
+                        If the DJ cancels all your money will be refunded. 
+                        Then we will do our best to get you a new DJ as quickly as possible.
+                        If you had multiple offers before confirming the DJ, you will be able to choose and confirm a new DJ. 
                     </p>
                 </Collapsible>
                 <Collapsible
                 label="What if I cancel the event?"> 
                   <p>
-                      Everywhere
+                      If you cancel the event, your money will be refunded in regards to the DJs cancelation policy. 
+                      An example of a cancelation policy would be a 50% refund if cancelled less than 2 days before event, otherwise 100% refund.
                   </p>
               </Collapsible>
                   <Collapsible
                   label="What happens if the DJ does not show up?"> 
                     <p>
-                        Everywhere
+                        If the DJ does not show up, contact us immediately and we will try to find a solution.
+                        All money will be refunded if the DJ does not show up.   
                     </p>
                 </Collapsible>
               <Collapsible
                 label="What to do if the DJ want's to get paid under the table?"> 
                   <p>
-                      Everywhere
+                      If the DJ asks if you can pay in another way than using Cueup, you should refuse. 
+                      The payment process at Cueup ensures safety for both you and the DJ. 
+                      If the event is not paid through Cueup, we won't be able to help you if a DJ cancels.
                   </p>
               </Collapsible>
                 <Collapsible
                   label="How many offers do I get?"> 
                     <p>
-                        Everywhere
-                    </p>
-                </Collapsible>
-                <Collapsible
-                  label="Can I contact a DJ directly?"> 
-                    <p>
-                        Everywhere
+                        We aim to give you 3 offers but you might get up to 5. 
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="The money has not been charged from my card yet?"> 
                     <p>
-                        Everywhere
+                        It can be up to seven days for the charge to appear. 
+                        If you have received an email confirming the charge, and the event is marked as confirmed, the DJ has been confirmed succesfully.
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="Can I change the location of my event?"> 
                     <p>
-                        Everywhere
+                        No. In case that the location changes, remember to tell the DJ. 
+                        If the DJ is not able to play at the new location, you'll have to cancel the event and post a new event at the new location.
                     </p>
                 </Collapsible>
               </CollapsibleContainer>

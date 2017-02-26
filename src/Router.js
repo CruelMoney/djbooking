@@ -60,8 +60,8 @@ class app extends React.Component {
             if(!window.location.hash){
             window.scrollTo(0, 0)}}
             }
-          history={browserHistory}
-                  />)
+            history={browserHistory}
+           />)
       }
 }
 
