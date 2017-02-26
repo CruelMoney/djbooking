@@ -22,6 +22,7 @@ export default React.createClass({
         <span className="white"/>
         <span/>
       </div>
+      <div className="container">
       <div className="row center-xs"> 
         <div className="col-xs-12">
             <h1 className="Header-title common-PageTitle">
@@ -31,6 +32,7 @@ export default React.createClass({
                </span>
               </h1>
              
+        </div>
         </div>
         </div>
       <div className="container">
@@ -47,7 +49,7 @@ export default React.createClass({
               <p style={{color:"#32325D"}}>
                 At Cueup you don't have to pay anything to start getting gigs. 
                 In fact you don't have to pay anything at anytime. 
-                For each gig you play a service fee will be added to the price you have offered, and in that way the event organizers pay to keep the platform running.
+                For each gig you play, a service fee will be added to the price you have offered. That's how the organizers pay to keep the platform running.
                 To get started - just sign up below.
               </p>
             </div>

@@ -71,6 +71,7 @@ export default React.createClass({
         <div style={{transition: "opacity 0.3s", opacity: finished ? 1 : 0}}>
           <SubmitButton
             active
+            disabled={!finished}
             name="request_djs_button"
             onClick={this.onSubmit}
             glow
