@@ -2955,3 +2955,11 @@ table td{
 .rc-slider-handle{
   border-color: inherit !important;
 }
+
+.terms p{
+  font-size:14px;
+}
+.terms a{
+    text-decoration: underline;
+    color: #2d2d2d;
+}

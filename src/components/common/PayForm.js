@@ -291,7 +291,7 @@ getInitialState(){
           </div>
            <div style={{marginTop:"20px"}} className="row">
             <div className="col-md-7">
-              <p className="terms_link">By clicking confirm you agree to our <a target="_blank" href="/terms/agreements">terms and conditions, and the cancelation policy specified by the DJ.</a></p>
+              <p className="terms_link">By clicking confirm you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>, and the cancelation policy specified by the DJ.</p>
             </div>
           </div>
           <div className="row">
