@@ -57,7 +57,6 @@ const deletedUser={
     var settings ={
 
       fromDTO:function(DTO, isDj, isCustomer){
-        console.log(DTO);
         return {...DTO, emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer)}
       },
       toDTO:function(settings){
@@ -167,7 +166,6 @@ const deletedUser={
       },
       //The API will automatically assign the rest of the review properties
       toDTO(review){
-        console.log(review);
         return{
         description: review.description,
         rating: review.rating,

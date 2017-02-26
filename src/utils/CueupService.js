@@ -5,7 +5,6 @@ export default class CueupService {
                     : process.env.REACT_APP_CUEUP_DEV_DOMAIN
 
         this.getHeaders = function(token) {
-          console.log(token);
             var headers = new Headers();
             headers.append('Accept', 'application/json');
             headers.append("Content-Type", "application/json");
@@ -16,11 +15,9 @@ export default class CueupService {
             return {method: 'GET', headers: headers};
         }
         this.postInit = function(data, headers) {
-          console.log(JSON.stringify(data));
             return {method: 'POST', headers: headers, body: JSON.stringify(data)};
         }
         this.putInit = function(data, headers) {
-          console.log(JSON.stringify(data));
             return {method: 'PUT', headers: headers, body: JSON.stringify(data)};
         }
         this.deleteInit = function(headers) {
@@ -44,7 +41,6 @@ export default class CueupService {
                 return callback(null, "ok")
             }
         } else {
-            console.log(response);
             //The case that Network response was not ok
             response.json().then(function(result) {
                 return callback({message:result.message}, null)
@@ -58,7 +54,6 @@ export default class CueupService {
         .then(function(response) {
           return self.responseHandling(response, callback);
       }).catch(function(error) {
-          console.log(error);
           callback(error)
       });
     }
@@ -196,7 +191,6 @@ export default class CueupService {
       )}
 
     cancelGig(token, id, callback){
-      console.log(id);
       return this.fetchHandling(
         `${this.domain}/api/gig/${id}/cancel`,
         this.getInit(this.getHeaders(token)),

@@ -50,7 +50,6 @@ export function date(value) {
 
 export function validateCardNumber(number){
    number = number.replace(/\s/g,'')
-   console.log(number);
    return !stripe.validateCardNumber(number) ? ['The card number is not valid'] : []
 }
 
@@ -80,7 +79,6 @@ export function validateAccountNumberDKK(num){
 export function validateDKSSN(num){
   try {
     var ssn = cpr(num)
-    console.log(ssn)
     return ssn.valid ? [] : ["The CPR is invalid"]
   } catch (error) {
     return [error.message] 

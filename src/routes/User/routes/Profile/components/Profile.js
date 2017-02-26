@@ -43,7 +43,6 @@ var Profile = React.createClass({
         ...this.props.profile,
         ...form.values
       }
-      console.log(profile);
 
       this.props.save(profile, callback)
     },

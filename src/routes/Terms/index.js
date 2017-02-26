@@ -4,7 +4,6 @@ module.exports = {
 
   getIndexRoute(partialNextState, callback) {
     require.ensure([], function (require) {
-      console.log(require('./routes/Agreements'))
       callback(null, {
         component: require('./routes/Agreements'),
       })

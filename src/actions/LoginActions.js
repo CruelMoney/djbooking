@@ -95,7 +95,6 @@ export function checkForLogin(redirect = null){
               profile: user
             }}())
            if (redirect) {
-            console.log("redirecting!");
             browserHistory.push(redirect) }
         })
         }})

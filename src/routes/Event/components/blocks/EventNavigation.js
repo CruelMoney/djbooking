@@ -9,7 +9,6 @@ var eventNavigation = React.createClass({
   },
 
    componentWillUnmount(){
-     console.log("unmounting")
     this.removeNavigationItems()
   },
 

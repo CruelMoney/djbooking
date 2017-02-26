@@ -144,7 +144,6 @@ export function reviewEvent(id, hash, review, callback) {
   var self= this
   return function(dispatch){
   var data = converter.review.toDTO(review);
-  console.log(data);
   const token = auth.getToken()
   cueup.reviewEvent(token, id, hash, data, function(err, result){
     if (err) {
