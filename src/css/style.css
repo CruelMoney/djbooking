@@ -2626,7 +2626,7 @@ left: 50%;
   }
 
   .progrezz-wrapper{
-    height: 1730px;
+    height: 1770px;
     width: 100%;
     position: absolute;
     /* margin-bottom: 100px; */
@@ -2649,7 +2649,7 @@ left: 50%;
   }
   .progrezz > .circle:nth-child(2)
   {
-    margin-top: 435px;
+    margin-top: 475px;
   }
 
 .progrezz-wrapper .button-wrapper{
