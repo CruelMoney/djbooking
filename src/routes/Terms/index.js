@@ -1,6 +1,6 @@
 module.exports = {
   path: 'terms',
-  onEnter: () =>  document.title = "Terms & Conditions | Cueup",
+  onEnter: () =>  document.title = "Terms & Privacy | Cueup",
 
   getIndexRoute(partialNextState, callback) {
     require.ensure([], function (require) {
@@ -14,7 +14,8 @@ module.exports = {
     require.ensure([], (require) => {
       cb(null, [
         require('./routes/Agreements'),
-        require('./routes/Privacy'),
+        require('./routes/Privacy')
+        
       ])
     })
   },

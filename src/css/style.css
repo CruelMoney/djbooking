@@ -2511,6 +2511,7 @@ left: 50%;
   }
   .terms-navigation{
     display: flex;
+
   }
 
 }
@@ -2864,6 +2865,7 @@ table td{
 }
 .terms-navigation{
     display: flex;
+        flex-wrap: wrap;
   }
 }
 /* Mobile END */
