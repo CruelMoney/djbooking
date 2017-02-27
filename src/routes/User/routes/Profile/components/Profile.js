@@ -190,7 +190,7 @@ var Profile = React.createClass({
 
 
                   {isDJ
-                    ? <TextWrapper label="Location" text={this.props.profile.firstName + ", please tell us where you would like to play."}>
+                    ? <TextWrapper label="Location" text={this.props.profile.firstName + ", this is the area where you will receive gigs. To edit the location or radius, click the edit information button, and drag in the points that appear on the circle."}>
                       <Map
                         radius={this.props.profile.playingRadius}
                         value={this.props.profile.playingLocation}
