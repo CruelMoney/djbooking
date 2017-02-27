@@ -19,10 +19,19 @@ const form = React.createClass({
       activeFilters: PropTypes.arrayOf(PropTypes.object),
       err: PropTypes.string,
       form: PropTypes.object,
+      customIsFormValid: PropTypes.func,
+      registerCheckForm: PropTypes.func
+    },
+
+    componentWillMount(){
+        if(this.props.registerCheckForm){
+         this.props.registerCheckForm(this.isFormValid)
+      }
     },
 
     componentWillUnmount(){
       this.props.resetState()
+    
     },
 
     getInitialState() {
@@ -102,8 +111,11 @@ const form = React.createClass({
 
 
    isFormValid(showErrors) {
-      var isValid = this.validations.reduce((memo, isValidFunc) =>
-      isValidFunc(showErrors) && memo, true)
+      var isValid = this.props.customIsFormValid ?
+                    this.props.customIsFormValid()
+                   :
+                    this.validations.reduce((memo, isValidFunc) =>
+                    isValidFunc(showErrors) && memo, true)
 
       this.setState({
         isValid: isValid

@@ -15,15 +15,16 @@ export function required(value) {
 }
 
 export function lastName(value) {
-  return !value.split(' ')[1] ? ['Please enter your last name'] : []
+  
+  return value && !value.split(' ')[1] ? ['Please enter your last name'] : []
 }
 
 export function minLength(str) {
-  return str.length < 6 ? ["Password must be 6 or more characters"] : []
+  return str && str.length < 6 ? ["Password must be 6 or more characters"] : []
 }
 
 export function email(value) {
-  return !emailValidator.validate(value) ? ['This email address is invalid']: []
+  return value && !emailValidator.validate(value) ? ['This email address is invalid']: []
 }
 
 export function date(value) {
@@ -49,11 +50,11 @@ export function date(value) {
 }
 
 export function validateCardNumber(number){
-   number = number.replace(/\s/g,'')
-   return !stripe.validateCardNumber(number) ? ['The card number is not valid'] : []
+   return number && !stripe.validateCardNumber(number.replace(/\s/g,'')) ? ['The card number is not valid'] : []
 }
 
 export function validateCardExpiry(date){
+  if(!date) return ['The expiry date is not valid']
   const dateArr = date.split('/');
   const month = dateArr[0]
   const year = dateArr[1]
@@ -61,19 +62,19 @@ export function validateCardExpiry(date){
 }
 
 export function validateCardCVC(cvc){
-  return !stripe.validateCardCVC(cvc) ? ['The security code is not valid'] : []
+  return cvc && !stripe.validateCardCVC(cvc) ? ['The security code is not valid'] : []
 }
 
 export function getCardType(cardNumber){
-  return stripe.cardType(cardNumber)
+  return cardNumber && stripe.cardType(cardNumber)
 }
 
 export function validateRoutingNumberDKK(num){
-return !stripe.validateRoutingNumberDKK(num) ? ['The routing number is not valid'] : []
+return num && !stripe.validateRoutingNumberDKK(num) ? ['The routing number is not valid'] : []
 }
 
 export function validateAccountNumberDKK(num){
-  return !stripe.validateAccountNumberDKK(num) ? ['The account number is not valid'] : []
+  return num && !stripe.validateAccountNumberDKK(num) ? ['The account number is not valid'] : []
 }
 
 export function validateDKSSN(num){

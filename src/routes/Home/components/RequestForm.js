@@ -47,6 +47,8 @@ export default React.createClass({
     return {...form, guestsCount: form.guests[0]}
   },
 
+  formValidCheckers: [],
+
   onSubmit(form, callback){
     let event = this.formToEvent(this.props.form)
     let self = this
@@ -124,6 +126,7 @@ export default React.createClass({
           <div className="col-md-4">
             <div className="card">
               <Form
+                registerCheckForm={(checker)=>this.formValidCheckers.push(checker)}
                 formValidCallback={(name)=>this.updateProgress(name,true)}
                 formInvalidCallback={(name)=>this.updateProgress(name,false)}
                 name="requestForm-step-1">
@@ -174,6 +177,7 @@ export default React.createClass({
             className="col-md-4">
             <div className="card">
               <Form
+                registerCheckForm={(checker)=>this.formValidCheckers.push(checker)}
                 formValidCallback={(name)=>this.updateProgress(name,true)}
                 formInvalidCallback={(name)=>this.updateProgress(name,false)}
                 name="requestForm-step-2">
@@ -214,6 +218,7 @@ export default React.createClass({
             className="col-md-4">
             <div className="card">
               <Form
+                registerCheckForm={(checker)=>this.formValidCheckers.push(checker)}
                 formValidCallback={(name)=>this.updateProgress(name,true)}
                 formInvalidCallback={(name)=>this.updateProgress(name,false)}
                 name="requestForm-step-3">
@@ -290,8 +295,15 @@ export default React.createClass({
       <div style={{position:"relative"}}>
         <Form
           noError
+          customIsFormValid={()=>{
+                    console.log(this.formValidCheckers)
+                    var result = this.formValidCheckers.reduce((memo, isValidFunc) =>{
+                    console.log(isValidFunc)
+                    return (isValidFunc(true) && memo)}, true)
+                    console.log(result)
+                    return result}}
           name="requestForm">
-
+         
           <Progress
             step1Done={this.state.step1Done}
             step2Done={this.state.step2Done}

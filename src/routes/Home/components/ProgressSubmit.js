@@ -13,7 +13,8 @@ export default React.createClass({
     },
 
     contextTypes:{
-      color: PropTypes.string
+      color: PropTypes.string,
+      isFormValid: PropTypes.func
     },
 
     getInitialState(){
@@ -23,17 +24,24 @@ export default React.createClass({
     },
 
     onSubmit(form, callback){
-      this.props.onSubmit(form, (err,res)=>{
-        if (!err) {
-          this.setState({msg: "Thank you for using our service. We will send you an email with confirmation of the event."})
-        }
-        callback(err,res)
-      })
+      if(this.context.isFormValid(true)){
+        
+        this.props.onSubmit(form, (err,res)=>{
+                if (!err) {
+                  this.setState({msg: "Thank you for using our service. We will send you an email with confirmation of the event."})
+                }
+                callback(err,res)
+         })
+      }else{
+       callback("Please fill out all required fields") 
+      }
     },
 
   render() {
     const finished = this.props.step1Done && this.props.step2Done && this.props.step3Done
-    var className = finished ? "done progrezz" : "progrezz"
+    // var className = finished ? "done progrezz" : "progrezz"
+    var className = "progrezz"
+
     var dotBg = "url(" + dot + ")"
     return (
       <div className="event-submit-wrapper"> 
@@ -68,10 +76,9 @@ export default React.createClass({
         
        </div>
         
-        <div style={{transition: "opacity 0.3s", opacity: finished ? 1 : 0}}>
+        <div >
           <SubmitButton
             active
-            disabled={!finished}
             name="request_djs_button"
             onClick={this.onSubmit}
             glow

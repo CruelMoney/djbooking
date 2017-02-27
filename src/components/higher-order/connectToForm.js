@@ -17,8 +17,9 @@ function connectToForm (
     }
 
     isValid = (showErrors:boolean, value:any = this.state.value) => {
+
       if (this.props.validate) {
-        if (typeof value !== 'undefined') {
+
 
         const errors = this.props.validate
           .reduce((memo, currentName) =>
@@ -34,10 +35,7 @@ function connectToForm (
 
         return !errors.length
 
-        }else{
-            return false
-        }
-
+ 
       }
       return true
     }
