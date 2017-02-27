@@ -169,7 +169,7 @@ You understand and agree that the selection of you to make an offer for an Event
 <br/><li><p><strong>Bookings and Financial Terms</strong>
 </p><p></p>
 
-<p></p><ol style="list-style-type: upper-alpha"><li><p><em>Key definitions</em>
+<p></p><ol style={{listStyleType: "upper-alpha"}}><li><p><em>Key definitions</em>
 </p><p></p>
 
 <p></p><p>“<strong>DJ Prices</strong>” means the amounts that are due and payable by an Organizer in exchange for the DJ Service. The DJ alone, and not Cueup, is responsible for the DJ Price for his or her DJ Service. The DJ may in his or her sole discretion decide to include in these amounts  (i) any fee permitted on the Cueup platform, or (ii) Taxes that the Host determines that he or she has to collect.
@@ -378,7 +378,7 @@ You understand and agree that the selection of you to make an offer for an Event
 <br/><li><p><strong>Term and Termination, Suspension and Other Measures</strong>
 </p><p></p>
 
-<p></p><ol style="list-style-type: upper-alpha"><li><p><em>Term</em>
+<p></p><ol style={{listStyleType: "upper-alpha"}}><li><p><em>Term</em>
 </p><p></p>
 
 <p></p><p>These Terms shall be effective for a 30-day term, at the end of which it will automatically and continuously renew for subsequent 30-day terms until such time when you or Cueup terminate these Terms as described below.
