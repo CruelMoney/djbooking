@@ -85,66 +85,7 @@ getInitialState(){
                err: "Something went wrong"
              })
       }
-        //
-        // var imageData = upload.target.result;
-        // var img = new Image();
-        // img.src = imageData;
-        //
-        //
-        //   if ((file.size/1024) > 5000 ) {
-        //     this.setState({loading: false, err: "Image cannot be larger than 5 Mb"})
-        //     return
-        //   }
-        // img.onload = function () {
-        //
-        //     if (img.width > maxWidth || img.height > maxHeigt) {
-        //         var width = maxWidth;
-        //         var height = maxHeigt;
-        //
-        //         if (img.width > maxWidth) {
-        //             width = maxWidth;
-        //             var ration = maxWidth / img.width;
-        //             height = Math.round(img.height * ration);
-        //         }
-        //
-        //         if (height > maxHeigt) {
-        //             height = maxHeigt;
-        //             var ration2 = maxHeigt / img.height;
-        //             width = Math.round(img.width * ration2);
-        //         }
-        //
-        //         var canvas = self.refs.canvas
-        //         canvas.width = width;
-        //         canvas.height = height;
-        //         var context = canvas.getContext('2d');
-        //         context.drawImage(img, 0, 0, width, height);
-        //         imageData = canvas.toDataURL();
-        //
-        //         }
-        //
-        //     }
-        //     img.onerror = function () {
-        //       self.setState({
-        //         loading: false,
-        //         err: "Something went wrong"
-        //       })
-        //     }
-        //
-        //     const profile = {...self.props.profile, picture: imageData}
-        //
-        //     self.props.updatePicture(profile, (err)=>{
-        //       if (err) {
-        //         self.setState({
-        //           loading: false,
-        //           err: "Something went wrong"
-        //         })
-        //       }else{
-        //         self.setState({
-        //           loading: false,
-        //           err: null
-        //         })
-        //       }
-        //     })
+        
         }
 
       reader.readAsDataURL(file)

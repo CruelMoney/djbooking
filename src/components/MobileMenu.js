@@ -6,21 +6,19 @@ import {connect} from 'react-redux';
 import Formatter from '../utils/Formatter'
 import Rating from './common/Rating'
 import * as actions from '../actions/LoginActions'
+import * as UserActions from '../actions/UserActions'
+
 import entries from 'object.entries';
+import Button from './common/Button-v2'
 
 
 class MobileMenu extends React.Component {
   themeColor = "#31DAFF"
 
-  props: {
-    show: bool,
-    onClosing: func,
-    profile: object,
-    loggedIn: bool
-  }
-
   state = {
-    show: false
+    show: false,
+    loading: false, 
+    err: null
   }
   static childContextTypes={
     color: PropTypes.string
@@ -75,6 +73,70 @@ class MobileMenu extends React.Component {
     }
 
 
+ handleFile = (e) => {
+      const reader = new FileReader()
+      const file = e.target.files[0]
+
+      var self = this
+
+      reader.onload = (upload) => {
+        this.setState({
+          loading: true
+        })
+
+        if ((file.size/1024) > 5000 ) {
+           this.setState({loading: false, err: "Image cannot be larger than 5 Mb"})
+           return
+         }
+        /*eslint no-undef: 0*/
+        var loadingImage = loadImage(
+          file,
+          function (img) {
+            if(img.type === "error") {
+                self.setState({
+                       loading: false,
+                       err: "Something went wrong"
+                     })
+              } else {
+                    var imageData = img.toDataURL();
+
+                    self.props.updatePicture(imageData, (err)=>{
+                      if (err) {
+                        self.setState({
+                          loading: false,
+                          err: "Something went wrong"
+                        })
+                      }else{
+                        self.setState({
+                          loading: false,
+                          err: null
+                        })
+                      }
+                    })
+              }
+          },
+          {
+            maxWidth: 500,
+            maxHeight: 500,
+           cover: true,
+           orientation: true,
+           crop: true
+       }
+      );
+
+      loadingImage.onerror = ()=>{
+        self.setState({
+               loading: false,
+               err: "Something went wrong"
+             })
+      }
+        
+        }
+
+      reader.readAsDataURL(file)
+    }
+
+
   render() {
     return(
       <div>
@@ -89,7 +151,39 @@ class MobileMenu extends React.Component {
             {
               this.props.loggedIn ?
               <div className="profileSummary">
-                <div className="profilePicture" style={{backgroundImage: 'url('+this.props.profile.picture+')'}}/>
+         
+         
+         <div 
+          className={this.state.loading || this.state.err ? "profilePicture user-card-picture-wrapper loading" : "profilePicture user-card-picture-wrapper"}
+          htmlFor="fileupload">
+          
+          <div id="profile-picture-upload">
+            <canvas ref="canvas" style={{display:"none"}} />
+            <input name="fileupload" id="fileupload"  type="file" accept="image/*" onChange={this.handleFile}/>
+            {
+              this.state.loading
+              ?
+                <Button isLoading/>
+              :
+              this.state.err ?
+                <label htmlFor="fileupload"><span>{this.state.err}</span></label>
+              :
+              <label htmlFor="fileupload"><span>Change image</span></label>
+            }
+          </div>
+
+          <div
+            className=" user-card-picture"
+            style={{backgroundImage: "linear-gradient(20deg, rgba(49, 255, 245,0.8) 0%, rgba(49, 255, 197,0.5) 16%, rgba(0, 209, 255,0.2) 66%, rgba(49, 218, 255, 0.0) 71%),  url("+this.props.profile.picture+")"}}
+          />
+          <div
+            className=" user-card-picture-blurred"
+            style={{backgroundImage: "linear-gradient(20deg, rgba(49, 255, 245,0.8) 0%, rgba(49, 255, 197,0.5) 16%, rgba(0, 209, 255,0.2) 66%, rgba(49, 218, 255, 0.0) 71%),  url("+this.props.profile.picture+")"}}
+          />
+        </div>
+
+
+               
                 <div className="profileInfo">
                   <div className="user-card-info">
                     <div className="user-card-fact">
@@ -160,7 +254,7 @@ class MobileMenu extends React.Component {
               {this.props.loggedIn ? (
 
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}   buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
+                  <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
                 </li>
               ) : (
                 null
@@ -210,9 +304,20 @@ export const mapStateToProps = (state) => {
 }
 
 export const mapDispatchToProps = (dispatch, ownprops) => {
-return{
-  logout: ()        => dispatch(actions.userLogout())
-}
+  return{
+    logout: ()        => dispatch(actions.userLogout()),
+    updatePicture: (img, callback, profile) => {dispatch(UserActions.SaveProfilePicture(img, profile, callback))},
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MobileMenu);
+export const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  return {
+    ...ownProps,
+    profile: stateProps.profile,
+    loggedIn: stateProps.loggedIn,
+    registeredMenuItems: stateProps.registeredMenuItems,
+    logout: dispatchEvent.logout,
+    updatePicture: (img, callback) => dispatchProps.updatePicture(img, callback, stateProps.profile)
+}
+}
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(MobileMenu);

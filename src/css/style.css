@@ -197,6 +197,10 @@ section{
   border-radius: 50%;
   display: inline-block;
   margin-bottom: 20px;
+  position: relative;
+}
+.mobileMenu .profilePicture label{
+  color: white;
 }
 .mobileMenu.active{
   pointer-events: all;
