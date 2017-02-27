@@ -110,7 +110,7 @@ var signupForm = React.createClass({
           <Textfield
             big
             name="phone"
-            type="number"
+            type="tel"
             validate={['required']}
             label="Your phone number"/>
 
