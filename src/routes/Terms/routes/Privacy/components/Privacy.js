@@ -12,13 +12,13 @@ export default React.createClass({
     return (
       <div>
       <h1>Privacy Policy</h1>
-      <p className="subtitle">Last updated: 28/07/2016</p>
+      <p className="subtitle">Last updated: 26/02/2017</p>
       <ol style={{listStyleType: "decimal", paddingLeft: "15px"}}>
 <br/>  <li><strong>CUEUP PRIVACY POLICY</strong><p></p>
 
 <p>    </p><p>Cueup (hereinafter referred to as “<strong>Cueup</strong>”, “<strong>we</strong>”, “<strong>us</strong>” or “<strong>our</strong>”) operates a platform and community marketplace that helps DJs and event organizers to connect with one another, whether through our website or our mobile applications ("<strong>Platform</strong>").</p><p></p>
 
-<p>    </p><p>Cueup refers to (i) Cph Sound IVS.</p><p></p>
+<p>    </p><p>Cueup refers to (i) CPH SOUND IVS.</p><p></p>
 
 <p>    </p><p>This Privacy Policy is intended to inform you about how we treat Personal Information that we process about you. If you do not agree to any part of this Privacy Policy, then we cannot provide the Platform or Services to you, and you should stop accessing the Platform and deactivate your Cueup Account. You can find out more about how to deactivate your Cueup Account at <a href="/faq">www.cueup.io/faq</a>.</p><p></p>
 

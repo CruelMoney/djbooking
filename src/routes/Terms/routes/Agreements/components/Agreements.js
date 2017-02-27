@@ -12,15 +12,10 @@ export default React.createClass({
     return (
       <div className="">
       <h1>Terms of Service</h1>
-      <p className="subtitle">Last updated: 28/07/2016</p>
+      <p className="subtitle">Last updated: 27/02/2017</p>
       
 
 <p></p><p>PLEASE READ THESE TERMS OF SERVICE CAREFULLY AS THEY CONTAIN IMPORTANT INFORMATION REGARDING YOUR LEGAL RIGHTS, REMEDIES AND OBLIGATIONS. THESE INCLUDE VARIOUS LIMITATIONS AND EXCLUSIONS, A CLAUSE THAT GOVERNS THE JURISDICTION AND VENUE OF DISPUTES, AND OBLIGATIONS TO COMPLY WITH APPLICABLE LAWS AND REGULATIONS.
-  </p><p></p>
-
-
-
-<p></p><p>Last Updated: October 27, 2016
   </p><p></p>
 
 <p></p><ol>
