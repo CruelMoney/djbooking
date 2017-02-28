@@ -296,11 +296,8 @@ export default React.createClass({
         <Form
           noError
           customIsFormValid={()=>{
-                    console.log(this.formValidCheckers)
                     var result = this.formValidCheckers.reduce((memo, isValidFunc) =>{
-                    console.log(isValidFunc)
                     return (isValidFunc(true) && memo)}, true)
-                    console.log(result)
                     return result}}
           name="requestForm">
          

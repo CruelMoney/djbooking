@@ -194,6 +194,7 @@ var signupForm = React.createClass({
           <ToggleButtonHandler
             name="genres"
             potentialValues={c.GENRES}
+            validate={['required']}
             columns={4} />
 
         </RegistrationElement>
