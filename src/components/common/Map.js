@@ -12,7 +12,7 @@ import connectToForm from '../higher-order/connectToForm'
  * https://facebook.github.io/react/blog/2015/09/10/react-v0.14-rc1.html#stateless-function-components
  */
 class SimpleMap extends React.Component{
-      circle = {}
+      circle = null
 
       static propTypes:{
         editable:        PropTypes.bool,
@@ -29,26 +29,24 @@ class SimpleMap extends React.Component{
       }
 
 
-      state={
-        marker: {
-          position: {lat: 56.00, lng: 10.00
-          },
-          radius: 250000,
-          key: `Denmark`,
-          defaultAnimation: 2,
-        }
-
+      
+      marker= {
+        position: {lat: 56.00, lng: 10.00
+        },
+        radius: 250000,
+        key: `Denmark`,
+        defaultAnimation: 2,
       }
 
+      
+
       componentWillMount(){
-          this.setState({
-          marker: {
+          this.marker= {
             position: this.props.value,
             radius: this.props.radius,
             key: Date.now(),
             defaultAnimation: 2,
           }
-        })
       }
 
       shouldComponentUpdate(nextProps, nextState) {
@@ -71,7 +69,11 @@ class SimpleMap extends React.Component{
           })
         }
 
-
+    getZoomLevel(radius) {
+        var scale = radius / 500;
+        var zoomLevel =  (15 - Math.log(scale) / Math.log(2));
+        return parseInt(zoomLevel)
+    }
 
     render(){
     return(
@@ -86,8 +88,8 @@ class SimpleMap extends React.Component{
           }
           googleMapElement={
             <GoogleMap
-              defaultZoom={this.props.zoom || 8}
-              defaultCenter={ this.state.marker.position }
+              defaultZoom={this.getZoomLevel(this.props.radius)}
+              defaultCenter={ this.marker.position }
               streetViewControl={false}
               defaultOptions={{
                 scrollwheel: false,
@@ -181,8 +183,8 @@ class SimpleMap extends React.Component{
                   suppressUndo: true
                 }}
                 editable={this.props.editable}
-                center={this.state.marker.position}
-                radius={this.state.marker.radius}
+                center={this.circle ? this.circle.getCenter() : this.marker.position}
+                radius={this.circle ? this.circle.getRadius() : this.marker.radius}
 
                 onCenterChanged={()=>this.handleLocationChange(this.circle)}
                 onRadiusChanged={()=>this.handleRadiusChange(this.circle)}
