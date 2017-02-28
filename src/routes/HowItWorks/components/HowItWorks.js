@@ -63,8 +63,8 @@ export default React.createClass({
                       <h2>Organizer creates event</h2>
                     </div>
                     <p key="b">
-                      Organizers will send details about their event and what requirements they have. After creating an event, the most qualified djs that meet the requirements of the event will be found and asked to give an offer. 
-
+                      Organizers choose a date and fill out the form with details about their event and what requirements they have on the arrange event page.
+After creating an event, the best qualified DJs that meet the requirements of the event will be asked to give an offer.
                     </p>
                   </div>
                 </div>
@@ -75,7 +75,7 @@ export default React.createClass({
                       <h2>Qualified DJs return offer</h2>
                     </div>
                     <p key="b">
-The DJs will either decline the event or specify their offer for the event. If necessary they can contact the organizer and discuss the requirements further. As soon as an offer is made, the organizer will be notified.                       </p>
+The DJs will then either decline the event or send their offer for the event. If necessary they can contact the organizer and discuss the requirements further. As soon as an offer is made, the organizer will be notified.    </p>
               </section>
               <section>
                     <div key="a" className="how-to-title">
@@ -83,7 +83,7 @@ The DJs will either decline the event or specify their offer for the event. If n
                       <h2>Organizer confirms an offer</h2>
                     </div>
                     <p key="b">
-When the organizer receives an offer, they can confirm the offer by paying the specified amount using Cueup's build in payment system. If necessary the organizer can contact the DJ to clear up uncertainties. The offer contains information about the DJ and their cancelation policy.                      </p>
+When the organizer receives an offer, they can either confirm the offer by paying the specified amount using Cueup's build in payment system, or decline the offer if no longer needed. If necessary the organizer can contact the DJ to clear up any uncertainties. </p>
               </section>
               <section>
                     <div key="a" className="how-to-title">
@@ -91,8 +91,8 @@ When the organizer receives an offer, they can confirm the offer by paying the s
                       <h2>DJ plays at event</h2>
                     </div>
                     <p key="b">
-The next step is for the DJ to play the gig. If for any reason the DJ has to cancel, the full amount will be refunded instantly. If for any reason the organizer has to cancel, the amount specified by the DJ’s cancelation policy will be refunded.                       </p>
-              </section>
+The next step is for the DJ to play at the event. 
+If for any reason the DJ has to cancel, the full amount will be refunded instantly to the organizer. If the organizer has to cancel, the amount specified by the DJ’s cancellation policy will be refunded. Read more about cancellation process <a href="/faq/organizer" >here</a>.</p>              </section>
               <section>
 
                     <div key="a" className="how-to-title">
@@ -100,7 +100,7 @@ The next step is for the DJ to play the gig. If for any reason the DJ has to can
                       <h2>Payout is released</h2>
                     </div>
                     <p key="b">
-                      A day after the event is finished the money are transferred to the DJ’s bank account.  
+                      The money will be withhold by us, until the day after the event has taken place. This is in order to assure that the job was completed. The money will then be transferred to the DJ’s bank account.
                       </p>
 
               </section>

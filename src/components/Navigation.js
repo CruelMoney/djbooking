@@ -70,7 +70,7 @@ var menu = React.createClass({
     },
 
   render() {
-    //const isHome = window.location.pathname === '/'
+    const isHome = window.location.pathname === '/'
     const page = window.location.pathname.split('/')[1]
     return (
       <MuiThemeProvider muiTheme={theme}>
@@ -101,6 +101,15 @@ var menu = React.createClass({
                 </div>
               </div>
               <ul className="main-menu">
+                
+                {!isHome    ?    
+                <li>
+                  <Navlink buttonLook={true} to="/" label="Arrange event"/>
+                </li>  : null 
+                
+                }
+         
+
                 <li>
                   <Navlink  buttonLook={true} to="/howitworks" label="How it works"/>
                 </li>

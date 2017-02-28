@@ -203,7 +203,10 @@ var signupForm = React.createClass({
           name="bio"
           label="About you"
           active={true}
-          text="Please tell us a bit about yourself. What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?"
+          text="
+          Please tell us a bit about yourself. 
+          This description is going to be public. 
+          What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?"
           
         >
           <TextBox

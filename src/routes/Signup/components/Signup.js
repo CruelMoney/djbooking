@@ -61,10 +61,7 @@ export default React.createClass({
             <img src={vinyl} alt="vinyl icon"/>
             <h2 style={{color:"rgb(176, 49, 255)"}}>Get the kind of gigs you want</h2>
             <p style={{color:"#32325D"}}>
-              Cueup is build for the DJs! 
-              By specifying what genres you like to play and telling us about yourself, we can do our best to get you the gigs that suites your style. 
-              At the same time you have the freedom to decline any gig. 
-              We also try to make sure that all DJs get the chance to play an equal amount of gigs. 
+            Cueup is build for the DJs! By specifying what genres you like to play and telling about yourself, we will find the best gigs for you that suites your style. At the same time you have the freedom to decline any gig that you are offered. The gig will simply be offered to the next DJ in line. We also strive to make sure, that all DJs get the chance to play an equal amount of gigs. If you like what you hear – sign up below. 
               
             </p>
           </div>

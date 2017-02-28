@@ -138,6 +138,8 @@ class MobileMenu extends React.Component {
 
 
   render() {
+    const isHome = window.location.pathname === '/'
+
     return(
       <div>
       <div
@@ -208,6 +210,12 @@ class MobileMenu extends React.Component {
 
              {this.getMenuItems()}
 
+              {!isHome    ?    
+                <li>
+                  <Navlink buttonLook={true} to="/" label="Arrange event"/>
+                </li>  : null 
+                
+                }
 
               {this.props.profile.isDJ ?
                 <li>
