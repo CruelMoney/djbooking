@@ -108,7 +108,7 @@ export const trackEventPaid = (val) => {
   ga('send', 'event', {
     eventCategory: 'Event',
     eventAction: 'paid',
-    eventLabel: val
+    eventValue: val
   });
 };
 
