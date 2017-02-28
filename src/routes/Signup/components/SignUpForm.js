@@ -152,7 +152,7 @@ var signupForm = React.createClass({
           label="Birthday"
           active={true}
           text="Please specify your birthday."
-          hideOn={['FACEBOOK']}
+          
         >
 
           <Textfield

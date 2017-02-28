@@ -67,7 +67,9 @@ function createDJ(form, auth0Profile, geoResult){
           user_metadata: {
               geoip: auth0Profile.user_metadata.geoip,
               phone: form.phone || auth0Profile.user_metadata.phone,
-              birthDay: auth0Profile.birthday || Formatter.date.FromEUStringToUSDate(form.birthday),
+             // Some facebook users does not have birhtday 
+              //birthDay: auth0Profile.birthday || Formatter.date.FromEUStringToUSDate(form.birthday),
+              birthDay: Formatter.date.FromEUStringToUSDate(form.birthday),
               firstName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).firstName,
               lastName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).lastName,
               city: form.location
@@ -116,8 +118,11 @@ function createCustomer(form, auth0Profile){
 
                 //If the geocoding does not fail
                 // else {
-
-                  var user = createDJ(form, auth0Profile, geoResult)
+                 try {
+                    var user = createDJ(form, auth0Profile, geoResult)
+                 } catch (error) {
+                   callback("Something went wrong.")
+                 }
                   postUser(result.idToken, user, callback)
                 // }
               })
