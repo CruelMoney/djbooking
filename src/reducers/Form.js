@@ -74,6 +74,15 @@ const status  = (state = {loading: {}, succeeded:{}}, action) => {
           [action.submitName] : false
       })
     }
+    case ActionTypes.FORM_RESET_STATUS:
+    return {
+      succeeded: assign({}, state.succeeded, {
+        [action.submitName] : false
+    }),
+      loading: assign({}, state.loading, {
+        [action.submitName] : false
+    })
+  }
   default:
     return state
   }

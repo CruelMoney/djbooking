@@ -74,7 +74,6 @@ const form = React.createClass({
 
     updateValue(name, value){
       this.props.updateValue(name,value)
-
       if (setTimeout(()=>this.isFormValid(false), 0)) {
 
       }
@@ -199,7 +198,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     onSubmit: (form, submitActions, submitName) => {
       dispatch(actions.submitRequested(ownProps.name, submitName))
       submitActions(form,
-        (err)=>dispatch(actions.handleSubmitResult(ownProps.name, err, submitName))
+        (err)=>dispatch(actions.handleSubmitResult(ownProps.name, err, submitName, ownProps.resetStatusOnSucces))
       )},
 }
 }

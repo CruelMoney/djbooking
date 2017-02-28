@@ -23,7 +23,8 @@ var user = React.createClass({
       valid: PropTypes.bool,
       color: PropTypes.string,
       loading: PropTypes.bool,
-      textColor: PropTypes.string
+      textColor: PropTypes.string,
+      disableEditMode: PropTypes.func
   },
 
   componentWillMount(){
@@ -74,9 +75,14 @@ var user = React.createClass({
        this.setState(
          {
          editing: !this.state.editing,
-     },this.setActions)
+     },this.setActions)},
 
-     },
+     disableEditMode:  ()=>{
+       this.setState(
+         {
+         editing: false,
+     },this.setActions)},
+
      color:        this.themeColor,
      editing:     this.state.editing,
      valid:        this.state.valid,
@@ -110,6 +116,7 @@ var user = React.createClass({
       <div >
         <Form
           noError
+          resetStatusOnSucces
           name="user-form"
           formValidCallback={
             ()=>{this.setState({valid:true}, this.setActions)

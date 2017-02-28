@@ -11,6 +11,10 @@ class Button extends React.Component {
         rounded: true
     }
 
+    state={
+      succes:false
+    }
+
     color = ""
     
     componentWillMount(){
@@ -18,6 +22,18 @@ class Button extends React.Component {
                    this.props.dangerous ? "#F44336" : 
                    this.context.color ? this.context.color :
                    ""
+    }
+
+    componentWillReceiveProps(nextProps){
+      this.setState({
+        succes: nextProps.succes
+      })
+      // If a onSucces function is given, 
+      // Run it if the succes changes from false to true 
+      if(this.props.onSucces && 
+          (!this.props.succes && nextProps.succes)){
+           this.props.onSucces()
+      }
     }
 
     handleClick = (e) => {
@@ -38,7 +54,7 @@ class Button extends React.Component {
       var className = this.props.className ? "button " + this.props.className : "button"
       if (this.props.active) className += " active"
       if (this.props.isLoading) className += " loading"
-      if (this.props.succes) className += " succes"
+      if (this.state.succes) className += " succes"
       if (this.props.dangerous) className += " dangerous"
       if (this.props.glow) className += " glow"
 
@@ -52,11 +68,11 @@ class Button extends React.Component {
                        this.props.rounded      ? "6px 6px 6px 6px" : "0px 0px 0px 0px",
       backgroundColor: this.props.isLoading ? "transparent" : 
                        this.props.active ?  this.color :
-                       this.props.succes ?  this.color :
+                       this.state.succes ?  this.color :
                        null,
       borderColor:     this.props.isLoading ? "transparent" : 
                        this.props.active ?  this.color :
-                       this.props.succes ?  this.color :
+                       this.state.succes ?  this.color :
                        null,
         borderLeftColor: this.props.isLoading ? this.color  :                        
                           null,
@@ -81,11 +97,11 @@ class Button extends React.Component {
         <button
           name={this.props.name}
           style={this.style()}
-          disabled={this.props.disabled || this.props.succes || this.props.isLoading}
+          disabled={this.props.disabled || this.state.succes || this.props.isLoading}
           className={this.className()}
           onClick={this.handleClick}
         >
-          {this.props.succes ? <img  src={checkmark} alt="checkmark"/> : this.props.children}
+          {this.state.succes ? <img  src={checkmark} alt="checkmark"/> : this.props.children}
         </button>
         </div>
     )

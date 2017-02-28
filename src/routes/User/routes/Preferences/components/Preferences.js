@@ -30,7 +30,8 @@ const preferences = React.createClass({
     registerActions: PropTypes.func,
     toggleEditMode:  PropTypes.func,
     editing:         PropTypes.bool,
-    valid:           PropTypes.bool
+    valid:           PropTypes.bool,
+    disableEditMode: PropTypes.func
   },
 
   componentWillMount(){
@@ -94,7 +95,7 @@ const preferences = React.createClass({
 
   getActionButtons(props = this.props) {
       const editing = this.context.editing
-
+      
       return (
           <div className="context-actions" key="profile_actions">
             {editing
@@ -103,6 +104,9 @@ const preferences = React.createClass({
                   active={this.context.valid}
                   onClick={this.updateSettings}
                   name="save_edit_preferences"
+                   onSucces={()=>setTimeout(()=>{
+                      this.context.disableEditMode()
+                      }, 1700)}
                 > Save
                 </SubmitButton>
               : <Button
@@ -117,6 +121,10 @@ const preferences = React.createClass({
               warning="Are you sure you want to delete? All future gigs, events and payments will be lost."
               onClick={(form, callback) => this.props.deleteProfile(callback)}
               name="Delete_profile"
+              onSucces={()=>
+                        {setTimeout(()=> {
+                          this.props.logout()
+                        }, 1000)}}
             > Delete profile
             </SubmitButton>
             <ErrorMessage/>
@@ -337,6 +345,7 @@ const preferences = React.createClass({
 
 import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/UserActions'
+import {userLogout} from '../../../../../actions/LoginActions'
 
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters
@@ -355,8 +364,12 @@ function mapDispatchToProps(dispatch, ownProps) {
     updateSettings: (settings, callback) => dispatch(actions.updateSettings(settings,callback)),
     deleteProfile: (callback) => {dispatch(actions.deleteProfile(callback))},
     changePassword: (email, callback) => dispatch(actions.changePassword(email, callback)),
-    resendVerification: (form, callback) => dispatch(actions.resendVerification(callback))
+    resendVerification: (form, callback) => dispatch(actions.resendVerification(callback)),
+    logout: ()        => dispatch(userLogout())
 }}
+
+
+
 
 
   function mergeProps(stateProps, dispatchProps, ownProps) {

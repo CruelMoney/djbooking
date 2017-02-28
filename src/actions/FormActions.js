@@ -34,7 +34,7 @@ export function resetState(formName){
 }
 
 
-export function handleSubmitResult(formName, err, submitName) {
+export function handleSubmitResult(formName, err, submitName, resetStatusOnSucces=false) {
   return function(dispatch) {
     if (err) {
       dispatch(function() {
@@ -50,6 +50,20 @@ export function handleSubmitResult(formName, err, submitName) {
         formName,
         submitName
       }}())
+      
+      if(resetStatusOnSucces){
+        setTimeout(()=>
+        {
+          dispatch(function() { return {
+            type: ActionTypes.FORM_RESET_STATUS,
+            formName,
+            submitName
+          }}())
+        }
+        ,1500)
+           
+      }
     }
+
   }
 }

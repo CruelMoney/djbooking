@@ -68,6 +68,7 @@ var Event = React.createClass({
         return (
           <div className="row event-information">
             <Form
+              resetStatusOnSucces
               noError
               formInvalidCallback={()=>this.setState({formValid:false})}
               formValidCallback={()=>this.setState({formValid:true})}

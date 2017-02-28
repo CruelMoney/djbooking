@@ -38,6 +38,7 @@ var Review = React.createClass({
         return (
           <div className="row event-information">
             <Form
+              resetStatusOnSucces
               formInvalidCallback={()=>this.setState({formValid:false})}
               formValidCallback={()=>this.setState({formValid:true})}
               name="event-review">

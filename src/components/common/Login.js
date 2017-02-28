@@ -4,6 +4,8 @@ import Textfield from './Textfield'
 import Form from './Form-v2'
 import CueupService from '../../utils/CueupService'
 import AuthService from '../../utils/AuthService'
+import { browserHistory } from 'react-router'
+
 let auth = new AuthService()
 let cueup = new CueupService()
 
@@ -108,6 +110,7 @@ const login = React.createClass({
         color="#3b5998"
         name="facebook_login"
         onClick={this.props.loginFacebook}
+        onSucces={()=>{browserHistory.push('/profile')}}
       >Facebook</SubmitButton>
 
       <SubmitButton
@@ -116,6 +119,7 @@ const login = React.createClass({
         color="#ff7700"
         name="soundcloud_login"
         onClick={this.props.loginSoundcloud}
+        onSucces={()=>{browserHistory.push('/profile')}}
       >SoundCloud</SubmitButton>
     </Form>
   </div>
@@ -147,6 +151,7 @@ const login = React.createClass({
         active
         name="email_login"
         onClick={this.login}
+        onSucces={()=>{browserHistory.push('/profile')}}
       >Login</SubmitButton>
     </div>
   </Form>

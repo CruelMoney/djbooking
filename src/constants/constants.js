@@ -39,6 +39,7 @@ module.exports = {
     FORM_SUBMIT_REQUESTED:null,
     FORM_SUBMIT_FAILED:null,
     FORM_SUBMIT_SUCCEEDED:null,
+    FORM_RESET_STATUS:null,
 
     FETCH_EVENTS_REQUESTED:null,
     FETCH_EVENTS_SUCCEEDED:null,

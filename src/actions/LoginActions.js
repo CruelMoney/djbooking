@@ -167,6 +167,7 @@ export function loginEmail(form, callback) {
 
 export function userLogout() {
      auth.logout()
+     browserHistory.push("/")
       return  {
           type: ActionTypes.LOGOUT_SUCCEEDED
         }

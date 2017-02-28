@@ -29,7 +29,8 @@ var Profile = React.createClass({
       registerActions: PropTypes.func,
       toggleEditMode:  PropTypes.func,
       editing:         PropTypes.bool,
-      valid:           PropTypes.bool
+      valid:           PropTypes.bool,
+      disableEditMode: PropTypes.func
     },
 
     componentWillMount(){
@@ -72,6 +73,9 @@ var Profile = React.createClass({
                     active={this.context.valid}
                     onClick={this.submit}
                     name="save_edit_profile"
+                    onSucces={()=>setTimeout(()=>{
+                      this.context.disableEditMode()
+                      }, 1700)}
                   > Save
                   </SubmitButton>
                 : <Button

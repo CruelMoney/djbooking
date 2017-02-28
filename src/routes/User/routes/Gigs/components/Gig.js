@@ -382,6 +382,7 @@ var Gig = React.createClass({
                    
                     <div className="offer-buttons">
                       <Form
+                        resetStatusOnSucces
                         name={"gig-cancel-" + this.props.gig.id}
                       >
 

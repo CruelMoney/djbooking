@@ -6,7 +6,8 @@ export default React.createClass({
   propTypes:{
     onClick: PropTypes.func, // has to take to parameters (form, callback)
     noCheckMark: PropTypes.bool,
-    name:PropTypes.string.isRequired
+    name:PropTypes.string.isRequired,
+    resetOnSucces: PropTypes.bool
   },
 
   contextTypes: {
@@ -15,16 +16,17 @@ export default React.createClass({
     },
 
     handleClick(e){
-    this.context.onSubmit(
-      this.props.onClick,
-      this.props.name
-    )
+      this.context.onSubmit(
+        this.props.onClick,
+        this.props.name
+      )
     },
 
   render() {
 
   let succes = this.context.status.succeeded ? this.context.status.succeeded[this.props.name] : false
   let loading = this.context.status.loading ? this.context.status.loading[this.props.name] : false
+
 
   return(
   <Button
