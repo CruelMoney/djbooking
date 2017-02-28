@@ -4,6 +4,7 @@ import Formatter from '../utils/Formatter'
 import GeoCoder from '../utils/GeoCoder'
 import * as LoginActions from './LoginActions'
 const cueup = new CueupService()
+import * as tracker from '../utils/analytics/autotrack'
 
 const auth = new AuthService()
 
@@ -115,6 +116,7 @@ function createCustomer(form, auth0Profile){
 
                 //If the geocoding does not fail
                 // else {
+
                   var user = createDJ(form, auth0Profile, geoResult)
                   postUser(result.idToken, user, callback)
                 // }
@@ -136,6 +138,7 @@ function postUser(token, user, callback){
       if (error) {
           callback(error.message)
       } else {
+        tracker.trackSignup()
         callback(null)
         //LoginActions.checkForLogin(false)(dispatch)
       }

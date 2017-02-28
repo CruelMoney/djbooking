@@ -92,6 +92,28 @@ export const trackError = (error, fieldsObj = {}) => {
 };
 
 
+export const trackSignup = () => {
+  ga('send', 'event', {
+    eventCategory: 'Account',
+    eventAction: 'created'
+  });
+};
+export const trackEventPosted = () => {
+  ga('send', 'event', {
+    eventCategory: 'Event',
+    eventAction: 'created'
+  });
+};
+export const trackEventPaid = (val) => {
+  ga('send', 'event', {
+    eventCategory: 'Event',
+    eventAction: 'paid',
+    eventLabel: val
+  });
+};
+
+
+
 /**
  * Creates the trackers and sets the default transport and tracking
  * version fields. In non-production environments it also logs hits.

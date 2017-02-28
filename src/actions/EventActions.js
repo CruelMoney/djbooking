@@ -9,8 +9,7 @@ const auth = new AuthService()
 import GeoCoder from '../utils/GeoCoder'
 import StripeService from '../utils/StripeService'
 const stripe = new StripeService()
-
-
+import * as tracker from '../utils/analytics/autotrack'
 
 
 export function fetchEvents() {
@@ -102,6 +101,7 @@ export function postEvent(form, callback) {
             if (err) {
               (callback(err))
             }else{
+              tracker.trackEventPosted()
               (callback(null))
             }
           })
@@ -196,6 +196,7 @@ export function payEvent(id, hash, data, callback) {
         if (err) {
           (callback(err))
         }else{
+          tracker.trackEventPaid(data.Amount+data.Fee)
           dispatch(self.fetchEvent(id, hash, null, callback))
         }
       })
