@@ -30,7 +30,7 @@ var user = React.createClass({
     document.title = this.props.profile.firstName + " | Cueup"
 
     if (!this.props.profile.email_verified) {
-      this.setState({notification:"You won't receive any gigs before you have confirm your email-address."})
+      this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
       return
     }
     if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
