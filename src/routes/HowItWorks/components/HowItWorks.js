@@ -7,6 +7,8 @@ import PConfig2 from '../../../assets/particlesjs-config-2.json';
 import PConfig3 from '../../../assets/particlesjs-config-3.json';
 import PConfig4 from '../../../assets/particlesjs-config-4.json';
 import PConfig5 from '../../../assets/particlesjs-config-5.json';
+import padlock from '../../../assets/padlock.svg'
+import note from '../../../assets/note.svg'
 
 
 
@@ -29,12 +31,12 @@ export default React.createClass({
           </div>
           <div className="container">
             <div className="row">
-            <div className="col-sm-4 col-sm-push-6">
+            <div className="col-sm-5 col-md-4 col-md-push-6 col-sm-push-5">
                 <h1 key="title">How it works</h1>
                 <p key="paragraph">The booking process at Cueup is designed to be secure and easy to use for both DJs and bookers. Learn more about the booking process below. If you have additional questions check out the faq or write us a message. 
                 </p>
             </div>
-              <div className="col-sm-4 col-sm-pull-3 particles">
+              <div className="col-md-4 col-md-pull-3 col-sm-4 col-sm-pull-4 particles">
                 <Particles params={PConfig} width="100%" height="300px"/>
               </div>
             </div>
@@ -107,6 +109,28 @@ If for any reason the DJ has to cancel, the full amount will be refunded instant
           </div>
         </div>
       </div>
+      <div className="info-boxes">
+            <div className="container">
+              <div className="row">
+                      <div  className="col-sm-5 col-sm-push-1">
+                        <div className="card">
+                          <img src={padlock} alt="icon"/>
+                      <h2 style={{color:this.themeColor}}>Secured booking system</h2>
+                      <p>
+At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money are instantly refunded. Otherwise the money are disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
+                  </div>
+                </div>
+                <div  className="col-sm-5 col-sm-push-1">
+                  <div className="card">
+                    <img src={note} alt="icon"/>
+                    <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
+                    <p>
+At Cueup we focus on finding the most qualified DJs for your event - so you don’t have to. Don’t waste time searching for DJs when you can have offers from great DJs send directly to you.  Each offer shows the DJ, their reviews and rating so you can confidently choose a DJ you can trust.                     </p>
+                  </div>
+                </div>
+                </div>
+              </div>
+              </div>
       <Footer
         color={this.themeColor}
         firstTo="/"

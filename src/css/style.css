@@ -80,6 +80,7 @@ p{
 a{
   text-decoration: none;
   color: #FFFFFF;
+      cursor: pointer;
 }
 a:hover{
   text-decoration: none;
@@ -1646,7 +1647,7 @@ margin-right: 5px;
   z-index: -2;
   position: absolute;
   margin-top: -20vw;
-  height: 124%;
+  height: 130%;
   transform:  skewX(5deg) translateX(-30%);
 }
 
@@ -1852,6 +1853,12 @@ table{
 .how-it-works .circle{
   background-color: #B031FF;
   position: absolute;
+}
+.location_howitworks #preFooterPseudo:before{
+  top: -600px;
+}
+.location_howitworks .info-boxes{
+  min-height: 0px;
 }
 .circle{
   font-family: SourceSansPro-Semibold;
@@ -2889,6 +2896,9 @@ table td{
 }
 .progrezz-wrapper{
   bottom: 80px;
+}
+.location_howitworks #preFooterPseudo:before{
+  top: -730px;
 }
 }
 /* Mobile END */

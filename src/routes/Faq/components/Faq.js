@@ -38,6 +38,13 @@ export default React.createClass({
                   <ButtonLink color={this.themeColor} to="/faq/organizer">
                    Organizer
                   </ButtonLink>
+                  <ButtonLink
+                  color={this.themeColor} 
+                  onClick={
+                      /*eslint no-undef: 0*/
+                    () =>  olark('api.box.expand')}
+                    >Contact us
+                </ButtonLink>
               </div>
             </div>
 

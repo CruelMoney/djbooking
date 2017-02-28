@@ -89,12 +89,8 @@ export default React.createClass({
             <div>
               <h4>RESOURCES</h4>
               <ul>
-                <li>
-                  <a 
-                    onClick={
-                      /*eslint no-undef: 0*/
-                    () =>  olark('api.box.expand')}
-                  >Support</a>
+                 <li>
+                  <Link to="/faq/dj">Support</Link>
                 </li>
                 <li>
                   <a  onClick={
