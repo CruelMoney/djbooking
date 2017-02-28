@@ -70,6 +70,7 @@ class SimpleMap extends React.Component{
         }
 
     getZoomLevel(radius) {
+        if(radius === 0) return 10
         var scale = radius / 500;
         var zoomLevel =  (15 - Math.log(scale) / Math.log(2));
         return parseInt(zoomLevel)
