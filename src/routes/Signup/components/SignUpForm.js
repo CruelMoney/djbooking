@@ -62,7 +62,7 @@ var signupForm = React.createClass({
             name='signup'
             label="Sign Up"
             active={true}
-            text="Do you want to sign up using soundcloud, facebook or your email"
+            text="Do you want to sign in using soundcloud, facebook or your email? The rest of the form still needs to be completed."
             hideOn={['SIGNED_IN']}
           >
            
