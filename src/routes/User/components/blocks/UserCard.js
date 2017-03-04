@@ -196,6 +196,13 @@ getInitialState(){
             
             : null}
             
+             {this.props.profile.discountPoints > 0 ? 
+            <div className="user-card-fact">
+              <p>Cueup points</p>
+              {this.props.profile.discountPoints + " Points"}
+            </div>
+                        
+            : null}
           </div>
         </div>
 
