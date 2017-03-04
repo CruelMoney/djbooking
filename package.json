@@ -6,6 +6,7 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
+    "@kadira/storybook": "^2.21.0",
     "babel-eslint": "^7.0.0",
     "eslint": "^3.8.1",
     "eslint-config-react-app": "^0.5.0",
@@ -14,7 +15,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
     "flow-bin": "^0.36.0",
-    "react-scripts": "0.7.0"
+    "react-scripts": "0.9.3"
   },
   "dependencies": {
     "auth0-js": "^7.6.1",
@@ -72,7 +73,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "flow": "flow; test $? -eq 0 -o $? -eq 2"
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"

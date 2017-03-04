@@ -9,7 +9,6 @@ import * as actions from './actions/LoginActions'
 import store from './reducers/Store'
 import {init as analytics} from './utils/analytics/autotrack'
 
-
 class app extends React.Component {
    
      state = {
@@ -17,9 +16,8 @@ class app extends React.Component {
      }
 
      componentWillMount() {
-       if(process.env.NODE_ENV === "production"){
-          analytics()
-       }
+         // Setup custom analytics
+         analytics()
      }
 
 

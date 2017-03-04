@@ -4,42 +4,18 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "type": "node",
+        
+            {
+            "name": "Chrome",
+            "type": "chrome",
             "request": "launch",
-            "name": "Launch via NPM",
-            "runtimeExecutable": "npm",
-            "windows": {
-                "runtimeExecutable": "npm.cmd"
-            },
-            "runtimeArgs": [
-                "start"
-            ],
-            "port": 3000,
-            "cwd": "${workspaceRoot}"
-        },
-         {
-            "name": "Launch",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "npm",
-            "stopOnEntry": false,
-            "timeout": 100000,
-            "cwd": "${workspaceRoot}",
-             "runtimeArgs": [
-                "start"
-            ],
-            "env": {
-                "NODE_ENV": "development"
-            },
-            "externalConsole": false,
-            "sourceMaps": true
-        },
-        {
-            "name": "Attach",
-            "type": "node",
-            "request": "attach",
-            "port": 5858
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceRoot}/src",
+            "userDataDir": "${workspaceRoot}/.vscode/chrome",
+            "sourceMapPathOverrides": {
+            "webpack:///src/*": "${webRoot}/*",
+            }
         }
+         
     ]
 }

@@ -2,8 +2,7 @@ import React, { PropTypes } from 'react'
 import AutoComplete from 'material-ui/AutoComplete'
 import connectToForm from '../higher-order/connectToForm'
 
-/*eslint no-undef: 0*/
-var locationService = new google.maps.places.AutocompleteService()
+var locationService = new window.google.maps.places.AutocompleteService()
 
 var Text = React.createClass({
 
@@ -26,6 +25,16 @@ var Text = React.createClass({
       dataSource: []
     }
   },
+  getDefaultProps(){
+    return{
+      value: "Current location"
+    }
+  },
+  componentWillMount(){
+    if(this.props.value){
+      this.props.onChange("Current location")
+    }
+  },
 
   updateSuggestions(predictions, status){
     var li = []
@@ -40,21 +49,21 @@ var Text = React.createClass({
   },
 
   onChange(value) {
-
     function toTitleCase(str)
     {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 
     value = toTitleCase(value)
-
     this.props.onChange(value)
 
     locationService.getPlacePredictions({ input: value, types: ['(cities)'] , componentRestrictions: {country: 'dk'}}, this.updateSuggestions)
   },
 
     onValueSelected(e){
-    this.props.onChange(e.target.value)
+      if(e.target){
+       this.props.onChange(e.target.value)
+      }
   },
 
   render() {

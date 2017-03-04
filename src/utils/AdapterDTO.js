@@ -67,7 +67,8 @@ const deletedUser={
     var user ={
 
       fromDTO: function(DTO) {
-        return assign({}, DTO, {
+        return {
+          ...DTO,
           bio: DTO.bio,
           email: DTO.email,
           experienceCount: DTO.experienceCount,
@@ -95,7 +96,6 @@ const deletedUser={
             geoCountry:     DTO.user_metadata.geoCountry,
 
           //App metadata stuff here
-
             auth0Id: DTO.app_metadata.auth0Id,
             avgRating : DTO.app_metadata.avgRating,
             earned    :  Formatter.money.ToStandard(DTO.app_metadata.earned, "DKK"),
@@ -108,17 +108,17 @@ const deletedUser={
             stripeID :  DTO.app_metadata.stripeID,
             tosAcceptanceIP:  DTO.app_metadata.tosAcceptanceIP,
             tosAcceptanceDate :  DTO.app_metadata.tosAcceptanceDate,
+            discountPoints: DTO.app_metadata.discountPoints,
 
           //self calculated extra info here
           provider:         DTO.app_metadata.auth0Id.split("|")[0],
-          user_metadata: null,
-          app_metadata: null
 
-              })
+              }
         },
 
       toDTO: function(profile) {
         return {
+          ...profile,
           bio: profile.bio,
           email: profile.email,
           experienceCount: profile.experienceCount,
@@ -130,6 +130,7 @@ const deletedUser={
           settings: settings.toDTO(profile.settings),
 
           user_metadata:{
+            ...profile.user_metadata,
             address:        profile.address,
             firstName:      Formatter.name.GetFirstAndLast(profile.name).firstName,
             lastName:       Formatter.name.GetFirstAndLast(profile.name).lastName,

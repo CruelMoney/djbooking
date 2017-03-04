@@ -92,19 +92,19 @@ export const trackError = (error, fieldsObj = {}) => {
 };
 
 
-export const trackSignup = () => {
+export function trackSignup(){
   ga('send', 'event', {
     eventCategory: 'Account',
     eventAction: 'created'
   });
 };
-export const trackEventPosted = () => {
+export function trackEventPosted(){
   ga('send', 'event', {
     eventCategory: 'Event',
     eventAction: 'created'
   });
 };
-export const trackEventPaid = (val) => {
+export function trackEventPaid(val) {
   ga('send', 'event', {
     eventCategory: 'Event',
     eventAction: 'paid',

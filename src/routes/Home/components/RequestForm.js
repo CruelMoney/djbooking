@@ -47,7 +47,7 @@ export default React.createClass({
     return {...form, guestsCount: form.guests[0]}
   },
 
-  formValidCheckers: [],
+  formValidCheckers: [], 
 
   onSubmit(form, callback){
     let event = this.formToEvent(this.props.form)

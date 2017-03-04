@@ -58,54 +58,54 @@ export function fetchEvent(id, hash, authID, callback = null) {
   }
 }
 
-function createEvent(form, geoResult){
-      return {
-            Name: form.eventName,
-            Genres: form.genres,
-            Description: form.description,
-            Location: {
-              lat:geoResult.lat,
-              lng: geoResult.lng,
-              name: form.location
-            },
-            StartTime: form.startTime,
-            EndTime: form.endTime,
-            GuestsCount: form.guests[0],
-            Currency: "DKK",
-            MinPrice : form.minPrice,
-            MaxPrice: form.maxPrice,
-            NeedSpeakers: form.speakers,
-          }
+
+
+var getLocation = (location) => {
+  return new Promise(function(resolve, reject){
+    if (location.toUpperCase() === "CURRENT LOCATION") {
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(
+          position=>{
+          resolve({position:{lat: position.coords.latitude, lng: position.coords.longitude}});
+        }, 
+        err=>reject("Current location could not be found. Please enter the city."));
+      }else{
+        (reject("Current location not supported in this browser. Please enter the city."))
       }
+    }else{
+      GeoCoder.codeAddress(location, function(geoResult) {
+              if (geoResult.error) {
+                  (reject("The location could not be found, try another city"))
+                }else{
+                  resolve(geoResult)
+                }
+          })
+          }
+      })
+  }
 
 
 
 export function postEvent(form, callback) {
   return function (dispatch) {
-
-    //Getting the coordinates of the playing location
-    GeoCoder.codeAddress(form.location, function(geoResult) {
-        if (geoResult.error) {
-            (callback("The location could not be found, try another city"))
-          }
-
-        //If the geocoding does not fail
-        else {
-          var event = converter.cueupEvent.toDTO(form);
-          var data ={...event, location:{
-            lat:geoResult.position.lat,
-            lng: geoResult.position.lng,
-            name: event.location}, }
-          const token = auth.getToken()
-          cueup.createEvent(token, data, function(err, result){
-            if (err) {
-              (callback(err))
-            }else{
-              tracker.trackEventPosted()
-              (callback(null))
-            }
-          })
-        }})
+      getLocation(form.location).then((geoResult)=>{
+              var event = converter.cueupEvent.toDTO(form);
+              var data ={...event, location:{
+                lat:geoResult.position.lat,
+                lng: geoResult.position.lng,
+                name: event.location}, }
+              const token = auth.getToken()
+              cueup.createEvent(token, data, function(err, result){
+                if (err) {
+                  (callback(err))
+                }else{
+                  console.log(typeof tracker.trackEventPosted)
+                  tracker.trackEventPosted()
+                  (callback(null))
+                }
+              })}
+      ).catch(errMessage=>callback(errMessage))
+         
   }
 }
 
