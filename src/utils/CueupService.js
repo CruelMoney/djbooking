@@ -59,10 +59,10 @@ export default class CueupService {
     }
 
     //USER ACTIONS
-    getUser(token, callback) {
+    getUser(id, callback) {
       return this.fetchHandling(
-        `${this.domain}/api/user`,
-        this.getInit(this.getHeaders(token)),
+        `${this.domain}/api/user/${id}`,
+        this.getInit(this.getHeaders("")),
         callback
       )}
 
@@ -100,10 +100,10 @@ export default class CueupService {
       this.postInit(data, this.getHeaders("")),
       callback)
    }
-   getUserReviews(token, callback) {
+   getUserReviews(id, callback) {
      return this.fetchHandling(
-       `${this.domain}/api/user/review`,
-       this.getInit(this.getHeaders(token)),
+       `${this.domain}/api/user/reviews/${id}`,
+       this.getInit(this.getHeaders("")),
        callback
      )}
      updateSettings(token, data, callback) {

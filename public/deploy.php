@@ -15,8 +15,8 @@
         'git submodule sync',
         'git submodule update',
         'git submodule status',
-        'npm install',
-        'npm run build',
+        'yarn install',
+        'yarn build',
         'cp -a ../build/. ./',
     );
 

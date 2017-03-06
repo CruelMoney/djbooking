@@ -464,7 +464,7 @@ import { connect } from 'react-redux'
 import  * as actions from '../../../../../actions/GigActions'
 
 function mapStateToProps(state, ownProps){
-  return {payoutInfoValid:  state.user.profile.stripeID ? true : false,  }
+  return {payoutInfoValid:  state.login.profile.stripeID ? true : false,  }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {

@@ -351,8 +351,8 @@ import {userLogout} from '../../../../../actions/LoginActions'
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownProps) {
   return {
-    user:  state.user.profile,
-    provider: state.user.profile.provider,
+    user:  state.login.profile,
+    provider: state.login.profile.provider,
   }
 }
 

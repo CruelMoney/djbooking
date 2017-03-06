@@ -250,7 +250,7 @@ import * as actions from '../../../actions/SignupActions'
 
 function mapStateToProps(state, ownProps) {
   return {
-    isLoggedIn: state.user.status.signedIn,
+    isLoggedIn: state.login.status.signedIn,
   }
 }
 

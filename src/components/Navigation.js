@@ -151,7 +151,7 @@ var menu = React.createClass({
 
                 {this.props.loggedIn ? (
                   <li>
-                    <Navlink  buttonLook={true}  to="/profile" important={true} >
+                    <Navlink  buttonLook={true}  to={`/user/${this.props.profile.user_id}/profile`} important={true} >
                       <UserMenuItem
                         name={this.props.profile.name}
                         picture={this.props.profile.picture}
@@ -182,8 +182,8 @@ import * as actions from '../actions/LoginActions'
 
 function mapStateToProps(state, ownprops) {
   return {
-    loggedIn: state.user.status.signedIn,
-    profile: state.user.profile
+    loggedIn: state.login.status.signedIn,
+    profile: state.login.profile
   }
 }
 

@@ -169,14 +169,14 @@ import * as userActions from '../../../actions/UserActions'
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownProps) {
   return {
-    isLoggedIn: state.user.status.signedIn,
+    isLoggedIn: state.login.status.signedIn,
     form:   Object.assign(
         {},
         state.forms["requestForm-step-1"] ? state.forms["requestForm-step-1"].values : {} ,
         state.forms["requestForm-step-2"] ? state.forms["requestForm-step-2"].values : {} ,
         state.forms["requestForm-step-3"] ? state.forms["requestForm-step-3"].values : {} ,
       ),
-    emailExists: state.user.status.emailExists
+    emailExists: state.login.status.emailExists
   }
 }
 

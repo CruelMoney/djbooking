@@ -48,31 +48,31 @@ export default React.createClass({
           
           
               <li>
-                <Navlink userNavigation={true} to="profile" label="Information"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/profile"} label="Information"/>
               </li>
        
 
             {this.props.isCustomer ?
               <li>
-                <Navlink userNavigation={true} to="events" label="Events"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/events"} label="Events"/>
               </li>
             : null}
 
             {this.props.isDJ ?
               <li >
-                <Navlink userNavigation={true} to="gigs" label="Gigs"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/gigs"} label="Gigs"/>
               </li>
             : null}
 
             {this.props.isDJ ?
               <li >
-                <Navlink userNavigation={true} to="reviews" label="Reviews"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/reviews"} label="Reviews"/>
               </li>
               : null
             }
 
             <li>
-              <Navlink userNavigation={true} to="preferences" label="Preferences"/>
+              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/preferences"} label="Preferences"/>
             </li>
 
           </ul>

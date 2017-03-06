@@ -66,8 +66,8 @@ class app extends React.Component {
 
 function mapStateToProps(state, ownprops) {
   return {
-    loggedIn: state.user.status.signedIn,
-    profile: state.user.profile
+    loggedIn: state.login.status.signedIn,
+    profile: state.login.profile
   }
 }
 

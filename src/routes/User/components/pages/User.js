@@ -15,6 +15,7 @@ var user = React.createClass({
   },
 
   childContextTypes: {
+      profile: PropTypes.object,
       hideUserCard: PropTypes.func,
       showUserCard: PropTypes.func,
       registerActions: PropTypes.func,
@@ -28,17 +29,21 @@ var user = React.createClass({
   },
 
   componentWillMount(){
-    document.title = this.props.profile.firstName + " | Cueup"
+      this.props.fetchUser((res,err)=>{})
 
-    if (!this.props.profile.email_verified) {
-      this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
-      return
+    if(this.props.profile){
+      document.title = this.props.profile.firstName + " | Cueup"
+      if (!this.props.profile.email_verified) {
+        this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
+        return
+      }
+      if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
+        this.setState({notification:"You should update your profile picture."})
+        return
+      }
+      this.setState({notification:"You don't have any new notifications."})
     }
-    if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
-      this.setState({notification:"You should update your profile picture."})
-      return
-    }
-    this.setState({notification:"You don't have any new notifications."})
+
 
   },
 
@@ -87,7 +92,8 @@ var user = React.createClass({
      editing:     this.state.editing,
      valid:        this.state.valid,
      loading: this.props.loading,
-     textColor: this.textColor
+     textColor: this.textColor,
+     profile: this.props.profile
     }
   },
 
@@ -168,18 +174,24 @@ var user = React.createClass({
 
 
 import { connect } from 'react-redux'
+import * as actions from '../../../../actions/UserActions'
 
-//TODO move magic information about the filters out of container.
-//Should be grabbed from the children that are set as filters
+
 function mapStateToProps(state, ownProps) {
   return {
     profile:  state.user.profile,
     loading: state.user.status.isWaiting,
-    geoLocation: state.user.status.geoLocation
+    geoLocation: state.login.status.geoLocation
   }
 }
 
-const SmartUser = connect(mapStateToProps)(user)
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+      fetchUser: (callback) =>  {dispatch(actions.getUser(ownProps.params.id, callback))},
+}}
+
+
+const SmartUser = connect(mapStateToProps,mapDispatchToProps)(user)
 
 export default props => (
     <SmartUser {...props}/>

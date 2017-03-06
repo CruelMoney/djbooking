@@ -116,7 +116,7 @@ import {connect} from 'react-redux';
 export const mapStateToProps = (state) => {
   return {
     event: state.events.values[0],
-    loggedIn: state.user.status.signedIn
+    loggedIn: state.login.status.signedIn
   }
 }
 

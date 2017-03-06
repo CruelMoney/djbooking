@@ -28,6 +28,9 @@ module.exports = {
 
     TOGGLE_EDIT_MODE: null,
 
+    FETCH_USER_REQUESTED:null,
+    FETCH_USER_SUCCEEDED:null,
+    FETCH_USER_FAILED:null,
 
     // Routes
     REDIRECT: null,

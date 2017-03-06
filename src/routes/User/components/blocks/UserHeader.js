@@ -10,9 +10,8 @@ var userHeader = React.createClass({
     profile: PropTypes.object,
     geoAddress: PropTypes.string,
     hideInfo: PropTypes.bool,
-    notification: PropTypes.string,
-    actions: PropTypes.arrayOf(PropTypes.node)
-  },
+    notification: PropTypes.string
+    },
 
    componentWillMount() {
      window.addEventListener('scroll', this.handleScroll)
@@ -99,8 +98,9 @@ var userHeader = React.createClass({
             genres={this.props.loading ? ["..." ]: this.props.profile.genres}
             loading={this.props.loading}
           />
-          {this.props.actions}
 
+          {this.props.actions}
+        
         </div>
 
 

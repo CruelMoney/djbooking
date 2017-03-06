@@ -7,14 +7,13 @@ const auth = new AuthService()
 
 var ActionTypes = c.ActionTypes
 
-export function fetchReviews() {
+export function fetchReviews(userIdD) {
   return function (dispatch) {
     dispatch( function() { return {
         type: ActionTypes.FETCH_REVIEWS_REQUESTED,
       }}())
 
-      const token = auth.getToken()
-      cueup.getUserReviews(token, function(err, result){
+      cueup.getUserReviews(userIdD, function(err, result){
         if (err) {
           dispatch( function() { return {type: ActionTypes.FETCH_REVIEWS_FAILED, err: err.message}}() )
         }else{

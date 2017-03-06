@@ -58,20 +58,22 @@ var ActionTypes = c.ActionTypes
       }
   }
 
-  export function getUser(callback){
+  export function getUser(userID,callback){
     return function(dispatch){
-      const token = auth.getToken()
-      cueup.getUser(token, (error, result)=>
+       dispatch (function() {return {
+              type: ActionTypes.FETCH_USER_REQUESTED,
+            }}())
+      cueup.getUser(userID, (error, result)=>
       {
         if (error) {
           dispatch (function() {return {
-              type: ActionTypes.LOGIN_FAILED,
+              type: ActionTypes.FETCH_USER_FAILED,
               err: error.message
             }}())
             callback(error.message)
         }else{
           dispatch (function() {return {
-              type: ActionTypes.LOGIN_SUCCEEDED,
+              type: ActionTypes.FETCH_USER_SUCCEEDED,
               profile: converter.user.fromDTO(result)
             }}())
           callback(null)
@@ -150,7 +152,7 @@ export function resetProfile(profile) {
       type: ActionTypes.TOGGLE_EDIT_MODE
       }}())
       }
-}
+    }
 
 
 export function updatePayoutInfo(data, callback) {
@@ -177,7 +179,7 @@ export function updatePayoutInfo(data, callback) {
         if (err) {
           (callback(err))
         }else{
-          dispatch(self.getUser(callback))
+         // dispatch(self.getUser(callback))
         }
       })
 
@@ -198,7 +200,7 @@ export function updateSettings(settings, callback) {
     if (err) {
       (callback(err))
     }else{
-      dispatch(self.getUser(callback))
+     // dispatch(self.getUser(callback))
     }
   })
 }

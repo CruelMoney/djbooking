@@ -225,17 +225,18 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
+  console.log(ownProps)
   return {
       save: (profile,callback) => {dispatch(actions.save(profile, callback))},
       deleteProfile: (callback) => {dispatch(actions.deleteProfile(callback))},
 }}
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-  return Object.assign({}, ownProps, {
-    profile: stateProps.profile,
-    save: dispatchProps.save,
-    deleteProfile: dispatchProps.deleteProfile,
-  })}
+  return {
+    ...ownProps,
+    ...stateProps,
+    ...dispatchProps
+  }}
 
 
 const SmartProfile = connect(mapStateToProps, mapDispatchToProps, mergeProps, { pure: false })(Profile)

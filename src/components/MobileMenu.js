@@ -219,25 +219,25 @@ class MobileMenu extends React.Component {
 
               {this.props.profile.isDJ ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to="/profile" label="Profile"/>
+                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to={`/user/${this.props.profile.user_id}/profile`} label="Profile"/>
                 </li>
               : null}
 
               {this.props.profile.isCustomer ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/events" label="Events"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_id}/events`} label="Events"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/gigs" label="Gigs"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_id}/gigs`} label="Gigs"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/reviews" label="Reviews"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_id}/reviews`} label="Reviews"/>
                 </li>
                 : null
               }
@@ -305,8 +305,8 @@ class MobileMenu extends React.Component {
 
 export const mapStateToProps = (state) => {
   return {
-    profile: state.user.profile,
-    loggedIn: state.user.status.signedIn,
+    profile: state.login.profile,
+    loggedIn: state.login.status.signedIn,
     registeredMenuItems: state.menu
   }
 }

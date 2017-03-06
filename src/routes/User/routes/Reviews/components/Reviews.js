@@ -154,7 +154,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchReviews: () => { dispatch(actions.fetchReviews()) },
+    fetchReviews: () => { dispatch(actions.fetchReviews(ownProps.userID)) },
 }}
 function mergeProps(stateProps, dispatchProps, ownProps) {
   return {...stateProps, ...dispatchProps}

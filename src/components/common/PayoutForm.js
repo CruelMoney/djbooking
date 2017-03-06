@@ -251,7 +251,7 @@ var payoutForm = React.createClass({
 
 
 function mapStateToProps(state, ownprops){
-  return{user:  state.user.profile}
+  return{user:  state.login.profile}
 }
 
 function mapDispatchToProps(dispatch, ownprops) {
