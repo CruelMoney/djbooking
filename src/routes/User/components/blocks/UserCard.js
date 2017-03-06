@@ -137,7 +137,7 @@ getInitialState(){
           </div>
           <div id="profile-picture-upload">
             <canvas ref="canvas" style={{display:"none"}} />
-            <input name="fileupload" id="fileupload"  type="file" accept="image/*" onChange={this.handleFile}/>
+            {this.props.isOwnProfile ? <input name="fileupload" id="fileupload"  type="file" accept="image/*" onChange={this.handleFile}/> : null}
             {
               this.state.loading
               ?
@@ -146,18 +146,20 @@ getInitialState(){
               this.state.err ?
                 <label htmlFor="fileupload"><span>{this.state.err}</span></label>
               :
-              <label htmlFor="fileupload"><span>Change image</span></label>
+              this.props.isOwnProfile ? <label htmlFor="fileupload"><span>Change image</span></label> : null
             }
           </div>
 
           <div
-            className="user-card-picture"
-            style={{backgroundImage: "linear-gradient(20deg, rgba(49, 255, 245,0.8) 0%, rgba(49, 255, 197,0.5) 16%, rgba(0, 209, 255,0.2) 66%, rgba(49, 218, 255, 0.0) 71%),  url("+this.props.picture+")"}}
+            className={"user-card-picture " + (this.props.isOwnProfile ? "editable" : "")}
+            style={{backgroundImage: "url("+this.props.picture+")"}}
           />
+          {this.props.isOwnProfile ?
           <div
             className="user-card-picture-blurred"
-            style={{backgroundImage: "linear-gradient(20deg, rgba(49, 255, 245,0.8) 0%, rgba(49, 255, 197,0.5) 16%, rgba(0, 209, 255,0.2) 66%, rgba(49, 218, 255, 0.0) 71%),  url("+this.props.picture+")"}}
+            style={{backgroundImage: "url("+this.props.picture+")"}}
           />
+          : null}
         </div>
 
         <div className={this.props.onlyPicture ? "user-card-text hide" : "user-card-text"}>
@@ -169,10 +171,12 @@ getInitialState(){
               <p>Experience</p>
               {this.props.experience + " gigs"}
             </div>
+            {this.props.isOwnProfile ? 
             <div className="user-card-fact">
               <p>Earned</p>
               {Formatter.money.FormatNumberToString(this.props.earned, "Dkk")}
             </div>
+            : null}
             <div className="user-card-fact">
               <p>Rating</p>
               {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : "No reviews yet"}
@@ -196,7 +200,7 @@ getInitialState(){
             
             : null}
             
-             {this.props.profile.discountPoints > 0 ? 
+             {this.props.profile.discountPoints > 0 && this.props.isOwnProfile ? 
             <div className="user-card-fact">
               <p>Cueup points</p>
               {this.props.profile.discountPoints + " Points"}

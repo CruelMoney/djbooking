@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
           status:{
             isWaiting: false,
         },
-         profile: cloneDeep(action.profile )
+         profile: cloneDeep(action.profile)
        })
 
    case ActionTypes.FETCH_USER_FAILED:

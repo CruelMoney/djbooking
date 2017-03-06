@@ -41,6 +41,9 @@ export default class AuthService extends EventEmitter {
             if(err !=null && err.message === "invalid_user_password"){
               onError({message:"The email or password is wrong"}, result)
             }else{
+                if (result && result.idToken) {
+                    this.setToken(result.idToken)
+                }
               onError(err, result)
             }
         })

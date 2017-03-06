@@ -46,24 +46,29 @@ export default React.createClass({
               }}>
 
           
-          
               <li>
                 <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/profile"} label="Information"/>
               </li>
        
-
-            {this.props.isCustomer ?
+              
+            {this.props.isCustomer && this.props.isOwnProfile ?
               <li>
                 <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/events"} label="Events"/>
               </li>
             : null}
 
-            {this.props.isDJ ?
+            {this.props.isDJ && this.props.isOwnProfile  ?
               <li >
                 <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/gigs"} label="Gigs"/>
               </li>
             : null}
 
+           { !this.props.isOwnProfile && this.props.isDJ ? 
+            <li>
+              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/book"} label="Book DJ"/>
+            </li>
+            :null}    
+            
             {this.props.isDJ ?
               <li >
                 <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/reviews"} label="Reviews"/>
@@ -71,10 +76,15 @@ export default React.createClass({
               : null
             }
 
+           
+            { this.props.isOwnProfile ? 
             <li>
               <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/preferences"} label="Preferences"/>
             </li>
+            :null}
 
+
+            
           </ul>
         </nav>
       </div>

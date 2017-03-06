@@ -137,7 +137,9 @@ var Text = React.createClass({
     //Fix for not being able to style the input element
       setTimeout(() => {
             var elem = document.querySelector('.search-bar__auto-complete')
+            if(elem){
             elem.style.height = this.props.big ? "70px" : "30px"
+            }
           }, 100)
 
 

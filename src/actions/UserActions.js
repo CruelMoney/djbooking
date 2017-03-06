@@ -72,9 +72,10 @@ var ActionTypes = c.ActionTypes
             }}())
             callback(error.message)
         }else{
+          const profile = converter.user.fromDTO(result)
           dispatch (function() {return {
               type: ActionTypes.FETCH_USER_SUCCEEDED,
-              profile: converter.user.fromDTO(result)
+              profile:profile
             }}())
           callback(null)
         }

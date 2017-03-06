@@ -28,7 +28,7 @@ export default React.createClass({
 
   render: function() {
     return (
-      <div style={{color: this.context.color}} className="calendar-container">
+      <div style={{color: this.context.color}} className={"calendar-container" + (this.props.dark ? " dark" : "")}>
         <DatePicker
           fixedHeight
           inline

@@ -44,6 +44,12 @@ class MobileMenu extends React.Component {
     }
   }
 
+  logout = () =>{
+    console.log(this.props.logout)
+  this.handleClose()
+    this.props.logout()
+  }
+
   onLoginButton = () => {
       this.setState({
         loginExpanded: !this.state.loginExpanded
@@ -262,7 +268,7 @@ class MobileMenu extends React.Component {
               {this.props.loggedIn ? (
 
                 <li>
-                  <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
+                  <Navlink  buttonLook={true} to="/"  onClick={this.logout} label="Log out"/>
                 </li>
               ) : (
                 null
@@ -307,7 +313,7 @@ export const mapStateToProps = (state) => {
   return {
     profile: state.login.profile,
     loggedIn: state.login.status.signedIn,
-    registeredMenuItems: state.menu
+    registeredMenuItems: state.menu,
   }
 }
 
@@ -324,7 +330,7 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => {
     profile: stateProps.profile,
     loggedIn: stateProps.loggedIn,
     registeredMenuItems: stateProps.registeredMenuItems,
-    logout: dispatchEvent.logout,
+    logout: dispatchProps.logout,
     updatePicture: (img, callback) => dispatchProps.updatePicture(img, callback, stateProps.profile)
 }
 }

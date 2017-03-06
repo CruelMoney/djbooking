@@ -22,11 +22,17 @@ var Reviews = React.createClass({
 
 
   componentWillMount() {
-      this.props.fetchReviews()
+     if(this.props.userID){
+       this.props.fetchReviews()
+    }
       this.context.registerActions(this.getActionButtons)
-
   },
 
+  componentWillReceiveProps(nextprops) {
+    if(!this.props.userID && nextprops.userID){
+       nextprops.fetchReviews()
+    }
+  },
 
   getActionButtons(props = this.props){
     return (
@@ -131,8 +137,15 @@ var Reviews = React.createClass({
           renderLoadingItem()
           :
           this.props.reviews.length === 0 ?
-            <EmptyPage message={<div>Ask your customers to leave a review <br/>
-            It will help you get more gigs</div>}/>
+            <EmptyPage message={
+            this.props.isOwnProfile  ?
+              <div>Ask your customers to leave a review <br/>
+            It will help you get more gigs</div>
+            : 
+             <div>
+               This DJ does not have any reviews <br/>
+            </div>
+            }/>
           :
           this.props.reviews.map((review, i) => renderReview(review, i))
         }
@@ -146,18 +159,25 @@ import * as actions from '../../../../../actions/ReviewActions'
 
 
 function mapStateToProps(state, ownProps) {
+    const isOwnProfile = (state.login.profile && state.user.profile) 
+    ? state.login.profile.user_id === state.user.profile.user_id 
+    : false
   return {
     reviews:  state.reviews.values ? state.reviews.values : [],
-    loading: state.reviews.isWaiting
+    loading: state.reviews.isWaiting,
+    userID: state.user.profile.user_id,
+    isOwnProfile:isOwnProfile
   }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchReviews: () => { dispatch(actions.fetchReviews(ownProps.userID)) },
+    fetchReviews: (userID) => { dispatch(actions.fetchReviews(userID)) },
 }}
 function mergeProps(stateProps, dispatchProps, ownProps) {
-  return {...stateProps, ...dispatchProps}
+  return {
+    ...stateProps, 
+    fetchReviews: ()=>dispatchProps.fetchReviews(stateProps.userID)}
 }
 
 const SmartReviews = connect(mapStateToProps, mapDispatchToProps, mergeProps,{ pure: false })(Reviews)

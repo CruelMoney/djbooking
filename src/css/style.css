@@ -527,6 +527,10 @@ form ol {
   margin-left:-40px;
 }
 
+.cursor-pointer input[disabled]{
+  cursor: pointer !important;
+}
+
 form a{
   color: #32325D;
 }
@@ -907,6 +911,9 @@ input[type="file"] + label * {
   height: 250px;
   width: 100%;
 }
+.header-info{
+  margin-bottom: 40px;
+}
 .user-header.fixed{
   top: -200px;
   position: fixed;
@@ -992,8 +999,8 @@ pointer-events: none;
   transition: opacity 0.3s;
 }
 .user-header nav{
-  position: absolute;
-      bottom: 10px;
+      position: relative;
+      bottom: -4px;
       width: 100%;
       margin: 0;
     }
@@ -1012,8 +1019,8 @@ letter-spacing: normal;
 .header-divider{
   border-bottom: 2px white solid;
 
-position: absolute;
-bottom: 51px;
+position: relative;
+top: -4px;
 width: 100%;
 }
 .user-card-wrapper{
@@ -1056,7 +1063,7 @@ transition: opacity 0.3s ease;
 .user-card-picture-wrapper{
   overflow: hidden;
 }
-.user-card-picture-wrapper:hover .user-card-picture,
+.user-card-picture-wrapper:hover .user-card-picture.editable,
 .user-card-picture-wrapper.loading .user-card-picture{
   opacity: 0;
 }
@@ -2021,7 +2028,6 @@ text-transform: uppercase;
   width: 100%;
 }
 .request-form section:first-child{
-  margin-bottom: 15px;
   margin-top: 0px;
 }
 .request-form section:last-child{
@@ -2049,6 +2055,17 @@ margin: 0;
   align-items: flex-end;
   margin-bottom: 20px;
 }
+.location_user .request-columns > .row{
+  flex-direction: column;
+}
+.location_user .request-columns section{
+  margin-bottom: 30px;
+}
+.location_user .request-columns .card{
+  margin-bottom: 30px;
+}
+
+
 .text-field{
   margin-top: -10px;
 }
@@ -2515,12 +2532,7 @@ left: 50%;
     margin-right: 10px;
     display: inline-block;
   }
-  .userNavigation{
-    margin-right: 40px !important;
-  }
-  .header-divider{
-    width: 95%;
-  }
+
   .terms-navigation{
     display: flex;
 
@@ -2857,7 +2869,7 @@ table td{
       margin-bottom: 20px;
 }
 .header-info{
-      margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 .event-header-content, .user-header-content {
     height: auto;

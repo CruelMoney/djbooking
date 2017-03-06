@@ -12,7 +12,7 @@ function redirectNotAuth(nextState, replace){
 
 module.exports = {
   path: 'user/:id',
-  onEnter: redirectNotAuth,
+  //onEnter: redirectNotAuth,
 
   getIndexRoute(partialNextState, callback) {
     require.ensure([], function (require) {
@@ -30,6 +30,7 @@ module.exports = {
         require('./routes/Events'),
         require('./routes/Reviews'),
         require('./routes/Preferences'),
+        require('./routes/Book'),
       ])
     })
   },

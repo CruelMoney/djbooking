@@ -12,6 +12,7 @@ var user = React.createClass({
 
   propTypes: {
     profile: PropTypes.object,
+    isOwnProfile:PropTypes.bool
   },
 
   childContextTypes: {
@@ -25,13 +26,15 @@ var user = React.createClass({
       color: PropTypes.string,
       loading: PropTypes.bool,
       textColor: PropTypes.string,
-      disableEditMode: PropTypes.func
+      disableEditMode: PropTypes.func,
+      isOwnProfile:PropTypes.bool
+
   },
 
   componentWillMount(){
-      this.props.fetchUser((res,err)=>{})
+    this.props.fetchUser(this.props.params.id, (res,err)=>{})
 
-    if(this.props.profile){
+    if(this.props.profile && this.props.isOwnProfile){
       document.title = this.props.profile.firstName + " | Cueup"
       if (!this.props.profile.email_verified) {
         this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
@@ -43,22 +46,34 @@ var user = React.createClass({
       }
       this.setState({notification:"You don't have any new notifications."})
     }
-
-
   },
 
   componentWillReceiveProps(nextProps){
 
-    if (!nextProps.profile.email_verified) {
-      this.setState({notification:"You won't receive any gigs before you confirm your email-address."})
-      return
+    if(nextProps.profile.firstName){
+         document.title = nextProps.profile.firstName + " | Cueup"
     }
-    if (nextProps.profile.picture && nextProps.profile.picture.indexOf("default-profile-pic") !== -1) {
-      this.setState({notification:"You should update your profile picture."})
-      return
-    }
-    this.setState({notification:"You don't have any new notifications."})
 
+    if(nextProps.params.id !== this.props.params.id){
+      nextProps.fetchUser(nextProps.params.id,(res,err)=>{})
+    }
+
+    if(nextProps.profile && nextProps.isOwnProfile){
+      if (!nextProps.profile.email_verified) {
+        this.setState({notification:"You won't receive any gigs before you confirm your email-address."})
+        return
+      }
+      if (nextProps.profile.picture && nextProps.profile.picture.indexOf("default-profile-pic") !== -1) {
+        this.setState({notification:"You should update your profile picture."})
+        return
+      }
+      this.setState({notification:"You don't have any new notifications."})
+    }else{
+      if(nextProps.profile.settings && nextProps.profile.settings.standby ){
+        this.setState({notification:"This DJ is currently on standby and can not be booked."})}
+      else{
+        this.setState({notification:""})}
+    }
   },
 
   setActions(){
@@ -93,7 +108,9 @@ var user = React.createClass({
      valid:        this.state.valid,
      loading: this.props.loading,
      textColor: this.textColor,
-     profile: this.props.profile
+     profile: this.props.profile,
+      isOwnProfile:this.props.isOwnProfile
+
     }
   },
 
@@ -133,6 +150,7 @@ var user = React.createClass({
           }}
         >
           <UserHeader
+            isOwnProfile={this.props.isOwnProfile}
             geoAddress={this.props.geoLocation ? 
               (+ this.props.geoLocation.city_name ? this.props.geoLocation.city_name + ", " : "" +
                  this.props.geoLocation.country_name ? this.props.geoLocation.country_name : "") : ""}
@@ -148,9 +166,9 @@ var user = React.createClass({
               <div className={"col-md-4"}></div>
               <div className={"col-md-8"}>
                 <div className="mobileActions">
-                  {this.state.actions}
+                {this.props.isOwnProfile ? this.state.actions : null}
                 </div>
-                {this.props.children}
+               {this.props.children}
               </div>
             </div>
           </div>
@@ -178,16 +196,22 @@ import * as actions from '../../../../actions/UserActions'
 
 
 function mapStateToProps(state, ownProps) {
+  const isOwnProfile = 
+    (state.login.profile && state.user.profile) 
+    ? state.login.profile.user_id === state.user.profile.user_id 
+    : false
+
   return {
     profile:  state.user.profile,
     loading: state.user.status.isWaiting,
-    geoLocation: state.login.status.geoLocation
+    geoLocation: state.login.status.geoLocation,
+    isOwnProfile:isOwnProfile
   }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-      fetchUser: (callback) =>  {dispatch(actions.getUser(ownProps.params.id, callback))},
+      fetchUser: (userID, callback) =>  {dispatch(actions.getUser(userID, callback))},
 }}
 
 

@@ -31,7 +31,7 @@ function handleLoginFeedback(dispatch, callback, redirect = false){
               }}())
               callback(error.message)
           }else{
-            cueup.getUser(authRes.app_metadata.cueup_id, (error, result)=>{
+            cueup.getUser(authRes.app_metadata.cueupId, (error, result)=>{
               if (error) {
                   dispatch (function() {return {
                     type: ActionTypes.LOGIN_FAILED,
@@ -87,7 +87,7 @@ function userLogin(dispatch, token, callback){
             }}())
             callback(error.message)
         }else{
-          cueup.getUser(authRes.app_metadata.cueup_id, (error, result)=>{
+          cueup.getUser(authRes.app_metadata.cueupId, (error, result)=>{
              if (error) {
                 dispatch (function() {return {
                   type: ActionTypes.LOGIN_FAILED,
