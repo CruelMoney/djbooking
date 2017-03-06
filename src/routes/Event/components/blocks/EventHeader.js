@@ -85,7 +85,7 @@ var eventHeader = React.createClass({
 
               {this.props.loggedIn ?
                 <div className="back-button userNavigation">
-                  <Navlink to={"/events"} label="< Events"/>
+                  <Navlink to={"/user/"+this.props.userID+"/events"} label="< Events"/>
                 </div>
               :null}
               <div className="event-header-content col-sm-7">

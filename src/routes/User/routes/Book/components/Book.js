@@ -10,7 +10,6 @@ import ToggleButtonHandler from '../../../../../components/common/ToggleButtonHa
 import Form from '../../../../../components/common/Form-v2'
 import Slider from '../../../../../components/common/Slider'
 import TimeSlider from '../../../../../components/common/TimeSlider'
-import Progress from './ProgressSubmit'
 import TextBox from '../../../../../components/common/TextBox'
 import Popup from '../../../../../components/common/Popup'
 import Login from '../../../../../components/common/Login'
@@ -18,14 +17,13 @@ import Login from '../../../../../components/common/Login'
 import wNumb from 'wnumb'
 import c from '../../../../../constants/constants'
 
-export default React.createClass({
+var RequestForm = React.createClass({
   propTypes: {
     form: PropTypes.object,
     date: PropTypes.object, //moment object
     onSubmit: PropTypes.func,
     isLoggedIn: PropTypes.bool,
     checkEmail: PropTypes.func,
-    emailExists: PropTypes.bool
   },
 
   getDefaultProps(){
@@ -37,17 +35,22 @@ export default React.createClass({
   getInitialState(){
     return{
       showPopup: false,
-      emailExists: false,
       guests: 50,
       step1Done: false,
       step2Done: false,
       step3Done: false,
+      msg: null,
       date: moment()
     }
   },
 
   formToEvent(form){
-    return {...form, guestsCount: form.guests[0]}
+    console.log(form)
+    return {
+      ...form, 
+      guestsCount: form.guests[0],
+      ReferredBy: this.props.params.id  
+    }
   },
 
   formValidCheckers: [], 
@@ -59,7 +62,7 @@ export default React.createClass({
 
     if(!valid) return              
 
-    let event = this.formToEvent(this.props.form)
+    let event = this.formToEvent(form.values)
     let self = this
 
     if (this.props.isLoggedIn){
@@ -77,7 +80,14 @@ export default React.createClass({
           callback(" ",null)
         }else{
         try {
-           self.props.onSubmit(event, callback)
+           self.props.onSubmit(event, (err, res)=>{
+             if(!err){
+               this.setState({
+                 msg: "Thank you for using our service. We will send you an email with confirmation of the event."
+               })
+               callback(err, res)
+             }
+           })
         } catch (error) {
           callback("Something went wrong")
         }
@@ -105,7 +115,7 @@ export default React.createClass({
     const eventDateString = this.state.date.format("dddd Do, MMMM YYYY")
     return(
       <div className="request-form">
-        <Popup width="380px" showing={this.state.showPopup && !this.props.isLoggedIn}
+        <Popup width="380px" showing={this.state.showPopup}
           onClickOutside={this.hidePopup}>
           
             {this.state.showLogin ? 
@@ -146,7 +156,9 @@ export default React.createClass({
                 </section>
                 <section
                 className="cursor-pointer"
-                onClick={()=>this.setState({showLogin:false, showPopup:true})}
+                onClick={()=>{
+                  console.log("bruh")
+                  this.setState({showLogin:false, showPopup:true})}}
                 >
                   <label>Event date</label>
                   <TexfieldDisconnected
@@ -269,7 +281,7 @@ export default React.createClass({
 
           <SubmitButton
             active
-            onSubmit={this.onSubmit}
+            onClick={this.onSubmit}
           >
           BOOK DJ
           </SubmitButton>
@@ -278,6 +290,7 @@ export default React.createClass({
           
             <div className="row">
               <div className="col-xs-12">
+                {this.state.msg ? <div style={{textAlign:"center", margin: "10px 0"}}><p style={{fontSize:"20px"}}>{this.state.msg}</p></div> : null}
                 <p 
                 style={{textAlign: "center", marginTop: "10px"}} 
                 className="terms_link">
@@ -293,3 +306,29 @@ export default React.createClass({
       )
   }
 })
+
+
+import { connect } from 'react-redux'
+import * as eventActions from '../../../../../actions/EventActions'
+import * as userActions from '../../../../../actions/UserActions'
+
+//TODO move magic information about the filters out of container.
+//Should be grabbed from the children that are set as filters
+function mapStateToProps(state, ownProps) {
+  return {
+    isLoggedIn: state.login.status.signedIn
+  }
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    onSubmit: (form, callback)    => {dispatch(eventActions.postEvent(form, callback))},
+    checkEmail: (email, callback) => {dispatch(userActions.checkEmail(email, callback))}
+}}
+
+
+const SmartForm = connect(mapStateToProps, mapDispatchToProps)(RequestForm)
+
+export default props => (
+    <SmartForm {...props}/>
+)

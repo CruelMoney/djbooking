@@ -83,6 +83,7 @@ var event = React.createClass({
           event={this.props.event}
           notification={this.state.notification}
           loggedIn={this.props.loggedIn}
+          userID={this.props.userID}
           loading={this.props.loading}
           hash={this.props.params.hash}
         />
@@ -126,7 +127,8 @@ function mapStateToProps(state, ownProps) {
     event:  state.events.values[0],
     profile: state.login.profile,
     loading: state.events.isWaiting,
-    loggedIn: state.login.signedIn
+    loggedIn: state.login.status.signedIn,
+    userID: state.login.profile.user_id
   }
 }
 
