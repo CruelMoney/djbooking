@@ -1939,6 +1939,8 @@ margin-bottom: 80px;
 }
 .errors{
       margin-top: 5px;
+      text-align: center;
+      margin-bottom: 10px;
 }
 
 .errors p{
@@ -2066,7 +2068,7 @@ margin: 0;
 }
 
 
-.text-field{
+.request-columns .text-field{
   margin-top: -10px;
 }
 .request-form p > span {
@@ -2316,7 +2318,7 @@ left: 50%;
 
 .offer-buttons{
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   margin: 15px 0;
   flex-wrap: wrap;
 }

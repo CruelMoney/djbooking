@@ -23,6 +23,7 @@ export function fetchGigs() {
           dispatch( function() { return {type: ActionTypes.FETCH_GIGS_FAILED, err: err.message}}() )
         }else{
           var gigs = result.map(e => converter.cueupGig.fromDTO(e))
+
           dispatch( function() { return {type: ActionTypes.FETCH_GIGS_SUCCEEDED, gigs: gigs} }() )
         }
       })
@@ -44,6 +45,21 @@ export function makeOffer(offer, callback) {
     }
   })
 }
+}
+
+export function getFee(offer, callback) {
+  var data = converter.offer.toDTO(offer);
+  var id = offer.gigID;
+
+  const token = auth.getToken()
+  cueup.getFees(token, id, data, function(err, result){
+    if (err) {
+      (callback(err))
+    }else{
+      const offer = converter.offer.fromDTO(result);
+      (callback(null, offer))
+    }
+  })
 }
 
 export function declineGig(id, callback) {

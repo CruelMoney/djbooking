@@ -34,9 +34,9 @@ var user = React.createClass({
   componentWillMount(){
     this.props.fetchUser(this.props.params.id, (res,err)=>{})
 
-    if(this.props.profile && this.props.isOwnProfile){
+    if(this.props.profile.app_metadata && this.props.isOwnProfile){
       document.title = this.props.profile.firstName + " | Cueup"
-      if (!this.props.profile.email_verified) {
+      if (!this.props.profile.app_metadata.emailVerified) {
         this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
         return
       }
@@ -58,8 +58,8 @@ var user = React.createClass({
       nextProps.fetchUser(nextProps.params.id,(res,err)=>{})
     }
 
-    if(nextProps.profile && nextProps.isOwnProfile){
-      if (!nextProps.profile.email_verified) {
+    if(nextProps.profile.app_metadata && nextProps.isOwnProfile){
+      if (!nextProps.profile.app_metadata.emailVerified) {
         this.setState({notification:"You won't receive any gigs before you confirm your email-address."})
         return
       }

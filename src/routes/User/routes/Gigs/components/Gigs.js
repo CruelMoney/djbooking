@@ -25,9 +25,7 @@ var Gigs = React.createClass({
   },
 
   componentWillMount() {
-
-        this.props.fetchGigs()
-
+    this.props.fetchGigs()
     this.context.registerActions(this.getActionButtons)
   },
 
@@ -110,35 +108,46 @@ var Gigs = React.createClass({
 
   render() {
 
-    var finishedGigs = []
-    var lostGigs = []
-    var requestedGigs = []
-    var upcomingGigs = []
     var gigs = []
 
     this.state.gigs.forEach(function(gig, i) {
-      // switch (gig.status) {
-      //   case 'Finished':
-      //     finishedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Accepted':
-      //     requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Confirmed':
-      //     upcomingGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Requested':
-      //     requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Lost':
-      //     lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Cancelled':
-      //     lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   default:
-        gigs.push(<Gig key={gig.name+i} gig={gig}/>)
-
+      switch (gig.status) {
+        case 'Finished':
+          gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          break
+        case 'Accepted':
+           //Only show if still relevant
+          if((gig.startTime.getTime() - Date.now()) > 0){
+              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          }
+          break
+        case 'Confirmed':
+          gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          break
+        case 'Requested':
+          //Only show if still relevant
+          if((gig.startTime.getTime() - Date.now()) > 0){
+              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          }
+          break
+        case 'Lost':
+          //Only show if still relevant
+          if((gig.startTime.getTime() - Date.now()) > 0){
+              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          }
+          break
+        case 'Cancelled':
+          gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          break
+        case 'Declined':
+            //Do not show
+          break
+        default:
+           //Only show if still relevant
+          if((gig.startTime.getTime() - Date.now()) > 0){
+              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          }
+      }
     })
 
     const renderGigs = (gigs) => {

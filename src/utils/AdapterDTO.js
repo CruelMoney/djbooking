@@ -182,19 +182,28 @@ const deletedUser={
            amount: Formatter.money.ToStandard(DTO.amount, DTO.currency),
            currency: DTO.currency,
            dj: DTO.dj ? user.fromDTO(DTO.dj) : deletedUser,
-           fee:Formatter.money.ToStandard(DTO.fee, DTO.currency),
+           djFeeAmount:Formatter.money.ToStandard(DTO.djFeeAmount, DTO.currency),
+           serviceFeeAmount:Formatter.money.ToStandard(DTO.serviceFeeAmount, DTO.currency),
            status: DTO.GigStatus
           }
       },
       toDTO:function(offer){
+        let {dj, ...rest} = offer
         return{
-           GigID: offer.gigID,
+           ...rest,
            Amount:
            Formatter.money.ToSmallest(
              Formatter.money.ExtractFromString(offer.amount)
              ,offer.currency
            ),
-           Currency: offer.currency
+           djFeeAmount: Formatter.money.ToSmallest(
+             Formatter.money.ExtractFromString(offer.djFeeAmount)
+             ,offer.currency
+           ),
+           serviceFeeAmount: Formatter.money.ToSmallest(
+             Formatter.money.ExtractFromString(offer.serviceFeeAmount)
+             ,offer.currency
+           )
           }
       }
     }

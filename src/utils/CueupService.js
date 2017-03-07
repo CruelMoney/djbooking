@@ -210,4 +210,13 @@ export default class CueupService {
           this.putInit(offerDTO, this.getHeaders(token)),
           callback
         )}
+
+    getFees(token, id, offerDTO, callback){
+        return this.fetchHandling(
+          `${this.domain}/api/gig/${id}/potentialOffer`,
+          this.putInit(offerDTO, this.getHeaders(token)),
+          callback
+        )}
+
+          
 }
