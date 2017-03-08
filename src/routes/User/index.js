@@ -11,7 +11,7 @@ function redirectNotAuth(nextState, replace){
  }
 
 module.exports = {
-  path: 'user/:id',
+  path: 'user/:permalink',
   //onEnter: redirectNotAuth,
 
   getIndexRoute(partialNextState, callback) {

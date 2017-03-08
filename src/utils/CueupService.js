@@ -59,9 +59,9 @@ export default class CueupService {
     }
 
     //USER ACTIONS
-    getUser(id, callback) {
+    getUser(permaLink, callback) {
       return this.fetchHandling(
-        `${this.domain}/api/user/${id}`,
+        `${this.domain}/api/user/permalink/${permaLink}`,
         this.getInit(this.getHeaders("")),
         callback
       )}

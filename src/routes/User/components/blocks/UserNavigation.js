@@ -47,31 +47,31 @@ export default React.createClass({
 
           
               <li>
-                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/profile"} label="Information"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/profile"} label="Information"/>
               </li>
        
               
             {this.props.isCustomer && this.props.isOwnProfile ?
               <li>
-                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/events"} label="Events"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/events"} label="Events"/>
               </li>
             : null}
 
             {this.props.isDJ && this.props.isOwnProfile  ?
               <li >
-                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/gigs"} label="Gigs"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/gigs"} label="Gigs"/>
               </li>
             : null}
 
            { !this.props.isOwnProfile && this.props.isDJ ? 
             <li>
-              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/book"} label="Book DJ"/>
+              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/book"} label="Book DJ"/>
             </li>
             :null}    
             
             {this.props.isDJ ?
               <li >
-                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/reviews"} label="Reviews"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/reviews"} label="Reviews"/>
               </li>
               : null
             }
@@ -79,7 +79,7 @@ export default React.createClass({
            
             { this.props.isOwnProfile ? 
             <li>
-              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_id+"/preferences"} label="Preferences"/>
+              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/preferences"} label="Preferences"/>
             </li>
             :null}
 

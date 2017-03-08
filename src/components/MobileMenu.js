@@ -225,25 +225,25 @@ class MobileMenu extends React.Component {
 
               {this.props.profile.isDJ ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to={`/user/${this.props.profile.user_id}/profile`} label="Profile"/>
+                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/profile`} label="Profile"/>
                 </li>
               : null}
 
               {this.props.profile.isCustomer ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_id}/events`} label="Events"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/events`} label="Events"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_id}/gigs`} label="Gigs"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/gigs`} label="Gigs"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_id}/reviews`} label="Reviews"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/reviews`} label="Reviews"/>
                 </li>
                 : null
               }

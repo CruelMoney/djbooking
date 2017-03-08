@@ -3012,3 +3012,11 @@ table td{
     text-decoration: underline;
     color: #2d2d2d;
 }
+
+.permalink-input{
+  display: inline-flex;
+  width: 100%;
+}
+.permalink-input .text-field{
+  width: 100%;
+}

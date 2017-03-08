@@ -12,6 +12,7 @@ import wNumb from 'wnumb'
 import Slider from '../../../../../components/common/Slider'
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import entries from 'object.entries';
+import TextField from '../../../../../components/common/Textfield'
 
 const preferences = React.createClass({
   propTypes: {
@@ -268,6 +269,19 @@ const preferences = React.createClass({
                   </TextWrapper>
                 </div>
               : null}
+
+              <TextWrapper label="Profile URL" text="What URL do you want people to find you at.">
+                    <p className="permalink-input">
+                    www.cueup.io/user/
+                    <TextField
+                      value={this.props.user.user_metadata.permaLink}
+                      name="permaLink"
+                      disabled={!this.context.editing}
+                      type="text"
+                      validate={['required']}
+                    />
+                    </p>
+                  </TextWrapper>
 
 
               { this.props.provider === "auth0" ?

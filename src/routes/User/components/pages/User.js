@@ -32,7 +32,7 @@ var user = React.createClass({
   },
 
   componentWillMount(){
-    this.props.fetchUser(this.props.params.id, (res,err)=>{})
+    this.props.fetchUser(this.props.params.permalink, (res,err)=>{})
 
     if(this.props.profile.app_metadata && this.props.isOwnProfile){
       document.title = this.props.profile.firstName + " | Cueup"
@@ -54,8 +54,8 @@ var user = React.createClass({
          document.title = nextProps.profile.firstName + " | Cueup"
     }
 
-    if(nextProps.params.id !== this.props.params.id){
-      nextProps.fetchUser(nextProps.params.id,(res,err)=>{})
+    if(nextProps.params.permalink !== this.props.params.permalink){
+      nextProps.fetchUser(nextProps.params.permalink,(res,err)=>{})
     }
 
     if(nextProps.profile.app_metadata && nextProps.isOwnProfile){

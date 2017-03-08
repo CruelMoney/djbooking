@@ -49,7 +49,7 @@ var RequestForm = React.createClass({
     return {
       ...form, 
       guestsCount: form.guests[0],
-      ReferredBy: this.props.params.id  
+      ReferredBy: this.props.user_id  
     }
   },
 
@@ -316,6 +316,7 @@ import * as userActions from '../../../../../actions/UserActions'
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownProps) {
   return {
+    user_id: state.user.profile.user_id,
     isLoggedIn: state.login.status.signedIn
   }
 }

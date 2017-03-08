@@ -22,7 +22,18 @@ var ActionTypes = c.ActionTypes
             if (err) {
               callback(err.message)
             }else{
-              dispatch(self.getUser(callback))
+                console.log(result)
+
+               const profile = converter.user.fromDTO(result)
+              dispatch (function() {return {
+                  type: ActionTypes.FETCH_USER_SUCCEEDED,
+                  profile:profile
+                }}())
+             dispatch (function() {return {
+                type: ActionTypes.LOGIN_SUCCEEDED,
+                profile: profile
+              }}())
+              callback(null)
             }
           })
       }
@@ -39,7 +50,13 @@ var ActionTypes = c.ActionTypes
             if (err) {
               callback(err.message)
             }else{
-              dispatch(self.getUser(callback))
+              const profile = converter.user.fromDTO(result)
+              dispatch (function() {return {
+                  type: ActionTypes.FETCH_USER_SUCCEEDED,
+                  profile:profile
+                }}())
+            
+              callback(null)
             }
           })
       }
@@ -58,12 +75,12 @@ var ActionTypes = c.ActionTypes
       }
   }
 
-  export function getUser(userID,callback){
+  export function getUser(permaLink,callback){
     return function(dispatch){
        dispatch (function() {return {
               type: ActionTypes.FETCH_USER_REQUESTED,
             }}())
-      cueup.getUser(userID, (error, result)=>
+      cueup.getUser(permaLink, (error, result)=>
       {
         if (error) {
           dispatch (function() {return {
@@ -201,7 +218,16 @@ export function updateSettings(settings, callback) {
     if (err) {
       (callback(err))
     }else{
-     // dispatch(self.getUser(callback))
+      const profile = converter.user.fromDTO(result)
+      dispatch (function() {return {
+          type: ActionTypes.FETCH_USER_SUCCEEDED,
+          profile:profile
+        }}())
+      dispatch (function() {return {
+              type: ActionTypes.LOGIN_SUCCEEDED,
+              profile: profile
+            }}())
+      callback(null)
     }
   })
 }

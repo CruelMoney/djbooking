@@ -111,7 +111,7 @@ const deletedUser={
             discountPoints: DTO.app_metadata.discountPoints,
 
           //self calculated extra info here
-          provider:         DTO.app_metadata.auth0Id.split("|")[0],
+          provider:         DTO.app_metadata.auth0Id ? DTO.app_metadata.auth0Id.split("|")[0]: "",
 
               }
         },

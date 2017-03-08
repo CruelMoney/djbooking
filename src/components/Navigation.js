@@ -151,7 +151,7 @@ var menu = React.createClass({
 
                 {this.props.loggedIn ? (
                   <li>
-                    <Navlink  buttonLook={true}  to={`/user/${this.props.profile.user_id}/profile`} important={true} >
+                    <Navlink  buttonLook={true}  to={`/user/${this.props.profile.user_metadata.permaLink}/profile`} important={true} >
                       <UserMenuItem
                         name={this.props.profile.name}
                         picture={this.props.profile.picture}

@@ -11,27 +11,17 @@ const auth = new AuthService()
 const cueup = new CueupService()
 
 
-
-function handleLoginFeedback(dispatch, callback, redirect = false){
-  return function (err, result) {
-      if (err){
-        dispatch( function() { return {
-            type: ActionTypes.LOGIN_FAILED,
-            err : err.message
-          }}())
-          callback(err.message)
-      }else {
-        const token = result.idToken;
-        auth.getProfileFromToken(token, (error, authRes)=>
+  const handleAuthFeedBack = (dispatch, callback, redirect) =>
+      (authError, authRes) =>
         {
-          if (error) {
+          if (authError) {
             dispatch (function() {return {
                 type: ActionTypes.LOGIN_FAILED,
-                err: error.message
+                err: authError.message
               }}())
-              callback(error.message)
+              callback(authError.message)
           }else{
-            cueup.getUser(authRes.app_metadata.cueupId, (error, result)=>{
+            cueup.getUser(authRes.user_metadata.permaLink, (error, result)=>{
               if (error) {
                   dispatch (function() {return {
                     type: ActionTypes.LOGIN_FAILED,
@@ -48,10 +38,24 @@ function handleLoginFeedback(dispatch, callback, redirect = false){
                 type: ActionTypes.LOGIN_SUCCEEDED,
                 profile: user
               }}())
-            if (redirect) browserHistory.push("/user/"+user.user_id+"/profile")
+            if (redirect) browserHistory.push("/user/"+user.user_metadata.permaLink+"/profile")
             callback(null)
           })
-        }})
+        }
+  }
+
+
+function handleLoginFeedback(dispatch, callback, redirect = false){
+  return function (err, result) {
+      if (err){
+        dispatch( function() { return {
+            type: ActionTypes.LOGIN_FAILED,
+            err : err.message
+          }}())
+          callback(err.message)
+      }else {
+        const token = result.idToken;
+        auth.getProfileFromToken(token, handleAuthFeedBack(dispatch, callback, redirect))
       }
     }
 }
@@ -77,37 +81,7 @@ export function checkForLogin(redirect = null){
   }
 }
 
-function userLogin(dispatch, token, callback){
-      auth.getProfileFromToken(token, (error, authRes)=>
-      {
-        if (error) {
-          dispatch (function() {return {
-              type: ActionTypes.LOGIN_FAILED,
-              err: error.message
-            }}())
-            callback(error.message)
-        }else{
-          cueup.getUser(authRes.app_metadata.cueupId, (error, result)=>{
-             if (error) {
-                dispatch (function() {return {
-                  type: ActionTypes.LOGIN_FAILED,
-                  err: error.message
-                }}())
-                return callback(error.message)
-             }
-          var user = converter.user.fromDTO(result)  
-          dispatch (function() {return {
-            type: ActionTypes.UPDATE_GEOLOCATION,
-            value: authRes.user_metadata.geoip
-          }}())
-          dispatch (function() {return {
-              type: ActionTypes.LOGIN_SUCCEEDED,
-              profile: user
-            }}())
-          callback(null)
-        })
-      }})
-  }
+
 
 
 export function login(form, callback){
