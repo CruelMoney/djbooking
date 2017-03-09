@@ -40,12 +40,14 @@ var signupForm = React.createClass({
     },
 
   signup(form, callback) {
-        this.props.handleSubmit(form, (err,res)=>{
-           if (!err) {
-          this.setState({msg: "Great! You can now login 😁"})
-            }
-            callback(err,res)
-          })
+      //http://localhost:3000/signup?referredBy=CRUELMONEY
+      const values = {...form.values, reference: this.props.reference}
+      this.props.handleSubmit(values, (err,res)=>{
+          if (!err) {
+            this.setState({msg: "Great! You can now login 😁"})
+          }
+          callback(err,res)
+        })
         
   },
 
@@ -257,7 +259,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-    handleSubmit: (form,callback) => dispatch(actions.signup(form.values, true, callback)),
+    handleSubmit: (values,callback) => dispatch(actions.signup(values, true, callback)),
     locationExists: (location, callback) => actions.locationExists(location, callback)
   }
 }

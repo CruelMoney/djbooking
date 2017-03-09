@@ -6,7 +6,7 @@ import Logo from '../../../../components/common/Logo'
 import Button from '../../../../components/common/Button-v2'
 import * as actions from '../../../../actions/UserActions'
 import { connect } from 'react-redux'
-
+import {ImageCompressor} from '../../../../utils/ImageCompressor';
 
 var UserCard = React.createClass({
 
@@ -26,70 +26,30 @@ var UserCard = React.createClass({
 getInitialState(){
   return{loading: false, err: null}
 },
-/*eslint no-undef: 0*/
+
 
     handleFile(e) {
-      const reader = new FileReader()
-      const file = e.target.files[0]
-
       var self = this
-
-      reader.onload = (upload) => {
-        this.setState({
-          loading: true
-        })
-
-        if ((file.size/1024) > 5000 ) {
-           this.setState({loading: false, err: "Image cannot be larger than 5 Mb"})
-           return
-         }
-
-        var loadingImage = loadImage(
-          file,
-          function (img) {
-            if(img.type === "error") {
-                self.setState({
-                       loading: false,
-                       err: "Something went wrong"
-                     })
-              } else {
-                    var imageData = img.toDataURL();
-
-                    self.props.updatePicture(imageData, (err)=>{
+        self.setState({loading:true})
+       const file = e.target.files[0]
+       
+       ImageCompressor(file, (err,result)=>{
+          if(err){
+            self.setState({
+              err:err,
+              loading:false
+            })
+          }else{
+                self.props.updatePicture(result, (err,res)=>{    
                       if (err) {
-                        self.setState({
-                          loading: false,
-                          err: "Something went wrong"
-                        })
+                         self.setState({err:"Something went wrong"})
                       }else{
-                        self.setState({
-                          loading: false,
-                          err: null
-                        })
+                        self.setState({err:"",loading:false})
                       }
-                    })
-              }
-          },
-          {
-            maxWidth: 500,
-            maxHeight: 500,
-           cover: true,
-           orientation: true,
-           crop: true
-       }
-      );
-
-      loadingImage.onerror = ()=>{
-        self.setState({
-               loading: false,
-               err: "Something went wrong"
-             })
-      }
-        
-        }
-
-      reader.readAsDataURL(file)
-    },
+              })
+          }
+       })
+  },
 
   render() {
     //calculating the age

@@ -22,13 +22,13 @@ import * as actions from '../../../../../actions/UserActions'
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownProps) {
-  const isOwnProfile = 
-    (state.login.profile && state.user.profile) 
-    ? state.login.profile.user_id === state.user.profile.user_id 
+   const isOwnProfile = 
+    (state.login.profile.user_metadata) 
+    ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.params.permalink.toLowerCase()
     : false
     
   return {
-    profile:   state.user.profile,
+    profile: isOwnProfile ? state.login.profile : state.user.profile,
     isOwnProfile:isOwnProfile
   }
 }

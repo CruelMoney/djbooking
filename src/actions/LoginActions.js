@@ -11,17 +11,8 @@ const auth = new AuthService()
 const cueup = new CueupService()
 
 
-  const handleAuthFeedBack = (dispatch, callback, redirect) =>
-      (authError, authRes) =>
-        {
-          if (authError) {
-            dispatch (function() {return {
-                type: ActionTypes.LOGIN_FAILED,
-                err: authError.message
-              }}())
-              callback(authError.message)
-          }else{
-            cueup.getUser(authRes.user_metadata.permaLink, (error, result)=>{
+  const handleCueupFeedBack = (dispatch, callback, redirect) =>{
+       return (error, result)=>{
               if (error) {
                   dispatch (function() {return {
                     type: ActionTypes.LOGIN_FAILED,
@@ -30,18 +21,17 @@ const cueup = new CueupService()
                   return callback(error.message)
               }
             var user = converter.user.fromDTO(result)  
-            dispatch (function() {return {
-              type: ActionTypes.UPDATE_GEOLOCATION,
-              value: authRes.user_metadata.geoip
-            }}())
+            // dispatch (function() {return {
+            //   type: ActionTypes.UPDATE_GEOLOCATION,
+            //   value: authRes.user_metadata.geoip
+            // }}())
             dispatch (function() {return {
                 type: ActionTypes.LOGIN_SUCCEEDED,
                 profile: user
               }}())
             if (redirect) browserHistory.push("/user/"+user.user_metadata.permaLink+"/profile")
             callback(null)
-          })
-        }
+          }
   }
 
 
@@ -55,7 +45,7 @@ function handleLoginFeedback(dispatch, callback, redirect = false){
           callback(err.message)
       }else {
         const token = result.idToken;
-        auth.getProfileFromToken(token, handleAuthFeedBack(dispatch, callback, redirect))
+        cueup.getOwnUser(token, handleCueupFeedBack(dispatch, callback, redirect))
       }
     }
 }
@@ -84,7 +74,7 @@ export function checkForLogin(redirect = null){
 
 
 
-export function login(form, callback){
+export function login(form, redirect, callback){
   return function (dispatch) {
     // First dispatch: the app state is updated to inform
     // that the API call is starting.
@@ -92,13 +82,13 @@ export function login(form, callback){
     dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }() )
       switch (form.type) {
         case "EMAIL":
-          return loginEmail(form, handleLoginFeedback(dispatch, callback, true))
+          return loginEmail(form, handleLoginFeedback(dispatch, callback, redirect))
 
         case "FACEBOOK":
-          return loginFacebook(handleLoginFeedback(dispatch, callback, true))
+          return loginFacebook(handleLoginFeedback(dispatch, callback, redirect))
 
         case "SOUNDCLOUD":
-          return loginSoundcloud(handleLoginFeedback(dispatch, callback, true))
+          return loginSoundcloud(handleLoginFeedback(dispatch, callback, redirect))
 
         default:
       }

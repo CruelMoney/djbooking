@@ -10,6 +10,12 @@ export default React.createClass({
   themeColor:"#B031FF",
   secondColor:"#31DAFF",
 
+  componentWillMount(){
+    console.log(this.props.location.query.referredBy)
+     this.setState({
+          reference: this.props.location.query.referredBy
+      })
+  },
 
   render() {
     return  <div >
@@ -75,7 +81,9 @@ export default React.createClass({
     </header>
     <div className="container"  style={{marginTop: "80px", marginBottom: "80px"}}>
       <div className="signup">
-        <SignUpForm/>
+        <SignUpForm
+          reference={this.state.reference}
+        />
       </div>
     </div>
       <Footer

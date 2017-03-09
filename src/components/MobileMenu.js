@@ -7,6 +7,7 @@ import Formatter from '../utils/Formatter'
 import Rating from './common/Rating'
 import * as actions from '../actions/LoginActions'
 import * as UserActions from '../actions/UserActions'
+import {ImageCompressor} from '../utils/ImageCompressor';
 
 import entries from 'object.entries';
 import Button from './common/Button-v2'
@@ -80,67 +81,26 @@ class MobileMenu extends React.Component {
 
 
  handleFile = (e) => {
-      const reader = new FileReader()
-      const file = e.target.files[0]
-
-      var self = this
-
-      reader.onload = (upload) => {
-        this.setState({
-          loading: true
-        })
-
-        if ((file.size/1024) > 5000 ) {
-           this.setState({loading: false, err: "Image cannot be larger than 5 Mb"})
-           return
-         }
-        /*eslint no-undef: 0*/
-        var loadingImage = loadImage(
-          file,
-          function (img) {
-            if(img.type === "error") {
-                self.setState({
-                       loading: false,
-                       err: "Something went wrong"
-                     })
-              } else {
-                    var imageData = img.toDataURL();
-
-                    self.props.updatePicture(imageData, (err)=>{
+        this.setState({loading:true})
+       const file = e.target.files[0]
+       
+       ImageCompressor(file, (err,result)=>{
+          if(err){
+            this.setState({
+              err:err,
+              loading:false
+            })
+          }else{
+                this.props.updatePicture(result, (err)=>{    
                       if (err) {
-                        self.setState({
-                          loading: false,
-                          err: "Something went wrong"
-                        })
+                         this.setState({err:"Something went wrong"})
                       }else{
-                        self.setState({
-                          loading: false,
-                          err: null
-                        })
+                        this.setState({err:"",loading:false})
                       }
-                    })
-              }
-          },
-          {
-            maxWidth: 500,
-            maxHeight: 500,
-           cover: true,
-           orientation: true,
-           crop: true
-       }
-      );
-
-      loadingImage.onerror = ()=>{
-        self.setState({
-               loading: false,
-               err: "Something went wrong"
-             })
-      }
-        
-        }
-
-      reader.readAsDataURL(file)
-    }
+              })
+          }
+       })
+  }
 
 
   render() {
@@ -163,20 +123,20 @@ class MobileMenu extends React.Component {
          
          <div 
           className={this.state.loading || this.state.err ? "profilePicture user-card-picture-wrapper loading" : "profilePicture user-card-picture-wrapper"}
-          htmlFor="fileupload">
+          htmlFor="fileuploadMobile">
           
           <div id="profile-picture-upload">
             <canvas ref="canvas" style={{display:"none"}} />
-            <input name="fileupload" id="fileupload"  type="file" accept="image/*" onChange={this.handleFile}/>
+            <input name="fileuploadMobile" id="fileuploadMobile"  type="file" accept="image/*" onChange={this.handleFile}/>
             {
               this.state.loading
               ?
                 <Button isLoading/>
               :
               this.state.err ?
-                <label htmlFor="fileupload"><span>{this.state.err}</span></label>
+                <label htmlFor="fileuploadMobile"><span>{this.state.err}</span></label>
               :
-              <label htmlFor="fileupload"><span>Change image</span></label>
+              <label htmlFor="fileuploadMobile"><span>Change image</span></label>
             }
           </div>
 

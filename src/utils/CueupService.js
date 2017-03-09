@@ -66,6 +66,13 @@ export default class CueupService {
         callback
       )}
 
+    getOwnUser(token, callback) {
+      return this.fetchHandling(
+        `${this.domain}/api/user`,
+        this.getInit(this.getHeaders(token)),
+        callback
+      )}
+
     createUser(token, data, callback) {
       return this.fetchHandling(
         `${this.domain}/api/user`,

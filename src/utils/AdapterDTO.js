@@ -69,6 +69,10 @@ const deletedUser={
       fromDTO: function(DTO) {
         return {
           ...DTO,
+          user_metadata:{
+            ...DTO.user_metadata,
+            permaLink:DTO.user_metadata.permaLink.toLowerCase()
+          },
           bio: DTO.bio,
           email: DTO.email,
           experienceCount: DTO.experienceCount,

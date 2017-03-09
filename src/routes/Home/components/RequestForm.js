@@ -116,7 +116,9 @@ export default React.createClass({
               If you don't have a login yet, press the forgot button to create a password. <br/>
               Then come back here to login and create the event.
             </p>
-            <Login/>
+            <Login
+             redirect={false}
+            />
           </div>
         </Popup>
 

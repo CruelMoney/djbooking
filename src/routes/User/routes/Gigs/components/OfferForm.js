@@ -47,7 +47,7 @@ class OfferForm extends Component{
     },this.getFees)
   }
 
-  hidePopup(){
+  hidePopup=()=>{
     this.setState({
       showPopup: false
     })
@@ -78,6 +78,9 @@ class OfferForm extends Component{
                            <p>Use a Cueup point to discard the DJ fee. 
                              You can update whether to use or not use the point, until the offer has been paid.
                              If the gig gets cancelled, the point will be restored.</p>
+                          : null}
+                          {this.props.gig.referred ?
+                           <p>This gig is a direct booking of you, therefore the DJ fee is discarded.</p>
                           : null}
                         </div>
                         </div>
@@ -112,13 +115,14 @@ class OfferForm extends Component{
                            :null}
 
                           <div 
-                            className="row"
-                            style={{marginBottom:"30px", marginTop:"20px"}}
+                            className="row card"
+                            style={{ padding: "20px", marginBottom:"30px", marginTop:"20px"}}
                           >
-                          <div className="col-sm-6"> 
+                          <div style={{borderRight: "2px solid #eee"}} className="col-sm-6"> 
+                            <h4 style={{textAlign: "center"}}>Organizer pays</h4>
                             <MoneyTable>
                              <TableItem
-                                  label="Price"
+                                  label="Your price"
                                     >
                                   {Formatter.money.FormatNumberToString(this.state.amount, this.state.currency)}
                               </TableItem>
@@ -135,7 +139,7 @@ class OfferForm extends Component{
                                   {Formatter.money.FormatNumberToString(this.state.serviceFeeAmount, this.state.currency)}
                               </TableItem>
                               <TableItem
-                                label="Organizer Price"
+                                label="Total"
                                
                                 >
                                 {Formatter.money.FormatNumberToString(this.state.serviceFeeAmount+this.state.amount, this.state.currency)}
@@ -143,9 +147,10 @@ class OfferForm extends Component{
                             </MoneyTable>
                            </div>
                              <div className="col-sm-6"> 
+                            <h4 style={{textAlign: "center"}}>You earn</h4>
                             <MoneyTable>
                               <TableItem
-                                  label="Price"
+                                  label="Your price"
                                     >
                                   {Formatter.money.FormatNumberToString(this.state.amount, this.state.currency)}
                               </TableItem>
@@ -162,7 +167,7 @@ class OfferForm extends Component{
                                   -{Formatter.money.FormatNumberToString(this.state.djFeeAmount, this.state.currency)}
                               </TableItem>
                               <TableItem
-                                  label="You earn"
+                                  label="Total"
                                   
                                   >
                                   {Formatter.money.FormatNumberToString(this.state.amount-this.state.djFeeAmount, this.state.currency)}

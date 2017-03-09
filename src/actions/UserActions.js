@@ -22,8 +22,6 @@ var ActionTypes = c.ActionTypes
             if (err) {
               callback(err.message)
             }else{
-                console.log(result)
-
                const profile = converter.user.fromDTO(result)
               dispatch (function() {return {
                   type: ActionTypes.FETCH_USER_SUCCEEDED,
@@ -55,7 +53,10 @@ var ActionTypes = c.ActionTypes
                   type: ActionTypes.FETCH_USER_SUCCEEDED,
                   profile:profile
                 }}())
-            
+              dispatch (function() {return {
+                type: ActionTypes.LOGIN_SUCCEEDED,
+                profile: profile
+              }}())
               callback(null)
             }
           })
@@ -75,12 +76,8 @@ var ActionTypes = c.ActionTypes
       }
   }
 
-  export function getUser(permaLink,callback){
-    return function(dispatch){
-       dispatch (function() {return {
-              type: ActionTypes.FETCH_USER_REQUESTED,
-            }}())
-      cueup.getUser(permaLink, (error, result)=>
+  const handleCueup=(dispatch,callback)=>{
+    return (error, result)=>
       {
         if (error) {
           dispatch (function() {return {
@@ -96,7 +93,20 @@ var ActionTypes = c.ActionTypes
             }}())
           callback(null)
         }
-      })
+      }
+  }
+
+  export function getUser(permaLink=null,callback){
+    return function(dispatch){
+       dispatch (function() {return {
+              type: ActionTypes.FETCH_USER_REQUESTED,
+            }}())
+      if(permaLink){
+        cueup.getUser(permaLink, handleCueup(dispatch, callback));
+      }else{
+        const token = auth.getToken()
+        cueup.getOwnUser(token, handleCueup(dispatch, callback));
+      }
     }
   }
 

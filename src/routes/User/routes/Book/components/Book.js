@@ -45,7 +45,6 @@ var RequestForm = React.createClass({
   },
 
   formToEvent(form){
-    console.log(form)
     return {
       ...form, 
       guestsCount: form.guests[0],
@@ -82,7 +81,7 @@ var RequestForm = React.createClass({
         try {
            self.props.onSubmit(event, (err, res)=>{
              if(!err){
-               this.setState({
+               self.setState({
                  msg: "Thank you for using our service. We will send you an email with confirmation of the event."
                })
                callback(err, res)
@@ -125,7 +124,9 @@ var RequestForm = React.createClass({
               If you don't have a login yet, press the forgot button to create a password. <br/>
               Then come back here to login and create the event.
             </p>
-             <Login/>
+             <Login
+              redirect={false}
+             />
              </div>
 
             :

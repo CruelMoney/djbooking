@@ -32,7 +32,10 @@ var user = React.createClass({
   },
 
   componentWillMount(){
-    this.props.fetchUser(this.props.params.permalink, (res,err)=>{})
+    if(!this.props.profile.user_metadata){
+      const permaLink = this.props.isOwnProfile ? null : this.props.params.permalink
+      this.props.fetchUser(permaLink, (res,err)=>{})
+    }
 
     if(this.props.profile.app_metadata && this.props.isOwnProfile){
       document.title = this.props.profile.firstName + " | Cueup"
@@ -50,12 +53,15 @@ var user = React.createClass({
 
   componentWillReceiveProps(nextProps){
 
+
     if(nextProps.profile.firstName){
          document.title = nextProps.profile.firstName + " | Cueup"
     }
-
+  
     if(nextProps.params.permalink !== this.props.params.permalink){
-      nextProps.fetchUser(nextProps.params.permalink,(res,err)=>{})
+
+       const permaLink = nextProps.isOwnProfile ? null : nextProps.params.permalink
+       nextProps.fetchUser(permaLink, (res,err)=>{})
     }
 
     if(nextProps.profile.app_metadata && nextProps.isOwnProfile){
@@ -197,13 +203,13 @@ import * as actions from '../../../../actions/UserActions'
 
 function mapStateToProps(state, ownProps) {
   const isOwnProfile = 
-    (state.login.profile && state.user.profile) 
-    ? state.login.profile.user_id === state.user.profile.user_id 
+    (state.login.profile.user_metadata) 
+    ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.params.permalink.toLowerCase()
     : false
 
   return {
-    profile:  state.user.profile,
-    loading: state.user.status.isWaiting,
+    profile:  isOwnProfile ? state.login.profile : state.user.profile,
+    loading: isOwnProfile ? state.login.status.isWaiting : state.user.status.isWaiting,
     geoLocation: state.login.status.geoLocation,
     isOwnProfile:isOwnProfile
   }
@@ -211,7 +217,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-      fetchUser: (userID, callback) =>  {dispatch(actions.getUser(userID, callback))},
+      fetchUser: (permaLink, callback) =>  {dispatch(actions.getUser(permaLink, callback))},
 }}
 
 

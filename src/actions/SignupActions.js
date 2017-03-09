@@ -63,6 +63,7 @@ function createDJ(form, auth0Profile, geoResult){
           },
           app_metadata: {
               auth0Id: auth0Profile.user_id,
+              referredBy: form.reference
           },
           user_metadata: {
               geoip: auth0Profile.user_metadata.geoip,
@@ -73,7 +74,7 @@ function createDJ(form, auth0Profile, geoResult){
               firstName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).firstName,
               lastName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).lastName,
               city: form.location
-          }
+          },
       }
 }
 
