@@ -5,6 +5,7 @@ import Popup from './Popup'
 import {DisconnectedToggleOptions as ToggleOptions} from './ToggleOptions'
 import domtoimage from 'dom-to-image';
 import Logo from './Logo'
+import Dialog from 'share-dialog'
 
 class FBShare extends React.Component {
 
@@ -80,18 +81,78 @@ class Sharing extends React.Component {
     copyLink=()=>{
         window.prompt("Copy to clipboard: Ctrl+C, Enter", this.props.link);   
     }
-    fbShare=()=>{
-    var node = document.getElementById('sharing');
+    fbShare=()=>{     
+        this.setState({
+            popup:true,
+            popupContent:(
+                <div>
+                    <Button isLoading />
+                    <p>Generating link</p>
+                    <div id="viz-containment">
+                        <div id="viz-container">
+                            <FBShare profile={this.props.profile}/>
+                        </div>
+                    </div>
+                </div>
+                
+            )
+        },()=>{
+            var fbID = (process.env.NODE_ENV === "production"
+                        ? '989698131149502'
+                        : '192380961257202')
+                       
 
-    domtoimage.toPng(node)
-        .then((dataUrl)=> {
-            this.props.createFBShareLink(dataUrl, console.log)
+             window.fbAsyncInit = function() {
+                window.FB.init({
+                appId      : fbID,
+                xfbml      : true,
+                version    : 'v2.8'
+                });
+                window.FB.AppEvents.logPageView();
+            };
 
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            var node = document.getElementById('sharing');
+
+            domtoimage.toPng(node)
+            .then((dataUrl)=> {
+                this.props.createFBShareLink(dataUrl, (err,result)=>{
+                    if(err) throw new Error("Could not create link")
+                    this.setState({
+                         popup:false,
+                         popupContent:(
+                        <div>
+                            <p>Generated</p>
+                        </div>
+                        )
+                    })
+                 
+                    
+                    window.FB.ui({
+                        method: 'share',
+                        href: this.props.link,
+                    }, function(response){});
+                })
+            })
+            .catch(function (error) {
+                    this.setState({
+                         popupContent:(
+                        <div>
+                            <p>Something went wrong.</p>
+                        </div>)
+                    })
+            });
         })
-        .catch(function (error) {
-            console.error('oops, something went wrong!', error);
-        });
+
        
+        
     }
 
     tweet=()=>{
@@ -156,11 +217,6 @@ class Sharing extends React.Component {
                 >
                     QR code
                 </Button>
-            </div>
-            <div id="viz-containment">
-                <div id="viz-container">
-                    <FBShare profile={this.props.profile}/>
-                </div>
             </div>
             </div>
         )

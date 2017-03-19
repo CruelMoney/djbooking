@@ -100,6 +100,17 @@ export default React.createClass({
     },
 
     render() {
+
+        var bookURL = (process.env.NODE_ENV === "production"
+                        ? process.env.REACT_APP_CUEUP_PROD_DOMAIN
+                        : process.env.REACT_APP_CUEUP_DEV_DOMAIN)
+                        + '/api/user/' + this.props.profile.user_metadata.permaLink + '/fbshare'
+
+        var signupURL = (process.env.NODE_ENV === "production"
+                      ? process.env.REACT_APP_AUTH0_PROD_CALLBACK_DOMAIN
+                      : process.env.REACT_APP_AUTH0_DEV_CALLBACK_DOMAIN)
+                      + "/signup?referredBy=" + this.props.profile.user_metadata.permaLink 
+
         const isDJ = this.props.profile.isDJ
         var OfferMock = m.MockOffer
             if (this.props.profile.settings) {
@@ -213,10 +224,11 @@ export default React.createClass({
                              +" In case someone books you using your link, the DJ fee will be removed from the gig, and you will get the full payout."
                             }>
                          <Sharing
-                          link={"https://cueup.io/user/" + this.props.profile.user_metadata.permaLink + "/book"}
+                          link={bookURL}
                          />
                     </TextWrapper>
                   : null}
+                  
                     {isDJ
                     ? <TextWrapper 
                         label="Refer DJs" 
@@ -224,7 +236,7 @@ export default React.createClass({
                               +" In case a DJ signs up using your link, you will get a Cueup point whenever the referred DJ makes his or hers first offer."
                              + " Cueup points are used on gigs to remove the DJ fee. A maximum of 3 Cueup points can be held at a time."}>
                         <Sharing
-                          link={"https://cueup.io/signup?referredBy=" + this.props.profile.user_metadata.permaLink }
+                          link={signupURL}
                         />
                     </TextWrapper>
                   : null}

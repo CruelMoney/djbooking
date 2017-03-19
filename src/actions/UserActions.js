@@ -249,9 +249,9 @@ export function createFBShareLink(data, callback) {
   const token = auth.getToken()
   cueup.createFBShareLink(token, data, function(err, result){
     if (err) {
-      console.log(err)
+      callback(err, null)
     }else{
-      console.log(result)
+      callback(null, result)
     }
   })
 }
