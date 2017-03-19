@@ -15,6 +15,7 @@ export default class CueupService {
             return {method: 'GET', headers: headers};
         }
         this.postInit = function(data, headers) {
+            console.log(JSON.stringify(data))
             return {method: 'POST', headers: headers, body: JSON.stringify(data)};
         }
         this.putInit = function(data, headers) {
@@ -127,7 +128,13 @@ export default class CueupService {
     requestPasswordChange(email, callback){
       return this.fetchHandling(
       `${this.domain}/api/user/change_password/${email}`,
-      this.postInit(this.getHeaders("")),callback
+      this.postInit(email, this.getHeaders("")),callback
+    )}
+    createFBShareLink(token, data, callback){
+      return this.fetchHandling(
+      `${this.domain}/api/user/fbshare`,
+      this.postInit(data, this.getHeaders(token)),
+      callback
     )}
    //USER ACTIONS END
 

@@ -3020,3 +3020,64 @@ table td{
 .permalink-input .text-field{
   width: 100%;
 }
+
+.sharing-buttons{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.sharing-buttons > div{
+  margin-bottom: 5px;
+}
+#viz-containment{
+  position:relative;
+  overflow:hidden;
+  height:0;
+  width:0;
+}
+#viz-container{
+  width:100vw;
+  position:absolute;
+  left:-10000vw;
+}
+
+#sharing{
+  
+    width: 1428px;
+    color: white;
+    height: 747px;
+    fill: white;
+    background-image: linear-gradient(135deg, rgb(49, 255, 245) 14%, rgb(0, 209, 255) 94%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+#sharing button{
+  font-size: 48px;
+  height: 100px;
+  border-radius: 20px !important;
+}
+#sharing h1{
+  font-family: SourceSansPro-Bold;
+  font-size: 64px;
+}
+#sharing p{
+  font-family: SourceSansPro-Bold;
+  font-size: 42px !important;
+  margin-bottom: 30px;
+}
+#sharing .profile-text svg{
+  margin-right: 20px;
+}
+#sharing .profile-image{
+    width: 240px;
+    height: 240px;
+    background-size: cover;
+    margin-right: 30px;
+    border-radius: 50%;
+}
+#sharing .info{
+  display: flex;
+}

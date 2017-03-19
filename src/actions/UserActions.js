@@ -242,3 +242,17 @@ export function updateSettings(settings, callback) {
   })
 }
 }
+
+
+export function createFBShareLink(data, callback) {
+  return function(dispatch){
+  const token = auth.getToken()
+  cueup.createFBShareLink(token, data, function(err, result){
+    if (err) {
+      console.log(err)
+    }else{
+      console.log(result)
+    }
+  })
+}
+}
