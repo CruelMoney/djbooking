@@ -101,8 +101,9 @@ var signupForm = React.createClass({
             name="email"
             validate={['required', 'email']}
             label="Your Email"/>
+        </RegistrationElement>
 
-      <RegistrationElement
+<RegistrationElement
           name="password"
           label="Password"
           active={true}
@@ -117,7 +118,6 @@ var signupForm = React.createClass({
             label="Your password"/>
         </RegistrationElement>
 
-        </RegistrationElement>
         <RegistrationElement
           name="phone"
           label="Phone"
