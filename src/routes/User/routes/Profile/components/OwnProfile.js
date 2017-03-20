@@ -104,7 +104,7 @@ export default React.createClass({
 
         var bookURL = Environment.API_DOMAIN + '/api/user/' + this.props.profile.user_metadata.permaLink + '/fbshare'
 
-        var signupURL = Environment.CALLBACK_DOMAIN + "/api/user/join?referredBy=" + this.props.profile.user_metadata.permaLink 
+        var signupURL = Environment.API_DOMAIN + "/api/user/join?referredBy=" + this.props.profile.user_metadata.permaLink 
 
         const isDJ = this.props.profile.isDJ
         var OfferMock = m.MockOffer

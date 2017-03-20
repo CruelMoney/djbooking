@@ -84,7 +84,9 @@ class Sharing extends React.Component {
 
     generatePreview = () =>{
         return new Promise((resolve,reject)=>{
-            if (!this.props.generatePreview) resolve()
+            if (!this.props.generatePreview) resolve() 
+            else
+
             //Set popup showing link is being generated, and mount the sharing to create picture from
             this.setState({
                 popup:true,
@@ -129,11 +131,11 @@ class Sharing extends React.Component {
                 this.setState({
                     popup: true,
                     popupContent:(
-                        <div>
+                        <div style={{width:"500px"}}>
                             <Textfield
                                 value={this.props.link}
                             />
-                            <p>Copy link</p>
+                            <p>Copy link from above</p>
                         </div>
                     )
                 })
