@@ -48,7 +48,7 @@ var user = React.createClass({
         this.setState({notification:"You should update your profile picture."})
         return
       }
-      if (!this.props.profile.app_metadata.notification) {
+      if (this.props.profile.app_metadata.notification) {
         this.setState({notification: this.props.profile.app_metadata.notification})
         return
       }

@@ -27,12 +27,12 @@ var Text = React.createClass({
   },
   getDefaultProps(){
     return{
-      value: "Current location"
+      value: ""
     }
   },
   componentWillMount(){
     if(this.props.value){
-      this.props.onChange("Current location")
+      this.props.onChange("")
     }
   },
 
@@ -158,7 +158,7 @@ var Text = React.createClass({
           onChange={this.onChange}
           fullWidth={true}
           searchText={this.props.value}
-          hintText={this.props.placeholder}
+          hintText={"City"}
           dataSource={this.state.dataSource}
           onUpdateInput={this.onChange}
           onNewRequest={this.onValueSelected}

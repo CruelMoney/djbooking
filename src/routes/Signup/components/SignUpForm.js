@@ -102,6 +102,21 @@ var signupForm = React.createClass({
             validate={['required', 'email']}
             label="Your Email"/>
 
+      <RegistrationElement
+          name="password"
+          label="Password"
+          active={true}
+          text="Please specify a password with a minimum length of 6 characters."
+          hideOn={['FACEBOOK','SOUNDCLOUD', 'SIGNED_IN']}
+        >
+          <Textfield
+            big
+            type="password"
+            name="password"
+            validate={['required', 'minLength']}
+            label="Your password"/>
+        </RegistrationElement>
+
         </RegistrationElement>
         <RegistrationElement
           name="phone"
@@ -117,20 +132,7 @@ var signupForm = React.createClass({
             label="Your phone number"/>
 
         </RegistrationElement>
-        <RegistrationElement
-          name="password"
-          label="Password"
-          active={true}
-          text="Please specify a password with a minimum length of 6 characters."
-          hideOn={['FACEBOOK','SOUNDCLOUD', 'SIGNED_IN']}
-        >
-          <Textfield
-            big
-            type="password"
-            name="password"
-            validate={['required', 'minLength']}
-            label="Your password"/>
-        </RegistrationElement>
+        
 
 
         <RegistrationElement

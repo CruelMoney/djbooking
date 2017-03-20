@@ -104,7 +104,7 @@ export default React.createClass({
 
         var bookURL = Environment.API_DOMAIN + '/api/user/' + this.props.profile.user_metadata.permaLink + '/fbshare'
 
-        var signupURL = Environment.CALLBACK_DOMAIN + "/signup?referredBy=" + this.props.profile.user_metadata.permaLink 
+        var signupURL = Environment.CALLBACK_DOMAIN + "/api/user/join?referredBy=" + this.props.profile.user_metadata.permaLink 
 
         const isDJ = this.props.profile.isDJ
         var OfferMock = m.MockOffer
@@ -219,6 +219,7 @@ export default React.createClass({
                              +" In case someone books you using your link, the DJ fee will be removed from the gig, and you will get the full payout."
                             }>
                          <Sharing
+                          generatePreview
                           link={bookURL}
                          />
                     </TextWrapper>

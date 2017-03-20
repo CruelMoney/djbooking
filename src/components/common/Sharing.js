@@ -13,15 +13,17 @@ class FBShare extends React.Component {
         return (
         <div id="sharing">
             <Logo
-                width="201px"
-                height="91px"
+                width="287px"
+                height="130px"
             />
-            <div className="info">
-                <div
-                    className="profile-image"
-                    style={{backgroundImage: "url("+this.props.profile.picture+")"}}
-                />
-                <div className="profile-text">
+            <div className="info row">
+                <div className="col-xs-4">
+                    <div
+                        className="profile-image"
+                        style={{backgroundImage: "url("+this.props.profile.picture+")"}}
+                    />
+                </div>
+                <div className="profile-text col-xs-8">
                     <h1>{this.props.profile.firstName}</h1>
                     <p>
                         <svg width="26px" height="37px" viewBox="517 301 26 37" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -41,10 +43,9 @@ class FBShare extends React.Component {
                     </p>
                 </div>
             </div>
-            <p style={{marginBottom:"-40px"}}>I'm a DJ at Cueup. Book me here:</p>
              <Button
                       className="white">
-                      <div style={{width:"333px"}}>BOOK</div>
+                      <div style={{width:"420px"}}>BOOK DJ</div>
             </Button>
         </div>)
     }
@@ -83,6 +84,7 @@ class Sharing extends React.Component {
 
     generatePreview = () =>{
         return new Promise((resolve,reject)=>{
+            if (!this.props.generatePreview) resolve()
             //Set popup showing link is being generated, and mount the sharing to create picture from
             this.setState({
                 popup:true,
@@ -103,7 +105,7 @@ class Sharing extends React.Component {
             domtoimage.toPng(node)
                 .then((dataUrl)=> {
                     //Then send it to save in the backend
-                    this.props.createFBShareLink(dataUrl, (err,result)=>{
+                    this.props.SaveBookMePreview(dataUrl, (err,result)=>{
                         if(err) reject("Could not create link")
                         this.setState({
                             popup:false,
@@ -175,12 +177,12 @@ class Sharing extends React.Component {
                 }, function(response){});
             })
 
-            .catch(function (error) {
+            .catch((error)=> {
                     this.setState({
                          
                          popupContent:(
                         <div>
-                            <p>Something went wrong.</p>
+                            <p>Something went wrong. Try again.</p>
                         </div>)
                     })
             })
@@ -289,8 +291,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    createFBShareLink: (image, callback) => {
-      dispatch(actions.createFBShareLink(image, callback))
+    SaveBookMePreview: (image, callback) => {
+      dispatch(actions.SaveBookMePreview(image, callback))
     }
 }
 }

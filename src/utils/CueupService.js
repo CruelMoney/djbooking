@@ -130,9 +130,9 @@ export default class CueupService {
       `${this.domain}/api/user/change_password/${email}`,
       this.postInit(email, this.getHeaders("")),callback
     )}
-    createFBShareLink(token, data, callback){
+    SaveBookMePreview(token, data, callback){
       return this.fetchHandling(
-      `${this.domain}/api/user/fbshare`,
+      `${this.domain}/api/user/SaveBookMePreview`,
       this.postInit(data, this.getHeaders(token)),
       callback
     )}

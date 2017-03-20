@@ -244,10 +244,10 @@ export function updateSettings(settings, callback) {
 }
 
 
-export function createFBShareLink(data, callback) {
+export function SaveBookMePreview(data, callback) {
   return function(dispatch){
   const token = auth.getToken()
-  cueup.createFBShareLink(token, data, function(err, result){
+  cueup.SaveBookMePreview(token, data, function(err, result){
     if (err) {
       callback(err, null)
     }else{
