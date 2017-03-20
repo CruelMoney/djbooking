@@ -100,6 +100,7 @@ var signupForm = React.createClass({
             big
             name="email"
             validate={['required', 'email']}
+            placeholder="mail@gmail.com"
             label="Your Email"/>
         </RegistrationElement>
 
@@ -115,6 +116,7 @@ var signupForm = React.createClass({
             type="password"
             name="password"
             validate={['required', 'minLength']}
+            placeholder="••••••"
             label="Your password"/>
         </RegistrationElement>
 
@@ -128,6 +130,7 @@ var signupForm = React.createClass({
             big
             name="phone"
             type="tel"
+            placeholder="12345678"
             validate={['required']}
             label="Your phone number"/>
 
