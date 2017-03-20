@@ -5,7 +5,6 @@ import Popup from './Popup'
 import {DisconnectedToggleOptions as ToggleOptions} from './ToggleOptions'
 import domtoimage from 'dom-to-image';
 import Logo from './Logo'
-import Dialog from 'share-dialog'
 
 class FBShare extends React.Component {
 
