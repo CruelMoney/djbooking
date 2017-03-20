@@ -5,6 +5,7 @@ import Popup from './Popup'
 import {DisconnectedToggleOptions as ToggleOptions} from './ToggleOptions'
 import domtoimage from 'dom-to-image';
 import Logo from './Logo'
+import Textfield from './Textfield'
 
 class FBShare extends React.Component {
 
@@ -77,69 +78,60 @@ class Sharing extends React.Component {
 
     state={popup:false}
 
-    copyLink=()=>{
-        window.prompt("Copy to clipboard: Ctrl+C, Enter", this.props.link);   
-    }
-    fbShare=()=>{     
-        this.setState({
-            popup:true,
-            popupContent:(
-                <div>
-                    <Button isLoading />
-                    <p>Generating link</p>
-                    <div id="viz-containment">
-                        <div id="viz-container">
-                            <FBShare profile={this.props.profile}/>
+    generatePreview = () =>{
+        return new Promise((resolve,reject)=>{
+            //Set popup showing link is being generated, and mount the sharing to create picture from
+            this.setState({
+                popup:true,
+                popupContent:(
+                    <div>
+                        <Button isLoading />
+                        <p>Generating link</p>
+                        <div id="viz-containment">
+                            <div id="viz-container">
+                                <FBShare profile={this.props.profile}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-            )
-        },()=>{
-            var fbID = (process.env.NODE_ENV === "production"
-                        ? '989698131149502'
-                        : '192380961257202')
-                       
-
-             window.fbAsyncInit = function() {
-                window.FB.init({
-                appId      : fbID,
-                xfbml      : true,
-                version    : 'v2.8'
-                });
-                window.FB.AppEvents.logPageView();
-            };
-
-            (function(d, s, id){
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {return;}
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-
+                )
+            },()=>{
+            //After picture has mounted create an image from it
             var node = document.getElementById('sharing');
-
             domtoimage.toPng(node)
-            .then((dataUrl)=> {
-                this.props.createFBShareLink(dataUrl, (err,result)=>{
-                    if(err) throw new Error("Could not create link")
-                    this.setState({
-                         popup:false,
-                         popupContent:(
-                        <div>
-                            <p>Generated</p>
-                        </div>
-                        )
+                .then((dataUrl)=> {
+                    //Then send it to save in the backend
+                    this.props.createFBShareLink(dataUrl, (err,result)=>{
+                        if(err) reject("Could not create link")
+                        this.setState({
+                            popup:false,
+                            popupContent:(
+                            <div>
+                                <p>Generated</p>
+                            </div>
+                            )
+                        })               
+                    resolve()
                     })
-                 
-                    
-                    window.FB.ui({
-                        method: 'share',
-                        href: this.props.link,
-                    }, function(response){});
                 })
+                .catch(reject)
             })
+        })
+    }
+
+    copyLink=()=>{
+        this.generatePreview()
+            .then(()=>{
+                this.setState({
+                    popup: true,
+                    popupContent:(
+                        <div>
+                            <Textfield
+                                value={this.props.link}
+                            />
+                            <p>Copy link</p>
+                        </div>
+                    )
+                })
             .catch(function (error) {
                     this.setState({
                          popupContent:(
@@ -147,28 +139,93 @@ class Sharing extends React.Component {
                             <p>Something went wrong.</p>
                         </div>)
                     })
-            });
+            })
         })
+    }
 
-       
-        
+    fbShare=()=>{     
+        this.generatePreview()
+            .then(()=>{
+
+                //initialize fb sdk
+                var fbID = (process.env.NODE_ENV === "production"
+                        ? '989698131149502'
+                        : '192380961257202')
+
+                window.fbAsyncInit = function() {
+                    window.FB.init({
+                    appId      : fbID,
+                    xfbml      : true,
+                    version    : 'v2.8'
+                    });
+                    window.FB.AppEvents.logPageView();
+                };
+
+                (function(d, s, id){
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) {return;}
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+                
+                //Show dialog
+                window.FB.ui({
+                    method: 'share',
+                    href: this.props.link,
+                }, function(response){});
+            })
+
+            .catch(function (error) {
+                    this.setState({
+                         
+                         popupContent:(
+                        <div>
+                            <p>Something went wrong.</p>
+                        </div>)
+                    })
+            })
     }
 
     tweet=()=>{
-        var winHeight = window.innerHeight / 2
-        var winWidth = window.innerWidth / 2
-        var winTop = 0;
-        var winLeft = 0;
-          window.open('http://twitter.com/share?url=' +  this.props.link,
-                       'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight
-          );
+        this.generatePreview()
+            .then(()=>{
+                var winHeight = window.innerHeight / 2
+                var winWidth = window.innerWidth / 2
+                var winTop = 0;
+                var winLeft = 0;
+                window.open('http://twitter.com/share?url=' +  this.props.link,
+                            'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight
+                );
+            })
+            .catch(function (error) {
+                    this.setState({
+                         
+                         popupContent:(
+                        <div>
+                            <p>Something went wrong.</p>
+                        </div>)
+                    })
+            });
     }
 
     generateQR=()=>{
-        this.setState({
-            popup: true,
-            popupContent: <QRCode value={this.props.link} />
-        })
+         this.generatePreview()
+            .then(()=>{
+                this.setState({
+                    popup: true,
+                    popupContent: <QRCode value={this.props.link} />
+                })
+            })
+            .catch(function (error) {
+                    this.setState({
+                         
+                         popupContent:(
+                        <div>
+                            <p>Something went wrong.</p>
+                        </div>)
+                    })
+            })
     }
 
     embedCode=()=>{
