@@ -39,12 +39,17 @@ var user = React.createClass({
 
     if(this.props.profile.app_metadata && this.props.isOwnProfile){
       document.title = this.props.profile.firstName + " | Cueup"
+      
       if (!this.props.profile.app_metadata.emailVerified) {
         this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
         return
       }
       if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
         this.setState({notification:"You should update your profile picture."})
+        return
+      }
+      if (!this.props.profile.app_metadata.notification) {
+        this.setState({notification: this.props.profile.app_metadata.notification})
         return
       }
       this.setState({notification:"You don't have any new notifications."})

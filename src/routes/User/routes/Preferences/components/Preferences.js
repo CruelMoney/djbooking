@@ -299,7 +299,7 @@ const preferences = React.createClass({
                 </TextWrapper>
               : null }
 
-              { !this.props.user.email_verified  ?
+              { !this.props.user.app_metadata.emailVerified  ?
 
                 <TextWrapper
                   label="Email verification"
