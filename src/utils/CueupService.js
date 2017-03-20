@@ -1,8 +1,8 @@
+import {Environment} from '../constants/constants'
+
 export default class CueupService {
     constructor() {
-        this.domain = process.env.NODE_ENV === "production"
-                    ? process.env.REACT_APP_CUEUP_PROD_DOMAIN
-                    : process.env.REACT_APP_CUEUP_DEV_DOMAIN
+        this.domain =Environment.API_DOMAIN
 
         this.getHeaders = function(token) {
             var headers = new Headers();

@@ -1,12 +1,11 @@
+import {Environment} from '../constants/constants'
 
 
 /*eslint no-undef: 0*/
 
 export default class StripeService {
     constructor() {
-      Stripe.setPublishableKey(process.env.NODE_ENV === "production"
-                                ? process.env.REACT_APP_STRIPE_PROD_PUB_KEY
-                                : process.env.REACT_APP_STRIPE_DEV_PUB_KEY)
+      Stripe.setPublishableKey(Environment.STRIPE_PUBLIC_KEY)
     }
 
        responseHandling(status, response, callback) {

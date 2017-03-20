@@ -14,6 +14,7 @@ import Popup from '../../../../../components/common/Popup'
 import m from '../../../../../constants/Mocks'
 import OfferCard from '../../../../Event/routes/Offers/components/OfferCard'
 import Sharing from '../../../../../components/common/Sharing' 
+import {Environment} from '../../../../../constants/constants'
 
 const Map = connectToForm(SimpleMap)
 
@@ -101,15 +102,9 @@ export default React.createClass({
 
     render() {
 
-        var bookURL = (process.env.NODE_ENV === "production"
-                        ? process.env.REACT_APP_CUEUP_PROD_DOMAIN
-                        : process.env.REACT_APP_CUEUP_DEV_DOMAIN)
-                        + '/api/user/' + this.props.profile.user_metadata.permaLink + '/fbshare'
+        var bookURL = Environment.API_DOMAIN + '/api/user/' + this.props.profile.user_metadata.permaLink + '/fbshare'
 
-        var signupURL = (process.env.NODE_ENV === "production"
-                      ? process.env.REACT_APP_AUTH0_PROD_CALLBACK_DOMAIN
-                      : process.env.REACT_APP_AUTH0_DEV_CALLBACK_DOMAIN)
-                      + "/signup?referredBy=" + this.props.profile.user_metadata.permaLink 
+        var signupURL = Environment.CALLBACK_DOMAIN + "/signup?referredBy=" + this.props.profile.user_metadata.permaLink 
 
         const isDJ = this.props.profile.isDJ
         var OfferMock = m.MockOffer

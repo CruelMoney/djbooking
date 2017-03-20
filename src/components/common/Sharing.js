@@ -6,10 +6,9 @@ import {DisconnectedToggleOptions as ToggleOptions} from './ToggleOptions'
 import domtoimage from 'dom-to-image';
 import Logo from './Logo'
 import Textfield from './Textfield'
+import {Environment} from '../../constants/constants'
 
 class FBShare extends React.Component {
-
-
     render(){
         return (
         <div id="sharing">
@@ -51,6 +50,7 @@ class FBShare extends React.Component {
     }
 }
 
+
 class EmbedCodes extends React.Component {
     state={value:"preview"}
 
@@ -73,6 +73,9 @@ class EmbedCodes extends React.Component {
     }
 
 }
+
+
+
 
 class Sharing extends React.Component {
 
@@ -148,13 +151,9 @@ class Sharing extends React.Component {
             .then(()=>{
 
                 //initialize fb sdk
-                var fbID = (process.env.NODE_ENV === "production"
-                        ? '989698131149502'
-                        : '192380961257202')
-
                 window.fbAsyncInit = function() {
                     window.FB.init({
-                    appId      : fbID,
+                    appId      : Environment.FACEBOOK_ID,
                     xfbml      : true,
                     version    : 'v2.8'
                     });
@@ -302,29 +301,3 @@ const SmartSharing = connect(mapStateToProps, mapDispatchToProps)(Sharing)
 export default props => (
     <SmartSharing {...props}/>
 )
-
-
-
-function post(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-         }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-}
