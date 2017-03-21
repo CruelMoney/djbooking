@@ -10,7 +10,7 @@ module.exports = {
     AUTH0_CLIENT_DOMAIN: (production ? process.env.REACT_APP_AUTH0_PROD_DOMAIN          : process.env.REACT_APP_AUTH0_DEV_DOMAIN),
     CALLBACK_DOMAIN:     (production ? process.env.REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN : process.env.REACT_APP_CUEUP_DEV_CALLBACK_DOMAIN),
     API_DOMAIN:          (production ? process.env.REACT_APP_CUEUP_PROD_API_DOMAIN      : process.env.REACT_APP_CUEUP_DEV_API_DOMAIN),
-    FACEBOOK_ID:         (production ? "989698131149502"                                : "192380961257202")
+    FACEBOOK_ID:         (production ? process.env.REACT_APP_CUEUP_PROD_FB_ID           : process.env.REACT_APP_CUEUP_DEV_FB_ID )
   },
 
 

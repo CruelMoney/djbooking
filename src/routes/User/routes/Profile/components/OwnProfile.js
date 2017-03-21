@@ -102,7 +102,7 @@ export default React.createClass({
 
     render() {
 
-        var bookURL = Environment.API_DOMAIN + '/api/user/' + this.props.profile.user_metadata.permaLink + '/fbshare'
+        var bookURL = Environment.API_DOMAIN + '/api/user/' + this.props.profile.user_metadata.permaLink + '/bookme'
 
         var signupURL = Environment.API_DOMAIN + "/api/user/join?referredBy=" + this.props.profile.user_metadata.permaLink 
 
