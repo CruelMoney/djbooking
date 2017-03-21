@@ -35,10 +35,18 @@ export default React.createClass({
       disableEditMode: PropTypes.func
     },
 
+
+
     componentWillMount(){
       if ( this.context.registerActions) {
           this.context.registerActions(this.getActionButtons)
       }
+
+      this.bookURL = Environment.API_DOMAIN + '/api/user/' + this.props.profile.user_metadata.permaLink + '/bookme'
+
+      this.signupURL = Environment.API_DOMAIN + "/api/user/join?referredBy=" + this.props.profile.user_metadata.permaLink
+
+
     },
 
     submit(form, callback) {
@@ -93,6 +101,13 @@ export default React.createClass({
               >See offer example
               </Button>
               : null}
+
+               <FB
+                  link={this.bookURL}
+                  generatePreview
+                >
+                Share profile on facebook
+                </FB>
           
               <ErrorMessage/>
             </div>
@@ -101,10 +116,6 @@ export default React.createClass({
     },
 
     render() {
-
-        var bookURL = Environment.API_DOMAIN + '/api/user/' + this.props.profile.user_metadata.permaLink + '/bookme'
-
-        var signupURL = Environment.API_DOMAIN + "/api/user/join?referredBy=" + this.props.profile.user_metadata.permaLink 
 
         const isDJ = this.props.profile.isDJ
         var OfferMock = m.MockOffer
@@ -219,26 +230,31 @@ export default React.createClass({
                              +" In case someone books you using your link, the DJ fee will be removed from the gig, and you will get the full payout."
                             }>
                          <div className="sharing-buttons">
-                          <Tweet
-                          link={bookURL}
-                          generatePreview
-                          />
+                           <Tweet
+                          link={this.bookURL}
+                          >
+                          Twitter
+                          </Tweet>
                           <FB
-                          link={bookURL}
-                          generatePreview
-                          />
+                          link={this.bookURL}
+                          >
+                          Facebook
+                          </FB>
                           <QR
-                          link={bookURL}
-                          generatePreview
-                          />
+                          link={this.bookURL}
+                          >
+                          QR CODE
+                          </QR>
                          <Link
-                         link={bookURL}
-                         generatePreview
-                          />
+                         link={this.bookURL}
+                          >
+                          Copy link
+                          </Link>
                           <Embed
-                          link={bookURL}
-                          generatePreview
-                          />
+                          link={this.bookURL}
+                          >
+                          Embed code
+                          </Embed>
             
                          </div>
                     </TextWrapper>
@@ -252,20 +268,30 @@ export default React.createClass({
                              + " Cueup points are used on gigs to remove the DJ fee. A maximum of 3 Cueup points can be held at a time."}>
                         <div className="sharing-buttons">
                           <Tweet
-                          link={signupURL}
-                          />
+                          link={this.signupURL}
+                          >
+                          Twitter
+                          </Tweet>
                           <FB
-                          link={signupURL}
-                          />
+                          link={this.signupURL}
+                          >
+                          Facebook
+                          </FB>
                           <QR
-                          link={signupURL}
-                          />
+                          link={this.signupURL}
+                          >
+                          QR CODE
+                          </QR>
                          <Link
-                         link={signupURL}
-                          />
+                         link={this.signupURL}
+                          >
+                          Copy link
+                          </Link>
                           <Embed
-                          link={signupURL}
-                          />
+                          link={this.signupURL}
+                          >
+                          Embed code
+                          </Embed>
                          </div>
                     </TextWrapper>
                   : null}

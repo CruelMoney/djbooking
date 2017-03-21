@@ -133,7 +133,7 @@ const generatePreview = (self) =>{
                 popupContent:(
                     <div>
                         <Button isLoading />
-                        <p>Generating link</p>
+                        <p style={{color:"#32325D"}}>Generating link</p>
                         <div id="viz-containment">
                             <div id="viz-container">
                                 <PreviewCard 
@@ -186,7 +186,8 @@ class LinkShare extends React.Component {
                         </div>
                     )
                 })
-            .catch(function (error) {
+            })
+            .catch( (error)=> {
                     this.setState({
                          popupContent:(
                         <div>
@@ -194,7 +195,6 @@ class LinkShare extends React.Component {
                         </div>)
                     })
             })
-        })
     }
 
  render() {
@@ -212,7 +212,7 @@ class LinkShare extends React.Component {
                 <Button
                     onClick={this.copyLink}
                 >
-                Copy Link
+                    {this.props.children}
                 </Button>
             </div>
         )
@@ -225,24 +225,30 @@ class FBShare extends React.Component {
     fbShare=()=>{     
         generatePreview(this)
             .then(()=>{
-                const self = this
+                
+                const showDialog = () =>
+                    window.FB.ui({
+                        method: 'share',
+                        href: this.props.link,
+                    }, function(response){});
+                
+                if (window.FB){
+                    showDialog()
+                    return
+                } 
 
                 //initialize fb sdk
                 window.fbAsyncInit = function() {
+                    console.log("FB init")
                     window.FB.init({
                     appId      : Environment.FACEBOOK_ID,
                     xfbml      : true,
                     version    : 'v2.8'
                     });
-                    window.FB.AppEvents.logPageView();
+                    window.FB.AppEvents.logPageView();   
 
-                    //Show dialog
-                    window.FB.ui({
-                        method: 'share',
-                        href: self.props.link,
-                    }, function(response){});
+                    showDialog()                
                 };
-
 
                 (function(d, s, id){
                     var js, fjs = d.getElementsByTagName(s)[0];
@@ -253,9 +259,6 @@ class FBShare extends React.Component {
 
                 }(document, 'script', 'facebook-jssdk'));
 
-           
-                
-              
             })
 
             .catch((error)=> {
@@ -284,7 +287,7 @@ class FBShare extends React.Component {
                      <Button
                     onClick={this.fbShare}
                     >
-                    facebook
+                    {this.props.children}
                      </Button>
                 </div>
             )
@@ -330,7 +333,7 @@ class TwitterShare extends React.Component {
                      <Button
                     onClick={this.tweet}
                     >
-                    Twitter
+                    {this.props.children}
                      </Button>
                 </div>
             )
@@ -374,7 +377,7 @@ class QRShare extends React.Component {
                      <Button
                     onClick={this.generateQR}
                     >
-                    QR Code
+                    {this.props.children}
                      </Button>
                 </div>
             )
@@ -410,7 +413,7 @@ class EmbedShare extends React.Component {
                 <Button
                     onClick={this.embedCode}
                     >
-                    Embed code
+                    {this.props.children}
                 </Button>
                          </div>
         )
