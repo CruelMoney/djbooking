@@ -225,6 +225,7 @@ class FBShare extends React.Component {
     fbShare=()=>{     
         generatePreview(this)
             .then(()=>{
+                const self = this
 
                 //initialize fb sdk
                 window.fbAsyncInit = function() {
@@ -234,7 +235,14 @@ class FBShare extends React.Component {
                     version    : 'v2.8'
                     });
                     window.FB.AppEvents.logPageView();
+
+                    //Show dialog
+                    window.FB.ui({
+                        method: 'share',
+                        href: self.props.link,
+                    }, function(response){});
                 };
+
 
                 (function(d, s, id){
                     var js, fjs = d.getElementsByTagName(s)[0];
@@ -242,13 +250,12 @@ class FBShare extends React.Component {
                     js = d.createElement(s); js.id = id;
                     js.src = "//connect.facebook.net/en_US/sdk.js";
                     fjs.parentNode.insertBefore(js, fjs);
+
                 }(document, 'script', 'facebook-jssdk'));
+
+           
                 
-                //Show dialog
-                window.FB.ui({
-                    method: 'share',
-                    href: this.props.link,
-                }, function(response){});
+              
             })
 
             .catch((error)=> {
