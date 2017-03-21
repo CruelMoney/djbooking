@@ -15,8 +15,10 @@
         'git submodule sync',
         'git submodule update',
         'git submodule status',
+        'cd ..',
         'sudo yarn install',
         'sudo yarn build',
+        'cd build_public',
         'cp -a ../build/. ./',
     );
 
