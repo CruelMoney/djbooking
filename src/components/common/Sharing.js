@@ -7,15 +7,15 @@ import domtoimage from 'dom-to-image';
 import Logo from './Logo'
 import Textfield from './Textfield'
 import {Environment} from '../../constants/constants'
+import Textbox from './TextBox'
 
-class FBShare extends React.Component {
+class PreviewCard extends React.Component {
     render(){
         return (
-        <div id="sharing">
-            <Logo
-                width="287px"
-                height="130px"
-            />
+        <div 
+            id={this.props.toSave ? "domsave" : ""} 
+            className={this.props.toSave ? "preview-card large" : "preview-card"}>
+            <Logo/>
             <div className="info row">
                 <div className="col-xs-4">
                     <div
@@ -26,7 +26,7 @@ class FBShare extends React.Component {
                 <div className="profile-text col-xs-8">
                     <h1>{this.props.profile.firstName}</h1>
                     <p>
-                        <svg width="26px" height="37px" viewBox="517 301 26 37" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="icon" viewBox="517 301 26 37" version="1.1" xmlns="http://www.w3.org/2000/svg">
                             <g id="location" stroke="none" stroke-width="1" fill="inherit" fill-rule="evenodd" transform="translate(517.000000, 301.000000)">
                                 <g id="Capa_1">
                                     <path d="M12.5235484,0 C5.66064516,0 0.0772580645,5.48534904 0.0772580645,12.2276681 C0.0772580645,14.9432463 1.84233871,19.3705696 5.47306452,25.7626959 C8.04129032,30.2837473 10.5672581,34.053469 10.6733871,34.2116895 L12.5235484,36.9668822 L14.373629,34.2117687 C14.4798387,34.053469 17.0059677,30.2838266 19.573871,25.7627752 C23.2047581,19.3705696 24.9696774,14.9433255 24.9696774,12.2277473 C24.9697581,5.48534904 19.386371,0 12.5235484,0 Z M12.5235484,18.4834411 C8.96048387,18.4834411 6.07193548,15.6456916 6.07193548,12.1451113 C6.07193548,8.64453105 8.96048387,5.80678158 12.5235484,5.80678158 C16.0866129,5.80678158 18.9751613,8.64453105 18.9751613,12.1451113 C18.9751613,15.6456916 16.0865323,18.4834411 12.5235484,18.4834411 Z" id="Shape"></path>
@@ -36,7 +36,7 @@ class FBShare extends React.Component {
                         {this.props.profile.city}
                     </p>
                     <p>
-                    <svg width="31px" height="40px" viewBox="0 0 31 40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="icon" viewBox="0 0 31 40" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <path d="M30.780019,18.8760574 L30.780019,21.8256676 L30.778945,21.8256676 L30.7771381,28.8422694 C30.7875523,29.0292437 30.7889527,29.2139919 30.780019,29.394818 C30.5070256,34.9203034 27.6153756,35.7029386 24.6376646,35.7029386 C21.6599542,35.7029386 19.7237817,34.0888403 19.7237817,31.0753445 C19.7237817,28.0618486 21.7712328,27.2075046 24.978907,26.4477504 C26.3358334,26.1263553 28.664319,25.8365882 28.664319,24.3861478 L28.664319,19.7394145 L28.664319,18.468744 L28.664319,10.6079296 C28.664319,10.192157 28.4088561,9.88368742 28.0504845,9.81218928 L11.5012826,12.9426725 C11.2724735,13.1604563 11.1244856,13.4684204 11.1244856,13.7851518 L11.1244856,32.1575607 C11.1244856,32.3111651 11.1244856,31.6793556 11.1244856,33.4236758 C11.1244856,38.1940251 7.89159389,39.7779843 4.91388349,39.7779843 C1.93617251,39.7779843 0,38.1638856 0,35.15039 C0,32.1368942 2.04745165,31.2825502 5.25512524,30.522796 C6.47459876,30.2339572 8.47876924,29.9706634 8.87228951,28.8674798 L8.87228951,5.84224266 C8.87228951,4.88871155 9.62164748,3.96452164 10.5459329,3.7780258 L29.1063756,0.0330295502 C30.0307035,-0.15347482 30.780019,0.468800249 30.780019,1.42141663 L30.780019,18.8760574 Z" id="Combined-Shape" stroke="none" fill="inherit" fill-rule="evenodd"></path>
                     </svg>
                         {this.props.profile.genres.join(', ')}
@@ -45,7 +45,7 @@ class FBShare extends React.Component {
             </div>
              <Button
                       className="white">
-                      <div style={{width:"420px"}}>BOOK DJ</div>
+                      <div>BOOK DJ</div>
             </Button>
         </div>)
     }
@@ -53,12 +53,29 @@ class FBShare extends React.Component {
 
 
 class EmbedCodes extends React.Component {
-    state={value:"preview"}
+    state={value:"preview", loading:true}
 
     render(){
+        var code = 
+`<iframe 
+    allowfullscreen="true"
+    webkitallowfullscreen="true" 
+    mozallowfullscreen="true" 
+    oallowfullscreen="true"
+    msallowfullscreen="true"
+    frameBorder="0"
+    scrolling="no"
+    marginheight="0"
+    marginwidth="0"        	
+    width="477px"
+    height="250px" 
+    src="${this.props.embedurl}">
+</iframe>`
+
         return(
-            <div>
+            <div className="profile-embed">
                 <ToggleOptions
+                    name="embedoptions"
                     glued={true}
                     onChange={(e)=>this.setState({value:e})}
                     value={this.state.value}
@@ -70,25 +87,48 @@ class EmbedCodes extends React.Component {
                         name="code"
                     >HTML Code</Button>
                 </ToggleOptions>
+
+                <div className="previewer">
+                        {this.state.loading ? 
+                            <Button isLoading/>
+                        : null}
+                        {this.state.value === "preview" ? 
+                        <iframe  
+                            onLoad={()=>this.setState({loading:false})}
+                            allowfullscreen="true"
+                            webkitallowfullscreen="true"
+                            mozallowfullscreen="true"
+                            oallowfullscreen="true"
+                            msallowfullscreen="true"
+                            frameBorder="0"
+                            scrolling="no"
+                            marginheight="0"
+                            marginwidth="0"        	
+                            width="477px" 
+                            height="250px" 
+                            src={this.props.embedurl}>
+                        </iframe>
+                        :
+                        <pre>
+                              {code}
+                        </pre>
+                        }
+                        
+                </div>
+
             </div>)
     }
 
 }
 
 
-
-
-class Sharing extends React.Component {
-
-    state={popup:false}
-
-    generatePreview = () =>{
+const generatePreview = (self) =>{
         return new Promise((resolve,reject)=>{
-            if (!this.props.generatePreview) resolve() 
+            if (!self.props.generatePreview) resolve() 
             else
 
             //Set popup showing link is being generated, and mount the sharing to create picture from
-            this.setState({
+            self.setState({
                 popup:true,
                 popupContent:(
                     <div>
@@ -96,20 +136,22 @@ class Sharing extends React.Component {
                         <p>Generating link</p>
                         <div id="viz-containment">
                             <div id="viz-container">
-                                <FBShare profile={this.props.profile}/>
+                                <PreviewCard 
+                                toSave
+                                profile={self.props.profile}/>
                             </div>
                         </div>
                     </div>
                 )
             },()=>{
             //After picture has mounted create an image from it
-            var node = document.getElementById('sharing');
+            var node = document.getElementById('domsave');
             domtoimage.toPng(node)
                 .then((dataUrl)=> {
                     //Then send it to save in the backend
-                    this.props.SaveBookMePreview(dataUrl, (err,result)=>{
+                    self.props.SaveBookMePreview(dataUrl, (err,result)=>{
                         if(err) reject("Could not create link")
-                        this.setState({
+                        self.setState({
                             popup:false,
                             popupContent:(
                             <div>
@@ -125,8 +167,13 @@ class Sharing extends React.Component {
         })
     }
 
+
+class LinkShare extends React.Component {
+
+    state={popup:false}
+
     copyLink=()=>{
-        this.generatePreview()
+        generatePreview(this)
             .then(()=>{
                 this.setState({
                     popup: true,
@@ -150,8 +197,33 @@ class Sharing extends React.Component {
         })
     }
 
+ render() {
+        return (
+            <div>
+                <Popup
+                    showing={this.state.popup}
+                    onClickOutside={()=>this.setState({popup:false})}
+                >
+                <div style={{textAlign:"center"}}>
+                {this.state.popupContent}
+                </div>
+                </Popup>
+            
+                <Button
+                    onClick={this.copyLink}
+                >
+                Copy Link
+                </Button>
+            </div>
+        )
+    }
+}
+
+class FBShare extends React.Component {
+    state={popup:false}
+
     fbShare=()=>{     
-        this.generatePreview()
+        generatePreview(this)
             .then(()=>{
 
                 //initialize fb sdk
@@ -190,8 +262,33 @@ class Sharing extends React.Component {
             })
     }
 
+    render() {
+            return (
+                <div>
+                    <Popup
+                        showing={this.state.popup}
+                        onClickOutside={()=>this.setState({popup:false})}
+                    >
+                    <div style={{textAlign:"center"}}>
+                    {this.state.popupContent}
+                    </div>
+                    </Popup>
+                
+                     <Button
+                    onClick={this.fbShare}
+                    >
+                    facebook
+                     </Button>
+                </div>
+            )
+        }
+    }
+
+class TwitterShare extends React.Component {
+    state={popup:false}
+
     tweet=()=>{
-        this.generatePreview()
+        generatePreview(this)
             .then(()=>{
                 var winHeight = window.innerHeight / 2
                 var winWidth = window.innerWidth / 2
@@ -211,9 +308,33 @@ class Sharing extends React.Component {
                     })
             });
     }
+     render() {
+            return (
+                <div>
+                    <Popup
+                        showing={this.state.popup}
+                        onClickOutside={()=>this.setState({popup:false})}
+                    >
+                    <div style={{textAlign:"center"}}>
+                    {this.state.popupContent}
+                    </div>
+                    </Popup>
+                
+                     <Button
+                    onClick={this.tweet}
+                    >
+                    Twitter
+                     </Button>
+                </div>
+            )
+        }
+    }
+
+class QRShare extends React.Component {
+    state={popup:false}
 
     generateQR=()=>{
-         this.generatePreview()
+         generatePreview(this)
             .then(()=>{
                 this.setState({
                     popup: true,
@@ -231,10 +352,38 @@ class Sharing extends React.Component {
             })
     }
 
+     render() {
+            return (
+                <div>
+                    <Popup
+                        showing={this.state.popup}
+                        onClickOutside={()=>this.setState({popup:false})}
+                    >
+                    <div style={{textAlign:"center"}}>
+                    {this.state.popupContent}
+                    </div>
+                    </Popup>
+                
+                     <Button
+                    onClick={this.generateQR}
+                    >
+                    QR Code
+                     </Button>
+                </div>
+            )
+        }
+    }
+
+
+class EmbedShare extends React.Component {
+    state={popup:false}
+
     embedCode=()=>{
         this.setState({
             popup: true,
-            popupContent: (<EmbedCodes/>
+            popupContent: (<EmbedCodes 
+                embedurl={Environment.API_DOMAIN + "/api/user/" + this.props.profile.user_id + "/embedcard"}
+                />
            )
         })
     }
@@ -250,34 +399,13 @@ class Sharing extends React.Component {
                 {this.state.popupContent}
                 </div>
                 </Popup>
-            <div className="sharing-buttons">
-                <Button
-                    onClick={this.copyLink}
-                >
-                Copy link
-                </Button>
-                <Button
-                    onClick={this.fbShare}
-                >
-                    Share on facebook
-                </Button>
-                <Button
-                    onClick={this.tweet}
-                >
-                    Tweet on twitter
-                </Button>
+            
                 <Button
                     onClick={this.embedCode}
                     >
                     Embed code
                 </Button>
-                <Button
-                    onClick={this.generateQR}
-                >
-                    QR code
-                </Button>
-            </div>
-            </div>
+                         </div>
         )
     }
 }
@@ -300,8 +428,16 @@ function mapDispatchToProps(dispatch, ownProps) {
 }
 
 
-const SmartSharing = connect(mapStateToProps, mapDispatchToProps)(Sharing)
+const SmartTweetShare = connect(mapStateToProps, mapDispatchToProps)(TwitterShare)
+const SmartFBShare = connect(mapStateToProps, mapDispatchToProps)(FBShare)
+const SmartQRShare = connect(mapStateToProps, mapDispatchToProps)(QRShare)
+const SmartLinkShare = connect(mapStateToProps, mapDispatchToProps)(LinkShare)
+const SmartEmbedShare = connect(mapStateToProps, mapDispatchToProps)(EmbedShare)
 
-export default props => (
-    <SmartSharing {...props}/>
-)
+export {
+    SmartTweetShare as Tweet,
+    SmartFBShare as FB,
+    SmartQRShare as QR,
+    SmartLinkShare as Link,
+    SmartEmbedShare as Embed
+} 

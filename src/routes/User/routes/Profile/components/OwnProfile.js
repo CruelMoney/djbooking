@@ -13,7 +13,7 @@ import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import Popup from '../../../../../components/common/Popup'
 import m from '../../../../../constants/Mocks'
 import OfferCard from '../../../../Event/routes/Offers/components/OfferCard'
-import Sharing from '../../../../../components/common/Sharing' 
+import {FB, Tweet, QR, Embed, Link}  from '../../../../../components/common/Sharing' 
 import {Environment} from '../../../../../constants/constants'
 
 const Map = connectToForm(SimpleMap)
@@ -218,10 +218,29 @@ export default React.createClass({
                         text={"At Cueup you can get paid for referring people to the site. The link below is used to book you directly."
                              +" In case someone books you using your link, the DJ fee will be removed from the gig, and you will get the full payout."
                             }>
-                         <Sharing
-                          generatePreview
+                         <div className="sharing-buttons">
+                          <Tweet
                           link={bookURL}
-                         />
+                          generatePreview
+                          />
+                          <FB
+                          link={bookURL}
+                          generatePreview
+                          />
+                          <QR
+                          link={bookURL}
+                          generatePreview
+                          />
+                         <Link
+                         link={bookURL}
+                         generatePreview
+                          />
+                          <Embed
+                          link={bookURL}
+                          generatePreview
+                          />
+            
+                         </div>
                     </TextWrapper>
                   : null}
                   
@@ -231,9 +250,23 @@ export default React.createClass({
                         text={"At Cueup you can get paid for referring people to the site. The link below is used for referring DJs to the site."
                               +" In case a DJ signs up using your link, you will get a Cueup point whenever the referred DJ makes his or hers first offer."
                              + " Cueup points are used on gigs to remove the DJ fee. A maximum of 3 Cueup points can be held at a time."}>
-                        <Sharing
+                        <div className="sharing-buttons">
+                          <Tweet
                           link={signupURL}
-                        />
+                          />
+                          <FB
+                          link={signupURL}
+                          />
+                          <QR
+                          link={signupURL}
+                          />
+                         <Link
+                         link={signupURL}
+                          />
+                          <Embed
+                          link={signupURL}
+                          />
+                         </div>
                     </TextWrapper>
                   : null}
                 </div>

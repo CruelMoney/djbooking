@@ -113,7 +113,9 @@ section{
   display: inline-block;
 }
 
-
+pre{
+  text-align: left !important;
+}
 
 .row{
   display: flex;
@@ -3023,12 +3025,13 @@ table td{
 
 .sharing-buttons{
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
   flex-direction: row;
 }
 .sharing-buttons > div{
   margin-bottom: 5px;
+  margin-right: 10px;
+
 }
 #viz-containment{
   position:relative;
@@ -3042,11 +3045,13 @@ table td{
   left:-10000vw;
 }
 
-#sharing{
-    padding: 30px 0;
-    width: 1428px;
+.preview-card{
+    border-radius: 6px;
+    overflow: hidden;
+    padding: 10px 0;
+    width: 477px;
+    height: 250px;
     color: white;
-    height: 747px;
     fill: white;
     background-image: linear-gradient(135deg, rgb(49, 255, 245) 14%, rgb(0, 209, 255) 94%);
     display: flex;
@@ -3054,36 +3059,89 @@ table td{
     align-items: center;
     justify-content: space-around;
 }
-#sharing button{
+.preview-card.large{
+    border-radius: 0;
+    padding: 30px 0;
+    width: 1428px;  
+    height: 747px;
+}
+.preview-card.large .logo{
+  width:287px;
+  height:130px;
+}
+.preview-card .icon{
+  width:10px;
+  height:16px;
+
+}
+.preview-card.large .icon{
+  width:31px;
+  height:40px;
+}
+.preview-card.large button{
+  width:130px;
+}
+.preview-card.large button{
   font-size: 72px;
   height: 144px;
+  width:420px;
   border-radius: 20px !important;
 }
-#sharing h1{
+.preview-card h1{
+  font-family: Camphor,Open Sans,Segoe UI,sans-serif;
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+.preview-card.large h1{
   font-family: SourceSansPro-Bold;
   font-size: 72px;
 }
-#sharing p{
+.preview-card p{
+  font-family: Camphor,Open Sans,Segoe UI,sans-serif;
+  line-height: 15px !important;
+}
+.preview-card.large p{
   font-family: SourceSansPro-Bold;
   font-size: 51px !important;
+  line-height: 51px !important;
   margin-bottom: 30px;
 }
-#sharing .profile-text{
+.preview-card .profile-text{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
 }
-#sharing .profile-text svg{
+.preview-card .profile-text svg{
+  margin-right: 5px;
+  position: relative;
+  bottom: -3px;
+}
+.preview-card.large .profile-text svg{
   margin-right: 20px;
 }
-#sharing .profile-image{
-    width: 333px;
-    height: 333px;
+.preview-card .profile-image{
+    width: 120px;
+    height: 120px;
     background-size: cover;
     border-radius: 50%;
     margin: auto;
 }
-#sharing .info{
+.preview-card.large .profile-image{
+    width: 333px;
+    height: 333px;
+}
+.preview-card .info{
  width: 100%;
+}
+
+
+.previewer button{
+  position: absolute;
+  top: 50%;
+}
+.profile-embed .toggle-options{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
