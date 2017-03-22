@@ -6,6 +6,8 @@ import EmptyPage from '../../../../../components/common/EmptyPage'
 import {requestFeatures} from '../../../../../actions/Common'
 import OfferCard from '../../../../Event/routes/Offers/components/OfferCard'
 import Popup from '../../../../../components/common/Popup'
+import Login from '../../../../../components/common/Login'
+
 import m from '../../../../../constants/Mocks'
 
 var Gigs = React.createClass({
@@ -22,7 +24,8 @@ var Gigs = React.createClass({
     return{
       gigs: [],
       filter: "requested",
-      showPopup:false
+      showPopup:false,
+      loginPopup:true
     }
   },
 
@@ -214,6 +217,17 @@ var Gigs = React.createClass({
             <div>
               {renderGigs(gigs)}
             </div>
+        }
+          {  
+            !this.props.profile.user_id && !this.props.loading ? 
+             <Popup
+                showing={this.state.loginPopup}
+                onClickOutside={()=>this.setState({loginPopup:false})}>
+                <p>Login to see your gigs</p>
+                <Login/>
+              </Popup>
+              :null
+            }
         }
 
 

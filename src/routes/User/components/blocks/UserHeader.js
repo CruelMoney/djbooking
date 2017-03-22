@@ -106,9 +106,9 @@ var userHeader = React.createClass({
 
 
 
-        <div className="col-md-4"></div>
+        <div className="col-sm-4"></div>
 
-        <div className="user-header-content col-md-8">
+        <div className="user-header-content col-sm-8">
 
 
           <div className="header-info">

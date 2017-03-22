@@ -171,8 +171,8 @@ var user = React.createClass({
 
           <div  className="user-container container">
             <div className="row">
-              <div className={"col-md-4"}></div>
-              <div className={"col-md-8"}>
+              <div className={"col-sm-4"}></div>
+              <div className={"col-sm-8"}>
                 <div className="mobileActions">
                 {this.props.isOwnProfile ? this.state.actions : null}
                 </div>

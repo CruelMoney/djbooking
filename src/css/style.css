@@ -1504,7 +1504,7 @@ margin-right: 5px;
   left: 50%;
   bottom: 30px;
   background: white;
-  padding: 5px;
+  padding: 10px;
   text-align: center;
   z-index: 10000;
   line-height: 16px;
@@ -2416,6 +2416,9 @@ left: 50%;
   and (min-width: 768px)  {
     .request-columns .row{
       display: block;
+    }
+    .container{
+      width: auto;
     }
 }
 /* SMALL COM END */
