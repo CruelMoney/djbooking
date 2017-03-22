@@ -40,7 +40,6 @@ export default React.createClass({
     },
 
     getActionButtons(props = this.props) {
-        const editing = this.context.editing
 
         return (
             <div className="context-actions" key="profile_actions">
@@ -51,7 +50,6 @@ export default React.createClass({
                     >
                     Back to profile
                   </Button>
-          
                 :null}
             </div>
 

@@ -84,22 +84,20 @@ var menu = React.createClass({
             <nav
               className="navigation"
             >
-              <div className="logo">
                 <Navlink to="/">
                   <Logo />
                 </Navlink>
                 <div className=""
                   ref={ref=>this.mobileMenu=ref}
                   >
-                <a
+             </div>
+             <a
                   className="mobileMenuButton"
                   onClick={()=>{
                     this.setState({showMenu:true})}}
                   >
                   <h2>Menu</h2>
                 </a>
-                </div>
-              </div>
               <ul className="main-menu">
                 
                 {!isHome    ?    

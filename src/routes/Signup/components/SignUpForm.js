@@ -153,7 +153,7 @@ var signupForm = React.createClass({
             label="Your name"/>
         </RegistrationElement>
 
-
+{/*
         <RegistrationElement
           name="bday"
           label="Birthday"
@@ -172,7 +172,7 @@ var signupForm = React.createClass({
             placeholder="dd/mm/yyyy"
             label="Birthday"/>
 
-        </RegistrationElement>
+        </RegistrationElement>*/}
 
         <RegistrationElement
           name="location"
