@@ -10,9 +10,6 @@ import LoadingPlaceholder from '../../../../../components/common/LoadingPlacehol
 import TextWrapper from '../../../../../components/common/TextElement'
 import c from '../../../../../constants/constants'
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
-import Popup from '../../../../../components/common/Popup'
-import m from '../../../../../constants/Mocks'
-import OfferCard from '../../../../Event/routes/Offers/components/OfferCard'
 import {FB, Tweet, QR, Embed, Link}  from '../../../../../components/common/Sharing' 
 import {Environment} from '../../../../../constants/constants'
 
@@ -32,7 +29,8 @@ export default React.createClass({
       toggleEditMode:  PropTypes.func,
       editing:         PropTypes.bool,
       valid:           PropTypes.bool,
-      disableEditMode: PropTypes.func
+      disableEditMode: PropTypes.func,
+      updateAction:    PropTypes.func
     },
 
 
@@ -49,6 +47,12 @@ export default React.createClass({
 
     },
 
+    getInitialState(){
+      return {
+        showHelp: false
+      }
+    },
+
     submit(form, callback) {
       const profile = {
         ...this.props.profile,
@@ -58,19 +62,7 @@ export default React.createClass({
       this.props.save(profile, callback)
     },
 
-    getInitialState(){
-      return{
-        showPopup:false
-      }
-    },
-
-
-    hidePopup(){
-      this.setState({
-        showPopup: false
-      })
-    },
-
+ 
 
     getActionButtons(props = this.props) {
         const editing = this.context.editing
@@ -88,19 +80,19 @@ export default React.createClass({
                       }, 1700)}
                   > Save
                   </SubmitButton>
-                : <Button
-                  onClick={this.context.toggleEditMode}
-                  name="edit_profile"
-                  >Edit information
-                </Button>
+                : 
+                
+                <div className={this.state.showHelp ? "pulse" : ""}
+                >
+                  <Button
+                    onClick={this.context.toggleEditMode}
+                    name="edit_profile"
+                    >
+                    Edit information
+                  </Button>
+                 </div>
               }
-              {this.props.profile.isDJ ?
-              <Button
-                onClick={()=>this.setState({showPopup:true})}
-                name="public_profile"
-              >See offer example
-              </Button>
-              : null}
+             
 
                <FB
                   link={this.bookURL}
@@ -108,6 +100,12 @@ export default React.createClass({
                 >
                 Share profile on facebook
                 </FB>
+                 <Button
+                    onClick={this.props.togglePublicProfile}
+                    name="toggle_public"
+                    >
+                    See public profile
+                  </Button>
           
               <ErrorMessage/>
             </div>
@@ -115,29 +113,25 @@ export default React.createClass({
         )
     },
 
-    render() {
+    showHelp(){
+      this.setState({
+        showHelp:true
+      }, this.context.updateAction)
 
+      setTimeout(()=> {
+        this.setState({
+            showHelp:false
+         },this.context.updateAction)
+      }, 1500);
+    },
+
+
+    render() {
         const isDJ = this.props.profile.isDJ
-        var OfferMock = m.MockOffer
-            if (this.props.profile.settings) {
-              OfferMock.refundPercentage = this.props.profile.settings.refundPercentage
-              OfferMock.cancelationDays = this.props.profile.settings.cancelationDays
-              OfferMock.dj = this.props.profile
-            }
 
         return (
           <div>
-            {OfferMock.dj ?
-              <Popup
-                showing={this.state.showPopup}
-                onClickOutside={this.hidePopup}>
-                <div className="offer-example">
-                  <OfferCard 
-                  disabled
-                  offer={OfferMock}/>
-                </div>
-              </Popup>
-              : null}
+            
 
             { this.context.loading ?
               <div>
@@ -149,7 +143,9 @@ export default React.createClass({
               :
               <div>
                 <div className="profile">
-                  <TextWrapper label="Name" text="Your full name. We only share your first name.">
+                  <TextWrapper 
+                  onDisabledClick={this.showHelp}
+                  label="Name" text="Your full name. We only share your first name.">
                     <TextField
                       value={this.props.profile.name}
                       name="name"
@@ -158,7 +154,9 @@ export default React.createClass({
                       validate={['required', 'lastName']}
                     />
                   </TextWrapper>
-                  <TextWrapper label="E-mail" text="Updating your email means you have to confirm it again.">
+                  <TextWrapper 
+                  onDisabledClick={this.showHelp}
+                  label="E-mail" text="Updating your email means you have to confirm it again.">
                     <TextField
                       value={this.props.profile.email}
                       name="email"
@@ -168,7 +166,9 @@ export default React.createClass({
                     />
                   </TextWrapper>
 
-                  <TextWrapper label="Phone" text={"We only share your number with " + (isDJ ? "organizers of events you have accepted." : "DJs qualified for your events.")}>
+                  <TextWrapper 
+                  onDisabledClick={this.showHelp}
+                  label="Phone" text={"We only share your number with " + (isDJ ? "organizers of events you have accepted." : "DJs qualified for your events.")}>
                     <TextField
                       validate={['required']}
                       name="phone"
@@ -179,7 +179,9 @@ export default React.createClass({
                   </TextWrapper>
 
                   {isDJ
-                    ? <TextWrapper label="Genres" text="The genres you would like to play.">
+                    ? <TextWrapper 
+                    onDisabledClick={this.showHelp}
+                    label="Genres" text="The genres you would like to play.">
                       <Genres
                         name="genres"
                         validate={['required']}
@@ -192,7 +194,9 @@ export default React.createClass({
                   }
 
                   {isDJ
-                    ? <TextWrapper label="Bio" text={this.props.profile.firstName + ", please tell us a bit about yourself. What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?"}>
+                    ? <TextWrapper 
+                    onDisabledClick={this.showHelp}
+                    label="Bio" text={this.props.profile.firstName + ", please tell us a bit about yourself. What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?"}>
                       <TextBox
                         validate={['required']}
                         width="100%"
@@ -212,7 +216,10 @@ export default React.createClass({
 
 
                   {isDJ
-                    ? <TextWrapper label="Location" text={this.props.profile.firstName + ", this is the area where you will receive gigs. To edit the location or radius, click the edit information button, and drag in the points that appear on the circle."}>
+                    ? <TextWrapper 
+                    onDisabledClick={this.showHelp}
+                    label="Location" 
+                    text={this.props.profile.firstName + ", this is the area where you will receive gigs. To edit the location or radius, click the edit information button, and drag in the points that appear on the circle."}>
                       <Map
                         radius={this.props.profile.playingRadius}
                         value={this.props.profile.playingLocation}
@@ -231,27 +238,31 @@ export default React.createClass({
                             }>
                          <div className="sharing-buttons">
                            <Tweet
+                           generatePreview
                           link={this.bookURL}
                           >
                           Twitter
                           </Tweet>
                           <FB
+                          generatePreview
                           link={this.bookURL}
                           >
                           Facebook
                           </FB>
                           <QR
+                          generatePreview
                           link={this.bookURL}
                           >
                           QR CODE
                           </QR>
                          <Link
+                         generatePreview
                          link={this.bookURL}
                           >
                           Copy link
                           </Link>
                           <Embed
-                          link={this.bookURL}
+                          embedURL={Environment.API_DOMAIN + "/api/user/" + this.props.profile.user_id + "/embedcard"}
                           >
                           Embed code
                           </Embed>
@@ -265,7 +276,7 @@ export default React.createClass({
                         label="Refer DJs" 
                         text={"At Cueup you can get paid for referring people to the site. The link below is used for referring DJs to the site."
                               +" In case a DJ signs up using your link, you will get a Cueup point whenever the referred DJ makes his or hers first offer."
-                             + " Cueup points are used on gigs to remove the DJ fee. A maximum of 3 Cueup points can be held at a time."}>
+                             + " Cueup points are used on gigs to remove the fee on gigs."}>
                         <div className="sharing-buttons">
                           <Tweet
                           link={this.signupURL}
@@ -287,11 +298,6 @@ export default React.createClass({
                           >
                           Copy link
                           </Link>
-                          <Embed
-                          link={this.signupURL}
-                          >
-                          Embed code
-                          </Embed>
                          </div>
                     </TextWrapper>
                   : null}

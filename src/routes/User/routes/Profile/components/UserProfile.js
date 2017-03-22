@@ -44,7 +44,15 @@ export default React.createClass({
 
         return (
             <div className="context-actions" key="profile_actions">
-              
+                {this.props.publicProfileMode ? 
+                  <Button
+                    onClick={this.props.togglePublicProfile}
+                    name="toggle_public"
+                    >
+                    Back to profile
+                  </Button>
+          
+                :null}
             </div>
 
         )

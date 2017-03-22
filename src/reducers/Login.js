@@ -9,7 +9,8 @@ var ActionTypes = c.ActionTypes
 const initialState = { //define initial state - an empty form
   signedIn: false,
   isWaiting: false,
-  editMode: false
+  editMode: false,
+  publicProfileMode: false
 }
 
 const status = (state = initialState, action) => {
@@ -83,7 +84,10 @@ const status = (state = initialState, action) => {
       return assign({}, state, {
               geoLocation: action.value
             })
-
+    case ActionTypes.TOGGLE_PUBLIC_PROFILE:
+        return assign({}, state, {
+            publicProfileMode: !state.publicProfileMode
+            })
 
   default:
     return state

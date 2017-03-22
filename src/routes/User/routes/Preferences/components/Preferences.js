@@ -32,7 +32,8 @@ const preferences = React.createClass({
     toggleEditMode:  PropTypes.func,
     editing:         PropTypes.bool,
     valid:           PropTypes.bool,
-    disableEditMode: PropTypes.func
+    disableEditMode: PropTypes.func,
+    updateAction:    PropTypes.func
   },
 
   componentWillMount(){
@@ -110,11 +111,15 @@ const preferences = React.createClass({
                       }, 1700)}
                 > Save
                 </SubmitButton>
-              : <Button
-                onClick={this.context.toggleEditMode}
-                name="edit_profile"
-                >Edit settings
-              </Button>
+              :
+              <div className={this.state.showHelp ? "pulse" : ""}
+                >
+                <Button
+                  onClick={this.context.toggleEditMode}
+                  name="edit_profile"
+                  >Edit settings
+                </Button>
+              </div>
             }
 
             <SubmitButton
@@ -133,6 +138,18 @@ const preferences = React.createClass({
           </div>
 
       )
+  },
+
+  showHelp(){
+    this.setState({
+      showHelp:true
+    }, this.context.updateAction)
+
+    setTimeout(()=> {
+      this.setState({
+          showHelp:false
+      },this.context.updateAction)
+    }, 1500);
   },
 
   render() {
@@ -184,6 +201,7 @@ const preferences = React.createClass({
           
                 <div>
                   <TextWrapper
+                    onDisabledClick={this.showHelp}
                     label="Email notifications"
                     text="What kind of notifications do you wish to receive?">
                     <ToggleHandler
@@ -199,6 +217,7 @@ const preferences = React.createClass({
               {isDJ ?
                 <div>
                   <TextWrapper
+                    onDisabledClick={this.showHelp}
                     label="Cancelation policy"
                     text="How many days notice do you allow for cancelations?
                     If the organizer wants to cancel the event within less days, the percentage specified below will be refunded.
@@ -232,6 +251,7 @@ const preferences = React.createClass({
                     </ToggleOptions>
                   </TextWrapper>
                   <TextWrapper
+                  onDisabledClick={this.showHelp}
                     label="Refund percentage"
                     text="How many percentage of the offer should be returned if the organizer cancels within less days than the minimum notice?">
                     <Slider
@@ -249,6 +269,7 @@ const preferences = React.createClass({
                       <span>{this.state.refundPercentage}% </span>will be refunded.</p>
                   </TextWrapper>
                   <TextWrapper
+                  onDisabledClick={this.showHelp}
                     label="Standby"
                     text="Are you unavailable to play at the moment? You will not receive requests if you're unavailable.">
 
@@ -270,7 +291,9 @@ const preferences = React.createClass({
                 </div>
               : null}
 
-              <TextWrapper label="Profile URL" text="What URL do you want people to find you at.">
+              <TextWrapper 
+                    onDisabledClick={this.showHelp}
+                    label="Profile URL" text="What URL do you want people to find you at.">
                     <p className="permalink-input">
                     www.cueup.io/user/
                     <TextField

@@ -256,3 +256,9 @@ export function SaveBookMePreview(data, callback) {
   })
 }
 }
+
+  export function togglePublicProfile() {
+          return {
+          type: ActionTypes.TOGGLE_PUBLIC_PROFILE,
+        }
+  }

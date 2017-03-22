@@ -3,6 +3,8 @@ import Formatter from '../../../../utils/Formatter'
 import Rating from '../../../../components/common/Rating'
 import Navlink  from '../../../../components/common/Navlink'
 import Logo from '../../../../components/common/Logo'
+import InfoPopup from '../../../../components/common/InfoPopup'
+
 import Button from '../../../../components/common/Button-v2'
 import * as actions from '../../../../actions/UserActions'
 import { connect } from 'react-redux'
@@ -128,12 +130,22 @@ getInitialState(){
             {this.props.profile.isDJ ? 
             <div>
             <div className="user-card-fact">
-              <p>Experience</p>
+              <p>Experience
+                 <InfoPopup
+                  info="How many gigs you have played using Cueup. This is shared on your public profile."
+                  />
+              </p>
+             
               {this.props.experience + " gigs"}
             </div>
             {this.props.isOwnProfile ? 
             <div className="user-card-fact">
-              <p>Earned</p>
+              <p>Earned
+                <InfoPopup
+                  info="How much money you have earned. This is NOT shared on your public profile."
+                  />
+                
+              </p>
               {Formatter.money.FormatNumberToString(this.props.earned, "Dkk")}
             </div>
             : null}
@@ -162,7 +174,11 @@ getInitialState(){
             
              {this.props.profile.discountPoints > 0 && this.props.isOwnProfile ? 
             <div className="user-card-fact">
-              <p>Cueup points</p>
+              <p>Cueup points
+                <InfoPopup
+                  info="Cueup points can be used to remove the fee on gigs, thus increasing the payout."
+                  />
+              </p>
               {this.props.profile.discountPoints + " Points"}
             </div>
                         

@@ -1079,7 +1079,6 @@ transition: opacity 0.3s ease;
 }
 .user-card-text{
   position: relative;
-  z-index: 0;
   background: white;
   transition: transform 0.5s, opacity 0.5s;
 
@@ -1155,6 +1154,7 @@ transition: opacity 0.3s ease;
 .event-card-fact p{
     font-size: 15px;
     color: #8998AA;
+    fill: #8998AA;
     text-transform: uppercase;
     font-weight: 500;
     line-height: 20px;
@@ -1490,9 +1490,10 @@ margin-right: 5px;
 
 .info-popup{
   float: right;
-  margin-top: 7px;
+  margin-top: 2px;
   margin-left: 5px;
   position: relative;
+  text-transform: none;
 }
 .info-popup .info{
   position: absolute;
@@ -1505,7 +1506,9 @@ margin-right: 5px;
   background: white;
   padding: 5px;
   text-align: center;
-  z-index: 1;
+  z-index: 10000;
+  line-height: 16px;
+  white-space: pre-line;
 }
 .info-popup .info:before {
   content: '';
@@ -1682,7 +1685,6 @@ margin-right: 5px;
   letter-spacing: 0.39px;
   visibility: visible;
   white-space: nowrap;
-   overflow: hidden;
    text-overflow: ellipsis;
    display: flex;
     justify-content: center;
@@ -1704,6 +1706,7 @@ button{
   line-height: 1px;
   display: inline-block;
 }
+
 
 
 .button.elevated{
@@ -1791,6 +1794,23 @@ button.white{
   border-color: inherit;
   background-color: #FFFFFF;
 }
+
+.pulse .button{
+  animation: pulse 0.5s infinite;
+}
+@keyframes pulse {
+  0% { 
+       opacity: 1;
+    }
+  50%{
+       opacity: 0;
+
+  }
+  100% {
+       opacity: 1;
+  }
+}
+
 
 table button{
   width: 100%;

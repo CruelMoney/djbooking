@@ -100,7 +100,7 @@ var userHeader = React.createClass({
             loading={this.props.loading}
           />
 
-                {this.props.isOwnProfile ? this.props.actions : null}
+                {this.props.actions}
         
         </div>
 

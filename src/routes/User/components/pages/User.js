@@ -27,8 +27,8 @@ var user = React.createClass({
       loading: PropTypes.bool,
       textColor: PropTypes.string,
       disableEditMode: PropTypes.func,
-      isOwnProfile:PropTypes.bool
-
+      isOwnProfile:PropTypes.bool,
+      updateAction: PropTypes.func
   },
 
   componentWillMount(){
@@ -57,8 +57,6 @@ var user = React.createClass({
   },
 
   componentWillReceiveProps(nextProps){
-
-
     if(nextProps.profile.firstName){
          document.title = nextProps.profile.firstName + " | Cueup"
     }
@@ -113,15 +111,14 @@ var user = React.createClass({
          {
          editing: false,
      },this.setActions)},
-
+     updateAction: this.setActions,
      color:        this.themeColor,
      editing:     this.state.editing,
      valid:        this.state.valid,
      loading: this.props.loading,
      textColor: this.textColor,
      profile: this.props.profile,
-      isOwnProfile:this.props.isOwnProfile
-
+      isOwnProfile:this.props.isOwnProfile,
     }
   },
 
@@ -208,6 +205,7 @@ import * as actions from '../../../../actions/UserActions'
 
 function mapStateToProps(state, ownProps) {
   const isOwnProfile = 
+    state.login.status.publicProfileMode ? false :
     (state.login.profile.user_metadata) 
     ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.params.permalink.toLowerCase()
     : false

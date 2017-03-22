@@ -392,7 +392,7 @@ class EmbedShare extends React.Component {
         this.setState({
             popup: true,
             popupContent: (<EmbedCodes 
-                embedurl={Environment.API_DOMAIN + "/api/user/" + this.props.profile.user_id + "/embedcard"}
+                embedurl={this.props.embedURL}
                 />
            )
         })
@@ -415,7 +415,7 @@ class EmbedShare extends React.Component {
                     >
                     {this.props.children}
                 </Button>
-                         </div>
+            </div>
         )
     }
 }

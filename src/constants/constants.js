@@ -79,7 +79,9 @@ module.exports = {
     UPDATE_GEOLOCATION:null,
 
     REMOVE_MENU_ITEM:null,
-    REGISTER_MENU_ITEM:null
+    REGISTER_MENU_ITEM:null,
+
+    TOGGLE_PUBLIC_PROFILE:null
 
   }),
    GENRES: [

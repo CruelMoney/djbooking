@@ -23,13 +23,15 @@ import * as actions from '../../../../../actions/UserActions'
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownProps) {
    const isOwnProfile = 
+     state.login.status.publicProfileMode ? false :
     (state.login.profile.user_metadata) 
     ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.params.permalink.toLowerCase()
     : false
     
   return {
     profile: isOwnProfile ? state.login.profile : state.user.profile,
-    isOwnProfile:isOwnProfile
+    isOwnProfile:isOwnProfile,
+    publicProfileMode: state.login.status.publicProfileMode
   }
 }
 
@@ -37,6 +39,7 @@ function mapDispatchToProps(dispatch, ownProps) {
   return {
       save: (profile,callback) => {dispatch(actions.save(profile, callback))},
       deleteProfile: (callback) => {dispatch(actions.deleteProfile(callback))},
+      togglePublicProfile: () => {dispatch(actions.togglePublicProfile())},
 }}
 
 function mergeProps(stateProps, dispatchProps, ownProps) {

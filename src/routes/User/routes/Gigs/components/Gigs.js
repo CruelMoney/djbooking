@@ -4,8 +4,9 @@ import Gig from './Gig'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
 import EmptyPage from '../../../../../components/common/EmptyPage'
 import {requestFeatures} from '../../../../../actions/Common'
-
-/*eslint no-undef: 0*/
+import OfferCard from '../../../../Event/routes/Offers/components/OfferCard'
+import Popup from '../../../../../components/common/Popup'
+import m from '../../../../../constants/Mocks'
 
 var Gigs = React.createClass({
   propTypes: {
@@ -21,6 +22,7 @@ var Gigs = React.createClass({
     return{
       gigs: [],
       filter: "requested",
+      showPopup:false
     }
   },
 
@@ -43,6 +45,12 @@ var Gigs = React.createClass({
     })
   },
 
+
+    hidePopup(){
+      this.setState({
+        showPopup: false
+      })
+    },
 
   getActionButtons(props = this.props){
     return (
@@ -100,7 +108,13 @@ var Gigs = React.createClass({
            requestFeatures()
         }}
       >Request features</Button>
-
+          {this.props.profile.isDJ ?
+              <Button
+                onClick={()=>this.setState({showPopup:true})}
+                name="public_profile"
+              >See offer example
+              </Button>
+              : null}
     </div>
 
     )
@@ -171,10 +185,29 @@ var Gigs = React.createClass({
                 <LoadingPlaceholder/>]
     }
 
+     var OfferMock = m.MockOffer
+            if (this.props.profile.settings) {
+              OfferMock.refundPercentage = this.props.profile.settings.refundPercentage
+              OfferMock.cancelationDays = this.props.profile.settings.cancelationDays
+              OfferMock.dj = this.props.profile
+            }
 
     return(
-      <div>
 
+
+      
+      <div>
+            {OfferMock.dj ?
+              <Popup
+                showing={this.state.showPopup}
+                onClickOutside={this.hidePopup}>
+                <div className="offer-example">
+                  <OfferCard 
+                  disabled
+                  offer={OfferMock}/>
+                </div>
+              </Popup>
+              : null}
         {this.props.loading ?
           renderLoadingItem()
           :
@@ -195,6 +228,7 @@ import * as actions from '../../../../../actions/GigActions'
 
 function mapStateToProps(state, ownProps) {
   return {
+    profile: state.login.profile,
     gigs:  state.gigs.values,
     loading: state.gigs.isWaiting
   }

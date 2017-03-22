@@ -18,6 +18,7 @@ var Reviews = React.createClass({
 
   contextTypes:{
     registerActions: PropTypes.func,
+    isOwnProfile: PropTypes.bool
   },
 
 
@@ -138,7 +139,7 @@ var Reviews = React.createClass({
           :
           this.props.reviews.length === 0 ?
             <EmptyPage message={
-            this.props.isOwnProfile  ?
+            this.context.isOwnProfile  ?
               <div>Ask your customers to leave a review <br/>
             It will help you get more gigs</div>
             : 
@@ -159,14 +160,10 @@ import * as actions from '../../../../../actions/ReviewActions'
 
 
 function mapStateToProps(state, ownProps) {
-    const isOwnProfile = (state.login.profile && state.user.profile) 
-    ? state.login.profile.user_id === state.user.profile.user_id 
-    : false
   return {
     reviews:  state.reviews.values ? state.reviews.values : [],
     loading: state.reviews.isWaiting,
     userID: state.user.profile.user_id,
-    isOwnProfile:isOwnProfile
   }
 }
 
