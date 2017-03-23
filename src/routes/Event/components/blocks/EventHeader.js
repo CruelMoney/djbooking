@@ -58,9 +58,7 @@ var eventHeader = React.createClass({
 
 
   render() {
-    console.log(this)
     return (
-
         <header ref={ref=>this.eventHeader=ref}
           className="user-header">
           <div id="stripes" className="v2">

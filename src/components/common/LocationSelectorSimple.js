@@ -31,9 +31,7 @@ var Text = React.createClass({
     }
   },
   componentWillMount(){
-    if(this.props.value){
-      this.props.onChange("")
-    }
+ 
   },
 
   updateSuggestions(predictions, status){

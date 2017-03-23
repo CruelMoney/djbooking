@@ -36,53 +36,46 @@ var user = React.createClass({
       const permaLink = this.props.isOwnProfile ? null : this.props.params.permalink
       this.props.fetchUser(permaLink, (res,err)=>{})
     }
+    this.updateNotification(this.props)
+  },
 
-    if(this.props.profile.app_metadata && this.props.isOwnProfile){
-      document.title = this.props.profile.firstName + " | Cueup"
-      
-      if (!this.props.profile.app_metadata.emailVerified) {
-        this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
-        return
-      }
-      if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
-        this.setState({notification:"You should update your profile picture."})
-        return
-      }
-      if (this.props.profile.app_metadata.notification) {
-        this.setState({notification: this.props.profile.app_metadata.notification})
-        return
-      }
-      this.setState({notification:"You don't have any new notifications."})
-    }
+  updateNotification(props){
+        if(this.props.profile.app_metadata && this.props.isOwnProfile){
+          if (!this.props.profile.app_metadata.emailVerified) {
+            this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
+            return
+          }
+          if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
+            this.setState({notification:"You should update your profile picture."})
+            return
+          }
+          if (this.props.profile.app_metadata.notification) {
+            this.setState({notification: this.props.profile.app_metadata.notification})
+            return
+          }
+          this.setState({notification:"You don't have any new notifications."})
+        }else{
+            if(props.profile.settings && props.profile.settings.standby ){
+              this.setState({notification:"This DJ is currently on standby and can not be booked."})}
+            else{
+              this.setState({notification:""}
+              )}
+        }
   },
 
   componentWillReceiveProps(nextProps){
     if(nextProps.profile.firstName){
          document.title = nextProps.profile.firstName + " | Cueup"
     }
-  
+    
+    this.updateNotification(nextProps)
+
     if(nextProps.params.permalink !== this.props.params.permalink){
 
        const permaLink = nextProps.isOwnProfile ? null : nextProps.params.permalink
        nextProps.fetchUser(permaLink, (res,err)=>{})
     }
 
-    if(nextProps.profile.app_metadata && nextProps.isOwnProfile){
-      if (!nextProps.profile.app_metadata.emailVerified) {
-        this.setState({notification:"You won't receive any gigs before you confirm your email-address."})
-        return
-      }
-      if (nextProps.profile.picture && nextProps.profile.picture.indexOf("default-profile-pic") !== -1) {
-        this.setState({notification:"You should update your profile picture."})
-        return
-      }
-      this.setState({notification:"You don't have any new notifications."})
-    }else{
-      if(nextProps.profile.settings && nextProps.profile.settings.standby ){
-        this.setState({notification:"This DJ is currently on standby and can not be booked."})}
-      else{
-        this.setState({notification:""})}
-    }
   },
 
   setActions(){

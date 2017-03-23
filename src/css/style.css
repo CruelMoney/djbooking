@@ -1965,7 +1965,8 @@ margin-bottom: 80px;
       margin-bottom: 10px;
 }
 .request-columns .errors,
-.signup .errors{
+.signup .errors,
+.event-card-wrapper .errors{
   text-align: left;
 }
 

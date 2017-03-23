@@ -39,11 +39,15 @@ var event = React.createClass({
       :nextProps.event.status === "Initial" ?
       "The event has been confirmed 😊"
       :nextProps.event.status === "Offering" ?
-      "Waiting on offers from DJs 😊"
+        nextProps.event.referredBy > 0 ?
+        "Waiting on offer from the DJ 😊"
+        : "Waiting on offers from DJs 😊"
       :nextProps.event.status === "NoMatches" ?
       "No DJs could be found 😮"
       :nextProps.event.status === "Accepted" ?
-      "A DJ has made an offer 😊"
+           nextProps.event.referredBy > 0 ?
+          "The DJ has made an offer 😊"
+          : "A DJ has made an offer 😊"
       :nextProps.event.status === "Confirmed" ?
       "The event has been paid & confirmed, get ready to rock 😁"
       :nextProps.event.status === "Finished" && nextProps.event.chosenOfferId === 0 ?
