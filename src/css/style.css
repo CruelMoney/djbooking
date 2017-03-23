@@ -1964,6 +1964,10 @@ margin-bottom: 80px;
       text-align: center;
       margin-bottom: 10px;
 }
+.request-columns .errors,
+.signup .errors{
+  text-align: left;
+}
 
 .errors p{
       color: #F44336 !important;
@@ -2089,6 +2093,9 @@ margin: 0;
   margin-bottom: 30px;
 }
 
+.request-columns .errors{
+  text-align: left; 
+}
 
 .request-columns .text-field{
   margin-top: -10px;

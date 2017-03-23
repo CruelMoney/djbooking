@@ -8,6 +8,7 @@ import Logo from './Logo'
 import Textfield from './Textfield'
 import {Environment} from '../../constants/constants'
 import Textbox from './TextBox'
+import ReactDOM from 'react-dom'
 
 class PreviewCard extends React.Component {
     render(){
@@ -221,8 +222,14 @@ class LinkShare extends React.Component {
 
 class FBShare extends React.Component {
     state={popup:false}
+    
+    updateDOM=()=>{
+        /*ReactDOM.render((
+        
+        ), document.getElementById('popup-container'))*/
+    }
 
-    fbShare=()=>{     
+    fbShare=()=>{   
         generatePreview(this)
             .then(()=>{
                 
@@ -259,16 +266,20 @@ class FBShare extends React.Component {
 
                 }(document, 'script', 'facebook-jssdk'));
 
+                
+             
+                
+
             })
 
             .catch((error)=> {
                     this.setState({
-                         
-                         popupContent:(
+                        popupContent:(
                         <div>
                             <p>Something went wrong. Try again.</p>
                         </div>)
                     })
+                    
             })
     }
 
@@ -276,14 +287,13 @@ class FBShare extends React.Component {
             return (
                 <div>
                     <Popup
-                        showing={this.state.popup}
-                        onClickOutside={()=>this.setState({popup:false})}
-                    >
-                    <div style={{textAlign:"center"}}>
-                    {this.state.popupContent}
-                    </div>
+                            showing={this.state.popup}
+                            onClickOutside={()=>this.setState({popup:false})}
+                        >
+                        <div style={{textAlign:"center"}}>
+                        {this.state.popupContent}
+                        </div>
                     </Popup>
-                
                      <Button
                     onClick={this.fbShare}
                     >
@@ -351,9 +361,8 @@ class QRShare extends React.Component {
                     popupContent: <QRCode value={this.props.link} />
                 })
             })
-            .catch(function (error) {
-                    this.setState({
-                         
+            .catch((error) => {
+                    this.setState({  
                          popupContent:(
                         <div>
                             <p>Something went wrong.</p>

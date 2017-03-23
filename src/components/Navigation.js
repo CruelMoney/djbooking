@@ -169,6 +169,7 @@ var menu = React.createClass({
           <div id="content">
             {this.props.children}
           </div>
+          <div id="popup-container"></div>
         </div>
       </MuiThemeProvider>
     )

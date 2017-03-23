@@ -70,7 +70,7 @@ function createDJ(form, auth0Profile, geoResult){
               phone: form.phone || auth0Profile.user_metadata.phone,
              // Some facebook users does not have birhtday 
               //birthDay: auth0Profile.birthday || Formatter.date.FromEUStringToUSDate(form.birthday),
-              birthDay: Formatter.date.FromEUStringToUSDate(form.birthday),
+             // birthDay: form.birthday ? Formatter.date.FromEUStringToUSDate(form.birthday) : Date.now(),
               firstName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).firstName,
               lastName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).lastName,
               city: form.location
@@ -123,6 +123,7 @@ function createCustomer(form, auth0Profile){
                     var user = createDJ(form, auth0Profile, geoResult)
                  } catch (error) {
                    callback("Something went wrong.")
+                   return
                  }
                   postUser(result.idToken, user, callback)
                 // }
@@ -142,7 +143,7 @@ function createCustomer(form, auth0Profile){
 function postUser(token, user, callback){
   cueup.createUser(token, user, (error, cueupResult) => {
       if (error) {
-          callback(error.message)
+          callback(error)
       } else {
         tracker.trackSignup()
         callback(null)

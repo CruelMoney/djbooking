@@ -17,6 +17,7 @@ const formatter = {
 
           //returns a date from a eu formatted date string. DD/MM/YYYY, 28/07/1993 etc.
           FromEUStringToUSDate : function (dateString){
+            if (!dateString) return null
             var from = dateString.split("/");
             return new Date(from[2], from[1] - 1, from[0]);
           },
