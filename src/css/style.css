@@ -3186,3 +3186,6 @@ table td{
     justify-content: center;
     margin-bottom: 20px;
 }
+.popup-open {
+    overflow: hidden;
+}

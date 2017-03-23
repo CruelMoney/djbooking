@@ -3,6 +3,38 @@ import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux';
 import Modal from 'react-modal'
 
+
+
+
+	function indexOf(arr, prop) {
+	  if (arr.indexOf) return arr.indexOf(prop)
+	  for (var i = 0, len = arr.length; i < len; i++)
+	    if (arr[i] === prop) return i
+	  return -1
+	}
+
+	const addClass = function(className, el) {
+	  if (!el) return
+	  if (el.className === "") return el.className = className
+	  var classes = el.className.split(' ')
+	  if (indexOf(classes, className) > -1) return classes
+	  classes.push(className)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+
+	const removeClass = function(className, el) {
+	  if (!el) return
+	  if (el.className === "") return
+	  var classes = el.className.split(' ')
+	  var idx = indexOf(classes, className)
+	  if (idx > -1) classes.splice(idx, 1)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+
+
+
 const Popup = React.createClass({
     displayName: 'Popup',
 
@@ -17,16 +49,17 @@ const Popup = React.createClass({
       }
     },
 
-
-
     componentWillReceiveProps(nextProps){
       this.setState({
         showing: nextProps.showing
       })
       if(!nextProps.showing){
          document.getElementById("content").style.webkitFilter = "blur(0px)"
+         removeClass('popup-open', document.body);
+
       }else{
           this.applyBlur()
+          addClass('popup-open', document.body);
       }
     },
 
@@ -134,3 +167,4 @@ const Popup = React.createClass({
   )}})
 
 export default Popup
+
