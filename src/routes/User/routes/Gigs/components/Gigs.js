@@ -228,7 +228,7 @@ var Gigs = React.createClass({
               </Popup>
               :null
             }
-        }
+        
 
 
 

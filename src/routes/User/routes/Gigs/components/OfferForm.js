@@ -29,16 +29,27 @@ class OfferForm extends Component{
   }
 
   getFees = () => {
-    actions.getFee(this.state, (err,res)=>{
+    this.setState({
+      loading: true
+    },()=>
+    actions.getFee({
+        ...this.state, 
+        currency:this.props.currency
+      }, (err,res)=>{
         if(err){
-        
+          this.setState({
+            loading: false
+          })
         }else{
           this.setState({
             ...res,
+            loading:false
           })
         }
         
       })
+    )
+    
   }
 
   toggleDiscount=()=>{
@@ -115,16 +126,16 @@ class OfferForm extends Component{
                            :null}
 
                           <div 
-                            className="row card"
+                            className="row card offer-table"
                             style={{ padding: "20px", marginBottom:"30px", marginTop:"20px"}}
                           >
-                          <div style={{borderRight: "2px solid #eee"}} className="col-sm-6"> 
+                          <div className="col-sm-6"> 
                             <h4 style={{textAlign: "center"}}>Organizer pays</h4>
                             <MoneyTable>
                              <TableItem
                                   label="Your price"
                                     >
-                                  {Formatter.money.FormatNumberToString(this.state.amount, this.state.currency)}
+                                  {Formatter.money.FormatNumberToString(this.state.amount, this.props.currency)}
                               </TableItem>
                               <TableItem
                                   label="Service Fee"
@@ -136,13 +147,19 @@ class OfferForm extends Component{
                                       </div>
                                       }
                                   >
-                                  {Formatter.money.FormatNumberToString(this.state.serviceFeeAmount, this.state.currency)}
+                                  {this.state.loading ? 
+                                   "loading..." 
+                                   :
+                                  Formatter.money.FormatNumberToString(this.state.serviceFeeAmount, this.props.currency)}
                               </TableItem>
                               <TableItem
                                 label="Total"
                                
                                 >
-                                {Formatter.money.FormatNumberToString(this.state.serviceFeeAmount+this.state.amount, this.state.currency)}
+                                {this.state.loading ? 
+                                   "loading..." 
+                                   :
+                                Formatter.money.FormatNumberToString(this.state.serviceFeeAmount+this.state.amount, this.props.currency)}
                               </TableItem>
                             </MoneyTable>
                            </div>
@@ -152,7 +169,7 @@ class OfferForm extends Component{
                               <TableItem
                                   label="Your price"
                                     >
-                                  {Formatter.money.FormatNumberToString(this.state.amount, this.state.currency)}
+                                  {Formatter.money.FormatNumberToString(this.state.amount, this.props.currency)}
                               </TableItem>
                                 <TableItem
                                   label="DJ Fee"
@@ -164,13 +181,22 @@ class OfferForm extends Component{
                                       </div>
                                       }
                                     >
-                                  -{Formatter.money.FormatNumberToString(this.state.djFeeAmount, this.state.currency)}
+                                   {this.state.loading ? 
+                                   "loading..." 
+                                   :
+                                    "-"+Formatter.money.FormatNumberToString(this.state.djFeeAmount, this.props.currency)
+                                   } 
+                                 
                               </TableItem>
                               <TableItem
                                   label="Total"
                                   
                                   >
-                                  {Formatter.money.FormatNumberToString(this.state.amount-this.state.djFeeAmount, this.state.currency)}
+                                  {this.state.loading ? 
+                                   "loading..." 
+                                   :
+                                  Formatter.money.FormatNumberToString(this.state.amount-this.state.djFeeAmount, this.props.currency)
+                                  }
                               </TableItem>
                             </MoneyTable>
                            </div>

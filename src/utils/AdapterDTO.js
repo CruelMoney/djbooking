@@ -57,7 +57,11 @@ const deletedUser={
     var settings ={
 
       fromDTO:function(DTO, isDj, isCustomer){
-        return {...DTO, emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer)}
+        return {
+          ...DTO, 
+          emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer),
+          currency: "DKK"
+      }
       },
       toDTO:function(settings){
         return settings;
@@ -67,7 +71,6 @@ const deletedUser={
     var user ={
 
       fromDTO: function(DTO) {
-        console.log(DTO)
         return {
           ...DTO,
           user_metadata:{

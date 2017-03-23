@@ -299,6 +299,7 @@ var Gig = React.createClass({
                 >
 
                  <OfferForm 
+                    currency={this.props.currency}
                      gig={this.props.gig}
                   />
 
@@ -318,7 +319,10 @@ import { connect } from 'react-redux'
 import  * as actions from '../../../../../actions/GigActions'
 
 function mapStateToProps(state, ownProps){
-  return {payoutInfoValid:  state.login.profile.stripeID ? true : false,  }
+  return {
+    payoutInfoValid:  state.login.profile.stripeID ? true : false,  
+    currency: state.login.profile.settings.currency
+  }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {

@@ -2410,16 +2410,43 @@ left: 50%;
   .showMobile{
     display: none;
   }
+
+.offer-table > div:first-child{
+  border-right: 2px solid #eee;
+}
+.offer-table.row{
+  display: block;
+}
+
 /* SMALL COM BEGIN */
 @media only screen 
-  and (max-width : 992px)
-  and (min-width: 768px)  {
+  and (max-width : 992px)  {
+
+
     .request-columns .row{
       display: block;
     }
     .container{
       width: auto;
     }
+     .mobileActions .context-actions{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    position: relative;
+  }
+  .event-information .context-actions{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    top: -10px !important;
+    position: relative;
+}
+  .mobileActions .context-actions > div,
+   .event-information .context-actions > div{
+    margin-right: 10px;
+    display: inline-block;
+  }
 }
 /* SMALL COM END */
 
@@ -2541,25 +2568,6 @@ left: 50%;
    .mobileActions{
     display: block;
   }
-  .mobileActions .context-actions{
-    display: flex;
-    justify-content: flex-start;
-    width: 100%;
-    position: relative;
-  }
-  .event-information .context-actions{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    top: -10px !important;
-    position: relative;
-}
-  .mobileActions .context-actions > div,
-   .event-information .context-actions > div{
-    margin-right: 10px;
-    display: inline-block;
-  }
-
   .terms-navigation{
     display: flex;
 
@@ -2572,6 +2580,9 @@ left: 50%;
 }
 .progrezz-wrapper{
   bottom: 70px;
+}
+.offer-table > div:first-child{
+  border-right: none;
 }
 }
 /* TABLET END*/
@@ -2938,6 +2949,7 @@ table td{
 .location_howitworks #preFooterPseudo:before{
   top: -730px;
 }
+
 }
 /* Mobile END */
 
