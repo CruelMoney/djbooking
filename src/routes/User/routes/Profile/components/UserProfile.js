@@ -24,7 +24,7 @@ export default React.createClass({
     },
 
     contextTypes:{
-      loading:         PropTypes.bool,
+      loadingUser:         PropTypes.bool,
       reset:           PropTypes.func,
       registerActions: PropTypes.func,
       toggleEditMode:  PropTypes.func,
@@ -62,7 +62,7 @@ export default React.createClass({
         return (
           <div>
         
-            { this.context.loading ?
+            { this.context.loadingUser ?
               <div>
                 <LoadingPlaceholder/>
                 <LoadingPlaceholder/>

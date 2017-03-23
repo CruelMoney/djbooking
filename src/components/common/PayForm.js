@@ -274,12 +274,12 @@ getInitialState(){
 
           </div>
            <div style={{marginTop:"20px"}} className="row">
-            <div className="col-md-7">
+            <div className="col-md-12">
               <p className="terms_link">By clicking confirm you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>, and the cancelation policy specified by the DJ.</p>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-7">
+            <div className="col-md-12">
                <div className="row">
                  <div className="col-xs-6">
                     <SubmitButton
@@ -291,7 +291,9 @@ getInitialState(){
                     >{this.props.paymentPossible ? "Confirm & Pay" : "Notify"}</SubmitButton>
                  </div>
                  <div className="col-xs-6">
-              <a  href="https://stripe.com/" target="_blank">
+              <a  
+              style={{float:"right"}}
+              href="https://stripe.com/" target="_blank">
                               <img role="presentation" src={PoweredByStripe}/>
               </a>
                  </div>

@@ -18,7 +18,8 @@ var Events = React.createClass({
 
   contextTypes:{
     registerActions: PropTypes.func,
-    color: PropTypes.string
+    color: PropTypes.string,
+    loadingUser:    PropTypes.bool
   },
 
   componentWillMount(){

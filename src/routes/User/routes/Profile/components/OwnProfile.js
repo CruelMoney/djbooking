@@ -23,7 +23,7 @@ export default React.createClass({
     },
 
     contextTypes:{
-      loading:         PropTypes.bool,
+      loadingUser:     PropTypes.bool,
       reset:           PropTypes.func,
       registerActions: PropTypes.func,
       toggleEditMode:  PropTypes.func,
@@ -133,7 +133,7 @@ export default React.createClass({
           <div>
             
 
-            { this.context.loading ?
+            { this.context.loadingUser ?
               <div>
                 <LoadingPlaceholder/>
                 <LoadingPlaceholder/>
@@ -276,7 +276,7 @@ export default React.createClass({
                         label="Refer DJs" 
                         text={"At Cueup you can get paid for referring people to the site. The link below is used for referring DJs to the site."
                               +" In case a DJ signs up using your link, you will get a Cueup point whenever the referred DJ makes his or hers first offer."
-                             + " Cueup points are used on gigs to remove the fee on gigs."}>
+                             + " Cueup points are used when making an offer to remove the DJ fee."}>
                         <div className="sharing-buttons">
                           <Tweet
                           link={this.signupURL}

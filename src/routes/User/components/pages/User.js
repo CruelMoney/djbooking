@@ -24,7 +24,7 @@ var user = React.createClass({
       editing: PropTypes.bool,
       valid: PropTypes.bool,
       color: PropTypes.string,
-      loading: PropTypes.bool,
+      loadingUser: PropTypes.bool,
       textColor: PropTypes.string,
       disableEditMode: PropTypes.func,
       isOwnProfile:PropTypes.bool,
@@ -40,17 +40,17 @@ var user = React.createClass({
   },
 
   updateNotification(props){
-        if(this.props.profile.app_metadata && this.props.isOwnProfile){
-          if (!this.props.profile.app_metadata.emailVerified) {
+        if(props.profile.app_metadata && props.isOwnProfile){
+          if (!props.profile.app_metadata.emailVerified) {
             this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
             return
           }
-          if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
+          if (props.profile.picture && props.profile.picture.indexOf("default-profile-pic") !== -1) {
             this.setState({notification:"You should update your profile picture."})
             return
           }
-          if (this.props.profile.app_metadata.notification) {
-            this.setState({notification: this.props.profile.app_metadata.notification})
+          if (props.profile.app_metadata.notification) {
+            this.setState({notification: props.profile.app_metadata.notification})
             return
           }
           this.setState({notification:"You don't have any new notifications."})
@@ -108,7 +108,7 @@ var user = React.createClass({
      color:        this.themeColor,
      editing:     this.state.editing,
      valid:        this.state.valid,
-     loading: this.props.loading,
+     loadingUser: this.props.loading,
      textColor: this.textColor,
      profile: this.props.profile,
       isOwnProfile:this.props.isOwnProfile,

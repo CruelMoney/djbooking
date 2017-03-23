@@ -54,7 +54,7 @@ const Popup = React.createClass({
         showing: nextProps.showing
       })
       if(!nextProps.showing){
-         document.getElementById("content").style.webkitFilter = "blur(0px)"
+         document.getElementById("root").style.webkitFilter = "blur(0px)"
          removeClass('popup-open', document.body);
 
       }else{
@@ -64,7 +64,7 @@ const Popup = React.createClass({
     },
 
     applyBlur(){
-      document.getElementById("content").style.webkitFilter = "blur(2px)"
+      document.getElementById("root").style.webkitFilter = "blur(2px)"
     },
 
 

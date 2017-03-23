@@ -28,7 +28,7 @@ const preferences = React.createClass({
     updateSettings: PropTypes.func
   },
   contextTypes:{
-    loading:         PropTypes.bool,
+    loadingUser:         PropTypes.bool,
     reset:           PropTypes.func,
     registerActions: PropTypes.func,
     toggleEditMode:  PropTypes.func,
@@ -347,12 +347,14 @@ const preferences = React.createClass({
        
 
             {
-            !this.props.profile.user_id && !this.context.loading ? 
+            !this.props.profile.user_id && !this.context.loadingUser ? 
              <Popup
                 showing={this.state.loginPopup}
                 onClickOutside={()=>this.setState({loginPopup:false})}>
                 <p>Login to see your preferences</p>
-                <Login/>
+                <Login
+                  redirect={false}
+                />
               </Popup>
               :null
             }

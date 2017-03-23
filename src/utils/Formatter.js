@@ -77,7 +77,7 @@ const formatter = {
         default:
           break
       }
-      return parseInt(number)
+      return Math.round(number)
   }
 
 

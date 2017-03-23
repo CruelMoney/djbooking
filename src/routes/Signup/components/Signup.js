@@ -55,7 +55,7 @@ export default React.createClass({
               <p style={{color:"#32325D"}}>
                 At Cueup you don't have to pay anything to start getting gigs. 
                 In fact you don't have to pay anything at anytime. 
-                For each gig you play, a service fee will be added to the price you have offered. That's how the organizers pay to keep the platform running.
+                For each gig you play, a fee of 3% will be subtracted from the price you have offered. That's how we keep the platform running. When the gig is finished, the money is transferred to your bank account.
                 To get started - just sign up below.
               </p>
             </div>
@@ -67,7 +67,7 @@ export default React.createClass({
             <img src={vinyl} alt="vinyl icon"/>
             <h2 style={{color:"rgb(176, 49, 255)"}}>Get the kind of gigs you want</h2>
             <p style={{color:"#32325D"}}>
-            Cueup is build for the DJs! By specifying what genres you like to play and telling about yourself, we will find the best gigs for you that suites your style. At the same time you have the freedom to decline any gig that you are offered. The gig will simply be offered to the next DJ in line. We also strive to make sure, that all DJs get the chance to play an equal amount of gigs. If you like what you hear – sign up below. 
+            Cueup is build for the DJs! By specifying what genres you like to play and telling about yourself, we will find the gigs that suites your style. At the same time you have the freedom to decline any gig that you are offered. The gig will simply be offered to the next DJ in line. We also strive to make sure, that all DJs get an equal amount of gigs. 
               
             </p>
           </div>

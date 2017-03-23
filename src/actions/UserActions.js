@@ -207,7 +207,7 @@ export function updatePayoutInfo(data, callback) {
         if (err) {
           (callback(err))
         }else{
-         // dispatch(self.getUser(callback))
+          callback(null, result)
         }
       })
 

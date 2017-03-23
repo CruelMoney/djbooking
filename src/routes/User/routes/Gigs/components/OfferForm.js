@@ -18,7 +18,7 @@ class OfferForm extends Component{
     this.setState({
       ...this.props.gig.offer,
       showPopup: false,
-      usePointPossible: this.props.discountPoints > 0 && !this.props.gig.referred && this.props.gig.status !== "Confirmed"
+      usePointPossible: (this.props.discountPoints > 0 || (this.props.gig.discount)) && !this.props.gig.referred && this.props.gig.status !== "Confirmed" 
     })
   }
         
@@ -225,7 +225,6 @@ class OfferForm extends Component{
                    
                     <div className="offer-buttons">
                       <Form
-                        resetStatusOnSucces
                         name={"gig-cancel-" + this.props.gig.id}
                       >
 

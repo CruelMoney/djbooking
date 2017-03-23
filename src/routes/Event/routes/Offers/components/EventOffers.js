@@ -45,7 +45,7 @@ var EventOffers = React.createClass({
                       Keep in mind that quality often follows price.
                     </p>
                     <p style={{textAlign:"center", marginBottom: "20px"}}>
-                      You can always contact the DJ to discuss the price. If a DJ updates the price it will be shown here.
+                      You can always contact the DJ to discuss the price. If a DJ updates the offer, the new price will be shown here.
                     </p>
                   </div>
                 </div>

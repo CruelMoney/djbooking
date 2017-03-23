@@ -18,6 +18,8 @@ var Gigs = React.createClass({
   },
   contextTypes:{
     registerActions: PropTypes.func,
+    isOwnProfile:   PropTypes.bool,
+    loadingUser:    PropTypes.bool
   },
 
   getInitialState(){
@@ -30,22 +32,25 @@ var Gigs = React.createClass({
   },
 
   componentWillMount() {
-    this.props.fetchGigs()
     this.context.registerActions(this.getActionButtons)
+
+    if(this.context.isOwnProfile && this.props.gigs && this.props.gigs.length === 0){
+      this.props.fetchGigs()
+    }
+
   },
 
-  componentWillReceiveProps(nextprops){
-    if (nextprops.gigs !== undefined) {
-    this.setState({
-      gigs: nextprops.gigs
-    })
-  }
+  componentWillReceiveProps(nextprops, nextContext){
+    if(nextprops.gigs){
+      this.setState({gigs:nextprops.gigs})
+    }
+    if(!this.context.isOwnProfile && nextContext.isOwnProfile){
+      this.props.fetchGigs()
+    }
   },
 
   componentWillUnmount() {
-    this.setState({
-      gigs: []
-    })
+   
   },
 
 
@@ -219,12 +224,14 @@ var Gigs = React.createClass({
             </div>
         }
           {  
-            !this.props.profile.user_id && !this.props.loading ? 
+            !this.props.profile.user_id && !this.context.loadingUser ? 
              <Popup
                 showing={this.state.loginPopup}
                 onClickOutside={()=>this.setState({loginPopup:false})}>
                 <p>Login to see your gigs</p>
-                <Login/>
+                <Login
+                  redirect={false}
+                />
               </Popup>
               :null
             }

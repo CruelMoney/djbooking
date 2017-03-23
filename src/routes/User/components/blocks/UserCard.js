@@ -132,7 +132,11 @@ getInitialState(){
             <div className="user-card-fact">
               <p>Experience
                  <InfoPopup
-                  info="How many gigs you have played using Cueup. This is shared on your public profile."
+                  info={
+                    this.props.isOwnProfile 
+                    ? "How many gigs you have played using Cueup. This is shared on your public profile."
+                    : "How many gigs this DJ has played using Cueup."
+                    }
                   />
               </p>
              
