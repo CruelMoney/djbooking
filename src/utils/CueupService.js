@@ -49,12 +49,16 @@ export default class CueupService {
     }
 
     fetchHandling(uri, init, callback){
+      console.log("calling")
       var self = this;
       return fetch(uri, init)
         .then(function(response) {
+          console.log("response 1")
           return self.responseHandling(response, callback);
       }).catch(function(error) {
           callback(error)
+          console.log("error 1")
+
       });
     }
 
