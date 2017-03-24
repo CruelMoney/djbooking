@@ -152,7 +152,7 @@ getInitialState(){
               text={this.props.paymentPossible ?
                "Please enter payment information below. In case of cancelation by the DJ all money will be refunded. All information is encrypted. " 
                : 
-               "The offer can be confirmed and paid up to 28 days before the event. To get notified by email click notify."}>
+               "The offer can be confirmed and paid up to 60 days before the event. To get notified by email click notify."}>
             </TextWrapper>
             </div>
 
