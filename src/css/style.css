@@ -3137,13 +3137,13 @@ table td{
   font-family: Camphor,Open Sans,Segoe UI,sans-serif;
   line-height: 15px !important;
   text-align: left;
-
 }
 .preview-card.large p{
   font-family: SourceSansPro-Bold;
   font-size: 51px !important;
   line-height: 60px !important;
   margin-bottom: 30px;  
+  text-align: left !important;
   
 }
 .preview-card .profile-text{
