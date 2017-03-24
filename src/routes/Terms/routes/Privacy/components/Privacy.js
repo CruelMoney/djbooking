@@ -129,7 +129,7 @@ export default React.createClass({
 <br/>      <li>When you submit an Event on the platform, your full name, and other Personal Information you agree to pass through to the qualified DJs will become visible to the DJs. We may also disclose parts of your public profile; your public Wish List; other Member reviews of you; and any additional information you share with other Members. We will share your phone number and your phone number will become visible to the qualified DJ(s)/Organizer, who may call you directly.</li>
 <br/>      <li>Your billing and payout information will never be shared with another user.
 </li>
-<br/>      <li>When a DJ have played at your Event or when you have played at a Organizer’s Event, we may ask you to review the DJ or the Organizer. If you choose to provide a review, your review may be public on the Platform. Likewise, another Member’s review of you as a DJ or Organizer may be public on the Platform.
+<br/>      <li>When a DJ have played at your Event or when you have played at an Organizer’s Event, we may ask you to review the DJ or the Organizer. If you choose to provide a review, your review may be public on the Platform. Likewise, another Member’s review of you as a DJ or Organizer may be public on the Platform.
 </li>
 <br/>      <li>You may link your account on a Third-Party social networking site to your Cueup Account. We refer to a person’s contacts on these Third-Party sites as “Friends”. When you create this linkage:
 <br/>        <ul>
