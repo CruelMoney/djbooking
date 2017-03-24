@@ -382,7 +382,7 @@ class QRShare extends React.Component {
                     {this.state.popupContent}
                     </div>
                     </Popup>
-                
+                    
                      <Button
                     onClick={this.generateQR}
                     >
@@ -424,6 +424,7 @@ class EmbedShare extends React.Component {
                     >
                     {this.props.children}
                 </Button>
+                            
             </div>
         )
     }

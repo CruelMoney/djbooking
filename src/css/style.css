@@ -3140,14 +3140,17 @@ table td{
 .preview-card.large p{
   font-family: SourceSansPro-Bold;
   font-size: 51px !important;
-  line-height: 51px !important;
-  margin-bottom: 30px;
+  line-height: 60px !important;
+  margin-bottom: 30px;  
 }
 .preview-card .profile-text{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+}
+.preview-card.large .profile-text{
+    padding-right: 100px;
 }
 .preview-card .profile-text svg{
   margin-right: 5px;
