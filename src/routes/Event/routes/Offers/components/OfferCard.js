@@ -45,7 +45,7 @@ var OfferCard = React.createClass({
           <PayForm
             paymentPossible={this.props.paymentPossible}
             gigId={this.props.offer.gigID}
-            fee={this.props.offer.fee}
+            fee={this.props.offer.serviceFeeAmount}
             amount={this.props.offer.amount}
             currency={this.props.offer.currency}
           />
@@ -102,7 +102,7 @@ var OfferCard = React.createClass({
                 width: "100%",
                 textAlign: this.props.offer.gigStatus === "Confirmed" ||   this.props.eventFinished ? "center" : "left"
               }}>{Formatter.money.FormatNumberToString(
-                this.props.offer.amount+this.props.offer.fee,
+                this.props.offer.amount+this.props.offer.serviceFeeAmount,
               this.props.offer.currency)}</div>
 
             {this.props.offer.gigStatus === "Confirmed" ||

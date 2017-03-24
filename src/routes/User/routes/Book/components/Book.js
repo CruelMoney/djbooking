@@ -1,29 +1,29 @@
 import React, { PropTypes } from 'react'
-import Button from '../../../components/common/Button-v2'
-import TextField, {TexfieldDisconnected} from '../../../components/common/Textfield'
-
-import LocationSelector from '../../../components/common/LocationSelectorSimple'
-import ToggleOptions from '../../../components/common/ToggleOptions'
-import ToggleButtonHandler from '../../../components/common/ToggleButtonHandler'
-import Form from '../../../components/common/Form-v2'
-import Slider from '../../../components/common/Slider'
-import TimeSlider from '../../../components/common/TimeSlider'
-import Progress from './ProgressSubmit'
-import TextBox from '../../../components/common/TextBox'
-import Popup from '../../../components/common/Popup'
-import Login from '../../../components/common/Login'
+import Button from '../../../../../components/common/Button-v2'
+import TextField, {TexfieldDisconnected} from '../../../../../components/common/Textfield'
+import moment from 'moment'
+import LocationSelector from '../../../../../components/common/LocationSelectorSimple'
+import SubmitButton from '../../../../../components/common/SubmitButton'
+import DatePicker from '../../../../../components/common/Datepicker'
+import ToggleOptions from '../../../../../components/common/ToggleOptions'
+import ToggleButtonHandler from '../../../../../components/common/ToggleButtonHandler'
+import Form from '../../../../../components/common/Form-v2'
+import Slider from '../../../../../components/common/Slider'
+import TimeSlider from '../../../../../components/common/TimeSlider'
+import TextBox from '../../../../../components/common/TextBox'
+import Popup from '../../../../../components/common/Popup'
+import Login from '../../../../../components/common/Login'
 
 import wNumb from 'wnumb'
-import c from '../../../constants/constants'
+import c from '../../../../../constants/constants'
 
-export default React.createClass({
+var RequestForm = React.createClass({
   propTypes: {
     form: PropTypes.object,
     date: PropTypes.object, //moment object
     onSubmit: PropTypes.func,
     isLoggedIn: PropTypes.bool,
     checkEmail: PropTypes.func,
-    emailExists: PropTypes.bool
   },
 
   getDefaultProps(){
@@ -35,22 +35,33 @@ export default React.createClass({
   getInitialState(){
     return{
       showPopup: false,
-      emailExists: false,
       guests: 50,
       step1Done: false,
       step2Done: false,
-      step3Done: false
+      step3Done: false,
+      msg: null,
+      date: moment()
     }
   },
 
   formToEvent(form){
-    return {...form, guestsCount: form.guests[0]}
+    return {
+      ...form, 
+      guestsCount: form.guests[0],
+      ReferredBy: this.props.user_id  
+    }
   },
 
   formValidCheckers: [], 
 
   onSubmit(form, callback){
-    let event = this.formToEvent(this.props.form)
+
+    var valid = this.formValidCheckers.reduce((memo, isValidFunc) =>{
+                    return (isValidFunc(true) && memo)}, true)
+
+    if(!valid) return              
+
+    let event = this.formToEvent(form.values)
     let self = this
 
     if (this.props.isLoggedIn){
@@ -62,12 +73,20 @@ export default React.createClass({
         }
         else if (res === true) {
           self.setState({
-            showPopup: true
+            showPopup: true,
+            showLogin: true
           })
           callback(" ",null)
         }else{
         try {
-           self.props.onSubmit(event, callback)
+           self.props.onSubmit(event, (err, res)=>{
+             if(!err){
+               self.setState({
+                 msg: "Thank you for using our service. We will send you an email with confirmation of the event."
+               })
+               callback(err, res)
+             }
+           })
         } catch (error) {
           callback("Something went wrong")
         }
@@ -82,65 +101,51 @@ export default React.createClass({
     })
   },
 
-  updateProgress(name, finished){
-    switch (name) {
-      case "requestForm-step-1":
-        this.setState({
-          step1Done: finished
-        })
-      break;
-      case "requestForm-step-2":
-      this.setState({
-        step2Done: finished
-      })
-        break;
-      case "requestForm-step-3":
-      this.setState({
-        step3Done: finished
-      })
-        break;
-      default:
+ 
 
-    }
+  DateChanged(date){
+    this.setState({
+      date: date,
+      showPopup: false
+    })
   },
 
   render() {
-    const eventDateString = this.props.date.format("dddd Do, MMMM YYYY")
+    const eventDateString = this.state.date.format("dddd Do, MMMM YYYY")
     return(
       <div className="request-form">
-        <Popup width="380px" showing={this.state.showPopup && !this.props.isLoggedIn}
+        <Popup width="380px" showing={this.state.showPopup}
           onClickOutside={this.hidePopup}>
-          <div>
+          
+            {this.state.showLogin ? 
+            <div>
             <p style={{marginBottom:"20px"}}>
               It looks like there's already an account using that email. Please login to continue.<br/>
               If you don't have a login yet, press the forgot button to create a password. <br/>
               Then come back here to login and create the event.
             </p>
-            <Login
-             redirect={false}
+             <Login
+              redirect={false}
+             />
+             </div>
+
+            :
+            <DatePicker
+              dark
+              handleChange={this.DateChanged}
             />
-          </div>
+           
+             }
         </Popup>
 
 
         <div className="request-columns">
           <div className="row">
-          <div className="col-md-4">
-            <div className="card">
+          <div className="col-md-12">
               <Form
-                registerCheckForm={(checker)=>this.formValidCheckers.push(checker)}
-                formValidCallback={(name)=>this.updateProgress(name,true)}
-                formInvalidCallback={(name)=>this.updateProgress(name,false)}
-                name="requestForm-step-1">
-                <section>
-                  <label htmlFor="location">Event location</label>
-                  <LocationSelector
-                    name="location"
-                    validate={['required']}
-                  />
-                  <p>In what city is the event?</p>
-                </section>
-
+                name="requestForm-DJ-book">
+                <div className="card">
+                
                 <section>
                   <label htmlFor="name">Event name</label>
 
@@ -149,6 +154,28 @@ export default React.createClass({
                     validate={['required']}
                   />
                   <p>Please choose a descriptive name.</p>
+                </section>
+                <section
+                className="cursor-pointer"
+                onClick={()=>{
+                  console.log("bruh")
+                  this.setState({showLogin:false, showPopup:true})}}
+                >
+                  <label>Event date</label>
+                  <TexfieldDisconnected
+                    name="date"
+                    disabled
+                    value={eventDateString}
+                  />
+                  <p>Choose date.</p>
+                </section>
+                <section>
+                  <label htmlFor="location">Event location</label>
+                  <LocationSelector
+                    name="location"
+                    validate={['required']}
+                  />
+                  <p>In what city is the event?</p>
                 </section>
 
                 <div>
@@ -172,17 +199,6 @@ export default React.createClass({
                 </div>
 
 
-              </Form>
-            </div>
-          </div>
-          <div
-            className="col-md-4">
-            <div className="card">
-              <Form
-                registerCheckForm={(checker)=>this.formValidCheckers.push(checker)}
-                formValidCallback={(name)=>this.updateProgress(name,true)}
-                formInvalidCallback={(name)=>this.updateProgress(name,false)}
-                name="requestForm-step-2">
                 <section>
                   <label>Genres</label>
                   <p style={{marginBottom:"10px"}}>What kind of music do you need?</p>
@@ -212,31 +228,12 @@ export default React.createClass({
                     >No</Button>
                   </ToggleOptions>
                 </section>
-              </Form>
-
-            </div>
-          </div>
-          <div
-            className="col-md-4">
-            <div className="card">
-              <Form
-                registerCheckForm={(checker)=>this.formValidCheckers.push(checker)}
-                formValidCallback={(name)=>this.updateProgress(name,true)}
-                formInvalidCallback={(name)=>this.updateProgress(name,false)}
-                name="requestForm-step-3">
-                <section>
-                  <label>Event date</label>
-                  <TexfieldDisconnected
-                    name="date"
-                    disabled
-                    value={eventDateString}
-                  />
-                  <p>Select a new date in the calendar above to change it.</p>
-                </section>
+              
+                
                 <section>
                   <label>Music Duration</label>
                   <TimeSlider
-                    date={this.props.date}
+                    date={this.state.date}
                   />
                 </section>
 
@@ -281,53 +278,59 @@ export default React.createClass({
                     validate={['required']}
                   />
                 </section>
-              </Form>
-
             </div>
-            </div>
-          </div>
 
+          <SubmitButton
+            active
+            onClick={this.onSubmit}
+          >
+          BOOK DJ
+          </SubmitButton>
 
-
-
-        </div>
-
-
-
-      <div style={{position:"relative"}}>
-        <Form
-          noError
-          customIsFormValid={()=>{
-                    var result = this.formValidCheckers.reduce((memo, isValidFunc) =>{
-                    return (isValidFunc(true) && memo)}, true)
-                    return result}}
-          name="requestForm">
-         
-          <Progress
-            step1Done={this.state.step1Done}
-            step2Done={this.state.step2Done}
-            step3Done={this.state.step3Done}
-            onSubmit={this.onSubmit}
-          />
+          </Form>
+          
             <div className="row">
-            <div className="col-xs-12">
-              <p 
-              style={{textAlign: "center"}} 
-              className="terms_link">
-                By clicking send event you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>
-              </p>
+              <div className="col-xs-12">
+                {this.state.msg ? <div style={{textAlign:"center", margin: "10px 0"}}><p style={{fontSize:"20px"}}>{this.state.msg}</p></div> : null}
+                <p 
+                style={{textAlign: "center", marginTop: "10px"}} 
+                className="terms_link">
+                  By clicking book DJ you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>
+                </p>
+              </div>
             </div>
-          </div>
 
-      </Form>
-    </div>
-
-     
-
-
+           </div>
+        </div>
       </div>
-
+      </div>     
       )
-
   }
 })
+
+
+import { connect } from 'react-redux'
+import * as eventActions from '../../../../../actions/EventActions'
+import * as userActions from '../../../../../actions/UserActions'
+
+//TODO move magic information about the filters out of container.
+//Should be grabbed from the children that are set as filters
+function mapStateToProps(state, ownProps) {
+  return {
+    user_id: state.user.profile.user_id,
+    isLoggedIn: state.login.status.signedIn
+  }
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    onSubmit: (form, callback)    => {dispatch(eventActions.postEvent(form, callback))},
+    checkEmail: (email, callback) => {dispatch(userActions.checkEmail(email, callback))}
+}}
+
+
+const SmartForm = connect(mapStateToProps, mapDispatchToProps)(RequestForm)
+
+export default props => (
+    <SmartForm {...props}/>
+)

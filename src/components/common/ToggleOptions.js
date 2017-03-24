@@ -74,7 +74,7 @@ if (this.props.glued) {
 
         </div>
       </div>
-      {this.props.errors.length ? (
+      {this.props.errors &&  this.props.errors.length ? (
         <div className="errors">
           {this.props.errors.map((error, i) => <p key={i}>{error}</p>)}
         </div>
@@ -93,7 +93,7 @@ if (this.props.glued) {
                 </table>
               </div>
 
-              {this.props.errors.length ? (
+              {this.props.errors && this.props.errors.length ? (
                 < div style={{marginTop: "10px"}} className="errors">
                 {this.props.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
                 </div>
@@ -108,3 +108,5 @@ if (this.props.glued) {
 
 
 export default connectToForm(ToggleOptions)
+export {ToggleOptions as DisconnectedToggleOptions} 
+ 

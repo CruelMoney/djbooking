@@ -46,35 +46,45 @@ export default React.createClass({
               }}>
 
           
-          
               <li>
-                <Navlink userNavigation={true} to="profile" label="Information"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/profile"} label="Information"/>
               </li>
        
-
-            {this.props.isCustomer ?
+              
+            {this.props.isCustomer && this.props.isOwnProfile ?
               <li>
-                <Navlink userNavigation={true} to="events" label="Events"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/events"} label="Events"/>
               </li>
             : null}
 
-            {this.props.isDJ ?
+            {this.props.isDJ && this.props.isOwnProfile  ?
               <li >
-                <Navlink userNavigation={true} to="gigs" label="Gigs"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/gigs"} label="Gigs"/>
               </li>
             : null}
 
+           { !this.props.isOwnProfile && this.props.isDJ ? 
+            <li>
+              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/book"} label="Book DJ"/>
+            </li>
+            :null}    
+            
             {this.props.isDJ ?
               <li >
-                <Navlink userNavigation={true} to="reviews" label="Reviews"/>
+                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/reviews"} label="Reviews"/>
               </li>
               : null
             }
 
+           
+            { this.props.isOwnProfile ? 
             <li>
-              <Navlink userNavigation={true} to="preferences" label="Preferences"/>
+              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/preferences"} label="Preferences"/>
             </li>
+            :null}
 
+
+            
           </ul>
         </nav>
       </div>

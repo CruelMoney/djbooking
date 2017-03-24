@@ -4,8 +4,11 @@ import Gig from './Gig'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
 import EmptyPage from '../../../../../components/common/EmptyPage'
 import {requestFeatures} from '../../../../../actions/Common'
+import OfferCard from '../../../../Event/routes/Offers/components/OfferCard'
+import Popup from '../../../../../components/common/Popup'
+import Login from '../../../../../components/common/Login'
 
-/*eslint no-undef: 0*/
+import m from '../../../../../constants/Mocks'
 
 var Gigs = React.createClass({
   propTypes: {
@@ -15,36 +18,47 @@ var Gigs = React.createClass({
   },
   contextTypes:{
     registerActions: PropTypes.func,
+    isOwnProfile:   PropTypes.bool,
+    loadingUser:    PropTypes.bool
   },
 
   getInitialState(){
     return{
       gigs: [],
       filter: "requested",
+      showPopup:false,
+      loginPopup:true
     }
   },
 
   componentWillMount() {
-
-        this.props.fetchGigs()
-
     this.context.registerActions(this.getActionButtons)
+
+    if(this.context.isOwnProfile && this.props.gigs && this.props.gigs.length === 0){
+      this.props.fetchGigs()
+    }
+
   },
 
-  componentWillReceiveProps(nextprops){
-    if (nextprops.gigs !== undefined) {
-    this.setState({
-      gigs: nextprops.gigs
-    })
-  }
+  componentWillReceiveProps(nextprops, nextContext){
+    if(nextprops.gigs){
+      this.setState({gigs:nextprops.gigs})
+    }
+    if(!this.context.isOwnProfile && nextContext.isOwnProfile){
+      this.props.fetchGigs()
+    }
   },
 
   componentWillUnmount() {
-    this.setState({
-      gigs: []
-    })
+   
   },
 
+
+    hidePopup(){
+      this.setState({
+        showPopup: false
+      })
+    },
 
   getActionButtons(props = this.props){
     return (
@@ -102,7 +116,13 @@ var Gigs = React.createClass({
            requestFeatures()
         }}
       >Request features</Button>
-
+          {this.props.profile.isDJ ?
+              <Button
+                onClick={()=>this.setState({showPopup:true})}
+                name="public_profile"
+              >See offer example
+              </Button>
+              : null}
     </div>
 
     )
@@ -110,35 +130,46 @@ var Gigs = React.createClass({
 
   render() {
 
-    var finishedGigs = []
-    var lostGigs = []
-    var requestedGigs = []
-    var upcomingGigs = []
     var gigs = []
 
     this.state.gigs.forEach(function(gig, i) {
-      // switch (gig.status) {
-      //   case 'Finished':
-      //     finishedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Accepted':
-      //     requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Confirmed':
-      //     upcomingGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Requested':
-      //     requestedGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Lost':
-      //     lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   case 'Cancelled':
-      //     lostGigs.push(<Gig key={gig.name+i} gig={gig}/>)
-      //     break
-      //   default:
-        gigs.push(<Gig key={gig.name+i} gig={gig}/>)
-
+      switch (gig.status) {
+        case 'Finished':
+          gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          break
+        case 'Accepted':
+           //Only show if still relevant
+          if((gig.startTime.getTime() - Date.now()) > 0){
+              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          }
+          break
+        case 'Confirmed':
+          gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          break
+        case 'Requested':
+          //Only show if still relevant
+          if((gig.startTime.getTime() - Date.now()) > 0){
+              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          }
+          break
+        case 'Lost':
+          //Only show if still relevant
+          if((gig.startTime.getTime() - Date.now()) > 0){
+              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          }
+          break
+        case 'Cancelled':
+          gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          break
+        case 'Declined':
+            //Do not show
+          break
+        default:
+           //Only show if still relevant
+          if((gig.startTime.getTime() - Date.now()) > 0){
+              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          }
+      }
     })
 
     const renderGigs = (gigs) => {
@@ -162,10 +193,29 @@ var Gigs = React.createClass({
                 <LoadingPlaceholder/>]
     }
 
+     var OfferMock = m.MockOffer
+            if (this.props.profile.settings) {
+              OfferMock.refundPercentage = this.props.profile.settings.refundPercentage
+              OfferMock.cancelationDays = this.props.profile.settings.cancelationDays
+              OfferMock.dj = this.props.profile
+            }
 
     return(
-      <div>
 
+
+      
+      <div>
+            {OfferMock.dj ?
+              <Popup
+                showing={this.state.showPopup}
+                onClickOutside={this.hidePopup}>
+                <div className="offer-example">
+                  <OfferCard 
+                  disabled
+                  offer={OfferMock}/>
+                </div>
+              </Popup>
+              : null}
         {this.props.loading ?
           renderLoadingItem()
           :
@@ -173,6 +223,19 @@ var Gigs = React.createClass({
               {renderGigs(gigs)}
             </div>
         }
+          {  
+            !this.props.profile.user_id && !this.context.loadingUser ? 
+             <Popup
+                showing={this.state.loginPopup}
+                onClickOutside={()=>this.setState({loginPopup:false})}>
+                <p>Login to see your gigs</p>
+                <Login
+                  redirect={false}
+                />
+              </Popup>
+              :null
+            }
+        
 
 
 
@@ -186,6 +249,7 @@ import * as actions from '../../../../../actions/GigActions'
 
 function mapStateToProps(state, ownProps) {
   return {
+    profile: state.login.profile,
     gigs:  state.gigs.values,
     loading: state.gigs.isWaiting
   }

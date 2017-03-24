@@ -1,7 +1,19 @@
 var keyMirror = require('keymirror')
 
 
+const production = process.env.NODE_ENV === "production" 
+
 module.exports = {
+  Environment: {
+    STRIPE_PUBLIC_KEY:   (production ? process.env.REACT_APP_STRIPE_PROD_PUB_KEY        : process.env.REACT_APP_STRIPE_DEV_PUB_KEY),
+    AUTH0_CLIENT_ID:     (production ? process.env.REACT_APP_AUTH0_PROD_CLIENTID        : process.env.REACT_APP_AUTH0_DEV_CLIENTID),
+    AUTH0_CLIENT_DOMAIN: (production ? process.env.REACT_APP_AUTH0_PROD_DOMAIN          : process.env.REACT_APP_AUTH0_DEV_DOMAIN),
+    CALLBACK_DOMAIN:     (production ? process.env.REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN : process.env.REACT_APP_CUEUP_DEV_CALLBACK_DOMAIN),
+    API_DOMAIN:          (production ? process.env.REACT_APP_CUEUP_PROD_API_DOMAIN      : process.env.REACT_APP_CUEUP_DEV_API_DOMAIN),
+    FACEBOOK_ID:         (production ? process.env.REACT_APP_CUEUP_PROD_FB_ID           : process.env.REACT_APP_CUEUP_DEV_FB_ID )
+  },
+
+
   ActionTypes: keyMirror({
     // Session
     SIGNUP_REQUESTED: null,
@@ -28,6 +40,9 @@ module.exports = {
 
     TOGGLE_EDIT_MODE: null,
 
+    FETCH_USER_REQUESTED:null,
+    FETCH_USER_SUCCEEDED:null,
+    FETCH_USER_FAILED:null,
 
     // Routes
     REDIRECT: null,
@@ -64,7 +79,9 @@ module.exports = {
     UPDATE_GEOLOCATION:null,
 
     REMOVE_MENU_ITEM:null,
-    REGISTER_MENU_ITEM:null
+    REGISTER_MENU_ITEM:null,
+
+    TOGGLE_PUBLIC_PROFILE:null
 
   }),
    GENRES: [

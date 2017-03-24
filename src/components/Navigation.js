@@ -84,22 +84,20 @@ var menu = React.createClass({
             <nav
               className="navigation"
             >
-              <div className="logo">
                 <Navlink to="/">
                   <Logo />
                 </Navlink>
                 <div className=""
                   ref={ref=>this.mobileMenu=ref}
                   >
-                <a
+             </div>
+             <a
                   className="mobileMenuButton"
                   onClick={()=>{
                     this.setState({showMenu:true})}}
                   >
                   <h2>Menu</h2>
                 </a>
-                </div>
-              </div>
               <ul className="main-menu">
                 
                 {!isHome    ?    
@@ -151,7 +149,7 @@ var menu = React.createClass({
 
                 {this.props.loggedIn ? (
                   <li>
-                    <Navlink  buttonLook={true}  to="/profile" important={true} >
+                    <Navlink  buttonLook={true}  to={`/user/${this.props.profile.user_metadata.permaLink}/profile`} important={true} >
                       <UserMenuItem
                         name={this.props.profile.name}
                         picture={this.props.profile.picture}
@@ -171,6 +169,7 @@ var menu = React.createClass({
           <div id="content">
             {this.props.children}
           </div>
+          <div id="popup-container"></div>
         </div>
       </MuiThemeProvider>
     )
@@ -182,8 +181,8 @@ import * as actions from '../actions/LoginActions'
 
 function mapStateToProps(state, ownprops) {
   return {
-    loggedIn: state.user.status.signedIn,
-    profile: state.user.profile
+    loggedIn: state.login.status.signedIn,
+    profile: state.login.profile
   }
 }
 

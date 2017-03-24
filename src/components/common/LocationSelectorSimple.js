@@ -27,13 +27,11 @@ var Text = React.createClass({
   },
   getDefaultProps(){
     return{
-      value: "Current location"
+      value: ""
     }
   },
   componentWillMount(){
-    if(this.props.value){
-      this.props.onChange("Current location")
-    }
+ 
   },
 
   updateSuggestions(predictions, status){
@@ -137,7 +135,9 @@ var Text = React.createClass({
     //Fix for not being able to style the input element
       setTimeout(() => {
             var elem = document.querySelector('.search-bar__auto-complete')
+            if(elem){
             elem.style.height = this.props.big ? "70px" : "30px"
+            }
           }, 100)
 
 
@@ -156,7 +156,7 @@ var Text = React.createClass({
           onChange={this.onChange}
           fullWidth={true}
           searchText={this.props.value}
-          hintText={this.props.placeholder}
+          hintText={"City"}
           dataSource={this.state.dataSource}
           onUpdateInput={this.onChange}
           onNewRequest={this.onValueSelected}

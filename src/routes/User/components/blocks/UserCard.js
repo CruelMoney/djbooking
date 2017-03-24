@@ -3,10 +3,12 @@ import Formatter from '../../../../utils/Formatter'
 import Rating from '../../../../components/common/Rating'
 import Navlink  from '../../../../components/common/Navlink'
 import Logo from '../../../../components/common/Logo'
+import InfoPopup from '../../../../components/common/InfoPopup'
+
 import Button from '../../../../components/common/Button-v2'
 import * as actions from '../../../../actions/UserActions'
 import { connect } from 'react-redux'
-
+import {ImageCompressor} from '../../../../utils/ImageCompressor';
 
 var UserCard = React.createClass({
 
@@ -26,70 +28,30 @@ var UserCard = React.createClass({
 getInitialState(){
   return{loading: false, err: null}
 },
-/*eslint no-undef: 0*/
+
 
     handleFile(e) {
-      const reader = new FileReader()
-      const file = e.target.files[0]
-
       var self = this
-
-      reader.onload = (upload) => {
-        this.setState({
-          loading: true
-        })
-
-        if ((file.size/1024) > 5000 ) {
-           this.setState({loading: false, err: "Image cannot be larger than 5 Mb"})
-           return
-         }
-
-        var loadingImage = loadImage(
-          file,
-          function (img) {
-            if(img.type === "error") {
-                self.setState({
-                       loading: false,
-                       err: "Something went wrong"
-                     })
-              } else {
-                    var imageData = img.toDataURL();
-
-                    self.props.updatePicture(imageData, (err)=>{
+        self.setState({loading:true})
+       const file = e.target.files[0]
+       
+       ImageCompressor(file, (err,result)=>{
+          if(err){
+            self.setState({
+              err:err,
+              loading:false
+            })
+          }else{
+                self.props.updatePicture(result, (err,res)=>{    
                       if (err) {
-                        self.setState({
-                          loading: false,
-                          err: "Something went wrong"
-                        })
+                         self.setState({err:"Something went wrong"})
                       }else{
-                        self.setState({
-                          loading: false,
-                          err: null
-                        })
+                        self.setState({err:"",loading:false})
                       }
-                    })
-              }
-          },
-          {
-            maxWidth: 500,
-            maxHeight: 500,
-           cover: true,
-           orientation: true,
-           crop: true
-       }
-      );
-
-      loadingImage.onerror = ()=>{
-        self.setState({
-               loading: false,
-               err: "Something went wrong"
-             })
-      }
-        
-        }
-
-      reader.readAsDataURL(file)
-    },
+              })
+          }
+       })
+  },
 
   render() {
     //calculating the age
@@ -137,7 +99,7 @@ getInitialState(){
           </div>
           <div id="profile-picture-upload">
             <canvas ref="canvas" style={{display:"none"}} />
-            <input name="fileupload" id="fileupload"  type="file" accept="image/*" onChange={this.handleFile}/>
+            {this.props.isOwnProfile ? <input name="fileupload" id="fileupload"  type="file" accept="image/*" onChange={this.handleFile}/> : null}
             {
               this.state.loading
               ?
@@ -146,18 +108,20 @@ getInitialState(){
               this.state.err ?
                 <label htmlFor="fileupload"><span>{this.state.err}</span></label>
               :
-              <label htmlFor="fileupload"><span>Change image</span></label>
+              this.props.isOwnProfile ? <label htmlFor="fileupload"><span>Change image</span></label> : null
             }
           </div>
 
           <div
-            className="user-card-picture"
-            style={{backgroundImage: "linear-gradient(20deg, rgba(49, 255, 245,0.8) 0%, rgba(49, 255, 197,0.5) 16%, rgba(0, 209, 255,0.2) 66%, rgba(49, 218, 255, 0.0) 71%),  url("+this.props.picture+")"}}
+            className={"user-card-picture " + (this.props.isOwnProfile ? "editable" : "")}
+            style={{backgroundImage: "url("+this.props.picture+")"}}
           />
+          {this.props.isOwnProfile ?
           <div
             className="user-card-picture-blurred"
-            style={{backgroundImage: "linear-gradient(20deg, rgba(49, 255, 245,0.8) 0%, rgba(49, 255, 197,0.5) 16%, rgba(0, 209, 255,0.2) 66%, rgba(49, 218, 255, 0.0) 71%),  url("+this.props.picture+")"}}
+            style={{backgroundImage: "url("+this.props.picture+")"}}
           />
+          : null}
         </div>
 
         <div className={this.props.onlyPicture ? "user-card-text hide" : "user-card-text"}>
@@ -166,13 +130,29 @@ getInitialState(){
             {this.props.profile.isDJ ? 
             <div>
             <div className="user-card-fact">
-              <p>Experience</p>
+              <p>Experience
+                 <InfoPopup
+                  info={
+                    this.props.isOwnProfile 
+                    ? "How many gigs you have played using Cueup. This is shared on your public profile."
+                    : "How many gigs this DJ has played using Cueup."
+                    }
+                  />
+              </p>
+             
               {this.props.experience + " gigs"}
             </div>
+            {this.props.isOwnProfile ? 
             <div className="user-card-fact">
-              <p>Earned</p>
+              <p>Earned
+                <InfoPopup
+                  info="How much money you have earned. This is NOT shared on your public profile."
+                  />
+                
+              </p>
               {Formatter.money.FormatNumberToString(this.props.earned, "Dkk")}
             </div>
+            : null}
             <div className="user-card-fact">
               <p>Rating</p>
               {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : "No reviews yet"}
@@ -196,6 +176,17 @@ getInitialState(){
             
             : null}
             
+             {this.props.profile.discountPoints > 0 && this.props.isOwnProfile ? 
+            <div className="user-card-fact">
+              <p>Cueup points
+                <InfoPopup
+                  info="Cueup points can be used to remove the fee on gigs, thus increasing the payout."
+                  />
+              </p>
+              {this.props.profile.discountPoints + " Points"}
+            </div>
+                        
+            : null}
           </div>
         </div>
 

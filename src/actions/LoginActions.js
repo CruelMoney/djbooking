@@ -11,49 +11,43 @@ const auth = new AuthService()
 const cueup = new CueupService()
 
 
-
-function handleLoginFeedback(dispatch, callback){
-return function (err, result) {
-    if (err){
-      dispatch( function() { return {
-          type: ActionTypes.LOGIN_FAILED,
-          err : err.message
-        }}())
-        callback(err.message)
-    }else {
-      const token = result.idToken;
-      auth.setToken(token)
-      cueup.getUser(token, (error, result)=>
-      {
-        if (error) {
-          dispatch (function() {return {
-              type: ActionTypes.LOGIN_FAILED,
-              err: error.message
-            }}())
-            callback(error.message)
-        }else{
-          var user = converter.user.fromDTO(result)
-          
-          auth.getProfileFromToken(token, (err, authProfile)=>{
-
-         if(!err){
-              dispatch (function() {return {
-                type: ActionTypes.UPDATE_GEOLOCATION,
-                value: authProfile.user_metadata.geoip
+  const handleCueupFeedBack = (dispatch, callback, redirect) =>{
+       return (error, result)=>{
+              if (error) {
+                  dispatch (function() {return {
+                    type: ActionTypes.LOGIN_FAILED,
+                    err: error.message
+                  }}())
+                  return callback(error.message)
+              }
+            var user = converter.user.fromDTO(result)  
+            // dispatch (function() {return {
+            //   type: ActionTypes.UPDATE_GEOLOCATION,
+            //   value: authRes.user_metadata.geoip
+            // }}())
+            dispatch (function() {return {
+                type: ActionTypes.LOGIN_SUCCEEDED,
+                profile: user
               }}())
-            }
-
-
-          dispatch (function() {return {
-              type: ActionTypes.LOGIN_SUCCEEDED,
-              profile: user
-            }}())
-          callback(null)
-        
-        })
-      }})
-    }
+            if (redirect) browserHistory.push("/user/"+user.user_metadata.permaLink+"/profile")
+            callback(null)
+          }
   }
+
+
+function handleLoginFeedback(dispatch, callback, redirect = false){
+  return function (err, result) {
+      if (err){
+        dispatch( function() { return {
+            type: ActionTypes.LOGIN_FAILED,
+            err : err.message
+          }}())
+          callback(err.message)
+      }else {
+        const token = result.idToken;
+        cueup.getOwnUser(token, handleCueupFeedBack(dispatch, callback, redirect))
+      }
+    }
 }
 
 /**
@@ -66,38 +60,8 @@ export function checkForLogin(redirect = null){
   return function(dispatch){
     if (auth.loggedIn()) {
       dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }())
-    
       const token = auth.getToken()
-
-      cueup.getUser(token, (error, result)=>
-      {
-        if (error) {
-          dispatch( function() { return {
-              type: ActionTypes.LOGIN_FAILED,
-              err:  ""
-            }}())
-            if (redirect) {browserHistory.push('/')}
-        }else{
-
-          var user = converter.user.fromDTO(result)
-          
-          auth.getProfileFromToken(token, (err, authProfile)=>{
-              
-            if(!err){
-              dispatch (function() {return {
-                type: ActionTypes.UPDATE_GEOLOCATION,
-                value: authProfile.user_metadata.geoip
-              }}())
-            }
-
-          dispatch (function() {return {
-              type: ActionTypes.LOGIN_SUCCEEDED,
-              profile: user
-            }}())
-           if (redirect) {
-            browserHistory.push(redirect) }
-        })
-        }})
+      handleLoginFeedback(dispatch, (err,res)=>{})(null, {idToken:token}) 
     }else{
       //If trying to access user restricted area, but not logged in
       // if (window.location.pathname.split('/')[1] === 'user') {
@@ -108,32 +72,26 @@ export function checkForLogin(redirect = null){
 }
 
 
-export function login(form, callback){
+
+
+export function login(form, redirect, callback){
   return function (dispatch) {
-
-
     // First dispatch: the app state is updated to inform
     // that the API call is starting.
 
     dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }() )
-
-
       switch (form.type) {
         case "EMAIL":
-          return loginEmail(form, handleLoginFeedback(dispatch, callback))
+          return loginEmail(form, handleLoginFeedback(dispatch, callback, redirect))
 
         case "FACEBOOK":
-          return loginFacebook(handleLoginFeedback(dispatch, callback))
-
+          return loginFacebook(handleLoginFeedback(dispatch, callback, redirect))
 
         case "SOUNDCLOUD":
-          return loginSoundcloud(handleLoginFeedback(dispatch, callback))
+          return loginSoundcloud(handleLoginFeedback(dispatch, callback, redirect))
 
         default:
       }
-
-
-
   }
 }
 

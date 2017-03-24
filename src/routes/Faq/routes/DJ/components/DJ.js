@@ -20,7 +20,9 @@ export default React.createClass({
                   label="How much does it cost?" 
                 > 
                 <p>
-                   The membership at Cueup is free of charge. 
+                   The membership at Cueup is free of charge.
+                   Only when making an offer, a fee of 3% is subtracted from your offer.
+                   This is what makes us able to keep the platform running.
                   </p>
                 </Collapsible>
                 <Collapsible

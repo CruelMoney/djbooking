@@ -6,27 +6,38 @@
     <title>Book DJs with ease | Cueup</title>
     <link rel="shortcut icon" href="favicon.ico">
 
-    <meta property="og:title"              content="Book DJs with ease | Cueup" />
-    <meta property="og:description"        content="Cueup is an online platform connecting DJs and event organizers." />
-    <meta property="og:image"              content="https://scontent.xx.fbcdn.net/v/t31.0-8/14107786_1281789911831186_3834548054193542925_o.png?oh=250d4cfe898bd8abdd0a76fed7a66671&oe=5929E8A6" />
+
+    <meta property="fb:app_id"              content="%REACT_APP_CUEUP_PROD_FB_ID%" />
+    <meta property="og:url"                 content="%REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN%" />
+    <meta property="og:title"               content="Book DJs with ease | Cueup" />
+    <meta property="og:description"         content="Cueup is an online platform connecting DJs and event organizers." />
+    <meta property="og:image"               content="%REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN%/previewCard.png" />
+
+    <meta name="twitter:card"               content="summary_large_image">
+    <meta name="twitter:site"               content="@@CueupDK">
+    <meta name="twitter:creator"            content="@@CueupDK">
+    <meta name="twitter:title"              content="Book DJs with ease | Cueup">
+    <meta name="twitter:description"        content="Cueup is an online platform connecting DJs and event organizers.">
+    <meta name="twitter:image"              content="%REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN%/previewCard.png">
 
     <!-- Adds an event listener to capture uncaught errors. -->
     <script>addEventListener('error', window.__e=function f(e){f.q=f.q||[];f.q.push(e)});</script>
-    <script async src="https://www.google-analytics.com/analytics.js"></script>
-    <script async src="./autotrack.js"></script>
+    <script async  type="text/javascript" src="https://www.google-analytics.com/analytics.js"></script>
+    <script async  type="text/javascript" src="%PUBLIC_URL%/autotrack.js"></script>
 
     <script  type="text/javascript" src="https://js.stripe.com/v2/">  </script>
-    <script async defer type="text/javascript" src="particles.min.js">  </script>
+    <script async defer type="text/javascript" src="%PUBLIC_URL%/particles.min.js">  </script>
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ&libraries=geometry,places,visualization,geocode"></script>
-    <script async defer type="text/javascript" src="load-image.all.min.js">  </script>
+    <script  type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ&libraries=geometry,places,visualization,geocode"></script>
+    <script async defer type="text/javascript" src="%PUBLIC_URL%/load-image.all.min.js">  </script>
 
 
 </head>
 
 <body>
     <div id="root"></div>
+
 
     <!-- begin olark code -->
 <script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){
@@ -48,6 +59,7 @@ loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure"
 /* custom configuration goes here (www.olark.com/documentation) */
 olark.identify('8095-537-10-2169');/*]]>*/</script><noscript><a href="https://www.olark.com/site/8095-537-10-2169/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript>
 <!-- end olark code -->
+
 
 </body>
 

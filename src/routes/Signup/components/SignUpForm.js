@@ -40,12 +40,14 @@ var signupForm = React.createClass({
     },
 
   signup(form, callback) {
-        this.props.handleSubmit(form, (err,res)=>{
-           if (!err) {
-          this.setState({msg: "Great! You can now login 😁"})
-            }
-            callback(err,res)
-          })
+      //http://localhost:3000/signup?referredBy=CRUELMONEY
+      const values = {...form.values, reference: this.props.reference}
+      this.props.handleSubmit(values, (err,res)=>{
+          if (!err) {
+            this.setState({msg: "Great! You can now login 😁"})
+          }
+          callback(err,res)
+        })
         
   },
 
@@ -98,24 +100,11 @@ var signupForm = React.createClass({
             big
             name="email"
             validate={['required', 'email']}
+            placeholder="mail@gmail.com"
             label="Your Email"/>
-
         </RegistrationElement>
-        <RegistrationElement
-          name="phone"
-          label="Phone"
-          active={true}
-          text="Your phone number is used to help organizers get in contact with you. It is only shared with organizers after you have made them an offer."
-        >
-          <Textfield
-            big
-            name="phone"
-            type="tel"
-            validate={['required']}
-            label="Your phone number"/>
 
-        </RegistrationElement>
-        <RegistrationElement
+<RegistrationElement
           name="password"
           label="Password"
           active={true}
@@ -127,8 +116,26 @@ var signupForm = React.createClass({
             type="password"
             name="password"
             validate={['required', 'minLength']}
+            placeholder="••••••"
             label="Your password"/>
         </RegistrationElement>
+
+        <RegistrationElement
+          name="phone"
+          label="Phone"
+          active={true}
+          text="Your phone number is used to help organizers get in contact with you. It is only shared with organizers after you have made them an offer."
+        >
+          <Textfield
+            big
+            name="phone"
+            type="tel"
+            placeholder="12345678"
+            validate={['required']}
+            label="Your phone number"/>
+
+        </RegistrationElement>
+        
 
 
         <RegistrationElement
@@ -146,7 +153,7 @@ var signupForm = React.createClass({
             label="Your name"/>
         </RegistrationElement>
 
-
+{/*
         <RegistrationElement
           name="bday"
           label="Birthday"
@@ -165,7 +172,7 @@ var signupForm = React.createClass({
             placeholder="dd/mm/yyyy"
             label="Birthday"/>
 
-        </RegistrationElement>
+        </RegistrationElement>*/}
 
         <RegistrationElement
           name="location"
@@ -250,14 +257,14 @@ import * as actions from '../../../actions/SignupActions'
 
 function mapStateToProps(state, ownProps) {
   return {
-    isLoggedIn: state.user.status.signedIn,
+    isLoggedIn: state.login.status.signedIn,
   }
 }
 
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-    handleSubmit: (form,callback) => dispatch(actions.signup(form.values, true, callback)),
+    handleSubmit: (values,callback) => dispatch(actions.signup(values, true, callback)),
     locationExists: (location, callback) => actions.locationExists(location, callback)
   }
 }

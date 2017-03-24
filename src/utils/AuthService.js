@@ -1,4 +1,5 @@
 import Auth0 from 'auth0-js'
+import {Environment} from '../constants/constants'
 import {
     EventEmitter
 } from 'events'
@@ -15,22 +16,13 @@ export default class AuthService extends EventEmitter {
         super()
             // Configure Auth0
         this.auth0 = new Auth0({
-            clientID: process.env.NODE_ENV === "production"
-                        ? process.env.REACT_APP_AUTH0_CLIENTID
-                        : process.env.REACT_APP_AUTH0_DEV_CLIENTID,
-            domain: process.env.NODE_ENV === "production"
-                        ? process.env.REACT_APP_AUTH0_DOMAIN
-                        : process.env.REACT_APP_AUTH0_DEV_DOMAIN,
-            callbackURL: process.env.NODE_ENV === "production"
-                        ? process.env.REACT_APP_AUTH0_PROD_CALLBACK_DOMAIN
-                        : process.env.REACT_APP_AUTH0_DEV_CALLBACK_DOMAIN,
+            clientID: Environment.AUTH0_CLIENT_ID,
+            domain: Environment.AUTH0_CLIENT_DOMAIN,
+            callbackURL: Environment.CALLBACK_DOMAIN,
             callbackOnLocationHash: true,
-
         })
 
-        this.domain = process.env.NODE_ENV === "production"
-                        ? process.env.REACT_APP_AUTH0_DOMAIN
-                        : process.env.REACT_APP_AUTH0_DEV_DOMAIN // setting domain parameter as an instance attribute
+        this.domain = Environment.AUTH0_CLIENT_DOMAIN // setting domain parameter as an instance attribute
         this.login = this.login.bind(this)
         this.signup = this.signup.bind(this)
     }
@@ -41,6 +33,9 @@ export default class AuthService extends EventEmitter {
             if(err !=null && err.message === "invalid_user_password"){
               onError({message:"The email or password is wrong"}, result)
             }else{
+                if (result && result.idToken) {
+                    this.setToken(result.idToken)
+                }
               onError(err, result)
             }
         })

@@ -31,6 +31,12 @@ const login = React.createClass({
       }
     },
 
+    getDefaultProps(){
+      return{
+        redirect:true
+      }
+    },
+
     getInitialState() {
       return{
         email: "",
@@ -92,7 +98,7 @@ const login = React.createClass({
 
 
     login(form, callback){
-      this.props.login( this.state.email, this.state.password, callback)
+      this.props.login( this.state.email, this.state.password, this.props.redirect, callback)
     },
 
 
@@ -109,8 +115,7 @@ const login = React.createClass({
         active
         color="#3b5998"
         name="facebook_login"
-        onClick={this.props.loginFacebook}
-        onSucces={()=>{browserHistory.push('/profile')}}
+        onClick={(form, callback)=>this.props.loginFacebook(form, this.props.redirect, callback)}
       >Facebook</SubmitButton>
 
       <SubmitButton
@@ -118,8 +123,7 @@ const login = React.createClass({
         active
         color="#ff7700"
         name="soundcloud_login"
-        onClick={this.props.loginSoundcloud}
-        onSucces={()=>{browserHistory.push('/profile')}}
+        onClick={(form, callback)=>this.props.loginSoundcloud(form, this.props.redirect, callback)}
       >SoundCloud</SubmitButton>
     </Form>
   </div>
@@ -151,7 +155,6 @@ const login = React.createClass({
         active
         name="email_login"
         onClick={this.login}
-        onSucces={()=>{browserHistory.push('/profile')}}
       >Login</SubmitButton>
     </div>
   </Form>
@@ -181,9 +184,9 @@ const login = React.createClass({
 
     function mapDispatchToProps(dispatch, ownprops) {
       return {
-        login: (email, password, callback) => dispatch(actions.login({type:"EMAIL", email, password}, callback)),
-        loginFacebook: (form,callback)        => dispatch(actions.login({type:"FACEBOOK"},callback)),
-        loginSoundcloud: (form,callback)      => dispatch(actions.login({type:"SOUNDCLOUD"},callback)),
+        login: (email, password, redirect, callback) => dispatch(actions.login({type:"EMAIL", email, password}, redirect,callback)),
+        loginFacebook: (form,redirect,callback)        => dispatch(actions.login({type:"FACEBOOK"},redirect,callback)),
+        loginSoundcloud: (form,redirect,callback)      => dispatch(actions.login({type:"SOUNDCLOUD"},redirect,callback)),
       }
     }
 

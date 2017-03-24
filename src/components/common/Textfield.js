@@ -103,7 +103,7 @@ var Text = React.createClass({
         top: "6",
       },
       underlineDisabledStyle:{
-        borderWidth:" 1px 0px 0px",
+        borderWidth:" 0px 0px 0px",
         borderStyle: "solid solid",
         borderColor: "rgb(224, 224, 224)"
       }

@@ -18,15 +18,22 @@ var Reviews = React.createClass({
 
   contextTypes:{
     registerActions: PropTypes.func,
+    isOwnProfile: PropTypes.bool
   },
 
 
   componentWillMount() {
-      this.props.fetchReviews()
+     if(this.props.userID){
+       this.props.fetchReviews()
+    }
       this.context.registerActions(this.getActionButtons)
-
   },
 
+  componentWillReceiveProps(nextprops) {
+    if(!this.props.userID && nextprops.userID){
+       nextprops.fetchReviews()
+    }
+  },
 
   getActionButtons(props = this.props){
     return (
@@ -131,8 +138,15 @@ var Reviews = React.createClass({
           renderLoadingItem()
           :
           this.props.reviews.length === 0 ?
-            <EmptyPage message={<div>Ask your customers to leave a review <br/>
-            It will help you get more gigs</div>}/>
+            <EmptyPage message={
+            this.context.isOwnProfile  ?
+              <div>Ask your customers to leave a review <br/>
+            It will help you get more gigs</div>
+            : 
+             <div>
+               This DJ does not have any reviews <br/>
+            </div>
+            }/>
           :
           this.props.reviews.map((review, i) => renderReview(review, i))
         }
@@ -148,16 +162,19 @@ import * as actions from '../../../../../actions/ReviewActions'
 function mapStateToProps(state, ownProps) {
   return {
     reviews:  state.reviews.values ? state.reviews.values : [],
-    loading: state.reviews.isWaiting
+    loading: state.reviews.isWaiting,
+    userID: state.user.profile.user_id,
   }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchReviews: () => { dispatch(actions.fetchReviews()) },
+    fetchReviews: (userID) => { dispatch(actions.fetchReviews(userID)) },
 }}
 function mergeProps(stateProps, dispatchProps, ownProps) {
-  return {...stateProps, ...dispatchProps}
+  return {
+    ...stateProps, 
+    fetchReviews: ()=>dispatchProps.fetchReviews(stateProps.userID)}
 }
 
 const SmartReviews = connect(mapStateToProps, mapDispatchToProps, mergeProps,{ pure: false })(Reviews)

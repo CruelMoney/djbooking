@@ -58,9 +58,7 @@ var eventHeader = React.createClass({
 
 
   render() {
-
     return (
-
         <header ref={ref=>this.eventHeader=ref}
           className="user-header">
           <div id="stripes" className="v2">
@@ -85,7 +83,7 @@ var eventHeader = React.createClass({
 
               {this.props.loggedIn ?
                 <div className="back-button userNavigation">
-                  <Navlink to={"/events"} label="< Events"/>
+                  <Navlink to={"/user/"+this.props.permaLink+"/events"} label="< Events"/>
                 </div>
               :null}
               <div className="event-header-content col-sm-7">

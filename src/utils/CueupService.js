@@ -1,8 +1,8 @@
+import {Environment} from '../constants/constants'
+
 export default class CueupService {
     constructor() {
-        this.domain = process.env.NODE_ENV === "production"
-                    ? process.env.REACT_APP_CUEUP_PROD_DOMAIN
-                    : process.env.REACT_APP_CUEUP_DEV_DOMAIN
+        this.domain =Environment.API_DOMAIN
 
         this.getHeaders = function(token) {
             var headers = new Headers();
@@ -59,7 +59,14 @@ export default class CueupService {
     }
 
     //USER ACTIONS
-    getUser(token, callback) {
+    getUser(permaLink, callback) {
+      return this.fetchHandling(
+        `${this.domain}/api/user/permalink/${permaLink}`,
+        this.getInit(this.getHeaders("")),
+        callback
+      )}
+
+    getOwnUser(token, callback) {
       return this.fetchHandling(
         `${this.domain}/api/user`,
         this.getInit(this.getHeaders(token)),
@@ -100,10 +107,10 @@ export default class CueupService {
       this.postInit(data, this.getHeaders("")),
       callback)
    }
-   getUserReviews(token, callback) {
+   getUserReviews(id, callback) {
      return this.fetchHandling(
-       `${this.domain}/api/user/review`,
-       this.getInit(this.getHeaders(token)),
+       `${this.domain}/api/user/reviews/${id}`,
+       this.getInit(this.getHeaders("")),
        callback
      )}
      updateSettings(token, data, callback) {
@@ -120,7 +127,13 @@ export default class CueupService {
     requestPasswordChange(email, callback){
       return this.fetchHandling(
       `${this.domain}/api/user/change_password/${email}`,
-      this.postInit(this.getHeaders("")),callback
+      this.postInit(email, this.getHeaders("")),callback
+    )}
+    SaveBookMePreview(token, data, callback){
+      return this.fetchHandling(
+      `${this.domain}/api/user/SaveBookMePreview`,
+      this.postInit(data, this.getHeaders(token)),
+      callback
     )}
    //USER ACTIONS END
 
@@ -210,4 +223,13 @@ export default class CueupService {
           this.putInit(offerDTO, this.getHeaders(token)),
           callback
         )}
+
+    getFees(token, id, offerDTO, callback){
+        return this.fetchHandling(
+          `${this.domain}/api/gig/${id}/potentialOffer`,
+          this.putInit(offerDTO, this.getHeaders(token)),
+          callback
+        )}
+
+          
 }

@@ -10,9 +10,8 @@ var userHeader = React.createClass({
     profile: PropTypes.object,
     geoAddress: PropTypes.string,
     hideInfo: PropTypes.bool,
-    notification: PropTypes.string,
-    actions: PropTypes.arrayOf(PropTypes.node)
-  },
+    notification: PropTypes.string
+    },
 
    componentWillMount() {
      window.addEventListener('scroll', this.handleScroll)
@@ -87,6 +86,7 @@ var userHeader = React.createClass({
 
         <div className="user-card-wrapper">
           <UserCard
+           isOwnProfile={this.props.isOwnProfile}
             profile={this.props.profile}
             className="user-card"
             onlyPicture={this.props.hideInfo}
@@ -99,20 +99,24 @@ var userHeader = React.createClass({
             genres={this.props.loading ? ["..." ]: this.props.profile.genres}
             loading={this.props.loading}
           />
-          {this.props.actions}
 
+                {this.props.actions}
+        
         </div>
 
 
 
-        <div className="col-md-4"></div>
+        <div className="col-sm-4"></div>
 
-        <div className="user-header-content col-md-8">
+        <div className="user-header-content col-sm-8">
 
 
           <div className="header-info">
             <div className="user-name">
-              <h1>{this.props.loading ? this.state.loadString : "Welcome " + this.props.profile.firstName}</h1>
+              <h1>{(this.props.loading ? this.state.loadString :(
+                this.props.isOwnProfile ? "Welcome " :
+                 " " )
+                 + this.props.profile.firstName)}</h1>
             </div>
             <div className="user-location">
               <h2>
@@ -123,7 +127,9 @@ var userHeader = React.createClass({
                       <path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" fill="#FFFFFF"/>
                     </g>
                   </svg>}
-                {this.props.loading ? this.state.loadString : " " + ( this.props.geoAddress)}
+                {this.props.loading ? this.state.loadString : (
+                  this.props.isOwnProfile ? " " + ( this.props.profile.geoCountry): 
+                  this.props.profile.city)}
               </h2>
             </div>
           </div>
@@ -132,6 +138,7 @@ var userHeader = React.createClass({
           <div className="header-divider"/>
           {this.props.loading ? null :
             <UserNavigation
+              isOwnProfile={this.props.isOwnProfile}
               isDJ={this.props.profile.isDJ}
               isCustomer={this.props.profile.isCustomer}
             />}

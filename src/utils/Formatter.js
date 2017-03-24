@@ -17,6 +17,7 @@ const formatter = {
 
           //returns a date from a eu formatted date string. DD/MM/YYYY, 28/07/1993 etc.
           FromEUStringToUSDate : function (dateString){
+            if (!dateString) return null
             var from = dateString.split("/");
             return new Date(from[2], from[1] - 1, from[0]);
           },
@@ -50,12 +51,12 @@ const formatter = {
         s = n < 0 ? "-" : "",
         i = parseInt(n = Math.abs(+n || 0).toFixed(c), 10) + "",
         j = i.length > 3 ? i.length % 3 : 0;
-       return currency + " " + s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+       return  s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "") +" "+ currency ;
   },
   ToStandard: function(number, currency){
     switch (currency) {
         case "DKK":
-          number /= 100 //From øre to kroner
+           number /= 100 //From øre to kroner
           break
         case "USD":
           number /= 100 //From cents to dollar
@@ -76,7 +77,7 @@ const formatter = {
         default:
           break
       }
-      return number
+      return Math.round(number)
   }
 
 

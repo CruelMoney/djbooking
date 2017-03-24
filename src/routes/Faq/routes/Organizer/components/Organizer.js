@@ -26,7 +26,7 @@ export default React.createClass({
                     <br/>
                     In addition to the price offered by the DJ, a service fee will be added. 
                     This service fee is what keeps the platform running. 
-                    The fee will range between 3% and 12% of the DJs offer, and is calculated primarily based on the original price set by the DJ. 
+                    The fee will depend on the DJs offer, and is calculated primarily based on the original price set by the DJ. 
                   </p>
                 </Collapsible>
                 <Collapsible
@@ -87,7 +87,7 @@ export default React.createClass({
                 <Collapsible
                   label="How many offers do I get?"> 
                     <p>
-                        We aim to give you 3 offers but you might get up to 5. 
+                        We aim to give you 3 offers but you might receive up to 5. 
                     </p>
                 </Collapsible>
                 <Collapsible
@@ -98,9 +98,9 @@ export default React.createClass({
                     </p>
                 </Collapsible>
                 <Collapsible
-                  label="Can I change the location of my event?"> 
+                  label="Can I change the location or time of my event?"> 
                     <p>
-                        No. In case that the location changes, remember to tell the DJ. 
+                        No. In case that the location or time changes, remember to tell the DJ. 
                         If the DJ is not able to play at the new location, you'll have to cancel the event and post a new event at the new location.
                     </p>
                 </Collapsible>

@@ -12,6 +12,9 @@ import wNumb from 'wnumb'
 import Slider from '../../../../../components/common/Slider'
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import entries from 'object.entries';
+import TextField from '../../../../../components/common/Textfield'
+import Login from '../../../../../components/common/Login'
+
 
 const preferences = React.createClass({
   propTypes: {
@@ -25,13 +28,14 @@ const preferences = React.createClass({
     updateSettings: PropTypes.func
   },
   contextTypes:{
-    loading:         PropTypes.bool,
+    loadingUser:         PropTypes.bool,
     reset:           PropTypes.func,
     registerActions: PropTypes.func,
     toggleEditMode:  PropTypes.func,
     editing:         PropTypes.bool,
     valid:           PropTypes.bool,
-    disableEditMode: PropTypes.func
+    disableEditMode: PropTypes.func,
+    updateAction:    PropTypes.func
   },
 
   componentWillMount(){
@@ -40,12 +44,13 @@ const preferences = React.createClass({
 
   getInitialState(){
     return {
-      showPopup: false
+      showPopup: false,
+      loginPopup: true
     }
   },
 
   updateSettings(form, callback){
-    var eSettings = this.props.user.settings.emailSettings
+    var eSettings = this.props.profile.settings.emailSettings
 
     //setting all settings to false initially
     for (var s in eSettings){
@@ -75,9 +80,9 @@ const preferences = React.createClass({
 
   getUserEmailNotifications(){
    // Using the experimental Object.entries
-   // var vals = Object.entries(this.props.user.settings.emailSettings)
+   // var vals = Object.entries(this.props.profile.settings.emailSettings)
    // using shim from npm instead
-    var vals = entries(this.props.user.settings.emailSettings)
+    var vals = entries(this.props.profile.settings.emailSettings)
       .filter(s=>s[1] === true)
       .map(s=>s[0])
 
@@ -86,7 +91,7 @@ const preferences = React.createClass({
   },
 
   getPotentialEmailNotifications(){
-   const  vals = Object.keys(this.props.user.settings.emailSettings)
+   const  vals = Object.keys(this.props.profile.settings.emailSettings)
                   .map(function(s){return{name:s}})
 
 
@@ -109,11 +114,15 @@ const preferences = React.createClass({
                       }, 1700)}
                 > Save
                 </SubmitButton>
-              : <Button
-                onClick={this.context.toggleEditMode}
-                name="edit_profile"
-                >Edit settings
-              </Button>
+              :
+              <div className={this.state.showHelp ? "pulse" : ""}
+                >
+                <Button
+                  onClick={this.context.toggleEditMode}
+                  name="edit_profile"
+                  >Edit settings
+                </Button>
+              </div>
             }
 
             <SubmitButton
@@ -134,8 +143,20 @@ const preferences = React.createClass({
       )
   },
 
+  showHelp(){
+    this.setState({
+      showHelp:true
+    }, this.context.updateAction)
+
+    setTimeout(()=> {
+      this.setState({
+          showHelp:false
+      },this.context.updateAction)
+    }, 1500);
+  },
+
   render() {
-    const isDJ = this.props.user.isDJ
+    const isDJ = this.props.profile.isDJ
     return <div>
       { this.context.loading ?
         <div>
@@ -144,7 +165,9 @@ const preferences = React.createClass({
           <LoadingPlaceholder/>
           <LoadingPlaceholder/>
         </div>
-        :
+        : null}
+
+        { !this.context.loading && this.props.profile.user_id ?
         <div>
           <Popup showing={this.state.showPopup}
             onClickOutside={this.hidePopup}>
@@ -152,17 +175,17 @@ const preferences = React.createClass({
 
           </Popup>
 
-            <div >
+            <div>
               {isDJ ?
                 <TextWrapper
                   label="Payout"
                   text="To get paid, you need to set up a payout method.
                   Cueup releases payouts about 24 hours after a job is finished.">
-                  {this.props.user.last4 ?
+                  {this.props.profile.last4 ?
                     <div className="user-card-info">
                       <div className="user-card-fact">
                         <p>Last 4 digits of current account number</p>
-                        {"..." + this.props.user.last4}
+                        {"..." + this.props.profile.last4}
                       </div>
                     </div>
 
@@ -172,7 +195,7 @@ const preferences = React.createClass({
                       rounded={true}
                       onClick={()=>this.setState({showPopup:true})}
                       name="show-payout-popup"
-                    >{!this.props.user.last4 ?
+                    >{!this.props.profile.last4 ?
                       "Setup payout info"
                     : "Update payout info"}</Button>
                   </div>
@@ -183,6 +206,7 @@ const preferences = React.createClass({
           
                 <div>
                   <TextWrapper
+                    onDisabledClick={this.showHelp}
                     label="Email notifications"
                     text="What kind of notifications do you wish to receive?">
                     <ToggleHandler
@@ -198,6 +222,7 @@ const preferences = React.createClass({
               {isDJ ?
                 <div>
                   <TextWrapper
+                    onDisabledClick={this.showHelp}
                     label="Cancelation policy"
                     text="How many days notice do you allow for cancelations?
                     If the organizer wants to cancel the event within less days, the percentage specified below will be refunded.
@@ -207,7 +232,7 @@ const preferences = React.createClass({
                       disabled={!this.context.editing}
                       name="cancelationDays"
                       glued={true}
-                      value={this.props.user.settings.cancelationDays}
+                      value={this.props.profile.settings.cancelationDays}
                     >
 
                       <Button
@@ -230,7 +255,9 @@ const preferences = React.createClass({
 
                     </ToggleOptions>
                   </TextWrapper>
+
                   <TextWrapper
+                  onDisabledClick={this.showHelp}
                     label="Refund percentage"
                     text="How many percentage of the offer should be returned if the organizer cancels within less days than the minimum notice?">
                     <Slider
@@ -239,7 +266,7 @@ const preferences = React.createClass({
                       range={{min:0, max:100}}
                       step={1}
                       connect="lower"
-                      value={[this.props.user.settings.refundPercentage]}
+                      value={[this.props.profile.settings.refundPercentage]}
                       onChange={(values) => this.setState({
                               refundPercentage: values[0]
                       })}
@@ -248,6 +275,7 @@ const preferences = React.createClass({
                       <span>{this.state.refundPercentage}% </span>will be refunded.</p>
                   </TextWrapper>
                   <TextWrapper
+                  onDisabledClick={this.showHelp}
                     label="Standby"
                     text="Are you unavailable to play at the moment? You will not receive requests if you're unavailable.">
 
@@ -255,7 +283,7 @@ const preferences = React.createClass({
                       name="standby"
                       glued={true}
                       disabled={!this.context.editing}
-                      value={this.props.user.settings.standby ? true : false}
+                      value={this.props.profile.settings.standby ? true : false}
 
                     >
                       <Button
@@ -269,6 +297,21 @@ const preferences = React.createClass({
                 </div>
               : null}
 
+              <TextWrapper 
+                    onDisabledClick={this.showHelp}
+                    label="Profile URL" text="What URL do you want people to find you at.">
+                    <p className="permalink-input">
+                    www.cueup.io/user/
+                    <TextField
+                      value={this.props.profile.user_metadata.permaLink}
+                      name="permaLink"
+                      disabled={!this.context.editing}
+                      type="text"
+                      validate={['required']}
+                    />
+                    </p>
+                  </TextWrapper>
+
 
               { this.props.provider === "auth0" ?
 
@@ -278,66 +321,44 @@ const preferences = React.createClass({
                   <div style={{display:"inline-block"}}>
                     <SubmitButton
                       onClick={(email, callback) => {
-                        this.props.changePassword(this.props.user.email, callback)}}
+                        this.props.changePassword(this.props.profile.email, callback)}}
                       name="request_change_password"
                     >Request email</SubmitButton>
                   </div>
                 </TextWrapper>
               : null }
 
-              { !this.props.user.email_verified  ?
+              { !this.props.profile.app_metadata.emailVerified  ?
 
                 <TextWrapper
                   label="Email verification"
                   text="Request an email to verify your email.">
                   <div style={{display:"inline-block"}}>
                     <SubmitButton
-                      onClick={(id, callback) => this.props.resendVerification(this.props.user.auth0Id, callback)}
+                      onClick={(id, callback) => this.props.resendVerification(this.props.profile.auth0Id, callback)}
                       name="request_verification_email"
                     >Request email</SubmitButton>
                   </div>
                 </TextWrapper>
               : null }
-
-
-              {/* <TextWrapper
-                label="Connect social platforms"
-                text="If you want to log in using a social platform or connect existing accounts.">
-                <div className="row">
-                <div className="col-xs-3">
-                <Button
-                rounded= {true}
-                label="Facebook"
-                active={true}
-                onClick= {this.props.connectFacebook}
-                name="connect_facebook"
-                />
-                </div>
-                <div className="col-xs-3">
-                <Button
-                rounded= {true}
-                label="SoundCloud"
-                active={true}
-                onClick= {this.props.connectSoundCloud}
-                name="connect_soundcloud"
-                />
-                </div>
-                <div className="col-xs-3">
-                <Button
-                rounded= {true}
-                label="E-mail & Password"
-                active={true}
-                onClick= {this.props.connectDB}
-                name="connect_db"
-                />
-                </div>
-                </div>
-              </TextWrapper> */}
-
-
           </div>
         </div>
-      }
+        :null}
+       
+
+            {
+            !this.props.profile.user_id && !this.context.loadingUser ? 
+             <Popup
+                showing={this.state.loginPopup}
+                onClickOutside={()=>this.setState({loginPopup:false})}>
+                <p>Login to see your preferences</p>
+                <Login
+                  redirect={false}
+                />
+              </Popup>
+              :null
+            }
+
     </div>
   }
 })
@@ -351,8 +372,8 @@ import {userLogout} from '../../../../../actions/LoginActions'
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownProps) {
   return {
-    user:  state.user.profile,
-    provider: state.user.profile.provider,
+    profile:  state.login.profile,
+    provider: state.login.profile.provider,
   }
 }
 

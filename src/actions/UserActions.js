@@ -22,7 +22,16 @@ var ActionTypes = c.ActionTypes
             if (err) {
               callback(err.message)
             }else{
-              dispatch(self.getUser(callback))
+               const profile = converter.user.fromDTO(result)
+              dispatch (function() {return {
+                  type: ActionTypes.FETCH_USER_SUCCEEDED,
+                  profile:profile
+                }}())
+             dispatch (function() {return {
+                type: ActionTypes.LOGIN_SUCCEEDED,
+                profile: profile
+              }}())
+              callback(null)
             }
           })
       }
@@ -39,7 +48,16 @@ var ActionTypes = c.ActionTypes
             if (err) {
               callback(err.message)
             }else{
-              dispatch(self.getUser(callback))
+              const profile = converter.user.fromDTO(result)
+              dispatch (function() {return {
+                  type: ActionTypes.FETCH_USER_SUCCEEDED,
+                  profile:profile
+                }}())
+              dispatch (function() {return {
+                type: ActionTypes.LOGIN_SUCCEEDED,
+                profile: profile
+              }}())
+              callback(null)
             }
           })
       }
@@ -58,25 +76,37 @@ var ActionTypes = c.ActionTypes
       }
   }
 
-  export function getUser(callback){
-    return function(dispatch){
-      const token = auth.getToken()
-      cueup.getUser(token, (error, result)=>
+  const handleCueup=(dispatch,callback)=>{
+    return (error, result)=>
       {
         if (error) {
           dispatch (function() {return {
-              type: ActionTypes.LOGIN_FAILED,
+              type: ActionTypes.FETCH_USER_FAILED,
               err: error.message
             }}())
             callback(error.message)
         }else{
+          const profile = converter.user.fromDTO(result)
           dispatch (function() {return {
-              type: ActionTypes.LOGIN_SUCCEEDED,
-              profile: converter.user.fromDTO(result)
+              type: ActionTypes.FETCH_USER_SUCCEEDED,
+              profile:profile
             }}())
           callback(null)
         }
-      })
+      }
+  }
+
+  export function getUser(permaLink=null,callback){
+    return function(dispatch){
+       dispatch (function() {return {
+              type: ActionTypes.FETCH_USER_REQUESTED,
+            }}())
+      if(permaLink){
+        cueup.getUser(permaLink, handleCueup(dispatch, callback));
+      }else{
+        const token = auth.getToken()
+        cueup.getOwnUser(token, handleCueup(dispatch, callback));
+      }
     }
   }
 
@@ -150,7 +180,7 @@ export function resetProfile(profile) {
       type: ActionTypes.TOGGLE_EDIT_MODE
       }}())
       }
-}
+    }
 
 
 export function updatePayoutInfo(data, callback) {
@@ -177,7 +207,7 @@ export function updatePayoutInfo(data, callback) {
         if (err) {
           (callback(err))
         }else{
-          dispatch(self.getUser(callback))
+          callback(null, result)
         }
       })
 
@@ -198,8 +228,37 @@ export function updateSettings(settings, callback) {
     if (err) {
       (callback(err))
     }else{
-      dispatch(self.getUser(callback))
+      const profile = converter.user.fromDTO(result)
+      dispatch (function() {return {
+          type: ActionTypes.FETCH_USER_SUCCEEDED,
+          profile:profile
+        }}())
+      dispatch (function() {return {
+              type: ActionTypes.LOGIN_SUCCEEDED,
+              profile: profile
+            }}())
+      callback(null)
     }
   })
 }
 }
+
+
+export function SaveBookMePreview(data, callback) {
+  return function(dispatch){
+  const token = auth.getToken()
+  cueup.SaveBookMePreview(token, data, function(err, result){
+    if (err) {
+      callback(err, null)
+    }else{
+      callback(null, result)
+    }
+  })
+}
+}
+
+  export function togglePublicProfile() {
+          return {
+          type: ActionTypes.TOGGLE_PUBLIC_PROFILE,
+        }
+  }

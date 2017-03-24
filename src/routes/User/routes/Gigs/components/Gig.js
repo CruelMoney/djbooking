@@ -1,47 +1,12 @@
-import React, { PropTypes } from 'react'
-import Button from '../../../../../components/common/Button-v2'
-import TextField from '../../../../../components/common/Textfield'
+import React from 'react'
 import Formatter from '../../../../../utils/Formatter'
 import TextWrapper from '../../../../../components/common/TextElement'
 import {CollapsibleContainer, Collapsible} from '../../../../../components/common/Collapsible'
-import Form from '../../../../../components/common/Form-v2'
-import SubmitButton from '../../../../../components/common/SubmitButton'
 import assign from 'lodash.assign'
-import PayoutForm from '../../../../../components/common/PayoutForm'
-import Popup from '../../../../../components/common/Popup'
-import {moneyPipe} from '../../../../../utils/TextPipes'
+import OfferForm from './OfferForm'
 
 var Gig = React.createClass({
-  propTypes: {
-    payoutInfoValid: PropTypes.bool,
-    gig: PropTypes.object,
-    declineGig: PropTypes.func,
-    cancelGig: PropTypes.func,
-    updateGig: PropTypes.func
-  },
 
-  updateOffer(form, callback){
-    if (this.props.payoutInfoValid) {
-      const offer = assign(this.props.gig.offer,
-        {
-          currency : "DKK",
-          amount: form.values.amount,
-        })
-      this.props.updateGig(offer, callback)
-    }
-  },
-
-  getInitialState(){
-    return{
-      showPopup: false
-    }
-  },
-
-  hidePopup(){
-    this.setState({
-      showPopup: false
-    })
-  },
 
   render() {
 
@@ -143,15 +108,11 @@ var Gig = React.createClass({
         genres = genres + genre + ", "
       }
     })
-
-
+      const eventFinished = (this.props.gig.startTime.getTime() - Date.now()) <= 0
       return (
+      
         <div>
-          <Popup showing={this.state.showPopup}
-            onClickOutside={this.hidePopup}>
-            <PayoutForm/>
-          </Popup>
-
+    
           <div
             className="card gig"
 
@@ -176,7 +137,6 @@ var Gig = React.createClass({
                 </div>
                 <div className="gig-status" >
                   {
-
                     this.props.gig.status === "Cancelled" ?
                     "The gig has been cancelled ☹️"
                     :this.props.gig.status === "Declined" ?
@@ -187,13 +147,12 @@ var Gig = React.createClass({
                     "The gig has been confirmed, get ready to play 😁"
                     :this.props.gig.status === "Finished"  ?
                     "The gig is finished ☺️"
-                    :(this.props.gig.startTime.getTime() - Date.now()) <= 0 ?
+                    : eventFinished ?
                     "The event is finished ☺️"
                     :this.props.gig.status === "Accepted" ?
                     "Waiting on confirmation from organizer 😊"
                     :this.props.gig.status === "Requested" ?
                     "Waiting on your offer 🤔"
-
                   :null}
                 </div>
               </div>
@@ -329,127 +288,23 @@ var Gig = React.createClass({
 
 
 
+                {  ( this.props.gig.status === "Cancelled" ||
+                    this.props.gig.status === "Declined" ||
+                    this.props.gig.status === "Lost" ||
+                    eventFinished ) ? <div/> :
 
                 <Collapsible
                   name="Offer"
                   label="Offer"
                 >
 
-                  <Form
-                    name={"gig-offer-" + this.props.gig.id}
-                  >
-                    {this.props.payoutInfoValid ?
-
-                      <div>
-                        <p>Enter your price to play this gig.
-                        You can always update the offer until it has been paid.</p>
-
-                        <TextField
-                          name="amount"
-                          hintStyle={styles.medium.hint}
-                          style={styles.medium.textarea}
-                          placeholder="DKK 0,00"
-                          onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
-                          inputStyle={styles.medium.input}
-                          disabled={this.props.gig.status === "Cancelled"  || this.props.gig.status === "Lost" || this.props.gig.status === "Confirmed" || this.props.gig.status === "Finished" }
-                          type="string"
-                          fullWidth={true}
-                          value={this.props.gig.offer.amount}
-                        />
-                      </div>
-
-                    :null}
-
-
-
-                    { this.props.gig.status === "Lost" ?
-                      <p>
-                        Sorry you have lost this gig to another DJ. <br/>
-                        Next time try to set another price or be faster at responding. <br/>
-                        Adding info to your profile also helps the organizer being comfortable in choosing you.
-                      </p>
-                    :  null}
-
-
-                    {!this.props.payoutInfoValid ?
-                        <p>Please update your payout information before making an offer.</p>
-          
-                    : null }
-
-                    {
-                      (((this.props.gig.startTime.getTime() - Date.now()) > 0)) ? 
-                     
-                   
-                    <div className="offer-buttons">
-                      <Form
-                        resetStatusOnSucces
-                        name={"gig-cancel-" + this.props.gig.id}
-                      >
-
-                        {  (this.props.gig.status === "Requested" || this.props.gig.status  === "Accepted")
-                          ?
-                            <SubmitButton
-                              rounded={true}
-                              dangerous
-                              warning="Are you sure you want to decline the gig?"
-                              name="cancel_gig"
-                              onClick={(form, callback)=>this.props.declineGig(this.props.gig.id, callback)}
-                            >Decline gig</SubmitButton>
-                        : null}
-
-
-                        { 
-                          this.props.gig.status  === "Confirmed" 
-                          ?
-
-                            <SubmitButton
-                              rounded={true}
-                              dangerous
-                              warning="Are you sure you want to cancel the gig? All money will be refunded to the organizer."
-                              name="cancel_gig"
-                              onClick={(form, callback)=>this.props.cancelGig(this.props.gig.id, callback)}
-                            >Cancel gig</SubmitButton>
-
-                        : null}
-
-                      </Form>
-
-
-                      { this.props.gig.status === "Requested" && this.props.payoutInfoValid ? 
-                        <SubmitButton
-                          rounded={true}
-                          name="send_offer"
-                          onClick={this.updateOffer}
-                        >Send offer</SubmitButton>
-                      : null}
-
-                      { this.props.gig.status === "Accepted" && this.props.payoutInfoValid ?
-                        <SubmitButton
-                          rounded={true}
-                          name="update_offer"
-                          onClick={this.updateOffer}
-                        >Update price offer</SubmitButton>
-                      :null}
-
-                      {!this.props.payoutInfoValid ?
-                        <Button
-                          rounded={true}
-                          onClick={()=>this.setState({showPopup:true})}
-                          name="show-payout-popup"
-                        >Update payout information</Button>
-                    : null }
-
-                    </div>
-
-                  : null
-                  }
-
-                  </Form>
-
+                 <OfferForm 
+                    currency={this.props.currency}
+                     gig={this.props.gig}
+                  />
 
                 </Collapsible>
-
-
+                 }
 
 
               </CollapsibleContainer>
@@ -464,7 +319,10 @@ import { connect } from 'react-redux'
 import  * as actions from '../../../../../actions/GigActions'
 
 function mapStateToProps(state, ownProps){
-  return {payoutInfoValid:  state.user.profile.stripeID ? true : false,  }
+  return {
+    payoutInfoValid:  state.login.profile.stripeID ? true : false,  
+    currency: state.login.profile.settings.currency
+  }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {

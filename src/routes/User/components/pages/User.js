@@ -12,9 +12,11 @@ var user = React.createClass({
 
   propTypes: {
     profile: PropTypes.object,
+    isOwnProfile:PropTypes.bool
   },
 
   childContextTypes: {
+      profile: PropTypes.object,
       hideUserCard: PropTypes.func,
       showUserCard: PropTypes.func,
       registerActions: PropTypes.func,
@@ -22,37 +24,57 @@ var user = React.createClass({
       editing: PropTypes.bool,
       valid: PropTypes.bool,
       color: PropTypes.string,
-      loading: PropTypes.bool,
+      loadingUser: PropTypes.bool,
       textColor: PropTypes.string,
-      disableEditMode: PropTypes.func
+      disableEditMode: PropTypes.func,
+      isOwnProfile:PropTypes.bool,
+      updateAction: PropTypes.func
   },
 
   componentWillMount(){
-    document.title = this.props.profile.firstName + " | Cueup"
-
-    if (!this.props.profile.email_verified) {
-      this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
-      return
+    if(!this.props.profile.user_metadata){
+      const permaLink = this.props.isOwnProfile ? null : this.props.params.permalink
+      this.props.fetchUser(permaLink, (res,err)=>{})
     }
-    if (this.props.profile.picture && this.props.profile.picture.indexOf("default-profile-pic") !== -1) {
-      this.setState({notification:"You should update your profile picture."})
-      return
-    }
-    this.setState({notification:"You don't have any new notifications."})
+    this.updateNotification(this.props)
+  },
 
+  updateNotification(props){
+        if(props.profile.app_metadata && props.isOwnProfile){
+          if (!props.profile.app_metadata.emailVerified) {
+            this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
+            return
+          }
+          if (props.profile.picture && props.profile.picture.indexOf("default-profile-pic") !== -1) {
+            this.setState({notification:"You should update your profile picture."})
+            return
+          }
+          if (props.profile.app_metadata.notification) {
+            this.setState({notification: props.profile.app_metadata.notification})
+            return
+          }
+          this.setState({notification:"You don't have any new notifications."})
+        }else{
+            if(props.profile.settings && props.profile.settings.standby ){
+              this.setState({notification:"This DJ is currently on standby and can not be booked."})}
+            else{
+              this.setState({notification:""}
+              )}
+        }
   },
 
   componentWillReceiveProps(nextProps){
+    if(nextProps.profile.firstName){
+         document.title = nextProps.profile.firstName + " | Cueup"
+    }
+    
+    this.updateNotification(nextProps)
 
-    if (!nextProps.profile.email_verified) {
-      this.setState({notification:"You won't receive any gigs before you confirm your email-address."})
-      return
+    if(nextProps.params.permalink !== this.props.params.permalink){
+
+       const permaLink = nextProps.isOwnProfile ? null : nextProps.params.permalink
+       nextProps.fetchUser(permaLink, (res,err)=>{})
     }
-    if (nextProps.profile.picture && nextProps.profile.picture.indexOf("default-profile-pic") !== -1) {
-      this.setState({notification:"You should update your profile picture."})
-      return
-    }
-    this.setState({notification:"You don't have any new notifications."})
 
   },
 
@@ -82,12 +104,14 @@ var user = React.createClass({
          {
          editing: false,
      },this.setActions)},
-
+     updateAction: this.setActions,
      color:        this.themeColor,
      editing:     this.state.editing,
      valid:        this.state.valid,
-     loading: this.props.loading,
-     textColor: this.textColor
+     loadingUser: this.props.loading,
+     textColor: this.textColor,
+     profile: this.props.profile,
+      isOwnProfile:this.props.isOwnProfile,
     }
   },
 
@@ -127,6 +151,7 @@ var user = React.createClass({
           }}
         >
           <UserHeader
+            isOwnProfile={this.props.isOwnProfile}
             geoAddress={this.props.geoLocation ? 
               (+ this.props.geoLocation.city_name ? this.props.geoLocation.city_name + ", " : "" +
                  this.props.geoLocation.country_name ? this.props.geoLocation.country_name : "") : ""}
@@ -139,12 +164,12 @@ var user = React.createClass({
 
           <div  className="user-container container">
             <div className="row">
-              <div className={"col-md-4"}></div>
-              <div className={"col-md-8"}>
+              <div className={"col-sm-4"}></div>
+              <div className={"col-sm-8"}>
                 <div className="mobileActions">
-                  {this.state.actions}
+                {this.props.isOwnProfile ? this.state.actions : null}
                 </div>
-                {this.props.children}
+               {this.props.children}
               </div>
             </div>
           </div>
@@ -168,18 +193,31 @@ var user = React.createClass({
 
 
 import { connect } from 'react-redux'
+import * as actions from '../../../../actions/UserActions'
 
-//TODO move magic information about the filters out of container.
-//Should be grabbed from the children that are set as filters
+
 function mapStateToProps(state, ownProps) {
+  const isOwnProfile = 
+    state.login.status.publicProfileMode ? false :
+    (state.login.profile.user_metadata) 
+    ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.params.permalink.toLowerCase()
+    : false
+
   return {
-    profile:  state.user.profile,
-    loading: state.user.status.isWaiting,
-    geoLocation: state.user.status.geoLocation
+    profile:  isOwnProfile ? state.login.profile : state.user.profile,
+    loading: isOwnProfile ? state.login.status.isWaiting : state.user.status.isWaiting,
+    geoLocation: state.login.status.geoLocation,
+    isOwnProfile:isOwnProfile
   }
 }
 
-const SmartUser = connect(mapStateToProps)(user)
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+      fetchUser: (permaLink, callback) =>  {dispatch(actions.getUser(permaLink, callback))},
+}}
+
+
+const SmartUser = connect(mapStateToProps,mapDispatchToProps)(user)
 
 export default props => (
     <SmartUser {...props}/>

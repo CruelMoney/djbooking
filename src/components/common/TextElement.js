@@ -22,23 +22,20 @@ const lockSvg = (
   </svg>)
 
 
-var TextWrapper = React.createClass({
+class TextWrapper extends React.Component{
 
-  propTypes: {
-    showLock: PropTypes.bool,
-    children: PropTypes.node,
-    text: PropTypes.string,
-    label: PropTypes.string,
-
-  },
+  handleClick = () =>{
+    if(this.context && !this.context.editing){
+      if(this.props.onDisabledClick) this.props.onDisabledClick()
+    }
+  }
 
   render() {
-
       return (
-        <div     className="text-element-wrapper"
+        <div     
+          className="text-element-wrapper"
+          onClick={this.handleClick}
         >
-
-
           <h4 >
             {this.props.showLock ? lockSvg : null}
             {this.props.label}
@@ -51,6 +48,6 @@ var TextWrapper = React.createClass({
       )
 
   }
-})
+}
 
 export default TextWrapper

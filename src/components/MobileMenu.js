@@ -7,6 +7,7 @@ import Formatter from '../utils/Formatter'
 import Rating from './common/Rating'
 import * as actions from '../actions/LoginActions'
 import * as UserActions from '../actions/UserActions'
+import {ImageCompressor} from '../utils/ImageCompressor';
 
 import entries from 'object.entries';
 import Button from './common/Button-v2'
@@ -44,6 +45,12 @@ class MobileMenu extends React.Component {
     }
   }
 
+  logout = () =>{
+    console.log(this.props.logout)
+  this.handleClose()
+    this.props.logout()
+  }
+
   onLoginButton = () => {
       this.setState({
         loginExpanded: !this.state.loginExpanded
@@ -74,67 +81,26 @@ class MobileMenu extends React.Component {
 
 
  handleFile = (e) => {
-      const reader = new FileReader()
-      const file = e.target.files[0]
-
-      var self = this
-
-      reader.onload = (upload) => {
-        this.setState({
-          loading: true
-        })
-
-        if ((file.size/1024) > 5000 ) {
-           this.setState({loading: false, err: "Image cannot be larger than 5 Mb"})
-           return
-         }
-        /*eslint no-undef: 0*/
-        var loadingImage = loadImage(
-          file,
-          function (img) {
-            if(img.type === "error") {
-                self.setState({
-                       loading: false,
-                       err: "Something went wrong"
-                     })
-              } else {
-                    var imageData = img.toDataURL();
-
-                    self.props.updatePicture(imageData, (err)=>{
+        this.setState({loading:true})
+       const file = e.target.files[0]
+       
+       ImageCompressor(file, (err,result)=>{
+          if(err){
+            this.setState({
+              err:err,
+              loading:false
+            })
+          }else{
+                this.props.updatePicture(result, (err)=>{    
                       if (err) {
-                        self.setState({
-                          loading: false,
-                          err: "Something went wrong"
-                        })
+                         this.setState({err:"Something went wrong"})
                       }else{
-                        self.setState({
-                          loading: false,
-                          err: null
-                        })
+                        this.setState({err:"",loading:false})
                       }
-                    })
-              }
-          },
-          {
-            maxWidth: 500,
-            maxHeight: 500,
-           cover: true,
-           orientation: true,
-           crop: true
-       }
-      );
-
-      loadingImage.onerror = ()=>{
-        self.setState({
-               loading: false,
-               err: "Something went wrong"
-             })
-      }
-        
-        }
-
-      reader.readAsDataURL(file)
-    }
+              })
+          }
+       })
+  }
 
 
   render() {
@@ -157,20 +123,20 @@ class MobileMenu extends React.Component {
          
          <div 
           className={this.state.loading || this.state.err ? "profilePicture user-card-picture-wrapper loading" : "profilePicture user-card-picture-wrapper"}
-          htmlFor="fileupload">
+          htmlFor="fileuploadMobile">
           
           <div id="profile-picture-upload">
             <canvas ref="canvas" style={{display:"none"}} />
-            <input name="fileupload" id="fileupload"  type="file" accept="image/*" onChange={this.handleFile}/>
+            <input name="fileuploadMobile" id="fileuploadMobile"  type="file" accept="image/*" onChange={this.handleFile}/>
             {
               this.state.loading
               ?
                 <Button isLoading/>
               :
               this.state.err ?
-                <label htmlFor="fileupload"><span>{this.state.err}</span></label>
+                <label htmlFor="fileuploadMobile"><span>{this.state.err}</span></label>
               :
-              <label htmlFor="fileupload"><span>Change image</span></label>
+              <label htmlFor="fileuploadMobile"><span>Change image</span></label>
             }
           </div>
 
@@ -219,25 +185,25 @@ class MobileMenu extends React.Component {
 
               {this.props.profile.isDJ ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to="/profile" label="Profile"/>
+                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/profile`} label="Profile"/>
                 </li>
               : null}
 
               {this.props.profile.isCustomer ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/events" label="Events"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/events`} label="Events"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/gigs" label="Gigs"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/gigs`} label="Gigs"/>
                 </li>
               : null}
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/reviews" label="Reviews"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/reviews`} label="Reviews"/>
                 </li>
                 : null
               }
@@ -262,7 +228,7 @@ class MobileMenu extends React.Component {
               {this.props.loggedIn ? (
 
                 <li>
-                  <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
+                  <Navlink  buttonLook={true} to="/"  onClick={this.logout} label="Log out"/>
                 </li>
               ) : (
                 null
@@ -305,9 +271,9 @@ class MobileMenu extends React.Component {
 
 export const mapStateToProps = (state) => {
   return {
-    profile: state.user.profile,
-    loggedIn: state.user.status.signedIn,
-    registeredMenuItems: state.menu
+    profile: state.login.profile,
+    loggedIn: state.login.status.signedIn,
+    registeredMenuItems: state.menu,
   }
 }
 
@@ -324,7 +290,7 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => {
     profile: stateProps.profile,
     loggedIn: stateProps.loggedIn,
     registeredMenuItems: stateProps.registeredMenuItems,
-    logout: dispatchEvent.logout,
+    logout: dispatchProps.logout,
     updatePicture: (img, callback) => dispatchProps.updatePicture(img, callback, stateProps.profile)
 }
 }
