@@ -7,8 +7,6 @@ import domtoimage from 'dom-to-image';
 import Logo from './Logo'
 import Textfield from './Textfield'
 import {Environment} from '../../constants/constants'
-import Textbox from './TextBox'
-import ReactDOM from 'react-dom'
 
 class PreviewCard extends React.Component {
     render(){
@@ -134,7 +132,7 @@ const generatePreview = (self) =>{
                 popupContent:(
                     <div>
                         <Button isLoading />
-                        <p style={{color:"#32325D"}}>Generating link</p>
+                        <p style={{color:"#32325D"}}>Generating link.<br/> This may take a minute.</p>
                         <div id="viz-containment">
                             <div id="viz-container">
                                 <PreviewCard 
@@ -151,19 +149,13 @@ const generatePreview = (self) =>{
                 .then((dataUrl)=> {
                     //Then send it to save in the backend
                     self.props.SaveBookMePreview(dataUrl, (err,result)=>{
-                        if(err) reject("Could not create link")
-                        self.setState({
-                            popup:false,
-                            popupContent:(
-                            <div>
-                                <p>Generated</p>
-                            </div>
-                            )
-                        })               
-                    resolve()
+                        if(err) reject("Could not create link.")
+                        resolve("Link generated.")
                     })
                 })
-                .catch(reject)
+                .catch((err)=>{
+                    reject("Currently only supported in chrome.")
+                })
             })
         })
     }
@@ -192,7 +184,7 @@ class LinkShare extends React.Component {
                     this.setState({
                          popupContent:(
                         <div>
-                            <p>Something went wrong.</p>
+                            <p>{error}</p>
                         </div>)
                     })
             })
@@ -231,8 +223,14 @@ class FBShare extends React.Component {
 
     fbShare=()=>{   
         generatePreview(this)
-            .then(()=>{
-                
+            .then((msg)=>{
+
+                this.setState({
+                    popupContent:(
+                         <div>
+                            <p>{msg}</p>
+                        </div>)
+                })
                 const showDialog = () =>
                     window.FB.ui({
                         method: 'share',
@@ -273,10 +271,11 @@ class FBShare extends React.Component {
             })
 
             .catch((error)=> {
+                    console.log(error)
                     this.setState({
                         popupContent:(
                         <div>
-                            <p>Something went wrong. Try again.</p>
+                            <p>{error}</p>
                         </div>)
                     })
                     
@@ -309,7 +308,17 @@ class TwitterShare extends React.Component {
 
     tweet=()=>{
         generatePreview(this)
-            .then(()=>{
+                
+
+            .then((msg)=>{
+
+                this.setState({
+                    popupContent:(
+                         <div>
+                            <p>{msg}</p>
+                        </div>)
+                })
+
                 var winHeight = window.innerHeight / 2
                 var winWidth = window.innerWidth / 2
                 var winTop = 0;
@@ -318,12 +327,11 @@ class TwitterShare extends React.Component {
                             'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight
                 );
             })
-            .catch(function (error) {
+            .catch((error) =>{
                     this.setState({
-                         
                          popupContent:(
                         <div>
-                            <p>Something went wrong.</p>
+                            <p>{error}</p>
                         </div>)
                     })
             });
@@ -365,7 +373,7 @@ class QRShare extends React.Component {
                     this.setState({  
                          popupContent:(
                         <div>
-                            <p>Something went wrong.</p>
+                            <p>{error}</p>
                         </div>)
                     })
             })
