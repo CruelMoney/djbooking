@@ -73,12 +73,11 @@
   "scripts": {
     "start": "react-scripts start",
     "startProd": "NODE_ENV=production react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build ",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "deploy" : "./versionMarker.sh; yarn build; git add . ; git commit -m 'build'; git push"
   },
   "eslintConfig": {
     "extends": "react-app"

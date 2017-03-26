@@ -15,8 +15,8 @@
         'git submodule sync',
         'git submodule update',
         'git submodule status',
-        'yarn install',
-        'yarn build',
+        'cd .. && sudo yarn install',
+        'cd .. && sudo yarn build',
         'cp -a ../build/. ./',
     );
 
