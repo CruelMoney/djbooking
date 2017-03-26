@@ -13,6 +13,9 @@ import TimeSlider from '../../../../../components/common/TimeSlider'
 import TextBox from '../../../../../components/common/TextBox'
 import Popup from '../../../../../components/common/Popup'
 import Login from '../../../../../components/common/Login'
+import EmptyPage from '../../../../../components/common/EmptyPage'
+import ButtonLink from '../../../../../components/common/ButtonLink'
+import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
 
 import wNumb from 'wnumb'
 import c from '../../../../../constants/constants'
@@ -24,6 +27,10 @@ var RequestForm = React.createClass({
     onSubmit: PropTypes.func,
     isLoggedIn: PropTypes.bool,
     checkEmail: PropTypes.func,
+  },
+
+  contextTypes:{
+    loadingUser: PropTypes.bool
   },
 
   getDefaultProps(){
@@ -113,6 +120,20 @@ var RequestForm = React.createClass({
   render() {
     const eventDateString = this.state.date.format("dddd Do, MMMM YYYY")
     return(
+      this.context.loadingUser ?
+      <LoadingPlaceholder/>
+      :
+      this.props.standby ? 
+      <EmptyPage
+          message={
+            <div> 
+              <p>This DJ is on standby, and cannot be booked.</p>
+              <ButtonLink className="button elevated" to={"/"}>
+                Book other DJs
+              </ButtonLink>
+            </div>
+          }/>
+      :  
       <div className="request-form">
         <Popup width="380px" showing={this.state.showPopup}
           onClickOutside={this.hidePopup}>
@@ -318,6 +339,7 @@ import * as userActions from '../../../../../actions/UserActions'
 function mapStateToProps(state, ownProps) {
   return {
     user_id: state.user.profile.user_id,
+    standby: state.user.profile.settings ? state.user.profile.settings.standby : false,
     isLoggedIn: state.login.status.signedIn
   }
 }

@@ -45,6 +45,10 @@ var user = React.createClass({
             this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
             return
           }
+          if(props.profile.settings && props.profile.settings.standby ){
+              this.setState({notification:"You are currently on standby and can not be booked."})
+              return
+         }
           if (props.profile.picture && props.profile.picture.indexOf("default-profile-pic") !== -1) {
             this.setState({notification:"You should update your profile picture."})
             return

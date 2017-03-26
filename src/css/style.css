@@ -1096,7 +1096,6 @@ transition: opacity 0.3s ease;
 .event-information .context-actions{
   width: 200px;
   position: absolute;
-
 }
 .event-information > div{
   width: 100%;
@@ -2197,6 +2196,7 @@ left: 50%;
 
 .context-actions{
   width: 280px;
+  flex-wrap: wrap;
 }
 .context-actions button{
   width: 100%;
