@@ -13,6 +13,17 @@ module.exports = {
     FACEBOOK_ID:         (production ? process.env.REACT_APP_CUEUP_PROD_FB_ID           : process.env.REACT_APP_CUEUP_DEV_FB_ID )
   },
 
+    Currencies:[
+    "DKK",
+    "EUR",
+    "GBP",
+    "NOK",
+    "SEK",
+    "USD"
+    ],
+  
+  
+
 
   ActionTypes: keyMirror({
     // Session

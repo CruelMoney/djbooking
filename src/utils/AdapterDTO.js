@@ -59,8 +59,7 @@ const deletedUser={
       fromDTO:function(DTO, isDj, isCustomer){
         return {
           ...DTO, 
-          emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer),
-          currency: "DKK"
+          emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer)
       }
       },
       toDTO:function(settings){

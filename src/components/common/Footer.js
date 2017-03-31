@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import { Link } from 'react-router';
 import ButtonLink from './ButtonLink'
-
+import * as c from '../../constants/constants'
 /*animation stuff*/
 import QueueAnim from 'rc-queue-anim';
 import ScrollAnim from 'rc-scroll-anim';
@@ -100,6 +100,21 @@ export default React.createClass({
                 </li>
                 <li>
                   <Link to="/terms/agreements">Privacy & terms</Link>
+                </li>
+              </ul>
+            </div>
+             <div>
+              <h4>CURRENCY</h4>
+              <ul>
+                 <li>
+                   <div className="currency-selector-wrapper">
+                  <select 
+                  id="currency-selector" 
+                  name="currency-selector">
+                    {c.Currencies.map(c=>(<option value={c}>{c}</option>))}
+                  </select>
+                  <svg className="collapsible-arrow" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>
+                  </div>
                 </li>
               </ul>
             </div>

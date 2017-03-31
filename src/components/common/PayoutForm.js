@@ -222,7 +222,7 @@ var payoutForm = React.createClass({
 
           <div className="row">
             <div className="col-xs-12">
-              <p className="terms_link">By clicking save you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a></p>
+              <p className="terms_link">By clicking save, you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>, and stripes <a target="_blank" href="https://stripe.com/dk/connect-account/legal">connect account agreement.</a></p>
             </div>
           </div>
 
