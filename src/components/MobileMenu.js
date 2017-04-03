@@ -8,6 +8,8 @@ import Rating from './common/Rating'
 import * as actions from '../actions/LoginActions'
 import * as UserActions from '../actions/UserActions'
 import {ImageCompressor} from '../utils/ImageCompressor';
+import CurrencyConverter from '../utils/CurrencyConverter'
+const curConverter = new CurrencyConverter()
 
 import entries from 'object.entries';
 import Button from './common/Button-v2'
@@ -160,7 +162,7 @@ class MobileMenu extends React.Component {
                     </div>
                     <div className="user-card-fact">
                       <p>Earned</p>
-                      {Formatter.money.FormatNumberToString(this.props.profile.earned, "Dkk")}
+                      {curConverter.getConvertedFormatted(this.props.profile.earned, this.props.profile.app_metadata.bankCurrency, this.props.profile.settings.currency)}
                     </div>
                     <div className="user-card-fact">
                       <p>Rating</p>

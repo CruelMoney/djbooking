@@ -26,11 +26,13 @@ var EventOffers = React.createClass({
             left.push(<OfferCard
               paymentPossible={this.state.paymentPossible}
               eventFinished={this.state.eventFinished}
+              currency={this.props.currency}
               offer={o}/>)
           }else{
             right.push(<OfferCard
               paymentPossible={this.state.paymentPossible}
               eventFinished={this.state.eventFinished}
+              currency={this.props.currency}
               offer={o}/>)
           }
         })
@@ -76,7 +78,8 @@ function mapStateToProps(state, ownProps) {
   return {
     eventName: state.events.values[0].name,
     offers:  state.events.values[0].offers,
-    eventDate: state.events.values[0].startTime
+    eventDate: state.events.values[0].startTime,
+    currency: state.login.status.signedIn ? state.login.profile.settings.currency : state.session.currency
   }
 }
 

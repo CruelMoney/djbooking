@@ -2,7 +2,7 @@ import {Environment} from '../constants/constants'
 
 export default class CueupService {
     constructor() {
-        this.domain =Environment.API_DOMAIN
+        this.domain = Environment.API_DOMAIN
 
         this.getHeaders = function(token) {
             var headers = new Headers();

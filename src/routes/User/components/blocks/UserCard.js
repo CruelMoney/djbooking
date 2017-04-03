@@ -9,6 +9,8 @@ import Button from '../../../../components/common/Button-v2'
 import * as actions from '../../../../actions/UserActions'
 import { connect } from 'react-redux'
 import {ImageCompressor} from '../../../../utils/ImageCompressor';
+import CurrencyConverter from '../../../../utils/CurrencyConverter'
+const curConverter = new CurrencyConverter()
 
 var UserCard = React.createClass({
 
@@ -150,7 +152,7 @@ getInitialState(){
                   />
                 
               </p>
-              {Formatter.money.FormatNumberToString(this.props.earned, "Dkk")}
+              {curConverter.getConvertedFormatted(this.props.earned, this.props.bankCurrency, this.props.currency)}
             </div>
             : null}
             <div className="user-card-fact">

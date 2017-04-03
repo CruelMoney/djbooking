@@ -10,7 +10,8 @@ module.exports = {
     AUTH0_CLIENT_DOMAIN: (production ? process.env.REACT_APP_AUTH0_PROD_DOMAIN          : process.env.REACT_APP_AUTH0_DEV_DOMAIN),
     CALLBACK_DOMAIN:     (production ? process.env.REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN : process.env.REACT_APP_CUEUP_DEV_CALLBACK_DOMAIN),
     API_DOMAIN:          (production ? process.env.REACT_APP_CUEUP_PROD_API_DOMAIN      : process.env.REACT_APP_CUEUP_DEV_API_DOMAIN),
-    FACEBOOK_ID:         (production ? process.env.REACT_APP_CUEUP_PROD_FB_ID           : process.env.REACT_APP_CUEUP_DEV_FB_ID )
+    FACEBOOK_ID:         (production ? process.env.REACT_APP_CUEUP_PROD_FB_ID           : process.env.REACT_APP_CUEUP_DEV_FB_ID ),
+    OPENEXCHANGERATE_APP_ID:    "e0937d01cc734837bba7f1bfb6887c2a"
   },
 
     Currencies:[
@@ -92,7 +93,9 @@ module.exports = {
     REMOVE_MENU_ITEM:null,
     REGISTER_MENU_ITEM:null,
 
-    TOGGLE_PUBLIC_PROFILE:null
+    TOGGLE_PUBLIC_PROFILE:null,
+
+    CHANGE_CURRENCY: null
 
   }),
    GENRES: [

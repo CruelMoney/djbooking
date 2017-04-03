@@ -105,7 +105,7 @@ const deletedUser={
           //App metadata stuff here
             auth0Id: DTO.app_metadata.auth0Id,
             avgRating : DTO.app_metadata.avgRating,
-            earned    :  Formatter.money.ToStandard(DTO.app_metadata.earned, "DKK"),
+            earned    :  Formatter.money.ToStandard(DTO.app_metadata.earned, DTO.app_metadata.bankCurrency),
             email_verified :  DTO.app_metadata.email_verified,
             gigsCount : DTO.app_metadata.gigsCount,
             upcomingEvents: DTO.app_metadata.upcomingEvents,

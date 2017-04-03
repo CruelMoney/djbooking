@@ -299,7 +299,7 @@ var Gig = React.createClass({
                 >
 
                  <OfferForm 
-                    currency={this.props.currency}
+                     profileCurrency={this.props.profileCurrency}
                      gig={this.props.gig}
                   />
 
@@ -321,7 +321,7 @@ import  * as actions from '../../../../../actions/GigActions'
 function mapStateToProps(state, ownProps){
   return {
     payoutInfoValid:  state.login.profile.stripeID ? true : false,  
-    currency: state.login.profile.settings.currency
+    profileCurrency: state.login.profile.settings.currency
   }
 }
 

@@ -98,6 +98,8 @@ var userHeader = React.createClass({
             birthday={this.props.loading ? null : this.props.profile.birthDay}
             genres={this.props.loading ? ["..." ]: this.props.profile.genres}
             loading={this.props.loading}
+            currency={this.props.isOwnProfile ? this.props.profile.settings.currency : "DKK"} //Can be set to dkk because not used if not own profile
+            bankCurrency={this.props.isOwnProfile ? this.props.profile.app_metadata.bankCurrency : "DKK"}//Can be set to dkk because not used if not own profile
           />
 
                 {this.props.actions}

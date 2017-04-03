@@ -9,6 +9,8 @@ import * as actions from '../../actions/EventActions'
 import {datePipeCard, cardNumberPipe} from '../../utils/TextPipes'
 import Formatter from '../../utils/Formatter'
 import MoneyTable, {TableItem} from './MoneyTable'
+import CurrencyConverter from '../../utils/CurrencyConverter'
+const curConverter = new CurrencyConverter()
 
 import assign from 'lodash.assign'
 
@@ -167,7 +169,7 @@ getInitialState(){
                 label="DJ price"
                 info="The price the DJ has offered."
                 >
-                {Formatter.money.FormatNumberToString(this.props.amount, this.props.currency)}
+                {curConverter.getConvertedFormatted(this.props.amount, this.props.offerCurrency, this.props.currency, true)}
             </TableItem>
              <TableItem
                 label="Service fee"
@@ -179,12 +181,12 @@ getInitialState(){
                     </div>
                     }
                 >
-                {Formatter.money.FormatNumberToString(this.props.fee, this.props.currency)}
+                {curConverter.getConvertedFormatted(this.props.fee, this.props.offerCurrency, this.props.currency, true)}
             </TableItem>
             <TableItem
               label="Total"
               >
-              {Formatter.money.FormatNumberToString(this.props.fee+this.props.amount, this.props.currency)}
+              {curConverter.getConvertedFormatted(this.props.fee+this.props.amount, this.props.offerCurrency, this.props.currency, true)}
             </TableItem>
         </MoneyTable>
         </div>

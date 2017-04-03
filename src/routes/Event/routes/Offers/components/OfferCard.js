@@ -3,7 +3,8 @@ import Button from '../../../../../components/common/Button-v2'
 import Rating from '../../../../../components/common/Rating'
 import PayForm from '../../../../../components/common/PayForm'
 import Popup from '../../../../../components/common/Popup'
-import Formatter from '../../../../../utils/Formatter'
+import CurrencyConverter from '../../../../../utils/CurrencyConverter'
+const curConverter = new CurrencyConverter()
 
 var OfferCard = React.createClass({
   propTypes:{
@@ -47,7 +48,8 @@ var OfferCard = React.createClass({
             gigId={this.props.offer.gigID}
             fee={this.props.offer.serviceFeeAmount}
             amount={this.props.offer.amount}
-            currency={this.props.offer.currency}
+            currency={this.props.currency}
+            offerCurrency={this.props.offer.currency}
           />
         </Popup>
         <div className="card offer-card">
@@ -101,9 +103,10 @@ var OfferCard = React.createClass({
               style={{
                 width: "100%",
                 textAlign: this.props.offer.gigStatus === "Confirmed" ||   this.props.eventFinished ? "center" : "left"
-              }}>{Formatter.money.FormatNumberToString(
+              }}>{curConverter.getConvertedFormatted(
                 this.props.offer.amount+this.props.offer.serviceFeeAmount,
-              this.props.offer.currency)}</div>
+                this.props.offer.currency,
+                this.props.currency, true)}</div>
 
             {this.props.offer.gigStatus === "Confirmed" ||
               this.props.eventFinished

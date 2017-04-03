@@ -160,6 +160,7 @@ var user = React.createClass({
             actions={this.state.actions}
             notification={this.state.notification}
             loading={this.props.loading}
+            
           />
 
           <div  className="user-container container">
