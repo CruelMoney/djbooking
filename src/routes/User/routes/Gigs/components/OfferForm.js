@@ -32,10 +32,11 @@ class OfferForm extends Component{
   getFees = () => {
     this.setState({
       loading: true,
-      currency: this.props.profileCurrency
+      currency:this.props.profileCurrency
     },()=>
     actions.getFee({
-        ...this.state
+        ...this.state, 
+        currency:this.props.profileCurrency
       }, (err,res)=>{
         if(err){
           this.setState({

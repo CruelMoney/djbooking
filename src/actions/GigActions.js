@@ -41,7 +41,9 @@ export function makeOffer(offer, callback) {
     if (err) {
       (callback(err))
     }else{
-      (callback(null))
+      //timeout to show success button
+      setTimeout(()=>dispatch( {type: ActionTypes.GIG_OFFER_UPDATED, offer:offer} ), 1500)
+      callback(null)
     }
   })
 }
@@ -57,7 +59,7 @@ export function getFee(offer, callback) {
       (callback(err))
     }else{
       const offer = converter.offer.fromDTO(result);
-      (callback(null, offer))
+      callback(null, offer)
     }
   })
 }
@@ -69,8 +71,9 @@ export function declineGig(id, callback) {
   cueup.declineGig(token, id, function(err, result){
     if (err) {
       (callback(err))
-    }else{
-      (callback(null))
+    }else{ 
+      //setTimeout(()=>dispatch( dispatch(  {type: ActionTypes.GIG_DECLINED, id: id} ), 1500))
+      callback(null)
     }
   })
 }
@@ -85,7 +88,8 @@ export function cancelGig(id, callback) {
     if (err) {
       (callback(err))
     }else{
-      (callback(null))
+      //setTimeout(()=>dispatch(dispatch( {type: ActionTypes.GIG_CANCELLED, id: id} ),1500))
+      callback(null)
     }
   })
 }

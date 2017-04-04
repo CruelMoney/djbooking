@@ -24,9 +24,11 @@ var payForm = React.createClass({
   },
 
   confirmPayment(form, callback) {
+      var amount = curConverter.getConvertedFormatted(this.props.amount, this.props.offerCurrency, this.props.currency, true)
+      var fee = curConverter.getConvertedFormatted(this.props.fee, this.props.offerCurrency, this.props.currency, true)
       const data = assign(form.values, {
-        amount: Formatter.money.ToSmallest(this.props.amount, this.props.currency),
-        fee: Formatter.money.ToSmallest(this.props.fee, this.props.currency),
+        amount: Formatter.money.ToSmallest(amount, this.props.currency),
+        fee: Formatter.money.ToSmallest(fee, this.props.currency),
         currency: this.props.currency,
         chosenGigID: this.props.gigId
       })
@@ -152,7 +154,7 @@ getInitialState(){
               label="Pay"
               showLock={true}
               text={this.props.paymentPossible ?
-               "Please enter payment information below. In case of cancelation by the DJ all money will be refunded. All information is encrypted. " 
+               "Please enter payment information below. In case of cancelation by the DJ, all money will be refunded. All information is encrypted. " 
                : 
                "The offer can be confirmed and paid up to 60 days before the event. To get notified by email click notify."}>
             </TextWrapper>

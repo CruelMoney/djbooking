@@ -186,6 +186,7 @@ var signupForm = React.createClass({
             autocomplete="off"
             name="location"
             validate={['required']}
+            value={this.props.geoCity !==  "" ? this.props.geoCity : undefined}
             label="Location"/>
 
         </RegistrationElement>
@@ -258,6 +259,8 @@ import * as actions from '../../../actions/SignupActions'
 function mapStateToProps(state, ownProps) {
   return {
     isLoggedIn: state.login.status.signedIn,
+    geoCity: state.session.city,
+
   }
 }
 

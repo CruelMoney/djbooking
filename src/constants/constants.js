@@ -75,6 +75,9 @@ module.exports = {
     FETCH_GIGS_REQUESTED:null,
     FETCH_GIGS_SUCCEEDED:null,
     FETCH_GIGS_FAILED:null,
+    GIG_DECLINED :null,
+    GIG_CANCELLED:null,
+    GIG_OFFER_UPDATED:null,
 
     FETCH_REVIEWS_REQUESTED:null,
     FETCH_REVIEWS_SUCCEEDED:null,
@@ -95,7 +98,8 @@ module.exports = {
 
     TOGGLE_PUBLIC_PROFILE:null,
 
-    CHANGE_CURRENCY: null
+    CHANGE_CURRENCY: null,
+    SET_GEO_SESSION:null
 
   }),
    GENRES: [

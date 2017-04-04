@@ -130,7 +130,7 @@ var userHeader = React.createClass({
                     </g>
                   </svg>}
                 {this.props.loading ? this.state.loadString : (
-                  this.props.isOwnProfile ? " " + ( this.props.profile.geoCountry): 
+                  this.props.isOwnProfile ? " " + ( this.props.geoLocation): 
                   this.props.profile.city)}
               </h2>
             </div>

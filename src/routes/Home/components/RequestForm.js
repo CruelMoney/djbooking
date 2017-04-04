@@ -137,6 +137,7 @@ export default React.createClass({
                   <LocationSelector
                     name="location"
                     validate={['required']}
+                    value={this.props.initialCity !== "" ? this.props.initialCity : undefined}                    
                   />
                   <p>In what city is the event?</p>
                 </section>

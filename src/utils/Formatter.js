@@ -48,13 +48,13 @@ const formatter = {
           case "USD":
             return window.accounting.formatMoney(number, "$ ", 2, ",", ".");
           case "DKK":
-            return window.accounting.formatMoney(number, "Kr.", 2, ".", ",", "%v %s");
+            return window.accounting.formatMoney(number, "DKK", 2, ".", ",", "%v %s");
           case "EUR":
             return window.accounting.formatMoney(number, "€ ", 2, ".", ",");
           case "NOK":
-            return window.accounting.formatMoney(number, "Kr. ", 2, ".", ",", "%v %s");
+            return window.accounting.formatMoney(number, "NOK", 2, ".", ",", "%v %s");
           case "SEK":
-            return window.accounting.formatMoney(number, "Kr. ", 2, ".", ",", "%v %s");
+            return window.accounting.formatMoney(number, "SEK", 2, ".", ",", "%v %s");
           case "GBP":
             return window.accounting.formatMoney(number, "£ ", 2, ".", ",");
           default:

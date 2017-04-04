@@ -79,6 +79,7 @@ export function validateAccountNumberDKK(num){
 
 export function validateDKSSN(num){
   try {
+    num = num ? num : "0"
     var ssn = cpr(num)
     return ssn.valid ? [] : ["The CPR is invalid"]
   } catch (error) {
