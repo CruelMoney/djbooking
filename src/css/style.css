@@ -2438,6 +2438,9 @@ left: 50%;
 .payout-form  .text-element-wrapper{
   margin-bottom: 30px;
 }
+.payout-form .errors p{
+  font-size: 14px;
+}
 
 .mobileActions{
   display: none;

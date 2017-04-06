@@ -11,10 +11,13 @@ export function changeCurrency(currency) {
 export function setGeodata(data){
   return function(dispatch){
     window.loadScript("http://www.geoplugin.net/javascript.gp",()=>{
+        const alphaChecker = /^[a-z\s]+$/i
+        const city = window.geoplugin_city().match(alphaChecker) ? window.geoplugin_city() : ""
+        const country = window.geoplugin_countryName().match(alphaChecker) ? window.geoplugin_countryName() : ""
         const data ={
             currency: window.geoplugin_currencyCode(),
-            city: window.geoplugin_city(),
-            country: window.geoplugin_countryName(),
+            city: city,
+            country: country,
             countryCode: window.geoplugin_countryCode()
         }
         dispatch({

@@ -11,7 +11,6 @@ export default React.createClass({
   secondColor:"#31DAFF",
 
   componentWillMount(){
-    console.log(this.props.location.query.referredBy)
      this.setState({
           reference: this.props.location.query.referredBy
       })

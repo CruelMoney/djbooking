@@ -40,7 +40,6 @@ var signupForm = React.createClass({
     },
 
   signup(form, callback) {
-      //http://localhost:3000/signup?referredBy=CRUELMONEY
       const values = {...form.values, reference: this.props.reference}
       this.props.handleSubmit(values, (err,res)=>{
           if (!err) {

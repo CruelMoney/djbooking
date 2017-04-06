@@ -12,6 +12,7 @@ import MoneyTable, {TableItem} from './MoneyTable'
 import CurrencyConverter from '../../utils/CurrencyConverter'
 const curConverter = new CurrencyConverter()
 
+
 import assign from 'lodash.assign'
 
 var payForm = React.createClass({
@@ -146,7 +147,7 @@ getInitialState(){
             name="pay-form">
 
         <div className="pay-form">
-          
+  
           <div className="row">
             <div className="col-md-12">
 

@@ -188,7 +188,7 @@ export function updatePayoutInfo(data, callback) {
 
 
   return function(dispatch){
-    
+    console.log(data)
   stripe.createBankToken(data, (err, result)=>{
     if (err) {
       (callback(err))
@@ -199,9 +199,10 @@ export function updatePayoutInfo(data, callback) {
         token: result.id,
         zip: data.bank_zip,
         address: data.bank_address,
+        country: data.bank_country,
         city: data.bank_city,
         ssn: data.ssn_number,
-        birthday: cpr(data.ssn_number).date
+        birthday: data.birthday
       }
       cueup.updateUserBankInfo(token, data, function(err, result){
         if (err) {
