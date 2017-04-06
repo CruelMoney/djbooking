@@ -24,12 +24,19 @@ var payForm = React.createClass({
     confirmPayment: PropTypes.func
   },
 
+  componentWillMount(){
+    this.amount = curConverter.convert(this.props.amount, this.props.offerCurrency, this.props.currency, true)
+    this.fee = curConverter.convert(this.props.fee, this.props.offerCurrency, this.props.currency, true)
+    this.amountFormatted = curConverter.getConvertedFormatted(this.props.amount, this.props.offerCurrency, this.props.currency, true)
+    this.feeFormatted = curConverter.getConvertedFormatted(this.props.fee, this.props.offerCurrency, this.props.currency, true)
+    this.totalFormatted = curConverter.getConvertedFormatted(this.props.fee+this.props.amount, this.props.offerCurrency, this.props.currency, true)
+},
+
+
   confirmPayment(form, callback) {
-      var amount = curConverter.getConvertedFormatted(this.props.amount, this.props.offerCurrency, this.props.currency, true)
-      var fee = curConverter.getConvertedFormatted(this.props.fee, this.props.offerCurrency, this.props.currency, true)
       const data = assign(form.values, {
-        amount: Formatter.money.ToSmallest(amount, this.props.currency),
-        fee: Formatter.money.ToSmallest(fee, this.props.currency),
+        amount: Formatter.money.ToSmallest(this.amount, this.props.currency),
+        fee: Formatter.money.ToSmallest(this.fee, this.props.currency),
         currency: this.props.currency,
         chosenGigID: this.props.gigId
       })
@@ -172,7 +179,7 @@ getInitialState(){
                 label="DJ price"
                 info="The price the DJ has offered."
                 >
-                {curConverter.getConvertedFormatted(this.props.amount, this.props.offerCurrency, this.props.currency, true)}
+                {this.amountFormatted}
             </TableItem>
              <TableItem
                 label="Service fee"
@@ -184,12 +191,12 @@ getInitialState(){
                     </div>
                     }
                 >
-                {curConverter.getConvertedFormatted(this.props.fee, this.props.offerCurrency, this.props.currency, true)}
+                {this.feeFormatted}
             </TableItem>
             <TableItem
               label="Total"
               >
-              {curConverter.getConvertedFormatted(this.props.fee+this.props.amount, this.props.offerCurrency, this.props.currency, true)}
+              {this.totalFormatted}
             </TableItem>
         </MoneyTable>
         </div>
