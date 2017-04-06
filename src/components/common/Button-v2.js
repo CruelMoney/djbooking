@@ -95,6 +95,7 @@ class Button extends React.Component {
       <div className="button-wrapper"
         style={this.wrapperStyle()}>
         <button
+          type={this.props.type || "button"}
           name={this.props.name}
           style={this.style()}
           disabled={this.props.disabled || this.state.succes || this.props.isLoading}

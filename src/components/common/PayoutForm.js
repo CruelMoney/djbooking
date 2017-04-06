@@ -27,6 +27,7 @@ var payoutForm = React.createClass({
       .then(result=>{
           this.props.updatePayoutInfo({
             ...info, 
+            bank_country: country,
             birthday: Formatter.date.FromEUStringToUSDate(info.birthday),
             account_country: result.countryTwoLetter, 
             account_currency: result.currency}, callback)
@@ -92,14 +93,12 @@ var payoutForm = React.createClass({
               <div className="col-xs-12">
                 <TextField
                   name="bank_country"
-                 
                   type="text"
                   validate={['required']}
                   value={this.props.country || null}
                   fullWidth={false}
                   placeholder="Country"
                 />
-
               </div>
             </div>
              :null}
@@ -215,6 +214,7 @@ var payoutForm = React.createClass({
             <div className="col-xs-6">
               <SubmitButton
                 glow
+                type="submit"
                 active={this.state.valid}
                 name="save_payout_info"
                 onClick={this.updatePayoutInfo}

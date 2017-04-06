@@ -204,6 +204,9 @@ export function updatePayoutInfo(data, callback) {
         ssn: data.ssn_number,
         birthday: data.birthday
       }
+      if(!data.birthday){
+        delete data.birthday
+      }
       cueup.updateUserBankInfo(token, data, function(err, result){
         if (err) {
           (callback(err))
