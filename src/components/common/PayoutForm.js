@@ -10,6 +10,7 @@ import Button from './Button-v2'
 import ToggleOptions from './ToggleOptions'
 import {datePipe} from '../../utils/TextPipes'
 import Formatter from '../../utils/Formatter'
+import InfoPopup from './InfoPopup'
 
 import CountryCurrency from '../../utils/CountryCurrency'
 const countryCur = new CountryCurrency()
@@ -136,7 +137,12 @@ var payoutForm = React.createClass({
 
                   fullWidth={false}
                   placeholder="Address"
-                />
+                >
+                <InfoPopup
+                      info={"Enter the address of the person or business that the bank account is associated with."
+                        }
+                      />
+                </TextField>
 
               </div>
             </div>
@@ -171,10 +177,13 @@ var payoutForm = React.createClass({
                     validate={['required']}
                     type="text"
                     fullWidth={false}
-                    placeholder="IBAN-number"
-
-
-                  />
+                    placeholder="IBAN-number">
+                    <InfoPopup
+                      info={"Your IBAN number can typically be found on your online bank, the banks mobile app or on your bank account statement."
+                        }
+                      />
+                    </TextField>
+                  
                 </div>
               </div> 
               :

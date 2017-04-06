@@ -140,11 +140,22 @@ var Text = React.createClass({
                       position: "relative",
                       zIndex: "1"
                     }}>
+
                       <div className="errors" style={styles.error}>
                         {this.props.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
                       </div>
                     </div>
-                  ) : null : null}/>
+                  ) : null : null}>
+                
+                  </TextField>
+                  <div style={{
+                      position:"absolute", 
+                      transform: "translateX(-100%)",
+                      right: "0px",
+                      top: "2px"  
+                      }}>
+                  {this.props.children}
+                  </div>
               </div>
     )
   }

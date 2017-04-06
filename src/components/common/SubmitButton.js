@@ -33,6 +33,7 @@ export default React.createClass({
     {...this.props}
     name={this.props.name}
     className="submit"
+    type="submit"
     succes={!this.props.noCheckMark && succes}
     isLoading={loading}
     onClick={this.handleClick}

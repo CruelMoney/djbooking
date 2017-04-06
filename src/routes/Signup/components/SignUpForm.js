@@ -228,7 +228,8 @@ var signupForm = React.createClass({
       </NumberedList>
 
       <SubmitButton
-        glow
+          glow
+          type="submit"
           active={true}
           name="signup"
           onClick={this.signup}
