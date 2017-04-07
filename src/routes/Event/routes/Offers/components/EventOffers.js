@@ -27,12 +27,16 @@ var EventOffers = React.createClass({
               paymentPossible={this.state.paymentPossible}
               eventFinished={this.state.eventFinished}
               currency={this.props.currency}
+              paymentAmount={this.props.paymentAmount}
+              paymentCurrency={this.props.paymentCurrency}
               offer={o}/>)
           }else{
             right.push(<OfferCard
               paymentPossible={this.state.paymentPossible}
               eventFinished={this.state.eventFinished}
               currency={this.props.currency}
+              paymentAmount={this.props.paymentAmount}
+              paymentCurrency={this.props.paymentCurrency}
               offer={o}/>)
           }
         })
@@ -76,6 +80,8 @@ function mapDispatchToProps(dispatch, ownProps){
 }
 function mapStateToProps(state, ownProps) {
   return {
+    paymentAmount: state.events.values[0].paymentAmount,
+    paymentCurrency: state.events.values[0].paymentCurrency,
     eventName: state.events.values[0].name,
     offers:  state.events.values[0].offers,
     eventDate: state.events.values[0].startTime,

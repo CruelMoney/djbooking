@@ -221,6 +221,7 @@ const deletedUser={
         return{
             ...DTO,
             id: DTO.id,
+            paymentAmount: Formatter.money.ToStandard(DTO.paymentAmount, DTO.paymentCurrency),
             genres: DTO.genres,
             customerId: DTO.customerId,
             offers: DTO.offers

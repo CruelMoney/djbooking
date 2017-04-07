@@ -103,10 +103,19 @@ var OfferCard = React.createClass({
               style={{
                 width: "100%",
                 textAlign: this.props.offer.gigStatus === "Confirmed" ||   this.props.eventFinished ? "center" : "left"
-              }}>{curConverter.getConvertedFormatted(
+              }}>{
+                this.props.offer.gigStatus === "Confirmed"?
+                curConverter.getConvertedFormatted(
+                  this.props.paymentAmount,
+                  this.props.paymentCurrency,
+                  this.props.currency, true)
+                :
+                curConverter.getConvertedFormatted(
                 this.props.offer.amount+this.props.offer.serviceFeeAmount,
                 this.props.offer.currency,
-                this.props.currency, true)}</div>
+                this.props.currency, true)}
+                
+                </div>
 
             {this.props.offer.gigStatus === "Confirmed" ||
               this.props.eventFinished
