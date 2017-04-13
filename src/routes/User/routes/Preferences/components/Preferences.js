@@ -403,8 +403,7 @@ import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/UserActions'
 import {userLogout} from '../../../../../actions/LoginActions'
 
-//TODO move magic information about the filters out of container.
-//Should be grabbed from the children that are set as filters
+
 function mapStateToProps(state, ownProps) {
   return {
     profile:  state.login.profile,

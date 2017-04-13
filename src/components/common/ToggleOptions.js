@@ -58,7 +58,6 @@ var ToggleOptions = React.createClass({
  },
 
   render() {
-
     var children = this.renderChildren(this.props)
     children = children.map((el, i) => <td key={i}>{el}</td>)
 

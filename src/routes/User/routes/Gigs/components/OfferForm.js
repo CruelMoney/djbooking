@@ -67,6 +67,7 @@ class OfferForm extends Component{
   }
 
   render() {
+    console.log(this)
       return (
           <div>
           <Popup showing={this.state.showPopup}
@@ -126,7 +127,8 @@ class OfferForm extends Component{
                             </div>
 
                            :null}
-
+                        
+                        {this.props.payoutInfoValid ?
                           <div 
                             className="row card offer-table"
                             style={{ padding: "20px", marginBottom:"30px", marginTop:"20px"}}
@@ -204,7 +206,7 @@ class OfferForm extends Component{
                            </div>
                       </div>
             
-
+                      : null}
 
 
                     { this.props.gig.status === "Lost" ?
@@ -300,7 +302,7 @@ import { connect } from 'react-redux'
 function mapStateToProps(state, ownProps){
   return {
     discountPoints: state.login.profile.discountPoints,
-    payoutInfoValid:  state.login.profile.stripeID ? true : false,  }
+    payoutInfoValid:  state.login.profile.stripeID ? true : false }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {

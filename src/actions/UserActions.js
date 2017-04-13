@@ -188,7 +188,6 @@ export function updatePayoutInfo(data, callback) {
 
 
   return function(dispatch){
-    console.log(data)
   stripe.createBankToken(data, (err, result)=>{
     if (err) {
       (callback(err))
@@ -211,6 +210,11 @@ export function updatePayoutInfo(data, callback) {
         if (err) {
           (callback(err))
         }else{
+          const profile = converter.user.fromDTO(result)
+          dispatch (function() {return {
+            type: ActionTypes.LOGIN_SUCCEEDED,
+            profile: profile
+          }}())
           callback(null, result)
         }
       })

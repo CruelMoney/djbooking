@@ -35,7 +35,7 @@ const formatter = {
     money:{
 
       ExtractFromString: function(value){
-        if (!isNaN(value)) {
+        if (!isNaN(value) || !value) {
           return value
         }
           value = value.replace(/[^\d]/gi, '')
