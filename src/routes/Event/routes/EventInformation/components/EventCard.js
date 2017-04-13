@@ -153,26 +153,26 @@ var Event = React.createClass({
                       columns={3} />
                   </TextWrapper>
                   <TextWrapper
-                    label="Speakers"
+                    label="Speakers & Light"
                     text="Do you need speakers for the event?">
 
-                    <ToggleOptions
-                      name="needSpeakers"
-                      value={this.props.event.needSpeakers}
-                      validate={['required']}
-                    >
-                      <Button
-                        name="YES"
-                      >Yes</Button>
+                     <ToggleOptions
+                    name="rider"
+                    value={this.props.event.rider}
+                    validate={['required']}
+                  >
+                    <Button
+                      name="DJ"
+                    >Only DJ</Button>
 
-                      <Button
-                        name="UNCERTAIN"
-                      >Uncertain</Button>
+                    <Button
+                      name="DJ_AND_SPEAKERS"
+                    >DJ & Speakers</Button>
 
-                      <Button
-                        name="NO"
-                      >No</Button>
-                    </ToggleOptions>
+                    <Button
+                      name="DJ_SPEAKERS_AND_LIGHT"
+                    >DJ, Speakers & Light</Button>
+                  </ToggleOptions>
                   </TextWrapper>
 
 

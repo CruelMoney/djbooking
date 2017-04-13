@@ -194,23 +194,23 @@ export default React.createClass({
                     columns={3} />
                 </section>
                 <section>
-                  <label>Speakers</label>
+                  <label>Speakers & Light</label>
                   <p style={{marginBottom:"10px"}}>Do you need speakers for the event?</p>
                   <ToggleOptions
-                    name="needSpeakers"
+                    name="rider"
                     validate={['required']}
                   >
                     <Button
-                      name="YES"
-                    >Yes</Button>
+                      name="DJ"
+                    >Only DJ</Button>
 
                     <Button
-                      name="UNCERTAIN"
-                    >Uncertain</Button>
+                      name="DJ_AND_SPEAKERS"
+                    >DJ & Speakers</Button>
 
                     <Button
-                      name="NO"
-                    >No</Button>
+                      name="DJ_SPEAKERS_AND_LIGHT"
+                    >DJ, Speakers & Light</Button>
                   </ToggleOptions>
                 </section>
               </Form>

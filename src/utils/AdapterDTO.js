@@ -238,7 +238,7 @@ const deletedUser={
             currency: DTO.currency,
             minPrice : DTO.minPrice,
             maxPrice: DTO.maxPrice,
-            needSpeakers: DTO.needSpeakers,
+            rider: DTO.rider,
             date: Formatter.date.ToEU(DTO.startTime),
             review: DTO.review ? review.fromDTO(DTO.review) : null
           }
@@ -258,7 +258,7 @@ const deletedUser={
           Currency: event.currency,
           MinPrice : event.minPrice,
           MaxPrice: event.maxPrice,
-          NeedSpeakers: event.needSpeakers,
+          Rider: event.rider,
           }
       }
     }

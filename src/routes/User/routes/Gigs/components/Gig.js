@@ -213,21 +213,21 @@ var Gig = React.createClass({
                   >
                     <p>
                       {
-                        this.props.gig.needSpeakers === "YES"
+                        this.props.gig.rider === "DJ"
                         ?
-                        "The customer needs you to bring speakers."
+                        "The organizer does not need speakers or lights."
                         : null
                       }
                       {
-                        this.props.gig.needSpeakers === "UNCERTAIN"
+                        this.props.gig.rider === "DJ_AND_SPEAKERS"
                         ?
-                        "The customer does not know if they need speakers yet."
+                        "The organizer needs you to bring speakers."
                         : null
                       }
                       {
-                        this.props.gig.needSpeakers === "NO"
+                        this.props.gig.rider === "DJ_SPEAKERS_AND_LIGHT"
                         ?
-                        "There's already speakers at the event."
+                        "The organizer needs you to bring speakers and light."
                         : null
                       }
                     </p>
