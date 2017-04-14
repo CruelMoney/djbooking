@@ -95,12 +95,20 @@ export default class CueupService {
           callback
     )}
 
+    updateUserPicture(token, data, callback) {
+      return this.fetchHandling(
+      `${this.domain}/api/user/SaveProfilePicture`,
+      this.postInit(data, this.getHeaders(token)),
+      callback
+    )}
+
     deleteUser(token, callback) {
           return this.fetchHandling(
           `${this.domain}/api/user`,
           this.deleteInit(this.getHeaders(token)),
           callback
     )}
+
     checkEmailExists(data, callback) {
       return this.fetchHandling(
       `${this.domain}/api/user/email`,

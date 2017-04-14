@@ -41,10 +41,8 @@ var ActionTypes = c.ActionTypes
     var self = this
       return function(dispatch){
           const token = auth.getToken()
-          const data = converter.user.toDTO(profile)
-          data.picture = img
           
-          cueup.updateUser(token, data, (err, result)=>{
+          cueup.updateUserPicture(token, img, (err, result)=>{
             if (err) {
               callback(err.message)
             }else{
