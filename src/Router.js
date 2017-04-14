@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import * as actions from './actions/LoginActions'
+import * as sessionActions from './actions/SessionActions'
 import store from './reducers/Store'
 import {init as analytics} from './utils/analytics/autotrack'
 
@@ -18,6 +19,7 @@ class app extends React.Component {
      componentWillMount() {
          // Setup custom analytics
          analytics()
+         this.props.setGeoSession()
      }
 
 
@@ -74,6 +76,7 @@ function mapStateToProps(state, ownprops) {
 function mapDispatchToProps(dispatch, ownprops) {
   return {
     checkForLogin: (route) => dispatch(actions.checkForLogin(route)),
+    setGeoSession: () => dispatch(sessionActions.setGeodata())
   }
 }
 

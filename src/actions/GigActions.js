@@ -10,7 +10,7 @@ const auth = new AuthService()
 var ActionTypes = c.ActionTypes
 
 
-export function fetchGigs() {
+export function fetchGigs(userID) {
   return function (dispatch) {
 
     dispatch( function() { return {
@@ -18,17 +18,46 @@ export function fetchGigs() {
       }}())
 
       const token = auth.getToken()
-      cueup.getUserGigs(token, function(err, result){
+      cueup.getUserGigsIDs(token, userID, function(err, result){
         if (err) {
           dispatch( function() { return {type: ActionTypes.FETCH_GIGS_FAILED, err: err.message}}() )
         }else{
-          var gigs = result.map(e => converter.cueupGig.fromDTO(e))
+          dispatch( function() { return {type: ActionTypes.FETCH_GIGS_SUCCEEDED} }() )
 
-          dispatch( function() { return {type: ActionTypes.FETCH_GIGS_SUCCEEDED, gigs: gigs} }() )
+          const ids =
+            function* ids(){
+              yield* result.reverse()
+            }()
+        
+          const fetchGig = (id) =>{
+            dispatch( function() { return {type: ActionTypes.FETCH_GIG_REQUESTED} }() )
+            cueup.getUserGig(token,  id, (err, result)=>{
+              if(err){
+                dispatch( function() { return {type: ActionTypes.FETCH_GIG_FAILED} }() )
+              }
+              else{
+              const gig = converter.cueupGig.fromDTO(result)
+              dispatch( function() { return {type: ActionTypes.FETCH_GIG_SUCCEEDED, gig: gig} }())
+            } 
+              const nxt = ids.next()
+              if(!nxt.done){
+                fetchGig(nxt.value)
+              }
+            })
+          }
+          
+          const nxt = ids.next()
+          if(!nxt.done){
+            fetchGig(nxt.value)
+          }
+
         }
       })
   }
 }
+
+
+
 
 
 export function makeOffer(offer, callback) {
@@ -41,7 +70,9 @@ export function makeOffer(offer, callback) {
     if (err) {
       (callback(err))
     }else{
-      (callback(null))
+      //timeout to show success button
+      setTimeout(()=>dispatch( {type: ActionTypes.GIG_OFFER_UPDATED, offer:offer} ), 1500)
+      callback(null)
     }
   })
 }
@@ -57,7 +88,7 @@ export function getFee(offer, callback) {
       (callback(err))
     }else{
       const offer = converter.offer.fromDTO(result);
-      (callback(null, offer))
+      callback(null, offer)
     }
   })
 }
@@ -69,8 +100,9 @@ export function declineGig(id, callback) {
   cueup.declineGig(token, id, function(err, result){
     if (err) {
       (callback(err))
-    }else{
-      (callback(null))
+    }else{ 
+      //setTimeout(()=>dispatch( dispatch(  {type: ActionTypes.GIG_DECLINED, id: id} ), 1500))
+      callback(null)
     }
   })
 }
@@ -85,7 +117,8 @@ export function cancelGig(id, callback) {
     if (err) {
       (callback(err))
     }else{
-      (callback(null))
+      //setTimeout(()=>dispatch(dispatch( {type: ActionTypes.GIG_CANCELLED, id: id} ),1500))
+      callback(null)
     }
   })
 }

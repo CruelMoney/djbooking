@@ -35,7 +35,7 @@ var Gigs = React.createClass({
     this.context.registerActions(this.getActionButtons)
 
     if(this.context.isOwnProfile && this.props.gigs && this.props.gigs.length === 0){
-      this.props.fetchGigs()
+      this.props.fetchGigs(this.props.profile.user_id)
     }
 
   },
@@ -45,7 +45,7 @@ var Gigs = React.createClass({
       this.setState({gigs:nextprops.gigs})
     }
     if(!this.context.isOwnProfile && nextContext.isOwnProfile){
-      this.props.fetchGigs()
+      this.props.fetchGigs(nextprops.profile.user_id)
     }
   },
 
@@ -159,8 +159,10 @@ var Gigs = React.createClass({
           }
           break
         case 'Cancelled':
-          gigs.push(<Gig key={gig.name+i} gig={gig}/>)
-          break
+          //Only show if still relevant
+            if((gig.startTime.getTime() - Date.now()) > 0){
+                gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+            }
         case 'Declined':
             //Do not show
           break
@@ -173,24 +175,21 @@ var Gigs = React.createClass({
     })
 
     const renderGigs = (gigs) => {
-      if (gigs.length === 0) {
+      if (gigs.length === 0 && !this.props.loading) {
         return <EmptyPage
           message={
             <div> No gigs<br/>
             You will get a notification when new gigs are available</div>
           }/>
       }else {
-        return gigs.reverse()
+        return gigs
       }
     }
 
     function renderLoadingItem(){
       return [
         <LoadingPlaceholder/>,
-          <LoadingPlaceholder/>,
-            <LoadingPlaceholder/>,
-              <LoadingPlaceholder/>,
-                <LoadingPlaceholder/>]
+        <LoadingPlaceholder/>]
     }
 
      var OfferMock = m.MockOffer
@@ -216,12 +215,13 @@ var Gigs = React.createClass({
                 </div>
               </Popup>
               : null}
-        {this.props.loading ?
-          renderLoadingItem()
-          :
-            <div>
+              <div>
               {renderGigs(gigs)}
             </div>
+        {this.props.loading ? 
+          renderLoadingItem()
+          :
+            null
         }
           {  
             !this.props.profile.user_id && !this.context.loadingUser ? 
@@ -257,13 +257,16 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchGigs: () => { dispatch(actions.fetchGigs()) },
+    fetchGigs: (userID) => { dispatch(actions.fetchGigs(userID)) },
     acceptGig: (gigID, price) => {dispatch(actions.acceptGig(gigID, price))},
     declineGig: (gigID) => {dispatch(actions.declineGig(gigID))},
 }}
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-  return {...stateProps, ...dispatchProps}
+  return {
+    ...stateProps, 
+    ...dispatchProps,
+}
 }
 const SmartPreferences = connect(mapStateToProps, mapDispatchToProps,  mergeProps,{ pure: false })(Gigs)
 

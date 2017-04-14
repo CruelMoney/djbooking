@@ -407,10 +407,12 @@ align-items: center;
   width: 150px;
 }
 
-footer a{
+footer a,
+footer .currency-selector-wrapper{
 font-family: SourceSansPro-Regular;
 font-size: 15px;
 color: #8998AA;
+fill:#8998AA;
 letter-spacing: 0.75px;
 margin: auto;
 }
@@ -420,7 +422,8 @@ footer .social a{
 footer h4{
   line-height: 30px;
 }
-footer a:hover{
+footer a:hover,
+footer .currency-selector-wrapper:hover{
 color:  #32325D !important;
 fill: #32325D !important;
 cursor: pointer;
@@ -498,8 +501,35 @@ top: 0;
   border-color: inherit !important;
   color: inherit !important;
 }
-
-
+#currency-selector{
+  -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-color: transparent !important;
+    border-radius: 0px !important;
+    height: auto !important;
+    display: block !important;
+    width: 100% !important;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+#currency-selector:focus,
+#currency-selector:active{
+  -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    outline: none !important;
+}
+.currency-selector-wrapper{
+    margin-left: 50% !important;
+    transform: translateX(-40%);
+    cursor: pointer;
+}
+.currency-selector-wrapper svg{
+  pointer-events: none;
+  top: 3px;
+}
 
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset;
@@ -1404,6 +1434,15 @@ button{
 .collapsible-arrow{
    transition: all ease-out .15s!important;
    transform: rotate(180deg);
+   position: absolute; 
+   right: 15px; 
+   top: 0px; 
+   display: inline-block; 
+   color: inherit; 
+   fill: inherit; 
+   height: 24px; 
+   width: 24px; 
+   user-select: none;
 }
 
 .collapsible.collapsed>div:hover .collapsible-arrow{
@@ -2398,6 +2437,9 @@ left: 50%;
 }
 .payout-form  .text-element-wrapper{
   margin-bottom: 30px;
+}
+.payout-form .errors p{
+  font-size: 14px;
 }
 
 .mobileActions{

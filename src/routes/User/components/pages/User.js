@@ -156,14 +156,15 @@ var user = React.createClass({
         >
           <UserHeader
             isOwnProfile={this.props.isOwnProfile}
-            geoAddress={this.props.geoLocation ? 
-              (+ this.props.geoLocation.city_name ? this.props.geoLocation.city_name + ", " : "" +
-                 this.props.geoLocation.country_name ? this.props.geoLocation.country_name : "") : ""}
+            geoLocation={
+                (this.props.geoCity ? (this.props.geoCity + ", ") : "") +
+                (this.props.geoCountry ? this.props.geoCountry : "") }
             profile={this.props.profile}
             hideInfo={!this.state.showUserCard}
             actions={this.state.actions}
             notification={this.state.notification}
             loading={this.props.loading}
+            
           />
 
           <div  className="user-container container">
@@ -210,7 +211,9 @@ function mapStateToProps(state, ownProps) {
   return {
     profile:  isOwnProfile ? state.login.profile : state.user.profile,
     loading: isOwnProfile ? state.login.status.isWaiting : state.user.status.isWaiting,
-    geoLocation: state.login.status.geoLocation,
+    geoCity: state.session.city,
+    geoCountry: state.session.country,
+
     isOwnProfile:isOwnProfile
   }
 }

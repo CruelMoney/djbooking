@@ -203,6 +203,40 @@ const preferences = React.createClass({
                 </TextWrapper>
               : null }
 
+              <TextWrapper
+                  onDisabledClick={this.showHelp}
+                    label="Currency"
+                    text="What currency do you wish to have prices shown in?">
+
+                    <ToggleOptions
+                      name="currency"
+                      glued={true}
+                      disabled={!this.context.editing}
+                      value={this.props.profile.settings.currency}
+
+                    >
+                      <Button
+                        name={"DKK"}
+                      >DKK</Button>
+                      <Button
+                        name={"SEK"}
+                      >SEK</Button>
+                       <Button
+                        name={"NOK"}
+                      >NOK</Button>
+                       <Button
+                        name={"EUR"}
+                      >EUR</Button>
+                       <Button
+                        name={"USD"}
+                      >USD</Button>
+                       <Button
+                        name={"GBP"}
+                      >GBP</Button>
+                    </ToggleOptions>
+                  </TextWrapper>
+
+
           
                 <div>
                   <TextWrapper
@@ -345,6 +379,7 @@ const preferences = React.createClass({
         </div>
         :null}
        
+                
 
             {
             !this.props.profile.user_id && !this.context.loadingUser ? 
@@ -368,8 +403,7 @@ import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/UserActions'
 import {userLogout} from '../../../../../actions/LoginActions'
 
-//TODO move magic information about the filters out of container.
-//Should be grabbed from the children that are set as filters
+
 function mapStateToProps(state, ownProps) {
   return {
     profile:  state.login.profile,

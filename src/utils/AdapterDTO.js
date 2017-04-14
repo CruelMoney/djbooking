@@ -59,8 +59,7 @@ const deletedUser={
       fromDTO:function(DTO, isDj, isCustomer){
         return {
           ...DTO, 
-          emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer),
-          currency: "DKK"
+          emailSettings:filterEmailSettings(DTO.emailSettings, isDj, isCustomer)
       }
       },
       toDTO:function(settings){
@@ -106,7 +105,7 @@ const deletedUser={
           //App metadata stuff here
             auth0Id: DTO.app_metadata.auth0Id,
             avgRating : DTO.app_metadata.avgRating,
-            earned    :  Formatter.money.ToStandard(DTO.app_metadata.earned, "DKK"),
+            earned    :  Formatter.money.ToStandard(DTO.app_metadata.earned, DTO.app_metadata.bankCurrency),
             email_verified :  DTO.app_metadata.email_verified,
             gigsCount : DTO.app_metadata.gigsCount,
             upcomingEvents: DTO.app_metadata.upcomingEvents,
@@ -222,9 +221,11 @@ const deletedUser={
         return{
             ...DTO,
             id: DTO.id,
+            paymentAmount: Formatter.money.ToStandard(DTO.paymentAmount, DTO.paymentCurrency),
             genres: DTO.genres,
             customerId: DTO.customerId,
-            offers: DTO.offers
+            offers: !DTO.offers ? [] :
+                  DTO.offers
                   .filter(o=>o.gigStatus !== "Requested" && o.gigStatus !== "Declined" && o.gigStatus !== "Lost" && o.gigStatus !== "Cancelled")
                   .map(o => offer.fromDTO(o)),
             description: DTO.description,
@@ -238,7 +239,7 @@ const deletedUser={
             currency: DTO.currency,
             minPrice : DTO.minPrice,
             maxPrice: DTO.maxPrice,
-            needSpeakers: DTO.needSpeakers,
+            rider: DTO.rider,
             date: Formatter.date.ToEU(DTO.startTime),
             review: DTO.review ? review.fromDTO(DTO.review) : null
           }
@@ -258,7 +259,7 @@ const deletedUser={
           Currency: event.currency,
           MinPrice : event.minPrice,
           MaxPrice: event.maxPrice,
-          NeedSpeakers: event.needSpeakers,
+          Rider: event.rider,
           }
       }
     }

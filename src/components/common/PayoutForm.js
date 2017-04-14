@@ -6,8 +6,14 @@ import Form from './Form-v2'
 import SubmitButton from './SubmitButton'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/UserActions'
+import Button from './Button-v2'
+import ToggleOptions from './ToggleOptions'
+import {datePipe} from '../../utils/TextPipes'
+import Formatter from '../../utils/Formatter'
+import InfoPopup from './InfoPopup'
 
-
+import CountryCurrency from '../../utils/CountryCurrency'
+const countryCur = new CountryCurrency()
 var payoutForm = React.createClass({
   propTypes: {
     user: PropTypes.object,
@@ -16,102 +22,31 @@ var payoutForm = React.createClass({
 
   updatePayoutInfo(form, callback) {
       const info = form.values
-
       info.account_holder_name = this.props.user.name
+      const country = this.state.area === "usa" ? "USA" : info.bank_country 
+      countryCur.getCurrency(country)
+      .then(result=>{
+          this.props.updatePayoutInfo({
+            ...info, 
+            bank_country: country,
+            birthday: Formatter.date.FromEUStringToUSDate(info.birthday),
+            account_country: result.countryTwoLetter, 
+            account_currency: result.currency}, callback)
+      }).catch((err)=>callback("Country could not be found"))
 
-      this.props.updatePayoutInfo(info, callback)
   },
 
 
     getInitialState() {
       return {
-        valid: false
+        valid: false,
+        area: "europe"
       }
     },
 
 
   render() {
 
-    const styles ={
-
-      inline:{
-        display: 'inline-block'
-      },
-      flex:{
-        display: 'flex',
-        alignItems: 'center'
-      },
-      large:{
-        textarea: {
-          height: '80px',
-        },
-
-        paragraph: {
-          fontSize: '14px',
-        },
-
-        input:{
-          fontSize: '24px',
-          height: 'initial',
-          fontWeight: '300',
-        },
-
-        hint:{
-          bottom: '20px',
-          fontSize: '30px',
-          fontWeight: '300',
-        }
-      },
-      medium:{
-        textarea: {
-          height: '40px',
-        },
-
-        paragraph: {
-          fontSize: '14px',
-        },
-
-        input:{
-          fontSize: '14px',
-          height: 'initial',
-          fontWeight: '300',
-        },
-
-        hint:{
-          fontSize: '14px',
-          height: 'initial',
-          fontWeight: '300',
-
-        },
-
-      },
-       dottedBorderStyle: {
-          borderTop: 'none rgba(0, 0, 0, 1)',
-          borderRight: 'none rgba(0, 0, 0, 1)',
-          borderBottom: '2px dotted rgba(0, 0, 0, 1) ',
-          borderLeft: 'none rgba(0, 0, 0, 1)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          borderColor: 'rgba(0,0,0, 0.5)'
-        },
-        plainBorder:{
-          borderTop: 'none rgb(224, 224, 224)',
-          borderRight: 'none rgb(224, 224, 224)',
-          borderBottom: '1px solid rgb(224, 224, 224)',
-          borderLeft: 'none rgb(224, 224, 224)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          display: 'none',
-        }
-    }
     return(
       <div className="payout-form" >
 
@@ -132,97 +67,155 @@ var payoutForm = React.createClass({
             All information is encrypted. We are using IBAN numbers to 
             allow deals between countries. That way you can play gigs 
             in foreign contries if you're traveling.">
-            <div className="row">
+             <div className="row" style={{marginBottom:"10px"}}>
+            <div className="col-md-12">
+                <ToggleOptions
+                  name="area"
+                  glued={true}
+                  value={this.state.area}
+                  onChange={(val)=>this.setState({area:val})}
+                >
+                  <Button
+                    name="europe"
+                >
+                Europe
+                </Button>
+
+                  <Button
+                    name="usa"
+                  >USA</Button>
+
+
+                </ToggleOptions>
+            </div>
+           </div>
+           {this.state.area === "europe" ?
+             <div className="row">
               <div className="col-xs-12">
                 <TextField
-                  name="bank_address"
-                  hintStyle={styles.medium.hint}
-                  style={styles.medium.textarea}
-                  inputStyle={styles.medium.input}
+                  name="bank_country"
                   type="text"
                   validate={['required']}
-
+                  value={this.props.country || null}
                   fullWidth={false}
-                  placeholder="Address"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
+                  placeholder="Country"
                 />
-
               </div>
             </div>
+             :null}
             <div className="row">
               <div className="col-sm-6">
                 <TextField
                   name="bank_city"
-                  hintStyle={styles.medium.hint}
-                  style={styles.medium.textarea}
-                  inputStyle={styles.medium.input}
+                 
                   type="text"
                   fullWidth={false}
                   validate={['required']}
                   placeholder="City"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
+                  value={this.props.city || null}
+
                 />
               </div>
               <div className="col-sm-6">
                 <TextField
                   name="bank_zip"
-                  hintStyle={styles.medium.hint}
-                  style={styles.medium.textarea}
-                  inputStyle={styles.medium.input}
-                  type="number"
+                  type="text"
                   validate={['required']}
-
                   fullWidth={false}
-                  placeholder="Zip code"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
+                  placeholder="Postal code"
 
                 />
               </div>
             </div>
             <div className="row">
-             <div className="col-xs-12">
-                <TextField
-                  name="ssn_number"
-                  hintStyle={styles.medium.hint}
-                  style={styles.medium.textarea}
-                  inputStyle={styles.medium.input}
-                  validate={['required', 'validateDKSSN']}
-                  type="number"
-                  maxLength="10"
-                  fullWidth={false}
-                  placeholder="CPR-number"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                />
-              </div>
-
               <div className="col-xs-12">
                 <TextField
-                  name="account_number"
-                  hintStyle={styles.medium.hint}
-                  style={styles.medium.textarea}
-                  inputStyle={styles.medium.input}
-                  validate={['required', 'validateAccountNumberDKK']}
+                  name="bank_address"
+                 
                   type="text"
-                  fullWidth={false}
-                  placeholder="IBAN-number"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
+                  validate={['required']}
 
-                />
+                  fullWidth={false}
+                  placeholder="Address"
+                >
+                <InfoPopup
+                      info={"Enter the address of the person or business that the bank account is associated with."
+                        }
+                      />
+                </TextField>
 
               </div>
-               
             </div>
+            
+            {/*<TextField
+            onUpdatePipeFunc={datePipe}
+            maxLength="10"
+            type="text"
+            name="birthday"
+            validate={['required', 'date']}
+            placeholder="Birthday dd/mm/yyyy"
+            label="Birthday"/>
+            */}
+             {/*<div className="col-xs-12">
+                <TextField
+                  name="ssn_number"
+                 
+                  validate={[]}
+                  type="number"
+                  fullWidth={false}
+                  placeholder="SSN-number"
+                  underlineDisabledStyle={styles.plainBorder}
+                  underlineStyle={styles.dottedBorderStyle}
+                />
+              </div>*/}
+              {this.state.area === "europe" ?
+              <div className="row">
+                <div className="col-xs-12">
+                  <TextField
+                    name="account_number"
+                  
+                    validate={['required']}
+                    type="text"
+                    fullWidth={false}
+                    placeholder="IBAN-number">
+                    <InfoPopup
+                      info={"Your IBAN number can typically be found on your online bank, the banks mobile app or on your bank account statement."
+                        }
+                      />
+                    </TextField>
+                  
+                </div>
+              </div> 
+              :
+              <div className="row">
+              <div className="col-xs-6">
+                <TextField
+                  name="account_routing"
+                  validate={['required']}
+                  type="text"
+                  fullWidth={false}
+                  placeholder="Routing number"
+                />
+                   </div>
+                <div className="col-xs-6">
+                  <TextField
+                  name="account_number"
+                 
+                  validate={['required']}
+                  type="text"
+                  fullWidth={false}
+                  placeholder="Account number"
+                />
+               </div>
+              </div>
+                }
+               
 
           </TextWrapper>
 
           <div className="row">
             <div className="col-xs-12">
-              <p className="terms_link">By clicking save you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a></p>
+              <p className="terms_link">By clicking save, you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>, and stripes <a target="_blank" href="https://stripe.com/dk/connect-account/legal">connect account agreement.</a></p>
             </div>
           </div>
 
@@ -230,6 +223,7 @@ var payoutForm = React.createClass({
             <div className="col-xs-6">
               <SubmitButton
                 glow
+                type="submit"
                 active={this.state.valid}
                 name="save_payout_info"
                 onClick={this.updatePayoutInfo}
@@ -251,7 +245,11 @@ var payoutForm = React.createClass({
 
 
 function mapStateToProps(state, ownprops){
-  return{user:  state.login.profile}
+  return{
+    user:  state.login.profile,
+    country: state.session.country,
+    city: state.session.city,
+}
 }
 
 function mapDispatchToProps(dispatch, ownprops) {

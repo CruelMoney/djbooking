@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 import Button from '../../../components/common/Button-v2'
 import TextField, {TexfieldDisconnected} from '../../../components/common/Textfield'
-
+import RiderOptions from '../../../components/common/RiderOptions'
 import LocationSelector from '../../../components/common/LocationSelectorSimple'
-import ToggleOptions from '../../../components/common/ToggleOptions'
+import ToggleButton from '../../../components/common/ToggleButton'
 import ToggleButtonHandler from '../../../components/common/ToggleButtonHandler'
 import Form from '../../../components/common/Form-v2'
 import Slider from '../../../components/common/Slider'
@@ -52,7 +52,7 @@ export default React.createClass({
   onSubmit(form, callback){
     let event = this.formToEvent(this.props.form)
     let self = this
-
+  
     if (this.props.isLoggedIn){
       self.props.onSubmit(event, callback)
     }else{
@@ -137,6 +137,7 @@ export default React.createClass({
                   <LocationSelector
                     name="location"
                     validate={['required']}
+                    value={this.props.initialCity !== "" ? this.props.initialCity : undefined}                    
                   />
                   <p>In what city is the event?</p>
                 </section>
@@ -193,25 +194,11 @@ export default React.createClass({
                     columns={3} />
                 </section>
                 <section>
-                  <label>Speakers</label>
-                  <p style={{marginBottom:"10px"}}>Do you need speakers for the event?</p>
-                  <ToggleOptions
-                    name="needSpeakers"
-                    validate={['required']}
-                  >
-                    <Button
-                      name="YES"
-                    >Yes</Button>
-
-                    <Button
-                      name="UNCERTAIN"
-                    >Uncertain</Button>
-
-                    <Button
-                      name="NO"
-                    >No</Button>
-                  </ToggleOptions>
-                </section>
+                  <label>Speakers & Light</label>
+                  <p style={{marginBottom:"10px"}}>Do you need speakers and lights for the event?</p>
+                    <RiderOptions 
+                      name="rider"/>
+                  </section>
               </Form>
 
             </div>

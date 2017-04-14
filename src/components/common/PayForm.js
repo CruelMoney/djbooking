@@ -9,6 +9,9 @@ import * as actions from '../../actions/EventActions'
 import {datePipeCard, cardNumberPipe} from '../../utils/TextPipes'
 import Formatter from '../../utils/Formatter'
 import MoneyTable, {TableItem} from './MoneyTable'
+import CurrencyConverter from '../../utils/CurrencyConverter'
+const curConverter = new CurrencyConverter()
+
 
 import assign from 'lodash.assign'
 
@@ -21,10 +24,19 @@ var payForm = React.createClass({
     confirmPayment: PropTypes.func
   },
 
+  componentWillMount(){
+    this.amount = curConverter.convert(this.props.amount, this.props.offerCurrency, this.props.currency, true)
+    this.fee = curConverter.convert(this.props.fee, this.props.offerCurrency, this.props.currency, true)
+    this.amountFormatted = curConverter.getConvertedFormatted(this.props.amount, this.props.offerCurrency, this.props.currency, true)
+    this.feeFormatted = curConverter.getConvertedFormatted(this.props.fee, this.props.offerCurrency, this.props.currency, true)
+    this.totalFormatted = curConverter.getConvertedFormatted(this.props.fee+this.props.amount, this.props.offerCurrency, this.props.currency, true)
+},
+
+
   confirmPayment(form, callback) {
       const data = assign(form.values, {
-        amount: Formatter.money.ToSmallest(this.props.amount, this.props.currency),
-        fee: Formatter.money.ToSmallest(this.props.fee, this.props.currency),
+        amount: Formatter.money.ToSmallest(this.amount, this.props.currency),
+        fee: Formatter.money.ToSmallest(this.fee, this.props.currency),
         currency: this.props.currency,
         chosenGigID: this.props.gigId
       })
@@ -142,7 +154,7 @@ getInitialState(){
             name="pay-form">
 
         <div className="pay-form">
-          
+  
           <div className="row">
             <div className="col-md-12">
 
@@ -150,7 +162,7 @@ getInitialState(){
               label="Pay"
               showLock={true}
               text={this.props.paymentPossible ?
-               "Please enter payment information below. In case of cancelation by the DJ all money will be refunded. All information is encrypted. " 
+               "Please enter payment information below. In case of cancelation by the DJ, all money will be refunded. All information is encrypted. " 
                : 
                "The offer can be confirmed and paid up to 60 days before the event. To get notified by email click notify."}>
             </TextWrapper>
@@ -167,7 +179,7 @@ getInitialState(){
                 label="DJ price"
                 info="The price the DJ has offered."
                 >
-                {Formatter.money.FormatNumberToString(this.props.amount, this.props.currency)}
+                {this.amountFormatted}
             </TableItem>
              <TableItem
                 label="Service fee"
@@ -179,12 +191,12 @@ getInitialState(){
                     </div>
                     }
                 >
-                {Formatter.money.FormatNumberToString(this.props.fee, this.props.currency)}
+                {this.feeFormatted}
             </TableItem>
             <TableItem
               label="Total"
               >
-              {Formatter.money.FormatNumberToString(this.props.fee+this.props.amount, this.props.currency)}
+              {this.totalFormatted}
             </TableItem>
         </MoneyTable>
         </div>

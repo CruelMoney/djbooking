@@ -26,21 +26,46 @@ var EventOffers = React.createClass({
             left.push(<OfferCard
               paymentPossible={this.state.paymentPossible}
               eventFinished={this.state.eventFinished}
+              currency={this.props.currency}
+              paymentAmount={this.props.paymentAmount}
+              paymentCurrency={this.props.paymentCurrency}
               offer={o}/>)
           }else{
             right.push(<OfferCard
               paymentPossible={this.state.paymentPossible}
               eventFinished={this.state.eventFinished}
+              currency={this.props.currency}
+              paymentAmount={this.props.paymentAmount}
+              paymentCurrency={this.props.paymentCurrency}
               offer={o}/>)
           }
         })
 
         return (
           <div>
-            {this.props.offers.length ?
+            {this.props.status === "Confirmed" ? 
+              <div>
+              <div className="row">
+                    <div className="col-xs-12">
+                      <p style={{textAlign:"center", marginBottom: "20px"}}>
+                        The offer has been paid and confirmed.
+                      </p>
+                    </div>
+                  </div>
+                <div className="row event-information">
+                    <div className="col-sm-6">
+                      {left}
+                    </div>
+                    <div className="col-sm-6">
+                      {right}
+                    </div>
+                </div>
+                </div>
+            :
+            this.props.offers.length ?
             <div>
              <div className="row">
-                  <div className="col-lg-12">
+                  <div className="col-xs-12">
                     <p style={{textAlign:"center"}}>
                       Keep in mind that quality often follows price.
                     </p>
@@ -74,9 +99,13 @@ function mapDispatchToProps(dispatch, ownProps){
 }
 function mapStateToProps(state, ownProps) {
   return {
+    status: state.events.values[0].status,
+    paymentAmount: state.events.values[0].paymentAmount,
+    paymentCurrency: state.events.values[0].paymentCurrency,
     eventName: state.events.values[0].name,
     offers:  state.events.values[0].offers,
-    eventDate: state.events.values[0].startTime
+    eventDate: state.events.values[0].startTime,
+    currency: state.login.status.signedIn ? state.login.profile.settings.currency : state.session.currency
   }
 }
 

@@ -41,10 +41,8 @@ var ActionTypes = c.ActionTypes
     var self = this
       return function(dispatch){
           const token = auth.getToken()
-          const data = converter.user.toDTO(profile)
-          data.picture = img
           
-          cueup.updateUser(token, data, (err, result)=>{
+          cueup.updateUserPicture(token, img, (err, result)=>{
             if (err) {
               callback(err.message)
             }else{
@@ -188,7 +186,6 @@ export function updatePayoutInfo(data, callback) {
 
 
   return function(dispatch){
-    
   stripe.createBankToken(data, (err, result)=>{
     if (err) {
       (callback(err))
@@ -199,14 +196,23 @@ export function updatePayoutInfo(data, callback) {
         token: result.id,
         zip: data.bank_zip,
         address: data.bank_address,
+        country: data.bank_country,
         city: data.bank_city,
         ssn: data.ssn_number,
-        birthday: cpr(data.ssn_number).date
+        birthday: data.birthday
+      }
+      if(!data.birthday){
+        delete data.birthday
       }
       cueup.updateUserBankInfo(token, data, function(err, result){
         if (err) {
           (callback(err))
         }else{
+          const profile = converter.user.fromDTO(result)
+          dispatch (function() {return {
+            type: ActionTypes.LOGIN_SUCCEEDED,
+            profile: profile
+          }}())
           callback(null, result)
         }
       })

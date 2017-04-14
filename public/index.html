@@ -26,7 +26,8 @@
     <script>addEventListener('error', window.__e=function f(e){f.q=f.q||[];f.q.push(e)});</script>
     <script async  type="text/javascript" src="https://www.google-analytics.com/analytics.js"></script>
     <script async  type="text/javascript" src="%PUBLIC_URL%/autotrack.js"></script>
-
+    <script async  type="text/javascript" src="%PUBLIC_URL%/money.min.js"></script>
+    <script async  type="text/javascript" src="%PUBLIC_URL%/accounting.min.js"></script>
     <script  type="text/javascript" src="https://js.stripe.com/v2/">  </script>
     <script async defer type="text/javascript" src="%PUBLIC_URL%/particles.min.js">  </script>
 
@@ -34,6 +35,28 @@
     <script  type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ&libraries=geometry,places,visualization,geocode"></script>
     <script async defer type="text/javascript" src="%PUBLIC_URL%/load-image.all.min.js">  </script>
 
+    <script  language="JavaScript" type="text/javascript">
+    function loadScript( url, callback ) {
+        var script = document.createElement( "script" )
+        script.type = "text/javascript";
+        if(script.readyState) {  //IE
+            script.onreadystatechange = function() {
+            if ( script.readyState === "loaded" || script.readyState === "complete" ) {
+                script.onreadystatechange = null;
+                callback();
+            }
+            };
+        } else {  //Others
+            script.onload = function() {
+            callback();
+            };
+        }
+
+        script.src = url;
+        document.getElementsByTagName( "head" )[0].appendChild( script );
+        }
+
+    </script>
 
 </head>
 
@@ -61,6 +84,9 @@ loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure"
 /* custom configuration goes here (www.olark.com/documentation) */
 olark.identify('8095-537-10-2169');/*]]>*/</script><noscript><a href="https://www.olark.com/site/8095-537-10-2169/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript>
 <!-- end olark code -->
+
+
+
 
 
 </body>

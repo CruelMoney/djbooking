@@ -16,7 +16,7 @@ import Login from '../../../../../components/common/Login'
 import EmptyPage from '../../../../../components/common/EmptyPage'
 import ButtonLink from '../../../../../components/common/ButtonLink'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
-
+import RiderOptions from '../../../../../components/common/RiderOptions'
 import wNumb from 'wnumb'
 import c from '../../../../../constants/constants'
 
@@ -179,7 +179,6 @@ var RequestForm = React.createClass({
                 <section
                 className="cursor-pointer"
                 onClick={()=>{
-                  console.log("bruh")
                   this.setState({showLogin:false, showPopup:true})}}
                 >
                   <label>Event date</label>
@@ -230,24 +229,10 @@ var RequestForm = React.createClass({
                     columns={3} />
                 </section>
                 <section>
-                  <label>Speakers</label>
-                  <p style={{marginBottom:"10px"}}>Do you need speakers for the event?</p>
-                  <ToggleOptions
-                    name="needSpeakers"
-                    validate={['required']}
-                  >
-                    <Button
-                      name="YES"
-                    >Yes</Button>
-
-                    <Button
-                      name="UNCERTAIN"
-                    >Uncertain</Button>
-
-                    <Button
-                      name="NO"
-                    >No</Button>
-                  </ToggleOptions>
+                  <label>Speakers & Light</label>
+                  <p style={{marginBottom:"10px"}}>Do you need speakers and lights for the event?</p>
+                    <RiderOptions 
+                      name="rider"/>
                 </section>
               
                 

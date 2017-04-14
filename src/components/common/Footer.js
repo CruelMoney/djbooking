@@ -1,13 +1,13 @@
 import React, {PropTypes} from 'react'
 import { Link } from 'react-router';
 import ButtonLink from './ButtonLink'
-
+import * as c from '../../constants/constants'
 /*animation stuff*/
 import QueueAnim from 'rc-queue-anim';
 import ScrollAnim from 'rc-scroll-anim';
 const ScrollOverPack = ScrollAnim.OverPack;
 
-export default React.createClass({
+const footer = React.createClass({
   PropTypes:{
     bgColor: PropTypes.string,
     color: PropTypes.string,
@@ -103,11 +103,58 @@ export default React.createClass({
                 </li>
               </ul>
             </div>
+            {!this.props.signedIn ? 
+            <div>
+              <h4>CURRENCY</h4>
+              <ul>
+                 <li>
+                   <div className="currency-selector-wrapper">
+                  <select 
+                  id="currency-selector" 
+                  name="currency-selector"
+                  onChange={(e)=>this.props.changeCurrency(e.target.value)}
+                  value={this.props.currency}>
+                    {c.Currencies.map(c=>(<option value={c}>{c}</option>))}
+                  </select>
+                  <svg className="collapsible-arrow" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            : null}
+             
           </div>
           <div className="copyright">
-            © Cueup
+            © Cueup {new Date().getFullYear()}
           </div>
         </footer>
         </div>
   }
 })
+
+
+
+
+    import { connect } from 'react-redux'
+    import * as actions from '../../actions/SessionActions'
+
+
+    function mapStatetoProps(state, ownprops){
+      return{
+        signedIn: state.login.status.signedIn,
+        currency: state.session.currency 
+      }
+    }
+
+    function mapDispatchToProps(dispatch, ownprops) {
+      return {
+        changeCurrency: (currency) => {dispatch(actions.changeCurrency(currency))}
+      }
+    }
+
+    const SmartFooter = connect(mapStatetoProps, mapDispatchToProps)(footer)
+
+
+    export default props => (
+        <SmartFooter {...props}/>
+    )

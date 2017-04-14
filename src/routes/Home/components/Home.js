@@ -116,6 +116,7 @@ handleButtonClick(){
               form={this.props.form}
               checkEmail={this.props.checkEmail}
               emailExists={this.props.emailExists}
+              initialCity={this.props.geoCity}
             />
           </div>
 
@@ -176,6 +177,7 @@ function mapStateToProps(state, ownProps) {
         state.forms["requestForm-step-2"] ? state.forms["requestForm-step-2"].values : {} ,
         state.forms["requestForm-step-3"] ? state.forms["requestForm-step-3"].values : {} ,
       ),
+    geoCity: state.session.city,
     emailExists: state.login.status.emailExists
   }
 }

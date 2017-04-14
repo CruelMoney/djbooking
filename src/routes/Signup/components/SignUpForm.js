@@ -40,7 +40,6 @@ var signupForm = React.createClass({
     },
 
   signup(form, callback) {
-      //http://localhost:3000/signup?referredBy=CRUELMONEY
       const values = {...form.values, reference: this.props.reference}
       this.props.handleSubmit(values, (err,res)=>{
           if (!err) {
@@ -186,6 +185,7 @@ var signupForm = React.createClass({
             autocomplete="off"
             name="location"
             validate={['required']}
+            value={this.props.geoCity !==  "" ? this.props.geoCity : undefined}
             label="Location"/>
 
         </RegistrationElement>
@@ -228,7 +228,8 @@ var signupForm = React.createClass({
       </NumberedList>
 
       <SubmitButton
-        glow
+          glow
+          type="submit"
           active={true}
           name="signup"
           onClick={this.signup}
@@ -258,6 +259,8 @@ import * as actions from '../../../actions/SignupActions'
 function mapStateToProps(state, ownProps) {
   return {
     isLoggedIn: state.login.status.signedIn,
+    geoCity: state.session.city,
+
   }
 }
 

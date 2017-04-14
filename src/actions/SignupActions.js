@@ -84,6 +84,7 @@ function createCustomer(form, auth0Profile){
       email: form.email || auth0Profile.email,
       picture: auth0Profile.picture_large || auth0Profile.picture,
       indentities: auth0Profile.identities,
+    
       app_metadata: {
           auth0Id: auth0Profile.user_id,
       },

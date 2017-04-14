@@ -10,8 +10,20 @@ module.exports = {
     AUTH0_CLIENT_DOMAIN: (production ? process.env.REACT_APP_AUTH0_PROD_DOMAIN          : process.env.REACT_APP_AUTH0_DEV_DOMAIN),
     CALLBACK_DOMAIN:     (production ? process.env.REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN : process.env.REACT_APP_CUEUP_DEV_CALLBACK_DOMAIN),
     API_DOMAIN:          (production ? process.env.REACT_APP_CUEUP_PROD_API_DOMAIN      : process.env.REACT_APP_CUEUP_DEV_API_DOMAIN),
-    FACEBOOK_ID:         (production ? process.env.REACT_APP_CUEUP_PROD_FB_ID           : process.env.REACT_APP_CUEUP_DEV_FB_ID )
+    FACEBOOK_ID:         (production ? process.env.REACT_APP_CUEUP_PROD_FB_ID           : process.env.REACT_APP_CUEUP_DEV_FB_ID ),
+    OPENEXCHANGERATE_APP_ID:    "e0937d01cc734837bba7f1bfb6887c2a"
   },
+
+    Currencies:[
+    "DKK",
+    "EUR",
+    "GBP",
+    "NOK",
+    "SEK",
+    "USD"
+    ],
+  
+  
 
 
   ActionTypes: keyMirror({
@@ -63,6 +75,13 @@ module.exports = {
     FETCH_GIGS_REQUESTED:null,
     FETCH_GIGS_SUCCEEDED:null,
     FETCH_GIGS_FAILED:null,
+    GIG_DECLINED :null,
+    GIG_CANCELLED:null,
+    GIG_OFFER_UPDATED:null,
+
+    FETCH_GIG_REQUESTED:null,
+    FETCH_GIG_SUCCEEDED:null,
+    FETCH_GIG_FAILED:null,
 
     FETCH_REVIEWS_REQUESTED:null,
     FETCH_REVIEWS_SUCCEEDED:null,
@@ -81,7 +100,10 @@ module.exports = {
     REMOVE_MENU_ITEM:null,
     REGISTER_MENU_ITEM:null,
 
-    TOGGLE_PUBLIC_PROFILE:null
+    TOGGLE_PUBLIC_PROFILE:null,
+
+    CHANGE_CURRENCY: null,
+    SET_GEO_SESSION:null
 
   }),
    GENRES: [

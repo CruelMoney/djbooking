@@ -213,21 +213,27 @@ var Gig = React.createClass({
                   >
                     <p>
                       {
-                        this.props.gig.needSpeakers === "YES"
+                        this.props.gig.rider === "DJ"
                         ?
-                        "The customer needs you to bring speakers."
+                        "The organizer does not need speakers or lights."
+                        : null
+                      }
+                       {
+                        this.props.gig.rider === "DJ_AND_LIGHT"
+                        ?
+                        "The organizer needs you to bring lights for the event."
                         : null
                       }
                       {
-                        this.props.gig.needSpeakers === "UNCERTAIN"
+                        this.props.gig.rider === "DJ_AND_SPEAKERS"
                         ?
-                        "The customer does not know if they need speakers yet."
+                        "The organizer needs you to bring speakers."
                         : null
                       }
                       {
-                        this.props.gig.needSpeakers === "NO"
+                        this.props.gig.rider === "DJ_SPEAKERS_AND_LIGHT"
                         ?
-                        "There's already speakers at the event."
+                        "The organizer needs you to bring speakers and light."
                         : null
                       }
                     </p>
@@ -299,7 +305,7 @@ var Gig = React.createClass({
                 >
 
                  <OfferForm 
-                    currency={this.props.currency}
+                     profileCurrency={this.props.profileCurrency}
                      gig={this.props.gig}
                   />
 
@@ -321,7 +327,7 @@ import  * as actions from '../../../../../actions/GigActions'
 function mapStateToProps(state, ownProps){
   return {
     payoutInfoValid:  state.login.profile.stripeID ? true : false,  
-    currency: state.login.profile.settings.currency
+    profileCurrency: state.login.profile.settings.currency
   }
 }
 

@@ -10,7 +10,8 @@ import Popup from '../../../../../components/common/Popup'
 import {moneyPipe} from '../../../../../utils/TextPipes'
 import MoneyTable, {TableItem} from '../../../../../components/common/MoneyTable'
 import  * as actions from '../../../../../actions/GigActions'
-
+import CurrencyConverter from '../../../../../utils/CurrencyConverter'
+const curConverter = new CurrencyConverter()
 
 class OfferForm extends Component{
 
@@ -30,11 +31,12 @@ class OfferForm extends Component{
 
   getFees = () => {
     this.setState({
-      loading: true
+      loading: true,
+      currency:this.props.profileCurrency
     },()=>
     actions.getFee({
         ...this.state, 
-        currency:this.props.currency
+        currency:this.props.profileCurrency
       }, (err,res)=>{
         if(err){
           this.setState({
@@ -124,7 +126,8 @@ class OfferForm extends Component{
                             </div>
 
                            :null}
-
+                        
+                        {this.props.payoutInfoValid ?
                           <div 
                             className="row card offer-table"
                             style={{ padding: "20px", marginBottom:"30px", marginTop:"20px"}}
@@ -135,7 +138,7 @@ class OfferForm extends Component{
                              <TableItem
                                   label="Your price"
                                     >
-                                  {Formatter.money.FormatNumberToString(this.state.amount, this.props.currency)}
+                                  {curConverter.getConvertedFormatted(this.state.amount, this.state.currency)}
                               </TableItem>
                               <TableItem
                                   label="Service Fee"
@@ -150,7 +153,7 @@ class OfferForm extends Component{
                                   {this.state.loading ? 
                                    "loading..." 
                                    :
-                                  Formatter.money.FormatNumberToString(this.state.serviceFeeAmount, this.props.currency)}
+                                  curConverter.getConvertedFormatted(this.state.serviceFeeAmount, this.state.currency)}
                               </TableItem>
                               <TableItem
                                 label="Total"
@@ -159,7 +162,7 @@ class OfferForm extends Component{
                                 {this.state.loading ? 
                                    "loading..." 
                                    :
-                                Formatter.money.FormatNumberToString(this.state.serviceFeeAmount+this.state.amount, this.props.currency)}
+                                curConverter.getConvertedFormatted(this.state.serviceFeeAmount+this.state.amount, this.state.currency)}
                               </TableItem>
                             </MoneyTable>
                            </div>
@@ -169,7 +172,7 @@ class OfferForm extends Component{
                               <TableItem
                                   label="Your price"
                                     >
-                                  {Formatter.money.FormatNumberToString(this.state.amount, this.props.currency)}
+                                  {curConverter.getConvertedFormatted(this.state.amount, this.state.currency)}
                               </TableItem>
                                 <TableItem
                                   label="DJ Fee"
@@ -184,7 +187,7 @@ class OfferForm extends Component{
                                    {this.state.loading ? 
                                    "loading..." 
                                    :
-                                    "-"+Formatter.money.FormatNumberToString(this.state.djFeeAmount, this.props.currency)
+                                    curConverter.getConvertedFormatted(-this.state.djFeeAmount, this.state.currency)
                                    } 
                                  
                               </TableItem>
@@ -195,14 +198,14 @@ class OfferForm extends Component{
                                   {this.state.loading ? 
                                    "loading..." 
                                    :
-                                  Formatter.money.FormatNumberToString(this.state.amount-this.state.djFeeAmount, this.props.currency)
+                                  curConverter.getConvertedFormatted(this.state.amount-this.state.djFeeAmount, this.state.currency)
                                   }
                               </TableItem>
                             </MoneyTable>
                            </div>
                       </div>
             
-
+                      : null}
 
 
                     { this.props.gig.status === "Lost" ?
@@ -298,7 +301,7 @@ import { connect } from 'react-redux'
 function mapStateToProps(state, ownProps){
   return {
     discountPoints: state.login.profile.discountPoints,
-    payoutInfoValid:  state.login.profile.stripeID ? true : false,  }
+    payoutInfoValid:  state.login.profile.stripeID ? true : false }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
