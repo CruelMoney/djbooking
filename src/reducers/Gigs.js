@@ -17,18 +17,39 @@ const gigs = (state = initialState, action) => {
   switch (action.type) {
   case ActionTypes.FETCH_GIGS_REQUESTED:
       return {
+              ...state,
               isWaiting: true
              }
   case ActionTypes.FETCH_GIGS_SUCCEEDED:
       return {
-        values: action.gigs,
+        ...state,
         isWaiting: false
              }
  case ActionTypes.FETCH_GIGS_FAILED:
      return {
+       ...state,
        err: action.err,
        isWaiting: false
             }
+
+  case ActionTypes.FETCH_GIG_REQUESTED:
+      return {
+        ...state,
+              isWaiting: true
+              }
+  case ActionTypes.FETCH_GIG_SUCCEEDED:
+      return {
+              ...state,
+              values: [...state.values, action.gig],
+              isWaiting: false
+              }
+  case ActionTypes.FETCH_GIG_FAILED:
+      return {
+        ...state,
+        err: action.err,
+        isWaiting: false
+            }
+
   case ActionTypes.GIG_CANCELLED:
      return {
             ...state,

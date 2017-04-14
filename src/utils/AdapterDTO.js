@@ -224,7 +224,8 @@ const deletedUser={
             paymentAmount: Formatter.money.ToStandard(DTO.paymentAmount, DTO.paymentCurrency),
             genres: DTO.genres,
             customerId: DTO.customerId,
-            offers: DTO.offers
+            offers: !DTO.offers ? [] :
+                  DTO.offers
                   .filter(o=>o.gigStatus !== "Requested" && o.gigStatus !== "Declined" && o.gigStatus !== "Lost" && o.gigStatus !== "Cancelled")
                   .map(o => offer.fromDTO(o)),
             description: DTO.description,

@@ -49,16 +49,12 @@ export default class CueupService {
     }
 
     fetchHandling(uri, init, callback){
-      console.log("calling")
       var self = this;
       return fetch(uri, init)
         .then(function(response) {
-          console.log("response 1")
           return self.responseHandling(response, callback);
       }).catch(function(error) {
           callback(error)
-          console.log("error 1")
-
       });
     }
 
@@ -200,6 +196,8 @@ export default class CueupService {
 
 
     //GIG ACTIONS
+    
+    //Depcreated
     getUserGigs(token, callback) {
       return this.fetchHandling(
         `${this.domain}/api/gig/user`,
@@ -207,6 +205,19 @@ export default class CueupService {
         callback
       )}
 
+    getUserGigsIDs(token, userID, callback) {
+      return this.fetchHandling(
+        `${this.domain}/api/gig/user/${userID}`,
+        this.getInit(this.getHeaders(token)),
+        callback
+      )}
+
+     getUserGig(token, id, callback) {
+      return this.fetchHandling(
+        `${this.domain}/api/gig/${id}`,
+        this.getInit(this.getHeaders(token)),
+        callback
+      )}
     cancelGig(token, id, callback){
       return this.fetchHandling(
         `${this.domain}/api/gig/${id}/cancel`,

@@ -13,7 +13,7 @@ import TimeSlider from '../../../../../components/common/TimeSlider'
 import TextBox from '../../../../../components/common/TextBox'
 import Popup from '../../../../../components/common/Popup'
 import Login from '../../../../../components/common/Login'
-
+import RiderOptions from '../../../../../components/common/RiderOptions'
 import wNumb from 'wnumb'
 import c from '../../../../../constants/constants'
 
@@ -158,7 +158,6 @@ var RequestForm = React.createClass({
                 <section
                 className="cursor-pointer"
                 onClick={()=>{
-                  console.log("bruh")
                   this.setState({showLogin:false, showPopup:true})}}
                 >
                   <label>Event date</label>
@@ -210,23 +209,9 @@ var RequestForm = React.createClass({
                 </section>
                 <section>
                   <label>Speakers & Light</label>
-                  <p style={{marginBottom:"10px"}}>Do you need speakers for the event?</p>
-                  <ToggleOptions
-                    name="rider"
-                    validate={['required']}
-                  >
-                    <Button
-                      name="DJ"
-                    >Only DJ</Button>
-
-                    <Button
-                      name="DJ_AND_SPEAKERS"
-                    >DJ & Speakers</Button>
-
-                    <Button
-                      name="DJ_SPEAKERS_AND_LIGHT"
-                    >DJ, Speakers & Light</Button>
-                  </ToggleOptions>
+                  <p style={{marginBottom:"10px"}}>Do you need speakers and lights for the event?</p>
+                    <RiderOptions 
+                      name="rider"/>
                 </section>
               
                 

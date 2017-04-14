@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 import Button from '../../../components/common/Button-v2'
 import TextField, {TexfieldDisconnected} from '../../../components/common/Textfield'
-
+import RiderOptions from '../../../components/common/RiderOptions'
 import LocationSelector from '../../../components/common/LocationSelectorSimple'
-import ToggleOptions from '../../../components/common/ToggleOptions'
+import ToggleButton from '../../../components/common/ToggleButton'
 import ToggleButtonHandler from '../../../components/common/ToggleButtonHandler'
 import Form from '../../../components/common/Form-v2'
 import Slider from '../../../components/common/Slider'
@@ -52,7 +52,7 @@ export default React.createClass({
   onSubmit(form, callback){
     let event = this.formToEvent(this.props.form)
     let self = this
-
+  
     if (this.props.isLoggedIn){
       self.props.onSubmit(event, callback)
     }else{
@@ -195,24 +195,10 @@ export default React.createClass({
                 </section>
                 <section>
                   <label>Speakers & Light</label>
-                  <p style={{marginBottom:"10px"}}>Do you need speakers for the event?</p>
-                  <ToggleOptions
-                    name="rider"
-                    validate={['required']}
-                  >
-                    <Button
-                      name="DJ"
-                    >Only DJ</Button>
-
-                    <Button
-                      name="DJ_AND_SPEAKERS"
-                    >DJ & Speakers</Button>
-
-                    <Button
-                      name="DJ_SPEAKERS_AND_LIGHT"
-                    >DJ, Speakers & Light</Button>
-                  </ToggleOptions>
-                </section>
+                  <p style={{marginBottom:"10px"}}>Do you need speakers and lights for the event?</p>
+                    <RiderOptions 
+                      name="rider"/>
+                  </section>
               </Form>
 
             </div>

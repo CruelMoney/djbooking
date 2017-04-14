@@ -79,6 +79,10 @@ module.exports = {
     GIG_CANCELLED:null,
     GIG_OFFER_UPDATED:null,
 
+    FETCH_GIG_REQUESTED:null,
+    FETCH_GIG_SUCCEEDED:null,
+    FETCH_GIG_FAILED:null,
+
     FETCH_REVIEWS_REQUESTED:null,
     FETCH_REVIEWS_SUCCEEDED:null,
     FETCH_REVIEWS_FAILED:null,

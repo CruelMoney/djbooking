@@ -67,7 +67,6 @@ class OfferForm extends Component{
   }
 
   render() {
-    console.log(this)
       return (
           <div>
           <Popup showing={this.state.showPopup}

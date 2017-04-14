@@ -48,7 +48,6 @@ class MobileMenu extends React.Component {
   }
 
   logout = () =>{
-    console.log(this.props.logout)
   this.handleClose()
     this.props.logout()
   }

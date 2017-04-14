@@ -18,7 +18,7 @@ import LocationSelector from '../../../../../components/common/LocationSelectorS
 import {connect} from 'react-redux';
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import {requestFeatures} from '../../../../../actions/Common'
-
+import RiderOptions from '../../../../../components/common/RiderOptions'
 
 var Event = React.createClass({
     propTypes: {
@@ -154,30 +154,11 @@ var Event = React.createClass({
                   </TextWrapper>
                   <TextWrapper
                     label="Speakers & Light"
-                    text="Do you need speakers for the event?">
-
-                     <ToggleOptions
-                    name="rider"
-                    value={this.props.event.rider}
-                    validate={['required']}
-                  >
-                    <Button
-                      name="DJ"
-                    >Only DJ</Button>
-
-                    <Button
-                      name="DJ_AND_SPEAKERS"
-                    >DJ & Speakers</Button>
-
-                    <Button
-                      name="DJ_SPEAKERS_AND_LIGHT"
-                    >DJ, Speakers & Light</Button>
-                  </ToggleOptions>
+                    text="Do you need speakers and lights for the event?">
+                    <RiderOptions 
+                      value={this.props.event.rider}
+                      name="rider"/>
                   </TextWrapper>
-
-
-
-
                   <TextWrapper
                     label="Duration"
                     text="How much time should the dj play?">
