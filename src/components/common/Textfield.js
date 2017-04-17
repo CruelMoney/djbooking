@@ -74,7 +74,8 @@ var Text = React.createClass({
         fontFamily: "AvenirNext-Regular",
         top: "0",
         marginTop: "0px",
-        marginBottom: "5px"
+        marginBottom: "5px",
+        opacity: "1"
 
       },
       underlineStyle:{

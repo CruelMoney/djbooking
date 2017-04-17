@@ -7,6 +7,8 @@ import Formatter from '../utils/Formatter'
 import Rating from './common/Rating'
 import * as actions from '../actions/LoginActions'
 import * as UserActions from '../actions/UserActions'
+import InfoPopup from './common/InfoPopup'
+
 import {ImageCompressor} from '../utils/ImageCompressor';
 import CurrencyConverter from '../utils/CurrencyConverter'
 const curConverter = new CurrencyConverter()
@@ -143,11 +145,11 @@ class MobileMenu extends React.Component {
 
           <div
             className=" user-card-picture"
-            style={{backgroundImage: "linear-gradient(20deg, rgba(49, 255, 245,0.8) 0%, rgba(49, 255, 197,0.5) 16%, rgba(0, 209, 255,0.2) 66%, rgba(49, 218, 255, 0.0) 71%),  url("+this.props.profile.picture+")"}}
+            style={{backgroundImage: "url("+this.props.profile.picture+")"}}
           />
           <div
             className=" user-card-picture-blurred"
-            style={{backgroundImage: "linear-gradient(20deg, rgba(49, 255, 245,0.8) 0%, rgba(49, 255, 197,0.5) 16%, rgba(0, 209, 255,0.2) 66%, rgba(49, 218, 255, 0.0) 71%),  url("+this.props.profile.picture+")"}}
+            style={{backgroundImage: "url("+this.props.profile.picture+")"}}
           />
         </div>
 
@@ -155,18 +157,62 @@ class MobileMenu extends React.Component {
                
                 <div className="profileInfo">
                   <div className="user-card-info">
-                    <div className="user-card-fact">
-                      <p>Experience</p>
-                      {this.props.profile.gigsCount + " Cueup gigs"}
-                    </div>
-                    <div className="user-card-fact">
-                      <p>Earned</p>
-                      {curConverter.getConvertedFormatted(this.props.profile.earned, this.props.profile.app_metadata.bankCurrency, this.props.profile.settings.currency)}
-                    </div>
-                    <div className="user-card-fact">
-                      <p>Rating</p>
-                        {this.props.profile.avgRating > 0 ? <Rating rating={this.props.profile.avgRating}/> : "No reviews yet"}
-                    </div>
+                     {this.props.profile.isDJ ? 
+            <div>
+            <div className="user-card-fact">
+              <p>Experience
+                 <InfoPopup
+                  info={"How many gigs you have played using Cueup. This is shared on your public profile." }
+                  />
+              </p>
+             
+              {this.props.profile.gigsCount + " gigs"}
+            </div>
+          
+            <div className="user-card-fact">
+              <p>Earned
+                <InfoPopup
+                  info="How much money you have earned. This is NOT shared on your public profile."
+                  />
+                
+              </p>
+              {curConverter.getConvertedFormatted(this.props.profile.app_metadata.earned, this.props.profile.app_metadata.bankCurrency, this.props.profile.settings.currency)}
+            </div>
+        
+            <div className="user-card-fact">
+              <p>Rating</p>
+              {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : "No reviews yet"}
+            </div>
+            </div>
+            
+            : null}
+
+                {this.props.profile.isCustomer ? 
+                <div>
+                <div className="user-card-fact">
+                  <p>Upcoming</p>
+                  {this.props.profile.upcomingEvents + " events"}
+                </div>
+                <div className="user-card-fact">
+                  <p>Finished</p>
+                  {this.props.profile.finishedEvents + " events"}
+                </div>
+                
+                </div>
+                
+                : null}
+            
+                {this.props.profile.discountPoints > 0 ? 
+                <div className="user-card-fact">
+                  <p>Cueup points
+                    <InfoPopup
+                      info="Cueup points can be used to remove the fee on gigs, thus increasing the payout."
+                      />
+                  </p>
+                  {this.props.profile.discountPoints + " Points"}
+                </div>
+                            
+                : null}
                   </div>
                 </div>
               </div>
@@ -217,7 +263,7 @@ class MobileMenu extends React.Component {
               }
               {this.props.loggedIn ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/preferences" label="Preferences"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/preferences`}  label="Preferences"/>
                 </li>
                 : null
               }

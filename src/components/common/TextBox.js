@@ -47,6 +47,7 @@ var TextBox = React.createClass({
         borderRadius: '6px',
         padding: '4px',
         transition: 'border 0.4s',
+        opacity: "1",
         ':focus': {
           borderColor:  this.context.color
         }

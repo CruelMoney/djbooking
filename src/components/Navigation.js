@@ -90,7 +90,7 @@ var menu = React.createClass({
                 <div className=""
                   ref={ref=>this.mobileMenu=ref}
                   >
-             </div>
+             
              <a
                   className="mobileMenuButton"
                   onClick={()=>{
@@ -98,6 +98,7 @@ var menu = React.createClass({
                   >
                   <h2>Menu</h2>
                 </a>
+                </div>
               <ul className="main-menu">
                 
                 {!isHome    ?    
