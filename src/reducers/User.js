@@ -41,6 +41,18 @@ export default (state = initialState, action) => {
         }
       })
 
+  case ActionTypes.LOGIN_SUCCEEDED:
+      if (state.profile.user_id) return state
+      return  {
+        ...state,
+         status:{
+            err: null,
+            isWaiting: false,
+        },
+         profile: cloneDeep(action.profile)
+        }
+
+
   default:
     return state
   }
