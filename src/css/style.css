@@ -1751,7 +1751,7 @@ button{
 }
 .button.elevated:hover{
   transform: scale(1.05);
-  box-shadow: 0 2px 14px 0px rgba(100,100,100,0.50);
+  box-shadow: 0 20px 60px -3px rgba(100,100,100,0.30);
 }
 /*Action and toggle buttons*/
 .button-wrapper{

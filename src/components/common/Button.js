@@ -97,7 +97,7 @@ var Button = React.createClass({
 
         ':hover':{
           backgroundColor: rgbLight,
-          boxShadow: '0px 4px 35px -5px ' + rgbLight
+          boxShadow: '0px 20px 60px -4px ' + rgbLight
         }
 
       //  boxShadow: '0 16px 24px 2px rgba('+rbg+', 0.3), 0 6px 30px 5px rgba('+rbg+', 0.3), 0 8px 10px -5px rgba('+rbg+', 0.3)'
