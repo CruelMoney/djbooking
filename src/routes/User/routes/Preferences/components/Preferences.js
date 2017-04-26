@@ -181,7 +181,7 @@ const preferences = React.createClass({
                   label="Payout"
                   text="To get paid, you need to set up a payout method.
                   Cueup releases payouts about 24 hours after a job is finished.">
-                  {this.props.profile.last4 ?
+                  {this.props.profile.stripeID ?
                     <div className="user-card-info">
                       <div className="user-card-fact">
                         <p>Last 4 digits of current account number</p>

@@ -99,9 +99,9 @@ export function postEvent(form, callback) {
                 if (err) {
                   (callback(err))
                 }else{
+                  (callback(null))
                   console.log(typeof tracker.trackEventPosted)
                   tracker.trackEventPosted()
-                  (callback(null))
                 }
               })}
       ).catch(errMessage=>callback(errMessage))

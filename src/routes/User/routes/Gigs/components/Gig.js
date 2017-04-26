@@ -4,9 +4,24 @@ import TextWrapper from '../../../../../components/common/TextElement'
 import {CollapsibleContainer, Collapsible} from '../../../../../components/common/Collapsible'
 import assign from 'lodash.assign'
 import OfferForm from './OfferForm'
+import PayoutForm from '../../../../../components/common/PayoutForm'
+import Popup from '../../../../../components/common/Popup'
+import Button from '../../../../../components/common/Button-v2'
 
 var Gig = React.createClass({
 
+  
+  componentWillMount(){
+    this.setState({
+      showPopup: false,
+    })
+  },
+
+  showPopup(){
+    this.setState({
+      showPopup: true,
+    })
+  },
 
   render() {
 
@@ -112,7 +127,12 @@ var Gig = React.createClass({
       return (
       
         <div>
-    
+          <Popup 
+            showing={this.state.showPopup}
+            onClickOutside={()=>this.setState({showPopup:false})}>
+            <PayoutForm/>
+          </Popup>  
+
           <div
             className="card gig"
 
@@ -205,7 +225,7 @@ var Gig = React.createClass({
 
                 <Collapsible
                   name="Requirements"
-                  label="Requirements"
+                  label="Event Requirements"
                 >
 
                   <TextWrapper
@@ -259,21 +279,39 @@ var Gig = React.createClass({
 
                 <Collapsible
                   name="ContactInfo"
-                  label="Contact"
+                  label="Contact Organizer"
                 >
 
-                  <p style={{marginBottom:"30px"}}>
-                    Feel free to contact the organizer to discuss the price, or figure out additional details.
+                   
+                  <p>
+                     {!this.props.payoutInfoValid ?        
+                        "Please update your payout information before contacting the organizer."
+                        :  
+                        "Feel free to contact the organizer to discuss the price, or figure out additional details."
+                     }
                   </p>
 
-                  <TextWrapper
-                    label="Name"
-                  >
-                    <p>{this.props.gig.contactName}</p>
+                    {this.props.payoutInfoValid ?  
+                    <TextWrapper
+                      label="Name"
+                    >
+                      <p>{this.props.gig.contactName}</p>
+                    </TextWrapper>
+                  : null}
+                  
 
-                  </TextWrapper>
+                  {!this.props.payoutInfoValid ?
+                  <div className="offer-buttons">
+                            <Button
+                        rounded={true}
+                        onClick={()=>this.setState({showPopup:true})}
+                        name="show-payout-popup"
+                      >Update payout information</Button>
+                  </div>
+                     
+                  : null }
 
-                  {this.props.gig.contactPhone ?
+                  {this.props.gig.contactPhone && this.props.payoutInfoValid ?
                     <TextWrapper
                       label="Phone"
                     >
@@ -282,13 +320,14 @@ var Gig = React.createClass({
                     </TextWrapper>
                   : null}
 
-
+                  {this.props.payoutInfoValid ? 
                   <TextWrapper
                     label="Email"
                   >
                     <a href={"mailto:"+this.props.gig.contactEmail}>{this.props.gig.contactEmail}</a>
 
                   </TextWrapper>
+                  :null}
                 </Collapsible>
 
 
@@ -301,10 +340,11 @@ var Gig = React.createClass({
 
                 <Collapsible
                   name="Offer"
-                  label="Offer"
+                  label="Make Offer"
                 >
 
                  <OfferForm 
+                     showPopup={this.showPopup}
                      profileCurrency={this.props.profileCurrency}
                      gig={this.props.gig}
                   />

@@ -5,8 +5,6 @@ import Formatter from '../../../../../utils/Formatter'
 import Form from '../../../../../components/common/Form-v2'
 import SubmitButton from '../../../../../components/common/SubmitButton'
 import assign from 'lodash.assign'
-import PayoutForm from '../../../../../components/common/PayoutForm'
-import Popup from '../../../../../components/common/Popup'
 import {moneyPipe} from '../../../../../utils/TextPipes'
 import MoneyTable, {TableItem} from '../../../../../components/common/MoneyTable'
 import  * as actions from '../../../../../actions/GigActions'
@@ -18,7 +16,6 @@ class OfferForm extends Component{
   componentWillMount(){
     this.setState({
       ...this.props.gig.offer,
-      showPopup: false,
       usePointPossible: (this.props.discountPoints > 0 || (this.props.gig.discount)) && !this.props.gig.referred && this.props.gig.status !== "Confirmed" 
     })
   }
@@ -60,19 +57,10 @@ class OfferForm extends Component{
     },this.getFees)
   }
 
-  hidePopup=()=>{
-    this.setState({
-      showPopup: false
-    })
-  }
-
   render() {
       return (
           <div>
-          <Popup showing={this.state.showPopup}
-            onClickOutside={this.hidePopup}>
-            <PayoutForm/>
-          </Popup>  
+          
 
 
                   <Form
@@ -279,7 +267,7 @@ class OfferForm extends Component{
                       {!this.props.payoutInfoValid ?
                         <Button
                           rounded={true}
-                          onClick={()=>this.setState({showPopup:true})}
+                          onClick={this.props.showPopup}
                           name="show-payout-popup"
                         >Update payout information</Button>
                     : null }
