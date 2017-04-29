@@ -16,8 +16,9 @@ class OfferForm extends Component{
   componentWillMount(){
     this.setState({
       ...this.props.gig.offer,
-      usePointPossible: (this.props.discountPoints > 0 || (this.props.gig.discount)) && !this.props.gig.referred && this.props.gig.status !== "Confirmed" 
-    })
+      usePointPossible: (this.props.discountPoints > 0 || (this.props.gig.discount)) && !this.props.gig.referred && this.props.gig.status !== "Confirmed",
+      currency: this.props.gig.status === "Initial" ?  this.props.profileCurrency : this.props.gig.offer.currency
+   })
   }
         
   updateOffer = (form, callback) => {
@@ -26,10 +27,18 @@ class OfferForm extends Component{
     }
   }
 
+  init = true
+
   getFees = () => {
+    //Dont fire first time
+    if (this.init) {
+      this.init = false
+      return
+    }
+
     this.setState({
       loading: true,
-      currency:this.props.profileCurrency
+      currency: this.props.profileCurrency
     },()=>
     actions.getFee({
         ...this.state, 
