@@ -72,6 +72,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "postinstall": "react-scripts build",
     "startProd": "NODE_ENV=production react-scripts start",
     "build": "react-scripts build ",
     "test": "react-scripts test --env=jsdom",
