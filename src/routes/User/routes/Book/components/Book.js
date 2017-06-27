@@ -19,6 +19,9 @@ import LoadingPlaceholder from '../../../../../components/common/LoadingPlacehol
 import RiderOptions from '../../../../../components/common/RiderOptions'
 import wNumb from 'wnumb'
 import c from '../../../../../constants/constants'
+import { connect } from 'react-redux'
+import * as eventActions from '../../../../../actions/EventActions'
+import * as userActions from '../../../../../actions/UserActions'
 
 var RequestForm = React.createClass({
   propTypes: {
@@ -315,9 +318,6 @@ var RequestForm = React.createClass({
 })
 
 
-import { connect } from 'react-redux'
-import * as eventActions from '../../../../../actions/EventActions'
-import * as userActions from '../../../../../actions/UserActions'
 
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters

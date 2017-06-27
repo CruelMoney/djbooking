@@ -7,6 +7,11 @@ import Logo from './common/Logo'
 import MobileMenu from './MobileMenu'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { connect } from 'react-redux'
+import * as actions from '../actions/LoginActions'
+
+
+
 const theme = getMuiTheme()
 
 var menu = React.createClass({
@@ -176,8 +181,6 @@ var menu = React.createClass({
     )
   }
 })
-import { connect } from 'react-redux'
-import * as actions from '../actions/LoginActions'
 
 
 function mapStateToProps(state, ownprops) {

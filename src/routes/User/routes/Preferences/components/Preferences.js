@@ -14,6 +14,9 @@ import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import entries from 'object.entries';
 import TextField from '../../../../../components/common/Textfield'
 import Login from '../../../../../components/common/Login'
+import { connect } from 'react-redux'
+import * as actions from '../../../../../actions/UserActions'
+import {userLogout} from '../../../../../actions/LoginActions'
 
 
 const preferences = React.createClass({
@@ -399,9 +402,6 @@ const preferences = React.createClass({
 })
 
 
-import { connect } from 'react-redux'
-import * as actions from '../../../../../actions/UserActions'
-import {userLogout} from '../../../../../actions/LoginActions'
 
 
 function mapStateToProps(state, ownProps) {

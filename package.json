@@ -14,7 +14,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
     "flow-bin": "^0.36.0",
-    "react-scripts": "0.9.3"
+    "react-scripts": "1.0.7"
   },
   "dependencies": {
     "auth0-js": "^7.6.1",
@@ -71,6 +71,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "postinstall": "react-scripts build",
     "startProd": "NODE_ENV=production react-scripts start",
     "build": "react-scripts build ",
     "test": "react-scripts test --env=jsdom",

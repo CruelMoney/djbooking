@@ -5,6 +5,9 @@ import * as c from '../../constants/constants'
 /*animation stuff*/
 import QueueAnim from 'rc-queue-anim';
 import ScrollAnim from 'rc-scroll-anim';
+import { connect } from 'react-redux'
+import * as actions from '../../actions/SessionActions'
+
 const ScrollOverPack = ScrollAnim.OverPack;
 
 const footer = React.createClass({
@@ -134,9 +137,6 @@ const footer = React.createClass({
 
 
 
-
-    import { connect } from 'react-redux'
-    import * as actions from '../../actions/SessionActions'
 
 
     function mapStatetoProps(state, ownprops){

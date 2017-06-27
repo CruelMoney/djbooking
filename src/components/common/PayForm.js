@@ -10,10 +10,11 @@ import {datePipeCard, cardNumberPipe} from '../../utils/TextPipes'
 import Formatter from '../../utils/Formatter'
 import MoneyTable, {TableItem} from './MoneyTable'
 import CurrencyConverter from '../../utils/CurrencyConverter'
+import assign from 'lodash.assign'
+
 const curConverter = new CurrencyConverter()
 
 
-import assign from 'lodash.assign'
 
 var payForm = React.createClass({
   propTypes: {

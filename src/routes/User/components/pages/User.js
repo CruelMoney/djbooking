@@ -3,6 +3,8 @@ import UserHeader from '../blocks/UserHeader'
 import Footer from '../../../../components/common/Footer'
 import Form from '../../../../components/common/Form-v2'
 
+import { connect } from 'react-redux'
+import * as actions from '../../../../actions/UserActions'
 import '../../../../css/transitions.css'
 
 var user = React.createClass({
@@ -197,8 +199,6 @@ var user = React.createClass({
 })
 
 
-import { connect } from 'react-redux'
-import * as actions from '../../../../actions/UserActions'
 
 
 function mapStateToProps(state, ownProps) {

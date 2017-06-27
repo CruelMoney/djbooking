@@ -2057,7 +2057,8 @@ color: #32325D;
 
 .location_ header h1{
   font-size: 50px;
-    line-height: 70px;
+  line-height: 70px;
+  width: 100vw;
 }
 .location_ header p{
   font-size: 19px;

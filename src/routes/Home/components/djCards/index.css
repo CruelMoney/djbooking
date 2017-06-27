@@ -1,0 +1,59 @@
+.dj-card{
+    padding: 0;
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
+    width: 360px;
+}
+
+.dj-card .profile-picture img,
+.dj-card .info{
+    height: 180px;
+    width: 180px;
+}
+
+.dj-card .info{
+    color: #32325D;
+    text-transform: capitalize;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.location_ header .dj-card h4{
+    text-transform: capitalize;
+    font-size: 20px;
+    margin: 0;
+}
+
+.location_ header .dj-card p{
+    font-size: 14px;
+    margin: 0;
+    line-height: 18px;
+    display: block; /* Fallback for non-webkit */
+    display: -webkit-box;
+    max-width: 100px;
+    max-height: 54px; /* Fallback for non-webkit */
+    margin: 0 auto;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.dj-card svg{
+    height: 22px;
+    width: 22px;
+    margin-left: -5px;
+    margin-right: 5px;
+}
+.dj-card svg path{
+    fill: #31DAFF;
+}
+
+.dj-card tr{
+    height: 45px;
+}
+.dj-card td{
+    vertical-align: middle;
+
+}

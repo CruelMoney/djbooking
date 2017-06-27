@@ -19,6 +19,7 @@ import {connect} from 'react-redux';
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import {requestFeatures} from '../../../../../actions/Common'
 import RiderOptions from '../../../../../components/common/RiderOptions'
+import * as actions from '../../../../../actions/EventActions'
 
 var Event = React.createClass({
     propTypes: {
@@ -227,7 +228,6 @@ var Event = React.createClass({
 
 })
 
-import * as actions from '../../../../../actions/EventActions'
 
 function mapStateToProps(state, ownProps) {
   return {

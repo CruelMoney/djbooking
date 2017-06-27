@@ -6,6 +6,8 @@ import Formatter from '../../../../../utils/Formatter'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
 import EmptyPage from '../../../../../components/common/EmptyPage'
 import {requestFeatures} from '../../../../../actions/Common'
+import { connect } from 'react-redux'
+import * as actions from '../../../../../actions/ReviewActions'
 
 /*eslint no-undef: 0*/
 
@@ -155,8 +157,6 @@ var Reviews = React.createClass({
   }
 })
 
-import { connect } from 'react-redux'
-import * as actions from '../../../../../actions/ReviewActions'
 
 
 function mapStateToProps(state, ownProps) {

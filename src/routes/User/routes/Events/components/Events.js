@@ -5,6 +5,9 @@ import Formatter from '../../../../../utils/Formatter'
 import NavLink from '../../../../../components/common/Navlink'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
 import {requestFeatures} from '../../../../../actions/Common'
+import { connect } from 'react-redux'
+import * as actions from '../../../../../actions/EventActions'
+
 
 var Events = React.createClass({
   propTypes: {
@@ -109,9 +112,6 @@ var Events = React.createClass({
   }
 })
 
-
-import { connect } from 'react-redux'
-import * as actions from '../../../../../actions/EventActions'
 
 
 function mapStateToProps(state, ownProps) {
