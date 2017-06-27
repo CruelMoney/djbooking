@@ -7,11 +7,9 @@ import scrollIntoView from 'smoothscroll-polyfill'
 import Button from '../../../components/common/Button-v2'
 import padlock from '../../../assets/padlock.svg'
 import note from '../../../assets/note.svg'
-
+import DJCards from './djCards'
 /*animation stuff*/
 import ScrollAnim from 'rc-scroll-anim';
-import QueueAnim from 'rc-queue-anim';
-import TweenOne from 'rc-tween-one';
 
 const ScrollOverPack = ScrollAnim.OverPack;
 
@@ -68,36 +66,29 @@ handleButtonClick(){
         <header>
           <div id="stripes" className="v1">
             <span></span>
-            <span></span>
-            <span className="white"></span>
-            <span></span>
-            <span></span>
+
           </div>
           <div className="container">
 
             <div className="row">
-              <div className="col-md-5 col-md-push-1">
-                <QueueAnim key="1">
+              <div className="col-md-5">
                   <h1 key="title">Book qualified DJs with ease.</h1>
                   <p key="paragraph">
-                    Cueup is the easiest way for you to get a great DJ for your event. Select the date of the event and fill out the form below. Then the most qualified DJs will be chosen and asked to leave you an offer within your budget. Afterwards you are free to choose between the offers, discuss the price or decline the offers.
+                    Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.
                   </p>
-                </QueueAnim>
-              </div>
-
-              <div className="col-lg-5 col-md-push-1 col-md-6">
-                <TweenOne className="tween-one" key="0" style={{opacity: 0}} animation={{ opacity: 1 }}>
-                  <div className="card glass">
-                    <DatePicker
-                      handleChange={this.handleDateChange}
-                    />
+                  <div style={{float:"left"}}>
                     <Button
-                      className="white"
+                      color="white"
+                      className="white elevated"
                       onClick={this.handleButtonClick}>
-                      <div style={{width:"100px"}}>GO</div>
+                      <div style={{width:"150px", color:this.themeColor}}>GET OFFERS</div>
                     </Button>
                   </div>
-                </TweenOne>
+               
+              </div>
+
+              <div className="col-md-push-1 col-md-5">
+                  <DJCards />
               </div>
             </div>
 
