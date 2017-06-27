@@ -8,6 +8,7 @@ import * as actions from '../../../../../actions/UserActions'
 import * as eActions from '../../../../../actions/EventActions'
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import {requestFeatures} from '../../../../../actions/Common'
+import {connect} from 'react-redux';
 
 var Profile = React.createClass({
     propTypes: {
@@ -110,7 +111,6 @@ var Profile = React.createClass({
     }
 })
 
-import {connect} from 'react-redux';
 
 
 export const mapStateToProps = (state) => {

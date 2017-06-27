@@ -7,6 +7,9 @@ import {requestFeatures} from '../../../../../actions/Common'
 import OfferCard from '../../../../Event/routes/Offers/components/OfferCard'
 import Popup from '../../../../../components/common/Popup'
 import Login from '../../../../../components/common/Login'
+import { connect } from 'react-redux'
+import * as actions from '../../../../../actions/GigActions'
+
 
 import m from '../../../../../constants/Mocks'
 
@@ -243,9 +246,6 @@ var Gigs = React.createClass({
 
   }
 })
-import { connect } from 'react-redux'
-import * as actions from '../../../../../actions/GigActions'
-
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -258,7 +258,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     fetchGigs: (userID) => { dispatch(actions.fetchGigs(userID)) },
-    acceptGig: (gigID, price) => {dispatch(actions.acceptGig(gigID, price))},
+    //acceptGig: (gigID, price) => {dispatch(actions.//(gigID, price))},
     declineGig: (gigID) => {dispatch(actions.declineGig(gigID))},
 }}
 

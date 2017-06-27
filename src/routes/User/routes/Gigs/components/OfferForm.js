@@ -9,6 +9,8 @@ import {moneyPipe} from '../../../../../utils/TextPipes'
 import MoneyTable, {TableItem} from '../../../../../components/common/MoneyTable'
 import  * as actions from '../../../../../actions/GigActions'
 import CurrencyConverter from '../../../../../utils/CurrencyConverter'
+import { connect } from 'react-redux'
+
 const curConverter = new CurrencyConverter()
 
 class OfferForm extends Component{
@@ -290,7 +292,6 @@ class OfferForm extends Component{
   }
 }
 
-import { connect } from 'react-redux'
 
 function mapStateToProps(state, ownProps){
   return {

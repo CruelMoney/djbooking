@@ -4,7 +4,8 @@ import Formatter from '../../../utils/Formatter'
 import NavLink from '../../../components/common/Navlink'
 import LoadingPlaceholder from '../../../components/common/LoadingPlaceholder'
 import {requestFeatures} from '../../../actions/Common'
-
+import * as actions from '../../../actions/EventActions'
+import { connect } from 'react-redux'
 var Events = React.createClass({
   propTypes: {
     events: PropTypes.arrayOf(PropTypes.object),
@@ -104,8 +105,7 @@ var Events = React.createClass({
   }
 })
 
-import * as actions from '../../../actions/EventActions'
-import { connect } from 'react-redux'
+
 
 
 function mapStateToProps(state, ownProps) {

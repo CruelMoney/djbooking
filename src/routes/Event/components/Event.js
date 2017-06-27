@@ -3,7 +3,9 @@ import EventHeader from './blocks/EventHeader'
 import Footer from '../../../components/common/Footer'
 import LoadingPlaceholder from '../../../components/common/LoadingPlaceholder'
 
-
+import { connect } from 'react-redux'
+import * as actions from '../../../actions/EventActions'
+import * as commonActions from '../../../actions/Common'
 import '../../../css/transitions.css'
 
 var event = React.createClass({
@@ -122,9 +124,7 @@ var event = React.createClass({
 })
 
 
-import { connect } from 'react-redux'
-import * as actions from '../../../actions/EventActions'
-import * as commonActions from '../../../actions/Common'
+
 
 function mapStateToProps(state, ownProps) {
   return {

@@ -10,6 +10,9 @@ import note from '../../../assets/note.svg'
 import DJCards from './djCards'
 /*animation stuff*/
 import ScrollAnim from 'rc-scroll-anim';
+import { connect } from 'react-redux'
+import * as eventActions from '../../../actions/EventActions'
+import * as userActions from '../../../actions/UserActions'
 
 const ScrollOverPack = ScrollAnim.OverPack;
 
@@ -53,7 +56,7 @@ handleDateChange(date){
 requestForm : null,
 
 handleButtonClick(){
- scroll({
+ window.scroll({
   top: this.requestForm.offsetTop-20,
   left: 0,
   behavior: 'smooth'
@@ -153,9 +156,7 @@ At Cueup we focus on finding the most qualified DJs for your event - so you donâ
   }
 })
 
-import { connect } from 'react-redux'
-import * as eventActions from '../../../actions/EventActions'
-import * as userActions from '../../../actions/UserActions'
+
 
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters

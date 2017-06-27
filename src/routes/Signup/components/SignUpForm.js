@@ -5,6 +5,9 @@ import NumberedList from '../../../components/common/NumberedList'
 import Button from '../../../components/common/Button-v2'
 import SubmitButton from '../../../components/common/SubmitButton'
 
+import { connect } from 'react-redux'
+import * as actions from '../../../actions/SignupActions'
+
 import Form from '../../../components/common/Form-v2'
 import  {     TextBox,
               Textfield,
@@ -251,9 +254,6 @@ var signupForm = React.createClass({
     )
   }
 })
-
-import { connect } from 'react-redux'
-import * as actions from '../../../actions/SignupActions'
 
 
 function mapStateToProps(state, ownProps) {

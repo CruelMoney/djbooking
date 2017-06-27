@@ -1,16 +1,16 @@
 import c from '../constants/constants'
-var ActionTypes = c.ActionTypes
 
 import AuthService from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
 import CueupService from '../utils/CueupService'
-const cueup = new CueupService()
-const auth = new AuthService()
 import GeoCoder from '../utils/GeoCoder'
 import StripeService from '../utils/StripeService'
-const stripe = new StripeService()
 import * as tracker from '../utils/analytics/autotrack'
 
+var ActionTypes = c.ActionTypes
+const stripe = new StripeService()
+const auth = new AuthService()
+const cueup = new CueupService()
 
 export function fetchEvents() {
   return function (dispatch) {

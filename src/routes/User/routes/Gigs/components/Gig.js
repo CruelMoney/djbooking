@@ -7,6 +7,8 @@ import OfferForm from './OfferForm'
 import PayoutForm from '../../../../../components/common/PayoutForm'
 import Popup from '../../../../../components/common/Popup'
 import Button from '../../../../../components/common/Button-v2'
+import { connect } from 'react-redux'
+import  * as actions from '../../../../../actions/GigActions'
 
 var Gig = React.createClass({
 
@@ -361,8 +363,6 @@ var Gig = React.createClass({
   }
 })
 
-import { connect } from 'react-redux'
-import  * as actions from '../../../../../actions/GigActions'
 
 function mapStateToProps(state, ownProps){
   return {

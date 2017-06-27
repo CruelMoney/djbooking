@@ -1,6 +1,9 @@
 import React, {PropTypes} from 'react'
 import without from 'lodash.without'
 import assign from 'lodash.assign'
+import { connect } from 'react-redux'
+import * as actions from '../../actions/FormActions'
+
 
 const form = React.createClass({
     displayName: 'Form',
@@ -167,9 +170,6 @@ const form = React.createClass({
     )
   }
 })
-
-import { connect } from 'react-redux'
-import * as actions from '../../actions/FormActions'
 
 
 function mapStateToProps(state, ownprops) {

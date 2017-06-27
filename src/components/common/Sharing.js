@@ -8,6 +8,8 @@ import Logo from './Logo'
 import Textfield from './Textfield'
 import {Environment} from '../../constants/constants'
 
+import { connect } from 'react-redux'
+import * as actions from '../../actions/UserActions'
 class PreviewCard extends React.Component {
     render(){
         return (
@@ -438,8 +440,6 @@ class EmbedShare extends React.Component {
     }
 }
 
-import { connect } from 'react-redux'
-import * as actions from '../../actions/UserActions'
 
 function mapStateToProps(state, ownProps) {
   return {

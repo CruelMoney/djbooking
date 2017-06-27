@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react'
 import Navlink  from '../../../../components/common/Navlink'
 
+import { connect } from 'react-redux'
+import * as commonActions from '../../../../actions/Common'
 
 var eventNavigation = React.createClass({
 
@@ -71,8 +73,6 @@ var eventNavigation = React.createClass({
 })
 
 
-import { connect } from 'react-redux'
-import * as commonActions from '../../../../actions/Common'
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {

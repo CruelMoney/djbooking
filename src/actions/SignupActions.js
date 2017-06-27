@@ -3,8 +3,8 @@ import CueupService from '../utils/CueupService'
 import Formatter from '../utils/Formatter'
 import GeoCoder from '../utils/GeoCoder'
 import * as LoginActions from './LoginActions'
-const cueup = new CueupService()
 import * as tracker from '../utils/analytics/autotrack'
+const cueup = new CueupService()
 
 const auth = new AuthService()
 

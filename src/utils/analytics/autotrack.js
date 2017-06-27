@@ -287,7 +287,7 @@ const uuid = function b(a) {
 
 const trackHashChange = () => {
   window.addEventListener("hashchange",function(event){
-		  var newPath = document.location.pathname + location.search  +  document.location.hash;
+		  var newPath = document.location.pathname + document.location.search  +  document.location.hash;
       ga('send', 'pageview', {'page':newPath});
 	});
 };

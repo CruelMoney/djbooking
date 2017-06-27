@@ -10,7 +10,7 @@ function redirectNotAuth(nextState, replace){
    }
  }
 
-module.exports = {
+export default {
   path: 'user/:permalink',
   //onEnter: redirectNotAuth,
 

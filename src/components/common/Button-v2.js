@@ -39,7 +39,7 @@ class Button extends React.Component {
     handleClick = (e) => {
       e.preventDefault()
       if (this.props.dangerous) {
-        var confirmed = !confirm(this.props.warning)
+        var confirmed = !window.confirm(this.props.warning)
       }
       if (!confirmed) {
         if (this.props.name === undefined) {

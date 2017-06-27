@@ -6,6 +6,8 @@ import Button from '../../../../../components/common/Button-v2'
 import Rating from '../../../../../components/common/Rating'
 import Form from '../../../../../components/common/Form-v2'
 import {requestFeatures} from '../../../../../actions/Common'
+import {connect} from 'react-redux';
+import * as actions from '../../../../../actions/EventActions'
 
 
 var Review = React.createClass({
@@ -98,9 +100,6 @@ var Review = React.createClass({
             </div>
     )}
   })
-
-  import {connect} from 'react-redux';
-  import * as actions from '../../../../../actions/EventActions'
 
   export const mapStateToProps = (state) => {
     let event = state.events.values[0]

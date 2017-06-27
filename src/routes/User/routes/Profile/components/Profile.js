@@ -2,6 +2,8 @@ import React, {PropTypes} from 'react'
 import UserProfile from './UserProfile'
 import OwnProfile from './OwnProfile'
 
+import { connect } from 'react-redux'
+import * as actions from '../../../../../actions/UserActions'
 class Profile extends React.Component {
   render() {
           if (this.props.isOwnProfile){
@@ -16,8 +18,6 @@ class Profile extends React.Component {
  }
 }
 
-import { connect } from 'react-redux'
-import * as actions from '../../../../../actions/UserActions'
 
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters
