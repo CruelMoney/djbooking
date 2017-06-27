@@ -69,9 +69,6 @@ class OfferForm extends Component{
   render() {
       return (
           <div>
-          
-
-
                   <Form
                     name={"gig-offer-" + this.props.gig.id}
                     formValidCallback={this.getFees}

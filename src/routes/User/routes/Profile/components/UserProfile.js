@@ -73,7 +73,15 @@ export default React.createClass({
               <div>
                 <div className="profile">
                   
+                  {isDJ
+                    ? <TextWrapper label="Bio" text="">
+                       <p>
+                       {this.props.profile.bio} 
+                        </p>
+                       
 
+                    </TextWrapper>
+                  : null}
                   {isDJ
                     ? <TextWrapper label="Genres" text="">
                       <Genres
@@ -98,18 +106,7 @@ export default React.createClass({
                         locationName="playingLocation"/>
                     </TextWrapper>
                   : null}
-                  {isDJ
-                    ? <TextWrapper label="Bio" text="">
-                      <TextBox
-                        validate={['required']}
-                        width="100%"
-                        height="150px"
-                        name="bio"
-                        disabled={!this.context.editing}
-                        value={this.props.profile.bio}/>
-
-                    </TextWrapper>
-                  : null}
+                  
                   {/* {isDJ
                     ? <TextWrapper label="Experience" text="How much experience do you have?">
                     <ExperienceSlider queupGigs={this.props.profile.gigsCount} otherGigs={this.props.profile.experienceCount} disabled={!this.context.editing} name="experienceCount"/>
