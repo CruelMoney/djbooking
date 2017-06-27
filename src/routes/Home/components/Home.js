@@ -74,12 +74,12 @@ handleButtonClick(){
           <div className="container">
 
             <div className="row">
-              <div className="col-md-5">
+              <div style={{marginTop: "60px"}} className="col-md-5">
                   <h1 key="title">Book qualified DJs with ease.</h1>
                   <p key="paragraph">
                     Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.
                   </p>
-                  <div style={{float:"left"}}>
+                  <div style={{float:"left", marginTop:"20px"}}>
                     <Button
                       color="white"
                       className="white elevated"
@@ -90,7 +90,7 @@ handleButtonClick(){
                
               </div>
 
-              <div className="col-md-push-1 col-md-5">
+              <div className=" col-md-8">
                   <DJCards />
               </div>
             </div>

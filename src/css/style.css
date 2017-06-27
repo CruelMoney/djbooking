@@ -886,10 +886,11 @@ input[type="file"] + label * {
 }
 
 #content {
-    margin-top: 80px;
+    
 }
 #content > div{
-  overflow-y: hidden;
+  overflow: hidden;
+  padding-top: 80px;
 }
 
 .collapsible{

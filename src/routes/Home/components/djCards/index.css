@@ -3,13 +3,14 @@
     display: flex;
     overflow: hidden;
     flex-direction: row;
-    width: 360px;
+    width: 276px;
+    margin-left: 20px;
 }
 
 .dj-card .profile-picture img,
 .dj-card .info{
-    height: 180px;
-    width: 180px;
+    height: 138px;
+    width: 138px;
 }
 
 .dj-card .info{
@@ -22,14 +23,14 @@
 }
 .location_ header .dj-card h4{
     text-transform: capitalize;
-    font-size: 20px;
+    font-size: 18px;
     margin: 0;
 }
 
 .location_ header .dj-card p{
-    font-size: 14px;
+    font-size: 12px;
     margin: 0;
-    line-height: 18px;
+    line-height: 15px;
     display: block; /* Fallback for non-webkit */
     display: -webkit-box;
     max-width: 100px;
@@ -41,8 +42,8 @@
     text-overflow: ellipsis;
 }
 .dj-card svg{
-    height: 22px;
-    width: 22px;
+    height: 15px;
+    width: 15px;
     margin-left: -5px;
     margin-right: 5px;
 }
@@ -57,3 +58,27 @@
     vertical-align: middle;
 
 }
+
+
+.dj-cards{
+    position: absolute;
+    z-index: 2;
+    width: 1200px;
+    overflow: visible;
+    transform:  rotate(-12deg) translateY(-50px) translateX(-40px) perspective(1px);
+}
+
+.dj-cards > div{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.dj-cards > div:nth-child(1){
+   margin-left: 296px;
+}
+.dj-cards > div:nth-child(2){
+   margin-left: 148px;
+}    
+.dj-cards > div:nth-child(4){
+   margin-left: 444px;
+} 
