@@ -154,6 +154,12 @@ export default class CueupService {
        this.postInit(data, this.getHeaders(token)),
        callback
      )}
+    checkDjAvailability(data, callback) {
+     return this.fetchHandling(
+       `${this.domain}/api/event/availability`,
+       this.postInit(data, this.getHeaders(null)),
+       callback
+     )}
 
    getUserEvent(token, callback) {
      return this.fetchHandling(

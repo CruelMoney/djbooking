@@ -110,6 +110,25 @@ export function postEvent(form, callback) {
 }
 
 
+export function checkDjAvailability(form, callback) {
+  return function (dispatch) {
+      getLocation(form.location).then((geoResult)=>{
+              var event = converter.cueupEvent.toDTO(form);
+              var data ={...event, location:{
+                lat:geoResult.position.lat,
+                lng: geoResult.position.lng,
+                name: event.location}, }
+              cueup.checkDjAvailability(data, function(err, result){
+                if (err) {
+                  (callback(err))
+                }else{
+                  (callback(result))
+                }
+              })}
+      ).catch(errMessage=>callback(errMessage))     
+  }
+}
+
 export function updateEvent(event, callback) {
   var self = this
   return function(dispatch){

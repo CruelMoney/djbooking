@@ -1,2 +1,0 @@
-webpackJsonp([11,14],{247:function(t,n,e){"use strict";t.exports={path:"agreements",onEnter:function(){return document.title="Terms of Service | Cueup"},getComponent:function(t,n){e.e(29,function(t){n(null,e(370).default)})}}},697:function(t,n,e){"use strict";t.exports={path:"privacy",onEnter:function(){return document.title="Privacy Policy | Cueup"},getComponent:function(t,n){e.e(28,function(t){n(null,e(696).default)})}}}});
-//# sourceMappingURL=11.45826521.chunk.js.map

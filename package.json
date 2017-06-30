@@ -39,6 +39,7 @@
     "if-env": "^1.0.0",
     "is-my-date-valid": "^0.1.0",
     "keymirror": "^0.1.1",
+    "kute.js": "^1.6.2",
     "lodash.assign": "^4.2.0",
     "lodash.without": "^4.4.0",
     "material-ui": "^0.16.4",

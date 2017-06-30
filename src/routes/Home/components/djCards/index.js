@@ -17,11 +17,11 @@ export default class DJCards extends React.Component{
                         }
         )
     }
-    const cards = djs.slice(0,3).map(dj => <DJCard dj={dj} />)
+    const cards = djs.slice(0,4).map(dj => <DJCard dj={dj} />)
     return (
         <div className="dj-cards">
             <div>
-                {cards}
+                {cards.slice(0,3)}
             </div>
             <div>
                 {cards}

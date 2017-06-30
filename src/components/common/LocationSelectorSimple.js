@@ -37,10 +37,12 @@ var Text = React.createClass({
   updateSuggestions(predictions, status){
     var li = []
 
-    predictions.forEach(function(prediction) {
-      li.push(prediction.description)
-    })
-
+    if(predictions){
+        predictions.forEach(function(prediction) {
+          li.push(prediction.description)
+        })
+    }
+  
     this.setState({
       dataSource: li,
     })

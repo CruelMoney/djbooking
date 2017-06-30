@@ -1,16 +1,5 @@
-import AuthService from '../../utils/AuthService'
-const auth = new AuthService()
 
-function redirectNotAuth(nextState, replace){
-     if (!auth.loggedIn()) {
-       replace({
-       pathname: '/',
-       state: { nextPathname: nextState.location.pathname }
-     })
-   }
- }
-
-export default {
+module.exports ={
   path: 'user/:permalink',
   //onEnter: redirectNotAuth,
 

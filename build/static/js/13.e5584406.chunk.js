@@ -1,2 +1,0 @@
-webpackJsonp([13],{248:function(t,n,e){"use strict";t.exports={path:"profile",onEnter:function(){return document.title=document.title.split("|")[0]+"| Profile"},getComponent:function(t,n){e.e(17,function(t){n(null,e(371).default)})}}}});
-//# sourceMappingURL=13.e5584406.chunk.js.map

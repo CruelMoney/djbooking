@@ -74,7 +74,7 @@ handleButtonClick(){
           <div className="container">
 
             <div className="row">
-              <div style={{marginTop: "60px"}} className="col-md-5">
+              <div className="col-md-5">
                   <h1 key="title">Book qualified DJs with ease.</h1>
                   <p key="paragraph">
                     Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.
@@ -111,6 +111,7 @@ handleButtonClick(){
               checkEmail={this.props.checkEmail}
               emailExists={this.props.emailExists}
               initialCity={this.props.geoCity}
+              checkDjAvailability={this.props.checkDjAvailability}
             />
           </div>
 
@@ -168,6 +169,7 @@ function mapStateToProps(state, ownProps) {
         state.forms["requestForm-step-1"] ? state.forms["requestForm-step-1"].values : {} ,
         state.forms["requestForm-step-2"] ? state.forms["requestForm-step-2"].values : {} ,
         state.forms["requestForm-step-3"] ? state.forms["requestForm-step-3"].values : {} ,
+        state.forms["requestForm-step-4"] ? state.forms["requestForm-step-4"].values : {} ,
       ),
     geoCity: state.session.city,
     emailExists: state.login.status.emailExists
@@ -177,6 +179,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     onSubmit: (form, callback)    => {dispatch(eventActions.postEvent(form, callback))},
+    checkDjAvailability: (form, callback)    => {dispatch(eventActions.checkDjAvailability(form, callback))},
     checkEmail: (email, callback) => {dispatch(userActions.checkEmail(email, callback))}
 }}
 

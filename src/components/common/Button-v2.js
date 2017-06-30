@@ -41,7 +41,7 @@ class Button extends React.Component {
       if (this.props.dangerous) {
         var confirmed = !window.confirm(this.props.warning)
       }
-      if (!confirmed) {
+      if (!confirmed && this.props.onClick) {
         if (this.props.name === undefined) {
           this.props.onClick(this.props.label)
         }else{
