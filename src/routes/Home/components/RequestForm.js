@@ -104,6 +104,13 @@ export default React.createClass({
     this.setState({date:date})
   },
 
+   setProgress(step){
+     if(step+1<this.state.activeStep){
+       this.setState({activeStep:step+1})
+     }
+   
+  },
+
   render() {
     return(
       <div className="request-form">
@@ -130,6 +137,7 @@ export default React.createClass({
           :
           <div className="col-md-6">
             < Progress
+              setProgress={this.setProgress}
               currentStep={this.state.activeStep-1}
              />
               <div className="card">
@@ -262,17 +270,12 @@ DateChanged=(date)=>{
   this.props.updateDate(date)
 }
 
-checkDjAvailability=()=>{
-
-}
 
 next=()=>{
   if (this.validationChecker(true)){
     this.setState({loading:true})
     this.props.checkDjAvailability(this.props.form, (res, err)=>{
       this.setState({loading:false})
-      console.log(err)
-      console.log(res)
       if(err){
         console.log(err)
         this.setState({loading:false, err:"Something went wrong.", msg:""})
@@ -337,18 +340,16 @@ render(){
           <p>Select date of event.</p>
         </section>
       
-
-      <div>
-       
-      </div>
+        <Button
+        type="submit"
+        isLoading={this.state.loading}
+        onClick={this.next}
+        >
+          CONTINUE
+        </Button>
     </Form>
 
-    <Button
-    isLoading={this.state.loading}
-    onClick={this.next}
-    >
-      CONTINUE
-    </Button>
+
 
     <p 
     style={{marginTop:"5px"}}
@@ -415,6 +416,7 @@ class Step2 extends React.Component{
           back
         </span>
         <Button
+        type="submit"
         onClick={this.next}
         >
       NEXT
@@ -508,6 +510,7 @@ next=()=>{
             back
           </span>
            <Button
+           type="submit"
         onClick={this.next}
         >
           NEXT

@@ -2234,6 +2234,8 @@ width: 100%;
   width: 50px;
   position: relative;
   background: white;
+  pointer-events: all;
+  cursor: pointer;
 }
 .progrezz .step p{
   line-height: 48px;

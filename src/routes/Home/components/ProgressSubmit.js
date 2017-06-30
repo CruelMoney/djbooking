@@ -81,7 +81,9 @@ export default React.createClass({
           }}
           className={className}>
           
-          <div className={this.props.currentStep >= 1 ? " step done" : " step" }>
+          <div 
+          onClick={()=>this.props.setProgress(1)}
+          className={this.props.currentStep >= 1 ? " step done" : " step" }>
             <p>
               {/*{this.props.currentStep > 1 ? <img className="checkmark" src={checkmark} alt="checkmark"/> : 1}*/}
               1
@@ -94,7 +96,9 @@ export default React.createClass({
             </svg>
           </div>
 
-          <div className={this.props.currentStep >= 2 ? "done step" : " step"}>
+          <div 
+           onClick={()=>this.props.setProgress(2)}
+          className={this.props.currentStep >= 2 ? "done step" : " step"}>
             <p >
               {/*{this.props.currentStep > 2 ? <img className="checkmark" src={checkmark} alt="checkmark"/> : 2}*/}
               2
@@ -107,7 +111,9 @@ export default React.createClass({
             </svg>
           </div>
 
-          <div  className={this.props.currentStep >= 3 ? "step done" : " step"}>
+          <div  
+           onClick={()=>this.props.setProgress(3)}
+          className={this.props.currentStep >= 3 ? "step done" : " step"}>
             <p >
               {/*{this.props.currentStep > 3 ? <img className="checkmark" src={checkmark} alt="checkmark"/> : 3}*/}
               3
