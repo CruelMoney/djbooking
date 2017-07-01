@@ -12,6 +12,7 @@
 .dj-card .info{
     height: 138px;
     width: 138px;
+    object-fit: cover;
 }
 
 .dj-card .info{

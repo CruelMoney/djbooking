@@ -1,36 +1,110 @@
 import React from 'react'
 import './index.css'
 import note from '../../../../assets/note.svg'
+import frank from '../../../../assets/images/frank-hansen.png'
+import martin from '../../../../assets/images/martin-edvardsen.png'
+import mati from '../../../../assets/images/matti.jpg'
+import emma from '../../../../assets/images/emma.jpg'
+import mussa from '../../../../assets/images/musa.jpg'
+import eightfive from '../../../../assets/images/18five.png'
+import jan from '../../../../assets/images/jan.png'
+import peter from '../../../../assets/images/peter.png'
+import shuffle from 'lodash.shuffle'
 
 export default class DJCards extends React.Component{
-  
+
+cards = []
+
+componentWillMount(){
+const djs = [
+         {
+        name:"Oscar",
+        location: "Copenhagen, Denmark",
+        genres: ["Disco", "Lounge", "House"],
+        img: "https://i1.sndcdn.com/avatars-000295969486-nfvt6z-large.jpg"
+    },
+     {
+        name:"Frank",
+        location: "Aarhus, Denmark",
+        genres: ["Top 40", "80s", "90s", "00s"],
+        img: frank
+        },
+        {
+            name:"Martin",
+            location: "Copenhagen, Denmark",
+            genres: ["Hip Hop", "Top 40", "Remixes"],
+            img: martin
+        },
+         {
+            name:"Mati",
+            location: "Copenhagen, Denmark",
+            genres: ["90s", "00s", "RnB", "Top 40"],
+            img: mati
+        },
+        {
+            name:"Emma",
+            location: "Copenhagen, Denmark",
+            genres: ["Disco", "80s", "90s", "RnB"],
+            img: emma
+        },
+         {
+            name:"Musa",
+            location: "Copenhagen, Denmark",
+            genres: ["Hip Hop", "Techno", "Top 40", "Latin"],
+            img: mussa
+        },
+         {
+            name:"Martin",
+            location: "Copenhagen, Denmark",
+            genres: ["Top 40", "Local", "Hip Hop", "90s"],
+            img: "https://scontent.xx.fbcdn.net/v/t31.0-1/12696931_10156451755640720_7048425708604884718_o.jpg?oh=c484e6823c4c1a44435c455673fa15b8&oe=5970B1CA"
+        },
+        
+            {
+            name:"Christopher",
+            location: "Copenhagen, Denmark",
+            genres: ["RnB", "Pop", "House", "Hip Hop"],
+            img: "https://cueup.azurewebsites.net/images/profilePicture/chris.png"
+        },
+        {
+            name:"18 Five",
+            location: "Copenhagen, Denmark",
+            genres: ["RnB", "Hip Hop", "Trap"],
+            img: eightfive
+            },
+        {
+            name:"Andreas",
+            location: "Copenhagen, Denmark",
+            genres: ["Lounge", "UKG", "House"],
+            img: jan
+            },
+        {
+            name:"Peter",
+            location: "Aarhus, Denmark",
+            genres: ["Reggae", "Hip Hop", "Rock"],
+            img: peter
+            }
+
+    ]
+   
+    this.cards = shuffle(djs.map(dj => <DJCard dj={dj} />))
+}
 
   render() {
-    const djs = []
-    for (var i = 0; i < 11; i++){
-        djs.push(
-             {
-                        name:"Christopher",
-                        location: "Copenhagen, Denmark",
-                        genres: ["RnB", "Pop", "House", "HipHop"],
-                        img: "https://cueup-staging.azurewebsites.net/images/profilePicture/christopher-dengsoe-44998401.png"
-                        }
-        )
-    }
-    const cards = djs.slice(0,4).map(dj => <DJCard dj={dj} />)
+    
     return (
         <div className="dj-cards">
             <div>
-                {cards.slice(0,3)}
+                {this.cards.slice(0,3)}
             </div>
             <div>
-                {cards}
+                {this.cards.slice(3,6)}
             </div>
             <div>
-                {cards}
+                {this.cards.slice(6,9)}
             </div>
             <div>
-                {cards.slice(0,2)}
+                {this.cards.slice(9,11)}
             </div>
             
         </div>
