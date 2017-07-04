@@ -5,8 +5,15 @@
     flex-direction: row;
     width: 276px;
     margin-left: 20px;
+    transition: 0.25s;
+    transform: translateX(15px);
+    opacity: 0;
 }
 
+.dj-card.loaded{
+    opacity: 1;
+    transform: none;
+}
 
 .dj-card .profile-picture img,
 .dj-card .info{

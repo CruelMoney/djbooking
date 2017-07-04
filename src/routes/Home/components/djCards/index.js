@@ -2,7 +2,8 @@ import React from 'react'
 import './index.css'
 import note from '../../../../assets/note.svg'
 import frank from '../../../../assets/images/frank-hansen.png'
-import martin from '../../../../assets/images/martin-edvardsen.png'
+import martinE from '../../../../assets/images/martin-edvardsen.png'
+import martin from '../../../../assets/images/martin.jpg'
 import mati from '../../../../assets/images/matti.jpg'
 import emma from '../../../../assets/images/emma.jpg'
 import mussa from '../../../../assets/images/musa.jpg'
@@ -33,7 +34,7 @@ const djs = [
             name:"Martin",
             location: "Copenhagen, Denmark",
             genres: ["Hip Hop", "Top 40", "Remixes"],
-            img: martin
+            img: martinE
         },
          {
             name:"Mati",
@@ -57,7 +58,7 @@ const djs = [
             name:"Martin",
             location: "Copenhagen, Denmark",
             genres: ["Top 40", "Local", "Hip Hop", "90s"],
-            img: "https://scontent.xx.fbcdn.net/v/t31.0-1/12696931_10156451755640720_7048425708604884718_o.jpg?oh=c484e6823c4c1a44435c455673fa15b8&oe=5970B1CA"
+            img: martin
         },
         
             {
@@ -113,13 +114,26 @@ const djs = [
 }
 
 class DJCard extends React.Component{
-
+    state={loaded: false}
 
     render(){
         return(
-            <div className="card dj-card">
+            <div className={"card dj-card " + (this.state.loaded ? "loaded" : "")}>
                 <div className="profile-picture">
-                    <img src={this.props.dj.img} alt="profile-picture"/>
+                    <img 
+                        src={this.props.dj.img} 
+                        alt="profile-picture"
+                        ref={(i=>{
+                            if(!this.state.loaded && i && i.complete){
+                                this.setState({loaded:true})
+                            }
+                            })}
+                        onLoad={(()=>{
+                            if(!this.state.loaded){
+                                 this.setState({loaded:true})
+                            }
+                            })}
+                        />
                 </div>
                 <div className="info">
                     <h4>{this.props.dj.name}</h4>
