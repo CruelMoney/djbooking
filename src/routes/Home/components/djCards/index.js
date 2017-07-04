@@ -5,6 +5,7 @@ import frank from '../../../../assets/images/frank-hansen.png'
 import martinE from '../../../../assets/images/martin-edvardsen.png'
 import martin from '../../../../assets/images/martin.jpg'
 import mati from '../../../../assets/images/matti.jpg'
+import simon from '../../../../assets/images/simon.jpg'
 import emma from '../../../../assets/images/emma.jpg'
 import mussa from '../../../../assets/images/musa.jpg'
 import eightfive from '../../../../assets/images/18five.png'
@@ -37,10 +38,10 @@ const djs = [
             img: martinE
         },
          {
-            name:"Mati",
+            name:"Simon",
             location: "Copenhagen, Denmark",
             genres: ["90s", "00s", "RnB", "Top 40"],
-            img: mati
+            img: simon
         },
         {
             name:"Emma",
