@@ -157,7 +157,7 @@ getInitialState(){
             : null}
             <div className="user-card-fact">
               <p>Rating</p>
-              {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : "No reviews yet"}
+              <Rating rating={this.props.rating}/>
             </div>
             </div>
             

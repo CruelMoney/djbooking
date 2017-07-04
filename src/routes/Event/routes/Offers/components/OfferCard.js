@@ -69,13 +69,12 @@ var OfferCard = React.createClass({
                 </svg>
                 {" " + this.props.offer.dj.city}
               </div>
-              {this.props.offer.dj.avgRating === 0?
-                <p style={{fontSize: "12px", margin: "0"}}>No ratings yet</p>
-                :
+           
+           
                 <Rating
                   rating={this.props.offer.dj.avgRating}
                 />
-              }
+              
 
             </div>
           </div>

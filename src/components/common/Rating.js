@@ -95,8 +95,8 @@ export default React.createClass({
 
 componentWillMount(){
     this.setState({
-      origRating: this.props.rating || 0,
-      rating: this.props.rating || 0
+      origRating: this.props.rating || 4,
+      rating: this.props.rating || 4
     })
 
     if (this.props.editable) {
@@ -110,8 +110,8 @@ componentWillMount(){
 
     if (this.context.registerReset) {
       this.removeReset = this.context.registerReset(()=>    this.setState({
-            origRating: this.props.rating || 0,
-            rating: this.props.rating || 0
+            origRating: this.props.rating || 4,
+            rating: this.props.rating || 4
           }))
     }
 

@@ -79,6 +79,11 @@ handleButtonClick(){
                   <p key="paragraph">
                     Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.
                   </p>
+
+                  <div className="trustpilot-widget" data-locale="en-GB" data-template-id="56278e9abfbbba0bdcd568bc" data-businessunit-id="5900e9230000ff0005a14694" data-style-height="52px" data-style-width="100%">
+                    <a href="https://uk.trustpilot.com/review/cueup.io" target="_blank">Trustpilot</a>
+                  </div>
+
                   <div style={{float:"left", marginTop:"20px"}}>
                     <Button
                       color="white"
