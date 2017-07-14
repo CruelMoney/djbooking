@@ -41,11 +41,13 @@ export default React.createClass({
                     </p>
                 </Collapsible>
                 <Collapsible
-                  label="Can I talk to the organizer before playing?"> 
+                  label="Can I talk to the organizer before playing or making an offer?"> 
                     <p>
                         Yes. 
                         As soon as you receive a request to make an offer, 
                         you can contact the organizer on either email or phone.
+                        The only requirement is that you have registered your bank account, otherwise we will not be able to transfer the money to you.
+                        Are you having trouble registering your bank account? Don't hesitate contacting us.  
                     </p>
                 </Collapsible>
                 <Collapsible
