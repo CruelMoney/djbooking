@@ -2530,6 +2530,102 @@ left: 50%;
   margin-top: 60px;
 }
 
+
+.dj-card{
+    padding: 0;
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
+    width: 276px;
+    margin-left: 20px;
+    transition: 0.25s;
+    transform: translateX(15px);
+    opacity: 0;
+}
+
+.dj-card.loaded{
+    opacity: 1;
+    transform: none;
+}
+
+.dj-card .profile-picture img,
+.dj-card .info{
+    height: 138px;
+    width: 138px;
+    object-fit: cover;
+}
+
+.dj-card .info{
+    color: #32325D;
+    text-transform: capitalize;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.location_ header .dj-card h4{
+    text-transform: capitalize;
+    font-size: 18px;
+    margin: 0;
+}
+
+.location_ header .dj-card p{
+    font-size: 12px;
+    margin: 0;
+    line-height: 15px;
+    display: block; /* Fallback for non-webkit */
+    display: -webkit-box;
+    max-width: 100px;
+    max-height: 54px; /* Fallback for non-webkit */
+    margin: 0 auto;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.dj-card svg{
+    height: 15px;
+    width: 15px;
+    margin-left: -5px;
+    margin-right: 5px;
+}
+.dj-card svg path{
+    fill: #31DAFF;
+}
+
+.dj-card tr{
+    height: 45px;
+}
+.dj-card td{
+    vertical-align: middle;
+
+}
+
+
+.dj-cards{
+    position: absolute;
+    z-index: 2;
+    width: 1800px;
+    overflow: visible;
+    transform:  rotate(-12deg) translateY(-100px) translateX(-40px) perspective(1px);
+}
+
+.dj-cards > div{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.dj-cards > div:nth-child(1){
+   margin-left: 296px;
+}
+.dj-cards > div:nth-child(2){
+   margin-left: 148px;
+}    
+.dj-cards > div:nth-child(4){
+   margin-left: 444px;
+} 
+
+
 /* SMALL COM BEGIN */
 @media only screen 
   and (max-width : 992px)  {

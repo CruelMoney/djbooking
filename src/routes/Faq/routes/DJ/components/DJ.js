@@ -94,6 +94,12 @@ export default React.createClass({
                     </p>
                 </Collapsible>
                 <Collapsible
+                  label="Can I add testimonials from earlier customers as reviews?"> 
+                    <p>
+                        Yes. Contact us using the chat function or our email, and we'll sort it out. 
+                    </p>
+                </Collapsible>
+                <Collapsible
                   label="How quickly do I get my money?"> 
                     <p>
                         When you have played a gig, the transfer to your bankaccount will be made a day after the event is finished.
