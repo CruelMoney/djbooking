@@ -33,7 +33,7 @@ export default React.createClass({
             <h1 className="Header-title common-PageTitle">
               Become DJ at Cueup.
                <span className="Header-subTitle common-PageSubtitle">
-               Be your own boss.
+               Get the gigs you want.
                </span>
               </h1>
              
@@ -50,7 +50,7 @@ export default React.createClass({
           <div  className="col-sm-6 col-md-5 col-md-push-1">
             <div className="card">
               <img src={krIcon} alt="Money icon"/>
-              <h2 style={{color:"rgb(176, 49, 255)"}}>Membership free of charge</h2>
+              <h2 style={{color:"rgb(176, 49, 255)"}}>Membership FREE of charge, you set your own prices</h2>
               <p style={{color:"#32325D"}}>
                 At Cueup you don't have to pay anything to start getting gigs. 
                 In fact you don't have to pay anything at anytime. 
@@ -64,9 +64,11 @@ export default React.createClass({
         <div  className="col-sm-6 col-md-5 col-md-push-1">
           <div className="card">
             <img src={vinyl} alt="vinyl icon"/>
-            <h2 style={{color:"rgb(176, 49, 255)"}}>Get the kind of gigs you want</h2>
+            <h2 style={{color:"rgb(176, 49, 255)"}}>We handle the payment, you enjoy the benefits</h2>
             <p style={{color:"#32325D"}}>
-            Cueup is build for the DJs! By specifying what genres you like to play and telling about yourself, we will find the gigs that suites your style. At the same time you have the freedom to decline any gig that you are offered. The gig will simply be offered to the next DJ in line. We also strive to make sure, that all DJs get an equal amount of gigs. 
+            Cueup is build for the DJs! We will find the gigs that suites your style. At the same time you have the freedom to decline any gig that you are offered. You'll never have to worry about collecting money again, as the organizers will pay up front using Cueup. In case of a cancelation, you define your own cancelation policy and will still get paid according to your policy. 
+           
+            {/* Cueup is build for the DJs! By specifying what genres you like to play and telling about yourself, we will find the gigs that suites your style. At the same time you have the freedom to decline any gig that you are offered. The gig will simply be offered to the next DJ in line. We also strive to make sure, that all DJs get an equal amount of gigs.  */}
               
             </p>
           </div>
