@@ -80,20 +80,17 @@ export default React.createClass({
                         Your experience will also be shown and will help you justify a higher price if you have played at more events.
                         <br/>
                         <br/>
-                        When setting a price for your offer, an additional fee is added to to price to help us run the platform.
-                        This fee is a calculated percentage of your price where the percentage is higher for a small offer and lower for a large offer.
-                        <br/>
-                        <br/>
-                        A simplified example is an offer on 1000 kr. that could have a service fee of 10% equal to 100 kr.,
-                        whereas an offer on 10.000 kr. could have a service fee of 5% equal to 500kr.
+                        When setting a price for your offer, an additionals service fee is added to the price to help us run the platform.
+                        This fee is a calculated percentage of your price where the percentage is higher for a small offer and lower for a large offer. 
+                        In this manner we encourage you to make a higher offer. 
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="Can my own customers pay through Cueup?"> 
                     <p>
-                        At the moment there is no way to refer your own customers to pay through Cueup.
-                        It is a very high priority to add this functionality. 
-                        When referring your own customer the service fee will be at the lowest possible percentage.
+                        Yes. Go to your profile and scroll to the bottom. Here you'll find a section called "REFER ORGANIZERS",
+                        and you can use one of the provided methods to get share a link to your profile.
+                        When referring your own customers the service fee will be discarded.
                     </p>
                 </Collapsible>
                 <Collapsible
@@ -106,16 +103,16 @@ export default React.createClass({
                 <Collapsible
                   label="Does Cueup pay my taxes?"> 
                     <p>
-                        Currently Cueup does not pay any of the taxes you have to pay when. 
-                        In the near future this functionality will be added. 
+                        Currently Cueup does not handle any of your taxes. 
+                        It is a priority to add this functionality. 
                     </p>
                 </Collapsible>
                 <Collapsible
                   label="Is my profile public?"  
                 > 
-                <p>
-                    No. Only you can see the page you see when logged in.
-                    To see an example of what the organizer sees, go to your profile and select "price offer example". 
+                <p> 
+                    Yes, but people can only find your profile if they have the corresponding link. 
+                    To see your public profile either go to your profile and select "public profile", or logout and go to the url of your profile. 
                   </p>
                 </Collapsible>
               </CollapsibleContainer>
