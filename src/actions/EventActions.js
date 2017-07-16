@@ -112,6 +112,7 @@ export function postEvent(form, callback) {
 
 export function checkDjAvailability(form, callback) {
   return function (dispatch) {
+      tracker.trackCheckAvailability()
       getLocation(form.location).then((geoResult)=>{
               var event = converter.cueupEvent.toDTO(form);
               var data ={...event, location:{

@@ -91,7 +91,12 @@ export const trackError = (error, fieldsObj = {}) => {
   }, fieldsObj));
 };
 
-
+export function trackCheckAvailability(){
+  ga('send', 'event', {
+    eventCategory: 'Event',
+    eventAction: 'checkavailability'
+  });
+};
 export function trackSignup(){
   ga('send', 'event', {
     eventCategory: 'Account',
