@@ -117,7 +117,7 @@ export default class CueupService {
    }
    getUserReviews(id, callback) {
      return this.fetchHandling(
-       `${this.domain}/api/user/reviews/${id}`,
+       `${this.domain}/api/user/${id}/reviews`,
        this.getInit(this.getHeaders("")),
        callback
      )}
