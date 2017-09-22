@@ -31,7 +31,7 @@ export default React.createClass({
       <div className="row center-xs"> 
         <div className="col-xs-12">
             <h1 className="Header-title common-PageTitle">
-              Become DJ at Cueup.
+              Apply to become DJ at Cueup.
                <span className="Header-subTitle common-PageSubtitle">
                Get the gigs you want.
                </span>

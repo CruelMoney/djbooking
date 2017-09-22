@@ -147,7 +147,7 @@ At Cueup we focus on finding the most qualified DJs for your event - so you donâ
                 firstLabel="Become DJ"
                 secondLabel="How it works"
                 title="Are you a DJ?"
-                subTitle="Become a member, or see how it works."
+                subTitle="Apply to become DJ, or see how it works."
                 />
 
             </div>

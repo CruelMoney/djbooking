@@ -257,7 +257,7 @@ class MobileMenu extends React.Component {
 
               {(this.props.isCustomer && !this.props.isDJ) ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/signup" label="Become DJ"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/signup" label="Apply to become DJ"/>
                 </li>
                 : null
               }
@@ -284,7 +284,7 @@ class MobileMenu extends React.Component {
                 null
               ) : (
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  buttonLook={true} to="/signup" label="Become DJ" important={true}/>
+                  <Navlink onClick={()=>this.handleClose()}  buttonLook={true} to="/signup" label="Apply to become DJ" important={true}/>
                 </li>
               )}
               {this.props.loggedIn ? (

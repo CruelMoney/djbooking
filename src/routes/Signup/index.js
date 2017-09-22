@@ -1,6 +1,6 @@
 module.exports = {
   path: 'signup',
-  onEnter: () =>  document.title = "Become DJ | Cueup",
+  onEnter: () =>  document.title = "Apply to become DJ | Cueup",
 
   getComponent(nextState, cb) {
     require.ensure([], (require) => {

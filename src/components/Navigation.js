@@ -141,7 +141,7 @@ var menu = React.createClass({
                   null
                 ) : (
                   <li>
-                    <Navlink buttonLook={true} to="/signup" label="Become DJ" important={true}/>
+                    <Navlink buttonLook={true} to="/signup" label="Apply to become DJ" important={true}/>
                   </li>
                 )}
                    {this.props.loggedIn ? (

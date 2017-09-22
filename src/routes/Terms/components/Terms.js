@@ -56,7 +56,7 @@ export default React.createClass({
         firstLabel="Arrange event"
         secondLabel="Become DJ"
         title="Ready to get started?"
-        subTitle="Arrange an event, or become a DJ."
+        subTitle="Arrange an event, or apply to become a DJ."
         />
       </div>
 
