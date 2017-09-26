@@ -198,7 +198,7 @@ var signupForm = React.createClass({
           name="genres"
           label="Genres"
           active={true}
-          text="What genres do you wan't to play? You can always change this in your preferences."
+          text="What genres do you want to play? You can always change this in your preferences."
         >
 
           <ToggleButtonHandler
