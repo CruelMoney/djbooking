@@ -56,6 +56,7 @@ const footer = React.createClass({
       <footer style={{backgroundColor: this.props.bgColor}}>
         <div className="footer-columns">
           <div className="social">
+            <h4>SOCIAL</h4>
             <ul>
              
               <li>
