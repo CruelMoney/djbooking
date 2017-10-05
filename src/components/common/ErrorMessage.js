@@ -6,9 +6,14 @@ class ErrorMessage extends React.Component {
   }
 
   render() {
+    const msg = 
+      this.context.errorMessage && this.context.errorMessage.message ? 
+      this.context.errorMessage.message : 
+      this.context.errorMessage;
+
     return (
-    <div className={"errors" + this.props.center ? " center " : "" }>
-      <p>{this.context.errorMessage ? this.context.errorMessage : ""}</p>
+    <div className={"errors" + (this.props.center ? " center " : "" )}>
+      <p>{msg ? msg : ""}</p>
     </div>)
   }
 }

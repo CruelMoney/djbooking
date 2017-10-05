@@ -30,7 +30,7 @@ var userHeader = React.createClass({
    },
 
   handleScroll(event){
-   let scrollTop = event.srcElement.body.scrollTop
+   let scrollTop = event.srcElement.body.scrollTop || window.scrollY;
    if (scrollTop > 280) {
      if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 516)) {
        this.userHeader.className =  "user-header fixed bottom"

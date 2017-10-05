@@ -43,8 +43,11 @@ export default class CueupService {
         } else {
             //The case that Network response was not ok
             response.json().then(function(result) {
+                console.log(result)
                 return callback({message:result.message}, null)
-            }).catch((e)=>  callback({message:"Something went wrong"}, null))
+            }).catch((e)=>  {
+              console.log(e)
+              callback({message:"Something went wrong"}, null)})
         }
     }
 
