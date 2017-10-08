@@ -26,16 +26,19 @@ var Gig = React.createClass({
   },
 
   setGigStatus(){
-    console.log('propsdate', this.props.gig.createdAt)
+  
     let createdAt = new Date(this.props.gig.createdAt);
-    console.log('createdAt', createdAt)        
-    let today = new Date();
-    let autoDeclineSeconds = createdAt.getTime() + (3*24*60*60*1000);
-    let secondsToDecline = (autoDeclineSeconds - today.getTime())/1000;
-    
-    
+    let eventStartAt = new Date(this.props.gig.startTime);
+    let eventGigDifference = (eventStartAt.getTime() - createdAt.getTime())/1000;
 
-    if(!this.props.gig.referred && this.props.gig.status === "Requested"){
+    // Only autodeclines if the gig is not a direct booking,
+    // and if the gig is still en request status,
+    // and if gig is created more than 4 days before the event.
+    if(!this.props.gig.referred && this.props.gig.status === "Requested" && eventGigDifference > (4*24*60*60)){
+      // Calculate seconds until autodecline
+      let today = new Date();
+      let autoDeclineSeconds = createdAt.getTime() + (3*24*60*60*1000);
+      let secondsToDecline = (autoDeclineSeconds - today.getTime())/1000;
       this.timeLeft = setInterval(()=>{
         secondsToDecline--;
         let totalSeconds = secondsToDecline;
@@ -67,7 +70,7 @@ var Gig = React.createClass({
             :this.props.gig.status === "Accepted" ?
             "Waiting on confirmation from organizer 😊"
             :this.props.gig.status === "Requested" ?
-            "Waiting on your offer 🤔"
+            "Event happens soon, make your offer quickly 🤑"
           : ""
       });
     }

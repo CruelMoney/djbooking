@@ -51,6 +51,7 @@ export default class CurrencyConverter {
     //Safeconvert -> add 2 percent to conversion. Used when displaying offers from other currency
     convert(amount, from, to = null, safeConvert = false){
         if (!to || from === to) return amount 
+        if(!this.fx) return 'Could not convert';
         
         this.fx.settings = { from: from, to: to};
         amount += (safeConvert ? amount*0.02 : 0)
