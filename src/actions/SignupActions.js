@@ -40,7 +40,7 @@ export function signup(form, isDj, callback) {
 export function locationExists(location, callback){
     GeoCoder.codeAddress(location, function(geoResult) {
         if (geoResult.error) {
-           callback(true, null)
+           callback(geoResult.error, null)
           }else{
            callback(false, location)
           }
@@ -104,6 +104,7 @@ function createCustomer(form, auth0Profile){
   export function handleSignupFeedback(form, isDJ = false, callback) {
     return function(err, result) {
         if (err) {
+            console.log(err, result)
             callback(err)
         } else {
 

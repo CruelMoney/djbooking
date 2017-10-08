@@ -11,18 +11,78 @@ import { connect } from 'react-redux'
 import  * as actions from '../../../../../actions/GigActions'
 
 var Gig = React.createClass({
-
+  getInitialState(){
+    return {
+      showPopup: false,
+      gigStatus: "" 
+    }
+  },
   
   componentWillMount(){
     this.setState({
-      showPopup: false,
-    })
+      eventFinished: (this.props.gig.startTime.getTime() - Date.now()) <= 0
+    });
+    this.setGigStatus();
+  },
+
+  setGigStatus(){
+    console.log('propsdate', this.props.gig.createdAt)
+    let createdAt = new Date(this.props.gig.createdAt);
+    console.log('createdAt', createdAt)        
+    let today = new Date();
+    let autoDeclineSeconds = createdAt.getTime() + (3*24*60*60*1000);
+    let secondsToDecline = (autoDeclineSeconds - today.getTime())/1000;
+    
+    
+
+    if(!this.props.gig.referred && this.props.gig.status === "Requested"){
+      this.timeLeft = setInterval(()=>{
+        secondsToDecline--;
+        let totalSeconds = secondsToDecline;
+        let days =  Math.floor(totalSeconds / (24*60*60));
+        totalSeconds %= (24*60*60);
+        let hours = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = Math.floor(totalSeconds % 60);
+        
+        this.setState({
+          gigStatus: `Make offer within ${days} day${days > 1 ? 's' : ''} ${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''} ${seconds} seconds 🤑`
+        })
+      }, 1000)
+    }else{
+      this.setState({
+        gigStatus: this.props.gig.status === "Cancelled" ?
+            "The gig has been cancelled ☹️"
+            :this.props.gig.status === "Declined" ?
+            "You have declined the gig 😮"
+            :this.props.gig.status === "Lost" ?
+            "You have lost the gig ☹️"
+            :this.props.gig.status === "Confirmed" ?
+            "The gig has been confirmed, get ready to play 😁"
+            :this.props.gig.status === "Finished"  ?
+            "The gig is finished ☺️"
+            : this.state.eventFinished ?
+            "The event is finished ☺️"
+            :this.props.gig.status === "Accepted" ?
+            "Waiting on confirmation from organizer 😊"
+            :this.props.gig.status === "Requested" ?
+            "Waiting on your offer 🤔"
+          : ""
+      });
+    }
   },
 
   showPopup(){
     this.setState({
       showPopup: true,
     })
+  },
+
+  componentWillUnmount(){
+    if(this.timeLeft){
+      clearInterval(this.timeLeft);
+    }
   },
 
   render() {
@@ -125,7 +185,6 @@ var Gig = React.createClass({
         genres = genres + genre + ", "
       }
     })
-      const eventFinished = (this.props.gig.startTime.getTime() - Date.now()) <= 0
       return (
       
         <div>
@@ -158,24 +217,7 @@ var Gig = React.createClass({
                   </div>
                 </div>
                 <div className="gig-status" >
-                  {
-                    this.props.gig.status === "Cancelled" ?
-                    "The gig has been cancelled ☹️"
-                    :this.props.gig.status === "Declined" ?
-                    "You have declined the gig 😮"
-                    :this.props.gig.status === "Lost" ?
-                    "You have lost the gig ☹️"
-                    :this.props.gig.status === "Confirmed" ?
-                    "The gig has been confirmed, get ready to play 😁"
-                    :this.props.gig.status === "Finished"  ?
-                    "The gig is finished ☺️"
-                    : eventFinished ?
-                    "The event is finished ☺️"
-                    :this.props.gig.status === "Accepted" ?
-                    "Waiting on confirmation from organizer 😊"
-                    :this.props.gig.status === "Requested" ?
-                    "Waiting on your offer 🤔"
-                  :null}
+                  {this.state.gigStatus}
                 </div>
               </div>
 
@@ -338,7 +380,7 @@ var Gig = React.createClass({
                 {  ( this.props.gig.status === "Cancelled" ||
                     this.props.gig.status === "Declined" ||
                     this.props.gig.status === "Lost" ||
-                    eventFinished ) ? <div/> :
+                    this.state.eventFinished ) ? <div/> :
 
                 <Collapsible
                   name="Offer"
