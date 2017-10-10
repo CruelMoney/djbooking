@@ -50,7 +50,7 @@ var Gig = React.createClass({
         let seconds = Math.floor(totalSeconds % 60);
         
         this.setState({
-          gigStatus: `Make offer within ${days} day${days > 1 ? 's' : ''} ${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''} ${seconds} seconds 🤑`
+          gigStatus: `Make offer within ${!!days ? (days + (days > 1 ? 'days' : 'day')) : ''} ${!!hours ? (hours + (hours > 1 ? 'hours' : 'hour')) : ''} ${!!minutes ? (minutes + (minutes > 1 ? 'minutes' : 'minute')) : ''} ${!!seconds ? (seconds + (seconds > 1 ? 'seconds' : 'second')) : ''} 🤑`
         })
       }, 1000)
     }else{
