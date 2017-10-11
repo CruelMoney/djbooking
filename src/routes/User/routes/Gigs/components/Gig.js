@@ -6,6 +6,7 @@ import assign from 'lodash.assign'
 import OfferForm from './OfferForm'
 import PayoutForm from '../../../../../components/common/PayoutForm'
 import Popup from '../../../../../components/common/Popup'
+import InfoPopup from '../../../../../components/common/InfoPopup'
 import Button from '../../../../../components/common/Button-v2'
 import { connect } from 'react-redux'
 import  * as actions from '../../../../../actions/GigActions'
@@ -50,7 +51,8 @@ var Gig = React.createClass({
         let seconds = Math.floor(totalSeconds % 60);
         
         this.setState({
-          gigStatus: `Make offer within ${!!days ? (days + (days > 1 ? 'days' : 'day')) : ''} ${!!hours ? (hours + (hours > 1 ? 'hours' : 'hour')) : ''} ${!!minutes ? (minutes + (minutes > 1 ? 'minutes' : 'minute')) : ''} ${!!seconds ? (seconds + (seconds > 1 ? 'seconds' : 'second')) : ''} 🤑`
+          expiring: true,
+          gigStatus: `Make offer within ${!!days ? (days + (days > 1 ? ' days' : ' day')) : ''} ${!!hours ? (hours + (hours > 1 ? ' hours' : ' hour')) : ''} ${!!minutes ? (minutes + (minutes > 1 ? ' minutes' : ' minute')) : ''} ${!!seconds ? (seconds + (seconds > 1 ? ' seconds' : ' second')) : ''}`
         })
       }, 1000)
     }else{
@@ -220,7 +222,12 @@ var Gig = React.createClass({
                   </div>
                 </div>
                 <div className="gig-status" >
-                  {this.state.gigStatus}
+                  {this.state.gigStatus} 
+                  {this.state.expiring ? 
+                  <InfoPopup
+                  info={"The gig request will automatically be declined if you don't make an offer within this time. Remember, you can change the offer up until the organizer has paid."}
+                  />
+                  : null}
                 </div>
               </div>
 
