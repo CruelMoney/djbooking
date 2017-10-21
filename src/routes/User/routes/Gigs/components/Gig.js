@@ -28,54 +28,72 @@ var Gig = React.createClass({
 
   setGigStatus(){
   
-    let createdAt = new Date(this.props.gig.createdAt);
-    let eventStartAt = new Date(this.props.gig.startTime);
-    let eventGigDifference = (eventStartAt.getTime() - createdAt.getTime())/1000;
-
     // Only autodeclines if the gig is not a direct booking,
     // and if the gig is still en request status,
-    // and if gig is created more than 4 days before the event.
-    if(!this.props.gig.referred && this.props.gig.status === "Requested" && eventGigDifference > (4*24*60*60)){
-      // Calculate seconds until autodecline
-      let today = new Date();
-      let autoDeclineSeconds = createdAt.getTime() + (3*24*60*60*1000);
-      let secondsToDecline = (autoDeclineSeconds - today.getTime())/1000;
-      this.timeLeft = setInterval(()=>{
-        secondsToDecline--;
-        let totalSeconds = secondsToDecline;
-        let days =  Math.floor(totalSeconds / (24*60*60));
-        totalSeconds %= (24*60*60);
-        let hours = Math.floor(totalSeconds / 3600);
-        totalSeconds %= 3600;
-        let minutes = Math.floor(totalSeconds / 60);
-        let seconds = Math.floor(totalSeconds % 60);
-        
-        this.setState({
-          expiring: true,
-          gigStatus: `Make offer within ${!!days ? (days + (days > 1 ? ' days' : ' day')) : ''} ${!!hours ? (hours + (hours > 1 ? ' hours' : ' hour')) : ''} ${!!minutes ? (minutes + (minutes > 1 ? ' minutes' : ' minute')) : ''} ${!!seconds ? (seconds + (seconds > 1 ? ' seconds' : ' second')) : ''}`
-        })
-      }, 1000)
-    }else{
-      this.setState({
-        gigStatus: this.props.gig.status === "Cancelled" ?
-            "The gig has been cancelled ☹️"
-            :this.props.gig.status === "Declined" ?
-            "You have declined the gig 😮"
-            :this.props.gig.status === "Lost" ?
-            "You have lost the gig ☹️"
-            :this.props.gig.status === "Confirmed" ?
-            "The gig has been confirmed, get ready to play 😁"
-            :this.props.gig.status === "Finished"  ?
-            "The gig is finished ☺️"
-            : this.state.eventFinished ?
-            "The event is finished ☺️"
-            :this.props.gig.status === "Accepted" ?
-            "Waiting on confirmation from organizer 😊"
-            :this.props.gig.status === "Requested" ?
-            "Event happens soon, make your offer quickly 🤑"
-          : ""
-      });
+    if(!this.props.gig.referred 
+      && this.props.gig.status === "Requested" 
+      && !!this.props.gig.createdAt
+      && !!this.props.gig.startTime
+      ){
+      
+      let createdAt = new Date(this.props.gig.createdAt);
+      let eventStartAt = new Date(this.props.gig.startTime);
+      let eventGigDifference = (eventStartAt.getTime() - createdAt.getTime())/1000;
+    
+      // and if gig is created more than 4 days before the event.
+      if(eventGigDifference > (4*24*60*60)){
+        // Calculate seconds until autodecline
+        let today = new Date();
+        let autoDeclineSeconds = createdAt.getTime() + (3*24*60*60*1000);
+        let secondsToDecline = (autoDeclineSeconds - today.getTime())/1000;
+        this.timeLeft = setInterval(()=>{
+          secondsToDecline--;
+          let totalSeconds = secondsToDecline;
+
+          if(totalSeconds <= 0){
+            this.setState({
+              expiring: false,
+              gigStatus: `Gig has expired 😑`
+            })
+          }else{
+            let days =  Math.floor(totalSeconds / (24*60*60));
+            totalSeconds %= (24*60*60);
+            let hours = Math.floor(totalSeconds / 3600);
+            totalSeconds %= 3600;
+            let minutes = Math.floor(totalSeconds / 60);
+            let seconds = Math.floor(totalSeconds % 60);
+            
+            this.setState({
+              expiring: true,
+              gigStatus: `Make offer within ${!!days ? (days + (days > 1 ? ' days' : ' day')) : ''} ${!!hours ? (hours + (hours > 1 ? ' hours' : ' hour')) : ''} ${!!minutes ? (minutes + (minutes > 1 ? ' minutes' : ' minute')) : ''} ${!!seconds ? (seconds + (seconds > 1 ? ' seconds' : ' second')) : ''}`
+            })
+          }
+        }, 1000)
+
+        return;
+        }
     }
+
+    this.setState({
+      gigStatus: this.props.gig.status === "Cancelled" ?
+          "The gig has been cancelled ☹️"
+          :this.props.gig.status === "Declined" ?
+          "You have declined the gig 😮"
+          :this.props.gig.status === "Lost" ?
+          "You have lost the gig ☹️"
+          :this.props.gig.status === "Confirmed" ?
+          "The gig has been confirmed, get ready to play 😁"
+          :this.props.gig.status === "Finished"  ?
+          "The gig is finished ☺️"
+          : this.state.eventFinished ?
+          "The event is finished ☺️"
+          :this.props.gig.status === "Accepted" ?
+          "Waiting on confirmation from organizer 😊"
+          :this.props.gig.status === "Requested" ?
+          "Event happens soon, make your offer quickly 🤑"
+        : ""
+    });
+  
   },
 
   showPopup(){
