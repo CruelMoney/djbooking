@@ -8,6 +8,7 @@ module.exports = {
     STRIPE_PUBLIC_KEY:   (production ? process.env.REACT_APP_STRIPE_PROD_PUB_KEY        : process.env.REACT_APP_STRIPE_DEV_PUB_KEY),
     AUTH0_CLIENT_ID:     (production ? process.env.REACT_APP_AUTH0_PROD_CLIENTID        : process.env.REACT_APP_AUTH0_DEV_CLIENTID),
     AUTH0_CLIENT_DOMAIN: (production ? process.env.REACT_APP_AUTH0_PROD_DOMAIN          : process.env.REACT_APP_AUTH0_DEV_DOMAIN),
+    AUTH0_AUDIENCE:      (production ? process.env.REACT_APP_AUTH0_PROD_AUDIENCE        : process.env.REACT_APP_AUTH0_DEV_AUDIENCE),    
     CALLBACK_DOMAIN:     (production ? process.env.REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN : process.env.REACT_APP_CUEUP_DEV_CALLBACK_DOMAIN),
     API_DOMAIN:          (production ? process.env.REACT_APP_CUEUP_PROD_API_DOMAIN      : process.env.REACT_APP_CUEUP_DEV_API_DOMAIN),
     FACEBOOK_ID:         (production ? process.env.REACT_APP_CUEUP_PROD_FB_ID           : process.env.REACT_APP_CUEUP_DEV_FB_ID ),

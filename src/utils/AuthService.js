@@ -19,6 +19,7 @@ export default class AuthService extends EventEmitter {
             clientID: Environment.AUTH0_CLIENT_ID,
             domain: Environment.AUTH0_CLIENT_DOMAIN,
             callbackURL: Environment.CALLBACK_DOMAIN,
+            audience: Environment.AUTH0_AUDIENCE,
             callbackOnLocationHash: true,
         })
 
