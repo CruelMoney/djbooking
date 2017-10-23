@@ -34,7 +34,6 @@ const cueup = new CueupService()
           }
   }
 
-
 function handleLoginFeedback(dispatch, callback, redirect = false){
   return function (err, result) {
       if (err){
