@@ -4,6 +4,8 @@ import Rating from '../../../../../components/common/Rating'
 import PayForm from '../../../../../components/common/PayForm'
 import Popup from '../../../../../components/common/Popup'
 import CurrencyConverter from '../../../../../utils/CurrencyConverter'
+import Chat from '../../../../../components/common/Chat'
+
 const curConverter = new CurrencyConverter()
 
 var OfferCard = React.createClass({
@@ -15,13 +17,19 @@ var OfferCard = React.createClass({
 
   componentWillMount(){
     this.setState({
-      showPopup: false
+      showPopup: false,
+      showChat: false
     })
   },
 
   hidePopup(){
     this.setState({
       showPopup: false
+    })
+  },
+  hideChat(){
+    this.setState({
+      showChat: false
     })
   },
 
@@ -51,6 +59,23 @@ var OfferCard = React.createClass({
             currency={this.props.currency}
             offerCurrency={this.props.offer.currency}
           />
+        </Popup>
+        <Popup 
+          hideClose
+          showing={this.state.showChat}
+          onClickOutside={this.hideChat}>
+          <Chat 
+            receiver={{
+              name:this.props.offer.dj.censoredName,
+              image:this.props.offer.dj.picture
+            }}
+            sender={{
+              id:this.props.profileId,
+              name:this.props.profileName,
+              image:this.props.profilePicture
+            }}
+            chatId={this.props.offer.gigID}
+            />
         </Popup>
         <div className="card offer-card">
 
@@ -83,10 +108,10 @@ var OfferCard = React.createClass({
           <div className="user-bio">
             {this.props.offer.dj.bio}
           </div>
-          <div className="cancelation-policy">
-            Cancelation policy: Full refund if event is cancelled {this.props.offer.cancelationDays} or more days before it starts. Otherwise {this.props.offer.refundPercentage}% is refunded.
-          </div>
+
+          {this.props.offer.gigStatus === "Confirmed" ?
           <div className="user-card-info">
+            
             <div className="user-card-fact">
               <p>Email</p>
               <a href={"mailto:"+this.props.offer.dj.email}>{this.props.offer.dj.email}</a>
@@ -97,6 +122,19 @@ var OfferCard = React.createClass({
             </div>
 
           </div>
+          : null}
+        
+          <div>
+            <Button
+              onClick={()=>this.setState({showChat:true})}
+              name="show-chat-popup"
+            >Send message</Button>
+          </div>
+
+          <div className="cancelation-policy">
+            Cancelation policy: Full refund if event is cancelled {this.props.offer.cancelationDays} or more days before it starts. Otherwise {this.props.offer.refundPercentage}% is refunded.
+          </div>
+          
           <div style={{display: "flex", alignItems: "center"}}>
             <div
               className="offer-price"

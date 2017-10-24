@@ -6,6 +6,7 @@ import './index.css'
 class Chat extends Component {
   chat = null
   auth = null
+  messagesContainer = null
 
   state = {
     ready:false,
@@ -14,20 +15,22 @@ class Chat extends Component {
   }
 
   componentWillMount(){
-    console.log(this.props)
-
     this.chat = new ChatService();
     this.auth = new AuthService();  
 
     this.chat.getChat(this.props.chatId, this.auth.getToken(),(err, res)=>{
-      console.log(err, res)
       if(err) return
       this.setState({
         ready: true,
         messages:res,
-      })
+      },this.scrollToBottom)
     })
   }
+
+  scrollToBottom = () => {
+    this.messagesContainer && this.messagesContainer.scrollTo(0, 999999);    
+  }
+  
 
   sendMessage = () =>{
     const data = {
@@ -36,13 +39,14 @@ class Chat extends Component {
     }
 
     this.chat.sendMessage(this.auth.getToken(), data, (err, res)=>{
-      console.log(err, res)
-      this.setState({
+        if(err) return
+        this.setState({
         messages:[
           ...this.state.messages,
           res
-        ]
-      })
+        ],
+        newMessage:''
+      }, this.scrollToBottom)
     });
   }
 
@@ -58,10 +62,15 @@ class Chat extends Component {
   render() {
     return (
       <div className="chat">
-        {this.state.messages.map(msg=>{
+        <div 
+        ref={(ref)=>{
+          this.messagesContainer = ref
+        }}
+        className="messages">
+        {this.state.messages.map((msg, idx)=>{
           const own = this.props.sender.id === msg.from;
           return (
-            <div className={`message ${own ? "send" : "received"}`}>
+            <div key={`message-${idx}`} className={`message ${own ? "send" : "received"}`}>
               <div className="rounded">
                 <img 
                   alt={own ? 'your picture' : 'receiver picture'}
@@ -75,6 +84,7 @@ class Chat extends Component {
            
           )
         })}
+        </div>
         <form onSubmit={this.sendMessage}>
           <textarea 
             onChange={this.handleChange}
@@ -87,6 +97,10 @@ class Chat extends Component {
                 }}
           />
           <button 
+            onClick={(event)=>{
+               event.preventDefault();
+               this.sendMessage();
+            }}
             type="submit"
             >
             Send

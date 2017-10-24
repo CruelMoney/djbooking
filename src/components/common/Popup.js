@@ -131,7 +131,7 @@ const Popup = React.createClass({
                 <div
                   style={{
                     padding:"20px",
-                    paddingTop: '5px',
+                    paddingTop: this.props.hideClose ? '0px' : '5px',
                     minWidth: '300px',
                     width: this.props.width ? this.props.width  : null,
                     backgroundColor: this.props.noBackground ? "transparent" : "white",
@@ -143,6 +143,8 @@ const Popup = React.createClass({
                   }}
 
                 >
+                  {!this.props.hideClose ?
+                  
                   <div
                     style={{
                       textAlign: 'right',
@@ -160,6 +162,7 @@ const Popup = React.createClass({
                       onClick={this.handleClickOutside}
                     >×</span>
                   </div>
+                  : null}
                   {this.props.children}
                 </div>
               </div>

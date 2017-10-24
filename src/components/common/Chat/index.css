@@ -1,6 +1,14 @@
+.messages{
+  max-height: 400px;
+  max-width: 600px;
+  overflow: scroll;
+}
 
 .message{
   display: flex;
+}
+.message:nth-child(1){
+  margin-top: 20px;
 }
 .message.send{
   flex-direction: row-reverse;
@@ -67,10 +75,12 @@
   border-radius: 10px;
   outline: none !important;
   padding: 10px;
-  height: 3em;
+  min-height: 3em;
   border-color: rgb(202, 202, 202);
   margin: 10px 0px;
   resize: none;
+  padding-right: 55px;
+  margin-top: 0px;
 }
 .chat form{
   position: relative;
@@ -82,4 +92,8 @@
   transform: translateY(-50%);
   border: none;
   font-weight: 600;
+}
+
+.popup .chat textarea{
+  margin-bottom: -5px;
 }

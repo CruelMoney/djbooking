@@ -24,6 +24,10 @@ var EventOffers = React.createClass({
         this.props.offers.forEach((o,i)=>{
           if (i % 2 === 0) {
             left.push(<OfferCard
+
+              profileId={this.props.eventContactId}
+              profileName={this.props.eventContactName}
+              profilePicture={this.props.eventContactPicture}
               paymentPossible={this.state.paymentPossible}
               eventFinished={this.state.eventFinished}
               currency={this.props.currency}
@@ -32,6 +36,9 @@ var EventOffers = React.createClass({
               offer={o}/>)
           }else{
             right.push(<OfferCard
+              profileId={this.props.eventContactId}
+              profileName={this.props.eventContactName}
+              profilePicture={this.props.eventContactPicture}
               paymentPossible={this.state.paymentPossible}
               eventFinished={this.state.eventFinished}
               currency={this.props.currency}
@@ -99,6 +106,10 @@ function mapDispatchToProps(dispatch, ownProps){
 }
 function mapStateToProps(state, ownProps) {
   return {
+    eventContactId: state.events.values[0].auth0Id,
+    eventContactName: state.events.values[0].contactName,
+    eventContactPicture: state.login.profile.picture || "/static/media/default-profile-pic.228cd63f.png",
+    
     status: state.events.values[0].status,
     paymentAmount: state.events.values[0].paymentAmount,
     paymentCurrency: state.events.values[0].paymentCurrency,
