@@ -28,6 +28,7 @@
   background: #03d1ff;
   margin-left: 0px;
   margin-right: 10px;
+  white-space: pre-wrap;
 }
 .speech-bubble:before{
   content:"";
@@ -69,6 +70,7 @@
   height: 3em;
   border-color: rgb(202, 202, 202);
   margin: 10px 0px;
+  resize: none;
 }
 .chat form{
   position: relative;

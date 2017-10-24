@@ -358,7 +358,6 @@ var Gig = React.createClass({
 
                    
                   <p>Feel free to contact the organizer to discuss the price, or figure out additional details.</p>
-
              
                       <Chat 
                         receiver={{

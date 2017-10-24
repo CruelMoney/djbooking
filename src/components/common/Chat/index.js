@@ -80,7 +80,7 @@ class Chat extends Component {
             onChange={this.handleChange}
             value={this.state.newMessage}
             onKeyPress={(event)=>{
-                 if (event.which === 13){
+                 if (event.which === 13 && !event.shiftKey){
                    event.preventDefault();
                    this.sendMessage();
                   }
