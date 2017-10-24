@@ -11,6 +11,7 @@ module.exports = {
     AUTH0_AUDIENCE:      (production ? process.env.REACT_APP_AUTH0_PROD_AUDIENCE        : process.env.REACT_APP_AUTH0_DEV_AUDIENCE),    
     CALLBACK_DOMAIN:     (production ? process.env.REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN : process.env.REACT_APP_CUEUP_DEV_CALLBACK_DOMAIN),
     API_DOMAIN:          (production ? process.env.REACT_APP_CUEUP_PROD_API_DOMAIN      : process.env.REACT_APP_CUEUP_DEV_API_DOMAIN),
+    CHAT_DOMAIN:         (production ? process.env.REACT_APP_CUEUP_PROD_CHAT_DOMAIN     : process.env.REACT_APP_CUEUP_DEV_CHAT_DOMAIN),    
     FACEBOOK_ID:         (production ? process.env.REACT_APP_CUEUP_PROD_FB_ID           : process.env.REACT_APP_CUEUP_DEV_FB_ID ),
     OPENEXCHANGERATE_APP_ID:    "e0937d01cc734837bba7f1bfb6887c2a"
   },

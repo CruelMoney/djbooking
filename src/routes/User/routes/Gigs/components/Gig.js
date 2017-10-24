@@ -8,6 +8,8 @@ import PayoutForm from '../../../../../components/common/PayoutForm'
 import Popup from '../../../../../components/common/Popup'
 import InfoPopup from '../../../../../components/common/InfoPopup'
 import Button from '../../../../../components/common/Button-v2'
+import Chat from '../../../../../components/common/Chat'
+
 import { connect } from 'react-redux'
 import  * as actions from '../../../../../actions/GigActions'
 
@@ -355,51 +357,21 @@ var Gig = React.createClass({
                 >
 
                    
-                  <p>
-                     {!this.props.payoutInfoValid ?        
-                        "Please update your payout information before contacting the organizer."
-                        :  
-                        "Feel free to contact the organizer to discuss the price, or figure out additional details."
-                     }
-                  </p>
+                  <p>Feel free to contact the organizer to discuss the price, or figure out additional details.</p>
 
-                    {this.props.payoutInfoValid ?  
-                    <TextWrapper
-                      label="Name"
-                    >
-                      <p>{this.props.gig.contactName}</p>
-                    </TextWrapper>
-                  : null}
-                  
-
-                  {!this.props.payoutInfoValid ?
-                  <div className="offer-buttons">
-                            <Button
-                        rounded={true}
-                        onClick={()=>this.setState({showPopup:true})}
-                        name="show-payout-popup"
-                      >Update payout information</Button>
-                  </div>
-                     
-                  : null }
-
-                  {this.props.gig.contactPhone && this.props.payoutInfoValid ?
-                    <TextWrapper
-                      label="Phone"
-                    >
-                      <a href={"tel:"+this.props.gig.contactPhone}>{this.props.gig.contactPhone}</a>
-
-                    </TextWrapper>
-                  : null}
-
-                  {this.props.payoutInfoValid ? 
-                  <TextWrapper
-                    label="Email"
-                  >
-                    <a href={"mailto:"+this.props.gig.contactEmail}>{this.props.gig.contactEmail}</a>
-
-                  </TextWrapper>
-                  :null}
+             
+                      <Chat 
+                        receiver={{
+                          name:this.props.gig.contactName,
+                          image:this.props.gig.customer.picture
+                        }}
+                        sender={{
+                          id:this.props.profileId,
+                          name:this.props.profileName,
+                          image:this.props.profilePicture
+                        }}
+                        chatId={this.props.gig.id}
+                        />
                 </Collapsible>
 
 
@@ -436,6 +408,9 @@ var Gig = React.createClass({
 
 function mapStateToProps(state, ownProps){
   return {
+    profileId: state.login.profile.auth0Id,
+    profilePicture: state.login.profile.picture,    
+    profileName: state.login.profile.censoredName,
     payoutInfoValid:  state.login.profile.stripeID ? true : false,  
     profileCurrency: state.login.profile.settings.currency
   }
