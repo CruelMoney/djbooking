@@ -3363,3 +3363,7 @@ table td{
   width: 100vw !important;
   height: 100vh !important;
 }
+
+.send-message-button{
+  margin-right: 10px;
+}

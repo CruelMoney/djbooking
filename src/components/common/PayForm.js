@@ -174,7 +174,7 @@ getInitialState(){
           <div className="row mobileColumn">
 
 
-        <div className="col-md-push-7 col-md-5">
+        <div className={this.props.paymentPossible ? "col-md-push-7 col-md-5" : 'col-xs-12'}>
            <MoneyTable>
              <TableItem
                 label="DJ price"
@@ -202,10 +202,10 @@ getInitialState(){
         </MoneyTable>
         </div>
           
-
-       <div className="col-md-pull-5 col-md-7">
-              {this.props.paymentPossible
+        {this.props.paymentPossible
                 ?
+       <div className="col-md-pull-5 col-md-7">
+             
                   <div>
                     <div className="row ">
                       <div className="col-xs-12">
@@ -278,11 +278,11 @@ getInitialState(){
                       </div>
                     </div>
                   </div>
-                :
-                null
-              }
+               
           </div>
-          
+           :
+           null
+         }
          
 
           </div>

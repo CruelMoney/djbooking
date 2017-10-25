@@ -41,8 +41,8 @@
     "keymirror": "^0.1.1",
     "kute.js": "^1.6.2",
     "lodash.assign": "^4.2.0",
-    "lodash.without": "^4.4.0",
     "lodash.shuffle": "^4.2.0",
+    "lodash.without": "^4.4.0",
     "material-ui": "^0.16.4",
     "object.entries": "^1.0.4",
     "postcss-loader": "^0.9.1",
@@ -69,6 +69,7 @@
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "smoothscroll-polyfill": "^0.3.3",
+    "socket.io-client": "^2.0.4",
     "wnumb": "^1.0.4"
   },
   "scripts": {

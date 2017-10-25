@@ -124,23 +124,15 @@ var OfferCard = React.createClass({
           </div>
           : null}
         
-          <div>
-            <Button
-              onClick={()=>this.setState({showChat:true})}
-              name="show-chat-popup"
-            >Send message</Button>
-          </div>
-
+    
           <div className="cancelation-policy">
             Cancelation policy: Full refund if event is cancelled {this.props.offer.cancelationDays} or more days before it starts. Otherwise {this.props.offer.refundPercentage}% is refunded.
           </div>
-          
-          <div style={{display: "flex", alignItems: "center"}}>
-            <div
+          <div
               className="offer-price"
               style={{
                 width: "100%",
-                textAlign: this.props.offer.gigStatus === "Confirmed" ||   this.props.eventFinished ? "center" : "left"
+                textAlign: "center"
               }}>{
                 this.props.offer.gigStatus === "Confirmed"?
                 curConverter.getConvertedFormatted(
@@ -154,7 +146,13 @@ var OfferCard = React.createClass({
                 this.props.currency, true)}
                 
                 </div>
-
+                
+          <div style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "15px"}}>
+                <Button
+                className="send-message-button"
+              onClick={()=>this.setState({showChat:true})}
+              name="show-chat-popup"
+            >Send message</Button>
             {this.props.offer.gigStatus === "Confirmed" ||
               this.props.eventFinished
               ? null :
@@ -165,7 +163,6 @@ var OfferCard = React.createClass({
                 onClick={()=>this.setState({showPopup:true})}
                 name="show-payout-popup"
               >Confirm</Button>
-
             }
           </div>
         </div>

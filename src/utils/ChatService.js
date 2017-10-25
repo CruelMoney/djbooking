@@ -1,8 +1,12 @@
 import {Environment} from '../constants/constants'
+import io from 'socket.io-client';
+
 
 export default class CueupService {
     constructor() {
         this.domain = Environment.CHAT_DOMAIN
+        this.socket = io(Environment.CHAT_DOMAIN);
+        
 
         this.getHeaders = function(token) {
             var headers = new Headers();

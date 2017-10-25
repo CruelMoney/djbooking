@@ -79,7 +79,7 @@
   border-color: rgb(202, 202, 202);
   margin: 10px 0px;
   resize: none;
-  padding-right: 55px;
+  padding-right: 47px;
   margin-top: 0px;
 }
 .chat form{
@@ -87,11 +87,12 @@
 }
 .chat button{
   position: absolute;
-  right: 15px;
-  top: 45%;
-  transform: translateY(-50%);
+  right: 2px;
+  top: 1px;
   border: none;
   font-weight: 600;
+  height: 78%;
+  border-left: 1px solid #ddd;
 }
 
 .popup .chat textarea{
