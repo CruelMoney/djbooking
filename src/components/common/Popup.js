@@ -163,7 +163,12 @@ const Popup = React.createClass({
                     >×</span>
                   </div>
                   : null}
-                  {this.props.children}
+                  { this.state.showing ?
+                    <div>
+                    {this.props.children}
+                    </div>
+                    : null
+                  }
                 </div>
               </div>
       </Modal>

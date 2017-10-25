@@ -5,7 +5,7 @@ import PayForm from '../../../../../components/common/PayForm'
 import Popup from '../../../../../components/common/Popup'
 import CurrencyConverter from '../../../../../utils/CurrencyConverter'
 import Chat from '../../../../../components/common/Chat'
-
+import EmptyPage from '../../../../../components/common/EmptyPage'
 const curConverter = new CurrencyConverter()
 
 var OfferCard = React.createClass({
@@ -75,6 +75,11 @@ var OfferCard = React.createClass({
               image:this.props.profilePicture
             }}
             chatId={this.props.offer.gigID}
+             placeholder={<EmptyPage
+              message={
+                <div> No Messages<br/>
+                Send a message to the DJ.</div>
+              }/>}
             />
         </Popup>
         <div className="card offer-card">
