@@ -9,6 +9,7 @@ import Logo from './common/Logo'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import * as actions from '../actions/LoginActions'
 
 
@@ -198,7 +199,7 @@ function mapDispatchToProps(dispatch, ownprops) {
   }
 }
 
-const SmartNavigation = connect(mapStateToProps, mapDispatchToProps)(Menu)
+const SmartNavigation = withRouter(connect(mapStateToProps, mapDispatchToProps)(Menu))
 
 export default props => (
     <SmartNavigation {...props}/>
