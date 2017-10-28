@@ -1,15 +1,16 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import without from 'lodash.without'
 import assign from 'lodash.assign'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/FormActions'
 
 
-const form = React.createClass({
-    displayName: 'Form',
+class form extends Component{
+    displayNamen = 'Form'
 
     //TO be supplied is name and onsubmit that will be called with the form automatically
-    propTypes: {
+    static proptypes = {
       name: PropTypes.string,
       formValidCallback: PropTypes.func,
       formInvalidCallback: PropTypes.func,
@@ -24,41 +25,24 @@ const form = React.createClass({
       form: PropTypes.object,
       customIsFormValid: PropTypes.func,
       registerCheckForm: PropTypes.func
-    },
+    }
 
     componentWillMount(){
         if(this.props.registerCheckForm){
          this.props.registerCheckForm(this.isFormValid)
       }
-    },
+    }
 
     componentWillUnmount(){
       this.props.resetState()
-    
-    },
+    }
 
-    getInitialState() {
-      return{
+    state={
         isValid: false,
         activeFilters: [],
       }
-    },
 
-
-    childContextTypes: {
-      reset: PropTypes.func,
-      status: PropTypes.object,
-      registerValidation: PropTypes.func,
-      isFormValid: PropTypes.func,
-      updateFilters: PropTypes.func,
-      activeFilters: PropTypes.arrayOf(PropTypes.object),
-      updateValue: PropTypes.func,
-      isValid: PropTypes.bool,
-      onSubmit: PropTypes.func,
-      registerReset: PropTypes.func,
-      errorMessage: PropTypes.string
-    },
-    getChildContext() {
+    getChildContext = () => {
       return {
         reset: this.reset,
         status: this.props.status,
@@ -72,47 +56,46 @@ const form = React.createClass({
         registerReset: this.registerReset,
         errorMessage : this.props.err
       }
-    },
+    }
 
-
-    updateValue(name, value){
+    updateValue = (name, value) => {
       this.props.updateValue(name,value)
       if (setTimeout(()=>this.isFormValid(false), 0)) {
 
       }
-    },
+    }
 
 
-    resetFuncs: [],
+    resetFuncs = []
 
-    registerReset(resetFunc){
+    registerReset = (resetFunc) => {
       this.resetFuncs = [...this.resetFuncs, resetFunc]
       return this.removeReset.bind(null, resetFunc)
-    },
+    }
 
-    removeReset(ref) {
+    removeReset = (ref) => {
       this.resetFuncs = without(this.resetFuncs, ref)
-    },
+    }
 
 
-   reset(){
+   reset = () => {
      this.resetFuncs.forEach(f=>f())
-   },
+   }
 
-   validations: [],
+   validations = []
 
 
-   registerValidation(isValidFunc) {
+   registerValidation = (isValidFunc) => {
      this.validations = [...this.validations, isValidFunc]
      return this.removeValidation.bind(null, isValidFunc)
-   },
+   }
 
-   removeValidation(ref) {
+   removeValidation = (ref) => {
      this.validations = without(this.validations, ref)
-   },
+   }
 
 
-   isFormValid(showErrors) {
+   isFormValid = (showErrors) => {
       var isValid = this.props.customIsFormValid ?
                     this.props.customIsFormValid()
                    :
@@ -134,22 +117,22 @@ const form = React.createClass({
         }
       }
       return isValid
-   },
+   }
 
-   updateFilters(filter, value){
+   updateFilters = (filter, value) => {
        this.props.updateFilters(filter, value)
        this.setState({
          activeFilters: assign({}, this.state.activeFilters, {
                    [filter]: value
          })
        })
-   },
+   }
 
-   submit(submitActions, submitName){
+   submit = (submitActions, submitName) => {
      if (this.isFormValid(true)) {
          this.props.onSubmit(submitActions, submitName)
        }
-   },
+   }
 
 
   render() {
@@ -169,7 +152,7 @@ const form = React.createClass({
 
     )
   }
-})
+}
 
 
 function mapStateToProps(state, ownprops) {
@@ -214,6 +197,20 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     form: stateProps.form,
     resetState: dispatchProps.resetState
   })
+}
+
+form.childContextTypes = {
+  reset: PropTypes.func,
+  status: PropTypes.object,
+  registerValidation: PropTypes.func,
+  isFormValid: PropTypes.func,
+  updateFilters: PropTypes.func,
+  activeFilters: PropTypes.arrayOf(PropTypes.object),
+  updateValue: PropTypes.func,
+  isValid: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  registerReset: PropTypes.func,
+  errorMessage: PropTypes.string
 }
 
 const SmartForm = connect(mapStateToProps, mapDispatchToProps, mergeProps)(form)

@@ -66,6 +66,7 @@ var OfferCard = React.createClass({
           onClickOutside={this.hideChat}>
           <Chat 
             receiver={{
+              id:this.props.offer.dj.auth0Id,
               name:this.props.offer.dj.censoredName,
               image:this.props.offer.dj.picture
             }}

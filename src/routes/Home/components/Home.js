@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import DatePicker from '../../../components/common/Datepicker.js'
 import Footer from '../../../components/common/Footer'
 import RequestForm from './RequestForm'
@@ -18,50 +19,37 @@ const ScrollOverPack = ScrollAnim.OverPack;
 
 scrollIntoView.polyfill()
 
-const Home = React.createClass({
-  themeColor: "#25F4D2",
-  secondColor: "#31DAFF",
 
-  propTypes: {
-    checkEmail: PropTypes.func,
-    onSubmit: PropTypes.func,
-    isLoggedIn: PropTypes.bool,
-    form: PropTypes.object,
-    emailExists: PropTypes.bool
-  },
+class Home extends Component{
+  themeColor = "#25F4D2"
+  secondColor = "#31DAFF"
 
-  childContextTypes: {
-    color: PropTypes.string,
-  },
   getChildContext() {
     return {
       color: this.themeColor
     }
-  },
-
-
-getInitialState(){
-  return {
-    eventDate: moment()
   }
-},
 
-handleDateChange(date){
+  state= {
+      eventDate: moment()
+    }
+
+handleDateChange = (date) => {
   //is a moment object
   this.setState({
     eventDate: date
   })
-},
+}
 
-requestForm : null,
+requestForm = null
 
-handleButtonClick(){
+handleButtonClick = () => {
  window.scroll({
   top: this.requestForm.offsetTop-20,
   left: 0,
   behavior: 'smooth'
 });
-},
+}
 
   render() {
     return (
@@ -152,13 +140,15 @@ At Cueup we focus on finding the most qualified DJs for your event - so you donâ
 
             </div>
 
-
-
     )
   }
-})
+}
 
 
+
+Home.childContextTypes = {
+  color: PropTypes.string,
+}
 
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters

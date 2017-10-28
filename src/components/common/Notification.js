@@ -1,11 +1,11 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 
 
 class Notification extends React.Component {
   //defining types
-  props: {
-    message: string,
+  props = {
+    message: PropTypes.string,
   };
   // state: {
   //   display: 'static' | 'hover' | 'active';

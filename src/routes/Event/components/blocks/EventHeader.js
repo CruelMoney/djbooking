@@ -13,9 +13,6 @@ var eventHeader = React.createClass({
 
    componentWillMount() {
      window.addEventListener('scroll', this.handleScroll)
-     this.setState({
-       loadString: "..."
-     }, ()=>this.loadingStringPlaceholder())
    },
 
    componentWillUnmount(){
@@ -37,24 +34,7 @@ var eventHeader = React.createClass({
    }
   },
 
-  loadingStringPlaceholder(){
-    var self = this
-
-    this.intervalID = window.setInterval( function(){
-      if (self.props.loading)
-      {
-      var load = self.state.loadString
-       if (load.length === 4) {
-         self.setState({loadString: "."})
-       }else{
-         self.setState({loadString: load += "."})
-       }
-     }else{
-        clearInterval(self.intervalID);
-     }
-     }, 300)
-
-  },
+ 
 
 
   render() {
@@ -89,12 +69,12 @@ var eventHeader = React.createClass({
               <div className="event-header-content col-sm-7">
                 <div className="header-info">
                   <div className="user-name">
-                    <h1>{this.props.loading || !this.props.event ? this.state.loadString : "Welcome " + this.props.event.contactName }</h1>
+                    <h1>{this.props.loading || !this.props.event ? '' : "Welcome " + this.props.event.contactName }</h1>
                   </div>
                   <div className="user-location">
                     <h2>
 
-                      {this.props.loading || !this.props.event ? this.state.loadString : "Event: " + this.props.event.name }
+                      {this.props.loading || !this.props.event ? ''  : "Event: " + this.props.event.name }
                     </h2>
                   </div>
                 </div>

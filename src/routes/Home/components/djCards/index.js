@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import './index.css'
 import note from '../../../../assets/note.svg'
 import frank from '../../../../assets/images/frank-hansen.png'
@@ -13,7 +13,7 @@ import jan from '../../../../assets/images/jan.png'
 import peter from '../../../../assets/images/peter.png'
 import shuffle from 'lodash.shuffle'
 
-export default class DJCards extends React.Component{
+export default class DJCards extends Component{
 
 cards = []
 

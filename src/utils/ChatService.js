@@ -2,7 +2,7 @@ import {Environment} from '../constants/constants'
 import io from 'socket.io-client';
 
 
-export default class CueupService {
+export default class ChatService {
     constructor(chatId, token, senderId) {
         console.log('connecting to: ', Environment.CHAT_DOMAIN+'?room='+chatId);
         this.domain = Environment.CHAT_DOMAIN;

@@ -1,19 +1,17 @@
 
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
+export default class Logo extends Component{
+    displayName= 'Logo'
 
-export default React.createClass({
-    displayName: 'Logo',
-
-    propTypes: {
+    static proptypes = {
       color: PropTypes.string
-    },
+    }
 
-    getDefaultProps() {
-      return{
+    static defaultProps = {
         color: "white"
       }
-    },
 
   render() {
     return (
@@ -24,4 +22,4 @@ export default React.createClass({
       </svg>
     )
     }
-    })
+    }

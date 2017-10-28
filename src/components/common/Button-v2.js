@@ -1,11 +1,8 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import checkmark from '../../assets/checkmark.svg'
 
 class Button extends React.Component {
-
-    static contextTypes={
-      color: PropTypes.string
-    }
 
     static defaultProps= {
         rounded: true
@@ -108,5 +105,10 @@ class Button extends React.Component {
     )
   }
 }
+
+Button.contextTypes={
+  color: PropTypes.string
+}
+
 
 export default Button

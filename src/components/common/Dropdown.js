@@ -1,31 +1,29 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
 
+class Dropdown extends Component{
+    displayName= 'Dropdown'
 
-const Dropdown = onClickOutside(React.createClass({
-    displayName: 'Dropdown',
-
-    propTypes: {
+    static proptypes = {
       expanded: PropTypes.bool,
       onClickOutside: PropTypes.func
-    },
+    }
 
-    getInitialState() {
-      return{
+    state={
         expanded: false
       }
-    },
 
     componentWillReceiveProps(nextProps){
       this.setState({
         expanded: nextProps.expanded
       })
-    },
+    }
 
 
-    handleClickOutside: function(evt) {
+    handleClickOutside = (evt)  => {
       this.props.onClickOutside()
-    },
+    }
 
   render() {
 
@@ -37,6 +35,7 @@ const Dropdown = onClickOutside(React.createClass({
     </div>
     )
     }
-    }))
+    }
 
-export default Dropdown
+
+export default  onClickOutside(Dropdown)

@@ -1,10 +1,11 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import connectToForm from '../higher-order/connectToForm'
 
 
-var TextBox = React.createClass({
+class TextBox extends Component{
 
-  propTypes: {
+  propTypes={
     maxLength:PropTypes.number,
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
@@ -12,24 +13,13 @@ var TextBox = React.createClass({
     onUpdatePipeFunc: PropTypes.func,
     height: PropTypes.string,
     width: PropTypes.string,
-  },
+  }
 
-  contextTypes: {
-    registerValidation: PropTypes.func.isRequired,
-    updateValue: PropTypes.func,
-    isFormValid: PropTypes.func,
-    registerReset: PropTypes.func,
-    color: PropTypes.string
-  },
-
-
-  getDefaultProps() {
-    return {
+  static defaultProps = {
       active: true,
       validate: [],
       height: '100%', width: '100%',
-    }
-  },
+  }
 
   render() {
     var styles = {
@@ -83,6 +73,14 @@ var TextBox = React.createClass({
 
     )
   }
-})
+}
+
+TextBox.contextTypes={
+  registerValidation: PropTypes.func.isRequired,
+  updateValue: PropTypes.func,
+  isFormValid: PropTypes.func,
+  registerReset: PropTypes.func,
+  color: PropTypes.string
+}
 
 export default connectToForm(TextBox)

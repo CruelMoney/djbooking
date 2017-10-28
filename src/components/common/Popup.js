@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux';
 import Modal from 'react-modal'
@@ -35,19 +36,17 @@ import Modal from 'react-modal'
 
 
 
-const Popup = React.createClass({
-    displayName: 'Popup',
+class Popup extends Component{
+    displayName = 'Popup'
 
-    propTypes: {
+    static proptypes = {
       showing: PropTypes.bool,
       onClickOutside: PropTypes.func
-    },
+    }
 
-    getInitialState() {
-      return{
+    state={
         showing: false
       }
-    },
 
     componentWillReceiveProps(nextProps){
       this.setState({
@@ -61,20 +60,20 @@ const Popup = React.createClass({
           this.applyBlur()
           addClass('popup-open', document.body);
       }
-    },
+    }
 
-    applyBlur(){
+    applyBlur = () => {
       document.getElementById("root").style.webkitFilter = "blur(2px)"
-    },
+    }
 
 
-    handleClickOutside: function(evt) {
+    handleClickOutside = (evt) => {
       this.props.onClickOutside()
-    },
+    }
     
-    getParent() {
+    getParent = () => {
       return document.querySelector('#popup-container');
-    },
+    }
 
 
   render() {
@@ -172,7 +171,7 @@ const Popup = React.createClass({
                 </div>
               </div>
       </Modal>
-  )}})
+  )}}
 
 export default Popup
 

@@ -1,40 +1,31 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import AutoComplete from 'material-ui/AutoComplete'
 import connectToForm from '../higher-order/connectToForm'
 
 var locationService = new window.google.maps.places.AutocompleteService()
 
-var Text = React.createClass({
+class LocationSelector extends Component{
 
-  displayName: 'LocationSelectorSimple',
+  displayName= 'LocationSelectorSimple'
 
-  propTypes: {
+  propTypes={
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     label: PropTypes.string,
     validate: PropTypes.arrayOf(PropTypes.string),
     value: PropTypes.string,
-  },
+  }
 
-  contextTypes: {
-    color: PropTypes.string
-  },
-
-  getInitialState(){
-    return{
+  state={
       dataSource: []
     }
-  },
-  getDefaultProps(){
-    return{
+
+    static defaultProps = {
       value: ""
     }
-  },
-  componentWillMount(){
- 
-  },
 
-  updateSuggestions(predictions, status){
+  updateSuggestions = (predictions, status) =>{
     var li = []
 
     if(predictions){
@@ -46,9 +37,9 @@ var Text = React.createClass({
     this.setState({
       dataSource: li,
     })
-  },
+  }
 
-  onChange(value) {
+  onChange = (value) => {
     function toTitleCase(str)
     {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -58,13 +49,13 @@ var Text = React.createClass({
     this.props.onChange(value)
 
     locationService.getPlacePredictions({ input: value, types: ['(cities)'] , componentRestrictions: {country: 'dk'}}, this.updateSuggestions)
-  },
+  }
 
-    onValueSelected(e){
+    onValueSelected = (e) => {
       if(e.target){
        this.props.onChange(e.target.value)
       }
-  },
+  }
 
   render() {
     var stylesBig = {
@@ -177,6 +168,11 @@ var Text = React.createClass({
           ) : null}/>
     )
   }
-})
+}
 
-export default connectToForm(Text)
+LocationSelector.contextTypes={
+  color: PropTypes.string
+}
+
+
+export default connectToForm(LocationSelector)

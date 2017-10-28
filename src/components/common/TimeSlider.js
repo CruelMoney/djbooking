@@ -1,27 +1,20 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Slider from './Slider'
 import moment from 'moment'
 import wNumb from 'wnumb'
 
-var TimeSlider = React.createClass({
-  propTypes:{
+class TimeSlider extends Component{
+  static proptypes = {
     date: PropTypes.object, //moment object
     startTime: PropTypes.object,
     endTime: PropTypes.object,
     disabled: PropTypes.bool,
     onChange: PropTypes.func
-  },
+  }
 
-    contextTypes: {
-      resetting: PropTypes.bool,
-      isFormValid: PropTypes.func,
-      registerValidation: PropTypes.func.isRequired,
-      updateValue: PropTypes.func,
-      registerReset: PropTypes.func
-    },
-
-    initStart: moment().hour(21).minutes(0),
-    initEnd:  moment().hour(27).minutes(0),
+    initStart = moment().hour(21).minutes(0)
+    initEnd =  moment().hour(27).minutes(0)
 
   componentWillMount(){
     if (this.props.startTime && this.props.endTime) {
@@ -42,25 +35,24 @@ var TimeSlider = React.createClass({
           [this.initStart.unix(), this.initEnd.unix()]
         ))
       }
-  },
-
-
+  }
 
   componentWillReceiveProps(nextprops){
     if (nextprops.date.unix() !== this.props.date.unix()) {
       this.updateContext(nextprops.date, this.state.startTime, this.state.endTime)
     }
-  },
+  }
 
 
   componentWillUnmount(){
     if (this.removeReset) {
       this.removeReset()
-    }  },
+    }  
+  }
 
-  timer : null,
+  timer = null
 
-  handleChange(values){
+  handleChange = (values) => {
     if (this.props.onChange)
     {this.props.onChange(values)}
 
@@ -76,27 +68,25 @@ var TimeSlider = React.createClass({
         this.updateContext(this.props.date, values[0], values[1])
       }}
       , 500);
+  }
 
-
-  },
-
-  updateContext(date, startTime, endTime){
+  updateContext = (date, startTime, endTime) => {
     this.context.updateValue("startTime", this.getStartMoment(date,startTime, endTime).toDate())
     this.context.updateValue("endTime", this.getEndMoment(date,startTime, endTime).toDate())
-  },
+  }
 
 
-  getHoursDiff(startValue, endValue){
+  getHoursDiff = (startValue, endValue) => {
     return moment.unix(endValue).diff(moment.unix(startValue))/60/60/1000
-  },
+  }
 
-  getStartMoment(date,startValue, endValue){
+  getStartMoment = (date,startValue, endValue) => {
     const startTime = moment.unix(startValue)
 
     return moment(date).hour(startTime.hour()).minutes(startTime.minutes())
-  },
+  }
 
-  getEndMoment(date, startValue, endValue){
+  getEndMoment = (date, startValue, endValue) =>{
     const hours = this.getHoursDiff(startValue, endValue)
 
     const startMoment = this.getStartMoment(date, startValue, endValue)
@@ -104,7 +94,7 @@ var TimeSlider = React.createClass({
     const endMoment = moment(startMoment).hour(startMoment.hour()+hours)
 
     return endMoment
-  },
+  }
 
 
   render() {
@@ -149,6 +139,14 @@ var TimeSlider = React.createClass({
       </div>
     )
   }
-})
+}
+
+TimeSlider.contextTypes = {
+  resetting: PropTypes.bool,
+  isFormValid: PropTypes.func,
+  registerValidation: PropTypes.func.isRequired,
+  updateValue: PropTypes.func,
+  registerReset: PropTypes.func
+}
 
 export default TimeSlider

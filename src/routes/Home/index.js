@@ -1,10 +1,14 @@
-module.exports = {
+import React, {Component} from 'react';
+import Home from './components/Home'; 
 
-  onEnter: () =>  document.title = "Book DJs with ease | Cueup",
+export default class Index extends Component{
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Home').default)
-    })
+  onComponentWillMount(){
+    document.title = "Book DJs with ease | Cueup"
   }
+
+  render(){
+    return(
+    <Home />
+  )}
 }

@@ -94,7 +94,8 @@ class Chat extends Component {
   sendMessage = () =>{
     const data = {
       content: this.state.newMessage,
-      to: String(this.props.chatId),
+      to: this.props.receiver.id,
+      room: String(this.props.chatId),
       from: this.props.sender.id
     }
 
@@ -152,7 +153,7 @@ class Chat extends Component {
           prevDate = msgDate;
 
           return (
-            <div className="message-wrapper">
+            <div className="message-wrapper" key={`message-${idx}`} >
               {insertDate ? 
                 <div className="timestamp">
                   {msgDate.toLocaleString([], {
@@ -164,7 +165,7 @@ class Chat extends Component {
                     })}
                 </div>
               : null}
-            <div key={`message-${idx}`} className={`message ${own ? "send" : "received"}`}>
+            <div className={`message ${own ? "send" : "received"}`}>
               <div className="rounded">
                 <img 
                   alt={own ? 'your picture' : 'receiver picture'}

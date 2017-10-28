@@ -1,29 +1,22 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Slider from 'material-ui/Slider'
 
 /**
  * The slider bar can have a set minimum and maximum, and the value can be
  * obtained through the value parameter fired on an onChange event.
  */
-var ExperienceSlider = React.createClass({
+class ExperienceSlider extends Component{
 
-  propTypes: {
+  propTypes= {
     name: PropTypes.string,
     queupGigs: PropTypes.number,
     experienceCount: PropTypes.number,
-  },
+  }
 
-  contextTypes: {
-    resetting: PropTypes.bool,
-    isFormValid: PropTypes.func,
-    registerValidation: PropTypes.func.isRequired,
-    updateValue: PropTypes.func
-  },
-
-  getInitialState() {
-    return{
+  state={
     value: 0,
-  }},
+  }
 
   componentWillMount(){
     if (this.props.otherGigs !== undefined) {
@@ -33,14 +26,14 @@ var ExperienceSlider = React.createClass({
         experienceCount: this.props.otherGigs,
       })
     }
-  },
+  }
 
   componentWillUnmount(){
-  },
+  }
 
-  timer : null,
+  timer = null
 
-  handleChange(event, value) {
+  handleChange = (event, value) => {
     this.setState({value: value}, ()=>  {
       if (this.context.isFormValid) {
         this.context.isFormValid(false)
@@ -49,7 +42,7 @@ var ExperienceSlider = React.createClass({
     clearTimeout(this.timer)
     this.timer = setTimeout(() =>
       this.context.updateValue(this.props.name, (value-this.state.queupGigs)), 1000)
-  },
+  }
 
   render() {
     function getValueString(value){
@@ -86,6 +79,14 @@ var ExperienceSlider = React.createClass({
       </div>
     )
   }
-})
+}
+
+ExperienceSlider.contextTypes= {
+  resetting: PropTypes.bool,
+  isFormValid: PropTypes.func,
+  registerValidation: PropTypes.func.isRequired,
+  updateValue: PropTypes.func
+}
+
 
 export default ExperienceSlider

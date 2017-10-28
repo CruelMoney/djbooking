@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import TextField from './Textfield'
 import TextWrapper from './TextElement'
 import PoweredByStripe from '../../assets/powered_by_stripe.png'
@@ -16,14 +17,14 @@ const curConverter = new CurrencyConverter()
 
 
 
-var payForm = React.createClass({
-  propTypes: {
+class payForm extends Component{
+  static proptypes = {
     amount: PropTypes.number,
     event: PropTypes.object,
     gigId: PropTypes.number,
     currency: PropTypes.string,
     confirmPayment: PropTypes.func
-  },
+  }
 
   componentWillMount(){
     this.amount = curConverter.convert(this.props.amount, this.props.offerCurrency, this.props.currency, true)
@@ -31,10 +32,10 @@ var payForm = React.createClass({
     this.amountFormatted = curConverter.getConvertedFormatted(this.props.amount, this.props.offerCurrency, this.props.currency, true)
     this.feeFormatted = curConverter.getConvertedFormatted(this.props.fee, this.props.offerCurrency, this.props.currency, true)
     this.totalFormatted = curConverter.getConvertedFormatted(this.props.fee+this.props.amount, this.props.offerCurrency, this.props.currency, true)
-},
+}
 
 
-  confirmPayment(form, callback) {
+  confirmPayment = (form, callback) => {
       const data = assign(form.values, {
         amount: Formatter.money.ToSmallest(this.amount, this.props.currency),
         fee: Formatter.money.ToSmallest(this.fee, this.props.currency),
@@ -46,21 +47,20 @@ var payForm = React.createClass({
       } catch (error) {
         callback("Something went wrong, the payment has not been made")
       }
-  },
+  }
 
-  notify(form, callback) {
+  notify = (form, callback) => {
       try {
        this.props.notify(this.props.event.id, this.props.event.hashKey, callback)
       } catch (error) {
         callback("Something went wrong")
       }
-  },
+  }
 
-getInitialState(){
-  return{
+state={
     valid:false
   }
-},
+
 
   render() {
 
@@ -323,7 +323,7 @@ getInitialState(){
       </div>)
 
   }
-})
+}
 
 function mapStateToProps(state, ownprops){
   return{

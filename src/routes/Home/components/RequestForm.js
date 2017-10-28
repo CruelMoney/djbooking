@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Button from '../../../components/common/Button-v2'
 import TextField, {TexfieldDisconnected} from '../../../components/common/Textfield'
 import RiderOptions from '../../../components/common/RiderOptions'
@@ -20,38 +21,34 @@ import ErrorMessage from '../../../components/common/ErrorMessage'
 import wNumb from 'wnumb'
 import c from '../../../constants/constants'
 
-export default React.createClass({
-  propTypes: {
+export default class Index extends Component{
+  static proptypes = {
     form: PropTypes.object,
     date: PropTypes.object, //moment object
     onSubmit: PropTypes.func,
     isLoggedIn: PropTypes.bool,
     checkEmail: PropTypes.func,
     emailExists: PropTypes.bool
-  },
+  }
 
-  getDefaultProps(){
-    return{
+  static defaultProps = {
       form:{values:{}}
     }
-  },
 
-  getInitialState(){
-    return{
+  state={
       showPopup: false,
       emailExists: false,
       activeStep: 1,
       date: moment()
     }
-  },
 
   formToEvent(form){
     return {...form, guestsCount: form.guests[0]}
-  },
+  }
 
-  formValidCheckers: [], 
+  formValidCheckers = []
 
-  submitEvent(event, callback) {
+  submitEvent = (event, callback) => {
     try {
         var formValid = this.formValidCheckers.reduce((memo, isValidFunc) =>{
                             return (isValidFunc(true) && memo)}, true)
@@ -67,9 +64,9 @@ export default React.createClass({
       } catch (error) {
         callback("Something went wrong")
       }
-  },
+  }
 
-  onSubmit(form, callback){
+  onSubmit = (form, callback) => {
     let event = this.formToEvent(this.props.form)
     let self = this
   
@@ -92,24 +89,24 @@ export default React.createClass({
         }
       })
       }
-  },
+  }
 
-  hidePopup(){
+  hidePopup = () => {
     this.setState({
       showPopup: false
     })
-  },
+  }
 
-  updateDate(date){
+  updateDate = (date) => {
     this.setState({date:date})
-  },
+  }
 
-   setProgress(step){
+   setProgress = (step) => {
      if(step+1<this.state.activeStep){
        this.setState({activeStep:step+1})
      }
    
-  },
+  }
 
   render() {
     return(
@@ -254,11 +251,11 @@ export default React.createClass({
       )
 
   }
-})
+}
 
 
 
-class Step1 extends React.Component{
+class Step1 extends Component{
 state={showPopup:false, date: moment()}
 validationChecker = null
 
@@ -363,7 +360,7 @@ render(){
   )
 }
 }
-class Step2 extends React.Component{
+class Step2 extends Component{
   validationChecker = null
   next=()=>{
   if (this.validationChecker(true)){
@@ -429,7 +426,7 @@ class Step2 extends React.Component{
  } 
 }
 
-class Step3 extends React.Component{
+class Step3 extends Component{
 state={guests:50}
 
   validationChecker = null
@@ -521,7 +518,7 @@ next=()=>{
  } 
 }
 
-class Step4 extends React.Component{
+class Step4 extends Component{
   state={showPopup:false}
 
    onSubmit(form, callback){

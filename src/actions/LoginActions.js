@@ -1,6 +1,5 @@
 import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
-import { browserHistory } from 'react-router'
 import CueupService from '../utils/CueupService'
 import converter from '../utils/AdapterDTO'
 
@@ -29,7 +28,7 @@ const cueup = new CueupService()
                 type: ActionTypes.LOGIN_SUCCEEDED,
                 profile: user
               }}())
-            if (redirect) browserHistory.push("/user/"+user.user_metadata.permaLink+"/profile")
+            
             callback(null)
           }
   }
@@ -124,7 +123,6 @@ export function loginEmail(form, callback) {
 
 export function userLogout() {
      auth.logout()
-     browserHistory.push("/")
       return  {
           type: ActionTypes.LOGOUT_SUCCEEDED
         }

@@ -1,26 +1,22 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Button from './Button-v2'
 
-export default React.createClass({
+export default class SubmitButton extends Component{
 
-  propTypes:{
+  propTypes={
     onClick: PropTypes.func, // has to take to parameters (form, callback)
     noCheckMark: PropTypes.bool,
     name:PropTypes.string.isRequired,
     resetOnSucces: PropTypes.bool
-  },
+  }
 
-  contextTypes: {
-      onSubmit: PropTypes.func,
-      status: PropTypes.object
-    },
-
-    handleClick(e){
+  handleClick = (e) => {
       this.context.onSubmit(
         this.props.onClick,
         this.props.name
       )
-    },
+    }
 
   render() {
 
@@ -40,4 +36,9 @@ export default React.createClass({
   />
   )
   }
-})
+}
+
+SubmitButton.contextTypes = {
+  onSubmit: PropTypes.func,
+  status: PropTypes.object
+}

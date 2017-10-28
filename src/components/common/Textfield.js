@@ -1,12 +1,13 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField'
 import connectToForm from '../higher-order/connectToForm'
 
-var Text = React.createClass({
+class Text extends Component{
 
-  displayName: 'Textfield',
+  displayName= 'Textfield'
 
-  propTypes: {
+  propTypes= {
     value: PropTypes.string,
     maxLength:PropTypes.number,
     name: PropTypes.string.isRequired,
@@ -19,24 +20,18 @@ var Text = React.createClass({
     floatingLabelText: PropTypes.string,
     big: PropTypes.string,
     textColor: PropTypes.string
-  },
+  }
 
-  contextTypes: {
-    color: PropTypes.string
-  },
-
-  getDefaultProps() {
-    return {
+  static defaultProps = {
       type: "string",
       validate: []
     }
-  },
 
-  onChange(e){
+  onChange = (e) => {
     var value = e.target.value
 
     this.props.onChange(value)
-  },
+  }
 
   render() {
     var stylesBig = {
@@ -160,7 +155,11 @@ var Text = React.createClass({
               </div>
     )
   }
-})
+}
+
+Text.contextTypes= {
+  color: PropTypes.string
+}
 
 export default connectToForm(Text)
 export {Text as TexfieldDisconnected}

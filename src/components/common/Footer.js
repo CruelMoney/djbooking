@@ -1,5 +1,6 @@
-import React, {PropTypes} from 'react'
-import { Link } from 'react-router';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { NavLink as Link } from 'react-router-dom';
 import ButtonLink from './ButtonLink'
 import * as c from '../../constants/constants'
 /*animation stuff*/
@@ -10,8 +11,8 @@ import * as actions from '../../actions/SessionActions'
 
 const ScrollOverPack = ScrollAnim.OverPack;
 
-const footer = React.createClass({
-  PropTypes:{
+class footer extends Component{
+  PropTypes={
     bgColor: PropTypes.string,
     color: PropTypes.string,
     firstTo: PropTypes.string,
@@ -21,14 +22,12 @@ const footer = React.createClass({
     title: PropTypes.string,
     subTitle:PropTypes.string,
     noSkew: PropTypes.bool
-  },
+  }
 
-  getDefaultProps(){
-    return{
+  static defaultProps = {
       color:"#31DAFF",
       bgColor:"#F6F9FC"
     }
-  },
 
   render() {
     return <div >
@@ -91,7 +90,7 @@ const footer = React.createClass({
                   <Link to="/about">About</Link>
                 </li>
                 <li>
-                  <Link href="https://medium.com/@Cueup" target="blank" >Blog</Link>
+                  <a href="https://medium.com/@Cueup" target="blank" >Blog</a>
                 </li>
                 <li>
                   <Link to="/faq/dj">FAQ</Link>
@@ -142,7 +141,7 @@ const footer = React.createClass({
         </footer>
         </div>
   }
-})
+}
 
 
 

@@ -28,10 +28,6 @@ var Event = React.createClass({
         cancelEvent: PropTypes.func,
     },
 
-    getDefaultProps() {
-        return {}
-    },
-
     getInitialState() {
         return {startTime: 0, endTime: 0, editMode: false, formValid: false}
     },

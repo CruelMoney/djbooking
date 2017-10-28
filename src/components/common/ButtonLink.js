@@ -1,11 +1,9 @@
-import React, { PropTypes } from 'react'
-import { Link } from 'react-router'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
 
 
-class ButtonLink extends React.Component {
-  static contextTypes={
-      color: PropTypes.string
-    }
+class ButtonLink extends Component {
 
     static defaultProps= {
         rounded: true
@@ -91,6 +89,11 @@ class ButtonLink extends React.Component {
     )
   }
 }
+
+ButtonLink.contextTypes={
+  color: PropTypes.string
+}
+
 
 
 

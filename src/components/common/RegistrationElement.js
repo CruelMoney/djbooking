@@ -1,12 +1,12 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 
+class RegistrationElement extends Component{
 
-var RegistrationElement = React.createClass({
+  displayName = 'RegistrationElement'
 
-  displayName: 'RegistrationElement',
-
-  propTypes: {
+  static proptypes = {
     name: PropTypes.string.isRequired,
     children: PropTypes.node,
     text: PropTypes.string,
@@ -15,38 +15,29 @@ var RegistrationElement = React.createClass({
     disabled: PropTypes.bool,
     hideOn: PropTypes.arrayOf(PropTypes.string),
     isFilter: PropTypes.bool,
-  },
+  }
 
-  getDefaultProps() {
-    return {
+  static defaultProps = {
       showOn: [],
       isFilter: false
     }
-  },
 
-  childContextTypes: {
-    updateValue: PropTypes.func,
-    isFilter: PropTypes.bool,
-  },
+
 
   getChildContext() {
     return {
       updateValue: this.updateValue,
       isFilter: this.props.isFilter,
     }
-  },
+  }
 
-  contextTypes: {
-    updateFilters: PropTypes.func,
-    updateValue: PropTypes.func.isRequired,
-  },
 
-  updateValue(name, value){
+  updateValue = (name, value) => {
     if (this.props.isFilter) {
       this.context.updateFilters(this.props.name, value)
     }
     this.context.updateValue(name, value)
-  },
+  }
 
   render() {
     var styles = {
@@ -85,6 +76,15 @@ var RegistrationElement = React.createClass({
       )
 
   }
-})
+}
+
+RegistrationElement.childContextTypes = {
+  updateValue: PropTypes.func,
+  isFilter: PropTypes.bool,
+}
+RegistrationElement.contextTypes = {
+  updateFilters: PropTypes.func,
+  updateValue: PropTypes.func.isRequired,
+}
 
 export default RegistrationElement

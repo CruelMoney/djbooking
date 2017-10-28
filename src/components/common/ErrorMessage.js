@@ -1,10 +1,7 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
-class ErrorMessage extends React.Component {
-  static contextTypes = {
-    errorMessage: PropTypes.string,
-  }
-
+class ErrorMessage extends Component {
   render() {
     const msg = 
       this.context.errorMessage && this.context.errorMessage.message ? 
@@ -17,5 +14,10 @@ class ErrorMessage extends React.Component {
     </div>)
   }
 }
+
+ErrorMessage.contextTypes = {
+  errorMessage: PropTypes.string,
+}
+
 
 export default ErrorMessage

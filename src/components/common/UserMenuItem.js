@@ -1,10 +1,6 @@
-import React, { PropTypes } from 'react';
+import React, {Component} from 'react';
 
-const UserMenuItem = React.createClass({
-  propTypes: {
-      name: PropTypes.string,
-      picture: PropTypes.string
-   },
+class UserMenuItem extends Component{
 
   render() {
 
@@ -43,5 +39,5 @@ const UserMenuItem = React.createClass({
       </div>
     </div>)
 }
-})
+}
 export default UserMenuItem

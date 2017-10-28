@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import SubmitButton from './SubmitButton'
 import Textfield from './Textfield'
 import Form from './Form-v2'
@@ -10,54 +11,42 @@ import * as actions from '../../actions/LoginActions'
 let auth = new AuthService()
 let cueup = new CueupService()
 
-const login = React.createClass({
-    displayName: 'Login',
-    color: "#31DAFF",
+class Login extends Component{
+    displayName = 'Login'
+    color = "#31DAFF"
 
-    propTypes: {
+    static proptypes = {
       login: PropTypes.func.isRequired,
       loginFacebook: PropTypes.func,
       loginSoundcloud: PropTypes.func,
       isLoading: PropTypes.bool,
       error: PropTypes.string,
-    },
-
-    childContextTypes:{
-      color: PropTypes.string
-    },
+    }
 
     getChildContext(){
       return{
         color: this.color
       }
-    },
+    }
 
-    getDefaultProps(){
-      return{
+    static defaultProps = {
         redirect:true
       }
-    },
 
-    getInitialState() {
-      return{
+    state={
         email: "",
         password: "",
         isValid: false,
       }
-    },
 
     componentWillMount(){
       this.setState({
         error: this.props.error,
         message: ""
       })
-    },
+    }
 
-    componentWillReceiveProps(nextProps){
-
-    },
-
-    onRequestChangePassword(form, callback){
+    onRequestChangePassword = (form, callback) => {
       var email = this.state.email;
       let self = this
       if (!email) {
@@ -83,24 +72,23 @@ const login = React.createClass({
             }
             }
           })
-    },
+    }
 
-    onChangeEmail(email){
+    onChangeEmail = (email) => {
       this.setState({
         email
       })
-    },
+    }
 
-    onChangePassword(password){
+    onChangePassword = (password) => {
       this.setState({
         password
       })
-    },
+    }
 
-
-    login(form, callback){
+    login = (form, callback) => {
       this.props.login( this.state.email, this.state.password, this.props.redirect, callback)
-    },
+    }
 
 
   render() {
@@ -176,11 +164,14 @@ const login = React.createClass({
 </div>
     )
     }
-    })
+    }
 
     
 
 
+  Login.childContextTypes = {
+    color: PropTypes.string
+  }
 
     function mapDispatchToProps(dispatch, ownprops) {
       return {
@@ -190,7 +181,7 @@ const login = React.createClass({
       }
     }
 
-    const SmartLogin = connect(state=>state, mapDispatchToProps)(login)
+    const SmartLogin = connect(state=>state, mapDispatchToProps)(Login)
 
 
     export default props => (

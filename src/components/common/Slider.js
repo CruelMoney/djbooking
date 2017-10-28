@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import RCSlider, { Range } from 'rc-slider'
 import connectToForm from '../higher-order/connectToForm'
 import 'rc-slider/assets/index.css'
@@ -7,20 +8,20 @@ import 'rc-slider/assets/index.css'
  * The slider bar can have a set minimum and maximum, and the value can be
  * obtained through the value parameter fired on an onChange event.
  */
-var Slider = React.createClass({
+class Slider extends Component{
 
-  propTypes: {
+  propTypes= {
     name: PropTypes.string,
     value: PropTypes.arrayOf(PropTypes.number),
     range: PropTypes.object,
     step: PropTypes.number,
     handleChange: PropTypes.func,
     format: PropTypes.object,
-  },
+  }
 
-  defaultValue: 0,
-  nonLinear: false,
-  parsedRange: [],
+  defaultValue= 0
+  nonLinear= false
+  parsedRange= []
 
   componentWillMount(){
     // Range should be an object consisting of at least min & max
@@ -32,15 +33,13 @@ var Slider = React.createClass({
         
       
     }
-  },
+  }
 
-  getDefaultProps(){
-    return{
+  static defaultProps = {
       value: this.defaultValue
     }
-  },
 
-  parseRange(range){
+  parseRange = (range) =>{
     var newRange = []
     Object.keys(this.props.range).map(k=>{
       if(k==="min"){
@@ -57,21 +56,21 @@ var Slider = React.createClass({
     })
     newRange.sort((a,b)=>(a[0]-b[0]))
     return newRange
-  },
+  }
 
    //Helper functions
     getPercentage(max,min,val){
       const newMax = max-min //50
       const newVal = val-min //25
       return (newVal/newMax)*100
-    },
+    }
     getValue(max,min,perc){
       const newMax = max-min
       const res = Math.floor(((newMax/100)*perc)+min)
       return isNaN(res) ? 1 : res
-    },
+    }
 
-  handleNonLinear(val){
+  handleNonLinear = (val) => {
     //calculate the percentage of the max value
     //Find the range it falls between
     //calculate linear between those
@@ -107,34 +106,19 @@ var Slider = React.createClass({
       perc)
     
     return this.getValue(withinRange[1][1],withinRange[0][1],middlePerc)
-  },
-
-  contextTypes: {
-    color: PropTypes.string,
-  },
+  }
 
 
-
-  handleChange(values) {
+  handleChange = (values) => {
     values = (Array.isArray(values)) ? values : [values]
 
     if(this.nonLinear){
       values = values.map(this.handleNonLinear)
     }
     this.props.onChange(values)
-  },
+  }
 
   render() {
-
-          /*
-          OLD noUI slider
-          range={this.props.range}
-          step={this.props.step}
-          start={this.props.value.map(val => Number(val))}
-          onChange={this.handleChange}
-          onSlide={this.handleChange}
-          format={this.props.format}
-        connect={this.props.connect}*/
     return (
       <div style={{ visibility:"hidden", display:"flex", backgroundColor: this.context.color, borderColor: this.context.color}}>
         {this.props.value.length > 1 ? 
@@ -159,6 +143,10 @@ var Slider = React.createClass({
         </div>
     )
   }
-})
+}
+
+Slider.contextTypes = {
+  color: PropTypes.string,
+}
 
 export default connectToForm(Slider)

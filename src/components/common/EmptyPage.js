@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, {Component} from 'react';
 import Panda from '../../assets/SadPanda.svg'
 
-class EmptyPage extends React.Component {
+class EmptyPage extends Component {
   render() {
     return(
     <div className="empty-page-message">

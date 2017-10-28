@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import Button from '../../../../../components/common/Button-v2'
 import TextField, {TexfieldDisconnected} from '../../../../../components/common/Textfield'
 import moment from 'moment'
@@ -23,27 +24,26 @@ import { connect } from 'react-redux'
 import * as eventActions from '../../../../../actions/EventActions'
 import * as userActions from '../../../../../actions/UserActions'
 
-var RequestForm = React.createClass({
-  propTypes: {
+class RequestForm extends Component{
+  static proptypes = {
     form: PropTypes.object,
     date: PropTypes.object, //moment object
     onSubmit: PropTypes.func,
     isLoggedIn: PropTypes.bool,
     checkEmail: PropTypes.func,
-  },
+  }
 
-  contextTypes:{
+
+  static contextTypes={
     loadingUser: PropTypes.bool
-  },
+  }
 
-  getDefaultProps(){
-    return{
+  static defaultProps = {
       form:{values:{}}
     }
-  },
 
-  getInitialState(){
-    return{
+
+  state={
       showPopup: false,
       guests: 50,
       step1Done: false,
@@ -52,19 +52,18 @@ var RequestForm = React.createClass({
       msg: null,
       date: moment()
     }
-  },
 
-  formToEvent(form){
+  formToEvent = (form) => {
     return {
       ...form, 
       guestsCount: form.guests[0],
       ReferredBy: this.props.user_id  
     }
-  },
+  }
 
-  formValidCheckers: [], 
+  formValidCheckers= []
 
-  onSubmit(form, callback){
+  onSubmit = (form, callback) => {
 
     var valid = this.formValidCheckers.reduce((memo, isValidFunc) =>{
                     return (isValidFunc(true) && memo)}, true)
@@ -103,22 +102,22 @@ var RequestForm = React.createClass({
         }
       })
       }
-  },
+  }
 
-  hidePopup(){
+  hidePopup = () => {
     this.setState({
       showPopup: false
     })
-  },
+  }
 
  
 
-  DateChanged(date){
+  DateChanged = (date) => {
     this.setState({
       date: date,
       showPopup: false
     })
-  },
+  }
 
   render() {
     const eventDateString = this.state.date.format("dddd Do, MMMM YYYY")
@@ -315,7 +314,7 @@ var RequestForm = React.createClass({
       </div>     
       )
   }
-})
+}
 
 
 

@@ -1,32 +1,29 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import "react-datepicker/dist/react-datepicker.min.css";
 
 import '../../css/calendar.css'
 
-export default React.createClass({
+export default class MyDatePicker extends Component{
 
-    propTypes:{
-      handleChange: PropTypes.func,
-    },
+  propTypes={
+    handleChange: PropTypes.func,
+  }
 
-  getInitialState: function() {
-    return {
-      startDate: moment()
-    }
-  },
-  contextTypes:{
-    color: PropTypes.string
-  },
-  handleChange: function(date) {
+  state={
+    startDate: moment()
+  }
+
+  handleChange = (date) => {
     this.props.handleChange(date)
     this.setState({
       startDate: date
     })
-  },
+  }
 
-  render: function() {
+  render(){
     return (
       <div style={{color: this.context.color}} className={"calendar-container" + (this.props.dark ? " dark" : "")}>
         <DatePicker
@@ -38,4 +35,8 @@ export default React.createClass({
       </div>
     )
   }
-})
+}
+
+MyDatePicker.contextTypes={
+  color: PropTypes.string
+}

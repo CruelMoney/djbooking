@@ -1,10 +1,11 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import * as validators from '../../utils/validators'
 
 function connectToForm (
   Component
 ) {
-  class FormConnection extends React.Component<>{
+  class FormConnection extends React.Component{
     static contextTypes = {
       registerValidation: PropTypes.func.isRequired,
       updateValue: PropTypes.func,

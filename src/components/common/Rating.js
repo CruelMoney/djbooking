@@ -1,7 +1,8 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-const Star = React.createClass({
-    propTypes:{
+class Star extends Component{
+    propTypes={
       index: PropTypes.number,
       color: PropTypes.string,
       emptyColor: PropTypes.string,
@@ -10,23 +11,23 @@ const Star = React.createClass({
       onHover: PropTypes.func,
       active: PropTypes.bool,
       editable: PropTypes.bool
-    },
+    }
 
 
-handleMouseOver(){
+handleMouseOver = () => {
   if (this.props.editable){
   this.props.onHover(this.props.index)
 }
-},
+}
 
-handleOnClick(){
+handleOnClick = () => {
   if (this.props.editable){
   this.props.onClick(this.props.index)
 }
-},
+}
 
 
-  render: function() {
+  render() {
     const fillID =  "gradient-" + this.props.fillPercentage + "-" + this.props.index + "-" + Math.random()
     var fillStyle ={fill:"url(#"+fillID+")"}
     return (
@@ -70,28 +71,19 @@ handleOnClick(){
       </div>
     )
   }
-})
+}
 
-export default React.createClass({
-  propTypes:{
+export default class Rating extends Component {
+  propTypes={
     rating: PropTypes.number,
     editable: PropTypes.bool,
     name: PropTypes.string
-  },
+  }
 
-  contextTypes: {
-    registerValidation: PropTypes.func.isRequired,
-    updateValue: PropTypes.func,
-    isFormValid: PropTypes.func,
-    registerReset: PropTypes.func,
-    color:PropTypes.string
-  },
-
-  getInitialState() {
-    return {
+  state= {
       errors: []
     }
-  },
+  
 
 componentWillMount(){
     this.setState({
@@ -116,15 +108,7 @@ componentWillMount(){
     }
 
     }
-},
-
-// componentWillReceiveProps(nextProps){
-//   this.setState({
-//     origRating: nextProps.rating || 0,
-//     rating: nextProps.rating || 0
-//   })
-// },
-
+}
 
 
 componentWillUnmount() {
@@ -134,9 +118,9 @@ componentWillUnmount() {
   if (this.removeReset) {
     this.removeReset()
   }
-},
+}
 
-isValid(showErrors) {
+isValid = (showErrors) => {
   var errors = []
 
   if (this.state.rating === 0) {
@@ -150,9 +134,9 @@ isValid(showErrors) {
   }
 
   return !errors.length
-},
+}
 
-updateRating(i){
+updateRating = (i) => {
   if (this.props.editable) {
     this.setState({
       origRating: i+1,
@@ -161,34 +145,34 @@ updateRating(i){
 
     this.context.updateValue(this.props.name, i+1)
   }
-},
+}
 
-updatePotentialRating(i){
+updatePotentialRating = (i) => {
   if (this.props.editable) {
   this.setState({
     potRating: i+1,
   })
 }
-},
+}
 
-handleMouseOver(){
+handleMouseOver = () => {
   if (this.props.editable) {
     this.setState({
       rating: this.state.potRating
     })
   }
-},
+}
 
-handleMouseOut(){
+handleMouseOut = () => {
   if (this.props.editable) {
     this.setState({
       rating: this.state.origRating
     })
   }
-},
+}
 
 
-render: function() {
+render() {
   const fullStarsCount   = Math.floor(this.state.rating)
   const fillPercentage = ((this.state.rating % 1)*100).toString() + '%'
   var stars = []
@@ -253,4 +237,12 @@ render: function() {
     </div>
   )
 }
-})
+}
+
+Rating.contextTypes= {
+  registerValidation: PropTypes.func.isRequired,
+  updateValue: PropTypes.func,
+  isFormValid: PropTypes.func,
+  registerReset: PropTypes.func,
+  color:PropTypes.string
+}

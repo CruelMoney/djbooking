@@ -1,20 +1,18 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Button from './Button'
 
-export default React.createClass({
+export default class ResetButton extends Component{
 
-  propTypes:{
+  static proptypes = {
     onClick: PropTypes.func,
-  },
+  }
 
-  contextTypes: {
-      reset: PropTypes.func,
-    },
 
-    handleClick(e){
+    handleClick = (e) => {
     this.context.reset()
     this.props.onClick()
-    },
+    }
 
   render() {
   return(
@@ -24,4 +22,8 @@ export default React.createClass({
   />
   )
   }
-})
+}
+ResetButton.contextTypes= {
+  reset: PropTypes.func,
+}
+

@@ -1,17 +1,14 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import lodashMap from 'lodash/map'
 
 
-const NumberedList = React.createClass({
-    displayName: 'Form',
+class NumberedList extends Component{
+    displayName= 'Form'
 
-    propTypes: {
+    propTypes= {
       children: PropTypes.node,
-    },
-
-    contextTypes:{
-      activeFilters: PropTypes.arrayOf(PropTypes.object),
-    },
+    }
 
   render() {
     //Taking a list of react elements and see if they have defined to be only showed
@@ -41,6 +38,11 @@ const NumberedList = React.createClass({
 
     )
   }
-})
+}
+
+NumberedList.contextTypes = {
+  activeFilters: PropTypes.arrayOf(PropTypes.object),
+}
+
 
 export default NumberedList

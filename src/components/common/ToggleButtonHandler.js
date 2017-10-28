@@ -1,34 +1,33 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import ToggleButton from './ToggleButton'
 import connectToForm from '../higher-order/connectToForm'
 
-var ToggleButtonHandler = React.createClass({
+class ToggleButtonHandler extends Component{
 
-  propTypes: {
+  static propTypes= {
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
     value: PropTypes.arrayOf(PropTypes.string),
     required: PropTypes.bool
-  },
+  }
 
- getDefaultProps() {
-     return {
+ static defaultProps = {
        rounded: true,
        columns: 3,
        potentialValues: [],
        value: [],
        errorAbove: false,
        required: true,
-     }
-   },
+ }
 
 
   spliceHelper(list, index){
     list.splice(index,1)
     return list
-  },
+  }
 
-  handleButtonPress(value) {
+  handleButtonPress = (value) => {
     var toggledButtons = this.props.value
     var valueIndex = toggledButtons.indexOf(value)
 
@@ -38,7 +37,7 @@ var ToggleButtonHandler = React.createClass({
 
 
     this.props.onChange(newList)
- },
+ }
 
   render() {
     var rows = []
@@ -98,7 +97,7 @@ var ToggleButtonHandler = React.createClass({
           </div>
           )
           }
-          })
+          }
 
 
 export default connectToForm(ToggleButtonHandler)

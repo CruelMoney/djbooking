@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import checkmark from '../../../assets/checkmark.svg'
 import SubmitButton from '../../../components/common/SubmitButton'
 import dot from '../../../assets/dot.svg'
@@ -9,27 +10,23 @@ require("kute.js/kute-css"); // Add CSS Plugin
 require("kute.js/kute-attr"); // Add Attributes Plugin
 require("kute.js/kute-text"); // Add Text Plugin
 
-export default React.createClass({
+export default class Index extends Component{
 
-   propTypes: {
+   static proptypes = {
       currentStep: PropTypes.number,
       onSubmit: PropTypes.func
-    },
+    }
 
-    contextTypes:{
+    contextTypes = {
       color: PropTypes.string,
       isFormValid: PropTypes.func
-    },
+    }
 
     getInitialState(){
       return{
         msg: null
       }
-    },
-
-    componentDidMount(){
-     
-    },
+    }
 
     componentDidUpdate(prevProps, prevState){
       const step = this.props.currentStep
@@ -59,7 +56,7 @@ export default React.createClass({
         }
       }
 
-    },
+    }
 
  
 
@@ -135,4 +132,4 @@ export default React.createClass({
        </div>
     )
   }
-})
+}

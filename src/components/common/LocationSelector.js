@@ -1,50 +1,41 @@
-import React, { PropTypes } from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import AutoComplete from 'material-ui/AutoComplete';
 import * as validators from '../../utils/validators';
 
 /*eslint no-undef: 0*/
 
-export default React.createClass({
+export default class LocationSelector extends Component{
 
-  displayName: 'LocationSelector',
-  locationService: new google.maps.places.AutocompleteService(),
+  displayName= 'LocationSelector'
+  locationService= new google.maps.places.AutocompleteService()
 
-  propTypes: {
+  propTypes= {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     label: PropTypes.string,
     validate: PropTypes.arrayOf(PropTypes.string)
-  },
-
-  contextTypes: {
-    update: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired,
-    registerValidation: PropTypes.func.isRequired
-  },
+  }
 
   componentWillMount() {
     this.removeValidationFromContext = this.context.registerValidation(show =>
       this.isValid(show));
-  },
+  }
 
   componentWillUnmount() {
     this.removeValidationFromContext();
-  },
+  }
 
-  getDefaultProps() {
-    return {
+  static defaultProps = {
       validate: []
     }
-  },
 
-  getInitialState() {
-    return {
+  state= {
       errors: [],
       dataSource: []
-    };
-  },
+    }
 
-  updateSuggestions(predictions, status){
+  updateSuggestions = (predictions, status) => {
     var li = [];
 
     predictions.forEach(function(prediction) {
@@ -54,17 +45,17 @@ export default React.createClass({
     this.setState({
       dataSource: li,
     });
-  },
+  }
 
-  updateValue(value) {
+  updateValue = (value) => {
     this.context.update(this.props.name, value);
 
     if (this.state.errors.length) {
     setTimeout(() => this.isValid(true), 0);
     }
-  },
+  }
 
-  onChange(value) {
+  onChange = (value) => {
     function toTitleCase(str)
     {
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -74,13 +65,13 @@ export default React.createClass({
     
     this.updateValue(value);
     this.locationService.getPlacePredictions({ input: value, types: ['(cities)'], componentRestrictions: {country: 'dk'} }, this.updateSuggestions);
-  },
+  }
 
-  onValueSelected(value){
+  onValueSelected = (value) => {
     this.updateValue(value);
-  },
+  }
 
-  isValid(showErrors) {
+  isValid = (showErrors)  => {
     const errors = this.props.validate
       .reduce((memo, currentName) =>
         memo.concat(validators[currentName](
@@ -93,7 +84,7 @@ export default React.createClass({
       });
     }
     return !errors.length;
-  },
+  }
 
   render() {
     return (
@@ -115,4 +106,10 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
+
+LocationSelector.contextTypes= {
+  update: PropTypes.func.isRequired,
+  values: PropTypes.object.isRequired,
+  registerValidation: PropTypes.func.isRequired
+}

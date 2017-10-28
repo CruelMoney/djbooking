@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import TextField from './Textfield'
 import TextWrapper from './TextElement'
 import PoweredByStripe from '../../assets/powered_by_stripe.png'
@@ -14,13 +15,13 @@ import InfoPopup from './InfoPopup'
 
 import CountryCurrency from '../../utils/CountryCurrency'
 const countryCur = new CountryCurrency()
-var payoutForm = React.createClass({
-  propTypes: {
+class payoutForm extends Component {
+  propTypes= {
     user: PropTypes.object,
     updatePayoutInfo: PropTypes.func
-  },
+  }
 
-  updatePayoutInfo(form, callback) {
+  updatePayoutInfo = (form, callback) => {
       const info = form.values
       info.account_holder_name = this.props.user.name
       const country = this.state.area === "usa" ? "USA" : info.bank_country 
@@ -34,16 +35,13 @@ var payoutForm = React.createClass({
             account_currency: result.currency}, callback)
       }).catch((err)=>callback("Country could not be found"))
 
-  },
+  }
 
 
-    getInitialState() {
-      return {
+    state  = {
         valid: false,
         area: "europe"
       }
-    },
-
 
   render() {
 
@@ -63,10 +61,7 @@ var payoutForm = React.createClass({
           <TextWrapper
             label="Payout"
             showLock={true}
-            text="
-            All information is encrypted. We are using IBAN numbers to 
-            allow deals between countries. That way you can play gigs 
-            in foreign contries if you're traveling.">
+            text="All information is encrypted. We are using IBAN numbers to allow deals between countries. That way you can play gigs in foreign contries if you're traveling.">
              <div className="row" style={{marginBottom:"10px"}}>
             <div className="col-md-12">
                 <ToggleOptions
@@ -240,7 +235,7 @@ var payoutForm = React.createClass({
       </div>)
 
   }
-})
+}
 
 
 

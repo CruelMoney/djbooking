@@ -1,64 +1,51 @@
-import React, { PropTypes } from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import * as validators from '../../utils/validators';
 
-export default React.createClass({
+export default class Text extends Component {
 
-  displayName: 'Text',
+  displayName= 'Text'
 
-  propTypes: {
+  propTypes= {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     type: PropTypes.string,
     label: PropTypes.string,
     validate: PropTypes.arrayOf(PropTypes.string)
-  },
-
-  contextTypes: {
-    update: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired,
-    registerValidation: PropTypes.func.isRequired
-  },
+  }
 
   componentWillMount() {
     this.removeValidationFromContext = this.context.registerValidation(show =>
       this.isValid(show));
-
-
-
-
-  },
+  }
 
   componentWillUnmount() {
     this.removeValidationFromContext();
-  },
+  }
 
-  getDefaultProps() {
-    return {
+  static defaultProps = {
       type: "string",
       validate: []
     }
-  },
 
-  getInitialState() {
-    return {
+  state={
       errors: []
-    };
-  },
+    }
 
-  updateValue(value) {
+  updateValue = (value) => {
     this.context.update(this.props.name, value);
 
     if (this.state.errors.length) {
     setTimeout(() => this.isValid(true), 0);
     }
-  },
+  }
 
-  onChange(event) {
+  onChange = (event) => {
     this.updateValue(event.target.value)
-  },
+  }
 
-  isValid(showErrors) {
+  isValid = (showErrors) => {
     const errors = this.props.validate
       .reduce((memo, currentName) =>
         memo.concat(validators[currentName](
@@ -71,16 +58,13 @@ export default React.createClass({
       });
     }
     return !errors.length;
-  },
+  }
 
-  onBlur() {
+  onBlur = () => {
     this.isValid(true);
-  },
+  }
 
   render() {
-
-
-
     return (
       <div>
         <TextField
@@ -98,4 +82,11 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
+
+Text.contextTypes= {
+  update: PropTypes.func.isRequired,
+  values: PropTypes.object.isRequired,
+  registerValidation: PropTypes.func.isRequired
+}
+

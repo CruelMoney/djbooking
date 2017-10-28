@@ -1,37 +1,37 @@
-import React, { PropTypes } from 'react'
-import { Link } from 'react-router'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { NavLink } from 'react-router-dom'
 
 
 
-const Navlink = React.createClass({
-  propTypes: {
+class MyNavlink extends Component{
+  static proptypes = {
      rounded: PropTypes.bool,
      primary: PropTypes.bool,
      onClick: PropTypes.func,
      borderHover: PropTypes.bool,
      buttonLook: PropTypes.bool,
      userNavigation: PropTypes.bool,
-   },
+   }
 
-   getDefaultProps() {
-      return {
+   static defaultProps = {
         rounded: true,
       }
-    },
+    
 
   render() {
-    return    (    <div onClick={this.props.onClick}>
-      <Link
+    return    (    
+    <div onClick={this.props.onClick}>
+      <NavLink
         to={this.props.to}
         className={"navLink " + (this.props.borderHover ? "borderHover" : "")}
-        onlyActiveOnIndex={true}
         activeClassName="active"
       >
         {this.props.label ? this.props.label : this.props.children}
-      </Link>
+      </NavLink>
     </div>)
 }
-})
+}
 
 
-export default Navlink
+export default MyNavlink

@@ -1,14 +1,15 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-export const Collapsible = React.createClass({
-  propTypes: {
+export class Collapsible extends Component{
+  static proptypes = {
     name: PropTypes.string,
     label: PropTypes.string,
     number: PropTypes.number,
     collapsed: PropTypes.bool,
     handleClick: PropTypes.func,
     numbered: PropTypes.bool
-  },
+  }
 
   render() {
     return(
@@ -54,27 +55,23 @@ export const Collapsible = React.createClass({
   )
 
   }
-})
+}
 
-export const CollapsibleContainer = React.createClass({
-  propTypes: {
+export class CollapsibleContainer extends Component{
+  static proptypes = {
     numbered: PropTypes.bool,
     changeHash: PropTypes.bool
-  },
+  }
 
-  getDefaultProps(){
-    return{
+  static defaultProps = {
       numbered: true
     }
-  },
 
-  getInitialState(){
-    return {
+  state={
       activeChild: 0
-    }
-  },
+  }
 
-  toggleChild(count){
+  toggleChild = (count) => {
     if (this.state.activeChild === count) {
       this.setState({
         activeChild: 0
@@ -90,10 +87,9 @@ export const CollapsibleContainer = React.createClass({
          window.location.hash = this.props.children[count-1].props.label
       }
     }
+  }
 
-  },
-
-  renderChildren(){
+  renderChildren = () => {
     var count = 0
     return React.Children.map(this.props.children, child => {
       count++
@@ -104,7 +100,7 @@ export const CollapsibleContainer = React.createClass({
         numbered: this.props.numbered
       })
   })
-},
+}
 
   render() {
     return(
@@ -113,4 +109,4 @@ export const CollapsibleContainer = React.createClass({
       </div>)
 
   }
-})
+}

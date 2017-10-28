@@ -1,11 +1,12 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Radium from 'radium'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import hexToRgb from '../../utils/ColorHelper'
 
-var Button = React.createClass({
+class Button extends Component{
 
-   propTypes: {
+   propTypes= {
       rounded: PropTypes.bool,
       label: PropTypes.string,
       onClick: PropTypes.func,
@@ -20,17 +21,15 @@ var Button = React.createClass({
       isLoading: PropTypes.bool,
       isNavigationButton: PropTypes.bool,
       success: PropTypes.bool
-    },
+    }
 
 
-
-  getDefaultProps() {
-      return {
+    static defaultProps = {
         rounded: false, label: "Button", dangerous: false
       }
-    },
+    
 
-    handleClick(e){
+    handleClick = (e) => {
       e.preventDefault()
 
       if (true) {
@@ -42,7 +41,7 @@ var Button = React.createClass({
       }else{
         this.props.onClick(this.props.name)
       }
-    },
+    }
 
   render() {
     const color = this.props.dangerous ? 'f44336' : this.props.muiTheme.palette.primary1Color
@@ -181,7 +180,7 @@ var Button = React.createClass({
           data-livestyle-extension="available" viewBox="-30 0 230 200"> <path
           d="M 20,130 60,170 200,30" style={{ stroke: "buttonFace",
           strokeWidth:"20", fill:"none"}}/> </svg> : this.props.label }
-          </button> </div> ) } })
+          </button> </div> ) } }
 
 
 var StyledButton = Radium(Button)

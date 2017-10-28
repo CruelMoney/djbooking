@@ -353,14 +353,15 @@ var Gig = React.createClass({
 
                 <Collapsible
                   name="ContactInfo"
-                  label="Contact Organizer"
+                  label={`Contact Organizer (${this.props.gig.contactName})`}
                 >
 
                    
-                  <p>Feel free to contact the organizer to discuss the price, or figure out additional details.</p>
+                  <p>Feel free to contact {this.props.gig.contactName} to discuss the price, or figure out additional details.</p>
              
                       <Chat 
                         receiver={{
+                          id:this.props.gig.customer.auth0Id,
                           name:this.props.gig.contactName,
                           image:this.props.gig.customer.picture
                         }}

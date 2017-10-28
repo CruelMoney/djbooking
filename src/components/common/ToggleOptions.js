@@ -1,21 +1,22 @@
-import React, { PropTypes } from 'react'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import connectToForm from '../higher-order/connectToForm'
 
-var ToggleOptions = React.createClass({
+class ToggleOptions extends Component{
 
-  propTypes: {
+  propTypes= {
     name: PropTypes.string.isRequired,
     children: PropTypes.node,
     value: PropTypes.string,
     glued: PropTypes.bool,
     disabled: PropTypes.bool
-  },
+  }
 
-  handleButtonPress: function(value) {
+  handleButtonPress = (value) => {
     this.props.onChange(value)
- },
+ }
 
- renderChildren(props) {
+ renderChildren = (props) => {
    var count = 0
    const length = props.children.length
    return React.Children.map(props.children, child => {
@@ -55,7 +56,7 @@ var ToggleOptions = React.createClass({
              disabled: this.props.disabled
        })}
    })
- },
+ }
 
   render() {
     var children = this.renderChildren(this.props)
@@ -103,7 +104,7 @@ if (this.props.glued) {
     }
 
   }
-})
+}
 
 
 export default connectToForm(ToggleOptions)

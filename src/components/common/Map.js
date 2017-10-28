@@ -14,20 +14,13 @@ import connectToForm from '../higher-order/connectToForm'
 class SimpleMap extends React.Component{
       circle = null
 
-      static propTypes:{
+      static proptypes = {
         editable:        PropTypes.bool,
         value:           PropTypes.object,
         radius:          PropTypes.number,
         radiusName:      PropTypes.string,
         locationName:    PropTypes.string
       }
-
-      static contextTypes = {
-        color: PropTypes.string,
-        updateValue: PropTypes.func,
-        registerReset: PropTypes.func,
-      }
-
 
       
       marker= {
@@ -37,8 +30,6 @@ class SimpleMap extends React.Component{
         key: `Denmark`,
         defaultAnimation: 2,
       }
-
-      
 
       componentWillMount(){
           this.marker= {
@@ -196,6 +187,12 @@ class SimpleMap extends React.Component{
         />
       </div>
     )}
+}
+
+SimpleMap.contextTypes = {
+  color: PropTypes.string,
+  updateValue: PropTypes.func,
+  registerReset: PropTypes.func,
 }
 
 export default connectToForm(SimpleMap)

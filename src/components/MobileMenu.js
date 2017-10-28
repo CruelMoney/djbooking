@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types'
 import Navlink    from './common/Navlink'
 import Popup from './common/Popup'
 import Login from './common/Login'
@@ -17,16 +18,13 @@ const curConverter = new CurrencyConverter()
 
 
 
-class MobileMenu extends React.Component {
+class MobileMenu extends Component {
   themeColor = "#31DAFF"
 
   state = {
     show: false,
     loading: false, 
     err: null
-  }
-  static childContextTypes={
-    color: PropTypes.string
   }
 
   getChildContext() {
@@ -313,6 +311,10 @@ class MobileMenu extends React.Component {
     </div>
     );
   }
+}
+
+MobileMenu.childContextTypes={
+  color: PropTypes.string
 }
 
 

@@ -1,10 +1,11 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Navlink  from './common/Navlink'
 import Dropdown from './common/Dropdown'
 import UserMenuItem from './common/UserMenuItem'
 import Login from './common/Login'
 import Logo from './common/Logo'
-import MobileMenu from './MobileMenu'
+// import MobileMenu from './MobileMenu'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
@@ -14,65 +15,60 @@ import * as actions from '../actions/LoginActions'
 
 const theme = getMuiTheme()
 
-var menu = React.createClass({
+class Menu extends Component {
 
-  propTypes: {
+  static propTypes= {
      loggedIn: PropTypes.bool,
      logout: PropTypes.func.isRequired,
      profile: PropTypes.object
-   },
+   }
 
-   childContextTypes: {
-       profile: PropTypes.object,
-       loggedIn: PropTypes.bool
-   },
 
-   getInitialState(){
-     return{
+
+   state={
        loginExpanded: false,
        fixed: false,
      }
-   },
 
    getChildContext() {
     return {
       profile: this.props.profile,
       loggedIn: this.props.loggedIn
     }
-   },
+   }
 
 
-   onLoginButton(){
+   onLoginButton = () => {
        this.setState({
          loginExpanded: !this.state.loginExpanded
        })
-   },
+   }
 
 
-   timer :null,
+   timer=null
 
-   onClickOutside(){
+   onClickOutside = () => {
      clearTimeout(this.timer)
      this.timer = setTimeout(() => this.setState({
        loginExpanded: false
      }), 10)
-   },
+   }
 
 
      componentWillMount() {
        window.addEventListener('scroll', this.handleScroll)
-     },
+     }
      componentWillUnmount(){
        window.removeEventListener('scroll', this.handleScroll)
-     },
-     handleScroll(event){
+     }
+     handleScroll = (event) => {
       let scrollTop = event.srcElement.body.scrollTop
       if (scrollTop > 150) {
         this.mobileMenu.className = "buttonFixed"
       }else{
         this.mobileMenu.className = ""
       }
-    },
+    }
 
   render() {
     const isHome = window.location.pathname === '/'
@@ -80,9 +76,9 @@ var menu = React.createClass({
     return (
       <MuiThemeProvider muiTheme={theme}>
         <div  className={"location_" + page}>
-          <MobileMenu
+          {/* <MobileMenu
             onClosing={()=>this.setState({showMenu:false})}
-            show={this.state.showMenu}/>
+            show={this.state.showMenu}/> */}
             <div className="container">
           <div
             className={"nav-container location_"}>
@@ -180,7 +176,12 @@ var menu = React.createClass({
       </MuiThemeProvider>
     )
   }
-})
+}
+
+Menu.childContextTypes = {
+  profile: PropTypes.object,
+  loggedIn: PropTypes.bool
+}
 
 
 function mapStateToProps(state, ownprops) {
@@ -197,7 +198,7 @@ function mapDispatchToProps(dispatch, ownprops) {
   }
 }
 
-const SmartNavigation = connect(mapStateToProps, mapDispatchToProps)(menu)
+const SmartNavigation = connect(mapStateToProps, mapDispatchToProps)(Menu)
 
 export default props => (
     <SmartNavigation {...props}/>

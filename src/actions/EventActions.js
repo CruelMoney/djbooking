@@ -141,7 +141,7 @@ export function updateEvent(event, callback) {
     if (err) {
       (callback(err))
     }else{
-      dispatch(self.fetchEvent(event.id, event.hashKey, null, callback))
+      dispatch(fetchEvent(event.id, event.hashKey, null, callback))
     }
   })
 }
@@ -169,7 +169,7 @@ export function reviewEvent(id, hash, review, callback) {
     if (err) {
       (callback(err))
     }else{
-      dispatch(self.fetchEvent(id, hash, null, callback))
+      dispatch(fetchEvent(id, hash, null, callback))
     }
   })
 }
@@ -217,7 +217,7 @@ export function payEvent(id, hash, data, callback) {
           (callback(err))
         }else{
           tracker.trackEventPaid(data.Amount+data.Fee)
-          dispatch(self.fetchEvent(id, hash, null, callback))
+          dispatch(fetchEvent(id, hash, null, callback))
         }
       })
 

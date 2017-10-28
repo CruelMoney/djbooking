@@ -22,6 +22,11 @@ const filterEmailSettings = (settings, isDj, isCustomer) => {
   return settings
 }
 
+const removeTimezone = (date) =>{
+  const newDate = date.toDateString() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+  return newDate;
+}
+
 
 const deletedUser={
   bio: "",
@@ -226,7 +231,7 @@ const deletedUser={
             customerId: DTO.customerId,
             offers: !DTO.offers ? [] :
                   DTO.offers
-                  .filter(o=>o.gigStatus !== "Requested" && o.gigStatus !== "Declined" && o.gigStatus !== "Lost" && o.gigStatus !== "Cancelled")
+                  .filter(o=>o.gigStatus !== "Declined" && o.gigStatus !== "Lost" && o.gigStatus !== "Cancelled")
                   .map(o => offer.fromDTO(o)),
             description: DTO.description,
             name: DTO.name,
@@ -253,8 +258,8 @@ const deletedUser={
           Name: event.name,
           ChosenOfferId: event.chosenOfferId,
           Location: location.toDTO(event.location),
-          StartTime: event.startTime,
-          EndTime: event.endTime,
+          StartTime: removeTimezone(event.startTime),
+          EndTime: removeTimezone(event.endTime),
           GuestsCount: event.guestsCount,
           Currency: event.currency,
           MinPrice : event.minPrice,
@@ -278,6 +283,7 @@ const deletedUser={
         return gig;
       }
     }
+
 
 
 

@@ -1,34 +1,36 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Button from './Button-v2'
 import Textfield from 'material-ui/TextField'
+import { connect } from 'react-redux'
+import * as actions from '../../actions/SignupActions'
 
 
-const signup = React.createClass({
-    displayName: 'Signup',
+class signup extends Component{
+    displayName= 'Signup'
 
-    propTypes: {
+    propTypes= {
       profile: PropTypes.object,
       signup: PropTypes.func.isRequired,
       signupFacebook: PropTypes.func,
       signupSoundcloud: PropTypes.func,
-    },
+    }
 
-    getInitialState() {
-      return{
+    state={
         email: "",
         password: "",
         isValid: false,
       }
-    },
+  
 
     componentWillMount(){
       this.setState({
         email: this.props.profile.email
       })
-    },
+    }
 
 
-    setValidState(){
+    setValidState = () => {
       if(this.state.email !== "" && this.state.password !== ""){
         this.setState({
           isValid: true
@@ -38,37 +40,36 @@ const signup = React.createClass({
           isValid: false
         })
       }
-    },
+    }
 
-    onChangeEmail(event){
+    onChangeEmail = (event) => {
           this.setState({
             email: event.target.value
           })
 
           this.setValidState()
-    },
+    }
 
-    onChangePassword(event){
+    onChangePassword = (event) => {
           this.setState({
             password: event.target.value
           })
 
           this.setValidState()
-    },
+    }
 
-
-    signup(){
+    signup = () => {
       this.props.signup(
         this.props.profile.name,
         this.state.email,
         this.state.password,
         this.props.profile.phone)
-    },
-    signupFace(){
+    }
+    signupFace = () => {
       this.props.signupFacebook(
         this.props.profile.name,
         this.props.profile.phone)
-    },
+    }
 
 
   render() {
@@ -117,11 +118,7 @@ const signup = React.createClass({
     </div>
     )
     }
-    })
-
-    import { connect } from 'react-redux'
-    import * as actions from '../../actions/SignupActions'
-
+    }
 
     function mapDispatchToProps(dispatch, ownprops) {
       return {
