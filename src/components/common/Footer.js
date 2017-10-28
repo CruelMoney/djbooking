@@ -12,7 +12,7 @@ import * as actions from '../../actions/SessionActions'
 const ScrollOverPack = ScrollAnim.OverPack;
 
 class footer extends Component{
-  PropTypes={
+  static proptypes = {
     bgColor: PropTypes.string,
     color: PropTypes.string,
     firstTo: PropTypes.string,
@@ -35,7 +35,7 @@ class footer extends Component{
         <div className={this.props.noSkew ? "noSkew" : ""} style={{backgroundColor: this.props.bgColor}}  id="preFooterPseudo"> </div>
         <div className="container">
           <div className="row">
-            <ScrollOverPack id="footerScroll" style={{pointerEvents: "none", marginTop:"-300px", width:"100%"}} hideProps={{ 0: { reverse: true } }}>
+            <ScrollOverPack id="footerScroll" style={{pointerEvents: "none", marginTop:"-300px", width:"100%"}} always={false}>
               <QueueAnim key="1" className="footer-text">
                 <div key="preFooterText" className="action-title col-md-7">
                   <QueueAnim key="2">
@@ -125,7 +125,7 @@ class footer extends Component{
                   name="currency-selector"
                   onChange={(e)=>this.props.changeCurrency(e.target.value)}
                   value={this.props.currency}>
-                    {c.Currencies.map(c=>(<option value={c}>{c}</option>))}
+                    {c.Currencies.map((c, idx)=>(<option key={`currency-option-${idx}`} value={c}>{c}</option>))}
                   </select>
                   <svg className="collapsible-arrow" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>
                   </div>

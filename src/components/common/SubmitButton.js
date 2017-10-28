@@ -4,7 +4,7 @@ import Button from './Button-v2'
 
 export default class SubmitButton extends Component{
 
-  propTypes={
+  static proptypes = {
     onClick: PropTypes.func, // has to take to parameters (form, callback)
     noCheckMark: PropTypes.bool,
     name:PropTypes.string.isRequired,

@@ -12,7 +12,9 @@ import * as actions from './actions/LoginActions'
 import * as sessionActions from './actions/SessionActions'
 import store from './reducers/Store'
 import {init as analytics} from './utils/analytics/autotrack'
-import Home from './routes/Home/index'
+import Home from './routes/Home'
+import About from './routes/About'
+
 import Navigation from './components/Navigation'
 
 class App extends Component {
@@ -43,6 +45,8 @@ class App extends Component {
           <Router>
             <Navigation>
               <Route exact path="/" component={Home}/>
+              <Route path="/about" component={About}/>
+
             </Navigation>
           </Router>
           )

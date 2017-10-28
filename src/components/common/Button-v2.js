@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import checkmark from '../../assets/checkmark.svg'
 
-class Button extends React.Component {
+class Button extends Component {
 
     static defaultProps= {
         rounded: true

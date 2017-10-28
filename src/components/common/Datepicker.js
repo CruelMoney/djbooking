@@ -8,7 +8,7 @@ import '../../css/calendar.css'
 
 export default class MyDatePicker extends Component{
 
-  propTypes={
+  static proptypes = {
     handleChange: PropTypes.func,
   }
 

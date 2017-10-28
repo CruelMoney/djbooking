@@ -9,7 +9,7 @@ class LocationSelector extends Component{
 
   displayName= 'LocationSelectorSimple'
 
-  propTypes={
+  static proptypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     label: PropTypes.string,

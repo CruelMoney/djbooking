@@ -10,7 +10,7 @@ import 'rc-slider/assets/index.css'
  */
 class Slider extends Component{
 
-  propTypes= {
+  static propTypes= {
     name: PropTypes.string,
     value: PropTypes.arrayOf(PropTypes.number),
     range: PropTypes.object,
@@ -47,12 +47,13 @@ class Slider extends Component{
       }else if (k==="max"){
         newRange.push([100, this.props.range.max])
       }else{
-        var perc = parseInt(k)
+        var perc = parseInt(k, 10) 
         if(isNaN(perc)){
           throw new Error("Range not valid")
         }
         newRange.push([perc, this.props.range[k]])
       }
+      return null
     })
     newRange.sort((a,b)=>(a[0]-b[0]))
     return newRange
@@ -136,7 +137,7 @@ class Slider extends Component{
             min={this.props.range.min}
             max={this.props.range.max}
             step={this.props.step}
-            defaultValue={this.props.value}
+            defaultValue={this.props.value[0]}
             onChange={this.handleChange}
           />}
     

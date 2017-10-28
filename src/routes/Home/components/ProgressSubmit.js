@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import checkmark from '../../../assets/checkmark.svg'
-import SubmitButton from '../../../components/common/SubmitButton'
 import dot from '../../../assets/dot.svg'
-import ErrorMessage from '../../../components/common/ErrorMessage'
 var KUTE = require("kute.js"); //grab the core
 require("kute.js/kute-svg"); // Add SVG Plugin
 require("kute.js/kute-css"); // Add CSS Plugin
@@ -17,16 +14,14 @@ export default class Index extends Component{
       onSubmit: PropTypes.func
     }
 
-    contextTypes = {
+    static contextTypes = {
       color: PropTypes.string,
       isFormValid: PropTypes.func
     }
 
-    getInitialState(){
-      return{
+    state = {
         msg: null
       }
-    }
 
     componentDidUpdate(prevProps, prevState){
       const step = this.props.currentStep
@@ -88,7 +83,7 @@ export default class Index extends Component{
              <svg 
              id="step1"
              width="49px" height="64px" viewBox="0 0 49 64" version="1.1" xmlns="http://www.w3.org/2000/svg" >          
-                <path class="step-circle" id="step1-circle" d="M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0"></path>
+                <path className="step-circle" id="step1-circle" d="M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0"></path>
                 <path  id="step1-pin" className="step-pin" d="M24.5,64 C43,42 49,38.0309764 49,24.5 C49,10.9690236 38.0309764,0 24.5,0 C10.9690236,0 0,10.9690236 0,24.5 C0,38.0309764 7,42 24.5,64 Z" ></path>              
             </svg>
           </div>
@@ -103,7 +98,7 @@ export default class Index extends Component{
              <svg 
              id="step2"
              width="49px" height="64px" viewBox="0 0 49 64" version="1.1" xmlns="http://www.w3.org/2000/svg" >          
-                <path  id="step2-circle" class="step-circle" d="M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0"></path>
+                <path  id="step2-circle" className="step-circle" d="M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0"></path>
                 <path  id="step2-pin" className="step-pin" d="M24.5,64 C43,42 49,38.0309764 49,24.5 C49,10.9690236 38.0309764,0 24.5,0 C10.9690236,0 0,10.9690236 0,24.5 C0,38.0309764 7,42 24.5,64 Z" ></path>              
             </svg>
           </div>
@@ -118,7 +113,7 @@ export default class Index extends Component{
             <svg 
             id="step3"
             width="49px" height="64px" viewBox="0 0 49 64" version="1.1" xmlns="http://www.w3.org/2000/svg" >          
-                <path  id="step3-circle" class="step-circle" d="M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0"></path>
+                <path  id="step3-circle" className="step-circle" d="M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0"></path>
                 <path  id="step3-pin" className="step-pin" d="M24.5,64 C43,42 49,38.0309764 49,24.5 C49,10.9690236 38.0309764,0 24.5,0 C10.9690236,0 0,10.9690236 0,24.5 C0,38.0309764 7,42 24.5,64 Z" ></path>              
             </svg>
    

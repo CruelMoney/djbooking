@@ -138,7 +138,7 @@ const createTracker = () => {
 const trackErrors = () => {
   // Errors that have occurred prior to this script running are stored on
   // `window.__e.q`, as specified in `index.html`.
-  const loadErrorEvents = window.__e && window.__e.q || [];
+  const loadErrorEvents = (window.__e && window.__e.q) || [];
 
   // Use a different eventAction for uncaught errors.
   const fieldsObj = {eventAction: 'uncaught error'};
@@ -182,7 +182,7 @@ const trackCustomDimensions = () => {
     const originalBuildHitTask = tracker.get('buildHitTask');
     tracker.set('buildHitTask', (model) => {
       model.set(dimensions.HIT_ID, uuid(), true);
-      model.set(dimensions.HIT_TIME, String(+new Date), true);
+      model.set(dimensions.HIT_TIME, String(+new Date()), true);
       model.set(dimensions.HIT_TYPE, model.get('hitType'), true);
       model.set(dimensions.VISIBILITY_STATE, document.visibilityState, true);
 
@@ -239,7 +239,7 @@ const sendNavigationTimingMetrics = () => {
   if (!(window.performance && window.performance.timing)) return;
 
   // If the window hasn't loaded, run this function after the `load` event.
-  if (document.readyState != 'complete') {
+  if (document.readyState !== 'complete') {
     window.addEventListener('load', sendNavigationTimingMetrics);
     return;
   }
@@ -285,7 +285,7 @@ const getDefinitionIndex = (definition) => +/\d+$/.exec(definition)[0];
  * @return {string}
  */
 const uuid = function b(a) {
-  return a ? (a ^ Math.random() * 16 >> a / 4).toString(16) :
+  return a ? ((a ^ Math.random() * 16) >> a / 4).toString(16) :
       ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, b);
 };
 

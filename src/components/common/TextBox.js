@@ -5,7 +5,7 @@ import connectToForm from '../higher-order/connectToForm'
 
 class TextBox extends Component{
 
-  propTypes={
+  static proptypes = {
     maxLength:PropTypes.number,
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,

@@ -4,11 +4,8 @@ import SubmitButton from './SubmitButton'
 import Textfield from './Textfield'
 import Form from './Form-v2'
 import CueupService from '../../utils/CueupService'
-import AuthService from '../../utils/AuthService'
-import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/LoginActions'
-let auth = new AuthService()
 let cueup = new CueupService()
 
 class Login extends Component{

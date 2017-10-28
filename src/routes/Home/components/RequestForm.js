@@ -4,7 +4,6 @@ import Button from '../../../components/common/Button-v2'
 import TextField, {TexfieldDisconnected} from '../../../components/common/Textfield'
 import RiderOptions from '../../../components/common/RiderOptions'
 import LocationSelector from '../../../components/common/LocationSelectorSimple'
-import ToggleButton from '../../../components/common/ToggleButton'
 import ToggleButtonHandler from '../../../components/common/ToggleButtonHandler'
 import Form from '../../../components/common/Form-v2'
 import Slider from '../../../components/common/Slider'
@@ -551,6 +550,7 @@ class Step4 extends Component{
         <section><label htmlFor="contactName">Contact name</label>
           <TextField
             name="contactName"
+            placeholder="First Last"
             validate={['required', 'lastName']}
           />
           <p >Your first and last name.</p>
@@ -559,7 +559,7 @@ class Step4 extends Component{
         <section>
            <label htmlFor="contactName">Phone number</label>
           <TextField
-            placeholder="optional"
+            placeholder="Optional"
             name="contactPhone"
             validate={[]}
           />
@@ -568,6 +568,7 @@ class Step4 extends Component{
         <section><label htmlFor="contactEmail">Contact email</label>
           <TextField
             name="contactEmail"
+            placeholder="Email"
             validate={['required', 'email']}
           />
           <p>Your email is only shared with qualified DJs.</p>

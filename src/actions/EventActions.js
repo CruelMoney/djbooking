@@ -1,5 +1,4 @@
 import c from '../constants/constants'
-
 import AuthService from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
 import CueupService from '../utils/CueupService'
@@ -131,7 +130,6 @@ export function checkDjAvailability(form, callback) {
 }
 
 export function updateEvent(event, callback) {
-  var self = this
   return function(dispatch){
   var data = converter.cueupEvent.toDTO(event);
   var id = event.id;
@@ -161,7 +159,6 @@ export function notifyPayment(id, hash, callback) {
 }
 
 export function reviewEvent(id, hash, review, callback) {
-  var self= this
   return function(dispatch){
   var data = converter.review.toDTO(review);
   const token = auth.getToken()
@@ -192,7 +189,6 @@ export function cancelEvent(id, hash, callback) {
 
 
 export function payEvent(id, hash, data, callback) {
-  var self = this
   return function(dispatch){
 
   stripe.createCardToken(data, (err, result)=>{

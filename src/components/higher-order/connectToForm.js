@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import * as validators from '../../utils/validators'
 
 function connectToForm (
-  Component
+  WrappedComponent
 ) {
-  class FormConnection extends React.Component{
+  class FormConnection extends Component{
     static contextTypes = {
       registerValidation: PropTypes.func.isRequired,
       updateValue: PropTypes.func,
@@ -17,7 +17,7 @@ function connectToForm (
       errors: []
     }
 
-    isValid = (showErrors:boolean, value:any = this.state.value) => {
+    isValid = (showErrors: boolean, value:any = this.state.value) => {
 
       if (this.props.validate) {
 
@@ -97,7 +97,7 @@ function connectToForm (
     }
 
     render() {
-      return <Component
+      return <WrappedComponent
         {...this.props}
         {...this.state}
         onChange={this.onChange}

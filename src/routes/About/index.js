@@ -1,10 +1,14 @@
-module.exports = {
-  path: 'about',
-  onEnter: () =>  document.title = "About | Cueup",
+import React, {Component} from 'react';
+import About from './components/About'; 
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/About').default)
-    })
+export default class Index extends Component{
+
+  onComponentWillMount(){
+    document.title = "About | Cueup"
   }
+
+  render(){
+    return(
+    <About />
+  )}
 }

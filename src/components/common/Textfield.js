@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField'
 import connectToForm from '../higher-order/connectToForm'
 
-class Text extends Component{
+class MyTextField extends Component{
 
   displayName= 'Textfield'
 
-  propTypes= {
+  static propTypes= {
     value: PropTypes.string,
     maxLength:PropTypes.number,
     name: PropTypes.string.isRequired,
@@ -114,7 +114,7 @@ class Text extends Component{
                 <TextField
                   id={this.props.name}
                   placeholder=""
-                  value={this.props.value || undefined}
+                  value={this.props.value || ''}
                   name={this.props.name}
                   disabled={this.props.disabled}
                   maxLength={this.props.maxLength}
@@ -157,9 +157,9 @@ class Text extends Component{
   }
 }
 
-Text.contextTypes= {
+MyTextField.contextTypes= {
   color: PropTypes.string
 }
 
-export default connectToForm(Text)
-export {Text as TexfieldDisconnected}
+export default connectToForm(MyTextField)
+export {MyTextField as TexfieldDisconnected}

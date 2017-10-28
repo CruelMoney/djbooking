@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux';
 import Modal from 'react-modal'
-
-
 
 
 	function indexOf(arr, prop) {

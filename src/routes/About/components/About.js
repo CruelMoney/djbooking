@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Footer from '../../../components/common/Footer'
-import { Link } from 'react-router';
 import chrisPic from '../../../assets/chris.jpg'
 import martinPic from '../../../assets/martin.jpg'
 
-export default React.createClass({
-  themeColor:"#25F4D2",
+export default class About extends Component{
+  themeColor = "#25F4D2"
 
   render() {
     return (
@@ -71,4 +70,4 @@ export default React.createClass({
 
     )
   }
-})
+}

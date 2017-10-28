@@ -1,11 +1,8 @@
 import c from '../constants/constants'
 import AuthService from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
-import * as LoginActions from './LoginActions'
 import CueupService from '../utils/CueupService'
 import StripeService from '../utils/StripeService'
-import { browserHistory } from 'react-router'
-import cpr from 'danish-ssn'
 
 const cueup = new CueupService()
 const auth = new AuthService()
@@ -14,7 +11,6 @@ const stripe = new StripeService()
 var ActionTypes = c.ActionTypes
 
   export function save(profile, callback){
-    var self = this
       return function(dispatch){
           const token = auth.getToken()
           const data = converter.user.toDTO(profile)
@@ -38,7 +34,6 @@ var ActionTypes = c.ActionTypes
   }
 
   export function SaveProfilePicture(img, profile, callback){
-    var self = this
       return function(dispatch){
           const token = auth.getToken()
           
@@ -182,10 +177,8 @@ export function resetProfile(profile) {
 
 
 export function updatePayoutInfo(data, callback) {
-  var self=this
-
-
-  return function(dispatch){
+  
+return function(dispatch){
   stripe.createBankToken(data, (err, result)=>{
     if (err) {
       (callback(err))
@@ -225,10 +218,8 @@ export function updatePayoutInfo(data, callback) {
 
 
 export function updateSettings(settings, callback) {
-  var self=this
-  return function(dispatch){
-  const data = converter.settings.toDTO(settings)
-
+  
+return function(dispatch){  const data = converter.settings.toDTO(settings)
   const token = auth.getToken()
   cueup.updateSettings(token, data, function(err, result){
     if (err) {

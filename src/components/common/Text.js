@@ -7,7 +7,7 @@ export default class Text extends Component {
 
   displayName= 'Text'
 
-  propTypes= {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     type: PropTypes.string,

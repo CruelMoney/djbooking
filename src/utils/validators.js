@@ -2,7 +2,6 @@ import emailValidator from 'email-validator'
 import dateValidator from 'is-my-date-valid'
 import StripeService from './StripeService'
 import cpr from 'danish-ssn'
-import GeoCoder from '../utils/GeoCoder'
 var stripe = new StripeService();
 
 

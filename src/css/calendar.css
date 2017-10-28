@@ -117,3 +117,7 @@ a.react-datepicker__navigation.react-datepicker__navigation--next {
 	color: white;
 }
 
+
+.react-datepicker__month-container{
+	float: none;
+}

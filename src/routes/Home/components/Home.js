@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import DatePicker from '../../../components/common/Datepicker.js'
 import Footer from '../../../components/common/Footer'
 import RequestForm from './RequestForm'
 import moment from 'moment'
@@ -10,12 +9,10 @@ import padlock from '../../../assets/padlock.svg'
 import note from '../../../assets/note.svg'
 import DJCards from './djCards'
 /*animation stuff*/
-import ScrollAnim from 'rc-scroll-anim';
 import { connect } from 'react-redux'
 import * as eventActions from '../../../actions/EventActions'
 import * as userActions from '../../../actions/UserActions'
 
-const ScrollOverPack = ScrollAnim.OverPack;
 
 scrollIntoView.polyfill()
 

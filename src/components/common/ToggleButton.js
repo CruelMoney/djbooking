@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Button from './Button-v2'
 
 class ToggleButton extends Component {
-   propTypes= {
+   static propTypes= {
       name: PropTypes.string,
       rounded: PropTypes.bool,
       label: PropTypes.string,

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class Star extends Component{
-    propTypes={
+    static proptypes = {
       index: PropTypes.number,
       color: PropTypes.string,
       emptyColor: PropTypes.string,
@@ -74,7 +74,7 @@ handleOnClick = () => {
 }
 
 export default class Rating extends Component {
-  propTypes={
+  static proptypes =
     rating: PropTypes.number,
     editable: PropTypes.bool,
     name: PropTypes.string

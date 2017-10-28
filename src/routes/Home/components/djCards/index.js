@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
 import './index.css'
-import note from '../../../../assets/note.svg'
 import frank from '../../../../assets/images/frank-hansen.png'
 import martinE from '../../../../assets/images/martin-edvardsen.png'
 import martin from '../../../../assets/images/martin.jpg'
-import mati from '../../../../assets/images/matti.jpg'
 import simon from '../../../../assets/images/simon.jpg'
 import emma from '../../../../assets/images/emma.jpg'
 import mussa from '../../../../assets/images/musa.jpg'
@@ -89,7 +87,7 @@ const djs = [
 
     ]
    
-    this.cards = shuffle(djs.map(dj => <DJCard dj={dj} />))
+    this.cards = shuffle(djs.map((dj, idx) => <DJCard key={`dj-card-${idx}`} dj={dj} />))
 }
 
   render() {
@@ -123,7 +121,7 @@ class DJCard extends React.Component{
                 <div className="profile-picture">
                     <img 
                         src={this.props.dj.img} 
-                        alt="profile-picture"
+                        alt="profile"
                         ref={(i=>{
                             if(!this.state.loaded && i && i.complete){
                                 this.setState({loaded:true})
@@ -139,6 +137,7 @@ class DJCard extends React.Component{
                 <div className="info">
                     <h4>{this.props.dj.name}</h4>
                     <table>
+                        <tbody>
                         <tr>
                             <td>
                                 <svg
@@ -172,6 +171,7 @@ class DJCard extends React.Component{
                                 </p>
                             </td>
                         </tr>
+                    </tbody>
                     </table>
                 </div>
             </div>
