@@ -109,7 +109,7 @@ handleButtonClick = () => {
                           <img src={padlock} alt="icon"/>
                       <h2 style={{color:this.themeColor}}>Secured booking system</h2>
                       <p>
-At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money are instantly refunded. Otherwise the money are disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
+At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
                   </div>
                 </div>
                 <div  className="col-sm-5 col-sm-push-1">
