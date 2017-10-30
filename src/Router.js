@@ -17,7 +17,7 @@ import {init as analytics} from './utils/analytics/autotrack'
 import Loadable from 'react-loadable';
 import NotFoundPage from './components/common/NotFoundPage'
 import LoadHandler from './components/common/LoadingScreen'
-
+import ErrorHandling from './components/common/ErrorPage'
 const AsyncAbout = Loadable({
   loader: () => import('./routes/About'),
   loading: LoadHandler
@@ -30,7 +30,14 @@ const AsyncEvent = Loadable({
   loader: () => import('./routes/Event'),
   loading: LoadHandler
 });
-
+const AsyncHowItWorks = Loadable({
+  loader: () => import('./routes/HowItWorks'),
+  loading: LoadHandler
+});
+const AsyncSignup = Loadable({
+  loader: () => import('./routes/Signup'),
+  loading: LoadHandler
+});
 
 import Navigation from './components/Navigation'
 
@@ -44,6 +51,11 @@ class App extends Component {
          // Setup custom analytics
          analytics()
          this.props.setGeoSession()
+     }
+
+     componentDidMount(){
+        AsyncHowItWorks.preload();
+        AsyncSignup.preload();
      }
 
 
@@ -60,14 +72,18 @@ class App extends Component {
       render(){
         return  ( 
           <Router>
-            <Navigation>
-              <Switch>
-                <Route exact path="/" component={AsyncHome}/>
-                <Route exact path="/about" component={AsyncAbout}/>
-                <Route exact path="/event/:id/:hash" component={AsyncEvent}/>
-                <Route component={NotFoundPage}/>
-              </Switch>
-            </Navigation>
+            <ErrorHandling>
+              <Navigation>
+                <Switch>
+                  <Route exact path="/" component={AsyncHome}/>
+                  <Route path="/about" component={AsyncAbout}/>
+                  <Route path="/howitworks" component={AsyncHowItWorks}/>
+                  <Route path="/signup" component={AsyncSignup}/>
+                  <Route path="/event/:id/:hash" component={AsyncEvent}/>
+                  <Route component={NotFoundPage}/>
+                </Switch>
+              </Navigation>
+            </ErrorHandling>
           </Router>
           )
       }

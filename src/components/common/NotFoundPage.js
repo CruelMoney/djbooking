@@ -15,7 +15,10 @@ export default class NotFound extends Component{
     <div className="not-found-screen">
         <EmptyPage 
           title={`Looks like there's nothing here.`}
-          message={'Sorry, the page you visited could not be found. Try to spin up another page.'}
+          message={
+            <span>Sorry, the page you visited could not be found.<br/>
+           Try to spin up another page.</span>
+          }
         />
         <Footer
           color={"#31DAFF"}

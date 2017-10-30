@@ -1,12 +1,14 @@
-module.exports = {
-  path: 'howitworks',
+import React, {Component} from 'react';
+import HowItWorks from './components/HowItWorks'; 
 
-  onEnter: () =>  document.title = "How it works | Cueup",
+export default class Index extends Component{
 
-
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/HowItWorks').default)
-    })
+  onComponentWillMount(){
+    document.title ="How it works | Cueup"
   }
+
+  render(){
+    return(
+    <HowItWorks />
+  )}
 }

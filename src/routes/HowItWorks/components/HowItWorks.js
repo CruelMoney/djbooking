@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Footer from '../../../components/common/Footer'
 import Particles from 'react-particles-js';
 import PConfig from '../../../assets/particlesjs-config.json';
@@ -12,12 +12,8 @@ import note from '../../../assets/note.svg'
 
 
 
-export default React.createClass({
-  themeColor:"#31DAFF",
-
-  componentDidMount(){
-
-  },
+export default class Index extends Component{
+  themeColor = "#31DAFF"
 
   render() {
     return (
@@ -144,4 +140,4 @@ At Cueup we focus on finding the most qualified DJs for your event - so you donâ
 
     )
   }
-})
+}

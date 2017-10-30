@@ -59,6 +59,11 @@ class Menu extends Component {
      componentWillMount() {
        window.addEventListener('scroll', this.handleScroll)
      }
+     componentDidUpdate(prevProps) {
+      if (this.props.location !== prevProps.location) {
+        window.scrollTo(0, 0)
+      }
+    }
      componentWillUnmount(){
        window.removeEventListener('scroll', this.handleScroll)
      }
