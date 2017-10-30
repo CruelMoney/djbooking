@@ -1,11 +1,8 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import Button from '../../../../../components/common/Button-v2'
 import TextField from '../../../../../components/common/Textfield'
-import Formatter from '../../../../../utils/Formatter'
 import Form from '../../../../../components/common/Form-v2'
 import SubmitButton from '../../../../../components/common/SubmitButton'
-import assign from 'lodash.assign'
-import {moneyPipe} from '../../../../../utils/TextPipes'
 import MoneyTable, {TableItem} from '../../../../../components/common/MoneyTable'
 import  * as actions from '../../../../../actions/GigActions'
 import CurrencyConverter from '../../../../../utils/CurrencyConverter'
@@ -102,7 +99,7 @@ class OfferForm extends Component{
                                 disabled={this.props.gig.status === "Cancelled"  || this.props.gig.status === "Lost" || this.props.gig.status === "Confirmed" || this.props.gig.status === "Finished" }
                                 type="string"
                                 fullWidth={true}
-                                onChange={(val)=>this.setState({amount:parseInt(val)})}
+                                onChange={(val)=>this.setState({amount:parseInt(val, 10)})}
                                 value={this.state.amount}
                               />
                               </div>

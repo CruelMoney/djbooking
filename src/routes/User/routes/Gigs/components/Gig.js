@@ -1,34 +1,30 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Formatter from '../../../../../utils/Formatter'
 import TextWrapper from '../../../../../components/common/TextElement'
 import {CollapsibleContainer, Collapsible} from '../../../../../components/common/Collapsible'
-import assign from 'lodash.assign'
 import OfferForm from './OfferForm'
 import PayoutForm from '../../../../../components/common/PayoutForm'
 import Popup from '../../../../../components/common/Popup'
 import InfoPopup from '../../../../../components/common/InfoPopup'
-import Button from '../../../../../components/common/Button-v2'
 import Chat from '../../../../../components/common/Chat'
 
 import { connect } from 'react-redux'
 import  * as actions from '../../../../../actions/GigActions'
 
-var Gig = React.createClass({
-  getInitialState(){
-    return {
+class Gig extends Component{
+  state= {
       showPopup: false,
       gigStatus: "" 
     }
-  },
   
   componentWillMount(){
     this.setState({
       eventFinished: (this.props.gig.startTime.getTime() - Date.now()) <= 0
     });
     this.setGigStatus();
-  },
+  }
 
-  setGigStatus(){
+  setGigStatus = () => {
   
     // Only autodeclines if the gig is not a direct booking,
     // and if the gig is still en request status,
@@ -96,111 +92,23 @@ var Gig = React.createClass({
         : ""
     });
   
-  },
+  }
 
-  showPopup(){
+  showPopup = () => {
     this.setState({
       showPopup: true,
     })
-  },
+  }
 
   componentWillUnmount(){
     if(this.timeLeft){
       clearInterval(this.timeLeft);
     }
-  },
+  }
 
   render() {
 
-    const styles ={
-
-      inline:{
-        display: 'inline-block'
-      },
-      flex:{
-        display: 'flex',
-        alignItems: 'center'
-      },
-      large:{
-        textarea: {
-          height: '80px',
-        },
-
-        paragraph: {
-          fontSize: '14px',
-        },
-
-        input:{
-          fontSize: '24px',
-          height: 'initial',
-          fontWeight: '300',
-        },
-
-        hint:{
-          bottom: '20px',
-          fontSize: '30px',
-          fontWeight: '300',
-        }
-      },
-      medium:{
-        textarea: {
-          height: '40px',
-        },
-
-        paragraph: {
-          fontSize: '14px',
-        },
-
-        input:{
-          fontSize: '14px',
-          height: 'initial',
-          fontWeight: '300',
-        },
-
-        hint:{
-          bottom: '20px',
-          fontSize: '30px',
-          fontWeight: '300',
-        },
-
-      },
-       dottedBorderStyle: {
-          borderTop: 'none rgba(0, 0, 0, 1)',
-          borderRight: 'none rgba(0, 0, 0, 1)',
-          borderBottom: '2px dotted rgba(0, 0, 0, 1) ',
-          borderLeft: 'none rgba(0, 0, 0, 1)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          borderColor: 'rgba(0,0,0, 0.5)'
-        },
-        plainBorder:{
-          borderTop: 'none rgb(224, 224, 224)',
-          borderRight: 'none rgb(224, 224, 224)',
-          borderBottom: '1px solid rgb(224, 224, 224)',
-          borderLeft: 'none rgb(224, 224, 224)',
-          borderImage: 'initial',
-          bottom: '8px',
-          boxSizing: 'content-box',
-          margin: '0px',
-          position: 'absolute',
-          width: '100%',
-          display: 'none',
-        },
-        image:{
-          backgroundImage: 'url('+this.props.gig.customer.picture+')',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          backgroundSize: 'auto 100%',
-          width: '68px',
-          height: '68px',
-          borderRadius: '50%',
-        },
-    }
-
+    
     var genres = ""
     const length = this.props.gig.genres.length
     this.props.gig.genres.forEach(function(genre, i) {
@@ -352,6 +260,7 @@ var Gig = React.createClass({
                 </Collapsible>
 
                 <Collapsible
+                  lazyLoad
                   name="ContactInfo"
                   label={`Contact Organizer (${this.props.gig.contactName})`}
                 >
@@ -403,7 +312,7 @@ var Gig = React.createClass({
         </div>)
 
   }
-})
+}
 
 
 function mapStateToProps(state, ownProps){

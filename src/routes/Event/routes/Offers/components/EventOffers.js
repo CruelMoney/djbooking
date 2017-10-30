@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
 import OfferCard from './OfferCard'
 import {connect} from 'react-redux';
 import EmptyPage from '../../../../../components/common/EmptyPage'
 
-var EventOffers = React.createClass({
+class EventOffers extends Component{
 
 
   componentWillMount(){
@@ -15,7 +15,7 @@ var EventOffers = React.createClass({
       paymentPossible: daysUntil <= 60,
       eventFinished:  daysUntil < 0
     })
-  },
+  }
 
     render() {
         var left =[]
@@ -99,7 +99,7 @@ var EventOffers = React.createClass({
         )
     }
 
-})
+}
 
 function mapDispatchToProps(dispatch, ownProps){
   return {}

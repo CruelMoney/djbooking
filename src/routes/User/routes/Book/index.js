@@ -1,10 +1,14 @@
-module.exports = {
-  path: 'book',
-   onEnter: () => document.title = document.title.split('|')[0] + "| Book",
+import React, {Component} from 'react';
+import  Book  from "./components/Book";
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Book').default)
-    })
+export default class Index extends Component{
+
+  onComponentWillMount(){
+    document.title = document.title.split('|')[0] + "| Book"
   }
+
+  render(){
+    return(
+    <Book {...this.props} />
+  )}
 }

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Button from '../../../../../components/common/Button-v2'
 import {CardHeader} from 'material-ui/Card'
 import Rating from '../../../../../components/common/Rating'
@@ -11,17 +12,17 @@ import * as actions from '../../../../../actions/ReviewActions'
 
 /*eslint no-undef: 0*/
 
-var Reviews = React.createClass({
-  propTypes: {
+class Reviews extends Component{
+  static propTypes = {
     reviews: PropTypes.arrayOf(PropTypes.object),
     fetchReviews: PropTypes.func,
     loading: PropTypes.bool
-  },
+  }
 
-  contextTypes:{
+  static contextTypes = {
     registerActions: PropTypes.func,
     isOwnProfile: PropTypes.bool
-  },
+  }
 
 
   componentWillMount() {
@@ -29,15 +30,15 @@ var Reviews = React.createClass({
        this.props.fetchReviews()
     }
       this.context.registerActions(this.getActionButtons)
-  },
+  }
 
   componentWillReceiveProps(nextprops) {
     if(!this.props.userID && nextprops.userID){
        nextprops.fetchReviews()
     }
-  },
+  }
 
-  getActionButtons(props = this.props){
+  getActionButtons = (props = this.props) => {
     return (
       <div
         className="context-actions"
@@ -57,13 +58,14 @@ var Reviews = React.createClass({
     </div>
 
     )
-  },
+  }
 
   render() {
 
       function renderReview(review, i){
         return (
           <div
+            key={`review-${i}`}
             className="review"
             style={{borderBottom: "2px solid rgb(246, 249, 252)"}}
           >
@@ -126,10 +128,10 @@ var Reviews = React.createClass({
       function renderLoadingItem(){
         return [
           <LoadingPlaceholder/>,
-            <LoadingPlaceholder/>,
-              <LoadingPlaceholder/>,
-                <LoadingPlaceholder/>,
-                  <LoadingPlaceholder/>]
+          <LoadingPlaceholder/>,
+          <LoadingPlaceholder/>,
+          <LoadingPlaceholder/>,
+          <LoadingPlaceholder/>]
       }
 
 
@@ -155,7 +157,7 @@ var Reviews = React.createClass({
       </div>)
 
   }
-})
+}
 
 
 

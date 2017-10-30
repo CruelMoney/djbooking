@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import Formatter from '../../utils/Formatter'
 import InfoPopup from './InfoPopup'
 
 class TableItem extends Component {

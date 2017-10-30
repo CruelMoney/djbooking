@@ -39,6 +39,12 @@ import {
 } from 'react-router';
 import User from './components/pages/User'; 
 import Profile from "./routes/Profile";
+import Book from "./routes/Book";
+import Events from "./routes/Events";
+import Gigs from "./routes/Gigs";
+import Preferences from "./routes/Preferences";
+import Reviews from "./routes/Reviews";
+
 export default class Index extends Component{
 
   onComponentWillMount(){
@@ -50,6 +56,11 @@ export default class Index extends Component{
     <User {...this.props} >
       <Switch>
         <Route path={`/user/:permalink/profile`} component={Profile} />
+        <Route path={`/user/:permalink/book`} component={Book} />
+        <Route path={`/user/:permalink/preferences`} component={Preferences} />
+        <Route path={`/user/:permalink/events`} component={Events} />
+        <Route path={`/user/:permalink/gigs`} component={Gigs} />
+        <Route path={`/user/:permalink/reviews`} component={Reviews} />
       </Switch>
     </User>
   )}

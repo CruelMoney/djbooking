@@ -1,10 +1,14 @@
-module.exports = {
-  path: 'reviews',
-   onEnter: () => document.title = document.title.split('|')[0] + "| Reviews",
+import React, {Component} from 'react';
+import  Reviews  from "./components/Reviews";
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Reviews').default)
-    })
+export default class Index extends Component{
+
+  onComponentWillMount(){
+    document.title = document.title.split('|')[0] + "| Reviews"
   }
+
+  render(){
+    return(
+    <Reviews {...this.props} />
+  )}
 }

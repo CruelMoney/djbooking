@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import ToggleButton from '../../../../../components/common/ToggleButton'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Button from '../../../../../components/common/Button-v2'
 import Formatter from '../../../../../utils/Formatter'
 import NavLink from '../../../../../components/common/Navlink'
@@ -9,21 +9,21 @@ import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/EventActions'
 
 
-var Events = React.createClass({
-  propTypes: {
+class Events extends Component{
+  static propTypes= {
     events: PropTypes.arrayOf(PropTypes.object),
     fetchEvents: PropTypes.func,
     payEvent: PropTypes.func,
     editEvent: PropTypes.func,
     cancelEvent: PropTypes.func,
     loading: PropTypes.bool
-  },
+  }
 
-  contextTypes:{
+  static contextTypes = {
     registerActions: PropTypes.func,
     color: PropTypes.string,
     loadingUser:    PropTypes.bool
-  },
+  }
 
   componentWillMount(){
     if ( this.context.registerActions) {
@@ -31,10 +31,10 @@ var Events = React.createClass({
     }
 
     this.props.fetchEvents()
-  },
+  }
 
 
-  getActionButtons(props = this.props){
+  getActionButtons = (props = this.props) => {
     return (
     <div className="context-actions" key="events_actions">
 
@@ -49,7 +49,7 @@ var Events = React.createClass({
     </div>
 
     )
-  },
+  }
 
 
 
@@ -111,7 +111,7 @@ var Events = React.createClass({
       </div>  )
 
   }
-})
+}
 
 
 

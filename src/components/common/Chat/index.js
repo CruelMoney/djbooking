@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import ChatService from '../../../utils/ChatService'
 import AuthService from '../../../utils/AuthService'
 import debounce from 'lodash.debounce'
-import throttle from 'lodash.throttle'
-import checkmark from '../../../assets/checkmark.svg'
 
 import './index.css'
 

@@ -1,9 +1,7 @@
 import c from '../constants/constants'
-import AuthService from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
 import CueupService from '../utils/CueupService'
 const cueup = new CueupService()
-const auth = new AuthService()
 
 var ActionTypes = c.ActionTypes
 

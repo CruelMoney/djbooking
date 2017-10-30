@@ -306,8 +306,10 @@ state={
                  <div className="col-xs-6">
               <a  
               style={{float:"right"}}
-              href="https://stripe.com/" target="_blank">
-                              <img role="presentation" src={PoweredByStripe}/>
+              rel="noopener noreferrer"
+              href="https://stripe.com/" 
+              target="_blank">
+                              <img alt="powered by stripe" src={PoweredByStripe}/>
               </a>
                  </div>
                </div>

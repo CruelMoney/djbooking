@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import Button from '../../../../../components/common/Button-v2'
 import TextField, {TexfieldDisconnected} from '../../../../../components/common/Textfield'
 import moment from 'moment'
 import LocationSelector from '../../../../../components/common/LocationSelectorSimple'
 import SubmitButton from '../../../../../components/common/SubmitButton'
 import DatePicker from '../../../../../components/common/Datepicker'
-import ToggleOptions from '../../../../../components/common/ToggleOptions'
 import ToggleButtonHandler from '../../../../../components/common/ToggleButtonHandler'
 import Form from '../../../../../components/common/Form-v2'
 import Slider from '../../../../../components/common/Slider'

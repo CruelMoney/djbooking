@@ -1,10 +1,14 @@
-module.exports = {
-  path: 'preferences',
-   onEnter: () => document.title = document.title.split('|')[0] + "| Preferences",
+import React, {Component} from 'react';
+import  Preferences  from "./components/Preferences";
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Preferences').default)
-    })
+export default class Index extends Component{
+
+  onComponentWillMount(){
+    document.title = document.title.split('|')[0] + "| Preferences"
   }
+
+  render(){
+    return(
+    <Preferences {...this.props} />
+  )}
 }

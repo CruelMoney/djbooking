@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Button from '../../../../../components/common/Button-v2'
 import Gig from './Gig'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
@@ -13,26 +14,24 @@ import * as actions from '../../../../../actions/GigActions'
 
 import m from '../../../../../constants/Mocks'
 
-var Gigs = React.createClass({
-  propTypes: {
+class Gigs extends Component{
+  static propTypes = {
     gigs: PropTypes.arrayOf(PropTypes.object),
     fetchGigs: PropTypes.func,
     loading: PropTypes.bool
-  },
-  contextTypes:{
+  }
+  static contextTypes = {
     registerActions: PropTypes.func,
     isOwnProfile:   PropTypes.bool,
     loadingUser:    PropTypes.bool
-  },
+  }
 
-  getInitialState(){
-    return{
+  state = {
       gigs: [],
       filter: "requested",
       showPopup:false,
       loginPopup:true
     }
-  },
 
   componentWillMount() {
     this.context.registerActions(this.getActionButtons)
@@ -41,7 +40,7 @@ var Gigs = React.createClass({
       this.props.fetchGigs(this.props.profile.user_id)
     }
 
-  },
+  }
 
   componentWillReceiveProps(nextprops, nextContext){
     if(nextprops.gigs){
@@ -50,20 +49,15 @@ var Gigs = React.createClass({
     if(!this.context.isOwnProfile && nextContext.isOwnProfile){
       this.props.fetchGigs(nextprops.profile.user_id)
     }
-  },
+  }
 
-  componentWillUnmount() {
-   
-  },
-
-
-    hidePopup(){
+    hidePopup = () => {
       this.setState({
         showPopup: false
       })
-    },
+    }
 
-  getActionButtons(props = this.props){
+  getActionButtons = (props = this.props) => {
     return (
     <div
       className="context-actions"
@@ -129,7 +123,7 @@ var Gigs = React.createClass({
     </div>
 
     )
-  },
+  }
 
   render() {
 
@@ -166,6 +160,7 @@ var Gigs = React.createClass({
             if((gig.startTime.getTime() - Date.now()) > 0){
                 gigs.push(<Gig key={gig.name+i} gig={gig}/>)
             }
+            break
         case 'Declined':
             //Do not show
           break
@@ -245,7 +240,7 @@ var Gigs = React.createClass({
       </div>)
 
   }
-})
+}
 
 function mapStateToProps(state, ownProps) {
   return {

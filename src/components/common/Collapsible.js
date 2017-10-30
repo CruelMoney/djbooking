@@ -1,21 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 export class Collapsible extends Component{
-  static proptypes = {
-    name: PropTypes.string,
-    label: PropTypes.string,
-    number: PropTypes.number,
-    collapsed: PropTypes.bool,
-    handleClick: PropTypes.func,
-    numbered: PropTypes.bool
-  }
-
   render() {
     return(
       <div>
         <div className={
-        this.props.collapsed ? "collapsible collapsed" : "collapsible active"}>
+        !!this.props.collapsed ? "collapsible collapsed" : "collapsible active"}>
 
           <div
           
@@ -45,7 +35,14 @@ export class Collapsible extends Component{
             </span>
           </div>
           <div className="collapsible-container" style={ this.props.numbered ? {padding: "0 16px"} : {}}>
-            {this.props.children}
+            {
+            this.props.lazyLoad && this.props.collapsed 
+            ? 
+            null 
+            :
+            this.props.children
+            }
+   
           </div>
         </div>
         <div className="divider"/>
@@ -58,10 +55,6 @@ export class Collapsible extends Component{
 }
 
 export class CollapsibleContainer extends Component{
-  static proptypes = {
-    numbered: PropTypes.bool,
-    changeHash: PropTypes.bool
-  }
 
   static defaultProps = {
       numbered: true

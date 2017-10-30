@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ToggleOptions from '../../../../../components/common/ToggleOptions'
 import ToggleHandler from '../../../../../components/common/ToggleButtonHandler'
 import Button from '../../../../../components/common/Button-v2'
@@ -8,7 +9,6 @@ import SubmitButton from '../../../../../components/common/SubmitButton'
 import TextWrapper from '../../../../../components/common/TextElement'
 import assign from 'lodash.assign'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
-import wNumb from 'wnumb'
 import Slider from '../../../../../components/common/Slider'
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import entries from 'object.entries';
@@ -19,8 +19,8 @@ import * as actions from '../../../../../actions/UserActions'
 import {userLogout} from '../../../../../actions/LoginActions'
 
 
-const preferences = React.createClass({
-  propTypes: {
+class Preferences extends Component{
+  static propTypes = {
     user: PropTypes.object,
     provider: PropTypes.string,
     changePassword: PropTypes.func,
@@ -29,8 +29,8 @@ const preferences = React.createClass({
     connectDB: PropTypes.func,
     deleteProfile: PropTypes.func,
     updateSettings: PropTypes.func
-  },
-  contextTypes:{
+  }
+  static contextTypes = {
     loadingUser:         PropTypes.bool,
     reset:           PropTypes.func,
     registerActions: PropTypes.func,
@@ -39,20 +39,20 @@ const preferences = React.createClass({
     valid:           PropTypes.bool,
     disableEditMode: PropTypes.func,
     updateAction:    PropTypes.func
-  },
+  }
+
+  state = {
+    showPopup: false,
+    loginPopup: true
+  }
 
   componentWillMount(){
     this.context.registerActions(this.getActionButtons)
-  },
+  }
 
-  getInitialState(){
-    return {
-      showPopup: false,
-      loginPopup: true
-    }
-  },
+  
 
-  updateSettings(form, callback){
+  updateSettings = (form, callback) => {
     var eSettings = this.props.profile.settings.emailSettings
 
     //setting all settings to false initially
@@ -73,15 +73,15 @@ const preferences = React.createClass({
           })
 
     this.props.updateSettings(settings,callback)
-  },
+  }
 
-  hidePopup(){
+  hidePopup = () =>{
     this.setState({
       showPopup: false
     })
-  },
+  }
 
-  getUserEmailNotifications(){
+  getUserEmailNotifications = () => {
    // Using the experimental Object.entries
    // var vals = Object.entries(this.props.profile.settings.emailSettings)
    // using shim from npm instead
@@ -91,17 +91,17 @@ const preferences = React.createClass({
 
     return vals
 
-  },
+  }
 
-  getPotentialEmailNotifications(){
+  getPotentialEmailNotifications = () => {
    const  vals = Object.keys(this.props.profile.settings.emailSettings)
                   .map(function(s){return{name:s}})
 
 
     return vals
-  },
+  }
 
-  getActionButtons(props = this.props) {
+  getActionButtons = (props = this.props) => {
       const editing = this.context.editing
       
       return (
@@ -144,9 +144,9 @@ const preferences = React.createClass({
           </div>
 
       )
-  },
+  }
 
-  showHelp(){
+  showHelp = () =>{
     this.setState({
       showHelp:true
     }, this.context.updateAction)
@@ -156,7 +156,7 @@ const preferences = React.createClass({
           showHelp:false
       },this.context.updateAction)
     }, 1500);
-  },
+  }
 
   render() {
     const isDJ = this.props.profile.isDJ
@@ -399,7 +399,7 @@ const preferences = React.createClass({
 
     </div>
   }
-})
+}
 
 
 
@@ -432,7 +432,7 @@ function mapDispatchToProps(dispatch, ownProps) {
   }
 
 
-const SmartPreferences = connect(mapStateToProps, mapDispatchToProps, mergeProps, { pure: false })(preferences)
+const SmartPreferences = connect(mapStateToProps, mapDispatchToProps, mergeProps, { pure: false })(Preferences)
 
 export default props => (
     <SmartPreferences {...props}/>

@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 import * as actions from '../../actions/UserActions'
 import Button from './Button-v2'
 import ToggleOptions from './ToggleOptions'
-import {datePipe} from '../../utils/TextPipes'
 import Formatter from '../../utils/Formatter'
 import InfoPopup from './InfoPopup'
 
@@ -210,7 +209,7 @@ class payoutForm extends Component {
 
           <div className="row">
             <div className="col-xs-12">
-              <p className="terms_link">By clicking save, you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>, and stripes <a target="_blank" href="https://stripe.com/dk/connect-account/legal">connect account agreement.</a></p>
+              <p className="terms_link">By clicking save, you agree to our <a target="_blank" rel="noopener noreferrer" href="/terms/agreements">terms and conditions</a>, and stripes <a target="_blank" rel="noopener noreferrer" href="https://stripe.com/dk/connect-account/legal">connect account agreement.</a></p>
             </div>
           </div>
 
@@ -225,8 +224,8 @@ class payoutForm extends Component {
               >Save</SubmitButton>
             </div>
             <div className="col-xs-6">
-              <a style={{float: "right"}} href="https://stripe.com/" target="_blank">
-                <img role="presentation" src={PoweredByStripe}/>
+              <a style={{float: "right"}} href="https://stripe.com/" target="_blank" rel="noopener noreferrer">
+                <img alt="payment system stripe" src={PoweredByStripe}/>
               </a>
             </div>
           </div>

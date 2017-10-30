@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Button from '../../../../../components/common/Button-v2'
 import Rating from '../../../../../components/common/Rating'
 import PayForm from '../../../../../components/common/PayForm'
@@ -8,30 +9,30 @@ import Chat from '../../../../../components/common/Chat'
 import EmptyPage from '../../../../../components/common/EmptyPage'
 const curConverter = new CurrencyConverter()
 
-var OfferCard = React.createClass({
-  propTypes:{
+class OfferCard extends Component{
+  static propTypes = {
     offer: PropTypes.object,
     paymentPossible: PropTypes.bool,
     disabled: PropTypes.bool
-  },
+  }
 
   componentWillMount(){
     this.setState({
       showPopup: false,
       showChat: false
     })
-  },
+  }
 
-  hidePopup(){
+  hidePopup = () => {
     this.setState({
       showPopup: false
     })
-  },
-  hideChat(){
+  }
+  hideChat = () => {
     this.setState({
       showChat: false
     })
-  },
+  }
 
   render(){
 
@@ -176,6 +177,6 @@ var OfferCard = React.createClass({
 
     )
   }
-})
+}
 
 export default OfferCard

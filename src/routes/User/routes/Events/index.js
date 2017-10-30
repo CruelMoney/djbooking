@@ -1,10 +1,14 @@
-module.exports = {
-  path: 'events',
-   onEnter: () => document.title = document.title.split('|')[0] + "| Events",
+import React, {Component} from 'react';
+import  Events  from "./components/Events";
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Events').default)
-    })
+export default class Index extends Component{
+
+  onComponentWillMount(){
+    document.title = document.title.split('|')[0] + "| Events"
   }
+
+  render(){
+    return(
+    <Events {...this.props} />
+  )}
 }
