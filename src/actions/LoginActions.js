@@ -28,8 +28,7 @@ const cueup = new CueupService()
                 type: ActionTypes.LOGIN_SUCCEEDED,
                 profile: user
               }}())
-            
-            callback(null)
+            callback(null, user)
           }
   }
 

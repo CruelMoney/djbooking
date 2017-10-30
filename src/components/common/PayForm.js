@@ -10,10 +10,9 @@ import * as actions from '../../actions/EventActions'
 import {datePipeCard, cardNumberPipe} from '../../utils/TextPipes'
 import Formatter from '../../utils/Formatter'
 import MoneyTable, {TableItem} from './MoneyTable'
-import CurrencyConverter from '../../utils/CurrencyConverter'
+import {currencyConverter} from '../../utils/CurrencyConverter'
 import assign from 'lodash.assign'
 
-const curConverter = new CurrencyConverter()
 
 
 
@@ -27,11 +26,11 @@ class payForm extends Component{
   }
 
   componentWillMount(){
-    this.amount = curConverter.convert(this.props.amount, this.props.offerCurrency, this.props.currency, true)
-    this.fee = curConverter.convert(this.props.fee, this.props.offerCurrency, this.props.currency, true)
-    this.amountFormatted = curConverter.getConvertedFormatted(this.props.amount, this.props.offerCurrency, this.props.currency, true)
-    this.feeFormatted = curConverter.getConvertedFormatted(this.props.fee, this.props.offerCurrency, this.props.currency, true)
-    this.totalFormatted = curConverter.getConvertedFormatted(this.props.fee+this.props.amount, this.props.offerCurrency, this.props.currency, true)
+    this.amount = currencyConverter.convert(this.props.amount, this.props.offerCurrency, this.props.currency, true)
+    this.fee = currencyConverter.convert(this.props.fee, this.props.offerCurrency, this.props.currency, true)
+    this.amountFormatted = currencyConverter.getConvertedFormatted(this.props.amount, this.props.offerCurrency, this.props.currency, true)
+    this.feeFormatted = currencyConverter.getConvertedFormatted(this.props.fee, this.props.offerCurrency, this.props.currency, true)
+    this.totalFormatted = currencyConverter.getConvertedFormatted(this.props.fee+this.props.amount, this.props.offerCurrency, this.props.currency, true)
 }
 
 

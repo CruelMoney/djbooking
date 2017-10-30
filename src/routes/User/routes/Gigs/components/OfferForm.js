@@ -5,10 +5,9 @@ import Form from '../../../../../components/common/Form-v2'
 import SubmitButton from '../../../../../components/common/SubmitButton'
 import MoneyTable, {TableItem} from '../../../../../components/common/MoneyTable'
 import  * as actions from '../../../../../actions/GigActions'
-import CurrencyConverter from '../../../../../utils/CurrencyConverter'
+import {currencyConverter} from '../../../../../utils/CurrencyConverter'
 import { connect } from 'react-redux'
 
-const curConverter = new CurrencyConverter()
 
 class OfferForm extends Component{
 
@@ -131,7 +130,7 @@ class OfferForm extends Component{
                              <TableItem
                                   label="Your price"
                                     >
-                                  {curConverter.getConvertedFormatted(this.state.amount, this.state.currency)}
+                                  {currencyConverter.getConvertedFormatted(this.state.amount, this.state.currency)}
                               </TableItem>
                               <TableItem
                                   label="Service Fee"
@@ -146,7 +145,7 @@ class OfferForm extends Component{
                                   {this.state.loading ? 
                                    "loading..." 
                                    :
-                                  curConverter.getConvertedFormatted(this.state.serviceFeeAmount, this.state.currency)}
+                                  currencyConverter.getConvertedFormatted(this.state.serviceFeeAmount, this.state.currency)}
                               </TableItem>
                               <TableItem
                                 label="Total"
@@ -155,7 +154,7 @@ class OfferForm extends Component{
                                 {this.state.loading ? 
                                    "loading..." 
                                    :
-                                curConverter.getConvertedFormatted(this.state.serviceFeeAmount+this.state.amount, this.state.currency)}
+                                currencyConverter.getConvertedFormatted(this.state.serviceFeeAmount+this.state.amount, this.state.currency)}
                               </TableItem>
                             </MoneyTable>
                            </div>
@@ -165,7 +164,7 @@ class OfferForm extends Component{
                               <TableItem
                                   label="Your price"
                                     >
-                                  {curConverter.getConvertedFormatted(this.state.amount, this.state.currency)}
+                                  {currencyConverter.getConvertedFormatted(this.state.amount, this.state.currency)}
                               </TableItem>
                                 <TableItem
                                   label="DJ Fee"
@@ -180,7 +179,7 @@ class OfferForm extends Component{
                                    {this.state.loading ? 
                                    "loading..." 
                                    :
-                                    curConverter.getConvertedFormatted(-this.state.djFeeAmount, this.state.currency)
+                                    currencyConverter.getConvertedFormatted(-this.state.djFeeAmount, this.state.currency)
                                    } 
                                  
                               </TableItem>
@@ -191,7 +190,7 @@ class OfferForm extends Component{
                                   {this.state.loading ? 
                                    "loading..." 
                                    :
-                                  curConverter.getConvertedFormatted(this.state.amount-this.state.djFeeAmount, this.state.currency)
+                                  currencyConverter.getConvertedFormatted(this.state.amount-this.state.djFeeAmount, this.state.currency)
                                   }
                               </TableItem>
                             </MoneyTable>

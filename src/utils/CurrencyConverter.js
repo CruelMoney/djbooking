@@ -1,7 +1,7 @@
 import {Environment } from '../constants/constants'
 import Formatter from './Formatter'
 
-export default class CurrencyConverter {
+class CurrencyConverter {
 
     constructor() {
         this.fx = window.fx
@@ -16,6 +16,7 @@ export default class CurrencyConverter {
                     if (contentType && contentType.indexOf("application/json") !== -1) {
                         response.json().then((data)=> {
                             // Check money.js has finished loading:
+                            console.log(data)
                             if ( typeof this.fx !== "undefined" && this.fx.rates ) {
                                 this.fx.rates = data.rates;
                                 this.fx.base = data.base;
@@ -51,8 +52,8 @@ export default class CurrencyConverter {
     //Safeconvert -> add 2 percent to conversion. Used when displaying offers from other currency
     convert(amount, from, to = null, safeConvert = false){
         if (!to || from === to) return amount 
-        if(!this.fx) return 'Could not convert';
-        
+        if(!this.fx.rates || !this.fx.rates[from] || !this.fx.rates[to]) return 'Could not convert';
+
         this.fx.settings = { from: from, to: to};
         amount += (safeConvert ? amount*0.02 : 0)
         return this.fx.convert(amount)
@@ -66,3 +67,6 @@ export default class CurrencyConverter {
     }
 
 }
+
+// Singleton
+export let currencyConverter = new CurrencyConverter();

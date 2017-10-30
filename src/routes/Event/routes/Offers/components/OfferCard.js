@@ -4,10 +4,9 @@ import Button from '../../../../../components/common/Button-v2'
 import Rating from '../../../../../components/common/Rating'
 import PayForm from '../../../../../components/common/PayForm'
 import Popup from '../../../../../components/common/Popup'
-import CurrencyConverter from '../../../../../utils/CurrencyConverter'
+import {currencyConverter} from '../../../../../utils/CurrencyConverter'
 import Chat from '../../../../../components/common/Chat'
 import EmptyPage from '../../../../../components/common/EmptyPage'
-const curConverter = new CurrencyConverter()
 
 class OfferCard extends Component{
   static propTypes = {
@@ -142,12 +141,12 @@ class OfferCard extends Component{
                 textAlign: "center"
               }}>{
                 this.props.offer.gigStatus === "Confirmed"?
-                curConverter.getConvertedFormatted(
+                currencyConverter.getConvertedFormatted(
                   this.props.paymentAmount,
                   this.props.paymentCurrency,
                   this.props.currency, true)
                 :
-                curConverter.getConvertedFormatted(
+                currencyConverter.getConvertedFormatted(
                 this.props.offer.amount+this.props.offer.serviceFeeAmount,
                 this.props.offer.currency,
                 this.props.currency, true)}

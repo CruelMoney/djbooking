@@ -61,6 +61,7 @@ class App extends Component {
      componentDidMount(){
         AsyncHowItWorks.preload();
         AsyncSignup.preload();
+        this.checkForLogin();
      }
 
 

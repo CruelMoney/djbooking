@@ -6,6 +6,15 @@ import Form from './Form-v2'
 import CueupService from '../../utils/CueupService'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/LoginActions'
+import { withRouter } from 'react-router-dom'
+import LoadHandler from './LoadingScreen'
+import Loadable from 'react-loadable';
+
+const AsyncUser = Loadable({
+  loader: () => import('../../routes/User'),
+  loading: LoadHandler
+});
+
 let cueup = new CueupService()
 
 class Login extends Component{
@@ -83,14 +92,43 @@ class Login extends Component{
       })
     }
 
-    login = (form, callback) => {
-      this.props.login( this.state.email, this.state.password, this.props.redirect, callback)
+    redirectAfterLogin = (user) =>{
+      if(user && user.user_metadata && user.user_metadata.permaLink)
+      this.props.history.push(`/user/${user.user_metadata.permaLink}/profile`)
     }
 
+    login = (form, callback) => {
+      AsyncUser.preload();
+      this.props.login( this.state.email, this.state.password, this.props.redirect, (err, res)=>{
+        if (!err){
+          this.redirectAfterLogin(res)
+        }
+        callback(err,res)
+      })
+    }
+    loginFacebook = (form, callback) =>{
+      AsyncUser.preload();
+      this.props.loginFacebook(form, this.props.redirect,  (err, res)=>{
+        if (!err){
+          this.redirectAfterLogin(res)
+        }
+        callback(err,res)
+      })
+    } 
+    loginSoundcloud = (form, callback) =>{
+      AsyncUser.preload();
+      this.props.loginSoundcloud(form, this.props.redirect,  (err, res)=>{
+        if (!err){
+          this.redirectAfterLogin(res)
+        }
+        callback(err,res)
+      })
+    } 
 
   render() {
-
+   
     return (
+      
 <div className="login">
 
   <div className="social-login">
@@ -101,15 +139,14 @@ class Login extends Component{
         active
         color="#3b5998"
         name="facebook_login"
-        onClick={(form, callback)=>this.props.loginFacebook(form, this.props.redirect, callback)}
+        onClick={this.loginFacebook}
       >Facebook</SubmitButton>
-
       <SubmitButton
         glow
         active
         color="#ff7700"
         name="soundcloud_login"
-        onClick={(form, callback)=>this.props.loginSoundcloud(form, this.props.redirect, callback)}
+        onClick={this.loginSoundcloud}
       >SoundCloud</SubmitButton>
     </Form>
   </div>
@@ -159,9 +196,7 @@ class Login extends Component{
 
 
 </div>
-    )
-    }
-    }
+    )}}
 
     
 
@@ -169,6 +204,7 @@ class Login extends Component{
   Login.childContextTypes = {
     color: PropTypes.string
   }
+
 
     function mapDispatchToProps(dispatch, ownprops) {
       return {
@@ -178,8 +214,9 @@ class Login extends Component{
       }
     }
 
-    const SmartLogin = connect(state=>state, mapDispatchToProps)(Login)
-
+    const SmartLogin = withRouter(
+      connect(state=>state, mapDispatchToProps)(Login)
+    )
 
     export default props => (
         <SmartLogin {...props}/>

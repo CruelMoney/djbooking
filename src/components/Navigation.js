@@ -9,10 +9,8 @@ import Logo from './common/Logo'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import * as actions from '../actions/LoginActions'
-
-
 
 const theme = getMuiTheme()
 
@@ -23,8 +21,6 @@ class Menu extends Component {
      logout: PropTypes.func.isRequired,
      profile: PropTypes.object
    }
-
-
 
    state={
        loginExpanded: false,
@@ -132,10 +128,11 @@ class Menu extends Component {
                       onClickOutside={this.onClickOutside}
                     >
                       <Login
-                      />
+                        profile={this.props.profile}
+                       />
                     </Dropdown>
                   </li>
-                ) : null}
+                ) : null }
 
          
 

@@ -9,8 +9,7 @@ import Button from '../../../../components/common/Button-v2'
 import * as actions from '../../../../actions/UserActions'
 import { connect } from 'react-redux'
 import {ImageCompressor} from '../../../../utils/ImageCompressor';
-import CurrencyConverter from '../../../../utils/CurrencyConverter'
-const curConverter = new CurrencyConverter()
+import { currencyConverter } from '../../../../utils/CurrencyConverter'
 
 class UserCard extends Component{
 
@@ -150,7 +149,7 @@ class UserCard extends Component{
                   />
                 
               </p>
-              {curConverter.getConvertedFormatted(this.props.earned, this.props.bankCurrency, this.props.currency)}
+              {currencyConverter.getConvertedFormatted(this.props.earned, this.props.bankCurrency, this.props.currency)}
             </div>
             : null}
             <div className="user-card-fact">
