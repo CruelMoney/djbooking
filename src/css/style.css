@@ -3399,7 +3399,8 @@ table td{
   animation: 1s blink infinite .9999s;
 }
 
-.loading-screen{
+.loading-screen, 
+.error-screen{
   height: 100vh;
   display: flex;
   flex-direction: column;
