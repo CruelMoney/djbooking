@@ -1,10 +1,3 @@
-module.exports = {
-  path: 'agreements',
-  onEnter: () =>  document.title = "Terms of Service | Cueup",
+import Agreements from './components/Agreements'
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Agreements').default)
-    })
-  }
-}
+export default Agreements

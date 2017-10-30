@@ -1,27 +1,27 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Footer from '../../../components/common/Footer'
-import { Link } from 'react-router';
 import ButtonLink from '../../../components/common/ButtonLink'
+import Button from '../../../components/common/Button-v2'
 
 
-export default React.createClass({
-  themeColor:"#25F4D2",
+export default class Faq extends Component{
+  themeColor = "#25F4D2"
 
   componentWillMount() {
     window.addEventListener('scroll', this.handleScroll)
-  },
+  }
   componentWillUnmount(){
     window.removeEventListener('scroll', this.handleScroll)
-  },
+  }
 
-  handleScroll(event){
+  handleScroll = (event) => {
    let scrollTop = event.srcElement.body.scrollTop
    if (scrollTop > 80) {
       this.nav.className =  "fixed terms-navigation"
    }else{
      this.nav.className = "terms-navigation"
    }
-  },
+  }
   render() {
     return (
       <div className="faq-content">
@@ -38,13 +38,13 @@ export default React.createClass({
                   <ButtonLink color={this.themeColor} to="/faq/organizer">
                    Organizer
                   </ButtonLink>
-                  <ButtonLink
+                  <Button
                   color={this.themeColor} 
                   onClick={
                       /*eslint no-undef: 0*/
                     () =>  olark('api.box.expand')}
                     >Contact us
-                </ButtonLink>
+                </Button>
               </div>
             </div>
 
@@ -67,4 +67,4 @@ export default React.createClass({
 
     )
   }
-})
+}

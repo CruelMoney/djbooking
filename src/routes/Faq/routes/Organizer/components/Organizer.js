@@ -1,13 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {CollapsibleContainer, Collapsible} from '../../../../../components/common/Collapsible'
 
 
-export default React.createClass({
-  themeColor:"#31DAFF",
-
-  componentDidMount(){
-
-  },
+export default class Organizer extends Component{
+  themeColor = "#31DAFF"
 
   render() {
     return (
@@ -109,4 +105,4 @@ export default React.createClass({
 
     )
   }
-})
+}

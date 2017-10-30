@@ -43,6 +43,14 @@ const AsyncUser = Loadable({
   loader: () => import('./routes/User'),
   loading: LoadHandler
 });
+const AsyncFaq = Loadable({
+  loader: () => import('./routes/Faq'),
+  loading: LoadHandler
+});
+const AsyncTerms = Loadable({
+  loader: () => import('./routes/Terms'),
+  loading: LoadHandler
+});
 
 import Navigation from './components/Navigation'
 
@@ -86,6 +94,8 @@ class App extends Component {
                   <Route path="/user/:permalink" component={AsyncUser}/>
                   <Route path="/howitworks" component={AsyncHowItWorks}/>
                   <Route path="/signup" component={AsyncSignup}/>
+                  <Route path="/faq" component={AsyncFaq}/>
+                  <Route path="/terms" component={AsyncTerms}/>
                   <Route path="/event/:id/:hash" component={AsyncEvent}/>
                   <Route component={NotFoundPage}/>
                 </Switch>

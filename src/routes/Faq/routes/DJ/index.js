@@ -1,9 +1,3 @@
-module.exports = {
-  path: 'dj',
+import DJ from './components/DJ'
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/DJ').default)
-    })
-  }
-}
+export default DJ

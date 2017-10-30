@@ -1,12 +1,8 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 
-export default React.createClass({
-  themeColor:"#31DAFF",
-
-  componentDidMount(){
-
-  },
+export default class Agreement extends Component{
+  themeColor="#31DAFF"
 
   render() {
     return (
@@ -511,4 +507,4 @@ You understand and agree that the selection of you to make an offer for an Event
 
     )
   }
-})
+}

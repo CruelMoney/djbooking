@@ -1,26 +1,25 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Footer from '../../../components/common/Footer'
-import { Link } from 'react-router';
 import ButtonLink from '../../../components/common/ButtonLink'
 
-export default React.createClass({
-  themeColor:"#25F4D2",
+export default class Terms extends Component{
+  themeColor = "#25F4D2"
 
   componentWillMount() {
     window.addEventListener('scroll', this.handleScroll)
-  },
+  }
   componentWillUnmount(){
     window.removeEventListener('scroll', this.handleScroll)
-  },
+  }
 
-  handleScroll(event){
+  handleScroll = (event) => {
    let scrollTop = event.srcElement.body.scrollTop
    if (scrollTop > 80) {
       this.nav.className =  "fixed terms-navigation"
    }else{
      this.nav.className = "terms-navigation"
    }
-  },
+  }
   render() {
     return (
       <div className="terms-content">
@@ -62,4 +61,4 @@ export default React.createClass({
 
     )
   }
-})
+}

@@ -1,9 +1,3 @@
-module.exports = {
-  path: 'organizer',
+import Organizer from './components/Organizer'
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Organizer').default)
-    })
-  }
-}
+export default Organizer

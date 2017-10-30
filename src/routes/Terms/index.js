@@ -1,28 +1,25 @@
-module.exports = {
-  path: 'terms',
-  onEnter: () =>  document.title = "Terms & Privacy | Cueup",
+import React, {Component} from 'react';
+import {
+  Switch, 
+  Route
+} from 'react-router';
+import Terms from './components/Terms'
+import Agreements from './routes/Agreements'
+import Privacy from './routes/Privacy'
 
-  getIndexRoute(partialNextState, callback) {
-    require.ensure([], function (require) {
-      callback(null, {
-        component: require('./routes/Agreements'),
-      })
-    })
-  },
+export default class Index extends Component{
 
-  getChildRoutes(partialNextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, [
-        require('./routes/Agreements'),
-        require('./routes/Privacy')
-        
-      ])
-    })
-  },
-
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Terms').default)
-    })
+  onComponentWillMount(){
+    document.title = "Terms & Privacy | Cueup"
   }
+
+  render(){
+    return(
+    <Terms {...this.props} >
+      <Switch>
+        <Route path={`/terms/agreements`} component={Agreements} />
+        <Route path={`/terms/privacy`} component={Privacy} />
+      </Switch>
+    </Terms>
+  )}
 }

@@ -1,12 +1,8 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 
-export default React.createClass({
-  themeColor:"#31DAFF",
-
-  componentDidMount(){
-
-  },
+export default class Privacy extends Component{
+  themeColor = "#31DAFF"
 
   render() {
     return (
@@ -267,4 +263,4 @@ export default React.createClass({
 
     )
   }
-})
+}
