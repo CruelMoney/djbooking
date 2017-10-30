@@ -1,9 +1,3 @@
-module.exports = {
-  path: 'offers',
+import EventOffers from './components/EventOffers'
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/EventOffers').default)
-    })
-  }
-}
+export default EventOffers

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
 import SubmitButton from '../../../../../components/common/SubmitButton'
 import TextBox from '../../../../../components/common/TextBox'
 import TextWrapper from '../../../../../components/common/TextElement'
@@ -10,13 +10,7 @@ import {connect} from 'react-redux';
 import * as actions from '../../../../../actions/EventActions'
 
 
-var Review = React.createClass({
-  propTypes: {
-    name: PropTypes.string,
-    dj: PropTypes.object,
-    review: PropTypes.object,
-    submitReview: PropTypes.func
-  },
+class Review extends Component {
 
   componentWillMount() {
     document.title = this.props.eventName + " | Review"
@@ -24,17 +18,16 @@ var Review = React.createClass({
     this.setState({
       editable : this.props.review ? false : true
     })
-  },
+  }
 
-  getInitialState(){
-    return{
+  state={
       formValid: true
     }
-  },
 
-  submitReview(form, callback){
+
+  submitReview = (form, callback) => {
     this.props.submitReview(this.props.eventId, this.props.hashKey, form.values, callback)
-  },
+  }
 
   render() {
         return (
@@ -99,7 +92,7 @@ var Review = React.createClass({
               </Form>
             </div>
     )}
-  })
+  }
 
   export const mapStateToProps = (state) => {
     let event = state.events.values[0]

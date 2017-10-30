@@ -1,9 +1,3 @@
-module.exports = {
-  path: 'user',
+import User from './components/CustomerProfile'
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/CustomerProfile').default)
-    })
-  }
-}
+export default User

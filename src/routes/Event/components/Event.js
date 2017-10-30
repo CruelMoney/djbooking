@@ -20,7 +20,7 @@ class event extends Component{
   state={notification: "You have no new notifications"}
 
   componentWillMount(){
-    this.props.fetchEvent(this.props.params.id, this.props.params.hash, null)
+    this.props.fetchEvent(this.props.match.params.id, this.props.match.params.hash, null)
   }
 
   componentWillReceiveProps(nextProps){
@@ -81,7 +81,7 @@ class event extends Component{
           loggedIn={this.props.loggedIn}
           permaLink={this.props.loggedIn ? this.props.profile.user_metadata.permaLink : ""}
           loading={this.props.loading}
-          hash={this.props.params.hash}
+          hash={this.props.match.params.hash}
         />
 
         <div  className="user-container container">

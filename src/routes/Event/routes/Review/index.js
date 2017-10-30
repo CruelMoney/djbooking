@@ -1,9 +1,3 @@
-module.exports = {
-  path: 'review',
+import Review from './components/ReviewForm'
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/ReviewForm').default)
-    })
-  }
-}
+export default Review

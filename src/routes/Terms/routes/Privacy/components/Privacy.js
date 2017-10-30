@@ -8,7 +8,7 @@ export default class Privacy extends Component{
     return (
       <div>
       <h1>Privacy Policy</h1>
-      <p className="subtitle">Last updated: 26/02/2017</p>
+      <p className="subtitle">Last updated: 26/10/2017</p>
       <ol style={{listStyleType: "decimal", paddingLeft: "15px"}}>
 <br/>  <li><strong>CUEUP PRIVACY POLICY</strong><p></p>
 

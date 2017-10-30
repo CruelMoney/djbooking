@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
 import SubmitButton from '../../../../../components/common/SubmitButton'
 import Button from '../../../../../components/common/Button-v2'
 import TextField from '../../../../../components/common/Textfield'
@@ -10,26 +10,21 @@ import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import {requestFeatures} from '../../../../../actions/Common'
 import {connect} from 'react-redux';
 
-var Profile = React.createClass({
-    propTypes: {
-        event: PropTypes.object,
-        save: PropTypes.func,
-    },
+class Profile extends Component{
 
     componentWillMount(){
           document.title = this.props.event.name + " | Contact information"
-    },
+    }
 
-    getInitialState(){
-      return{
+    state = {
         formValid: false
       }
-    },
+  
 
-    update(form,callback){
+    update = (form,callback) => {
       let event = {...this.props.event, ...form.values}
       this.props.save(event, callback)
-    },
+    }
 
     render() {
         return (
@@ -109,7 +104,7 @@ var Profile = React.createClass({
           </div>
         )
     }
-})
+}
 
 
 

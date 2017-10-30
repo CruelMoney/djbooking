@@ -1,40 +1,10 @@
-// module.exports = {
-//   path: 'event/:id/:hash',
-
-//   onEnter: () =>  document.title = "Event | Cueup",
-
-
-//   getIndexRoute(partialNextState, cb) {
-//     require.ensure([], function (require) {
-//       cb(null, {
-//         component: require('./routes/EventInformation'),
-//       })
-//     })
-//   },
-
-//   getChildRoutes(partialNextState, cb) {
-//     require.ensure([], (require) => {
-//       cb(null, [
-//         require('./routes/Offers'),
-//         require('./routes/Review'),
-//         require('./routes/User'),
-//         require('./routes/EventInformation'),
-//       ])
-//     })
-//   },
-
-//   getComponent(nextState, cb) {
-//     require.ensure([], (require) => {
-//       cb(null, require('./components/Event').default)
-//     })
-//   }
-// }
-
-
-
 import React, {Component} from 'react';
 import Event from './components/Event'; 
 import EventInfo from './routes/EventInformation'; 
+import Offers from './routes/Offers'; 
+import Review from './routes/Review'; 
+import User from './routes/User'; 
+
 import {Switch, Route} from 'react-router-dom'; 
 
 export default class Index extends Component{
@@ -45,10 +15,16 @@ export default class Index extends Component{
 
   render(){
     return(
-    <Event>
+    <Event {...this.props}>
       <Switch>
-        <Route path={`${this.props.match.url}/info`} component={EventInfo}/>
+        <Route path={`/event/:id/:hash/info`} component={EventInfo}/>
+        <Route path={`/event/:id/:hash/offers`} component={Offers}/>
+        <Route path={`/event/:id/:hash/review`} component={Review}/>
+        <Route path={`/event/:id/:hash/user`} component={User}/>
       </Switch>
     </Event>
   )}
 }
+
+
+

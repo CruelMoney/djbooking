@@ -63,7 +63,7 @@ class App extends Component {
      componentWillMount() {
          // Setup custom analytics
          analytics()
-         this.props.setGeoSession()
+         this.props.setGeoSession();
      }
 
      componentDidMount(){
@@ -72,6 +72,11 @@ class App extends Component {
         this.checkForLogin();
      }
 
+     componentWillReceiveProps(props){
+        if(props.loggedIn){
+          AsyncUser.preload();
+        }
+     }
 
      checkForLogin = (nextState, replace) => {
        if (!this.state.didCheckLogin) {
