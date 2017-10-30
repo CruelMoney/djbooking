@@ -1,4 +1,5 @@
-import React,  { PropTypes } from 'react'
+import React,  { Component } from 'react'
+import PropTypes from 'prop-types'
 import EventHeader from './blocks/EventHeader'
 import Footer from '../../../components/common/Footer'
 import LoadingPlaceholder from '../../../components/common/LoadingPlaceholder'
@@ -8,28 +9,19 @@ import * as actions from '../../../actions/EventActions'
 import * as commonActions from '../../../actions/Common'
 import '../../../css/transitions.css'
 
-var event = React.createClass({
-  themeColor: "#25F4D2",
-  secondColor: "#31DAFF",
+class event extends Component{
+  themeColor="#25F4D2"
+  secondColor="#31DAFF"
 
-  propTypes: {
-    fetchEvent: PropTypes.func,
-    event: PropTypes.object,
-    params: PropTypes.object,
-    loading: PropTypes.bool
-  },
-
-  childContextTypes: {
+  static childContextTypes = {
       color: PropTypes.string
-  },
+  }
 
-  getInitialState(){
-    return {notification: "You have no new notifications"}
-  },
+  state={notification: "You have no new notifications"}
 
   componentWillMount(){
     this.props.fetchEvent(this.props.params.id, this.props.params.hash, null)
-  },
+  }
 
   componentWillReceiveProps(nextProps){
     if (nextProps.event && !nextProps.event.emailVerified) {
@@ -61,15 +53,13 @@ var event = React.createClass({
     this.setState({notification
         :"You have no new notifications"})
   }
-  },
-
-
+  }
 
   getChildContext() {
    return {
      color:        this.themeColor
     }
-  },
+  }
 
 
   render() {
@@ -121,7 +111,7 @@ var event = React.createClass({
     )
 
   }
-})
+}
 
 
 

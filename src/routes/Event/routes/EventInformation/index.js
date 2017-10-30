@@ -1,9 +1,3 @@
-module.exports = {
-  path: 'info',
+import EventInfo from './components/EventCard'
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/EventCard').default)
-    })
-  }
-}
+export default EventInfo

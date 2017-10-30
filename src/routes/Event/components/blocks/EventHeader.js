@@ -1,41 +1,29 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
 import Navlink from '../../../../components/common/Navlink'
 import EventNavigation from './EventNavigation'
 import Notification from '../../../../components/common/Notification'
 
-var eventHeader = React.createClass({
-
-  propTypes: {
-    event: PropTypes.object,
-    notification: PropTypes.string,
-    loggedIn: PropTypes.bool
-  },
+class eventHeader extends Component{
 
    componentWillMount() {
      window.addEventListener('scroll', this.handleScroll)
-   },
+   }
 
    componentWillUnmount(){
      window.removeEventListener('scroll', this.handleScroll)
      clearInterval(this.intervalID);
+   }
 
-   },
+   sttate={loadString:"..."}
 
-   getInitialState(){
-     return{loadString:"..."}
-   },
-
-  handleScroll(event){
+  handleScroll = (event) => {
    let scrollTop = event.srcElement.body.scrollTop
    if (scrollTop > 280) {
      this.eventHeader.className =  "user-header fixed"
    }else{
      this.eventHeader.className = "user-header"
    }
-  },
-
- 
-
+  }
 
   render() {
     return (
@@ -93,14 +81,8 @@ var eventHeader = React.createClass({
           </div>
 
         </header>
-
-
-
       )
-
-
-
   }
-})
+}
 
 export default eventHeader

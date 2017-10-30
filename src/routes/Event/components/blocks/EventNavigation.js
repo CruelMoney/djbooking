@@ -1,20 +1,20 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
 import Navlink  from '../../../../components/common/Navlink'
 
 import { connect } from 'react-redux'
 import * as commonActions from '../../../../actions/Common'
 
-var eventNavigation = React.createClass({
+class eventNavigation extends Component{
 
   componentWillMount(){
     this.registerNavigationItems()
-  },
+  }
 
    componentWillUnmount(){
     this.removeNavigationItems()
-  },
+  }
 
-  registerNavigationItems(){
+  registerNavigationItems = () => {
     this.props.registerMenuItem("Event information", "/event/"+this.props.id+"/"+this.props.hash+"/info")
     this.props.registerMenuItem("Dj offers", "/event/"+this.props.id+"/"+this.props.hash+"/offers")
     if (this.props.isFinished && this.props.paid){
@@ -22,14 +22,14 @@ var eventNavigation = React.createClass({
     } else{
     this.props.registerMenuItem("Contact information", "/event/"+this.props.id+"/"+this.props.hash+"/user")
     }
-  },
+  }
 
-  removeNavigationItems(){
+  removeNavigationItems = () => {
     this.props.removeMenuItem("Event information")
     this.props.removeMenuItem("Dj offers")
     this.props.removeMenuItem("Review")
     this.props.removeMenuItem("Contact information")  
-  },
+  }
 
   render() {
     return (
@@ -70,7 +70,7 @@ var eventNavigation = React.createClass({
       </div>
     )
   }
-})
+}
 
 
 

@@ -1,7 +1,9 @@
+/* eslint-disable import/first */
 import React, {Component} from 'react'
 import {
   BrowserRouter as Router,
   Route,
+  Switch
 } from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { connect } from 'react-redux'
@@ -12,8 +14,23 @@ import * as actions from './actions/LoginActions'
 import * as sessionActions from './actions/SessionActions'
 import store from './reducers/Store'
 import {init as analytics} from './utils/analytics/autotrack'
-import Home from './routes/Home'
-import About from './routes/About'
+import Loadable from 'react-loadable';
+import NotFoundPage from './components/common/NotFoundPage'
+import LoadHandler from './components/common/LoadingScreen'
+
+const AsyncAbout = Loadable({
+  loader: () => import('./routes/About'),
+  loading: LoadHandler
+});
+const AsyncHome = Loadable({
+  loader: () => import('./routes/Home'),
+  loading: LoadHandler
+});
+const AsyncEvent = Loadable({
+  loader: () => import('./routes/Event'),
+  loading: LoadHandler
+});
+
 
 import Navigation from './components/Navigation'
 
@@ -44,9 +61,12 @@ class App extends Component {
         return  ( 
           <Router>
             <Navigation>
-              <Route exact path="/" component={Home}/>
-              <Route exact path="/about" component={About}/>
-
+              <Switch>
+                <Route exact path="/" component={AsyncHome}/>
+                <Route exact path="/about" component={AsyncAbout}/>
+                <Route exact path="/event/:id/:hash" component={AsyncEvent}/>
+                <Route component={NotFoundPage}/>
+              </Switch>
             </Navigation>
           </Router>
           )

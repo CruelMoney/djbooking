@@ -1,7 +1,6 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
 import Button from '../../../../../components/common/Button-v2'
 import TextField from '../../../../../components/common/Textfield'
-import ToggleOptions from '../../../../../components/common/ToggleOptions'
 import TimeSlider from '../../../../../components/common/TimeSlider'
 import TextBox from '../../../../../components/common/TextBox'
 import wNumb from 'wnumb'
@@ -21,47 +20,38 @@ import {requestFeatures} from '../../../../../actions/Common'
 import RiderOptions from '../../../../../components/common/RiderOptions'
 import * as actions from '../../../../../actions/EventActions'
 
-var Event = React.createClass({
-    propTypes: {
-        updateEvent: PropTypes.func,
-        event: PropTypes.object,
-        cancelEvent: PropTypes.func,
-    },
+class Event extends Component{
 
-    getInitialState() {
-        return {startTime: 0, endTime: 0, editMode: false, formValid: false}
-    },
+   state={startTime: 0, endTime: 0, editMode: false, formValid: false}
 
     componentWillMount() {
         document.title = this.props.event.name + " | Cueup"
         this.setState({guests: this.props.event.guestsCount})
-    },
+    }
 
-    mergeEventForm(form, event) {
+    mergeEventForm = (form, event) => {
         const updatedEvent = assign(event, form.values, {
             guestsCount: form.values.guests
                 ? form.values.guests[0]
                 : event.guestsCount
         })
         return updatedEvent;
-    },
+    }
 
-    updateEvent(form, callback) {
+    updateEvent = (form, callback) => {
         this.props.updateEvent(this.mergeEventForm(form, this.props.event), callback)
-    },
+    }
 
-    submitReview(form, callback) {
+    submitReview = (form, callback) => {
         const review = assign(form.values, {eventId: this.props.event.id})
         this.props.reviewEvent(review, callback)
-    },
+    }
 
-    cancelEvent(id, callback) {
+    cancelEvent = (id, callback) => {
         this.props.cancelEvent(id, this.props.event.hashKey, callback)
-    },
+    }
 
     render() {
-
-
         return (
           <div className="row event-information">
             <Form
@@ -92,13 +82,9 @@ var Event = React.createClass({
               </div>
               <div className="event-card-wrapper">
                 <div className="card col-md-7">
-
-
-
                   <TextWrapper
                     label="Event name"
                     text="Please choose a descriptive name.">
-
                     <TextField
                       name="name"
                       value={this.props.event.name}
@@ -133,10 +119,6 @@ var Event = React.createClass({
                       zoom={11}
                     />
                   </TextWrapper>
-
-
-
-
 
                   <TextWrapper
                     label="Genres"
@@ -221,8 +203,7 @@ var Event = React.createClass({
 
         )
     }
-
-})
+  }
 
 
 function mapStateToProps(state, ownProps) {

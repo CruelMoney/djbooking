@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
+import React, {Component} from 'react';
 
-class LoadingPlaceholder extends React.Component {
+class LoadingPlaceholder extends Component {
   render() {
     return(
       <div className="timeline-wrapper">

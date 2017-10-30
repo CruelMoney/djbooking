@@ -1,4 +1,5 @@
-import  React, {PropTypes} from "react"
+import  React, {Component} from "react";
+import PropTypes from 'prop-types'
 import { GoogleMapLoader, GoogleMap, Circle } from "react-google-maps"
 import connectToForm from '../higher-order/connectToForm'
 
@@ -11,18 +12,9 @@ import connectToForm from '../higher-order/connectToForm'
  * We use React 0.14 stateless function components here.
  * https://facebook.github.io/react/blog/2015/09/10/react-v0.14-rc1.html#stateless-function-components
  */
-class SimpleMap extends React.Component{
+class SimpleMap extends Component{
       circle = null
-
-      static proptypes = {
-        editable:        PropTypes.bool,
-        value:           PropTypes.object,
-        radius:          PropTypes.number,
-        radiusName:      PropTypes.string,
-        locationName:    PropTypes.string
-      }
-
-      
+     
       marker= {
         position: {lat: 56.00, lng: 10.00
         },
@@ -64,7 +56,7 @@ class SimpleMap extends React.Component{
         if(radius === 0) return 10
         var scale = radius / 500;
         var zoomLevel =  (15 - Math.log(scale) / Math.log(2));
-        return parseInt(zoomLevel)
+        return parseInt(zoomLevel, 10)
     }
 
     render(){

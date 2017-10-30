@@ -351,13 +351,15 @@ align-items: center;
 }
 .location_terms .main-menu a,
 .location_faq .main-menu a,
-.location_about .main-menu a
+.location_about .main-menu a,
+.not-found .main-menu a
 {
   color: #32325D;
 }
 .location_terms .navigation .logo,
 .location_faq .navigation .logo,
-.location_about .navigation .logo{
+.location_about .navigation .logo,
+.not-found .navigation .logo{
   fill: #32325D;
 }
 .location_terms  .mobileMenuButton h2,
@@ -3395,4 +3397,23 @@ table td{
 }
 .loading-indicator:nth-child(3) {
   animation: 1s blink infinite .9999s;
+}
+
+.loading-screen{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  width: 100vw;
+}
+
+.loading-screen .logo{
+  fill: #03d1ff;
+  margin-bottom: 20px;
+}
+
+.not-found #preFooterPseudo:before{
+  top: 0px;
 }
