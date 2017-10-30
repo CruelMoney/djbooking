@@ -1,10 +1,14 @@
-module.exports = {
-  path: 'signup',
-  onEnter: () =>  document.title = "Apply to become DJ | Cueup",
+import React, {Component} from 'react';
+import Signup from './components/Signup'; 
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Signup').default)
-    })
+export default class Index extends Component{
+
+  onComponentWillMount(){
+    document.title = "Apply to become DJ | Cueup"
   }
+
+  render(){
+    return(
+    <Signup />
+  )}
 }

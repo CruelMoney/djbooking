@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Button from '../../../../../components/common/Button-v2'
 import SubmitButton from '../../../../../components/common/SubmitButton'
 import Genres from '../../../../../components/common/ToggleButtonHandler'
@@ -15,14 +16,14 @@ import {Environment} from '../../../../../constants/constants'
 
 const Map = connectToForm(SimpleMap)
 
-export default React.createClass({
-    propTypes: {
+export default class OwnProfile extends Component{
+    static propTypes = {
         profile: PropTypes.object,
         save: PropTypes.func,
         deleteProfile: PropTypes.func,
-    },
+    }
 
-    contextTypes:{
+    static contextTypes = {
       loadingUser:     PropTypes.bool,
       reset:           PropTypes.func,
       registerActions: PropTypes.func,
@@ -31,9 +32,7 @@ export default React.createClass({
       valid:           PropTypes.bool,
       disableEditMode: PropTypes.func,
       updateAction:    PropTypes.func
-    },
-
-
+    }
 
     componentWillMount(){
       if ( this.context.registerActions) {
@@ -43,28 +42,23 @@ export default React.createClass({
       this.bookURL = Environment.API_DOMAIN + '/api/user/' + this.props.profile.user_metadata.permaLink + '/bookme'
 
       this.signupURL = Environment.API_DOMAIN + "/api/user/join?referredBy=" + this.props.profile.user_metadata.permaLink
+    }
 
-
-    },
-
-    getInitialState(){
-      return {
+    state = {
         showHelp: false
       }
-    },
 
-    submit(form, callback) {
+    submit = (form, callback) => {
       const profile = {
         ...this.props.profile,
         ...form.values
       }
 
       this.props.save(profile, callback)
-    },
+    }
 
  
-
-    getActionButtons(props = this.props) {
+    getActionButtons = (props = this.props) => {
         const editing = this.context.editing
 
         return (
@@ -111,9 +105,9 @@ export default React.createClass({
             </div>
 
         )
-    },
+    }
 
-    showHelp(){
+    showHelp = () => {
       this.setState({
         showHelp:true
       }, this.context.updateAction)
@@ -123,7 +117,7 @@ export default React.createClass({
             showHelp:false
          },this.context.updateAction)
       }, 1500);
-    },
+    }
 
 
     render() {
@@ -307,4 +301,4 @@ export default React.createClass({
         )
 
     }
-})
+}

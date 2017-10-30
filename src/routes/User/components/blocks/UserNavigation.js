@@ -1,18 +1,19 @@
-import React, { PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Navlink  from '../../../../components/common/Navlink'
 
-export default React.createClass({
+export default class UserNavigation extends Component{
 
-  propTypes: {
+  static propTypes = {
     isDJ: PropTypes.bool,
     isCustomer: PropTypes.bool,
-   },
+   }
 
-   contextTypes: {
+   static contextTypes = {
        editMode: PropTypes.bool,
        toggleEditMode: PropTypes.func,
        profile: PropTypes.object
-     },
+     }
 
 
 
@@ -90,4 +91,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

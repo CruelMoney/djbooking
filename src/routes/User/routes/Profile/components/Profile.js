@@ -1,10 +1,11 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
 import UserProfile from './UserProfile'
 import OwnProfile from './OwnProfile'
 
 import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/UserActions'
-class Profile extends React.Component {
+
+class Profile extends Component {
   render() {
           if (this.props.isOwnProfile){
           return <OwnProfile 
@@ -25,7 +26,7 @@ function mapStateToProps(state, ownProps) {
    const isOwnProfile = 
      state.login.status.publicProfileMode ? false :
     (state.login.profile.user_metadata) 
-    ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.params.permalink.toLowerCase()
+    ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.match.params.permalink.toLowerCase()
     : false
     
   return {

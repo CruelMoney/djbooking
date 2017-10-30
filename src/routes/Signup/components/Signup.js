@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import SignUpForm from './SignUpForm'
 import vinyl from '../../../assets/Vinyl.svg'
 import krIcon from '../../../assets/money.svg'
@@ -6,15 +6,18 @@ import Footer from '../../../components/common/Footer'
 /*animation stuff*/
 import QueueAnim from 'rc-queue-anim';
 
-export default React.createClass({
-  themeColor:"#B031FF",
-  secondColor:"#31DAFF",
+export default class Signup extends Component{
+  themeColor="#B031FF"
+  secondColor="#31DAFF"
 
   componentWillMount(){
+    const query = new URLSearchParams(window.location.search)
+      const reference = query.get('referredBy')
+    console.log(reference) // "a-value"
      this.setState({
-          reference: this.props.location.query.referredBy
+          reference: reference
       })
-  },
+  }
 
   render() {
     return  <div >
@@ -98,4 +101,4 @@ export default React.createClass({
         />
     </div>
   }
-})
+}

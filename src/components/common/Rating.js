@@ -74,7 +74,7 @@ handleOnClick = () => {
 }
 
 export default class Rating extends Component {
-  static proptypes =
+  static proptypes = {
     rating: PropTypes.number,
     editable: PropTypes.bool,
     name: PropTypes.string

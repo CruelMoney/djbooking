@@ -1,6 +1,6 @@
 import  React, {Component} from "react";
 import PropTypes from 'prop-types'
-import { GoogleMapLoader, GoogleMap, Circle } from "react-google-maps"
+import { withGoogleMap, GoogleMap, Circle } from "react-google-maps"
 import connectToForm from '../higher-order/connectToForm'
 
 /*
@@ -61,16 +61,6 @@ class SimpleMap extends Component{
 
     render(){
     return(
-      <div style={{ height: this.props.height || `500px` }}>
-        <GoogleMapLoader
-          containerElement={
-            <div
-              style={{
-                height: `100%`,
-              }}
-            />
-          }
-          googleMapElement={
             <GoogleMap
               defaultZoom={this.getZoomLevel(this.props.radius)}
               defaultCenter={ this.marker.position }
@@ -175,9 +165,6 @@ class SimpleMap extends Component{
               />
 
             </GoogleMap>
-          }
-        />
-      </div>
     )}
 }
 
@@ -187,4 +174,19 @@ SimpleMap.contextTypes = {
   registerReset: PropTypes.func,
 }
 
-export default connectToForm(SimpleMap)
+const SmartMap = connectToForm(
+  withGoogleMap(SimpleMap)
+)
+
+const WrappedMap = (props) =>{
+  return(
+    <SmartMap
+      {...props}
+      containerElement={<div style={{ height: props.height || `500px` }} />}
+      mapElement={<div style={{ height: `100%` }} />}
+      loadingElement={<div style={{ height: `100%` }} />}
+      />
+  )
+}
+
+export default WrappedMap

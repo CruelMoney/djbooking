@@ -7,21 +7,6 @@ class MyTextField extends Component{
 
   displayName= 'Textfield'
 
-  static propTypes= {
-    value: PropTypes.string,
-    maxLength:PropTypes.number,
-    name: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
-    info: PropTypes.string,
-    label: PropTypes.string,
-    validate: PropTypes.arrayOf(PropTypes.string),
-    onUpdatePipeFunc: PropTypes.func,
-    disabled: PropTypes.bool,
-    floatingLabelText: PropTypes.string,
-    big: PropTypes.string,
-    textColor: PropTypes.string
-  }
-
   static defaultProps = {
       type: "string",
       validate: []

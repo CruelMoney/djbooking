@@ -18,6 +18,7 @@ import Loadable from 'react-loadable';
 import NotFoundPage from './components/common/NotFoundPage'
 import LoadHandler from './components/common/LoadingScreen'
 import ErrorHandling from './components/common/ErrorPage'
+
 const AsyncAbout = Loadable({
   loader: () => import('./routes/About'),
   loading: LoadHandler
@@ -36,6 +37,10 @@ const AsyncHowItWorks = Loadable({
 });
 const AsyncSignup = Loadable({
   loader: () => import('./routes/Signup'),
+  loading: LoadHandler
+});
+const AsyncUser = Loadable({
+  loader: () => import('./routes/User'),
   loading: LoadHandler
 });
 
@@ -77,6 +82,7 @@ class App extends Component {
                 <Switch>
                   <Route exact path="/" component={AsyncHome}/>
                   <Route path="/about" component={AsyncAbout}/>
+                  <Route path="/user/:permalink" component={AsyncUser}/>
                   <Route path="/howitworks" component={AsyncHowItWorks}/>
                   <Route path="/signup" component={AsyncSignup}/>
                   <Route path="/event/:id/:hash" component={AsyncEvent}/>

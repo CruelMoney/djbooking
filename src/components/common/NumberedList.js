@@ -6,10 +6,6 @@ import lodashMap from 'lodash/map'
 class NumberedList extends Component{
     displayName= 'Form'
 
-    propTypes= {
-      children: PropTypes.node,
-    }
-
   render() {
     //Taking a list of react elements and see if they have defined to be only showed
     //When certain filters are true. If no showon are defined it shows always
@@ -28,9 +24,8 @@ class NumberedList extends Component{
         <ol >
 
           {getVisibleRegistrationElements(this.props.children, this.context.activeFilters)
-            .map(function(result) {
-
-              return <li  key={result.id}>{result}</li>
+            .map(function(result, idx) {
+              return <li key={result.props.name + '-' + idx}>{result}</li>
 
           })}
         </ol>
@@ -41,7 +36,7 @@ class NumberedList extends Component{
 }
 
 NumberedList.contextTypes = {
-  activeFilters: PropTypes.arrayOf(PropTypes.object),
+   activeFilters: PropTypes.any
 }
 
 

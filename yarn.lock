@@ -1070,7 +1070,7 @@ babel-register@^6.24.1, babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.26.0, babel-runtime@6.x, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
+babel-runtime@6.26.0, babel-runtime@6.x, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -3688,7 +3688,7 @@ interpret@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.4.tgz#820cdd588b868ffb191a809506d6c9c8f212b1b0"
 
-invariant@^2.0.0, invariant@^2.1.1, invariant@^2.2.1, invariant@^2.2.2:
+invariant@^2.0.0, invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -4487,18 +4487,6 @@ lodash-es@^4.17.3, lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
 
-lodash._baseisequal@^3.0.0:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/lodash._baseisequal/-/lodash._baseisequal-3.0.7.tgz#d8025f76339d29342767dcc887ce5cb95a5b51f1"
-  dependencies:
-    lodash.isarray "^3.0.0"
-    lodash.istypedarray "^3.0.0"
-    lodash.keys "^3.0.0"
-
-lodash._bindcallback@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/lodash._bindcallback/-/lodash._bindcallback-3.0.1.tgz#e531c27644cf8b57a99e17ed95b35c748789392e"
-
 lodash._getnative@^3.0.0:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
@@ -4539,18 +4527,7 @@ lodash.isarray@^3.0.0:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/lodash.isarray/-/lodash.isarray-3.0.4.tgz#79e4eb88c36a8122af86f844aa9bcd851b5fbb55"
 
-lodash.isequal@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-3.0.4.tgz#1c35eb3b6ef0cd1ff51743e3ea3cf7fdffdacb64"
-  dependencies:
-    lodash._baseisequal "^3.0.0"
-    lodash._bindcallback "^3.0.0"
-
-lodash.istypedarray@^3.0.0:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/lodash.istypedarray/-/lodash.istypedarray-3.0.6.tgz#c9a477498607501d8e8494d283b87c39281cef62"
-
-lodash.keys@^3.0.0, lodash.keys@^3.1.2:
+lodash.keys@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/lodash.keys/-/lodash.keys-3.1.2.tgz#4dbc0472b156be50a0b286855d1bd0b0c656098a"
   dependencies:
@@ -4595,7 +4572,7 @@ lodash.without@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.without/-/lodash.without-4.4.0.tgz#3cd4574a00b67bae373a94b748772640507b7aac"
 
-"lodash@>=3.5 <5", lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
+"lodash@>=3.5 <5", lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.2, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4662,6 +4639,10 @@ map-stream@~0.1.0:
 marker-clusterer-plus@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/marker-clusterer-plus/-/marker-clusterer-plus-2.1.4.tgz#f8eff74d599dab3b7d0e3fed5264ea0e704f5d67"
+
+markerwithlabel@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/markerwithlabel/-/markerwithlabel-2.0.1.tgz#822f4eb68c488c2509c5ebdb75982eb84a856096"
 
 material-ui@^0.19.4:
   version "0.19.4"
@@ -6030,18 +6011,21 @@ react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
-react-google-maps@^4.11.0:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/react-google-maps/-/react-google-maps-4.11.0.tgz#077a7d937685b5ff359d0b6ebb54505adec68712"
+react-google-maps@^9.2.1:
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/react-google-maps/-/react-google-maps-9.2.1.tgz#9318a164a44a70b9aef857cdb9d0efbc5a7cd0ad"
   dependencies:
+    babel-runtime "^6.11.6"
     can-use-dom "^0.1.0"
     google-maps-infobox "^1.1.13"
-    invariant "^2.1.1"
-    lodash.isequal "^3.0.4"
+    invariant "^2.2.1"
+    lodash "^4.16.2"
     marker-clusterer-plus "^2.1.4"
-    react-prop-types-element-of-type "^2.1.0"
+    markerwithlabel "^2.0.1"
+    prop-types "^15.5.8"
+    recompose "^0.26.0"
     scriptjs "^2.5.8"
-    warning "^2.1.0"
+    warning "^3.0.0"
 
 react-inlinesvg@^0.6.2:
   version "0.6.2"
@@ -6082,10 +6066,6 @@ react-popper@^0.7.4:
   dependencies:
     popper.js "^1.12.5"
     prop-types "^15.5.10"
-
-react-prop-types-element-of-type@^2.1.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-prop-types-element-of-type/-/react-prop-types-element-of-type-2.2.0.tgz#bcc332d3903c2259cf68c28a81c4a663faba59ac"
 
 react-redux@^5.0.3:
   version "5.0.6"
@@ -7417,6 +7397,10 @@ url-parse@^1.1.8:
     querystringify "~1.0.0"
     requires-port "1.0.x"
 
+url-polyfill@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.0.8.tgz#fefde196a8ea6c0cb5fa3ff5604842acf1c3f2c6"
+
 url@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/url/-/url-0.11.0.tgz#3838e97cfc60521eb73c525a8e55bfdd9e2e28f1"
@@ -7509,12 +7493,6 @@ walker@~1.0.5:
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
   dependencies:
     makeerror "1.0.x"
-
-warning@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/warning/-/warning-2.1.0.tgz#21220d9c63afc77a8c92111e011af705ce0c6901"
-  dependencies:
-    loose-envify "^1.0.0"
 
 warning@^3.0.0:
   version "3.0.0"

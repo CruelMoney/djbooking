@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react'
-import Formatter from '../../../../utils/Formatter'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Rating from '../../../../components/common/Rating'
 import Navlink  from '../../../../components/common/Navlink'
 import Logo from '../../../../components/common/Logo'
@@ -12,9 +12,9 @@ import {ImageCompressor} from '../../../../utils/ImageCompressor';
 import CurrencyConverter from '../../../../utils/CurrencyConverter'
 const curConverter = new CurrencyConverter()
 
-var UserCard = React.createClass({
+class UserCard extends Component{
 
-  propTypes: {
+  static propTypes = {
     profile: PropTypes.object,
     picture: PropTypes.string,
     about:  PropTypes.string,
@@ -25,14 +25,12 @@ var UserCard = React.createClass({
     genres: PropTypes.arrayOf(PropTypes.string),
     onlyPicture: PropTypes.bool,
     changePicture: PropTypes.func,
-  },
+  }
 
-getInitialState(){
-  return{loading: false, err: null}
-},
+    state={loading: false, err: null}
 
 
-    handleFile(e) {
+    handleFile = (e) => {
       var self = this
         self.setState({loading:true})
        const file = e.target.files[0]
@@ -53,7 +51,7 @@ getInitialState(){
               })
           }
        })
-  },
+  }
 
   render() {
     //calculating the age
@@ -195,7 +193,7 @@ getInitialState(){
       </div>
       )
   }
-})
+}
 
 
 function mapDispatchToProps(dispatch, ownprops) {

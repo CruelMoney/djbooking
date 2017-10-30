@@ -1,35 +1,35 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import UserNavigation from './UserNavigation'
 import UserCard from './UserCard'
 import Notification from '../../../../components/common/Notification'
 import UserPic from '../../../../assets/default-profile-pic.png'
 
-var userHeader = React.createClass({
+class userHeader extends Component{
 
-  propTypes: {
+  static propTypes = {
     profile: PropTypes.object,
     geoAddress: PropTypes.string,
     hideInfo: PropTypes.bool,
     notification: PropTypes.string
-    },
+    }
 
    componentWillMount() {
      window.addEventListener('scroll', this.handleScroll)
      this.setState({
        loadString: "..."
      }, ()=>this.loadingStringPlaceholder())
-   },
+   }
 
-   getInitialState(){
-     return{loadString:"..."}
-   },
+   state={loadString:"..."}
+   
 
    componentWillUnmount(){
      window.removeEventListener('scroll', this.handleScroll)
      clearInterval(this.intervalID);
-   },
+   }
 
-  handleScroll(event){
+  handleScroll = (event) => {
    let scrollTop = event.srcElement.body.scrollTop || window.scrollY;
    if (scrollTop > 280) {
      if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 516)) {
@@ -42,10 +42,9 @@ var userHeader = React.createClass({
    }else{
      this.userHeader.className = "user-header"
    }
+  }
 
-  },
-
-    loadingStringPlaceholder(){
+    loadingStringPlaceholder = () => {
       var self = this
 
       this.intervalID = window.setInterval( function(){
@@ -62,12 +61,10 @@ var userHeader = React.createClass({
        }
        }, 300)
 
-    },
+    }
 
   render() {
-
-
-    return (
+  return (
   <header ref={ref=>this.userHeader=ref}
     className="user-header">
     <div id="stripes" className="v2">
@@ -150,13 +147,8 @@ var userHeader = React.createClass({
     </div>
 
   </header>
-
-
       )
-
-
-
   }
-})
+}
 
 export default userHeader

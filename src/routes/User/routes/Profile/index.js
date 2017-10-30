@@ -1,10 +1,14 @@
-module.exports = {
-  path: 'profile',
-   onEnter: () => document.title = document.title.split('|')[0] + "| Profile",
+import React, {Component} from 'react';
+import  Profile  from "./components/Profile";
 
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./components/Profile').default)
-    })
+export default class Index extends Component{
+
+  onComponentWillMount(){
+    document.title = document.title.split('|')[0] + "| Profile"
   }
+
+  render(){
+    return(
+    <Profile {...this.props} />
+  )}
 }

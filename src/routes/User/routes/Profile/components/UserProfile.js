@@ -1,29 +1,23 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Button from '../../../../../components/common/Button-v2'
-import SubmitButton from '../../../../../components/common/SubmitButton'
 import Genres from '../../../../../components/common/ToggleButtonHandler'
 import connectToForm from '../../../../../components/higher-order/connectToForm'
 import {default as SimpleMap} from "../../../../../components/common/Map"
-import TextField from '../../../../../components/common/Textfield'
-import TextBox from '../../../../../components/common/TextBox'
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
 import TextWrapper from '../../../../../components/common/TextElement'
 import c from '../../../../../constants/constants'
-import ErrorMessage from '../../../../../components/common/ErrorMessage'
-import Popup from '../../../../../components/common/Popup'
-import m from '../../../../../constants/Mocks'
-import OfferCard from '../../../../Event/routes/Offers/components/OfferCard'
 
 const Map = connectToForm(SimpleMap)
 
-export default React.createClass({
-    propTypes: {
+export default class UserProfile extends Component{
+    static propTypes = {
         profile: PropTypes.object,
         save: PropTypes.func,
         deleteProfile: PropTypes.func,
-    },
+    }
 
-    contextTypes:{
+    static contextTypes = {
       loadingUser:         PropTypes.bool,
       reset:           PropTypes.func,
       registerActions: PropTypes.func,
@@ -31,15 +25,15 @@ export default React.createClass({
       editing:         PropTypes.bool,
       valid:           PropTypes.bool,
       disableEditMode: PropTypes.func
-    },
+    }
 
     componentWillMount(){
       if ( this.context.registerActions) {
           this.context.registerActions(this.getActionButtons)
       }
-    },
+    }
 
-    getActionButtons(props = this.props) {
+    getActionButtons = (props = this.props) => {
 
         return (
             <div className="context-actions" key="profile_actions">
@@ -54,7 +48,7 @@ export default React.createClass({
             </div>
 
         )
-    },
+    }
 
     render() {
         const isDJ = this.props.profile.isDJ
@@ -133,4 +127,4 @@ export default React.createClass({
         )
 
     }
-})
+}

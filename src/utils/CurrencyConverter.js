@@ -21,10 +21,10 @@ export default class CurrencyConverter {
                                 this.fx.base = data.base;
                             } else {
                                 // If not, apply to fxSetup global:
-                                var fxSetup = {
-                                    rates : data.rates,
-                                    base : data.base
-                                }
+                                // var fxSetup = {
+                                //     rates : data.rates,
+                                //     base : data.base
+                                // }
                                 this.error = false;
                             }
                         }).catch((error)=> {

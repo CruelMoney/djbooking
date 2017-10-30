@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import c from '../../../constants/constants'
-import {datePipe} from '../../../utils/TextPipes'
 import NumberedList from '../../../components/common/NumberedList'
 import Button from '../../../components/common/Button-v2'
 import SubmitButton from '../../../components/common/SubmitButton'
@@ -19,30 +19,28 @@ import  {     TextBox,
 
 
 
-var signupForm = React.createClass({
-  propTypes:{
+class SignupForm extends Component{
+  static propTypes={
     isLoggedIn: PropTypes.bool,
     handleSubmit: PropTypes.func,
     form: PropTypes.object,
     isloading: PropTypes.bool
-  },
+  }
 
-  childContextTypes: {
+  static childContextTypes = {
     color: PropTypes.string
-  },
+  }
   getChildContext() {
     return {
       color: "#31DAFF"
     }
-  },
+  }
 
-  getInitialState(){
-      return{
+  state={
         msg: null
       }
-    },
 
-  signup(form, callback) {
+  signup = (form, callback) => {
       const values = {...form.values, reference: this.props.reference}
       this.props.handleSubmit(values, (err,res)=>{
           if (!err) {
@@ -51,7 +49,7 @@ var signupForm = React.createClass({
           callback(err,res)
         })
         
-  },
+  }
 
   render() {
   return (
@@ -253,7 +251,7 @@ var signupForm = React.createClass({
     </Form>
     )
   }
-})
+}
 
 
 function mapStateToProps(state, ownProps) {
@@ -272,7 +270,7 @@ function mapDispatchToProps(dispatch, ownprops) {
   }
 }
 
-const SmartSignupForm = connect(mapStateToProps, mapDispatchToProps)(signupForm)
+const SmartSignupForm = connect(mapStateToProps, mapDispatchToProps)(SignupForm)
 
 
 export default props => (

@@ -4,7 +4,7 @@ import connectToForm from '../higher-order/connectToForm'
 
 class ToggleOptions extends Component{
 
-  propTypes= {
+  static propTypes= {
     name: PropTypes.string.isRequired,
     children: PropTypes.node,
     value: PropTypes.string,

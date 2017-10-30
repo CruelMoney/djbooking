@@ -95,6 +95,7 @@ class EmbedCodes extends React.Component {
                         : null}
                         {this.state.value === "preview" ? 
                         <iframe  
+                            title="preview-card"
                             onLoad={()=>this.setState({loading:false})}
                             allowfullscreen="true"
                             webkitallowfullscreen="true"

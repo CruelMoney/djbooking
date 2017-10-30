@@ -1,4 +1,5 @@
-import React,  { PropTypes } from 'react'
+import React,  { Component } from 'react'
+import PropTypes from 'prop-types'
 import UserHeader from '../blocks/UserHeader'
 import Footer from '../../../../components/common/Footer'
 import Form from '../../../../components/common/Form-v2'
@@ -7,17 +8,17 @@ import { connect } from 'react-redux'
 import * as actions from '../../../../actions/UserActions'
 import '../../../../css/transitions.css'
 
-var user = React.createClass({
-  themeColor: "#25F4D2",
-  textColor: "rgb(18, 119, 103)",
-  secondColor: "#31DAFF",
+class User extends Component{
+  themeColor="#25F4D2"
+  textColor="rgb(18, 119, 103)"
+  secondColor="#31DAFF"
 
-  propTypes: {
+  static propTypes={
     profile: PropTypes.object,
     isOwnProfile:PropTypes.bool
-  },
+  }
 
-  childContextTypes: {
+  static childContextTypes = {
       profile: PropTypes.object,
       hideUserCard: PropTypes.func,
       showUserCard: PropTypes.func,
@@ -31,17 +32,17 @@ var user = React.createClass({
       disableEditMode: PropTypes.func,
       isOwnProfile:PropTypes.bool,
       updateAction: PropTypes.func
-  },
+  }
 
   componentWillMount(){
     if(!this.props.profile.user_metadata){
-      const permaLink = this.props.isOwnProfile ? null : this.props.params.permalink
+      const permaLink = this.props.isOwnProfile ? null : this.props.match.params.permalink
       this.props.fetchUser(permaLink, (res,err)=>{})
     }
     this.updateNotification(this.props)
-  },
+  }
 
-  updateNotification(props){
+  updateNotification = (props) => {
         if(props.profile.app_metadata && props.isOwnProfile){
           if (!props.profile.app_metadata.emailVerified) {
             this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
@@ -67,7 +68,7 @@ var user = React.createClass({
               this.setState({notification:""}
               )}
         }
-  },
+  }
 
   componentWillReceiveProps(nextProps){
     if(nextProps.profile.firstName){
@@ -76,17 +77,17 @@ var user = React.createClass({
     
     this.updateNotification(nextProps)
 
-    if(nextProps.params.permalink !== this.props.params.permalink){
+    if(nextProps.match.params.permalink !== this.props.match.params.permalink){
 
-       const permaLink = nextProps.isOwnProfile ? null : nextProps.params.permalink
+       const permaLink = nextProps.isOwnProfile ? null : nextProps.match.params.permalink
        nextProps.fetchUser(permaLink, (res,err)=>{})
     }
 
-  },
+  }
 
-  setActions(){
+  setActions = () => {
      this.setState({actions: this.getActions()})
-  },
+  }
 
   getChildContext() {
    return {
@@ -119,27 +120,26 @@ var user = React.createClass({
      profile: this.props.profile,
       isOwnProfile:this.props.isOwnProfile,
     }
-  },
+  }
 
-  getInitialState() {
-    return {
+  state = {
       showUserCard: true,
       actions: [],
       editing: false,
       valid: false
     }
-  },
 
-  hideUserCard(){
+  hideUserCard = () => {
     this.setState({
       showUserCard: false
     })
-  },
-  showUserCard(){
+  }
+
+  showUserCard = () => {
     this.setState({
       showUserCard: true
     })
-  },
+  }
 
   render() {
     return (
@@ -196,7 +196,7 @@ var user = React.createClass({
     )
 
   }
-})
+}
 
 
 
@@ -205,7 +205,7 @@ function mapStateToProps(state, ownProps) {
   const isOwnProfile = 
     state.login.status.publicProfileMode ? false :
     (state.login.profile.user_metadata) 
-    ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.params.permalink.toLowerCase()
+    ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.match.params.permalink.toLowerCase()
     : false
 
   return {
@@ -224,7 +224,7 @@ function mapDispatchToProps(dispatch, ownProps) {
 }}
 
 
-const SmartUser = connect(mapStateToProps,mapDispatchToProps)(user)
+const SmartUser = connect(mapStateToProps,mapDispatchToProps)(User)
 
 export default props => (
     <SmartUser {...props}/>
