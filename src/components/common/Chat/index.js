@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ChatService from '../../../utils/ChatService'
-import AuthService from '../../../utils/AuthService'
+import {authService as auth} from '../../../utils/AuthService'
 import debounce from 'lodash.debounce'
 
 import './index.css'
@@ -19,10 +19,9 @@ class Chat extends Component {
   }
 
   componentWillMount(){
-    this.auth = new AuthService();      
     this.chat = new ChatService(
       this.props.chatId, 
-      this.auth.getToken(),
+      auth.getToken(),
       this.props.sender.id
     );
 

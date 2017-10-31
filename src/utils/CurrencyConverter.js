@@ -16,7 +16,6 @@ class CurrencyConverter {
                     if (contentType && contentType.indexOf("application/json") !== -1) {
                         response.json().then((data)=> {
                             // Check money.js has finished loading:
-                            console.log(data)
                             if ( typeof this.fx !== "undefined" && this.fx.rates ) {
                                 this.fx.rates = data.rates;
                                 this.fx.base = data.base;

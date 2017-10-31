@@ -1,11 +1,10 @@
 import c from '../constants/constants'
-import AuthService from '../utils/AuthService'
+import {authService as auth} from '../utils/AuthService'
 import converter from '../utils/AdapterDTO'
 import CueupService from '../utils/CueupService'
 import StripeService from '../utils/StripeService'
 
 const cueup = new CueupService()
-const auth = new AuthService()
 const stripe = new StripeService()
 
 var ActionTypes = c.ActionTypes

@@ -41,6 +41,7 @@ export default class CueupService {
                 return callback(null, "ok")
             }
         } else {
+          console.log(response)
             //The case that Network response was not ok
             response.json().then(function(result) {
                 console.log(result)

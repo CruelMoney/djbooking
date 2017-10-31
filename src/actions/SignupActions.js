@@ -1,12 +1,10 @@
-import AuthService from '../utils/AuthService'
+import {authService as auth} from '../utils/AuthService'
 import CueupService from '../utils/CueupService'
 import Formatter from '../utils/Formatter'
 import GeoCoder from '../utils/GeoCoder'
 import * as LoginActions from './LoginActions'
 import * as tracker from '../utils/analytics/autotrack'
 const cueup = new CueupService()
-
-const auth = new AuthService()
 
 export function signup(form, isDj, callback) {
   return function (dispatch) {

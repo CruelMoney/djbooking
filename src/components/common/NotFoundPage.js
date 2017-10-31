@@ -14,7 +14,7 @@ export default class NotFound extends Component{
   render(){return (
     <div className="not-found-screen">
         <EmptyPage 
-          title={`Looks like there's nothing here.`}
+          title={`404 Not Found`}
           message={
             <span>Sorry, the page you visited could not be found.<br/>
            Try to spin up another page.</span>
