@@ -9,6 +9,7 @@ var ActionTypes = c.ActionTypes
 const initialState = { //define initial state - an empty form
   signedIn: false,
   isWaiting: false,
+  isRedirect: true,
   editMode: false,
   publicProfileMode: false
 }
@@ -23,20 +24,29 @@ const status = (state = initialState, action) => {
 
   case ActionTypes.LOGIN_REQUESTED:
       return assign({}, state, {
-              isWaiting: true
+              isWaiting: true,
+              isRedirect: false
             })
+        
+    case ActionTypes.LOGIN_REQUESTED_REDIRECT:
+        return assign({}, state, {
+                isWaiting: true,
+                isRedirect:true
+                })
 
   case ActionTypes.LOGIN_SUCCEEDED:
       return assign({}, state, {
         signedIn: true,
-        isWaiting: false
+        isWaiting: false,
+        isRedirect: false
       })
 
  case ActionTypes.LOGIN_FAILED:
      return assign({}, state, {
        signedIn: false,
        err: action.err,
-       isWaiting: false
+       isWaiting: false,
+       isRedirect: false
      })
 
   case ActionTypes.LOGOUT_SUCCEEDED:

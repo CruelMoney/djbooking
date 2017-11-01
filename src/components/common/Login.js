@@ -93,36 +93,22 @@ class Login extends Component{
     }
 
     redirectAfterLogin = (user) =>{
-      if(user && user.user_metadata && user.user_metadata.permaLink)
-      this.props.history.push(`/user/${user.user_metadata.permaLink}/profile`)
+      if(user && user.user_metadata && user.user_metadata.permaLink){
+        this.props.history.push(`/user/${user.user_metadata.permaLink}/profile`)
+      }
     }
 
     login = (form, callback) => {
       AsyncUser.preload();
-      this.props.login( this.state.email, this.state.password, this.props.redirect, (err, res)=>{
-        if (!err){
-          this.redirectAfterLogin(res)
-        }
-        callback(err,res)
-      })
+      this.props.login( this.state.email, this.state.password, this.props.redirect, callback)
     }
     loginFacebook = (form, callback) =>{
       AsyncUser.preload();
-      this.props.loginFacebook(form, this.props.redirect,  (err, res)=>{
-        if (!err){
-          this.redirectAfterLogin(res)
-        }
-        callback(err,res)
-      })
+      this.props.loginFacebook(form, this.props.redirect,  callback)
     } 
     loginSoundcloud = (form, callback) =>{
       AsyncUser.preload();
-      this.props.loginSoundcloud(form, this.props.redirect,  (err, res)=>{
-        if (!err){
-          this.redirectAfterLogin(res)
-        }
-        callback(err,res)
-      })
+      this.props.loginSoundcloud(form, this.props.redirect,  callback)
     } 
 
   render() {

@@ -29,9 +29,11 @@ class AuthService extends EventEmitter {
     }
 
     
-    handleLogin = (err,result, onError) => {
-        if(err !=null && err.message === "invalid_user_password"){
-          onError({message:"The email or password is wrong"}, result)
+    handleLogin = (err, result, onError) => {
+        console.log(err, result)
+        if(err !=null && err.code === "invalid_user_password"){
+            console.log('suh')
+          onError({message:err.description}, result)
         }else{
             if (result && result.idToken) {
                 this.setToken(result.idToken)
@@ -46,15 +48,13 @@ class AuthService extends EventEmitter {
                 params = {
                     ...params,
                     username: params.email,
-                    realm: params.connection,
-                    responseType: 'token id_token',
-                }
+                    realm: params.connection
+              }
             }
             this.auth0.redirect.loginWithCredentials(params, (err,res) => this.handleLogin(err,res,onError))
         }else{
             this.auth0.authorize({
-                ...params, 
-                responseType: 'token id_token',
+                ...params
             })
         } 
     }

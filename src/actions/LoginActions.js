@@ -46,13 +46,8 @@ function handleLoginFeedback(dispatch, callback, redirect = false){
     }
 }
 
-/**
- * Checking if theres an token stored locally
- * And keeps the state updated accordingly
- * @param  {Boolean} [redirect=true] if true the function will push
- * the appropriate window location to the front
- */
-export function checkForLogin(redirect = null){
+
+export function checkForLogin(){
   return function(dispatch){
     if (auth.loggedIn()) {
       const token = auth.getToken();
@@ -62,10 +57,10 @@ export function checkForLogin(redirect = null){
       // Try parse hash
       auth.parseHash()
         .then(token =>{
-          dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }());
+          dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED_REDIRECT} }());
           handleLoginFeedback(dispatch, (err,res)=>{})(null, {idToken:token});
         })
-        .catch(err => console.log(err));
+        .catch(err => handleLoginFeedback(dispatch, (err,res)=>{})(err, null));
     }
   }
 }
@@ -96,19 +91,13 @@ export function login(form, redirect, callback){
 
 export function loginFacebook(callback) {
       auth.login({
-        popup: true,
-        sso: false,
         connection: 'facebook',
-        responseType: 'token',
       }, callback)
 }
 
 export function loginSoundcloud(callback) {
       auth.login({
-        popup: true,
-        sso: false,
         connection: 'soundcloud',
-        responseType: 'token',
       }, callback)
 }
 
@@ -116,7 +105,6 @@ export function loginEmail(form, callback) {
       auth.login({
         connection: 'Username-Password-Authentication',
         sso: false,
-        responseType: 'token',
         email: form.email,
         password: form.password,
       }, callback)

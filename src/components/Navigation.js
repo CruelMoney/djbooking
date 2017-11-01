@@ -54,6 +54,18 @@ class Menu extends Component {
 
      componentWillMount() {
        window.addEventListener('scroll', this.handleScroll)
+       if(this.props.isRedirect){
+         this.setState({redirect:true})
+       }
+     }
+     componentWillReceiveProps(nextProps){
+       if(this.state.redirect && nextProps.profile.user_metadata){
+         this.props.history.push(`/user/${nextProps.profile.user_metadata.permaLink}/profile`)
+         this.setState({
+           redirect: false
+         })
+       }
+      
      }
      componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
@@ -75,6 +87,7 @@ class Menu extends Component {
   render() {
     const isHome = window.location.pathname === '/'
     const page = window.location.pathname.split('/')[1]
+
     return (
       <MuiThemeProvider muiTheme={theme}>
         <div  className={"location_" + page}>
@@ -128,6 +141,7 @@ class Menu extends Component {
                       onClickOutside={this.onClickOutside}
                     >
                       <Login
+                        loading={this.props.isRedirect}
                         profile={this.props.profile}
                        />
                     </Dropdown>
@@ -190,6 +204,7 @@ Menu.childContextTypes = {
 function mapStateToProps(state, ownprops) {
   return {
     loggedIn: state.login.status.signedIn,
+    isRedirect: state.login.status.isRedirect,
     profile: state.login.profile
   }
 }

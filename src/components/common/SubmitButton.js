@@ -21,7 +21,8 @@ export default class SubmitButton extends Component{
   render() {
 
   let succes = this.context.status.succeeded ? this.context.status.succeeded[this.props.name] : false
-  let loading = this.context.status.loading ? this.context.status.loading[this.props.name] : false
+  let loading = this.props.loading ? true 
+    : (this.context.status.loading ? this.context.status.loading[this.props.name] : false)
 
 
   return(

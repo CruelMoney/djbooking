@@ -35,6 +35,7 @@ module.exports = {
     SIGNUP_FAILED: null,
 
     LOGIN_REQUESTED: null,
+    LOGIN_REQUESTED_REDIRECT: null,
     LOGIN_SUCCEEDED: null,
     LOGIN_FAILED: null,
 
