@@ -272,6 +272,7 @@ const deletedUser={
     var cueupGig ={
 
       fromDTO:function(DTO){
+        console.log(DTO)
         return assign({}, DTO, {
                 offer: offer.fromDTO(DTO.offer),
                 startTime: new Date(DTO.startTime),

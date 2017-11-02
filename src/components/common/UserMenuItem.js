@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
+import {notificationService} from '../../utils/NotificationService'
+import {connect} from 'react-redux'
 
 class UserMenuItem extends Component{
+
+  componentWillMount(){
+    notificationService.init(this.props.userId);
+  }
 
   render() {
 
@@ -23,7 +29,8 @@ class UserMenuItem extends Component{
         height: '30px',
         marginRight: '4px',
         borderRadius: '50%',
-        display: 'inline-block'
+        display: 'inline-block',
+        position: 'relative'
       },
       flex:{
         display: 'flex',
@@ -32,12 +39,30 @@ class UserMenuItem extends Component{
     }
 
 
-    return  (  <div style={styles.flex}>
-      <div style={styles.image}/>
+    return  (  
+    <div className="menu-user" style={styles.flex}>
+      <div style={styles.image}>
+        {
+          this.props.notifications > 0 ?
+          <div className={"notification-bubble"}>
+            {this.props.notifications}
+          </div>
+          : null
+        }
+       
+      </div>
       <div style={{display:'inline-block'}} >
         {getLabel(this.props.name)}
       </div>
     </div>)
 }
 }
-export default UserMenuItem
+
+const mapStateToProps = (state,ownProps) => {
+  return{
+    userId: state.login.profile.auth0Id,
+    notifications: state.notifications.data.length
+  }
+}
+
+export default connect(mapStateToProps)(UserMenuItem)

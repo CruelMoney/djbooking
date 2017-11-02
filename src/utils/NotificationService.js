@@ -1,5 +1,7 @@
 import io from 'socket.io-client';
 import {Environment} from '../constants/constants'
+import {store} from '../Router'
+import * as actions from '../actions/NotificationsActions'
 
 export default class NotificationService {
     constructor() {
@@ -8,10 +10,20 @@ export default class NotificationService {
     }
 
     init(userId){
-        if(!this.socket){
+        if(!this.socket && userId){
+            console.log('connecting to: ', Environment.CHAT_DOMAIN+'?userId='+userId)
             this.socket = io(Environment.CHAT_DOMAIN+'?userId='+userId)
 
+            this.socket.on('initialize notifications', (notifications)=>{
+                store.dispatch(
+                    actions.fetchedNotifications(notifications)
+                );
+            })
+
             this.socket.on('new notification', (notification)=>{
+                store.dispatch(
+                    actions.newNotification(notification)
+                );
                 this.notificationHandlers.reduce((acc, fn) => {
                     return fn(notification);
                 }, 0);
@@ -45,7 +57,6 @@ export default class NotificationService {
             });
         });
     }
-
 
 }
 

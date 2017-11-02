@@ -270,7 +270,7 @@ class Gig extends Component{
              
                       <Chat 
                         receiver={{
-                          id:this.props.gig.customer.auth0Id,
+                          id:this.props.gig.customerID,
                           name:this.props.gig.contactName,
                           image:this.props.gig.customer.picture
                         }}

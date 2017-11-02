@@ -158,7 +158,13 @@ class OfferCard extends Component{
                 className="send-message-button"
               onClick={()=>this.setState({showChat:true})}
               name="show-chat-popup"
-            >Send message</Button>
+            >
+            {this.props.notification ? 
+              <div className="notification-bubble">
+                    1
+              </div>
+              : null}
+            Send message</Button>
             {this.props.offer.gigStatus === "Confirmed" ||
               this.props.eventFinished
               ? null :

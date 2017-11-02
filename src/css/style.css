@@ -871,7 +871,7 @@ input[type="file"] + label * {
     }
 }
 
-@keyframes grow=ut {
+@keyframes growOut {
     0% {
       height: inherit;
 
@@ -889,6 +889,29 @@ input[type="file"] + label * {
     transform: rotate(360deg);
   }
 }
+
+
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes bulge {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 
 #content {
     
@@ -3420,4 +3443,20 @@ table td{
 
 .not-found #preFooterPseudo:before{
   top: 0px;
+}
+
+.notification-bubble{
+  background: rgb(244, 67, 54);
+  color: white;
+  border-radius: 50%;
+  width: 1.4em;
+  height: 1.4em;
+  font-size: 12px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.4em;
+  left: -0.5em;
+  top: -0.5em;
+  position: absolute;
+  animation: 250ms scaleIn ease-out;
 }

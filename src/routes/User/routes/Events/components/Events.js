@@ -81,6 +81,7 @@ class Events extends Component{
             {Formatter.date.ToEU(event.startTime)}
           </div>
           <div className="event-status">
+            
           {Formatter.cueupEvent.GetStatus(event.status)}
           </div>
         </div>

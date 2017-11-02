@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import EventHeader from './blocks/EventHeader'
 import Footer from '../../../components/common/Footer'
 import LoadingPlaceholder from '../../../components/common/LoadingPlaceholder'
-
+import {notificationService} from '../../../utils/NotificationService'
 import { connect } from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import * as actions from '../../../actions/EventActions'
 import * as commonActions from '../../../actions/Common'
 import '../../../css/transitions.css'
@@ -17,36 +18,71 @@ class event extends Component{
       color: PropTypes.string
   }
 
-  state={notification: "You have no new notifications"}
+  state={
+    notification: "You have no new notifications",
+    redirected: false
+  }
 
   componentWillMount(){
     this.props.fetchEvent(this.props.match.params.id, this.props.match.params.hash, null)
   }
 
+  goToOffers = () => {
+    const {history} = this.props
+    if(!this.state.redirected){
+      let newPath = history.location.pathname.split('/');
+      if(newPath.length > 4){
+        newPath.pop()
+      }
+      newPath.push('offers');
+      newPath = newPath.join('/');
+      this.setState({
+        redirected: true
+      }, ()=>history.replace(newPath))
+    } 
+  }
+
   componentWillReceiveProps(nextProps){
-    if (nextProps.event && !nextProps.event.emailVerified) {
+
+    notificationService.init(nextProps.customerId);
+    const { event, notifications } = nextProps
+    if (event && !event.emailVerified) {
       this.setState({notification:"You won't receive any offers before you confirm your email-address 🙄"})
-    }else if(nextProps.event){
+    }else if(event){
+      
+      if(event.offers && event.offers.some(offer => {
+          return notifications.some(
+            noti => {
+              return String(noti.room) === String(offer.gigID)}
+          )
+        })){
+        this.setState({
+          notification: "You have unread messages in offers 📫"
+        })
+        this.goToOffers();
+        return
+      }
+
       this.setState({notification:
-      nextProps.event.status === "Cancelled" ?
+      event.status === "Cancelled" ?
       "The event is cancelled ☹️"
-      :nextProps.event.status === "Initial" ?
+      :event.status === "Initial" ?
       "The event has been confirmed 😊"
-      :nextProps.event.status === "Offering" ?
-        nextProps.event.referredBy > 0 ?
+      :event.status === "Offering" ?
+        event.referredBy > 0 ?
         "Waiting on offer from the DJ 😊"
         : "Waiting on offers from DJs 😊"
-      :nextProps.event.status === "NoMatches" ?
+      :event.status === "NoMatches" ?
       "No DJs could be found 😮"
-      :nextProps.event.status === "Accepted" ?
-           nextProps.event.referredBy > 0 ?
+      :event.status === "Accepted" ?
+           event.referredBy > 0 ?
           "The DJ has made an offer 😊"
           : "A DJ has made an offer 😊"
-      :nextProps.event.status === "Confirmed" ?
+      :event.status === "Confirmed" ?
       "The event has been paid & confirmed, get ready to rock 😁"
-      :nextProps.event.status === "Finished" && nextProps.event.chosenOfferId === 0 ?
+      :event.status === "Finished" && event.chosenOfferId === 0 ?
       "The event is finished ☺️"
-      :nextProps.event.status === "Finished" ?
+      :event.status === "Finished" ?
       "The event is finished, please leave a review ☺️"
     :"You have no new notifications"})
   }else{
@@ -117,11 +153,14 @@ class event extends Component{
 
 
 function mapStateToProps(state, ownProps) {
+  event =  state.events.values[0]
   return {
-    event:  state.events.values[0],
+    event: event,
+    customerId: event ? event.auth0Id : null,
     profile: state.login.profile,
     loading: state.events.isWaiting,
-    loggedIn: state.login.status.signedIn
+    loggedIn: state.login.status.signedIn,
+    notifications: state.notifications.data
   }
 }
 
@@ -136,7 +175,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     removeMenuItem: (name) => dispatch(commonActions.registerMenuItem(name))
 }}
 
-const SmartEvent = connect(mapStateToProps, mapDispatchToProps)(event)
+const SmartEvent = connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(event)
+)
 
 export default props => (
     <SmartEvent {...props}/>

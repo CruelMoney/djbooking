@@ -106,7 +106,14 @@ module.exports = {
     TOGGLE_PUBLIC_PROFILE:null,
 
     CHANGE_CURRENCY: null,
-    SET_GEO_SESSION:null
+    SET_GEO_SESSION:null,
+
+
+    NOTIFICATIONS_REQUESTED:null,
+    NOTIFICATIONS_SUCCEEDED:null,
+    NOTIFICATIONS_FAILED:null,
+    NEW_NOTIFICATION:null,
+    NOTIFICATION_SEEN:null
 
   }),
    GENRES: [

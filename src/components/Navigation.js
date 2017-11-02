@@ -54,9 +54,6 @@ class Menu extends Component {
 
      componentWillMount() {
        window.addEventListener('scroll', this.handleScroll)
-       if(this.props.isRedirect){
-         this.setState({redirect:true})
-       }
      }
      componentWillReceiveProps(nextProps){
        if(this.state.redirect && nextProps.profile.user_metadata){
@@ -64,8 +61,9 @@ class Menu extends Component {
          this.setState({
            redirect: false
          })
-       }
-      
+       }else if(nextProps.isRedirect){
+          this.setState({redirect:true})
+        }
      }
      componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
@@ -203,6 +201,7 @@ Menu.childContextTypes = {
 
 function mapStateToProps(state, ownprops) {
   return {
+    ...ownprops,
     loggedIn: state.login.status.signedIn,
     isRedirect: state.login.status.isRedirect,
     profile: state.login.profile

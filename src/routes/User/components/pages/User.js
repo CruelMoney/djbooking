@@ -44,6 +44,11 @@ class User extends Component{
 
   updateNotification = (props) => {
         if(props.profile.app_metadata && props.isOwnProfile){
+          if(this.props.notifications.length > 0){
+            const notification = this.props.notifications.sort((a,b)=>a>b)[0];
+            this.setState({notification: notification.content});
+            return
+          }
           if (!props.profile.app_metadata.emailVerified) {
             this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
             return
@@ -51,7 +56,7 @@ class User extends Component{
           if(props.profile.settings && props.profile.settings.standby ){
               this.setState({notification:"You are currently on standby and can not be booked."})
               return
-         }
+          }
           if (props.profile.picture && props.profile.picture.indexOf("default-profile-pic") !== -1) {
             this.setState({notification:"You should update your profile picture."})
             return
@@ -207,13 +212,13 @@ function mapStateToProps(state, ownProps) {
     (state.login.profile.user_metadata) 
     ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.match.params.permalink.toLowerCase()
     : false
-
+  
   return {
     profile:  isOwnProfile ? state.login.profile : state.user.profile,
     loading: isOwnProfile ? state.login.status.isWaiting : state.user.status.isWaiting,
     geoCity: state.session.city,
     geoCountry: state.session.country,
-
+    notifications: state.notifications.data,
     isOwnProfile:isOwnProfile
   }
 }

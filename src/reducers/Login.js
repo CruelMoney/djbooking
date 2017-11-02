@@ -9,7 +9,7 @@ var ActionTypes = c.ActionTypes
 const initialState = { //define initial state - an empty form
   signedIn: false,
   isWaiting: false,
-  isRedirect: true,
+  isRedirect: false,
   editMode: false,
   publicProfileMode: false
 }

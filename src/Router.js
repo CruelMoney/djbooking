@@ -12,7 +12,7 @@ import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger'
 import * as actions from './actions/LoginActions'
 import * as sessionActions from './actions/SessionActions'
-import store from './reducers/Store'
+import reducers from './reducers/Store'
 import {init as analytics} from './utils/analytics/autotrack'
 import Loadable from 'react-loadable';
 import NotFoundPage from './components/common/NotFoundPage'
@@ -136,10 +136,10 @@ if (process.env.NODE_ENV === "development"){
   reduxMiddleware = applyMiddleware(thunkMiddleware)
 }
 
-let appStore = createStore(store,reduxMiddleware)
-
+export let store = createStore(reducers,reduxMiddleware)
+ 
 export default props => (
-  <Provider store={appStore}>
+  <Provider store={store}>
     <SmartApp {...props}/>
   </Provider>
 )

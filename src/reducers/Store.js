@@ -7,6 +7,7 @@ import reviews from './Reviews'
 import signup from './Signup'
 import login from './Login'
 import session from './Session'
+import notifications from './Notifications'
 
 import menu from './Menu'
 
@@ -23,7 +24,8 @@ const store = combineReducers({
   login,
   events,
   menu,
-  session
+  session,
+  notifications
 })
 
 const rootReducer = (state, action) => {

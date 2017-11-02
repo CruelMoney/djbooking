@@ -20,31 +20,28 @@ class EventOffers extends Component{
     render() {
         var left =[]
         var right = []
+        const {offers, notifications} = this.props;
 
-        this.props.offers.forEach((o,i)=>{
+        offers.forEach((o,i)=>{
+          const notification = notifications.find(n => String(n.room) === String(o.gigID))
+         
+          const offer = <OfferCard
+              key={o.gigID}
+              notification={notification}
+              profileId={this.props.eventContactId}
+              profileName={this.props.eventContactName}
+              profilePicture={this.props.eventContactPicture}
+              paymentPossible={this.state.paymentPossible}
+              eventFinished={this.state.eventFinished}
+              currency={this.props.currency}
+              paymentAmount={this.props.paymentAmount}
+              paymentCurrency={this.props.paymentCurrency}
+              offer={o}/>
+
           if (i % 2 === 0) {
-            left.push(<OfferCard
-
-              profileId={this.props.eventContactId}
-              profileName={this.props.eventContactName}
-              profilePicture={this.props.eventContactPicture}
-              paymentPossible={this.state.paymentPossible}
-              eventFinished={this.state.eventFinished}
-              currency={this.props.currency}
-              paymentAmount={this.props.paymentAmount}
-              paymentCurrency={this.props.paymentCurrency}
-              offer={o}/>)
+            left.push(offer)
           }else{
-            right.push(<OfferCard
-              profileId={this.props.eventContactId}
-              profileName={this.props.eventContactName}
-              profilePicture={this.props.eventContactPicture}
-              paymentPossible={this.state.paymentPossible}
-              eventFinished={this.state.eventFinished}
-              currency={this.props.currency}
-              paymentAmount={this.props.paymentAmount}
-              paymentCurrency={this.props.paymentCurrency}
-              offer={o}/>)
+            right.push(offer)
           }
         })
 
@@ -69,7 +66,7 @@ class EventOffers extends Component{
                 </div>
                 </div>
             :
-            this.props.offers.length ?
+            offers.length ?
             <div>
              <div className="row">
                   <div className="col-xs-12">
@@ -101,15 +98,13 @@ class EventOffers extends Component{
 
 }
 
-function mapDispatchToProps(dispatch, ownProps){
-  return {}
-}
+
 function mapStateToProps(state, ownProps) {
   return {
     eventContactId: state.events.values[0].auth0Id,
     eventContactName: state.events.values[0].contactName,
     eventContactPicture: state.login.profile.picture || "/static/media/default-profile-pic.228cd63f.png",
-    
+    notifications: state.notifications.data,
     status: state.events.values[0].status,
     paymentAmount: state.events.values[0].paymentAmount,
     paymentCurrency: state.events.values[0].paymentCurrency,
@@ -120,4 +115,4 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps )(EventOffers);
+export default connect(mapStateToProps )(EventOffers);
