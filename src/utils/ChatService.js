@@ -1,6 +1,7 @@
 import {Environment} from '../constants/constants'
 import io from 'socket.io-client';
-
+import {store} from '../Router'
+import * as actions from '../actions/NotificationsActions'
 
 export default class ChatService {
     constructor(chatId, token, senderId) {
@@ -38,7 +39,6 @@ export default class ChatService {
     sendMessage(message){
         return new Promise((resolve, reject)=>{
             this.socket.emit('send message', message, response => {
-                console.log(response)       
                 if(response.error){        
                     console.log(response)            
                     return reject(response);
@@ -62,6 +62,8 @@ export default class ChatService {
 
     readMessages = () => {
         this.socket.emit('messages read', this.senderId);
+        // Trying to avoid raceconditions with receiving notification after its read
+        setTimeout(()=>store.dispatch(actions.seenRoom(this.chatId)),100)
     }
 
     }

@@ -15,6 +15,13 @@ export function seenNotification(notification) {
   }
 }
 
+export function seenRoom(roomId) {
+  return {
+    type: ActionTypes.ROOM_SEEN,
+    roomId: roomId
+  }
+}
+
 
 export function fetchedNotifications(notifications) {
   return {

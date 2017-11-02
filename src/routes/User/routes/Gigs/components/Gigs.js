@@ -129,36 +129,38 @@ class Gigs extends Component{
 
     var gigs = []
 
-    this.state.gigs.forEach(function(gig, i) {
+    this.state.gigs.forEach((gig, i) => {
+      let show = false;
+
       switch (gig.status) {
         case 'Finished':
-          gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          show = true
           break
         case 'Accepted':
            //Only show if still relevant
           if((gig.startTime.getTime() - Date.now()) > 0){
-              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+              show = true
           }
           break
         case 'Confirmed':
-          gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+          show = true
           break
         case 'Requested':
           //Only show if still relevant
           if((gig.startTime.getTime() - Date.now()) > 0){
-              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+              show = true
           }
           break
         case 'Lost':
           //Only show if still relevant
           if((gig.startTime.getTime() - Date.now()) > 0){
-              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+              show = true
           }
           break
         case 'Cancelled':
           //Only show if still relevant
             if((gig.startTime.getTime() - Date.now()) > 0){
-                gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+                show = true
             }
             break
         case 'Declined':
@@ -167,8 +169,19 @@ class Gigs extends Component{
         default:
            //Only show if still relevant
           if((gig.startTime.getTime() - Date.now()) > 0){
-              gigs.push(<Gig key={gig.name+i} gig={gig}/>)
+              show = true
           }
+      }
+
+      if(show){
+        const notification = this.props.notifications.find(noti => {
+          return String(noti.room) === String(gig.id);
+        })
+        gigs.push(<Gig 
+          notification={notification}
+          key={gig.name+i} 
+          gig={gig}/>
+          )
       }
     })
 
@@ -246,7 +259,8 @@ function mapStateToProps(state, ownProps) {
   return {
     profile: state.login.profile,
     gigs:  state.gigs.values,
-    loading: state.gigs.isWaiting
+    loading: state.gigs.isWaiting,
+    notifications: state.notifications.data
   }
 }
 

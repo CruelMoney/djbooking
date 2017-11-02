@@ -108,7 +108,6 @@ class Gig extends Component{
 
   render() {
 
-    
     var genres = ""
     const length = this.props.gig.genres.length
     this.props.gig.genres.forEach(function(genre, i) {
@@ -262,7 +261,7 @@ class Gig extends Component{
                 <Collapsible
                   lazyLoad
                   name="ContactInfo"
-                  label={`Contact Organizer (${this.props.gig.contactName})`}
+                  label={`Contact Organizer ${this.props.notification ? "(Unread message 📫)" : ""}`}
                 >
 
                    

@@ -36,10 +36,10 @@ export default (state = initialState, action) => {
         case ActionTypes.NEW_NOTIFICATION:
             return {
                 ...state,
-                data: [...state.data, action.data]
+                data: [...state.data, action.notification]
             }
 
-        case ActionTypes.NOTIFICATION_SEEN:
+        case ActionTypes.NOTIFICATION_SEEN:{ 
             const idx = state.data.indexOf(action.notification)
             return {
                 ...state,
@@ -48,6 +48,17 @@ export default (state = initialState, action) => {
                     ...state.data.slice(idx + 1)
                 ],
             }
+        }
+
+        case ActionTypes.ROOM_SEEN:{
+            const newData = state.data.filter(noti => {
+                return String(noti.room) !== String(action.roomId)
+            })
+            return {
+                ...state,
+                data: newData,
+            }
+        }
 
         default:
             return state

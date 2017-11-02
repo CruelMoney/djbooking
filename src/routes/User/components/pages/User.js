@@ -44,8 +44,8 @@ class User extends Component{
 
   updateNotification = (props) => {
         if(props.profile.app_metadata && props.isOwnProfile){
-          if(this.props.notifications.length > 0){
-            const notification = this.props.notifications.sort((a,b)=>a>b)[0];
+          if(props.notifications && props.notifications.length > 0){
+            const notification = props.notifications.sort((a,b)=>a>b)[0];
             this.setState({notification: notification.content});
             return
           }

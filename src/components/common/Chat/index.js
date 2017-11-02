@@ -19,7 +19,6 @@ class Chat extends Component {
   }
 
   componentWillMount(){
-    console.log(this.props.receiver)
     this.chat = new ChatService(
       this.props.chatId, 
       auth.getToken(),

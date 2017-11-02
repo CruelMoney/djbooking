@@ -113,7 +113,8 @@ module.exports = {
     NOTIFICATIONS_SUCCEEDED:null,
     NOTIFICATIONS_FAILED:null,
     NEW_NOTIFICATION:null,
-    NOTIFICATION_SEEN:null
+    NOTIFICATION_SEEN:null,
+    ROOM_SEEN: null
 
   }),
    GENRES: [

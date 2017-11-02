@@ -152,16 +152,16 @@ class OfferCard extends Component{
                 this.props.currency, true)}
                 
                 </div>
-                
+                {this.props.disabled ? null :
           <div style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "15px"}}>
                 <Button
                 className="send-message-button"
-              onClick={()=>this.setState({showChat:true})}
-              name="show-chat-popup"
+                onClick={()=>this.setState({showChat:true})}
+                name="show-chat-popup"
             >
             {this.props.notification ? 
               <div className="notification-bubble">
-                    1
+                  1
               </div>
               : null}
             Send message</Button>
@@ -177,6 +177,7 @@ class OfferCard extends Component{
               >Confirm</Button>
             }
           </div>
+          }
         </div>
       </div>
 
