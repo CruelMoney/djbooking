@@ -27,6 +27,7 @@ class EventOffers extends Component{
          
           const offer = <OfferCard
               key={o.gigID}
+              eventId={this.props.event.id}
               notification={notification}
               profileId={this.props.eventContactId}
               profileName={this.props.eventContactName}
@@ -101,6 +102,7 @@ class EventOffers extends Component{
 
 function mapStateToProps(state, ownProps) {
   return {
+    event: state.events.values[0],
     eventContactId: state.events.values[0].auth0Id,
     eventContactName: state.events.values[0].contactName,
     eventContactPicture: state.login.profile.picture || "/static/media/default-profile-pic.228cd63f.png",

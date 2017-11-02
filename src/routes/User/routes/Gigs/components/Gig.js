@@ -107,7 +107,6 @@ class Gig extends Component{
   }
 
   render() {
-
     var genres = ""
     const length = this.props.gig.genres.length
     this.props.gig.genres.forEach(function(genre, i) {
@@ -268,6 +267,7 @@ class Gig extends Component{
                   <p>Feel free to contact {this.props.gig.contactName} to discuss the price, or figure out additional details.</p>
              
                       <Chat 
+                        eventId={this.props.gig.eventID}
                         receiver={{
                           id:this.props.gig.customerID,
                           name:this.props.gig.contactName,

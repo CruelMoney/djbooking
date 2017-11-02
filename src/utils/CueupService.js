@@ -34,6 +34,7 @@ export default class CueupService {
 
             if (contentType && contentType.indexOf("application/json") !== -1) {
                 response.json().then(function(result) {
+                  console.log(result)
                     return callback(null, result)
                 }).catch(function(error){console.log(error)})
             } else {
@@ -41,7 +42,6 @@ export default class CueupService {
                 return callback(null, "ok")
             }
         } else {
-          console.log(response)
             //The case that Network response was not ok
             response.json().then(function(result) {
                 console.log(result)

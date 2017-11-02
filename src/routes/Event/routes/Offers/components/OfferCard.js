@@ -65,6 +65,7 @@ class OfferCard extends Component{
           showing={this.state.showChat}
           onClickOutside={this.hideChat}>
           <Chat 
+            eventId={this.props.eventId}
             receiver={{
               id:this.props.offer.dj.auth0Id,
               name:this.props.offer.dj.censoredName,

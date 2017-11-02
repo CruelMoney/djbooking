@@ -89,11 +89,13 @@ class Chat extends Component {
   }
 
   sendMessage = () =>{
+   
     const data = {
       content: this.state.newMessage,
       to: this.props.receiver.id,
       room: String(this.props.chatId),
-      from: this.props.sender.id
+      from: this.props.sender.id,
+      eventId: this.props.eventId
     }
 
     // First set the message optimisticly 

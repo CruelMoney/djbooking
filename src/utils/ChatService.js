@@ -62,8 +62,7 @@ export default class ChatService {
 
     readMessages = () => {
         this.socket.emit('messages read', this.senderId);
-        // Trying to avoid raceconditions with receiving notification after its read
-        setTimeout(()=>store.dispatch(actions.seenRoom(this.chatId)),100)
+        store.dispatch(actions.seenRoom(this.chatId))
     }
 
     }
