@@ -34,7 +34,6 @@ export default class CueupService {
 
             if (contentType && contentType.indexOf("application/json") !== -1) {
                 response.json().then(function(result) {
-                  console.log(result)
                     return callback(null, result)
                 }).catch(function(error){console.log(error)})
             } else {

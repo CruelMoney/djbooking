@@ -23,7 +23,7 @@ class EventOffers extends Component{
       if (!!err){return}
       this.setState({
         gigMessages: res
-      }, ()=>console.log(this.state))
+      })
     })
   }
 

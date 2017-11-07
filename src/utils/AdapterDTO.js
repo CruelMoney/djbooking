@@ -3,7 +3,6 @@ import assign from 'lodash.assign'
 import profilePic from '../assets/default-profile-pic.png'
 
 const filterEmailSettings = (settings, isDj, isCustomer) => {
-  console.log("settings", settings)
   if (!isDj) {
      delete settings["Event cancelation"]
      delete settings["Event update"]
@@ -80,7 +79,6 @@ const deletedUser={
     var user ={
 
       fromDTO: function(DTO) {
-        console.log('user',DTO)
         return {
           ...DTO,
           user_metadata:{
