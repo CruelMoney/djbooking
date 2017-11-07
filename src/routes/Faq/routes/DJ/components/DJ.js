@@ -106,10 +106,11 @@ export default class DJ extends Component{
                     </p>
                 </Collapsible>
                 <Collapsible
-                  label="Does Cueup pay my taxes?"> 
+                  label="Does Cueup pay or report my taxes?"> 
                     <p>
-                        Currently Cueup does not handle any of your taxes. 
-                        It is a priority to add this functionality. 
+                        Currently Cueup does not handle any of your taxes.
+                        If an organizer asks for a receipt, it is your responsibility to provide a receipt showing VAT for the amount you are paid.
+                        When the organizer pays, Cueup will send the organizer an initial receipt showing the total amount paid and the VAT of the service fees.
                     </p>
                 </Collapsible>
                 <Collapsible

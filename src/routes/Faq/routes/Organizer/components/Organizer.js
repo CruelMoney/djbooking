@@ -100,6 +100,13 @@ export default class Organizer extends Component{
                         If the DJ is not able to play at the new location, you'll have to cancel the event and post a new event at the new location.
                     </p>
                 </Collapsible>
+                <Collapsible
+                  label="I need a receipt including VAT."> 
+                    <p>
+                        When an event is paid, Cueup will send an initial receipt showing the total amount paid and the VAT ONLY of the service fees.
+                        It is the responsibility of the DJs to provide a receipt showing VAT of their part of the offer. 
+                    </p>
+                </Collapsible>
               </CollapsibleContainer>
       </div>
 
