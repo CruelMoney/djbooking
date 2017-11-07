@@ -24,7 +24,7 @@ export default class About extends Component{
             </div>
           </div>
           <div style={{marginBottom:"100px"}} className="row">
-            <div className="col-md-2"></div>
+            <div className="col-md-4"></div>
             <div className="col-md-4">
              <h2 style={{marginBottom:"10px"}}>PEOPLE</h2>
              <div className="people">
@@ -46,13 +46,13 @@ export default class About extends Component{
              
         </div>
 
-            <div className="col-md-4">
+            {/* <div className="col-md-4">
              <h2 style={{marginBottom:"10px"}}>COMPANY</h2>
                 <p>CPH SOUND IVS</p>
                 <p>CVR: 37237515</p>
                 <p>PHONE: +45 24 65 80 61</p>
                 <p>EMAIL: chris@cueup.io</p>
-            </div>
+            </div> */}
 
           </div>
         </div>      

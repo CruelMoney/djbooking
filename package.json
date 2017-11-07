@@ -46,7 +46,7 @@
     "react": "^16.0.0",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-update": "^15.3.2",
-    "react-datepicker": "https://github.com/CruelMoney/react-datepicker",
+    "react-datepicker": "^0.60.0",
     "react-dom": "^16.0.0",
     "react-google-maps": "^9.2.1",
     "react-inlinesvg": "^0.7.0",

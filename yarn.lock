@@ -5961,9 +5961,9 @@ react-addons-update@^15.3.2:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
 
-"react-datepicker@https://github.com/CruelMoney/react-datepicker":
-  version "0.57.0"
-  resolved "https://github.com/CruelMoney/react-datepicker#e9d34865dd41c1413f8520bccfb42e5fab3b95a6"
+react-datepicker@^0.60.0:
+  version "0.60.0"
+  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-0.60.0.tgz#e5d809a77d3338c69a22976c30dd666b3475d80f"
   dependencies:
     classnames "^2.2.5"
     moment "^2.17.1"
