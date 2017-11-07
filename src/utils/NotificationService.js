@@ -49,7 +49,6 @@ export default class NotificationService {
         return new Promise((resolve, reject)=>{
             this.socket.emit('get chat status', response => {
                 if(response.error){        
-                    console.log(response)            
                     return reject(response);
                 }else{
                     return resolve(response);

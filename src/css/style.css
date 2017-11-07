@@ -332,6 +332,10 @@ align-items: center;
     margin-left: 30px;
     position: relative;
 }
+.main-menu .redirect-button{
+  height: 20px !important;
+  width: 20px !important;
+}
 
 .main-menu li:last-child{
   margin-left: 30px;
@@ -1156,8 +1160,8 @@ transition: opacity 0.3s ease;
   width: 200px;
   position: absolute;
 }
-.event-information > div{
-  width: 100%;
+.event-information{
+  justify-content: center;
 }
 
 .event-information .context-actions button{

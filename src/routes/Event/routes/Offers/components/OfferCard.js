@@ -135,24 +135,27 @@ class OfferCard extends Component{
           <div className="cancelation-policy">
             Cancelation policy: Full refund if event is cancelled {this.props.offer.cancelationDays} or more days before it starts. Otherwise {this.props.offer.refundPercentage}% is refunded.
           </div>
+          {this.props.offer.gigStatus === "Confirmed" || this.props.offer.gigStatus === "Accepted" ? 
           <div
-              className="offer-price"
-              style={{
-                width: "100%",
-                textAlign: "center"
-              }}>{
-                this.props.offer.gigStatus === "Confirmed"?
-                currencyConverter.getConvertedFormatted(
-                  this.props.paymentAmount,
-                  this.props.paymentCurrency,
-                  this.props.currency, true)
-                :
-                currencyConverter.getConvertedFormatted(
-                this.props.offer.amount+this.props.offer.serviceFeeAmount,
-                this.props.offer.currency,
-                this.props.currency, true)}
-                
-                </div>
+          className="offer-price"
+          style={{
+            width: "100%",
+            textAlign: "center"
+          }}>{
+            this.props.offer.gigStatus === "Confirmed"?
+            currencyConverter.getConvertedFormatted(
+              this.props.paymentAmount,
+              this.props.paymentCurrency,
+              this.props.currency, true)
+            :
+            currencyConverter.getConvertedFormatted(
+            this.props.offer.amount+this.props.offer.serviceFeeAmount,
+            this.props.offer.currency,
+            this.props.currency, true)}
+            
+            </div>
+          : null}
+          
                 {this.props.disabled ? null :
           <div style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "15px"}}>
                 <Button
@@ -167,6 +170,7 @@ class OfferCard extends Component{
               : null}
             Send message</Button>
             {this.props.offer.gigStatus === "Confirmed" ||
+            this.props.offer.gigStatus === "Requested" ||
               this.props.eventFinished
               ? null :
               <Button

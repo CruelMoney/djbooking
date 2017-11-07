@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import OfferCard from './OfferCard'
+import {notificationService} from '../../../../../utils/NotificationService';
 import {connect} from 'react-redux';
 import EmptyPage from '../../../../../components/common/EmptyPage'
 
@@ -13,19 +14,31 @@ class EventOffers extends Component{
 
     this.setState({
       paymentPossible: daysUntil <= 60,
-      eventFinished:  daysUntil < 0
+      eventFinished:  daysUntil < 0,
+      gigMessages: {}
+    })
+
+    notificationService.getChatStatus()
+    .then((res,err)=>{
+      if (!!err){return}
+      this.setState({
+        gigMessages: res
+      }, ()=>console.log(this.state))
     })
   }
 
     render() {
-        var left =[]
-        var right = []
+        const ShowOffers = []
         const {offers, notifications} = this.props;
 
         offers.forEach((o,i)=>{
           const notification = notifications.find(n => String(n.room) === String(o.gigID))
-         
-          const offer = <OfferCard
+          const hasMessages = !!this.state.gigMessages[o.gigID]
+          const hasOffer = o.gigStatus === "Accepted" 
+
+          if(hasOffer || hasMessages){
+            const offer = <div className="col-sm-6">
+            <OfferCard
               key={o.gigID}
               eventId={this.props.event.id}
               notification={notification}
@@ -38,11 +51,10 @@ class EventOffers extends Component{
               paymentAmount={this.props.paymentAmount}
               paymentCurrency={this.props.paymentCurrency}
               offer={o}/>
-
-          if (i % 2 === 0) {
-            left.push(offer)
-          }else{
-            right.push(offer)
+            </div>
+ 
+              ShowOffers.push(offer)
+           
           }
         })
 
@@ -58,16 +70,11 @@ class EventOffers extends Component{
                     </div>
                   </div>
                 <div className="row event-information">
-                    <div className="col-sm-6">
-                      {left}
-                    </div>
-                    <div className="col-sm-6">
-                      {right}
-                    </div>
+                    {ShowOffers}
                 </div>
                 </div>
             :
-            offers.length ?
+            ShowOffers.length ?
             <div>
              <div className="row">
                   <div className="col-xs-12">
@@ -80,12 +87,7 @@ class EventOffers extends Component{
                   </div>
                 </div>
               <div className="row event-information">
-                  <div className="col-sm-6 ">
-                    {left}
-                  </div>
-                  <div className="col-sm-6 ">
-                    {right}
-                  </div>
+               {ShowOffers}
               </div>
               </div>
               :

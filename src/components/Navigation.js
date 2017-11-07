@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Navlink  from './common/Navlink'
 import Dropdown from './common/Dropdown'
 import UserMenuItem from './common/UserMenuItem'
+import Button from './common/Button-v2'
 import Login from './common/Login'
 import Logo from './common/Logo'
 // import MobileMenu from './MobileMenu'
@@ -139,12 +140,13 @@ class Menu extends Component {
                       onClickOutside={this.onClickOutside}
                     >
                       <Login
-                        loading={this.props.isRedirect}
                         profile={this.props.profile}
                        />
                     </Dropdown>
                   </li>
                 ) : null }
+
+               
 
          
 
@@ -175,7 +177,15 @@ class Menu extends Component {
                   </li>
                 ) : (null)}
                  
-                
+                 {this.props.isRedirect ? (
+                  <li >
+                    <Button
+                      className="redirect-button"
+                      color="#03d1ff"
+                      isLoading
+                      />
+                  </li>
+                ) : null }
                 
 
               </ul>
