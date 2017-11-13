@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
-import 'react-datepicker/dist/datepicker.min.css';
+import 'react-datepicker/dist/react-datepicker.min.css';
 
 import '../../css/calendar.css'
 

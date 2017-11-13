@@ -98,17 +98,17 @@ class Login extends Component{
       }
     }
 
-    login = (form, callback) => {
+    login = (form) => {
       AsyncUser.preload();
-      this.props.login( this.state.email, this.state.password, this.props.redirect, callback)
+      this.props.login( this.state.email, this.state.password, this.props.redirect)
     }
-    loginFacebook = (form, callback) =>{
+    loginFacebook = (form) =>{
       AsyncUser.preload();
-      this.props.loginFacebook(form, this.props.redirect,  callback)
+      this.props.loginFacebook(form, this.props.redirect)
     } 
-    loginSoundcloud = (form, callback) =>{
+    loginSoundcloud = (form) =>{
       AsyncUser.preload();
-      this.props.loginSoundcloud(form, this.props.redirect,  callback)
+      this.props.loginSoundcloud(form, this.props.redirect)
     } 
 
   render() {

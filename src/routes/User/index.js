@@ -1,43 +1,10 @@
-
-// module.exports ={
-//   path: 'user/:permalink',
-//   //onEnter: redirectNotAuth,
-
-//   getIndexRoute(partialNextState, callback) {
-//     require.ensure([], function (require) {
-//       callback(null, {
-//         component: require('./routes/Profile'),
-//       })
-//     })
-//   },
-
-//   getChildRoutes(partialNextState, cb) {
-//     require.ensure([], (require) => {
-//       cb(null, [
-//         require('./routes/Profile'),
-//         require('./routes/Gigs'),
-//         require('./routes/Events'),
-//         require('./routes/Reviews'),
-//         require('./routes/Preferences'),
-//         require('./routes/Book'),
-//       ])
-//     })
-//   },
-
-//   getComponent(nextState, cb) {
-//     require.ensure([], (require) => {
-//       cb(null, require('./components/pages/User').default)
-//     })
-//   }
-// }
-
-
 import React, {Component} from 'react';
 import {
   Switch, 
   Route
 } from 'react-router';
 import User from './components/pages/User'; 
+import FinishSignup from './components/pages/FinishSignup'; 
 import Profile from "./routes/Profile";
 import Book from "./routes/Book";
 import Events from "./routes/Events";
@@ -53,15 +20,23 @@ export default class Index extends Component{
 
   render(){
     return(
-    <User {...this.props} >
       <Switch>
-        <Route path={`/user/:permalink/profile`} component={Profile} />
-        <Route path={`/user/:permalink/book`} component={Book} />
-        <Route path={`/user/:permalink/preferences`} component={Preferences} />
-        <Route path={`/user/:permalink/events`} component={Events} />
-        <Route path={`/user/:permalink/gigs`} component={Gigs} />
-        <Route path={`/user/:permalink/reviews`} component={Reviews} />
+        <Route path={`/user/`} component={FinishSignup} />
+        <Route path={`/user/:permalink`} render={()=>{
+          return (
+            <User {...this.props} >
+              <Switch>
+                <Route path={`/user/:permalink/profile`} component={Profile} />
+                <Route path={`/user/:permalink/book`} component={Book} />
+                <Route path={`/user/:permalink/preferences`} component={Preferences} />
+                <Route path={`/user/:permalink/events`} component={Events} />
+                <Route path={`/user/:permalink/gigs`} component={Gigs} />
+                <Route path={`/user/:permalink/reviews`} component={Reviews} />
+              </Switch>
+            </User>
+          )
+        }}/>
       </Switch>
-    </User>
+  
   )}
 }

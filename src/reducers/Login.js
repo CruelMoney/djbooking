@@ -11,6 +11,7 @@ const initialState = { //define initial state - an empty form
   isWaiting: false,
   isRedirect: false,
   editMode: false,
+  onlyAuth: false,
   publicProfileMode: false
 }
 
@@ -36,7 +37,8 @@ const status = (state = initialState, action) => {
 
   case ActionTypes.LOGIN_SUCCEEDED:
       return assign({}, state, {
-        signedIn: true,
+        signedIn: !!action.loggedInCueup,
+        onlyAuth: !action.loggedInCueup,
         isWaiting: false,
         isRedirect: false
       })

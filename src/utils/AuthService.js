@@ -4,10 +4,6 @@ import {
     EventEmitter
 } from 'events'
 
-//Usage
-// import AuthService from '../../utils/AuthService'
-// const auth0 = new AuthService();
-// auth0.signUpGreet(window.location.hash)
 
 
 class AuthService extends EventEmitter {
@@ -17,12 +13,12 @@ class AuthService extends EventEmitter {
         this.auth0 = new Auth0.WebAuth({
             domain: Environment.AUTH0_CLIENT_DOMAIN,
             clientID: Environment.AUTH0_CLIENT_ID,
-            redirectUri: Environment.CALLBACK_DOMAIN,
-            audience: Environment.AUTH0_AUDIENCE,
             responseType: 'token id_token',
-            scope: 'openid'
-            });
-
+            audience: Environment.AUTH0_AUDIENCE,
+            scope: 'openid profile email',
+            redirectUri: Environment.CALLBACK_DOMAIN
+          });
+        
         this.domain = Environment.AUTH0_CLIENT_DOMAIN // setting domain parameter as an instance attribute
         this.login = this.login.bind(this)
         this.signup = this.signup.bind(this)
@@ -30,9 +26,7 @@ class AuthService extends EventEmitter {
 
     
     handleLogin = (err, result, onError) => {
-        console.log(err, result)
         if(err !=null && err.code === "invalid_user_password"){
-            console.log('suh')
           onError({message:err.description}, result)
         }else{
             if (result && result.idToken) {
@@ -43,6 +37,7 @@ class AuthService extends EventEmitter {
     }
 
     login = (params, onError) => {
+        console.log(params)
         if(params.connection === 'Username-Password-Authentication'){
             if(!params.username){
                 params = {
@@ -64,7 +59,7 @@ class AuthService extends EventEmitter {
             this.auth0.parseHash((err, authResult) => {          
                 if (authResult && authResult.accessToken && authResult.idToken) {
                   this.setSession(authResult);
-                  return resolve(authResult.idToken)
+                  return resolve(authResult);
                 }else if(err){
                     return reject(err)
                 }
@@ -93,15 +88,25 @@ class AuthService extends EventEmitter {
         // Check whether the current time is past the 
         // access token's expiry time
         let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-        return new Date().getTime() < expiresAt;
+        const expired = new Date().getTime() > expiresAt;
+        if(expired){
+           return false;
+        }
+        const token = this.getToken();
+
+        return !!token && token !== 'undefined';
     }
 
     signup = (params, onError) => {
         //redirects the call to auth0 instance
-        this.auth0.signup(params, onError)
+        this.auth0.signup(params, (err, res)=>{
+            if(err){return onError(err,res)}
+        })
     }
 
-    getProfileFromToken = (token, callback) => {
+    getProfileFromToken = (token2, callback) => {
+        const token = localStorage.getItem('access_token');
+        console.log(token)
         this.auth0.client.userInfo(token, function(err, profile) {
             console.log(err, profile)
             return callback(err,profile)
@@ -110,16 +115,9 @@ class AuthService extends EventEmitter {
 
     getProfileFromStoredToken(callback) {
         const token = this.getToken()
-
-        this.auth0.client.userInfo(token, function(err, profile) {
-            return callback(err, profile)
-        });
+        this.getProfileFromToken(token, callback)
     }
 
-    setToken(idToken) {
-        // Saves user token to localStorage
-        localStorage.setItem('id_token', idToken)
-    }
 
     getToken() {
         // Retrieves the user token from localStorage

@@ -96,7 +96,7 @@ class App extends Component {
                 <Switch>
                   <Route exact path="/" component={AsyncHome}/>
                   <Route path="/about" component={AsyncAbout}/>
-                  <Route path="/user/:permalink" component={AsyncUser}/>
+                  <Route path="/user" component={AsyncUser}/>
                   <Route path="/howitworks" component={AsyncHowItWorks}/>
                   <Route path="/signup" component={AsyncSignup}/>
                   <Route path="/faq" component={AsyncFaq}/>

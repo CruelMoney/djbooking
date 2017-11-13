@@ -135,14 +135,19 @@ class form extends Component{
 
 
   render() {
+    let err = this.props.err 
+    if(err && err.description){
+      err = err.description
+    }
+
     return (
       <div>
         <form >
           {this.props.children}
         </form>
-        {this.props.err && !this.props.noError ?
+        {err && !this.props.noError ?
           <div className="errors">
-            <p>{this.props.err}</p>
+            <p>{err}</p>
           </div>
           :null
         }

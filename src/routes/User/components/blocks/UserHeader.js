@@ -80,29 +80,29 @@ class userHeader extends Component{
 
     <div className="container">
       <div className="row">
+        {this.props.hideCard ? null :
+          <div className="user-card-wrapper">
+            <UserCard
+            isOwnProfile={this.props.isOwnProfile}
+              profile={this.props.profile}
+              className="user-card"
+              onlyPicture={this.props.hideInfo}
+              picture={this.props.loading ? UserPic : this.props.profile.picture}
+              about={this.props.loading ? this.state.loadString : this.props.profile.bio}
+              rating={this.props.loading ? 0 : this.props.profile.avgRating}
+              experience={this.props.loading ? 0 : this.props.profile.gigsCount}
+              earned={this.props.loading ? 0 : this.props.profile.earned}
+              birthday={this.props.loading ? null : this.props.profile.birthDay}
+              genres={this.props.loading ? ["..." ]: this.props.profile.genres}
+              loading={this.props.loading}
+              currency={!this.props.hideInfo && this.props.isOwnProfile ? this.props.profile.settings.currency : "DKK"} //Can be set to dkk because not used if not own profile
+              bankCurrency={this.props.isOwnProfile ? this.props.profile.app_metadata.bankCurrency : "DKK"}//Can be set to dkk because not used if not own profile
+            />
 
-        <div className="user-card-wrapper">
-          <UserCard
-           isOwnProfile={this.props.isOwnProfile}
-            profile={this.props.profile}
-            className="user-card"
-            onlyPicture={this.props.hideInfo}
-            picture={this.props.loading ? UserPic : this.props.profile.picture}
-            about={this.props.loading ? this.state.loadString : this.props.profile.bio}
-            rating={this.props.loading ? 0 : this.props.profile.avgRating}
-            experience={this.props.loading ? 0 : this.props.profile.gigsCount}
-            earned={this.props.loading ? 0 : this.props.profile.earned}
-            birthday={this.props.loading ? null : this.props.profile.birthDay}
-            genres={this.props.loading ? ["..." ]: this.props.profile.genres}
-            loading={this.props.loading}
-            currency={this.props.isOwnProfile ? this.props.profile.settings.currency : "DKK"} //Can be set to dkk because not used if not own profile
-            bankCurrency={this.props.isOwnProfile ? this.props.profile.app_metadata.bankCurrency : "DKK"}//Can be set to dkk because not used if not own profile
-          />
-
-                {this.props.actions}
-        
-        </div>
-
+                  {this.props.actions}
+          
+          </div>
+        }
 
 
         <div className="col-sm-4"></div>
@@ -135,7 +135,7 @@ class userHeader extends Component{
 
 
           <div className="header-divider"/>
-          {this.props.loading ? null :
+          {this.props.loading || this.props.hideCard ? null :
             <UserNavigation
               isOwnProfile={this.props.isOwnProfile}
               isDJ={this.props.profile.isDJ}
