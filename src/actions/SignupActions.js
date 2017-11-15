@@ -135,7 +135,6 @@ function postUser(user, callback) {
 export function signupEmail({form}, callback) {
   return function(dispatch){
     cueup.checkEmailExists(form.email, (err,res)=>{
-      console.log(err,res)
       if(err){
         callback(err)
       }else if(res === true){

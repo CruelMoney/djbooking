@@ -58,26 +58,14 @@ class Login extends Component{
       if (!email) {
         return callback("Please enter email.")
       }
-          cueup.checkEmailExists(email, function(err,resp){
-            if (err) {
-              callback("Something went wrong.")
-              return
-            }else{
-              if (resp === false) {
-                callback("The email does not exist.")
-                return
-            }else{
-              cueup.requestPasswordChange(email,function(err,resp){
-                if (err) {
-                  callback("Something went wrong.")
-                }else{
-                  self.setState({message: "We've just sent you an email to reset your password."})
-                  callback(null)
-                }
-              })
-            }
-            }
-          })
+        cueup.requestPasswordChange(email,function(err,resp){
+          if (err) {
+            callback(err.message || "Something went wrong.")
+          }else{
+            self.setState({message: "We've just sent you an email to reset your password."})
+            callback(null)
+          }
+        })    
     }
 
     onChangeEmail = (email) => {
