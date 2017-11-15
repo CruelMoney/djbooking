@@ -3,11 +3,9 @@ import {
 } from '../utils/AuthService'
 import CueupService from '../utils/CueupService'
 import Formatter from '../utils/Formatter'
-import GeoCoder from '../utils/GeoCoder'
 import * as LoginActions from './LoginActions'
 import * as tracker from '../utils/analytics/autotrack'
 import {
-  Environment,
   ActionTypes
 } from '../constants/constants'
 import converter from '../utils/AdapterDTO'
@@ -74,7 +72,6 @@ function createDJ(form, auth0Profile) {
 
 
 function createCustomer(form, auth0Profile) {
-  const geoResult = form.playingLocation; 
   const user_metadata = auth0Profile['https://cueup.io/user_metadata'];
   return {
     email: form.email || auth0Profile.email,

@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import c from '../../../constants/constants'
 import NumberedList from '../../../components/common/NumberedList'
 import Button from '../../../components/common/Button-v2'
 import SubmitButton from '../../../components/common/SubmitButton'
@@ -10,12 +9,8 @@ import * as actions from '../../../actions/SignupActions'
 
 import Form from '../../../components/common/Form-v2'
 import {
-  TextBox,
   Textfield,
-  RegistrationElement,
-  ToggleButtonHandler,
-  LocationSelectorSimple,
-  ToggleOptions
+  RegistrationElement
 } from '../../../components/common/Form-v2'
 
 class SignupForm extends Component {

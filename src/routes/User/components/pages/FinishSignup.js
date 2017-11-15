@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import Footer from '../../../../components/common/Footer'
 import c from '../../../../constants/constants'
 import NumberedList from '../../../../components/common/NumberedList'
-import Button from '../../../../components/common/Button-v2'
 import SubmitButton from '../../../../components/common/SubmitButton'
-import UserHeader from '../blocks/UserHeader'
 import GeoCoder from '../../../../utils/GeoCoder'
 import debounce from 'lodash.debounce';
 import connectToForm from '../../../../components/higher-order/connectToForm'
@@ -20,8 +18,7 @@ import {
   Textfield,
   RegistrationElement,
   ToggleButtonHandler,
-  LocationSelectorSimple,
-  ToggleOptions
+  LocationSelectorSimple
 } from '../../../../components/common/Form-v2'
 
 const Map = connectToForm(SimpleMap)

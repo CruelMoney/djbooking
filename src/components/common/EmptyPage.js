@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Panda from '../../assets/SadPanda.svg'
 
 class EmptyPage extends Component {
   render() {
