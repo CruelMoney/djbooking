@@ -24,6 +24,7 @@ var ActionTypes = c.ActionTypes
                 }}())
              dispatch (function() {return {
                 type: ActionTypes.LOGIN_SUCCEEDED,
+                loggedInCueup: true,
                 profile: profile
               }}())
               callback(null)
@@ -47,6 +48,7 @@ var ActionTypes = c.ActionTypes
                 }}())
               dispatch (function() {return {
                 type: ActionTypes.LOGIN_SUCCEEDED,
+                loggedInCueup: true,
                 profile: profile
               }}())
               callback(null)
@@ -203,7 +205,8 @@ return function(dispatch){
           const profile = converter.user.fromDTO(result)
           dispatch (function() {return {
             type: ActionTypes.LOGIN_SUCCEEDED,
-            profile: profile
+            profile: profile,
+            loggedInCueup: true,
           }}())
           callback(null, result)
         }
@@ -231,6 +234,7 @@ return function(dispatch){  const data = converter.settings.toDTO(settings)
         }}())
       dispatch (function() {return {
               type: ActionTypes.LOGIN_SUCCEEDED,
+              loggedInCueup: true,
               profile: profile
             }}())
       callback(null)
