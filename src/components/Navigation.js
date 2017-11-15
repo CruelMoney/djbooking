@@ -57,14 +57,14 @@ class Menu extends Component {
        window.addEventListener('scroll', this.handleScroll)
      }
      componentWillReceiveProps(nextProps){
-       if(this.state.redirect && nextProps.profile.user_metadata){
-         this.props.history.push(`/user/${nextProps.profile.user_metadata.permaLink}/profile`)
-         this.setState({
-           redirect: false
-         })
-       }else if(nextProps.isRedirect){
-          this.setState({redirect:true})
-        }
+       if(nextProps.isRedirect && !this.state.redirected){
+         if(nextProps.profile.user_metadata && nextProps.profile.user_metadata.permaLink){
+          this.props.history.push(`/user/${nextProps.profile.user_metadata.permaLink}/profile`)
+         }else{
+          this.props.history.push(`/user`)
+         }
+         this.setState({redirected:true})
+       }
      }
      componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
@@ -140,6 +140,7 @@ class Menu extends Component {
                       onClickOutside={this.onClickOutside}
                     >
                       <Login
+                        closeLogin={this.onClickOutside}
                         profile={this.props.profile}
                        />
                     </Dropdown>
@@ -177,7 +178,7 @@ class Menu extends Component {
                   </li>
                 ) : (null)}
                  
-                 {this.props.isRedirect ? (
+                 {this.props.isWaiting && !this.state.loginExpanded ? (
                   <li >
                     <Button
                       className="redirect-button"
@@ -214,6 +215,7 @@ function mapStateToProps(state, ownprops) {
     ...ownprops,
     loggedIn: state.login.status.signedIn,
     isRedirect: state.login.status.isRedirect,
+    isWaiting: state.login.status.isWaiting,
     profile: state.login.profile
   }
 }

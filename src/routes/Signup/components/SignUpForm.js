@@ -46,7 +46,7 @@ class SignupForm extends Component {
     }
     this.props.handleSubmit(values, (err, res) => {
         cb(err,res)
-      })
+    })
   }
 
   render() {

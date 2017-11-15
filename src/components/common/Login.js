@@ -98,17 +98,22 @@ class Login extends Component{
       }
     }
 
-    login = (form) => {
+    login = (form, cb) => {
       AsyncUser.preload();
-      this.props.login( this.state.email, this.state.password, this.props.redirect)
+      this.props.login( this.state.email, this.state.password, (err,res)=>{
+        if(!err && this.props.closeLogin){
+          this.props.closeLogin();
+        }
+        cb(err,res);
+      })
     }
     loginFacebook = (form) =>{
       AsyncUser.preload();
-      this.props.loginFacebook(form, this.props.redirect)
+      this.props.loginFacebook(form)
     } 
     loginSoundcloud = (form) =>{
       AsyncUser.preload();
-      this.props.loginSoundcloud(form, this.props.redirect)
+      this.props.loginSoundcloud(form)
     } 
 
   render() {
@@ -194,9 +199,9 @@ class Login extends Component{
 
     function mapDispatchToProps(dispatch, ownprops) {
       return {
-        login: (email, password, redirect, callback) => dispatch(actions.login({type:"EMAIL", email, password}, redirect,callback)),
-        loginFacebook: (form,redirect,callback)        => dispatch(actions.login({type:"FACEBOOK"},redirect,callback)),
-        loginSoundcloud: (form,redirect,callback)      => dispatch(actions.login({type:"SOUNDCLOUD"},redirect,callback)),
+        login: (email, password, callback) => dispatch(actions.login({type:"EMAIL", email, password, redirect:true}, callback)),
+        loginFacebook: (form, callback)        => dispatch(actions.login({type:"FACEBOOK"}, callback)),
+        loginSoundcloud: (form, callback)      => dispatch(actions.login({type:"SOUNDCLOUD"}, callback)),
       }
     }
 

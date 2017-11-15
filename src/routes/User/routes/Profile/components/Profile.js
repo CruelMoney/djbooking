@@ -23,7 +23,6 @@ class Profile extends Component {
 //TODO move magic information about the filters out of container.
 //Should be grabbed from the children that are set as filters
 function mapStateToProps(state, ownProps) {
-  console.log(state.login.profile.user_metadata)
    let isOwnProfile = 
      state.login.status.publicProfileMode ? false :
     (!!state.login.status.signedIn && !state.login.status.onlyAuth) 

@@ -3,9 +3,7 @@ import {Environment} from '../constants/constants'
 export default class CueupService {
     constructor() {
         this.domain = Environment.API_DOMAIN
-        this.getHeaders = function(token) {
-          console.log(token)
-          
+        this.getHeaders = function(token) {  
             var headers = new Headers();
             headers.append('Accept', 'application/json');
             headers.append("Content-Type", "application/json");
@@ -24,7 +22,6 @@ export default class CueupService {
         this.deleteInit = function(headers) {
             return {method: 'DELETE', headers: headers};
         }
-
     }
 
     responseHandling(response, callback) {

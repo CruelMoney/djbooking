@@ -25,14 +25,14 @@ class AuthService extends EventEmitter {
     }
 
     
-    handleLogin = (err, result, onError) => {
+    handleLogin = (err, authResult, onError) => {
         if(err !=null && err.code === "invalid_user_password"){
-          onError({message:err.description}, result)
+          onError({message:err.description}, authResult)
         }else{
-            if (result && result.idToken) {
-                this.setToken(result.idToken)
+            if (authResult) {
+                this.setSession(authResult)
             }
-          onError(err, result)
+          onError(err, authResult)
         }
     }
 
@@ -46,7 +46,7 @@ class AuthService extends EventEmitter {
                     redirectUri: Environment.CALLBACK_DOMAIN                    
               }
             }
-            this.auth0.redirect.loginWithCredentials(params, (err,res) => this.handleLogin(err,res,onError))
+            this.auth0.client.login(params, (err,res) => this.handleLogin(err,res,onError))
         }else{
             this.auth0.authorize({
                 ...params
@@ -97,10 +97,10 @@ class AuthService extends EventEmitter {
         return !!token && token !== 'undefined';
     }
 
-    signup = (params, onError) => {
+    signup = (params, callback) => {
         //redirects the call to auth0 instance
         this.auth0.signup(params, (err, res)=>{
-            if(err){return onError(err,res)}
+            callback(err,res)
         })
     }
 

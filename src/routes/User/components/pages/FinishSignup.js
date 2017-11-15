@@ -10,7 +10,7 @@ import GeoCoder from '../../../../utils/GeoCoder'
 import debounce from 'lodash.debounce';
 import connectToForm from '../../../../components/higher-order/connectToForm'
 import {default as SimpleMap} from "../../../../components/common/Map"
-
+import { withRouter } from 'react-router-dom'
 import {connect} from 'react-redux'
 import * as actions from '../../../../actions/SignupActions'
 
@@ -58,7 +58,8 @@ class SignupForm extends Component {
     }    
     this.props.handleSubmit(values, (err, res) => {
         if (!err) {
-          this.setState({msg: "Great! You can now login 😁"})
+          console.log(res)
+          this.props.history.push(`/user/${res.user_metadata.permaLink}/profile`)
         }
         callback(err, res)
       })
@@ -277,6 +278,8 @@ function mapDispatchToProps(dispatch, ownprops) {
   }
 }
 
-const SmartSignupForm = connect(mapStateToProps, mapDispatchToProps)(SignupForm)
+const SmartSignupForm = connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(SignupForm)
+)
 
 export default props => (<SmartSignupForm {...props}/>)

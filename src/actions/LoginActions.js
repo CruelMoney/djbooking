@@ -22,6 +22,7 @@ const cueup = new CueupService()
       dispatch (function() {return {
           type: ActionTypes.LOGIN_SUCCEEDED,
           profile: user,
+          redirect: redirect,
           loggedInCueup:true
         }}())
       callback(null, user)
@@ -33,24 +34,25 @@ function handleLoginFeedback(dispatch, callback, redirect = false){
       if (err){
         dispatch( function() { return {
             type: ActionTypes.LOGIN_FAILED,
-            err : err.message
+            err : err.message || err
           }}())
-          callback(err.message)
+          callback(err.message || err)
       }else {
         auth.getProfileFromToken(token, (err, res)=>{
           if(err){
             dispatch( function() { return {
               type: ActionTypes.LOGIN_FAILED,
-              err : err.message
+              err : err.message || err
             }}())
-            callback(err.message)
+            callback(err.message || err)
           }else{
             if(res['https://cueup.io/user_metadata'] && res['https://cueup.io/user_metadata'].permaLink){
-              cueup.getOwnUser(token, handleCueupFeedBack(dispatch, callback))
+              cueup.getOwnUser(token, handleCueupFeedBack(dispatch, callback, redirect))
             }else{
               dispatch( function() { return {
                 type: ActionTypes.LOGIN_SUCCEEDED,
                 profile : res,
+                redirect: redirect,
                 loggedInCueup:false 
               }}())
               callback(null, res)
@@ -68,13 +70,12 @@ export function checkForLogin(){
     auth.parseHash()
     .then((hash) =>{
       if(!!hash){
-        dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED_REDIRECT} }());
-        handleLoginFeedback(dispatch, (err,res)=>{})(null, hash.accessToken);
+        dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }());
+        handleLoginFeedback(dispatch, (err,res)=>{}, true)(null, hash.accessToken);
       }
     })
     .catch(err => {
       if (auth.loggedIn()) {
-        console.log('logged in')
         dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }())
         const token = auth.getAccessToken();
         handleLoginFeedback(dispatch, (err,res)=>{})(null, token) 
@@ -93,21 +94,23 @@ export function checkForLogin(){
 
 
 
-export function login(form){
+export function login(form, cb){
   return function (dispatch) {
     // First dispatch: the app state is updated to inform
     // that the API call is starting.
 
-    dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }() )
+    dispatch({
+      type: ActionTypes.LOGIN_REQUESTED
+    })
       switch (form.type) {
         case "EMAIL":
-          return loginEmail(form, handleLoginFeedback(dispatch))
+          return loginEmail(form,  handleLoginFeedback(dispatch, cb, !!form.redirect))
 
         case "FACEBOOK":
-          return loginFacebook(handleLoginFeedback(dispatch))
+          return loginFacebook()
 
         case "SOUNDCLOUD":
-          return loginSoundcloud(handleLoginFeedback(dispatch))
+          return loginSoundcloud()
 
         default:
       }
@@ -126,12 +129,13 @@ export function loginSoundcloud() {
       })
 }
 
-export function loginEmail(form) {
+export function loginEmail(form, cb) {
       auth.login({
         connection: 'Username-Password-Authentication',
-        sso: false,
         email: form.email,
         password: form.password,
+      }, (err,auth0res) => {
+        cb(err, auth0res ? auth0res.accessToken : null)
       })
 }
 

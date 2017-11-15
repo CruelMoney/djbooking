@@ -25,22 +25,15 @@ const status = (state = initialState, action) => {
 
   case ActionTypes.LOGIN_REQUESTED:
       return assign({}, state, {
-              isWaiting: true,
-              isRedirect: false
+              isWaiting: true
             })
         
-    case ActionTypes.LOGIN_REQUESTED_REDIRECT:
-        return assign({}, state, {
-                isWaiting: true,
-                isRedirect:true
-                })
-
   case ActionTypes.LOGIN_SUCCEEDED:
       return assign({}, state, {
         signedIn: !!action.loggedInCueup,
         onlyAuth: !action.loggedInCueup,
         isWaiting: false,
-        isRedirect: false
+        isRedirect: action.redirect
       })
 
  case ActionTypes.LOGIN_FAILED:

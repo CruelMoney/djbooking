@@ -7,8 +7,11 @@ import GeoCoder from '../utils/GeoCoder'
 import * as LoginActions from './LoginActions'
 import * as tracker from '../utils/analytics/autotrack'
 import {
-  Environment
+  Environment,
+  ActionTypes
 } from '../constants/constants'
+import converter from '../utils/AdapterDTO'
+
 const cueup = new CueupService()
 
 export function signup(form, isDj, callback) {
@@ -20,7 +23,7 @@ export function signup(form, isDj, callback) {
 
         switch (form.signup) {
           case "EMAIL":
-            return signupEmail(data, callback)
+            return dispatch(signupEmail(data, callback))
 
           case "FACEBOOK":
             return LoginActions.loginFacebook(data)
@@ -45,7 +48,6 @@ function createDJ(form, auth0Profile) {
   return {
     email: form.email || auth0Profile.email,
     picture: auth0Profile.picture_large || auth0Profile.picture,
-    indentities: auth0Profile.identities,
     genres: form.genres,
     bio: form.bio || "",
     playingRadius: form.playingRadius || 25000,
@@ -103,7 +105,17 @@ export function finishSignup({form, auth0Profile}, isDJ = false, callback) {
     }else{
       user = createCustomer(form, auth0Profile);
     }
-    postUser(user, callback)
+    postUser(user, (err, user)=>{
+      if(!err && isDJ){
+        dispatch({
+          type: ActionTypes.LOGIN_SUCCEEDED,
+          profile : converter.user.fromDTO(user),
+          loggedInCueup: true,
+          redirect: true
+        });
+      }
+      callback(err,user)
+    })
   }
 }
 
@@ -116,15 +128,35 @@ function postUser(user, callback) {
     } else {
       tracker.trackSignup()
       callback(null, cueupResult)
-      //LoginActions.checkForLogin(false)(dispatch)
     }
   })
 }
 
 export function signupEmail({form}, callback) {
-  auth.signup({
-    connection: 'Username-Password-Authentication',
-    email: form.email,
-    password: form.password,
-  }, callback);
+  return function(dispatch){
+    cueup.checkEmailExists(form.email, (err,res)=>{
+      console.log(err,res)
+      if(err){
+        callback(err)
+      }else if(res === true){
+        return callback('Email already in use', null);
+      }else{
+        auth.signup({
+          connection: 'Username-Password-Authentication',
+          email: form.email,
+          password: form.password,
+        }, (err, res)=>{
+          if(err){
+            callback(err, res)
+          }else{
+            dispatch(LoginActions.login({
+              ...form,
+              type: 'EMAIL',
+              redirect: true
+            }, callback))
+          }
+        });
+      }
+    })
+  }
 }

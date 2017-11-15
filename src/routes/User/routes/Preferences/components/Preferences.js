@@ -17,6 +17,7 @@ import Login from '../../../../../components/common/Login'
 import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/UserActions'
 import {userLogout} from '../../../../../actions/LoginActions'
+import { withRouter } from 'react-router-dom'
 
 
 class Preferences extends Component{
@@ -420,7 +421,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     deleteProfile: (callback) => {dispatch(actions.deleteProfile(callback))},
     changePassword: (email, callback) => dispatch(actions.changePassword(email, callback)),
     resendVerification: (form, callback) => dispatch(actions.resendVerification(callback)),
-    logout: ()        => dispatch(userLogout())
+    logout: ()        => {
+      ownProps.history.push(`/`)
+      dispatch(userLogout())
+    }
 }}
 
 
@@ -432,7 +436,9 @@ function mapDispatchToProps(dispatch, ownProps) {
   }
 
 
-const SmartPreferences = connect(mapStateToProps, mapDispatchToProps, mergeProps, { pure: false })(Preferences)
+const SmartPreferences = connect(mapStateToProps, mapDispatchToProps, mergeProps, { pure: false })(
+  withRouter(Preferences)
+)
 
 export default props => (
     <SmartPreferences {...props}/>
