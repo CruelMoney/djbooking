@@ -207,9 +207,10 @@ class User extends Component{
 
 
 function mapStateToProps(state, ownProps) {
+  console.log(state, ownProps)
   const isOwnProfile = 
     state.login.status.publicProfileMode ? false :
-    (state.login.profile.user_metadata) 
+    (!!state.login.profile.user_metadata && !!state.login.profile.user_metadata.permaLink) 
     ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.match.params.permalink.toLowerCase()
     : false
   

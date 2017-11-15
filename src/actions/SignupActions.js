@@ -39,7 +39,9 @@ export function signup(form, isDj, callback) {
 }
 
 
-function createDJ(form, auth0Profile, geoResult) {
+function createDJ(form, auth0Profile) {
+  const geoResult = form.playingLocation; 
+  const user_metadata = auth0Profile['https://cueup.io/user_metadata'];
   return {
     email: form.email || auth0Profile.email,
     picture: auth0Profile.picture_large || auth0Profile.picture,
@@ -48,16 +50,16 @@ function createDJ(form, auth0Profile, geoResult) {
     bio: form.bio || "",
     playingRadius: form.playingRadius || 25000,
     playingLocation: {
-      lat: !geoResult.error ? geoResult.position.lat : 55.6760979, // defaulting to copenhagen if theres an error finding the location
-      lng: !geoResult.error ? geoResult.position.lng : 12.5683374, // defaulting to copenhagen if theres an error finding the location
+      lat: geoResult.lat || 55.6760979, // defaulting to copenhagen if theres an error finding the location
+      lng: geoResult.lng || 12.5683374, // defaulting to copenhagen if theres an error finding the location
     },
     app_metadata: {
-      auth0Id: auth0Profile.user_id,
+      auth0Id: auth0Profile.sub,
       referredBy: form.reference
     },
     user_metadata: {
-      geoip: auth0Profile.user_metadata.geoip,
-      phone: form.phone || auth0Profile.user_metadata.phone,
+      geoip: user_metadata.geoip,
+      phone: form.phone || user_metadata.phone,
       // Some facebook users does not have birhtday 
       //birthDay: auth0Profile.birthday || Formatter.date.FromEUStringToUSDate(form.birthday),
       // birthDay: form.birthday ? Formatter.date.FromEUStringToUSDate(form.birthday) : Date.now(),
@@ -70,17 +72,19 @@ function createDJ(form, auth0Profile, geoResult) {
 
 
 function createCustomer(form, auth0Profile) {
+  const geoResult = form.playingLocation; 
+  const user_metadata = auth0Profile['https://cueup.io/user_metadata'];
   return {
     email: form.email || auth0Profile.email,
     picture: auth0Profile.picture_large || auth0Profile.picture,
     indentities: auth0Profile.identities,
 
     app_metadata: {
-      auth0Id: auth0Profile.user_id,
+      auth0Id: auth0Profile.sub,
     },
     user_metadata: {
-      geoip: auth0Profile.user_metadata.geoip,
-      phone: form.phone || auth0Profile.user_metadata.phone,
+      geoip: user_metadata.geoip,
+      phone: form.phone || user_metadata.phone,
       //  birthDay: auth0Profile.birthday || form.birthday || null,
       firstName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).firstName,
       lastName: Formatter.name.GetFirstAndLast(form.name || auth0Profile.name).lastName
@@ -91,18 +95,27 @@ function createCustomer(form, auth0Profile) {
 
 
 
-export function finishSignup(form, isDJ = false, callback) {
-  console.log(form)
+export function finishSignup({form, auth0Profile}, isDJ = false, callback) {
+  return function(dispatch){
+    let user = {};
+    if(isDJ){
+      user = createDJ(form, auth0Profile);
+    }else{
+      user = createCustomer(form, auth0Profile);
+    }
+    postUser(user, callback)
+  }
 }
 
 //Create the user
-function postUser(token, user, callback) {
+function postUser(user, callback) {
+  const token = auth.getAccessToken();
   cueup.createUser(token, user, (error, cueupResult) => {
     if (error) {
-      callback(error)
+      callback(error, cueupResult)
     } else {
       tracker.trackSignup()
-      callback(null)
+      callback(null, cueupResult)
       //LoginActions.checkForLogin(false)(dispatch)
     }
   })

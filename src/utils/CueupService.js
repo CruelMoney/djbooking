@@ -3,8 +3,9 @@ import {Environment} from '../constants/constants'
 export default class CueupService {
     constructor() {
         this.domain = Environment.API_DOMAIN
-
         this.getHeaders = function(token) {
+          console.log(token)
+          
             var headers = new Headers();
             headers.append('Accept', 'application/json');
             headers.append("Content-Type", "application/json");

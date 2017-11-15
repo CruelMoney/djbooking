@@ -48,12 +48,14 @@ class SignupForm extends Component {
 
   signup = (form, callback) => {
     const values = {
-      ...this.props.profile,
-      ...form.values,
+      auth0Profile:{
+        ...this.props.profile
+      },
+      form:{
+        ...form.values,
       reference: this.props.reference
     }
-    console.log(values)
-    
+    }    
     this.props.handleSubmit(values, (err, res) => {
         if (!err) {
           this.setState({msg: "Great! You can now login 😁"})
@@ -244,8 +246,7 @@ class SignupForm extends Component {
                     marginTop: "10px"
                   }}
                     className="terms_link">
-                    By clicking join you agree to our
-                    <a target="_blank" href="/terms/agreements">terms and conditions</a>
+                    By clicking join you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>
                   </p>
                 </div>
               </div>

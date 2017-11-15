@@ -10,25 +10,22 @@ const cueup = new CueupService()
 
 
   const handleCueupFeedBack = (dispatch, callback, redirect) =>{
-       return (error, result)=>{
-              if (error && error.message !== 'user not found') {
-                  dispatch (function() {return {
-                    type: ActionTypes.LOGIN_FAILED,
-                    err: error.message
-                  }}())
-                  return callback(error.message)
-              }
-            var user = converter.user.fromDTO(result)  
-            // dispatch (function() {return {
-            //   type: ActionTypes.UPDATE_GEOLOCATION,
-            //   value: authRes.user_metadata.geoip
-            // }}())
+      return (error, result)=>{
+        if (error && error.message !== 'user not found') {
             dispatch (function() {return {
-                type: ActionTypes.LOGIN_SUCCEEDED,
-                profile: user
-              }}())
-            callback(null, user)
-          }
+              type: ActionTypes.LOGIN_FAILED,
+              err: error.message
+            }}())
+            return callback(error.message)
+        }
+      var user = converter.user.fromDTO(result)  
+      dispatch (function() {return {
+          type: ActionTypes.LOGIN_SUCCEEDED,
+          profile: user,
+          loggedInCueup:true
+        }}())
+      callback(null, user)
+    }
   }
 
 function handleLoginFeedback(dispatch, callback, redirect = false){
@@ -48,12 +45,16 @@ function handleLoginFeedback(dispatch, callback, redirect = false){
             }}())
             callback(err.message)
           }else{
-            dispatch( function() { return {
-              type: ActionTypes.LOGIN_SUCCEEDED,
-              profile : res,
-              loggedInCueup: false
-            }}())
-            callback(null, res)
+            if(res['https://cueup.io/user_metadata'] && res['https://cueup.io/user_metadata'].permaLink){
+              cueup.getOwnUser(token, handleCueupFeedBack(dispatch, callback))
+            }else{
+              dispatch( function() { return {
+                type: ActionTypes.LOGIN_SUCCEEDED,
+                profile : res,
+                loggedInCueup:false 
+              }}())
+              callback(null, res)
+            }
           }
         })
       }

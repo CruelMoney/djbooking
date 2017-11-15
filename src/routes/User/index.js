@@ -21,10 +21,10 @@ export default class Index extends Component{
   render(){
     return(
       <Switch>
-        <Route path={`/user/`} component={FinishSignup} />
-        <Route path={`/user/:permalink`} render={()=>{
+        <Route exact path={`/user`} component={FinishSignup} />
+        <Route path={`/user/:permalink/`} render={(props)=>{
           return (
-            <User {...this.props} >
+            <User {...this.props} {...props} >
               <Switch>
                 <Route path={`/user/:permalink/profile`} component={Profile} />
                 <Route path={`/user/:permalink/book`} component={Book} />

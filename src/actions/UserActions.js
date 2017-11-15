@@ -11,7 +11,7 @@ var ActionTypes = c.ActionTypes
 
   export function save(profile, callback){
       return function(dispatch){
-          const token = auth.getToken()
+          const token = auth.getAccessToken()
           const data = converter.user.toDTO(profile)
           cueup.updateUser(token, data, (err, result)=>{
             if (err) {
@@ -34,7 +34,7 @@ var ActionTypes = c.ActionTypes
 
   export function SaveProfilePicture(img, profile, callback){
       return function(dispatch){
-          const token = auth.getToken()
+          const token = auth.getAccessToken();
           
           cueup.updateUserPicture(token, img, (err, result)=>{
             if (err) {
@@ -57,7 +57,7 @@ var ActionTypes = c.ActionTypes
 
   export function resendVerification(callback){
       return function(dispatch){
-          const token = auth.getToken()
+          const token = auth.getAccessToken()
           cueup.resendVerification(token, (err, result)=>{
             if (err) {
               callback(err.message)
@@ -96,7 +96,7 @@ var ActionTypes = c.ActionTypes
       if(permaLink){
         cueup.getUser(permaLink, handleCueup(dispatch, callback));
       }else{
-        const token = auth.getToken()
+        const token = auth.getAccessToken()
         cueup.getOwnUser(token, handleCueup(dispatch, callback));
       }
     }
@@ -105,7 +105,7 @@ var ActionTypes = c.ActionTypes
 
   export function deleteProfile(callback) {
     return function(dispatch){
-    const token = auth.getToken()
+    const token = auth.getAccessToken()
     cueup.deleteUser(token, function(err, result){
       if (err) {
         (callback(err))
@@ -182,7 +182,7 @@ return function(dispatch){
     if (err) {
       (callback(err))
     }else{
-      const token = auth.getToken()
+      const token = auth.getAccessToken()
 
       data = {
         token: result.id,
@@ -219,7 +219,7 @@ return function(dispatch){
 export function updateSettings(settings, callback) {
   
 return function(dispatch){  const data = converter.settings.toDTO(settings)
-  const token = auth.getToken()
+  const token = auth.getAccessToken()
   cueup.updateSettings(token, data, function(err, result){
     if (err) {
       (callback(err))
@@ -242,7 +242,7 @@ return function(dispatch){  const data = converter.settings.toDTO(settings)
 
 export function SaveBookMePreview(data, callback) {
   return function(dispatch){
-  const token = auth.getToken()
+  const token = auth.getAccessToken()
   cueup.SaveBookMePreview(token, data, function(err, result){
     if (err) {
       callback(err, null)

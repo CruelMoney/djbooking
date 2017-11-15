@@ -126,6 +126,10 @@ class AuthService extends EventEmitter {
         return localStorage.getItem('access_token')
     }
 
+    getToken(){
+        return this.getAccessToken();
+    }
+
 
     setProfile(profile) {
         // Saves profile data to localStorage

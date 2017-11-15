@@ -183,7 +183,6 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch(actions.resetState(ownProps.name))
     },
     onSubmit: (form, submitActions, submitName) => {
-      console.log('submitActions',submitActions)
       dispatch(actions.submitRequested(ownProps.name, submitName))
       submitActions(form,
         (err)=>dispatch(actions.handleSubmitResult(ownProps.name, err, submitName, ownProps.resetStatusOnSucces))
