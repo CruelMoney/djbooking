@@ -25,6 +25,9 @@ class NumberedList extends Component{
 
           {getVisibleRegistrationElements(this.props.children, this.context.activeFilters)
             .map(function(result, idx) {
+              if(!result){
+                return null
+              }
               return <li key={result.props.name + '-' + idx}>{result}</li>
 
           })}

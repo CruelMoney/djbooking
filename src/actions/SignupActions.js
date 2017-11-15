@@ -14,17 +14,13 @@ const cueup = new CueupService()
 export function signup(form, isDj, callback) {
   return function (dispatch) {
     try {
-
-      //Getting the coordinates of the playing location
-      GeoCoder.codeAddress(form.location, function (geoResult) {
-
         const data = {
-          redirectUri: Environment.CALLBACK_DOMAIN + '/signup',
           form
         }
+
         switch (form.signup) {
           case "EMAIL":
-            return signupEmail(data)
+            return signupEmail(data, callback)
 
           case "FACEBOOK":
             return LoginActions.loginFacebook(data)
@@ -36,24 +32,11 @@ export function signup(form, isDj, callback) {
             callback("Something went wrong")
         }
 
-      });
-
     } catch (e) {
       callback("Something went wrong")
     } finally {}
   }
 }
-
-export function locationExists(location, callback) {
-  GeoCoder.codeAddress(location, function (geoResult) {
-    if (geoResult.error) {
-      callback(geoResult.error, null)
-    } else {
-      callback(false, location)
-    }
-  })
-}
-
 
 
 function createDJ(form, auth0Profile, geoResult) {
@@ -109,7 +92,7 @@ function createCustomer(form, auth0Profile) {
 
 
 export function finishSignup(form, isDJ = false, callback) {
- throw new Error('Not implemented')
+  console.log(form)
 }
 
 //Create the user
@@ -125,15 +108,10 @@ function postUser(token, user, callback) {
   })
 }
 
-export function signupEmail({
-  form,
-  redirectUri
-}, callback) {
+export function signupEmail({form}, callback) {
   auth.signup({
     connection: 'Username-Password-Authentication',
     email: form.email,
-    responseType: 'token id_token',
     password: form.password,
-    redirectUri: redirectUri
-  }, callback)
+  }, callback);
 }

@@ -62,6 +62,7 @@ class SimpleMap extends Component{
     render(){
     return(
             <GoogleMap
+              key={this.props.key}
               defaultZoom={this.getZoomLevel(this.props.radius)}
               defaultCenter={ this.marker.position }
               streetViewControl={false}

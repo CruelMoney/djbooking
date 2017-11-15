@@ -91,6 +91,7 @@ export default class Signup extends Component{
       </div>
     </div>
       <Footer
+        noSkew
         color={this.themeColor}
         firstTo="/howitworks"
         secondTo="/"

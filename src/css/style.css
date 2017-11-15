@@ -3465,3 +3465,21 @@ table td{
   position: absolute;
   animation: 250ms scaleIn ease-out;
 }
+
+.social-signup{
+  margin-bottom: 3em;
+}
+.social-signup .buttons{
+  display: flex;
+  justify-content: space-between;
+}
+.social-signup .button-wrapper{
+  width: 32%;
+}
+.social-signup button{
+  width: 100%;
+}
+.signup .errors p:not(.error){
+  margin-top: 15px;
+  text-align: center;
+}

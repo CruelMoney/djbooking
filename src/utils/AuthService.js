@@ -15,7 +15,7 @@ class AuthService extends EventEmitter {
             clientID: Environment.AUTH0_CLIENT_ID,
             responseType: 'token id_token',
             audience: Environment.AUTH0_AUDIENCE,
-            scope: 'openid profile email',
+            scope: 'openid profile email user_metadata app_metadata',
             redirectUri: Environment.CALLBACK_DOMAIN
           });
         
@@ -37,13 +37,13 @@ class AuthService extends EventEmitter {
     }
 
     login = (params, onError) => {
-        console.log(params)
         if(params.connection === 'Username-Password-Authentication'){
             if(!params.username){
                 params = {
                     ...params,
                     username: params.email,
-                    realm: params.connection
+                    realm: params.connection,
+                    redirectUri: Environment.CALLBACK_DOMAIN                    
               }
             }
             this.auth0.redirect.loginWithCredentials(params, (err,res) => this.handleLogin(err,res,onError))
@@ -92,7 +92,7 @@ class AuthService extends EventEmitter {
         if(expired){
            return false;
         }
-        const token = this.getToken();
+        const token = this.getAccessToken();
 
         return !!token && token !== 'undefined';
     }
@@ -104,24 +104,26 @@ class AuthService extends EventEmitter {
         })
     }
 
-    getProfileFromToken = (token2, callback) => {
-        const token = localStorage.getItem('access_token');
-        console.log(token)
+    getProfileFromToken = (token, callback) => {
         this.auth0.client.userInfo(token, function(err, profile) {
-            console.log(err, profile)
             return callback(err,profile)
         })
     }
 
     getProfileFromStoredToken(callback) {
-        const token = this.getToken()
+        const token = this.getAccessToken()
         this.getProfileFromToken(token, callback)
     }
 
 
-    getToken() {
+    getIdToken() {
         // Retrieves the user token from localStorage
         return localStorage.getItem('id_token')
+    }
+
+    getAccessToken() {
+        // Retrieves the user token from localStorage
+        return localStorage.getItem('access_token')
     }
 
 

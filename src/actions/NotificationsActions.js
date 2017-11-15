@@ -22,7 +22,6 @@ export function seenRoom(roomId) {
   }
 }
 
-
 export function fetchedNotifications(notifications) {
   return {
     type: ActionTypes.NOTIFICATIONS_SUCCEEDED,

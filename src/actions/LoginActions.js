@@ -32,7 +32,7 @@ const cueup = new CueupService()
   }
 
 function handleLoginFeedback(dispatch, callback, redirect = false){
-  return function (err, idToken) {
+  return function (err, token) {    
       if (err){
         dispatch( function() { return {
             type: ActionTypes.LOGIN_FAILED,
@@ -40,7 +40,7 @@ function handleLoginFeedback(dispatch, callback, redirect = false){
           }}())
           callback(err.message)
       }else {
-        auth.getProfileFromToken(idToken, (err, res)=>{
+        auth.getProfileFromToken(token, (err, res)=>{
           if(err){
             dispatch( function() { return {
               type: ActionTypes.LOGIN_FAILED,
@@ -63,19 +63,29 @@ function handleLoginFeedback(dispatch, callback, redirect = false){
 
 export function checkForLogin(){
   return function(dispatch){
-    if (auth.loggedIn()) {
-      const token = auth.getToken();
-      dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }())
-      handleLoginFeedback(dispatch, (err,res)=>{})(null, token) 
-    }else{
-      // Try parse hash
-      auth.parseHash()
-        .then((hash) =>{
-          dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED_REDIRECT} }());
-          handleLoginFeedback(dispatch, (err,res)=>{})(null, hash.idToken);
-        })
-        .catch(err => handleLoginFeedback(dispatch, (err,res)=>{})(err, null));
-    }
+    // Try parse hash
+    auth.parseHash()
+    .then((hash) =>{
+      if(!!hash){
+        dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED_REDIRECT} }());
+        handleLoginFeedback(dispatch, (err,res)=>{})(null, hash.accessToken);
+      }
+    })
+    .catch(err => {
+      if (auth.loggedIn()) {
+        console.log('logged in')
+        dispatch( function() { return {type: ActionTypes.LOGIN_REQUESTED} }())
+        const token = auth.getAccessToken();
+        handleLoginFeedback(dispatch, (err,res)=>{})(null, token) 
+      }else{
+        err = {
+          message: 'Error validating token'
+        }
+        handleLoginFeedback(dispatch, (err,res)=>{})(err, null)
+      }
+    });
+
+    
   }
 }
 
@@ -115,7 +125,7 @@ export function loginSoundcloud() {
       })
 }
 
-export function loginEmail({form}) {
+export function loginEmail(form) {
       auth.login({
         connection: 'Username-Password-Authentication',
         sso: false,
