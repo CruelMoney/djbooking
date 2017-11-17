@@ -1,109 +1,93 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Slider from './Slider'
-import moment from 'moment'
 import wNumb from 'wnumb'
+import moment from 'moment-timezone'
 
 class TimeSlider extends Component{
-  static proptypes = {
-    date: PropTypes.object, //moment object
-    startTime: PropTypes.object,
-    endTime: PropTypes.object,
-    disabled: PropTypes.bool,
-    onChange: PropTypes.func
-  }
 
-    initStart = moment().hour(21).minutes(0)
-    initEnd =  moment().hour(27).minutes(0)
+  startValues = [
+    21*60,
+    27*60
+  ]
 
+  // from today at 21 to 03
   componentWillMount(){
-    if (this.props.startTime && this.props.endTime) {
-      this.initStart = moment(this.props.startTime)
-      this.initEnd   = moment(this.props.endTime)
-    }
-
+    if(this.props.startTime && this.props.endTime){
+      
+      // parse and keep utc offset to get original hour and minute
+      const   startTime = moment.parseZone(this.props.startTime),
+              endTime   = moment.parseZone(this.props.endTime),
+              day       = moment(startTime).startOf('day');
+      
+      this.startValues = [
+        startTime.diff(day, 'minutes'),
+        endTime.diff(day, 'minutes')
+      ]
+      
       this.setState({
-        startTime: moment(this.initStart).unix(),
-        endTime: moment(this.initEnd).unix()
+        ...this.getValues(this.startValues),
+        values: this.startValues
       })
-
-      this.updateContext(this.props.date, this.initStart.unix(), this.initEnd.unix())
-
-      if (this.context.registerReset) {
-        this.removeReset = this.context.registerReset(()=>
-        this.handleChange(
-          [this.initStart.unix(), this.initEnd.unix()]
-        ))
-      }
+    }
   }
 
   componentWillReceiveProps(nextprops){
-    if (nextprops.date.unix() !== this.props.date.unix()) {
-      this.updateContext(nextprops.date, this.state.startTime, this.state.endTime)
+    if(nextprops.date.format() !== this.props.date.format()){
+      this.updateContext(nextprops.date);
     }
   }
 
+  formatNumber = (num) =>{
+    return num < 10 ? '0'+num : ''+num
+  }
 
-  componentWillUnmount(){
-    if (this.removeReset) {
-      this.removeReset()
-    }  
+  getValues = (values) =>{
+    return {
+      startHour : Math.floor((values[0]/60)%24),
+      endHour :  Math.floor((values[1]/60)%24),
+      startMinute :  Math.floor(values[0]%60),
+      endMinute :  Math.floor(values[1]%60),
+      difHours : (values[1]-values[0])/60
+    }
+  }
+
+  state={
+    ...this.getValues(this.startValues),
+    values: this.startValues
   }
 
   timer = null
-
+  
   handleChange = (values) => {
-    if (this.props.onChange)
-    {this.props.onChange(values)}
-
     this.setState({
-      startTime: values[0],
-      endTime: values[1]
+      ...this.getValues(values),
+      values
     })
+    if (this.props.onChange){
+      this.props.onChange(values)
+    }
 
     clearTimeout(this.timer);
     this.timer = setTimeout(
       ()=>{
+     
       if (this.context.updateValue) {
-        this.updateContext(this.props.date, values[0], values[1])
-      }}
-      , 500);
+        this.updateContext()
+      }}, 
+    500);
   }
 
-  updateContext = (date, startTime, endTime) => {
-    this.context.updateValue("startTime", this.getStartMoment(date,startTime, endTime).toDate())
-    this.context.updateValue("endTime", this.getEndMoment(date,startTime, endTime).toDate())
-  }
-
-
-  getHoursDiff = (startValue, endValue) => {
-    return moment.unix(endValue).diff(moment.unix(startValue))/60/60/1000
-  }
-
-  getStartMoment = (date,startValue, endValue) => {
-    const startTime = moment.unix(startValue)
-
-    return moment(date).hour(startTime.hour()).minutes(startTime.minutes())
-  }
-
-  getEndMoment = (date, startValue, endValue) =>{
-    const hours = this.getHoursDiff(startValue, endValue)
-
-    const startMoment = this.getStartMoment(date, startValue, endValue)
-
-    const endMoment = moment(startMoment).hour(startMoment.hour()+hours)
-
-    return endMoment
+  updateContext = (date = this.props.date) => {
+    const day = moment(date).startOf('day');
+    const startMoment = moment(day).add(this.state.values[0], 'minutes');
+    const endMoment = moment(day).add(this.state.values[1], 'minutes');
+    this.context.updateValue("startTime", startMoment.format())
+    this.context.updateValue("endTime", endMoment.format())
   }
 
 
   render() {
-    const rangeMin  =  moment(this.initStart).hour(7).minutes(0)
-    const rangeMax  =  moment(rangeMin).hour(32).minutes(0)
-
-    const startTime = this.initStart.unix()
-    const endTime = this.initEnd.unix()
-
     return (
       <div>
         <div>
@@ -111,14 +95,11 @@ class TimeSlider extends Component{
             disabled={this.props.disabled}
             name="time"
             range={{
-              min: rangeMin.unix(),
-              max: rangeMax.unix()
+              min: 7*60,
+              max: 32*60
             }}
-            step={30 * 60} //Steps of half hour
-            value={[
-              startTime,
-              endTime
-            ]}
+            step={30} //Steps of half hour
+            value={this.state.values}
             onChange={this.handleChange}
             format={ wNumb({
               decimals: 0,
@@ -132,9 +113,9 @@ class TimeSlider extends Component{
             justifyContent: 'space-between',
             marginTop: '10px'
           }}>
-          <p>{"Start: " + moment.unix(this.state.startTime).format("HH:mm")}</p>
-          <p><span>{moment.unix(this.state.endTime).diff(moment.unix(this.state.startTime))/60/60/1000 } hours</span></p>
-          <p>{"End: " + moment.unix(this.state.endTime).format("HH:mm")}</p>
+          <p>{`Start: ${this.formatNumber(this.state.startHour)}:${this.formatNumber(this.state.startMinute)}`}</p>
+          <p><span>{`${this.state.difHours} hours`}</span></p>
+          <p>{`End: ${this.formatNumber(this.state.endHour)}:${this.formatNumber(this.state.endMinute)}`}</p>
         </div>
       </div>
     )

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import 'react-datepicker/dist/react-datepicker.min.css';
 
 import '../../css/calendar.css'
@@ -15,6 +15,15 @@ export default class MyDatePicker extends Component{
   state={
     startDate: moment()
   }
+  
+  componentWillMount(){
+    if(this.props.initialDate){
+      this.setState({
+        startDate: this.props.initialDate
+      })
+    }
+  }
+
 
   handleChange = (date) => {
     this.props.handleChange(date)
@@ -23,7 +32,7 @@ export default class MyDatePicker extends Component{
     })
   }
 
-  render(){
+  render(){    
     return (
       <div style={{color: this.context.color}} className={"calendar-container" + (this.props.dark ? " dark" : "")}>
         <DatePicker

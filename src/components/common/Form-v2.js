@@ -138,6 +138,8 @@ class form extends Component{
     let err = this.props.err 
     if(err && err.description){
       err = err.description
+    }else if(err && err.message){
+      err = err.message
     }
 
     return (
@@ -147,7 +149,7 @@ class form extends Component{
         </form>
         {err && !this.props.noError ?
           <div className="errors">
-            <p>{err}</p>
+            <p>{typeof err === 'string' ? err : 'There was an error'}</p>
           </div>
           :null
         }

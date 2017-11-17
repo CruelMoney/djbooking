@@ -13,7 +13,7 @@ import TextBox from '../../../components/common/TextBox'
 import Popup from '../../../components/common/Popup'
 import Login from '../../../components/common/Login'
 import DatePicker from '../../../components/common/Datepicker'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import SubmitButton from '../../../components/common/SubmitButton'
 import ErrorMessage from '../../../components/common/ErrorMessage'
 
@@ -37,12 +37,17 @@ export default class Index extends Component{
   state={
       showPopup: false,
       emailExists: false,
-      activeStep: 1,
+      activeStep: 3,
       date: moment()
     }
 
   formToEvent(form){
-    return {...form, guestsCount: form.guests[0]}
+    return {
+      ...form, 
+      guestsCount: form.guests[0],
+      timeZone: this.state.timeZoneId,
+      location: this.state.location
+    }
   }
 
   formValidCheckers = []
@@ -67,24 +72,23 @@ export default class Index extends Component{
 
   onSubmit = (form, callback) => {
     let event = this.formToEvent(this.props.form)
-    let self = this
-  
+    
     if (this.props.isLoggedIn){
-      self.submitEvent(event, callback)
+      this.submitEvent(event, callback)
     }else{
       
-      self.props.checkEmail(event.contactEmail, (err, res)=>{
+      this.props.checkEmail(event.contactEmail, (err, res)=>{
         if (err) {
           callback(err,res)
         }
         //IF email exists
         else if (res === true) {
-          self.setState({
+          this.setState({
             showPopup: true
           })
           callback(" ",null)
         }else{
-          self.submitEvent(event, callback)
+          this.submitEvent(event, callback)
         }
       })
       }
@@ -99,12 +103,17 @@ export default class Index extends Component{
   updateDate = (date) => {
     this.setState({date:date})
   }
+  updateLocation = ({location, timezone}) => {
+    this.setState({
+      location:location,
+      timeZoneId:timezone
+    })
+  }
 
    setProgress = (step) => {
      if(step+1<this.state.activeStep){
        this.setState({activeStep:step+1})
      }
-   
   }
 
   render() {
@@ -142,6 +151,7 @@ export default class Index extends Component{
                   form={this.props.form}
                   date={this.props.date}
                   updateDate={this.updateDate}
+                  updateLocation={this.updateLocation}
                   next={()=>this.setState({activeStep:2})}
                   formValidCheckers={this.formValidCheckers}
                   checkDjAvailability={this.props.checkDjAvailability}
@@ -255,7 +265,10 @@ export default class Index extends Component{
 
 
 class Step1 extends Component{
-state={showPopup:false, date: moment()}
+state={
+  showPopup:false, 
+  date: moment()
+}
 validationChecker = null
 
 DateChanged=(date)=>{
@@ -266,20 +279,38 @@ DateChanged=(date)=>{
   this.props.updateDate(date)
 }
 
+updateTimezone = (timezoneID) => {
+  const newMoment = moment.tz(
+    this.state.date.format('YYYY-MM-DDTHH:mm:ss'), 
+    'YYYY-MM-DDTHH:mm:ss', 
+    timezoneID
+  );
+  this.DateChanged(newMoment);
+}
 
 next=()=>{
   if (this.validationChecker(true)){
     this.setState({loading:true})
-    this.props.checkDjAvailability(this.props.form, (res, err)=>{
+    this.props.checkDjAvailability(this.props.form, (err, res, data)=>{
       this.setState({loading:false})
       if(err){
-        console.log(err)
-        this.setState({loading:false, err:"Something went wrong.", msg:""})
+        this.setState({
+          loading:false, 
+          err: typeof err === 'string' ? err : "Something went wrong.", 
+          msg: typeof err === 'string' ? err : ""}
+        )
       }else{
         // DJs available
         if(res===true){
-          this.setState({loading:false, msg:"", err:""})
-          this.props.next()
+          this.setState({
+            timeZoneId: data.timeZoneId,
+            loading:false, 
+            msg:"", 
+            err:""
+          })
+          this.updateTimezone(data.timeZoneId);
+          this.props.updateLocation({timezone: data.timeZoneId, location:data.location});
+          this.props.next();
 
         //not available
         }else{
@@ -301,9 +332,10 @@ render(){
           onClickOutside={()=>this.setState({showPopup:false})}>
             <DatePicker
               dark
+              initialDate={this.state.date}
               handleChange={this.DateChanged}
             />
-        </Popup>
+      </Popup>
     <Form
       registerCheckForm={(checker)=>{
         this.validationChecker = checker

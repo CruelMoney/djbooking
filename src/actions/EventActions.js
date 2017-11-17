@@ -58,7 +58,7 @@ export function fetchEvent(id, hash, authID, callback = null) {
 
 
 
-var getLocation = (location) => {
+export const getLocation = (location) => {
   return new Promise(function(resolve, reject){
     if (location.toUpperCase() === "CURRENT LOCATION") {
       if(navigator.geolocation){
@@ -75,7 +75,15 @@ var getLocation = (location) => {
               if (geoResult.error) {
                   (reject("The location could not be found, try another city"))
                 }else{
-                  resolve(geoResult)
+                  GeoCoder.getTimeZone(geoResult.position)
+                  .then((res=>{
+                    resolve({...geoResult, ...res});
+                  }))
+                  .catch(err=>{
+                    console.log(err)
+                    reject(err);
+                  })
+                
                 }
           })
           }
@@ -84,24 +92,17 @@ var getLocation = (location) => {
 
 
 
-export function postEvent(form, callback) {
+export function postEvent(event, callback) {
   return function (dispatch) {
-      getLocation(form.location).then((geoResult)=>{
-              var event = converter.cueupEvent.toDTO(form);
-              var data ={...event, location:{
-                lat:geoResult.position.lat,
-                lng: geoResult.position.lng,
-                name: event.location}, }
-              const token = auth.getToken()
-              cueup.createEvent(token, data, function(err, result){
-                if (err) {
-                  (callback(err))
-                }else{
-                  (callback(null))
-                  console.log(typeof tracker.trackEventPosted)
-                  tracker.trackEventPosted()
-                }
-              })}
+        const token = auth.getToken()
+        cueup.createEvent(token, event, function(err, result){
+          if (err) {
+            (callback(err))
+          }else{
+            (callback(null))
+            tracker.trackEventPosted()
+          }
+        }
       ).catch(errMessage=>callback(errMessage))
          
   }
@@ -112,16 +113,24 @@ export function checkDjAvailability(form, callback) {
   return function (dispatch) {
       tracker.trackCheckAvailability()
       getLocation(form.location).then((geoResult)=>{
-              var event = converter.cueupEvent.toDTO(form);
-              var data ={...event, location:{
-                lat:geoResult.position.lat,
-                lng: geoResult.position.lng,
-                name: event.location}, }
+              const event = converter.cueupEvent.toDTO(form);
+              const geoData = {
+                location:{
+                  lat:geoResult.position.lat,
+                  lng: geoResult.position.lng,
+                  name: event.location
+                },
+                timeZoneId: geoResult.timeZoneId
+              }
+              const data ={
+                ...event, 
+                location:geoData.location
+              }
               cueup.checkDjAvailability(data, function(err, result){
                 if (err) {
                   (callback(err))
                 }else{
-                  (callback(result))
+                  (callback(null, result, geoData))
                 }
               })}
       ).catch(errMessage=>callback(errMessage))     

@@ -20,13 +20,11 @@ function connectToForm (
     isValid = (showErrors: boolean, value:any = this.state.value) => {
 
       if (this.props.validate) {
-
-
         const errors = this.props.validate
           .reduce((memo, currentName) =>
             memo.concat(validators[currentName](
               value
-            )), [])
+            )), this.props.errors || [])
 
         if (showErrors) {
           this.setState({
@@ -35,8 +33,6 @@ function connectToForm (
         }
 
         return !errors.length
-
- 
       }
       return true
     }
@@ -63,7 +59,15 @@ function connectToForm (
       }
     }
 
-    timer : null
+    componentWillReceiveProps(nextprops){
+      if(!!nextprops.errors){
+        setTimeout(() => {
+          this.isValid(true)
+          }, 100)
+      }
+    }
+
+    timer = null
 
     onChange = (value) => {
       if (this.props.onUpdatePipeFunc) {

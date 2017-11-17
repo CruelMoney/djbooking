@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import TextField, {TexfieldDisconnected} from '../../../../../components/common/Textfield'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import LocationSelector from '../../../../../components/common/LocationSelectorSimple'
 import SubmitButton from '../../../../../components/common/SubmitButton'
 import DatePicker from '../../../../../components/common/Datepicker'
@@ -21,6 +21,7 @@ import c from '../../../../../constants/constants'
 import { connect } from 'react-redux'
 import * as eventActions from '../../../../../actions/EventActions'
 import * as userActions from '../../../../../actions/UserActions'
+import debounce from 'lodash.debounce'
 
 class RequestForm extends Component{
   static proptypes = {
@@ -55,48 +56,45 @@ class RequestForm extends Component{
     return {
       ...form, 
       guestsCount: form.guests[0],
-      ReferredBy: this.props.user_id  
+      ReferredBy: this.props.user_id,
+      timeZone: this.state.timeZoneId,
+      location: this.state.location
     }
   }
 
   formValidCheckers= []
 
-  onSubmit = (form, callback) => {
+  submit = (event, callback) => this.props.onSubmit(event, (err, res)=>{
+    if(!err){
+      this.setState({
+        msg: "Thank you for using our service. We will send you an email with confirmation of the event."
+      }) 
+    }
+    callback(err, res)
+  })
 
+  onSubmit = (form, callback) => {
     var valid = this.formValidCheckers.reduce((memo, isValidFunc) =>{
                     return (isValidFunc(true) && memo)}, true)
-
     if(!valid) return              
 
     let event = this.formToEvent(form.values)
-    let self = this
 
     if (this.props.isLoggedIn){
-      self.props.onSubmit(event, callback)
+      this.submit(event, callback)
     }else{
-      self.props.checkEmail(event.contactEmail, (err, res)=>{
+      this.props.checkEmail(event.contactEmail, (err, res)=>{
         if (err) {
           callback(err,res)
         }
         else if (res === true) {
-          self.setState({
+          this.setState({
             showPopup: true,
             showLogin: true
           })
           callback(" ",null)
         }else{
-        try {
-           self.props.onSubmit(event, (err, res)=>{
-             if(!err){
-               self.setState({
-                 msg: "Thank you for using our service. We will send you an email with confirmation of the event."
-               })
-               callback(err, res)
-             }
-           })
-        } catch (error) {
-          callback("Something went wrong")
-        }
+          this.submit(event, callback)
         }
       })
       }
@@ -108,14 +106,45 @@ class RequestForm extends Component{
     })
   }
 
- 
-
   DateChanged = (date) => {
     this.setState({
       date: date,
       showPopup: false
     })
   }
+
+  updateTimezone = (timezoneID) => {
+    const newMoment = moment.tz(
+      this.state.date.format('YYYY-MM-DDTHH:mm:ss'), 
+      'YYYY-MM-DDTHH:mm:ss', 
+      timezoneID
+    );
+    this.DateChanged(newMoment);
+  }
+
+  handleLocationUpdate = debounce(
+    (location) => {
+      if(!!location){
+        eventActions.getLocation(location)
+        .then(res=>{
+          this.updateTimezone(res.timeZoneId);
+          this.setState({
+            locationErrors: [],
+            location: {
+              ...res.position,
+              name:location
+            },
+            timeZoneId: res.timeZoneId
+          })
+        })
+        .catch(err=>{
+          console.log(err)
+          this.setState({
+            locationErrors: typeof err === 'string' ? [err] : ['The location could not be found, try another city']
+          })
+        })
+      }
+    }, 500)
 
   render() {
     const eventDateString = this.state.date.format("dddd Do, MMMM YYYY")
@@ -193,6 +222,8 @@ class RequestForm extends Component{
                   <label htmlFor="location">Event location</label>
                   <LocationSelector
                     name="location"
+                    onChange={this.handleLocationUpdate}
+                    errors={this.state.locationErrors}
                     validate={['required']}
                   />
                   <p>In what city is the event?</p>
@@ -297,7 +328,11 @@ class RequestForm extends Component{
           
             <div className="row">
               <div className="col-xs-12">
-                {this.state.msg ? <div style={{textAlign:"center", margin: "10px 0"}}><p style={{fontSize:"20px"}}>{this.state.msg}</p></div> : null}
+                {this.state.msg ? 
+                  <div style={{textAlign:"center", margin: "10px 0"}}>
+                    <p style={{fontSize:"20px"}}>{this.state.msg}</p>
+                  </div> 
+                : null}
                 <p 
                 style={{textAlign: "center", marginTop: "10px"}} 
                 className="terms_link">

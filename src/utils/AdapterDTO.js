@@ -1,6 +1,7 @@
 import Formatter from './Formatter'
 import assign from 'lodash.assign'
 import profilePic from '../assets/default-profile-pic.png'
+import moment from 'moment-timezone';
 
 const filterEmailSettings = (settings, isDj, isCustomer) => {
   if (!isDj) {
@@ -26,10 +27,10 @@ const filterEmailSettings = (settings, isDj, isCustomer) => {
   return settings
 }
 
-const removeTimezone = (date) =>{
-  const newDate = date.toDateString() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-  return newDate;
-}
+// const removeTimezone = (date) =>{
+//   const newDate = date.toDateString() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+//   return newDate;
+// }
 
 
 const deletedUser={
@@ -227,6 +228,7 @@ const deletedUser={
     var cueupEvent ={
 
       fromDTO:function(DTO){
+        console.log(DTO)
         return{
             ...DTO,
             id: DTO.id,
@@ -242,8 +244,8 @@ const deletedUser={
             chosenOfferId: DTO.chosenOfferId,
             location: location.fromDTO(DTO.location),
             status: DTO.status,
-            startTime: new Date(DTO.startTime),
-            endTime: new Date(DTO.endTime),
+            startTime: moment.tz(DTO.startTime, DTO.timeZone).format(),
+            endTime: moment.tz(DTO.endTime, DTO.timeZone).format(),
             guestsCount: DTO.guestsCount,
             currency: DTO.currency,
             minPrice : DTO.minPrice,
@@ -262,8 +264,8 @@ const deletedUser={
           Name: event.name,
           ChosenOfferId: event.chosenOfferId,
           Location: location.toDTO(event.location),
-          StartTime: removeTimezone(event.startTime),
-          EndTime: removeTimezone(event.endTime),
+          StartTime: event.startTime,
+          EndTime: event.endTime,
           GuestsCount: event.guestsCount,
           Currency: event.currency,
           MinPrice : event.minPrice,

@@ -197,3 +197,7 @@ top: -2px;
 	top: -2px;
 	right: -3px;
 }
+
+.rc-slider-disabled{
+	background-color: inherit !important;
+}
