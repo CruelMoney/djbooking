@@ -7,7 +7,7 @@ import PayoutForm from '../../../../../components/common/PayoutForm'
 import Popup from '../../../../../components/common/Popup'
 import InfoPopup from '../../../../../components/common/InfoPopup'
 import Chat from '../../../../../components/common/Chat'
-
+import moment from 'moment-timezone'
 import { connect } from 'react-redux'
 import  * as actions from '../../../../../actions/GigActions'
 
@@ -19,7 +19,7 @@ class Gig extends Component{
   
   componentWillMount(){
     this.setState({
-      eventFinished: (this.props.gig.startTime.getTime() - Date.now()) <= 0
+      eventFinished: (this.props.gig.startTime.valueOf() - Date.now()) <= 0
     });
     this.setGigStatus();
   }
@@ -33,17 +33,18 @@ class Gig extends Component{
       && !!this.props.gig.createdAt
       && !!this.props.gig.startTime
       ){
-      
-      let createdAt = new Date(this.props.gig.createdAt);
-      let eventStartAt = new Date(this.props.gig.startTime);
-      let eventGigDifference = (eventStartAt.getTime() - createdAt.getTime())/1000;
+      console.log(this.props.gig)
+      let createdAt = moment(this.props.gig.createdAt);
+      let eventStartAt = moment(this.props.gig.startTime);
+      let eventGigDifference = (eventStartAt.valueOf() - createdAt.valueOf())/1000;
     
       // and if gig is created more than 4 days before the event.
       if(eventGigDifference > (4*24*60*60)){
         // Calculate seconds until autodecline
-        let today = new Date();
-        let autoDeclineSeconds = createdAt.getTime() + (3*24*60*60*1000);
-        let secondsToDecline = (autoDeclineSeconds - today.getTime())/1000;
+        let now = new moment();
+        let autoDeclineMoment = createdAt.add(3, 'days');
+        let secondsToDecline = autoDeclineMoment.diff(now, 'seconds');
+        
         this.timeLeft = setInterval(()=>{
           secondsToDecline--;
           let totalSeconds = secondsToDecline;
@@ -87,6 +88,8 @@ class Gig extends Component{
           "The event is finished ☺️"
           :this.props.gig.status === "Accepted" ?
           "Waiting on confirmation from organizer 😊"
+          : this.props.gig.referred ? 
+          "Direct booking"
           :this.props.gig.status === "Requested" ?
           "Event happens soon, make your offer quickly 🤑"
         : ""
@@ -147,6 +150,9 @@ class Gig extends Component{
                     {" " + this.props.gig.location.name}
                   </div>
                 </div>
+                <div className="gig-from-now">
+                  {this.props.gig.startTime.fromNow()}
+                </div>
                 <div className="gig-status" >
                   {this.state.gigStatus} 
                   {this.state.expiring ? 
@@ -176,7 +182,7 @@ class Gig extends Component{
                     label="Date"
                   >
                     <p>
-                      {Formatter.date.ToLocalString(this.props.gig.startTime)}
+                      {this.props.gig.startTime.format('dddd, MMMM Do YYYY')}
                     </p>
                   </TextWrapper>
 
@@ -245,7 +251,7 @@ class Gig extends Component{
 
                   >
                     <p>
-                      {"The music should start at " + Formatter.date.ToTime(this.props.gig.startTime) + ", and end at " + Formatter.date.ToTime(this.props.gig.endTime) + "."}
+                      {"The music should start at " + this.props.gig.startTime.format('HH:mm') + ", and end at " + this.props.gig.endTime.format('HH:mm') + "."}
                     </p>
                   </TextWrapper>
 

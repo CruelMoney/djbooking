@@ -228,7 +228,6 @@ const deletedUser={
     var cueupEvent ={
 
       fromDTO:function(DTO){
-        console.log(DTO)
         return{
             ...DTO,
             id: DTO.id,
@@ -280,8 +279,8 @@ const deletedUser={
       fromDTO:function(DTO){
         return assign({}, DTO, {
                 offer: offer.fromDTO(DTO.offer),
-                startTime: new Date(DTO.startTime),
-                endTime: new Date(DTO.endTime),
+                startTime: moment.tz(DTO.startTime, DTO.timeZone),
+                endTime: moment.tz(DTO.endTime, DTO.timeZone),
                 customer: DTO.customer ? user.fromDTO(DTO.customer) : deletedUser
               })
       },

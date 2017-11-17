@@ -62,51 +62,7 @@ class Gigs extends Component{
     <div
       className="context-actions"
       key="profile_actions">
-      {/* <Button
-        name="requested"
-        active={this.state.filter === "requested"}
-        onClick={()=>{
-        this.setState({
-        filter: "requested"
-        })
-        }}
-        >Requested</Button>
-        </div>
-        <div style={{marginBottom:"4px"}}>
-        <Button
-        name="upcoming"
-        active={this.state.filter === "upcoming"}
-        onClick={()=>{
-        this.setState({
-        filter: "upcoming"
-        })
-        }}
-        >Upcoming</Button>
-        </div>
-        <div style={{marginBottom:"4px"}}>
-        <Button
-        name="lost"
-        active={this.state.filter === "lost"}
-        onClick={()=>{
-        this.setState({
-        filter: "lost"
-        })
-        }}
-        >Lost</Button>
-        </div>
-        <div style={{marginBottom:"4px"}}>
-        <Button
-        name="finished"
-        active={this.state.filter === "finished"}
-        onClick={()=>{n bvcføæ
-        this.setState({
-        filter: "finished"
-        })
-        }}
-        >Finished</Button>
-        </div>
-      */}
-
+      
       <Button
         name="request_features"
         onClick={()=>{
@@ -131,46 +87,23 @@ class Gigs extends Component{
 
     this.state.gigs.forEach((gig, i) => {
       let show = false;
+      if((gig.startTime.valueOf() - Date.now()) > 0){
+        show = true
+      }
 
       switch (gig.status) {
         case 'Finished':
           show = true
           break
-        case 'Accepted':
-           //Only show if still relevant
-          if((gig.startTime.getTime() - Date.now()) > 0){
-              show = true
-          }
-          break
         case 'Confirmed':
           show = true
           break
-        case 'Requested':
-          //Only show if still relevant
-          if((gig.startTime.getTime() - Date.now()) > 0){
-              show = true
-          }
-          break
-        case 'Lost':
-          //Only show if still relevant
-          if((gig.startTime.getTime() - Date.now()) > 0){
-              show = true
-          }
-          break
-        case 'Cancelled':
-          //Only show if still relevant
-            if((gig.startTime.getTime() - Date.now()) > 0){
-                show = true
-            }
-            break
         case 'Declined':
-            //Do not show
+          //Do not show
+          show = false
           break
         default:
-           //Only show if still relevant
-          if((gig.startTime.getTime() - Date.now()) > 0){
-              show = true
-          }
+          break
       }
 
       if(show){

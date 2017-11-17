@@ -215,7 +215,7 @@ class OfferForm extends Component{
                     : null }
 
                     {
-                      (((this.props.gig.startTime.getTime() - Date.now()) > 0)) ? 
+                      (((this.props.gig.startTime.valueOf() - Date.now()) > 0)) ? 
                      
                    
                     <div className="offer-buttons">

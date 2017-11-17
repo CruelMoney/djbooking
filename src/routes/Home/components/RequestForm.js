@@ -37,7 +37,7 @@ export default class Index extends Component{
   state={
       showPopup: false,
       emailExists: false,
-      activeStep: 3,
+      activeStep: 1,
       date: moment()
     }
 

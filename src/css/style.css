@@ -1373,12 +1373,17 @@ transition: all 0.1s ease-in-out;
 .gig > div{
   width: 100%;
 }
-.gig-status{
+.gig-status,
+.gig-from-now{
   right: 18px;
   top: 36px;
   color: #8998AA;
   fill: #8998AA;
   position: absolute;
+}
+.gig-from-now{
+  top:7px;
+  text-transform: capitalize;
 }
 
 .event-info-card-wrapper{
