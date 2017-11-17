@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import OfferCard from './OfferCard'
 import {notificationService} from '../../../../../utils/NotificationService';
 import {connect} from 'react-redux';
+import moment from 'moment-timezone'
 import EmptyPage from '../../../../../components/common/EmptyPage'
 
 class EventOffers extends Component{
@@ -10,7 +11,7 @@ class EventOffers extends Component{
   componentWillMount(){
     document.title = this.props.eventName + " | Offers"
 
-    var daysUntil = (this.props.eventDate.getTime() - Date.now())/(24*3600*1000)
+    var daysUntil = moment(this.props.eventDate).diff(moment(), 'days')
 
     this.setState({
       paymentPossible: daysUntil <= 60,

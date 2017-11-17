@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import Formatter from '../../../../../utils/Formatter'
 import TextWrapper from '../../../../../components/common/TextElement'
 import {CollapsibleContainer, Collapsible} from '../../../../../components/common/Collapsible'
 import OfferForm from './OfferForm'
@@ -24,18 +23,19 @@ class Gig extends Component{
     this.setGigStatus();
   }
 
-  setGigStatus = () => {
-  
+  setGigStatus = (props = this.props) => {
+    if(this.timeLeft){
+      clearInterval(this.timeLeft);
+    }
     // Only autodeclines if the gig is not a direct booking,
     // and if the gig is still en request status,
-    if(!this.props.gig.referred 
-      && this.props.gig.status === "Requested" 
-      && !!this.props.gig.createdAt
-      && !!this.props.gig.startTime
+    if(!props.gig.referred 
+      && props.gig.status === "Requested" 
+      && !!props.gig.createdAt
+      && !!props.gig.startTime
       ){
-      console.log(this.props.gig)
-      let createdAt = moment(this.props.gig.createdAt);
-      let eventStartAt = moment(this.props.gig.startTime);
+      let createdAt = moment(props.gig.createdAt);
+      let eventStartAt = moment(props.gig.startTime);
       let eventGigDifference = (eventStartAt.valueOf() - createdAt.valueOf())/1000;
     
       // and if gig is created more than 4 days before the event.
@@ -74,23 +74,23 @@ class Gig extends Component{
     }
 
     this.setState({
-      gigStatus: this.props.gig.status === "Cancelled" ?
+      gigStatus: props.gig.status === "Cancelled" ?
           "The gig has been cancelled ☹️"
-          :this.props.gig.status === "Declined" ?
+          :props.gig.status === "Declined" ?
           "You have declined the gig 😮"
-          :this.props.gig.status === "Lost" ?
+          :props.gig.status === "Lost" ?
           "You have lost the gig ☹️"
-          :this.props.gig.status === "Confirmed" ?
+          :props.gig.status === "Confirmed" ?
           "The gig has been confirmed, get ready to play 😁"
-          :this.props.gig.status === "Finished"  ?
+          :props.gig.status === "Finished"  ?
           "The gig is finished ☺️"
           : this.state.eventFinished ?
           "The event is finished ☺️"
-          :this.props.gig.status === "Accepted" ?
+          :props.gig.status === "Accepted" ?
           "Waiting on confirmation from organizer 😊"
-          : this.props.gig.referred ? 
+          : props.gig.referred ? 
           "Direct booking"
-          :this.props.gig.status === "Requested" ?
+          :props.gig.status === "Requested" ?
           "Event happens soon, make your offer quickly 🤑"
         : ""
     });
@@ -106,6 +106,12 @@ class Gig extends Component{
   componentWillUnmount(){
     if(this.timeLeft){
       clearInterval(this.timeLeft);
+    }
+  }
+
+  componentWillReceiveProps(nextprops){
+    if(this.props.gig.status !== nextprops.gig.status){
+      this.setGigStatus(nextprops);
     }
   }
 
