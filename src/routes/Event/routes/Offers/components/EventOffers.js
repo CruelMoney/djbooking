@@ -35,7 +35,7 @@ class EventOffers extends Component{
         offers.forEach((o,i)=>{
           const notification = notifications.find(n => String(n.room) === String(o.gigID))
           const hasMessages = !!this.state.gigMessages[o.gigID]
-          const hasOffer = o.gigStatus === "Accepted" 
+          const hasOffer = o.gigStatus === "Accepted"  || o.gigStatus === 'Confirmed'
 
           if(hasOffer || hasMessages){
             const offer = <div className="col-sm-6">

@@ -1,8 +1,6 @@
 .messages{
   max-height: 400px;
   max-width: 600px;
-  min-width: 320px;
-  min-height: 250px;
   overflow: scroll;
 }
 
@@ -88,6 +86,8 @@
 
 .popup .chat {
   margin-bottom: -15px;
+  width: 600px;
+  max-width: 90vw;
 }
 
 
@@ -127,4 +127,20 @@
 }
 .message-info svg{
   margin-right: 3px;
+}
+
+
+/* Mobile */
+@media only screen and (max-width: 480px) {
+
+  .popup .chat{
+    max-width: 100%;
+  }
+  .messages{
+    max-width: 100%;
+  }
+  .speech-bubble{
+    max-width: 60%;
+  }
+
 }

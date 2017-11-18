@@ -3161,6 +3161,11 @@ table td{
   top: -730px;
 }
 
+.popup{
+  max-width: 100% !important;
+}
+
+
 }
 /* Mobile END */
 
