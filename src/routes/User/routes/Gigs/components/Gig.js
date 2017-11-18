@@ -269,15 +269,33 @@ class Gig extends Component{
 
                 </Collapsible>
 
+                {this.props.gig.status === "Lost" ? <div/> :
                 <Collapsible
                   lazyLoad
                   name="ContactInfo"
                   label={`Contact Organizer ${this.props.notification ? "(Unread message 📫)" : ""}`}
-                >
-
-                   
+                >                   
                   <p>Feel free to contact {this.props.gig.contactName} to discuss the price, or figure out additional details.</p>
-             
+                      { this.props.gig.status === 'Confirmed' && this.props.payoutInfoValid ? 
+                        <div>
+                         { 
+                           this.props.gig.contactPhone ?
+                          <TextWrapper
+                            label="Phone"
+                          >
+                            <a href={"tel:"+this.props.gig.contactPhone}>{this.props.gig.contactPhone}</a>
+                          </TextWrapper>
+                          : null
+                          }
+                       
+                          <TextWrapper
+                            label="Email"
+                          >
+                            <a href={"mailto:"+this.props.gig.contactEmail}>{this.props.gig.contactEmail}</a>
+                          </TextWrapper>
+                          </div>
+                          
+                        : null  }
                       <Chat 
                         eventId={this.props.gig.eventID}
                         receiver={{
@@ -293,7 +311,7 @@ class Gig extends Component{
                         chatId={this.props.gig.id}
                         />
                 </Collapsible>
-
+                }
 
 
 
