@@ -6,7 +6,7 @@ import UserMenuItem from './common/UserMenuItem'
 import Button from './common/Button-v2'
 import Login from './common/Login'
 import Logo from './common/Logo'
-// import MobileMenu from './MobileMenu'
+import MobileMenu from './MobileMenu'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
@@ -90,9 +90,9 @@ class Menu extends Component {
     return (
       <MuiThemeProvider muiTheme={theme}>
         <div  className={"location_" + page}>
-          {/* <MobileMenu
+          <MobileMenu
             onClosing={()=>this.setState({showMenu:false})}
-            show={this.state.showMenu}/> */}
+            show={this.state.showMenu}/>
             <div className="container">
           <div
             className={"nav-container location_"}>
@@ -106,10 +106,10 @@ class Menu extends Component {
                   ref={ref=>this.mobileMenu=ref}
                   >
              
-             <a
+                <a
                   className="mobileMenuButton"
                   onClick={()=>{
-                    this.setState({showMenu:true})}}
+                    this.setState({showMenu: !this.state.showMenu})}}
                   >
                   <h2>Menu</h2>
                 </a>

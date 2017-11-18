@@ -152,15 +152,15 @@ pre{
 .buttonFixed{
   position: fixed;
   z-index: 99;
-    top: -75px;
-    right: 15px;
+  bottom: -60px;
+  left: 15px;
 }
 .buttonFixed .mobileMenuButton{
     z-index: 100;
     background: #31DAFF;
     border-radius: 50%;
     box-shadow: 0 3px 15px 0 rgba(0,0,0,.25)!important;
-    transform: translateY(90px);
+    transform: translateY(-70px);
     transition: transform 0.25s ease;
     backface-visibility: hidden;
 }
@@ -3045,6 +3045,9 @@ table td{
 .signup h2{
   margin-left: 30px;
 }
+.social-signup h2{
+  margin-left: 0;
+}
 .signup form li:before{
   margin-left: 0;
 }
@@ -3165,6 +3168,13 @@ table td{
   max-width: 100% !important;
 }
 
+.social-signup .buttons{
+  flex-direction: column;
+}
+.social-signup .buttons .button-wrapper{
+  width: 100%;
+  margin-bottom: 15px;
+}
 
 }
 /* Mobile END */

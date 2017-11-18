@@ -4,7 +4,6 @@ import Navlink    from './common/Navlink'
 import Popup from './common/Popup'
 import Login from './common/Login'
 import {connect} from 'react-redux';
-import Formatter from '../utils/Formatter'
 import Rating from './common/Rating'
 import * as actions from '../actions/LoginActions'
 import * as UserActions from '../actions/UserActions'
@@ -12,8 +11,7 @@ import InfoPopup from './common/InfoPopup'
 import entries from 'object.entries';
 import Button from './common/Button-v2'
 import {ImageCompressor} from '../utils/ImageCompressor';
-import CurrencyConverter from '../utils/CurrencyConverter'
-const curConverter = new CurrencyConverter()
+import {currencyConverter as curConverter} from '../utils/CurrencyConverter'
 
 
 
