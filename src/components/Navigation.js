@@ -129,7 +129,7 @@ class Menu extends Component {
                 </li>
                
 
-                {!this.props.loggedIn ? (
+                {!this.props.loggedIn && !this.props.isWaiting ? (
                   <li >
                     <a
                       onClick={this.onLoginButton}
@@ -178,7 +178,7 @@ class Menu extends Component {
                   </li>
                 ) : (null)}
                  
-                 {this.props.isWaiting && !this.state.loginExpanded ? (
+                 {this.props.isWaiting ? (
                   <li >
                     <Button
                       className="redirect-button"

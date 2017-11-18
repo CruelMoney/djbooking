@@ -117,7 +117,7 @@ class SignupForm extends Component {
           marginBottom: "80px"
         }}>
           <div className="signup">
-            <Form name={"signup-form"}>
+            <Form name={"finish-signup-form"}>
               <NumberedList>
                 { name ? null :
                 <RegistrationElement

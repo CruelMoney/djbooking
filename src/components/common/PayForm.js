@@ -209,6 +209,7 @@ state={
                     <div className="row ">
                       <div className="col-xs-12">
                         <TextField
+                          big
                           name="card_name"
                           hintStyle={styles.medium.hint}
                           style={styles.medium.textarea}
@@ -227,6 +228,7 @@ state={
                     <div className="row">
                       <div className="col-xs-12">
                         <TextField
+                          big
                           name="card_number"
                           hintStyle={styles.medium.hint}
                           style={styles.medium.textarea}
@@ -246,6 +248,7 @@ state={
                     <div className="row">
                       <div className="col-xs-6">
                         <TextField
+                          big
                           name="card_expiry"
                           onUpdatePipeFunc={datePipeCard}
                           maxLength="5"
@@ -262,6 +265,7 @@ state={
                       </div>
                       <div className="col-xs-6">
                         <TextField
+                          big
                           name="card_cvc"
                           hintStyle={styles.medium.hint}
                           style={styles.medium.textarea}

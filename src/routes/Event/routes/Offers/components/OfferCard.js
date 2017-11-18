@@ -131,10 +131,13 @@ class OfferCard extends Component{
           </div>
           : null}
         
-    
-          <div className="cancelation-policy">
-            Cancelation policy: Full refund if event is cancelled {this.props.offer.cancelationDays} or more days before it starts. Otherwise {this.props.offer.refundPercentage}% is refunded.
-          </div>
+          
+            <div className="cancelation-policy">
+              {this.props.onlyChat ? null : 
+                `Cancelation policy: Full refund if event is cancelled ${this.props.offer.cancelationDays} or more days before it starts. Otherwise ${this.props.offer.refundPercentage}% is refunded.`
+              }
+            </div>
+      
           {this.props.offer.gigStatus === "Confirmed" || this.props.offer.gigStatus === "Accepted" ? 
           <div
           className="offer-price"

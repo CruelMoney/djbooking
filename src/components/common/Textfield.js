@@ -26,7 +26,7 @@ class MyTextField extends Component{
       },
 
       input:{
-        fontSize: '30px',
+        fontSize: '22px',
         color: this.context.textColor ? this.context.textColor : this.context.color,
         fontFamily: "AvenirNext-Regular"
       },
@@ -35,7 +35,7 @@ class MyTextField extends Component{
       },
       hint:{
         bottom: '23px',
-        fontSize: '30px',
+        fontSize: '22px',
         color: "rgba(187,187,187,0.5)",
         fontFamily: "AvenirNext-Regular",
       },
