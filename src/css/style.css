@@ -1163,6 +1163,9 @@ transition: opacity 0.3s ease;
 .event-information{
   justify-content: center;
 }
+.event-information > div:not(.col-sm-6){
+  width: 100%;
+}
 
 .event-information .context-actions button{
   margin-bottom: 15px;

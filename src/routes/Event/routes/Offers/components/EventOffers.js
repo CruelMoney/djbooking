@@ -41,7 +41,7 @@ class EventOffers extends Component{
             const offer = <div className="col-sm-6">
             <OfferCard
               key={o.gigID}
-              onlyChat={!hasOffer || hasMessages}
+              onlyChat={!hasOffer && hasMessages}
               eventId={this.props.event.id}
               notification={notification}
               profileId={this.props.eventContactId}
