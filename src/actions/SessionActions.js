@@ -14,8 +14,10 @@ export function setGeodata(data){
         const alphaChecker = /^[a-z\s]+$/i
         const city = window.geoplugin_city().match(alphaChecker) ? window.geoplugin_city() : ""
         const country = window.geoplugin_countryName().match(alphaChecker) ? window.geoplugin_countryName() : ""
+        let currency = window.geoplugin_currencyCode();
+        currency = c.Currencies.includes(currency) ? currency : 'DKK';
         const data ={
-            currency: window.geoplugin_currencyCode(),
+            currency: currency,
             city: city,
             country: country,
             countryCode: window.geoplugin_countryCode()
