@@ -61,15 +61,16 @@ class App extends Component {
      }
 
      componentWillMount() {
-         // Setup custom analytics
-         analytics()
-         this.props.setGeoSession();
+   
      }
 
      componentDidMount(){
+        // Setup custom analytics
+        analytics();
+        this.props.setGeoSession();
         AsyncHowItWorks.preload();
         AsyncSignup.preload();
-        this.checkForLogin();
+        this.checkForLogin(); 
      }
 
      componentWillReceiveProps(props){

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import AutoComplete from 'material-ui/AutoComplete'
 import connectToForm from '../higher-order/connectToForm'
 
-var locationService = new window.google.maps.places.AutocompleteService()
 
 class LocationSelector extends Component{
 
@@ -24,6 +23,10 @@ class LocationSelector extends Component{
     static defaultProps = {
       value: ""
     }
+
+  componentDidMount(){
+    this.locationService = new window.google.maps.places.AutocompleteService()      
+  }
 
   updateSuggestions = (predictions, status) =>{
     var li = []
@@ -48,7 +51,7 @@ class LocationSelector extends Component{
     value = toTitleCase(value)
     this.props.onChange(value)
 
-    locationService.getPlacePredictions({ input: value, types: ['(cities)'] , componentRestrictions: {country: 'dk'}}, this.updateSuggestions)
+    this.locationService.getPlacePredictions({ input: value, types: ['(cities)'] , componentRestrictions: {country: 'dk'}}, this.updateSuggestions)
   }
 
     onValueSelected = (e) => {

@@ -3,11 +3,11 @@ import c from '../constants/constants'
 var ActionTypes = c.ActionTypes
 
 
-const initialState = {
-    currency: localStorage.currency || "DKK",
-    city: "",
-    country: "",
-    countryCode: localStorage.countryCode || "DK"
+let initialState = {
+  currency: "DKK",
+  city: "",
+  country: "",
+  countryCode: "DK"
 }
 
 const session = (state = initialState, action) => {

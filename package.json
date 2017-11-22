@@ -75,7 +75,7 @@
     "start": "react-scripts start",
     "postinstall": "react-scripts build",
     "startProd": "NODE_ENV=production react-scripts start",
-    "build": "react-scripts build ",
+    "build": "react-scripts build && react-snap",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
@@ -83,5 +83,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "react-snap": "^1.0.5"
   }
 }
