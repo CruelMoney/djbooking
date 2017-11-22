@@ -87,6 +87,6 @@
     "react-snap": "^1.0.5"
   },
   "reactSnap":{
-    "puppeteerArgs": ["--no-sandbox", "--disable-setuid-sandbox"]
+    "puppeteerArgs": ["--no-sandbox"]
   }
 }
