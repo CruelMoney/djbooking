@@ -7,13 +7,11 @@ import Button from './common/Button-v2'
 import Login from './common/Login'
 import Logo from './common/Logo'
 import MobileMenu from './MobileMenu'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import * as actions from '../actions/LoginActions'
+import * as sessionActions from '../actions/SessionActions'
 
-const theme = getMuiTheme()
 
 class Menu extends Component {
 
@@ -26,6 +24,7 @@ class Menu extends Component {
    state={
        loginExpanded: false,
        fixed: false,
+       didCheckLogin: false
      }
 
    getChildContext() {
@@ -35,6 +34,19 @@ class Menu extends Component {
     }
    }
 
+   componentDidMount(){
+      this.props.setGeoSession();
+      this.checkForLogin(); 
+  }
+
+    checkForLogin = (nextState, replace) => {
+      if (!this.state.didCheckLogin) {
+        this.setState({
+          didCheckLogin: true,
+          checking: true,
+        }, this.props.checkForLogin())
+      }
+    }
 
    onLoginButton = () => {
        this.setState({
@@ -88,7 +100,6 @@ class Menu extends Component {
     const page = window.location.pathname.split('/')[1]
 
     return (
-      <MuiThemeProvider muiTheme={theme}>
         <div  className={"location_" + page}>
           <MobileMenu
             onClosing={()=>this.setState({showMenu:false})}
@@ -193,13 +204,7 @@ class Menu extends Component {
             </nav>
           </div>
          </div>
-
-          <div id="content">
-            {this.props.children}
-          </div>
-          <div id="popup-container"></div>
         </div>
-      </MuiThemeProvider>
     )
   }
 }
@@ -222,8 +227,10 @@ function mapStateToProps(state, ownprops) {
 
 function mapDispatchToProps(dispatch, ownprops) {
   return {
-    checkForLogin: () => dispatch(actions.checkForLogin()),
-    logout: ()        => dispatch(actions.userLogout())
+    logout: ()        => dispatch(actions.userLogout()),
+    checkForLogin: (route) => dispatch(actions.checkForLogin(route)),
+    setGeoSession: () => dispatch(sessionActions.setGeodata())
+    
   }
 }
 

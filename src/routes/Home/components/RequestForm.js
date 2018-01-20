@@ -149,7 +149,7 @@ export default class Index extends Component{
               <div className={" " + (this.state.activeStep!==1 ? "hidden" : "show")}>
                 <Step1
                   form={this.props.form}
-                  date={this.props.date}
+                  date={this.state.date}
                   updateDate={this.updateDate}
                   updateLocation={this.updateLocation}
                   next={()=>this.setState({activeStep:2})}

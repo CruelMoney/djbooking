@@ -10,15 +10,22 @@ import { connect } from 'react-redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger'
-import * as actions from './actions/LoginActions'
-import * as sessionActions from './actions/SessionActions'
 import reducers from './reducers/Store'
 import {init as analytics} from './utils/analytics/autotrack'
 import Loadable from 'react-loadable';
 import NotFoundPage from './components/common/NotFoundPage'
 import LoadHandler from './components/common/LoadingScreen'
 import ErrorHandling from './components/common/ErrorPage'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
+const theme = getMuiTheme()
+
+
+const AsyncNavigation = Loadable({
+  loader: () => import('./components/Navigation'),
+  loading: LoadHandler
+});
 const AsyncAbout = Loadable({
   loader: () => import('./routes/About'),
   loading: LoadHandler
@@ -52,14 +59,8 @@ const AsyncTerms = Loadable({
   loading: LoadHandler
 });
 
-import Navigation from './components/Navigation'
-
 class App extends Component {
    
-     state = {
-         didCheckLogin: false,
-     }
-
      componentWillMount() {
    
      }
@@ -67,11 +68,11 @@ class App extends Component {
      componentDidMount(){
         // Setup custom analytics
         analytics();
-        this.props.setGeoSession();
+        // Preload common pages
         AsyncHowItWorks.preload();
         AsyncSignup.preload();
-        this.checkForLogin(); 
      }
+
 
      componentWillReceiveProps(props){
         if(props.loggedIn){
@@ -79,21 +80,15 @@ class App extends Component {
         }
      }
 
-     checkForLogin = (nextState, replace) => {
-       if (!this.state.didCheckLogin) {
-         this.setState({
-           didCheckLogin: true,
-           checking: true,
-         }, this.props.checkForLogin())
-       }
-     }
 
 
       render(){
         return  ( 
           <Router>
             <ErrorHandling>
-              <Navigation>
+              <MuiThemeProvider muiTheme={theme}>
+              <AsyncNavigation/>
+              <div id="content">
                 <Switch>
                   <Route exact path="/" component={AsyncHome}/>
                   <Route path="/about" component={AsyncAbout}/>
@@ -105,7 +100,9 @@ class App extends Component {
                   <Route path="/event/:id/:hash" component={AsyncEvent}/>
                   <Route component={NotFoundPage}/>
                 </Switch>
-              </Navigation>
+                </div>
+                <div id="popup-container"></div>
+              </MuiThemeProvider>
             </ErrorHandling>
           </Router>
           )
@@ -120,14 +117,8 @@ function mapStateToProps(state, ownprops) {
   }
 }
 
-function mapDispatchToProps(dispatch, ownprops) {
-  return {
-    checkForLogin: (route) => dispatch(actions.checkForLogin(route)),
-    setGeoSession: () => dispatch(sessionActions.setGeodata())
-  }
-}
 
-const SmartApp = connect(mapStateToProps, mapDispatchToProps)(App)
+const SmartApp = connect(mapStateToProps)(App)
 
 var reduxMiddleware
 

@@ -1,18 +1,24 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../../../components/common/Footer'
-import RequestForm from './RequestForm'
-import moment from 'moment'
+import MediaQuery from 'react-responsive';
 import scrollIntoView from 'smoothscroll-polyfill'
 import Button from '../../../components/common/Button-v2'
 import padlock from '../../../assets/padlock.svg'
 import note from '../../../assets/note.svg'
 import DJCards from './djCards'
+import Loadable from 'react-loadable';
+import LoadHandler from '../../../components/common/LoadingScreen'
+
 /*animation stuff*/
 import { connect } from 'react-redux'
 import * as eventActions from '../../../actions/EventActions'
 import * as userActions from '../../../actions/UserActions'
 
+const AsyncRequestForm = Loadable({
+  loader: () => import('./RequestForm'),
+  loading: LoadHandler
+});
 
 scrollIntoView.polyfill()
 
@@ -27,16 +33,6 @@ class Home extends Component{
     }
   }
 
-  state= {
-      eventDate: moment()
-    }
-
-handleDateChange = (date) => {
-  //is a moment object
-  this.setState({
-    eventDate: date
-  })
-}
 
 requestForm = null
 
@@ -75,10 +71,11 @@ handleButtonClick = () => {
                   </div>
                
               </div>
-
-              <div className=" col-md-8">
-                  <DJCards />
-              </div>
+              <MediaQuery query="(min-width: 992px)">
+                <div className=" col-md-8">
+                    <DJCards />
+                </div>
+              </MediaQuery>
             </div>
 
           </div>
@@ -89,8 +86,7 @@ handleButtonClick = () => {
 
           <div className="container request-form-wrapper">
             <div ref={(f) => this.requestForm = f}></div>
-            <RequestForm
-              date={this.state.eventDate}
+            <AsyncRequestForm
               onSubmit={this.props.onSubmit}
               isLoggedIn={this.props.isLoggedIn}
               form={this.props.form}

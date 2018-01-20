@@ -56,6 +56,7 @@
     "react-onclickoutside": "^6.6.2",
     "react-particles-js": "^2.1.0",
     "react-redux": "^5.0.3",
+    "react-responsive": "^4.0.3",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.0.17",
@@ -86,8 +87,11 @@
   "devDependencies": {
     "react-snap": "^1.0.5"
   },
-  "reactSnap":{
-    "puppeteerArgs": ["--no-sandbox", "--disable-setuid-sandbox"],
+  "reactSnap": {
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ],
     "sourceMaps": true
   }
 }
