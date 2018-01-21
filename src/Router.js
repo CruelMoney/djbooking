@@ -3,7 +3,8 @@ import React, {Component} from 'react'
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  withRouter
 } from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { connect } from 'react-redux'
@@ -82,27 +83,13 @@ class App extends Component {
 
 
 
-      render(){
-        const page = window.location.pathname.split('/')[1]
-        
+      render(){        
         return  ( 
           <Router>
             <ErrorHandling>
               <MuiThemeProvider muiTheme={theme}>
               <AsyncNavigation/>
-              <div id="content" className={`location_${page}`}>
-                <Switch>
-                  <Route exact path="/" component={AsyncHome}/>
-                  <Route path="/about" component={AsyncAbout}/>
-                  <Route path="/user" component={AsyncUser}/>
-                  <Route path="/howitworks" component={AsyncHowItWorks}/>
-                  <Route path="/signup" component={AsyncSignup}/>
-                  <Route path="/faq" component={AsyncFaq}/>
-                  <Route path="/terms" component={AsyncTerms}/>
-                  <Route path="/event/:id/:hash" component={AsyncEvent}/>
-                  <Route component={NotFoundPage}/>
-                </Switch>
-                </div>
+                < Content/>
                 <div id="popup-container"></div>
               </MuiThemeProvider>
             </ErrorHandling>
@@ -110,7 +97,6 @@ class App extends Component {
           )
       }
 }
-
 
 function mapStateToProps(state, ownprops) {
   return {
@@ -137,3 +123,27 @@ export default props => (
     <SmartApp {...props}/>
   </Provider>
 )
+
+
+const Content = withRouter(
+  class extends Component {
+  render() {
+    const page = window.location.pathname.split('/')[1]
+
+    return (
+      <div id="content" className={`location_${page}`}>
+        <Switch>
+          <Route exact path="/" component={AsyncHome}/>
+          <Route path="/about" component={AsyncAbout}/>
+          <Route path="/user" component={AsyncUser}/>
+          <Route path="/howitworks" component={AsyncHowItWorks}/>
+          <Route path="/signup" component={AsyncSignup}/>
+          <Route path="/faq" component={AsyncFaq}/>
+          <Route path="/terms" component={AsyncTerms}/>
+          <Route path="/event/:id/:hash" component={AsyncEvent}/>
+          <Route component={NotFoundPage}/>
+        </Switch>
+      </div>
+    );
+  }
+});
