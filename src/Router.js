@@ -83,12 +83,14 @@ class App extends Component {
 
 
       render(){
+        const page = window.location.pathname.split('/')[1]
+        
         return  ( 
           <Router>
             <ErrorHandling>
               <MuiThemeProvider muiTheme={theme}>
               <AsyncNavigation/>
-              <div id="content">
+              <div id="content" className={`location_${page}`}>
                 <Switch>
                   <Route exact path="/" component={AsyncHome}/>
                   <Route path="/about" component={AsyncAbout}/>
