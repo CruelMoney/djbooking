@@ -16,11 +16,14 @@ import DatePicker from '../../../components/common/Datepicker'
 import moment from 'moment-timezone'
 import SubmitButton from '../../../components/common/SubmitButton'
 import ErrorMessage from '../../../components/common/ErrorMessage'
+import * as eventActions from '../../../actions/EventActions'
+import * as userActions from '../../../actions/UserActions'
+import { connect } from 'react-redux'
 
 import wNumb from 'wnumb'
 import c from '../../../constants/constants'
 
-export default class Index extends Component{
+const MainForm = class extends Component{
   static proptypes = {
     form: PropTypes.object,
     date: PropTypes.object, //moment object
@@ -261,6 +264,36 @@ export default class Index extends Component{
 
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  return {
+    isLoggedIn: state.login.status.signedIn,
+    form:   Object.assign(
+        {},
+        state.forms["requestForm-step-1"] ? state.forms["requestForm-step-1"].values : {} ,
+        state.forms["requestForm-step-2"] ? state.forms["requestForm-step-2"].values : {} ,
+        state.forms["requestForm-step-3"] ? state.forms["requestForm-step-3"].values : {} ,
+        state.forms["requestForm-step-4"] ? state.forms["requestForm-step-4"].values : {} ,
+      ),
+    initialCity: state.session.city,
+    emailExists: state.login.status.emailExists
+  }
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    onSubmit: (form, callback)    => {dispatch(eventActions.postEvent(form, callback))},
+    checkDjAvailability: (form, callback)    => {dispatch(eventActions.checkDjAvailability(form, callback))},
+    checkEmail: (email, callback) => {dispatch(userActions.checkEmail(email, callback))}
+}}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainForm)
+
+
+
+
+
+
 
 
 

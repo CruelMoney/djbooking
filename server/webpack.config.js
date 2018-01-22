@@ -25,6 +25,7 @@ module.exports = {
   },
   module: {
     rules: [
+      
       {
         test: /\.js?$/,
         exclude: /node_modules/,
@@ -32,14 +33,49 @@ module.exports = {
         options: {
           presets: ['env', 'react-app'],
           plugins: [
-            require.resolve("babel-plugin-dynamic-import-node")
+            require.resolve("babel-plugin-dynamic-import-node"),
           ]
         }
       },
       {
-        test: /\.(css|svg)?$/,
+        test: /\.(css)?$/,
         loaders: 'null-loader'
-      }
+      },
+
+      {
+        test: /\.svg$/,
+        loader: require.resolve('svg-url-loader'),
+        options: {
+          noquotes:true
+        }
+      },
+     
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        loader: require.resolve('url-loader'),
+        options: {
+          
+          name: '[name].[hash:8].[ext]',
+        },
+      },
+      {
+        exclude: [
+          /\.html$/,
+          /\.(js|jsx)$/,
+          /\.css$/,
+          /\.json$/,
+          /\.bmp$/,
+          /\.gif$/,
+          /\.jpe?g$/,
+          /\.png$/,
+          /\.svg$/,
+        ],
+        loader: require.resolve('file-loader'),
+        options: {
+          name: '[name].[hash:8].[ext]',
+        },
+      },
+     
     ],
   },
   plugins: isProd([

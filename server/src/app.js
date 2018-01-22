@@ -21,7 +21,7 @@ const getApp = (req) => {
         location={req.url}
         context={context}
       >
-      <App />
+        <App />
     </StaticRouter>
   </Provider>)
 }

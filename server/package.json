@@ -16,12 +16,16 @@
     "babel-preset-env": "^1.6.1",
     "nodemon-webpack-plugin": "0.1.5",
     "null-loader": "^0.1.1",
+    "svg-inline-loader": "^0.8.0",
+    "svg-url-loader": "^2.3.1",
+    "svgr": "^1.6.0",
     "webpack": "^3.8.1",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
     "babel-plugin-dynamic-import-node": "^1.1.0",
     "create-react-app-express": "1.1.0",
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "react-loadable": "^5.3.1"
   }
 }

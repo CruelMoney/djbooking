@@ -10,11 +10,11 @@ import {init as analytics} from './utils/analytics/autotrack';
 import Loadable from 'react-loadable';
 import NotFoundPage from './components/common/NotFoundPage';
 import LoadHandler from './components/common/LoadingScreen';
-
+import Home from './routes/Home';
 
 const AsyncNavigation = Loadable({
   loader: () => import('./components/Navigation'),
-  loading: LoadHandler
+  loading: ()=><div/>
 });
 const AsyncAbout = Loadable({
   loader: () => import('./routes/About'),
@@ -80,7 +80,7 @@ const App = class extends Component {
         <AsyncNavigation />
         <div id="content" className={`location_${page}`}>
           <Switch>
-            <Route exact path="/" component={AsyncHome}/>
+            <Route exact path="/" component={Home}/>
             <Route path="/about" component={AsyncAbout}/>
             <Route path="/user" component={AsyncUser}/>
             <Route path="/howitworks" component={AsyncHowItWorks}/>
