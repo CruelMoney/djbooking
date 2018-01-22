@@ -2582,6 +2582,16 @@ left: 50%;
   margin-top: 60px;
 }
 
+@keyframes slidein {
+  0%{
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  100%{
+    opacity: 1;
+    transform: none;
+  }
+}
 
 .dj-card{
     padding: 0;
@@ -2590,14 +2600,12 @@ left: 50%;
     flex-direction: row;
     width: 276px;
     margin-left: 20px;
-    transition: 0.25s;
-    transform: translateX(15px);
     opacity: 0;
+    transform: translateX(15px);
 }
 
 .dj-card.loaded{
-    opacity: 1;
-    transform: none;
+    animation: 1000ms slidein forwards cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .dj-card .profile-picture img,
