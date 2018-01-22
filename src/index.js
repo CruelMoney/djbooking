@@ -1,6 +1,6 @@
 import React  from 'react'
 import { hydrate, render } from 'react-dom';
-import Router from './Router'
+import Router from './BrowserRouter'
 import './css/style.css'
 /* POLYFILLS */
 import injectTapEventPlugin from 'react-tap-event-plugin'

@@ -12,7 +12,7 @@ let initialState = {
 
 const session = (state = initialState, action) => {
 
-    document.cookie = state
+  //  document.cookie = state
 
   switch (action.type) {
   case ActionTypes.CHANGE_CURRENCY:

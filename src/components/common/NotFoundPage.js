@@ -3,7 +3,7 @@ import EmptyPage from './EmptyPage'
 import Footer from './Footer';
 
 export default class NotFound extends Component{
-  componentWillMount(){
+  componentDidMount(){
     document.body.classList.add('not-found')
   }
 

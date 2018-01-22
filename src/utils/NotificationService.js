@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import {Environment} from '../constants/constants'
-import {store} from '../Router'
+import {store} from '../BrowserRouter'
 import * as actions from '../actions/NotificationsActions'
 
 export default class NotificationService {

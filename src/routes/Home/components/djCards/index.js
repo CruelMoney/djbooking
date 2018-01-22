@@ -16,13 +16,13 @@ cards = []
 
 componentWillMount(){
 const djs = [
-         {
+        {
         name:"Oscar",
         location: "Copenhagen, Denmark",
         genres: ["Disco", "Lounge", "House"],
         img: "https://cueup.azurewebsites.net/images/profilePicture/Oscar-Bandersen.png"
-    },
-     {
+        },
+        {
         name:"Frank",
         location: "Aarhus, Denmark",
         genres: ["Top 40", "80s", "90s", "00s"],
