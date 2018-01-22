@@ -9,12 +9,6 @@ const {StaticRouter} = require('react-router-dom')
 const { Provider } = require("react-redux");
 const { configureStoreServer } = require('../../src/store');
 
-const getStoreFromRequest = (req) =>{
-  var initialState = { }
-  const  store = configureStoreServer(initialState);
-  return store;
-}
-
 const getApp = (req) => {
   const store = configureStoreServer();
   const context = {
@@ -33,7 +27,6 @@ const getApp = (req) => {
 }
 
 const renderer = (req, res) => {
-  const store = getStoreFromRequest(req);
   return handleUniversalRender(getApp(req))(req, res);
 } 
 
