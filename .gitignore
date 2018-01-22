@@ -36,11 +36,11 @@ config.codekit
 /min
 
 ### npm ###
-/node_modules
+node_modules
 /build_public
 .log
 yarn-error.log
-/build
+build
 
 ### Javascript config ###
 .eslintrc
