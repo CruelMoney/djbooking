@@ -66,9 +66,15 @@ const App = class extends Component {
       }
    }
 
-  render() {
-    const page = !!window ? window.location.pathname.split('/')[1] : '';
+   getPageLocation = () => {
+    return typeof(window) !== 'undefined'
+      ? window.location.pathname.split('/')[1] 
+      : '';
+   }
 
+  render() {
+    const page = this.getPageLocation();
+  
     return (
       <div>
         <AsyncNavigation />
