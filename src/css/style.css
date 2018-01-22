@@ -2615,13 +2615,13 @@ left: 50%;
     flex-direction: column;
     justify-content: space-around;
 }
-.location_ header .dj-card h4{
+header .dj-card h4{
     text-transform: capitalize;
     font-size: 18px;
     margin: 0;
 }
 
-.location_ header .dj-card p{
+header .dj-card p{
     font-size: 12px;
     margin: 0;
     line-height: 15px;
