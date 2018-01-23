@@ -26,16 +26,19 @@ import {
 import Faq from './components/Faq'
 import DJ from './routes/DJ'
 import Organizer from './routes/Organizer'
+import { Helmet } from 'react-helmet';
 
 export default class Index extends Component{
-
-  onComponentWillMount(){
-    document.title = "FAQ | Cueup"
-  }
-
   render(){
+    const title = "FAQ | Cueup"
+
     return(
     <Faq {...this.props} >
+      <Helmet>
+        <title>{title}</title>
+        <meta name="og:title"           content={title} />
+        <meta name="twitter:title"      content={title} />
+      </Helmet>
       <Switch>
         <Route path={`/faq/dj`} component={DJ} />
         <Route path={`/faq/organizer`} component={Organizer} />

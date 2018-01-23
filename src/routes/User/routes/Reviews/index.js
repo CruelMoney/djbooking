@@ -1,14 +1,23 @@
 import React, {Component} from 'react';
 import  Reviews  from "./components/Reviews";
+import { Helmet } from 'react-helmet';
 
 export default class Index extends Component{
 
-  onComponentWillMount(){
-    document.title = document.title.split('|')[0] + "| Reviews"
-  }
 
   render(){
+    const djName = this.props.match.params.permalink;
+    const title = djName + " | Reviews"
+
     return(
+      <React.Fragment>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="og:title"           content={title} />
+        <meta name="twitter:title"      content={title} />
+      </Helmet>
     <Reviews {...this.props} />
+    </React.Fragment>
+
   )}
 }

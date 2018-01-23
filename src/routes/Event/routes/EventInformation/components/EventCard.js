@@ -9,6 +9,7 @@ import Form from '../../../../../components/common/Form-v2'
 import TextWrapper from '../../../../../components/common/TextElement'
 import SubmitButton from '../../../../../components/common/SubmitButton'
 import assign from 'lodash.assign'
+import { Helmet } from 'react-helmet';
 import Map from '../../../../../components/common/Map'
 import ToggleButtonHandler from '../../../../../components/common/ToggleButtonHandler'
 import c from '../../../../../constants/constants'
@@ -25,7 +26,6 @@ class Event extends Component{
    state={startTime: 0, endTime: 0, editMode: false, formValid: false}
 
     componentWillMount() {
-        document.title = this.props.event.name + " | Cueup"
         this.setState({guests: this.props.event.guestsCount})
     }
 
@@ -52,8 +52,14 @@ class Event extends Component{
     }
 
     render() {
+        const title = this.props.event.name + " | Cueup";
         return (
           <div className="row event-information">
+              <Helmet>
+                <title>{title}</title>
+                <meta name="og:title"           content={title} />
+                <meta name="twitter:title"      content={title} />
+              </Helmet>
             <Form
               resetStatusOnSucces
               noError

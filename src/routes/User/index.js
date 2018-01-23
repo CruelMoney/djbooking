@@ -21,7 +21,7 @@ export default class Index extends Component{
           return (
             <User {...this.props} {...props} >
               <Switch>
-                <Route path={`/user/:permalink/profile`} component={Profile} />
+                <Route djName="test" path={`/user/:permalink/profile`} component={Profile} />
                 <Route path={`/user/:permalink/book`} component={Book} />
                 <Route path={`/user/:permalink/preferences`} component={Preferences} />
                 <Route path={`/user/:permalink/events`} component={Events} />

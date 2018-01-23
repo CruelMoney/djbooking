@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
 import HowItWorks from './components/HowItWorks'; 
+import { Helmet } from 'react-helmet';
 
 export default class Index extends Component{
-
-  onComponentWillMount(){
-    document.title ="How it works | Cueup"
-  }
-
   render(){
+    const title = "How it works | Cueup"
     return(
-    <HowItWorks />
+      <React.Fragment>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="og:title"           content={title} />
+        <meta name="twitter:title"      content={title} />
+      </Helmet>
+      <HowItWorks />
+    </React.Fragment>
   )}
 }

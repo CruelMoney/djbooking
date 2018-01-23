@@ -6,16 +6,20 @@ import {
 import Terms from './components/Terms'
 import Agreements from './routes/Agreements'
 import Privacy from './routes/Privacy'
+import { Helmet } from 'react-helmet';
 
 export default class Index extends Component{
 
-  onComponentWillMount(){
-    document.title = "Terms & Privacy | Cueup"
-  }
 
   render(){
+    const title = "Terms & Privacy | Cueup";
     return(
     <Terms {...this.props} >
+        <Helmet>
+        <title>{title}</title>
+        <meta name="og:title"           content={title} />
+        <meta name="twitter:title"      content={title} />
+      </Helmet>
       <Switch>
         <Route path={`/terms/agreements`} component={Agreements} />
         <Route path={`/terms/privacy`} component={Privacy} />

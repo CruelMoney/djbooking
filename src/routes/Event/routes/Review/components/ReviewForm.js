@@ -8,12 +8,12 @@ import Form from '../../../../../components/common/Form-v2'
 import {requestFeatures} from '../../../../../actions/Common'
 import {connect} from 'react-redux';
 import * as actions from '../../../../../actions/EventActions'
+import { Helmet } from 'react-helmet';
 
 
 class Review extends Component {
 
   componentWillMount() {
-    document.title = this.props.eventName + " | Review"
 
     this.setState({
       editable : this.props.review ? false : true
@@ -30,8 +30,15 @@ class Review extends Component {
   }
 
   render() {
+        const title = this.props.event.name + " | Review";
+
         return (
           <div className="row event-information">
+             <Helmet>
+                <title>{title}</title>
+                <meta name="og:title"           content={title} />
+                <meta name="twitter:title"      content={title} />
+              </Helmet>
             <Form
               resetStatusOnSucces
               formInvalidCallback={()=>this.setState({formValid:false})}

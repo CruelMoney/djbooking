@@ -103,7 +103,6 @@ class MobileMenu extends Component {
 
 
   render() {
-    console.log(curConverter)
     const {isHome} = this.props;
     
     return(

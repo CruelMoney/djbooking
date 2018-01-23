@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import storage from 'redux-persist/es/storage'; // default: localStorage if web, AsyncStorage if react-native
 import forms from './Forms'
 import user from './User'
@@ -18,7 +19,8 @@ var ActionTypes = c.ActionTypes
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
+  stateReconciler : autoMergeLevel2
 };
 
 const store = combineReducers({
@@ -38,15 +40,6 @@ const store = combineReducers({
 
 
 const rootReducer = (state, action) => {
-  switch (action.type) {
-  case ActionTypes.LOGOUT_SUCCEEDED:
-      state = undefined
-      break
-      
-  default:
-      break
-  }
-
   return store(state, action)
 }
 
