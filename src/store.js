@@ -57,3 +57,14 @@ export const configureStoreServer = (initialState = {}) => {
 
   return store;
 }
+
+// Grab the state from a global variable injected into the server-generated HTML
+const preloadedState = 
+  typeof window !== 'undefined' 
+  ? window.__PRELOADED_STATE__
+  : {};
+
+// Allow the passed state to be garbage-collected
+typeof window !== 'undefined' && delete window.__PRELOADED_STATE__;
+
+export let store = configureStore(preloadedState);

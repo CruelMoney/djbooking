@@ -17,14 +17,16 @@ class EventOffers extends Component{
       eventFinished:  daysUntil < 0,
       gigMessages: {}
     })
+  }
 
+  componentDidMount(){
     notificationService.getChatStatus()
     .then((res,err)=>{
       if (!!err){return}
       this.setState({
         gigMessages: res
       })
-    })
+    });
   }
 
     render() {

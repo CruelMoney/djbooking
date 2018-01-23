@@ -18,7 +18,7 @@ class Chat extends Component {
     typingAnimation: false
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.chat = new ChatService(
       this.props.chatId, 
       auth.getToken(),

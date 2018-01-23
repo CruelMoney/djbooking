@@ -4,7 +4,7 @@ import Button from '../../../../../components/common/Button-v2'
 import Rating from '../../../../../components/common/Rating'
 import PayForm from '../../../../../components/common/PayForm'
 import Popup from '../../../../../components/common/Popup'
-import {currencyConverter} from '../../../../../utils/CurrencyConverter'
+import { currencyConverter } from '../../../../../utils/CurrencyConverter'
 import Chat from '../../../../../components/common/Chat'
 import EmptyPage from '../../../../../components/common/EmptyPage'
 
@@ -15,12 +15,11 @@ class OfferCard extends Component{
     disabled: PropTypes.bool
   }
 
-  componentWillMount(){
-    this.setState({
-      showPopup: false,
-      showChat: false
-    })
+  state={
+    showPopup: false,
+    showChat: false
   }
+
 
   hidePopup = () => {
     this.setState({
@@ -144,7 +143,8 @@ class OfferCard extends Component{
           style={{
             width: "100%",
             textAlign: "center"
-          }}>{
+          }}>
+          {
             this.props.offer.gigStatus === "Confirmed"?
             currencyConverter.getConvertedFormatted(
               this.props.paymentAmount,
@@ -154,7 +154,8 @@ class OfferCard extends Component{
             currencyConverter.getConvertedFormatted(
             this.props.offer.amount+this.props.offer.serviceFeeAmount,
             this.props.offer.currency,
-            this.props.currency, true)}
+            this.props.currency, true)
+            }
             
             </div>
           : null}

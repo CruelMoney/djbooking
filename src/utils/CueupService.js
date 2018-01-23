@@ -168,12 +168,12 @@ export default class CueupService {
        this.getInit(this.getHeaders(token)),
        callback
      )}
-     getEvent(token, id, hash, callback) {
-       return this.fetchHandling(
-         `${this.domain}/api/event/${id}/${hash}`,
-         this.getInit(this.getHeaders(token)),
-         callback
-       )}
+    getEvent(token, id, hash, callback) {
+      return this.fetchHandling(
+        `${this.domain}/api/event/${id}/${hash}`,
+        this.getInit(this.getHeaders(token)),
+        callback
+      )}
    updateEvent(token, id, data, callback) {
      return this.fetchHandling(
        `${this.domain}/api/event/${id}/`,

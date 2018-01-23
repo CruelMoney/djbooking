@@ -1,23 +1,28 @@
 import io from 'socket.io-client';
 import {Environment} from '../constants/constants'
-import {store} from '../BrowserRouter'
+import {store} from '../store'
 import * as actions from '../actions/NotificationsActions'
 
 export default class NotificationService {
     constructor() {
         this.domain = Environment.CHAT_DOMAIN;
-        this.notificationHandlers = []
+        this.notificationHandlers = [];
+        this.onInitialized = []
     }
 
     init(userId){
         if(!this.socket && userId){
-            console.log('connecting to: ', Environment.CHAT_DOMAIN+'?userId='+userId)
+            console.log('connecting to: ', Environment.CHAT_DOMAIN+'?userId='+userId);
+
             this.socket = io(Environment.CHAT_DOMAIN+'?userId='+userId)
 
             this.socket.on('initialize notifications', (notifications)=>{
                 store.dispatch(
                     actions.fetchedNotifications(notifications)
                 );
+                this.onInitialized.reduce( (_, fn) => {
+                    return fn()
+                }, 0);
             })
 
             this.socket.on('new notification', (notification)=>{
@@ -47,13 +52,22 @@ export default class NotificationService {
 
     getChatStatus = () => {
         return new Promise((resolve, reject)=>{
-            this.socket.emit('get chat status', response => {
-                if(response.error){        
-                    return reject(response);
-                }else{
-                    return resolve(response);
+               const chatFetcher = () => {
+                   console.log("fetchiin")
+                    this.socket.emit('get chat status', response => {
+                        console.log(response)
+                        if(response.error){        
+                            return reject(response);
+                        }else{
+                            return resolve(response);
+                        }
+                    })
                 }
-            });
+                if(this.socket){
+                    chatFetcher();
+                }else{
+                    this.onInitialized.push(chatFetcher);
+                }
         });
     }
 
