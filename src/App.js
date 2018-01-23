@@ -20,10 +20,10 @@ const AsyncAbout = Loadable({
   loader: () => import('./routes/About'),
   loading: LoadHandler
 });
-const AsyncHome = Loadable({
-  loader: () => import('./routes/Home'),
-  loading: LoadHandler
-});
+// const AsyncHome = Loadable({
+//   loader: () => import('./routes/Home'),
+//   loading: LoadHandler
+// });
 const AsyncEvent = Loadable({
   loader: () => import('./routes/Event'),
   loading: LoadHandler

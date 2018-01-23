@@ -1,6 +1,8 @@
 var webpack = require('webpack');
+var path = require('path');
 var nodeExternals = require('webpack-node-externals');
 var NodemonPlugin = require('nodemon-webpack-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 function isProd(valProd, valDev) {
   return process.env.NODE_ENV === 'production' ? valProd : valDev;
@@ -38,7 +40,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(css)?$/,
+        test: [/\.(css)?$/],
         loaders: 'null-loader'
       },
 
@@ -79,7 +81,7 @@ module.exports = {
     ],
   },
   plugins: isProd([
-      new webpack.optimize.UglifyJsPlugin()
+      new UglifyJsPlugin()
     ], [
       new NodemonPlugin()
     ])

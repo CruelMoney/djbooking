@@ -1,8 +1,8 @@
 import { 
   createStore, 
   applyMiddleware, 
-  compose,
-  combineReducers } from 'redux'
+  compose
+ } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger'
 import reducers from './reducers/Store';
