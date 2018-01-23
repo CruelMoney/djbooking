@@ -52,33 +52,42 @@ const AsyncTerms = Loadable({
 
 const App = class extends Component {
 
+  state={
+    pageLocation: ""
+  }
+
   componentDidMount(){
+      this.setPageLocation();
       // Setup custom analytics
       analytics();
       // Preload common pages
       AsyncHowItWorks.preload();
       AsyncSignup.preload();
+    
    }
 
    componentWillReceiveProps(props){
       if(props.loggedIn){
         AsyncUser.preload();
       }
+      this.setPageLocation();
    }
 
-   getPageLocation = () => {
-    return typeof(window) !== 'undefined'
-      ? window.location.pathname.split('/')[1] 
-      : '';
+   setPageLocation = () => {
+     this.setState({
+      pageLocation: typeof(window) !== 'undefined'
+        ? window.location.pathname.split('/')[1] 
+        : ''
+    });
    }
 
   render() {
-    const page = this.getPageLocation();
-  
+    const {pageLocation} = this.state;
+
     return (
       <div>
         <AsyncNavigation />
-        <div id="content" className={`location_${page}`}>
+        <div id="content" className={`location_${pageLocation}`}>
           <Switch>
             <Route exact path="/" component={Home}/>
             <Route path="/about" component={AsyncAbout}/>
