@@ -14,15 +14,13 @@ class userHeader extends Component {
     notification: PropTypes.string
   }
 
-  componentWillMount() {
-    window.addEventListener('scroll', this.handleScroll)
-    this.setState({
-      loadString: "..."
-    }, () => this.loadingStringPlaceholder())
-  }
-
   state = {
     loadString: "..."
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll)
+    this.loadingStringPlaceholder();
   }
 
   componentWillUnmount() {

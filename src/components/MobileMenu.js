@@ -103,8 +103,8 @@ class MobileMenu extends Component {
 
 
   render() {
-    const isHome = window.location.pathname === '/'
-
+    const {isHome} = this.props;
+    
     return(
       <div>
       <div

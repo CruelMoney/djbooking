@@ -3,16 +3,13 @@ var path = require('path');
 var nodeExternals = require('webpack-node-externals');
 var NodemonPlugin = require('nodemon-webpack-plugin');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 function isProd(valProd, valDev) {
   return process.env.NODE_ENV === 'production' ? valProd : valDev;
 }
 
 const commonPlugins = [
-  new ReactLoadablePlugin({
-    filename: './dist/react-loadable.json',
-  })
+  new webpack.DefinePlugin({ "global.GENTLY": false })
 ]
 
 module.exports = {
@@ -28,8 +25,7 @@ module.exports = {
   target: 'node',
   devtool: 'inline-source-map',
   externals: [
-    // Maybe somehow still include react-preload and still use nodeExternals()
-    // nodeExternals() 
+    nodeExternals()
   ],
   node: {
     __dirname: false
@@ -45,7 +41,6 @@ module.exports = {
           presets: ['env', 'react-app'],
           plugins: [
               require.resolve("babel-plugin-dynamic-import-node"),
-              "react-loadable/babel"
               // 'syntax-dynamic-import',
               // 'transform-class-properties',
               //'transform-object-assign',

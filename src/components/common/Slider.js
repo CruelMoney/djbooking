@@ -29,15 +29,9 @@ class Slider extends Component{
     if(Object.keys(this.props.range).length > 2){
       //nonlinear
       this.parsedRange = this.parseRange(this.props.range)
-      this.nonLinear = true
-        
-      
+      this.nonLinear = true      
     }
   }
-
-  static defaultProps = {
-      value: this.defaultValue
-    }
 
   parseRange = (range) =>{
     var newRange = []
@@ -142,6 +136,7 @@ class Slider extends Component{
           />}
     
         </div>
+        
     )
   }
 }

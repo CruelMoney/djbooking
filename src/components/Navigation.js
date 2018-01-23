@@ -65,9 +65,6 @@ class Menu extends Component {
    }
 
 
-     componentWillMount() {
-       window.addEventListener('scroll', this.handleScroll)
-     }
      componentWillReceiveProps(nextProps){
        if(nextProps.isRedirect && !this.state.redirected){
          if(nextProps.profile.user_metadata && nextProps.profile.user_metadata.permaLink){
@@ -79,6 +76,8 @@ class Menu extends Component {
        }
      }
      componentDidUpdate(prevProps) {
+      window.addEventListener('scroll', this.handleScroll)
+
       if (this.props.location !== prevProps.location) {
         window.scrollTo(0, 0)
       }
@@ -96,12 +95,12 @@ class Menu extends Component {
     }
 
   render() {
-    const isHome = window.location.pathname === '/'
-    const page = window.location.pathname.split('/')[1]
+    const isHome = this.props.location.pathname === '/';
 
     return (
-        <div  className={"location_" + page}>
+        <div>
           <MobileMenu
+            isHome
             onClosing={()=>this.setState({showMenu:false})}
             show={this.state.showMenu}/>
             <div className="container">

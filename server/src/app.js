@@ -11,57 +11,45 @@ const {default: App} = require('../../src/App');
 const {StaticRouter} = require('react-router-dom')
 const { Provider } = require("react-redux");
 const { configureStoreServer } = require('../../src/store');
-import Loadable from 'react-loadable';
-import { getBundles } from 'react-loadable/webpack'
-import stats from '../dist/react-loadable.json';
 
 var express = require('express');
 var app = express();
 
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 const getReactApp = (req) => {
   const store = configureStoreServer();
   const context = {
     store
   }
-    
+  
+  const theme = getMuiTheme({
+    userAgent: req.headers['user-agent'],
+  });
+
   return( 
     <Provider store={store}>
       <StaticRouter
           location={req.url}
           context={context}
         >
+        <MuiThemeProvider muiTheme={theme}>
           <App />
+        </MuiThemeProvider>
       </StaticRouter>
     </Provider>
   )
 }
 
 
-const handleUniversalRender = async (req, res) => {
-
-  let modules = [];
-  let html = renderToString(
-    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-      {getReactApp(req)}
-    </Loadable.Capture>
-  );
-  let bundles = getBundles(stats, modules);
-
-  res.locals = {
-    ...res.locals,
-    bundles
-  }
-  
+const handleUniversalRender = async (req, res) => {  
   const stream = renderToNodeStream(getReactApp(req));
   return stream;
 }
 
 
 const renderer = async (req, res, stream, htmlData, options) => {
-  //htmlData = addBundlesToHTML(htmlData, res.locals.bundles);
-
-
   var segments = htmlData.split('<div id="root">');
   res.write(segments[0] + '<div id="root">');
   stream.pipe(res, { end: false });
@@ -74,19 +62,6 @@ const renderer = async (req, res, stream, htmlData, options) => {
   });
 }
 
-
-const addBundlesToHTML = (htmlData, bundles) => {
-  const segments = htmlData.split('</body>');
-
-  return(`
-    ${segments[0]}
-    ${bundles.map(bundle => {
-      return `<script src="/dist/${bundle.file}"></script>`
-    }).join('\n')}
-    </body>
-    ${segments[1]}
-  `);
-} 
 
 // Adds the helmet markup to the end of head tag
 const addHelmetDataToHTML = (htmlString) => {
