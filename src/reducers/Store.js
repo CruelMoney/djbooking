@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux'
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/es/storage'; // default: localStorage if web, AsyncStorage if react-native
 import forms from './Forms'
 import user from './User'
 import gigs from './Gigs'
@@ -14,19 +16,26 @@ import menu from './Menu'
 import c from '../constants/constants'
 var ActionTypes = c.ActionTypes
 
+const persistConfig = {
+  key: 'root',
+  storage
+};
 
 const store = combineReducers({
   forms,
   gigs,
   reviews,
-  user,
   signup,
-  login,
   events,
   menu,
+  notifications,
   session,
-  notifications
-})
+  user:   persistReducer(persistConfig, user),
+  login:  persistReducer(persistConfig, login),
+});
+
+
+
 
 const rootReducer = (state, action) => {
   switch (action.type) {

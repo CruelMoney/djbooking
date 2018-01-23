@@ -6,6 +6,7 @@ import {
 import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger'
 import reducers from './reducers/Store';
+import { persistStore } from 'redux-persist'
 
 
 export const configureStore = (initialState = {}) => {
@@ -31,6 +32,7 @@ export const configureStore = (initialState = {}) => {
     composeEnhancers(...enhancers)
   );
 
+  persistStore(store);
 
   return store;
 }

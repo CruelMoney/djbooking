@@ -88,21 +88,21 @@ const App = class extends Component {
     return (
       <div>
          <Helmet>
-           <title>Book DJs with ease | Cueup</title>
+            <title>Book DJs with ease | Cueup</title>
 
-          <meta name="og:url"             content={Environment.CALLBACK_DOMAIN + '/' + location.pathname} />
-          <meta name="fb:app_id"          content={Environment.FACEBOOK_ID}/>
-          <meta name="og:title"           content="Book DJs with ease | Cueup" />
-          <meta name="og:description"     content="Cueup is an online platform connecting DJs and event organizers." />
-          <meta name="og:image"           content={Environment.CALLBACK_DOMAIN + '/previewCard_DJ.png'} />
+            <meta name="og:url"             content={Environment.CALLBACK_DOMAIN + '/' + location.pathname} />
+            <meta name="fb:app_id"          content={Environment.FACEBOOK_ID}/>
+            <meta name="og:title"           content="Book DJs with ease | Cueup" />
+            <meta name="og:description"     content="Cueup is an online platform connecting DJs and event organizers." />
+            <meta name="og:image"           content={Environment.CALLBACK_DOMAIN + '/previewCard_DJ.png'} />
 
-          <meta name="twitter:card"               content="summary_large_image" />
-          <meta name="twitter:site"               content="@@CueupDK" />
-          <meta name="twitter:creator"            content="@@CueupDK" />
-          <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
-          <meta name="twitter:description"        content="Cueup is an online platform connecting DJs and event organizers." />
-          <meta name="twitter:image"              content={Environment.CALLBACK_DOMAIN + '/previewCard_DJ.png'} />
-        </Helmet>
+            <meta name="twitter:card"               content="summary_large_image" />
+            <meta name="twitter:site"               content="@@CueupDK" />
+            <meta name="twitter:creator"            content="@@CueupDK" />
+            <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
+            <meta name="twitter:description"        content="Cueup is an online platform connecting DJs and event organizers." />
+            <meta name="twitter:image"              content={Environment.CALLBACK_DOMAIN + '/previewCard_DJ.png'} />
+          </Helmet>
         <AsyncNavigation />
         <div id="content" className={`location_${location.pathname.split('/')[1]}`}>
           <Switch>

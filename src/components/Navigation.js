@@ -40,7 +40,7 @@ class Menu extends Component {
   }
 
     checkForLogin = (nextState, replace) => {
-      if (!this.state.didCheckLogin) {
+      if (!this.state.didCheckLogin && !this.props.loggedIn) {
         this.setState({
           didCheckLogin: true,
           checking: true,
