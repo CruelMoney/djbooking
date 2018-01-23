@@ -5,13 +5,13 @@ import { Helmet } from 'react-helmet';
 export default class Index extends Component{
   render(){
     return(
-    <React.Fragment>
+    <div>
       <Helmet>
         <title>About | Cueup</title>
         <meta name="og:title"           content="About | Cueup" />
         <meta name="twitter:title"      content="About | Cueup" />
       </Helmet>
       <About />
-    </React.Fragment>
+    </div>
   )}
 }

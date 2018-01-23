@@ -15,13 +15,13 @@ class OnlyClient extends Component {
     const {onClient} = this.state;
 
     return (
-      <React.Fragment>
+      <div>
         {
           onClient
           ? this.props.children
           : null
         }
-      </React.Fragment>
+      </div>
     );
   }
 }

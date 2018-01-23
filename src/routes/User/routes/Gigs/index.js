@@ -8,13 +8,13 @@ export default class Index extends Component{
     const title = djName + " | Gigs"
 
     return(
-      <React.Fragment>
+      <div>
       <Helmet>
         <title>{title}</title>
         <meta name="og:title"           content={title} />
         <meta name="twitter:title"      content={title} />
       </Helmet>
     <Gigs {...this.props} />
-    </React.Fragment>
+    </div>
   )}
 }

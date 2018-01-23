@@ -10,14 +10,14 @@ export default class Index extends Component{
     const title = djName + " | Events"
 
     return(
-      <React.Fragment>
+      <div>
         <Helmet>
           <title>{title}</title>
           <meta name="og:title"           content={title} />
           <meta name="twitter:title"      content={title} />
         </Helmet>
         <Events {...this.props} />
-      </React.Fragment>
+      </div>
 
   )}
 }

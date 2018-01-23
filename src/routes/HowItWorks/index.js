@@ -6,13 +6,13 @@ export default class Index extends Component{
   render(){
     const title = "How it works | Cueup"
     return(
-      <React.Fragment>
+      <div>
       <Helmet>
         <title>{title}</title>
         <meta name="og:title"           content={title} />
         <meta name="twitter:title"      content={title} />
       </Helmet>
       <HowItWorks />
-    </React.Fragment>
+    </div>
   )}
 }

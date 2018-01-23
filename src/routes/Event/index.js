@@ -13,7 +13,7 @@ export default class Index extends Component{
 
   render(){
     return(
-      <React.Fragment>
+      <div>
       <Helmet>
         <title>Event | Cueup</title>
         <meta name="og:title"           content="Event | Cueup" />
@@ -27,7 +27,7 @@ export default class Index extends Component{
           <Route path={`/event/:id/:hash/user`} component={User}/>
         </Switch>
       </Event>
-    </React.Fragment>
+    </div>
 
   )}
 }
