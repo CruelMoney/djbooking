@@ -83,26 +83,59 @@ class userHeader extends Component {
             {this.props.hideCard
               ? null
               : <div className="user-card-wrapper">
-                <UserCard isOwnProfile={this.props.isOwnProfile} profile={this.props.profile} className="user-card" onlyPicture={this.props.hideInfo} picture={this.props.loading
+                <UserCard 
+                isOwnProfile={this.props.isOwnProfile} 
+                profile={this.props.profile} 
+                className="user-card" 
+                onlyPicture={this.props.hideInfo} 
+                picture={
+                  this.props.loading
                   ? UserPic
-                  : this.props.profile.picture} about={this.props.loading
+                  : this.props.profile.picture
+                } 
+                about={
+                  this.props.loading
                   ? this.state.loadString
-                  : this.props.profile.bio} rating={this.props.loading
+                  : this.props.profile.bio
+                } 
+                rating={
+                  this.props.loading
                   ? 0
-                  : this.props.profile.avgRating} experience={this.props.loading
+                  : this.props.profile.avgRating
+                } 
+                experience={
+                  this.props.loading
                   ? 0
-                  : this.props.profile.gigsCount} earned={this.props.loading
+                  : this.props.profile.gigsCount
+                } 
+                earned={
+                  this.props.loading
                   ? 0
-                  : this.props.profile.earned} birthday={this.props.loading
+                  : this.props.profile.earned
+                } 
+                birthday={
+                  this.props.loading
                   ? null
-                  : this.props.profile.birthDay} genres={this.props.loading
+                  : this.props.profile.birthDay
+                } 
+                genres={
+                  this.props.loading
                   ? ["..."]
-                  : this.props.profile.genres} loading={this.props.loading} currency={!this.props.hideInfo && this.props.isOwnProfile
+                  : this.props.profile.genres
+                } 
+                loading={
+                  this.props.loading
+                } 
+                currency={
+                    !this.props.hideInfo && this.props.isOwnProfile
                   ? this.props.profile.settings.currency
-                  : "DKK"} //Can be set to dkk because not used if not own profile
-                  bankCurrency={this.props.isOwnProfile
+                  : "DKK"
+                } //Can be set to dkk because not used if not own profile
+                bankCurrency={
+                  this.props.isOwnProfile
                   ? this.props.profile.app_metadata.bankCurrency
-                  : "DKK"} //Can be set to dkk because not used if not own profile
+                  : "DKK"
+                } //Can be set to dkk because not used if not own profile
                 /> {this.props.actions}
 
               </div>

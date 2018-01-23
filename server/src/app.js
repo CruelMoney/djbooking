@@ -6,7 +6,7 @@ const clientBuildPath = path.resolve(__dirname, 'client');
 const {default: staticLoader} = require('@cra-express/static-loader');
 const {default: universalLoader} = require('@cra-express/universal-loader');
 const { renderToNodeStream, renderToString } = require("react-dom/server");
-
+const {Helmet} = require('react-helmet');
 const {default: App} = require('../../src/App');
 const {StaticRouter} = require('react-router-dom')
 const { Provider } = require("react-redux");
@@ -18,11 +18,11 @@ var app = express();
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
-const getReactApp = (req) => {
-  const store = configureStoreServer();
+const getReactApp = (req, res) => {
+  const store = res.locals.store;
   const context = {
     store
-  }
+  };
   
   const theme = getMuiTheme({
     userAgent: req.headers['user-agent'],
@@ -44,12 +44,31 @@ const getReactApp = (req) => {
 
 
 const handleUniversalRender = async (req, res) => {  
-  const stream = renderToNodeStream(getReactApp(req));
+
+  const store = configureStoreServer();
+  res.locals.store = store;
+
+  renderToString(getReactApp(req, res));
+  const preloadedState = store.getState();
+
+  await Promise.all(preloadedState.session.promises);
+  
+  const stream = renderToNodeStream(getReactApp(req, res));
   return stream;
 }
 
 
 const renderer = async (req, res, stream, htmlData, options) => {
+
+  const preloadedState = res.locals.store.getState();
+  htmlData = htmlData.replace(
+    `"%PRELOADED_STATE%"`, 
+    JSON.stringify(preloadedState).replace(/</g, '\\u003c')
+  );
+
+  renderToString(getReactApp(req, res));
+  htmlData = addHelmetDataToHTML(htmlData);
+
   var segments = htmlData.split('<div id="root">');
   res.write(segments[0] + '<div id="root">');
   stream.pipe(res, { end: false });

@@ -15,20 +15,6 @@
     <meta property="cueup:commit"           content="%REACT_APP_COMMIT%" />
     <meta property="cueup:branch"           content="%REACT_APP_BRANCH%" />
 
-    <meta property="fb:app_id"              content="%REACT_APP_CUEUP_PROD_FB_ID%" />
-    <meta property="og:url"                 content="%REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN%" />
-    <meta property="og:title"               content="Book DJs with ease | Cueup" />
-    <meta property="og:description"         content="Cueup is an online platform connecting DJs and event organizers." />
-    <meta property="og:image"               content="%REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN%/previewCard_DJ.png" />
-
-    <meta name="twitter:card"               content="summary_large_image">
-    <meta name="twitter:site"               content="@@CueupDK">
-    <meta name="twitter:creator"            content="@@CueupDK">
-    <meta name="twitter:title"              content="Book DJs with ease | Cueup">
-    <meta name="twitter:description"        content="Cueup is an online platform connecting DJs and event organizers.">
-    <meta name="twitter:image"              content="%REACT_APP_CUEUP_PROD_CALLBACK_DOMAIN%/previewCard_DJ.png">
-
-
     <!-- <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es6"></script> -->
     
     <!-- Adds an event listener to capture uncaught errors. -->
@@ -75,7 +61,9 @@
 
 <body>
     <div id="root"></div>
-
+    <script>
+        window.__PRELOADED_STATE__ = "%PRELOADED_STATE%"
+    </script>
 
     <!-- begin olark code -->
 <script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){

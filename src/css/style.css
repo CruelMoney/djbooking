@@ -80,7 +80,8 @@ p{
 a{
   text-decoration: none;
   color: #FFFFFF;
-      cursor: pointer;
+  cursor: pointer;
+  outline: none !important;
 }
 a:hover{
   text-decoration: none;

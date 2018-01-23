@@ -10,7 +10,8 @@ import {init as analytics} from './utils/analytics/autotrack';
 import Loadable from 'react-loadable';
 import NotFoundPage from './components/common/NotFoundPage';
 import LoadHandler from './components/common/LoadingScreen';
-
+import {Environment} from './constants/constants'
+import { Helmet } from 'react-helmet';
 import Home from './routes/Home';
 import Navigation from './components/Navigation';
 import About from './routes/About';
@@ -66,7 +67,6 @@ const App = class extends Component {
   }
 
   componentDidMount(){
-      this.setPageLocation();
       // Setup custom analytics
       analytics();
       // Preload common pages
@@ -79,24 +79,32 @@ const App = class extends Component {
       if(props.loggedIn){
       //   AsyncUser.preload();
       }
-      this.setPageLocation();
    }
 
-   setPageLocation = () => {
-     this.setState({
-      pageLocation: typeof(window) !== 'undefined'
-        ? window.location.pathname.split('/')[1] 
-        : ''
-    });
-   }
 
   render() {
-    const {pageLocation} = this.state;
+    const { location } = this.props;
 
     return (
       <div>
+         <Helmet>
+           <title>Book DJs with ease | Cueup</title>
+
+          <meta name="og:url"             content={Environment.CALLBACK_DOMAIN + '/' + location.pathname} />
+          <meta name="fb:app_id"          content={Environment.FACEBOOK_ID}/>
+          <meta name="og:title"           content="Book DJs with ease | Cueup" />
+          <meta name="og:description"     content="Cueup is an online platform connecting DJs and event organizers." />
+          <meta name="og:image"           content={Environment.CALLBACK_DOMAIN + '/previewCard_DJ.png'} />
+
+          <meta name="twitter:card"               content="summary_large_image" />
+          <meta name="twitter:site"               content="@@CueupDK" />
+          <meta name="twitter:creator"            content="@@CueupDK" />
+          <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
+          <meta name="twitter:description"        content="Cueup is an online platform connecting DJs and event organizers." />
+          <meta name="twitter:image"              content={Environment.CALLBACK_DOMAIN + '/previewCard_DJ.png'} />
+        </Helmet>
         <AsyncNavigation />
-        <div id="content" className={`location_${pageLocation}`}>
+        <div id="content" className={`location_${location.pathname.split('/')[1]}`}>
           <Switch>
             <Route exact path="/" component={Home}/>
             <Route path="/about" component={About}/>

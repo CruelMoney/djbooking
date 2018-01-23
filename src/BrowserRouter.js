@@ -12,7 +12,6 @@ import { configureStore } from "./store";
 const theme = getMuiTheme();
 
 class MyRouter extends Component {
-  
       render(){        
         return  ( 
           <Router>
@@ -26,13 +25,22 @@ class MyRouter extends Component {
       }
 }
 
-export let store = configureStore();
+// Grab the state from a global variable injected into the server-generated HTML
+const preloadedState = 
+  typeof window !== 'undefined' 
+  ? window.__PRELOADED_STATE__
+  : {};
+
+// Allow the passed state to be garbage-collected
+typeof window !== 'undefined' && delete window.__PRELOADED_STATE__;
+
+export let store = configureStore(preloadedState);
  
 export default props => (
   <Provider store={store}>
     <MyRouter {...props}/>
   </Provider>
-)
+);
 
 
 
