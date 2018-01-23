@@ -20,12 +20,17 @@ class LocationSelector extends Component{
       dataSource: []
     }
 
-    static defaultProps = {
+  static defaultProps = {
       value: ""
-    }
+  }
 
   componentDidMount(){
-    this.locationService = new window.google.maps.places.AutocompleteService()      
+    this.locationService = new window.google.maps.places.AutocompleteService();
+    //Fix for not being able to style the input element
+    var elem = document.querySelector('.search-bar__auto-complete')
+    if(elem){
+      elem.style.height = this.props.big ? "70px" : "30px"
+    }
   }
 
   updateSuggestions = (predictions, status) =>{
@@ -128,14 +133,7 @@ class LocationSelector extends Component{
     }
     var styles = this.props.big ? stylesBig : stylesNormal
 
-    //Fix for not being able to style the input element
-      setTimeout(() => {
-            var elem = document.querySelector('.search-bar__auto-complete')
-            if(elem){
-            elem.style.height = this.props.big ? "70px" : "30px"
-            }
-          }, 100)
-
+    
 
     return (
         <AutoComplete

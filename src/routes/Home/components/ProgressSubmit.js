@@ -20,36 +20,49 @@ export default class Index extends Component{
     }
 
     state = {
-        msg: null
+        msg: null,
+        isMounted: false
+      }
+
+      componentDidMount(){
+        this.setState({
+          isMounted: true
+        })
+      }
+
+      updateSteps = (prevProps, prevState) =>{
+        const step = this.props.currentStep
+        const lastStep = prevProps.currentStep
+
+        const options = { 
+                          easing: 'easingCubicIn', 
+                          duration: 400,
+                          morphIndex: 135,
+                          morphPrecision: 1
+                          }
+
+        if(step !== lastStep){
+          if(lastStep>0){
+            KUTE.fromTo('#step'+lastStep+'-circle', 
+              {path: '#step'+lastStep+'-pin' },
+              { path: 'M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0' },
+                {...options, morphIndex: 37}
+              ).start();
+          }
+          if(step>0){
+            KUTE.fromTo('#step'+step+'-circle', 
+              {path: '#step'+step+'-circle' },
+              { path: '#step'+step+'-pin' },
+              options
+              ).start();
+          }
+        }
       }
 
     componentDidUpdate(prevProps, prevState){
-      const step = this.props.currentStep
-      const lastStep = prevProps.currentStep
+      if(!this.state.isMounted) return;
 
-      const options = { 
-                        easing: 'easingCubicIn', 
-                        duration: 400,
-                        morphIndex: 135,
-                        morphPrecision: 1
-                        }
-
-      if(step !== lastStep){
-        if(lastStep>0){
-          KUTE.fromTo('#step'+lastStep+'-circle', 
-            {path: '#step'+lastStep+'-pin' },
-            { path: 'M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0' },
-              {...options, morphIndex: 37}
-            ).start();
-        }
-        if(step>0){
-          KUTE.fromTo('#step'+step+'-circle', 
-            {path: '#step'+step+'-circle' },
-            { path: '#step'+step+'-pin' },
-             options
-            ).start();
-        }
-      }
+      this.updateSteps(prevProps, prevState);
 
     }
 

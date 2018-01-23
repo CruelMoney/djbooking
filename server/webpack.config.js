@@ -3,10 +3,17 @@ var path = require('path');
 var nodeExternals = require('webpack-node-externals');
 var NodemonPlugin = require('nodemon-webpack-plugin');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 function isProd(valProd, valDev) {
   return process.env.NODE_ENV === 'production' ? valProd : valDev;
 }
+
+const commonPlugins = [
+  new ReactLoadablePlugin({
+    filename: './dist/react-loadable.json',
+  })
+]
 
 module.exports = {
   entry: './src/index.js',
@@ -19,8 +26,10 @@ module.exports = {
     chunkFilename: isProd('[id].[hash].chunk.js', '[id].chunk.js'),
   },
   target: 'node',
+  devtool: 'inline-source-map',
   externals: [
-    nodeExternals()
+    // Maybe somehow still include react-preload and still use nodeExternals()
+    // nodeExternals() 
   ],
   node: {
     __dirname: false
@@ -35,7 +44,11 @@ module.exports = {
         options: {
           presets: ['env', 'react-app'],
           plugins: [
-            require.resolve("babel-plugin-dynamic-import-node"),
+              require.resolve("babel-plugin-dynamic-import-node"),
+              "react-loadable/babel"
+              // 'syntax-dynamic-import',
+              // 'transform-class-properties',
+              //'transform-object-assign',
           ]
         }
       },
@@ -80,9 +93,14 @@ module.exports = {
      
     ],
   },
-  plugins: isProd([
+  plugins: isProd(
+    [ // PRODUCTION PLUGINS
+      ...commonPlugins,
       new UglifyJsPlugin()
-    ], [
+    ], 
+    [ // DEVELOPMENT PLUGINS
+      ...commonPlugins,
       new NodemonPlugin()
-    ])
+    ]
+  )
 }

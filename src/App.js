@@ -68,7 +68,7 @@ const App = class extends Component {
 
    componentWillReceiveProps(props){
       if(props.loggedIn){
-        AsyncUser.preload();
+         AsyncUser.preload();
       }
       this.setPageLocation();
    }
