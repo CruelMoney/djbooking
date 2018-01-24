@@ -84,8 +84,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "deploy": "./versionMarker.sh; yarn build; git add . ; git commit -m 'build'; git push",
-    "predeploy": "cra-universal build; cd dist; yarn install"
+    "deploy": "./versionMarker.sh; yarn build; git add . ; git commit -m 'build'; git push"
   },
   "eslintConfig": {
     "extends": "react-app"
