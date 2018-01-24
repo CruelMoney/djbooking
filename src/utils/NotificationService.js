@@ -53,9 +53,7 @@ export default class NotificationService {
     getChatStatus = () => {
         return new Promise((resolve, reject)=>{
                const chatFetcher = () => {
-                   console.log("fetchiin")
                     this.socket.emit('get chat status', response => {
-                        console.log(response)
                         if(response.error){        
                             return reject(response);
                         }else{

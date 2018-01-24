@@ -75,18 +75,20 @@
   },
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
-    "start": "react-scripts start",
-    "startProd": "NODE_ENV=production react-scripts start",
+    "start": "NODE_ENV=production node dist/build/bundle.js",
+    "startDev": "NODE_ENV=production react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "deploy": "./versionMarker.sh; yarn build; git add . ; git commit -m 'build'; git push"
+    "deploy": "./versionMarker.sh; yarn build; git add . ; git commit -m 'build'; git push",
+    "postdeploy": "cra-universal build; cd dist; yarn install"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "devDependencies": {
+    "cra-universal": "^2.0.0",
     "react-snap": "^1.0.5"
   },
   "reactSnap": {
