@@ -40,8 +40,8 @@ node_modules
 /build_public
 .log
 yarn-error.log
-build
-dist
+/build
+
 
 ### Javascript config ###
 .eslintrc
