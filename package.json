@@ -9,6 +9,7 @@
     "node": " ^9.2.0"
   },
   "dependencies": {
+    "@cra-express/core": "^2.1.0",
     "auth0-js": "^8.10.1",
     "autoprefixer": "^7.1.6",
     "autotrack": "^2.0.1",
@@ -16,9 +17,11 @@
     "babel-preset-react": "^6.16.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.1",
     "compression": "^1.6.2",
+    "create-react-app-express": "1.1.0",
     "css-loader": "^0.28.7",
     "danish-ssn": "^1.0.0",
     "dom-to-image": "^2.5.2",
+    "dotenv": "^4.0.0",
     "email-validator": "^1.0.7",
     "eslint": "^4.10.0",
     "eslint-loader": "^1.4.1",
@@ -30,6 +33,7 @@
     "http-proxy-middleware": "^0.17.0",
     "if-env": "^1.0.0",
     "is-my-date-valid": "^0.1.0",
+    "isomorphic-fetch": "^2.2.1",
     "keymirror": "^0.1.1",
     "kute.js": "^1.6.2",
     "lodash.assign": "^4.2.0",
@@ -90,8 +94,21 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-dynamic-import-node": "^1.1.0",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
     "cra-universal": "^2.0.0",
-    "react-snap": "^1.0.5"
+    "nodemon-webpack-plugin": "0.1.5",
+    "null-loader": "^0.1.1",
+    "react-snap": "^1.0.5",
+    "svg-inline-loader": "^0.8.0",
+    "svg-url-loader": "^2.3.1",
+    "svgr": "^1.7.0",
+    "uglifyjs-webpack-plugin": "^1.1.6",
+    "webpack": "^3.8.1",
+    "webpack-node-externals": "^1.6.0"
   },
   "reactSnap": {
     "puppeteerArgs": [

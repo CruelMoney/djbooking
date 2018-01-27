@@ -8,10 +8,10 @@ import padlock from '../../../assets/padlock.svg'
 import note from '../../../assets/note.svg'
 import DJCards from './djCards'
 import Loadable from 'react-loadable';
-import LoadingRequestForm from './LoadingRequestForm';
+import LoadingRequestForm from '../../../components/common/RequestForm/LoadingRequestForm';
 
 const AsyncRequestForm = Loadable({
-  loader: () => import('./RequestForm'),
+  loader: () => import('../../../components/common/RequestForm/RequestForm'),
   loading: LoadingRequestForm
 });
 

@@ -98,7 +98,7 @@ class Menu extends Component {
     const isHome = this.props.location.pathname === '/';
 
     return (
-        <div>
+        <div className="menu-wrapper">
           <MobileMenu
             isHome
             onClosing={()=>this.setState({showMenu:false})}

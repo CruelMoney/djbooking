@@ -8,7 +8,6 @@ import {
 import { connect } from 'react-redux';
 import {init as analytics} from './utils/analytics/autotrack';
 import Loadable from 'react-loadable';
-import NotFoundPage from './components/common/NotFoundPage';
 import LoadHandler from './components/common/LoadingScreen';
 import {Environment} from './constants/constants'
 import { Helmet } from 'react-helmet';
@@ -21,6 +20,8 @@ import Signup from './routes/Signup';
 import User from './routes/User';
 import Faq from './routes/Faq';
 import Terms from './routes/Terms';
+import NotFound from './routes/NotFound';
+import LocationLanding from './routes/Location';
 
 const AsyncNavigation = Loadable({
   loader: () => import('./components/Navigation'),
@@ -86,7 +87,7 @@ const App = class extends Component {
     const { location } = this.props;
 
     return (
-      <div>
+      <div className={`location_${location.pathname.split('/')[1]}`}>
          <Helmet>
             <title>Book DJs with ease | Cueup</title>
 
@@ -114,7 +115,8 @@ const App = class extends Component {
             <Route path="/faq" component={Faq}/>
             <Route path="/terms" component={Terms}/>
             <Route path="/event/:id/:hash" component={CueupEvent}/>
-            <Route component={NotFoundPage}/>
+            <Route path="/locations/:country/:city?" component={LocationLanding}/>
+            <Route component={NotFound}/>
           </Switch>
         </div>
         <div id="popup-container"></div>

@@ -1,0 +1,96 @@
+.location_locations{
+  overflow: hidden;
+  position: relative;
+}
+
+.location_locations #content > div,
+.location_locations header{
+  padding: 0;
+  position: relative;
+  color: #111111;
+}
+
+.menu-wrapper > .container{
+  background: rgba(255,255,255, 0.96);
+  position: absolute;
+  left: 0; 
+  right: 0;
+  top: 0;
+  height: 80px;
+  z-index: 2;
+}
+
+.menu-wrapper > .container:after,
+.menu-wrapper > .container:before{
+  background: rgba(255,255,255, 0.96);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.menu-wrapper > .container:after{
+  right: -100%;
+}
+.menu-wrapper > .container:before{
+  left: -100%;
+}
+
+
+.span-wrapper{
+  position: relative;
+}
+
+.locations-page .span-wrapper > span {
+  opacity: 0.85;
+  background: #31DAFF;
+  width: 350px;
+  height: calc(100% - 80px);
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  top: 80px;
+}
+
+.locations-page header article{
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 80px);
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  margin-top: 80px;
+}
+.locations-page header .card{
+  box-shadow: none;
+  border-radius: 0;
+  overflow: auto;
+}
+
+.locations-page h1 {
+  font-family: "SourceSansPro-Regular";
+}
+.locations-page h1 span{
+  text-transform: capitalize;
+  display: block;
+  font-weight: bold;
+}
+
+.locations-page  header button >div{
+  color: white !important;
+}
+
+.locations-page .request-form .col-md-6{
+  margin-left: 33%;
+}
+
+.locations-page .request-form .card{
+  box-shadow: none;
+  border: 2px solid #eee;
+  border-radius: 0;
+  padding: 40px;
+}
+.location-page .event-submit-wrapper{
+  margin-top: 40px;
+}

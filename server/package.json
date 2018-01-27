@@ -22,11 +22,11 @@
     "svgr": "^1.6.0",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.8.1",
-    "webpack-node-externals": "^1.6.0"
+    "webpack-node-externals": "^1.6.0",
+    "babel-plugin-dynamic-import-node": "^1.1.0"
   },
   "dependencies": {
     "@cra-express/core": "^2.1.0",
-    "babel-plugin-dynamic-import-node": "^1.1.0",
     "create-react-app-express": "1.1.0",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
