@@ -267,7 +267,6 @@ const MainForm = class extends Component{
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(ownProps)
   return {
     isLoggedIn: state.login.status.signedIn,
     form:   Object.assign(
@@ -361,7 +360,6 @@ next=()=>{
 
 render(){
   const eventDateString = this.state.date.format("dddd Do, MMMM YYYY");
-  console.log(this.props.initialCity)
   return(
     <div> 
       <Popup width="380px" showing={this.state.showPopup}

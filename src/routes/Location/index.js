@@ -9,6 +9,7 @@ import Loadable from 'react-loadable';
 import LoadingRequestForm from '../../components/common/RequestForm/LoadingRequestForm';
 import Map from '../../components/common/Map';
 import CitySvg from '../../components/graphics/City';
+import { Redirect } from 'react-router'
 import './index.css';
 
 const AsyncRequestForm = Loadable({
@@ -67,16 +68,21 @@ class Location extends Component{
   render() {
     const { match } = this.props;
     const { city, country } = match.params;
-    
+    const location = !!city 
+    ? (!!locations[country] ? locations[country].cities[city] : null)
+    : locations[country];
+
+    // Redirect
+    if(!location){
+      return <Redirect to="/not-found"/>
+    }
+
     let title = city || country;
     title = title[0].toUpperCase() + title.substring(1)
     const radius = !!city ? 25000 : 100000;
     const zoomlevel = !!city ? 11 : 8;
+    const { coordinates } = location;
 
-    const location = !!city 
-      ? locations[country].cities[city].coordinates
-      : locations[country].coordinates;
-    
     return (
       <div className="locations-page">
         <div className="span-wrapper">
@@ -87,11 +93,11 @@ class Location extends Component{
             hideRoads={true}
             radius={radius}
             defaultCenter={{
-              lat: location.lat + 0.05,
-              lng: location.lng - (!!city ? 0.5 : 2)
+              lat: coordinates.lat + 0.05,
+              lng: coordinates.lng - (!!city ? 0.5 : 2)
             }}
             height={600}
-            value={location}
+            value={coordinates}
             editable={false}
             themeColor={this.themeColor}
             radiusName="playingRadius"
