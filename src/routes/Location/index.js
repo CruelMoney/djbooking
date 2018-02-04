@@ -91,6 +91,7 @@ class Location extends Component{
         
         <header>
           <Map
+            key={locationName}
             noCircle={!city}
             hideRoads={true}
             radius={radius}

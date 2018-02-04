@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class DJCard extends React.Component{
   state={loaded: false}
-
+    
   render(){
       return(
           <div className={"card dj-card " + (this.state.loaded ? "loaded" : "")}>

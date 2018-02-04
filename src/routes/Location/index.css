@@ -10,7 +10,11 @@
   color: #111111;
 }
 
-.menu-wrapper > .container{
+.location_locations .breadcrumbs{
+  display: block;
+}
+
+.location_locations .menu-wrapper > .container{
   background: rgba(255,255,255, 0.96);
   position: absolute;
   left: 0; 
@@ -20,18 +24,18 @@
   z-index: 2;
 }
 
-.menu-wrapper > .container:after,
-.menu-wrapper > .container:before{
+.location_locations .menu-wrapper > .container:after,
+.location_locations .menu-wrapper > .container:before{
   background: rgba(255,255,255, 0.96);
   position: absolute;
   width: 100%;
   height: 100%;
 }
 
-.menu-wrapper > .container:after{
+.location_locations .menu-wrapper > .container:after{
   right: -100%;
 }
-.menu-wrapper > .container:before{
+.location_locations .menu-wrapper > .container:before{
   left: -100%;
 }
 

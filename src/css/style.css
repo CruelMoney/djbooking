@@ -3525,6 +3525,10 @@ table td{
   text-align: center;
 }
 
+.breadcrumbs{
+  display: none;
+}
+
 ol.breadcrumbs{
   list-style: none;
   font-family: 'Ostrich Sans Inline';

@@ -294,6 +294,13 @@ DJs : [
           genres: ["Remixes", "Techno"],
           img: 'https://i1.sndcdn.com/avatars-000077812094-dqnrqd-large.jpg'
       },
+
+      {
+        name:"Mads",
+        location: "Aarhus, Denmark",
+        genres: ["Top 40","Hip Hop", "R&B"],
+        img: 'https://scontent.xx.fbcdn.net/v/t1.0-1/22046694_10215298168226659_1072546755789332301_n.jpg?oh=da3ca906b6567cefc43df96aba66feca&oe=5A7D368C'
+    },
 ]
 
 
