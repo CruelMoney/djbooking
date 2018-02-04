@@ -9,6 +9,7 @@ import Logo from './common/Logo'
 import MobileMenu from './MobileMenu'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import BreadCrumbs from './BreadCrumbs';
 import * as actions from '../actions/LoginActions'
 import * as sessionActions from '../actions/SessionActions'
 
@@ -109,9 +110,13 @@ class Menu extends Component {
             <nav
               className="navigation"
             >
-                <Navlink to="/">
-                  <Logo />
-                </Navlink>
+                <div className="logo-area">
+                  <Navlink to="/">
+                    <Logo />
+                  </Navlink>
+                  <BreadCrumbs />
+                </div>
+
                 <div className=""
                   ref={ref=>this.mobileMenu=ref}
                   >

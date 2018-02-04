@@ -9,7 +9,8 @@ import Loadable from 'react-loadable';
 import LoadingRequestForm from '../../components/common/RequestForm/LoadingRequestForm';
 import Map from '../../components/common/Map';
 import CitySvg from '../../components/graphics/City';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
+import FloatingDJs from './components/FloatingCards';
 import './index.css';
 
 const AsyncRequestForm = Loadable({
@@ -68,6 +69,7 @@ class Location extends Component{
   render() {
     const { match } = this.props;
     const { city, country } = match.params;
+    const locationName = !city ? country : city;
     const location = !!city 
     ? (!!locations[country] ? locations[country].cities[city] : null)
     : locations[country];
@@ -86,7 +88,7 @@ class Location extends Component{
     return (
       <div className="locations-page">
         <div className="span-wrapper">
-        <span></span>
+        
         <header>
           <Map
             noCircle={!city}
@@ -141,8 +143,14 @@ class Location extends Component{
             />
           </div>
 
-          <CitySvg />
+          <CitySvg 
+            id="city-illustration"
+          />
           </div>
+          
+          <FloatingDJs 
+            location={locationName}
+          />
 
           
           <div className="info-boxes grey">

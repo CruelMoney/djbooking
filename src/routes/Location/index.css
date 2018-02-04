@@ -38,18 +38,27 @@
 
 .span-wrapper{
   position: relative;
+  overflow: hidden;
 }
 
-.locations-page .span-wrapper > span {
+.locations-page header .container{
+  position: relative;
+}
+.locations-page header .container:before {
+  content: "";
   opacity: 0.85;
   background: #31DAFF;
-  width: 350px;
-  height: calc(100% - 80px);
+  width: 100%;
+  height: 100vw;
+  transform: translateX(-100%);
   position: absolute;
-  left: 0;
+  left: 200px;
   z-index: 1;
-  top: 80px;
+  top: -76px;
 }
+
+
+
 
 .locations-page header article{
   position: absolute;
@@ -93,4 +102,10 @@
 }
 .location-page .event-submit-wrapper{
   margin-top: 40px;
+}
+
+#city-illustration{
+  transform: translateX(-50%);
+  position: relative;
+  left: 50%;
 }

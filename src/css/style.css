@@ -2624,12 +2624,14 @@ left: 50%;
     flex-direction: column;
     justify-content: space-around;
 }
+.dj-card h4,
 header .dj-card h4{
     text-transform: capitalize;
     font-size: 18px;
     margin: 0;
 }
 
+.dj-card p,
 header .dj-card p{
     font-size: 12px;
     margin: 0;
@@ -3521,4 +3523,31 @@ table td{
 .signup .errors p:not(.error){
   margin-top: 15px;
   text-align: center;
+}
+
+ol.breadcrumbs{
+  list-style: none;
+  font-family: 'Ostrich Sans Inline';
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 0;
+  margin: 0;
+
+}
+
+ol.breadcrumbs li{
+  display: inline-block;
+}
+ol.breadcrumbs li > div{
+  display: inline-block;
+}
+ol.breadcrumbs a{
+  color: #32325D;
+  font-size: 16px;
+  margin: 0 0.5em;
+}
+.logo-area{
+  display: flex;
+  align-items: flex-end;
 }
