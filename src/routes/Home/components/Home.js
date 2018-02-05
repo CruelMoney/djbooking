@@ -88,7 +88,7 @@ handleButtonClick = () => {
           <div className="info-boxes grey">
             <div className="container">
               <div className="row">
-                      <div  className="col-sm-5 col-sm-push-1">
+                      <div  className="col-sm-6 col-md-5 col-md-push-1">
                         <div className="card">
                           <img src={padlock} alt="icon"/>
                       <h2 style={{color:this.themeColor}}>Secured booking system</h2>
@@ -96,7 +96,7 @@ handleButtonClick = () => {
 At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
                   </div>
                 </div>
-                <div  className="col-sm-5 col-sm-push-1">
+                <div  className="col-sm-6 col-md-5 col-md-push-1">
                   <div className="card">
                     <img src={note} alt="icon"/>
                     <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
