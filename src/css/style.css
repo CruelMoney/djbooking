@@ -2689,524 +2689,6 @@ header .dj-card p{
 } 
 
 
-/* SMALL COM BEGIN */
-@media only screen 
-  and (max-width : 992px)  {
-
-
-    .request-columns .row{
-      display: block;
-    }
-    .container{
-      width: auto;
-    }
-     .mobileActions .context-actions{
-    display: flex;
-    justify-content: flex-start;
-    width: 100%;
-    position: relative;
-  }
-  .event-information .context-actions{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    top: -10px !important;
-    position: relative;
-}
-  .mobileActions .context-actions > div,
-   .event-information .context-actions > div{
-    margin-right: 10px;
-    display: inline-block;
-  }
-
-  .location_ header h1{
-    width: auto;
-  }
-
-  .dj-cards{
-    display: none;
-  }
-
-}
-/* SMALL COM END */
-
-/* TABLET BEGIN */
-@media only screen 
-  and (max-width : 768px)
-  and (min-width: 480px)  {
-    #preFooterPseudo:before{
-      top:-50px;
-    }
-   .request-columns{
-    display: block;
-    margin: 0;
-  }
-  .request-columns .card{
-    margin-bottom: 100px;
-  }
-  .request-columns .row > div:last-child .card{
-    margin-bottom: 10px;
-  }
-  .signup{
-  margin: 0 80px;
-  }
-
-  .progrezz{
-    margin-left: 10%;
-    width: 80%;
-  }
-
-
-.location_howitworks #stripes{
-  height: 570px;
-}
-.how-it-works-wrapper{
-  margin-top: 210px;
-}
-.particles-bg{
-  width: 55%;
-}
-
-.how-it-works{
-  margin-top: -120px;
-  height: 2040px;
-}
-.how-it-works section{
-  width: 475px;
-}
-
-.how-it-works section:nth-child(2){
-  width: 445px;
-}
-.how-it-works section:nth-child(3){
-  width: 415px;
-}
-.how-it-works section:nth-child(4){
-  width: 375px;
-}
-.how-it-works section:nth-child(5){
-  width: 340px;
-}
-.terms-content .row,
-.faq-content .row,
-.about-content .row{
-  flex-direction: column;
-}
-.terms-content .button-wrapper,
-.faq-content .button-wrapper,
-.about-content .button-wrapper{
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 20px;
-}
-.terms-content .button-wrapper a,
-.faq-content .button-wrapper a,
-.about-content .button-wrapper a{
-  margin: 0 5px;
-  min-width: 100px;
-}
-.terms-content .fixed,
-.faq-content .fixed,
-.about-content .fixed{
-  position: relative;
-  top: initial;
-}
-.user-container > .row{
-  flex-direction: column;
-}
-.user-header .row{
-  flex-direction: column;
-}
-  .user-card-wrapper
-  {
-    display: none !important;
-  }
-   .mobileActions{
-    display: block;
-  }
-  .terms-navigation{
-    display: flex;
-
-  }
-  .event-submit-wrapper{
-  height: 130px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.offer-table > div:first-child{
-  border-right: none;
-}
-.mobileMenuButton{
-  display: inline-block;
-}
-.main-menu
-{
-  display: none !important;
-}
-}
-/* TABLET END*/
-
-/* Mobile */
-@media only screen and (max-width: 480px) {
-  .mobileMenuButton{
-    display: inline-block;
-  }
-  .showMobile{
-    display: block;
-  }
-  .Header-title {
-    margin-top: 0.5em;
-  }
-  .location_ header .col-md-5:first-of-type{
-    margin-top: 0px;
-  }
-  #content > div {
-    padding-top: 0px;
-  }
-  .location_about #content,
-  .location_faq #content,
-  .location_terms #content{
-    margin-top: 50px;
-  }
-
-  h1,
-  .location_ header h1 {
-    font-size: 40px;
-    line-height: 55px;
-  }
-
-  .container{
-    display: block;
-    width: 100%;
-  }
-
-  .row{
-    margin: 0 -15px;
-    flex-direction: column;
-  }
-
-  .col-md-6{
-    padding: 0 20px;
-  }
-
- 
-  
-
-  .mobileActions{
-    display: block;
-  }
-  .mobileActions .context-actions{
-    display: flex;
-    justify-content: flex-start;
-    width: 100%;
-  }
-  .user-card-fact{
-    text-align: left;
-  }
-  #stripes{
-    height: 100%;
-  }
-  header{
-    padding-top: 90px;
-    height: 100%;
-    position: relative;
-  }
-  .user-header{
-    padding-top: 120px;
-  }
-  .card{
-    padding: 20px;
-  }
-  .nav-container {
-    width: auto;
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
-  .navigation{
-    margin-top: 10px;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-   .navigation .logo{
-      fill: white;
-  }
-
-  .main-menu li,
-  .main-menu li:last-child{
-    text-align: center;
-    margin: 0;
-  }
-  .main-menu,
-  .user-card-wrapper,
-  .userNavigation,
-  .header-divider
-  {
-    display: none !important;
-  }
-  .request-columns{
-    display: block;
-    margin: 0;
-  }
-  .request-columns .card{
-    margin-bottom: 100px;
-  }
-  .request-columns .row > div:last-child .card{
-    margin-bottom: 10px;
-  }
-
-
-.info-boxes {
-    padding: 30px 0;
-}
-.info-boxes .card {
-    margin-bottom: 30px;
-}
-#preFooter{
-  height: 280px;
-}
-#preFooter .action-buttons{
-  margin-left: -15px;
-  justify-content: flex-start;
-}
-#preFooter .action-title{
-  padding: 0 20px;
-}
-.footer-text{
-  display: block;
-}
-.footer-columns{
-  display: block;
-}
-.footer-columns > div{
-  margin-bottom: 30px;
-}
-footer{
-  padding: 30px 0 30px;
-  margin-top: 20px;
-}
-
-.user-header{
-  position: relative;
-    height: auto;
-    padding-bottom: 0px;
-    overflow: hidden;
-    padding-top: 70px;
-}
-.user-header-content{
-  height: auto;
-}
-.user-header.fixed{
-  top: 0px;
-  position:relative;
-}
-.user-header.fixed + div{
-  margin-top: 20px;
-}
-.user-container{
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
-.notification{
-  transform: none;
-  position: relative;
-      left: 0;
-}
-.signup{
-  margin: 0 20px;
-      margin-bottom: 80px;
-}
-.location_ header .card {
-      margin-bottom: 60px;
-}
-table td{
-  display: block;
-}
-.request-columns table td{
-  display: table-cell;
-}
-.terms-navigation {
-  flex-direction: row;
-  width: 100%;
-}
-.terms-navigation  .button-wrapper{
-  margin-right: 5px;
-  min-width: 100px;
-}
-.terms-navigation  .button-wrapper:last-child{
-  margin-right: 0px;
-}
-.navigation{
-  height: 60px;
-}
-
-.terms-content,
-.faq-content,
-.about-content{
-}
-
-.people{
-  margin-bottom: 20px;
-}
-
-.toggle-options td,
-.toggle-button-handler td{
-  margin-bottom: 5px;
-}
-.toggle-button-handler td:last-child{
-  margin-bottom: -5px;
-}
-.signup form{
-  margin-left: 0px;
-}
-.signup h2{
-  margin-left: 30px;
-}
-.social-signup h2{
-  margin-left: 0;
-}
-.signup form li:before{
-  margin-left: 0;
-}
-.fixed{
-  position: initial;
-  top: initial;
-}
-
-.particles canvas{
-    height: 200px !important;
-    width: 70% !important;
-    margin-bottom: 75px;
-}
-.particles > div{
-   display: flex;
-    justify-content: center;
-}
-#particles{
-  display: none;
-}
-.particles-bg{
-  display: none;
-}
-.how-it-works{
-  margin-top: 0px;
-      height: 100%;
-}
-.how-it-works section{
-  width: 100% !important;
-  padding: 0px 15px;
-  margin-bottom: 50px;
-}
-.how-it-works section .how-to-title{
-  margin-left: 0px;
-}
- #preFooterPseudo:before{
-  top: -30px;
-}
-.offer-example{
-  width: 100%;
-}
-.payout-form .row,
-.pay-form .row{
-  margin: 0 -15px;
-  flex-direction: row;
-}
-.payout-form .buttons-wrapper{
-  flex-direction: row;
-}
-
-.event-top{
-    flex-direction: column;
-    align-items: flex-start;
-}
-.gig-status{
-  position: relative;
-  right: 0;
-      top: 4px;
-}
-.event-information .context-actions{
-    width: 100%;
-    position: relative !important;
-    top: -10px !important;
-}
-.pay-form {
-    width: 100%;
-}
-.mobileColumn{
-  flex-direction: column !important;
-}
-.pay-info{
-      margin-bottom: 20px;
-}
-.header-info{
-  margin-bottom: 20px;
-}
-.event-header-content, .user-header-content {
-    height: auto;
-}
-.review-text{
-  padding: 0;
-}
-.review > div:first-child{
-  padding: 0px !important;
-  margin-bottom: 10px;
-}
-.review > div:first-child > div:first-child{
-  padding-right: 0px !important;
-}
-.review-rating{
-  float: left;
-    width: 100%;
-    margin-bottom: 20px;
-}
-.hideMobile{
-  display: none !important;
-}
-.how-it-works-wrapper,
-.request-form-wrapper{
-  margin-top: 0;
-}
-.terms-navigation{
-    display: flex;
-        flex-wrap: wrap;
-  }
-   .event-submit-wrapper{
-    height: 130px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-
-.location_howitworks #preFooterPseudo:before{
-  top: -730px;
-}
-
-.popup{
-  max-width: 100% !important;
-}
-
-.social-signup .buttons{
-  flex-direction: column;
-}
-.social-signup .buttons .button-wrapper{
-  width: 100%;
-  margin-bottom: 15px;
-}
-
-ol.breadcrumbs,
-ol.breadcrumbs a{
-  font-size: 14px;
-}
-
-}
-/* Mobile END */
-
-
 
 
 .popup .card{
@@ -3567,3 +3049,533 @@ ol.breadcrumbs a{
   display: flex;
   align-items: flex-end;
 }
+
+/* SMALL COM BEGIN */
+@media only screen 
+  and (max-width : 992px)  {
+
+
+    .request-columns .row{
+      display: block;
+    }
+    .container{
+      width: auto;
+    }
+     .mobileActions .context-actions{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    position: relative;
+  }
+  .event-information .context-actions{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    top: -10px !important;
+    position: relative;
+}
+  .mobileActions .context-actions > div,
+   .event-information .context-actions > div{
+    margin-right: 10px;
+    display: inline-block;
+  }
+
+  .location_ header h1{
+    width: auto;
+  }
+
+  .dj-cards{
+    display: none;
+  }
+
+}
+/* SMALL COM END */
+
+.show-tablet-down{
+  display: none;
+}
+
+/* TABLET BEGIN */
+@media only screen 
+  and (max-width : 768px)
+  and (min-width: 480px)  {
+    .show-tablet-down{
+      display: block;
+    }
+    #preFooterPseudo:before{
+      top:-50px;
+    }
+   .request-columns{
+    display: block;
+    margin: 0;
+  }
+  .request-columns .card{
+    margin-bottom: 100px;
+  }
+  .request-columns .row > div:last-child .card{
+    margin-bottom: 10px;
+  }
+  .signup{
+  margin: 0 80px;
+  }
+
+  .progrezz{
+    margin-left: 10%;
+    width: 80%;
+  }
+
+
+.location_howitworks #stripes{
+  height: 570px;
+}
+.how-it-works-wrapper{
+  margin-top: 210px;
+}
+.particles-bg{
+  width: 55%;
+}
+
+.how-it-works{
+  margin-top: -120px;
+  height: 2040px;
+}
+.how-it-works section{
+  width: 475px;
+}
+
+.how-it-works section:nth-child(2){
+  width: 445px;
+}
+.how-it-works section:nth-child(3){
+  width: 415px;
+}
+.how-it-works section:nth-child(4){
+  width: 375px;
+}
+.how-it-works section:nth-child(5){
+  width: 340px;
+}
+.terms-content .row,
+.faq-content .row,
+.about-content .row{
+  flex-direction: column;
+}
+.terms-content .button-wrapper,
+.faq-content .button-wrapper,
+.about-content .button-wrapper{
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.terms-content .button-wrapper a,
+.faq-content .button-wrapper a,
+.about-content .button-wrapper a{
+  margin: 0 5px;
+  min-width: 100px;
+}
+.terms-content .fixed,
+.faq-content .fixed,
+.about-content .fixed{
+  position: relative;
+  top: initial;
+}
+.user-container > .row{
+  flex-direction: column;
+}
+.user-header .row{
+  flex-direction: column;
+}
+  .user-card-wrapper
+  {
+    display: none !important;
+  }
+   .mobileActions{
+    display: block;
+  }
+  .terms-navigation{
+    display: flex;
+
+  }
+  .event-submit-wrapper{
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.offer-table > div:first-child{
+  border-right: none;
+}
+.mobileMenuButton{
+  display: inline-block;
+}
+.main-menu
+{
+  display: none !important;
+}
+}
+/* TABLET END*/
+
+/* Mobile */
+@media only screen and (max-width: 480px) {
+  .mobileMenuButton{
+    display: inline-block;
+  }
+  .showMobile{
+    display: block;
+  }
+  .show-tablet-down{
+    display: block;
+  }
+  .Header-title {
+    margin-top: 0.5em;
+  }
+  .location_ header .col-md-5:first-of-type{
+    margin-top: 0px;
+  }
+  #content > div {
+    padding-top: 0px;
+  }
+  .location_about #content,
+  .location_faq #content,
+  .location_terms #content{
+    margin-top: 50px;
+  }
+
+  h1,
+  .location_ header h1 {
+    font-size: 40px;
+    line-height: 55px;
+  }
+
+  .container{
+    display: block;
+    width: 100%;
+  }
+
+  .row{
+    margin: 0 -15px;
+    flex-direction: column;
+  }
+
+  .col-md-6{
+    padding: 0 20px;
+  }
+
+ 
+  
+
+  .mobileActions{
+    display: block;
+  }
+  .mobileActions .context-actions{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .user-card-fact{
+    text-align: left;
+  }
+  #stripes{
+    height: 100%;
+  }
+  header{
+    padding-top: 90px;
+    height: 100%;
+    position: relative;
+  }
+  .user-header{
+    padding-top: 120px;
+  }
+  .card{
+    padding: 20px;
+  }
+  .nav-container {
+    width: auto;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .navigation{
+    margin-top: 10px;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+   .navigation .logo{
+      fill: white;
+  }
+
+  .main-menu li,
+  .main-menu li:last-child{
+    text-align: center;
+    margin: 0;
+  }
+  .main-menu,
+  .user-card-wrapper,
+  .userNavigation,
+  .header-divider
+  {
+    display: none !important;
+  }
+  .request-columns{
+    display: block;
+    margin: 0;
+  }
+  .request-columns .card{
+    margin-bottom: 100px;
+  }
+  .request-columns .row > div:last-child .card{
+    margin-bottom: 10px;
+  }
+
+
+.info-boxes {
+    padding: 30px 0;
+}
+.info-boxes .card {
+    margin-bottom: 30px;
+}
+#preFooter{
+  height: 280px;
+}
+#preFooter .action-buttons{
+  margin-left: -15px;
+  justify-content: flex-start;
+}
+#preFooter .action-title{
+  padding: 0 20px;
+}
+.footer-text{
+  display: block;
+}
+.footer-columns{
+  display: block;
+}
+.footer-columns > div{
+  margin-bottom: 30px;
+}
+footer{
+  padding: 30px 0 30px;
+  margin-top: 20px;
+}
+
+.user-header{
+  position: relative;
+    height: auto;
+    padding-bottom: 0px;
+    overflow: hidden;
+    padding-top: 70px;
+}
+.user-header-content{
+  height: auto;
+}
+.user-header.fixed{
+  top: 0px;
+  position:relative;
+}
+.user-header.fixed + div{
+  margin-top: 20px;
+}
+.user-container{
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.notification{
+  transform: none;
+  position: relative;
+      left: 0;
+}
+.signup{
+  margin: 0 20px;
+      margin-bottom: 80px;
+}
+.location_ header .card {
+      margin-bottom: 60px;
+}
+table td{
+  display: block;
+}
+.request-columns table td{
+  display: table-cell;
+}
+.terms-navigation {
+  flex-direction: row;
+  width: 100%;
+}
+.terms-navigation  .button-wrapper{
+  margin-right: 5px;
+  min-width: 100px;
+}
+.terms-navigation  .button-wrapper:last-child{
+  margin-right: 0px;
+}
+.navigation{
+  height: 60px;
+}
+
+.terms-content,
+.faq-content,
+.about-content{
+}
+
+.people{
+  margin-bottom: 20px;
+}
+
+.toggle-options td,
+.toggle-button-handler td{
+  margin-bottom: 5px;
+}
+.toggle-button-handler td:last-child{
+  margin-bottom: -5px;
+}
+.signup form{
+  margin-left: 0px;
+}
+.signup h2{
+  margin-left: 30px;
+}
+.social-signup h2{
+  margin-left: 0;
+}
+.signup form li:before{
+  margin-left: 0;
+}
+.fixed{
+  position: initial;
+  top: initial;
+}
+
+.particles canvas{
+    height: 200px !important;
+    width: 70% !important;
+    margin-bottom: 75px;
+}
+.particles > div{
+   display: flex;
+    justify-content: center;
+}
+#particles{
+  display: none;
+}
+.particles-bg{
+  display: none;
+}
+.how-it-works{
+  margin-top: 0px;
+      height: 100%;
+}
+.how-it-works section{
+  width: 100% !important;
+  padding: 0px 15px;
+  margin-bottom: 50px;
+}
+.how-it-works section .how-to-title{
+  margin-left: 0px;
+}
+ #preFooterPseudo:before{
+  top: -30px;
+}
+.offer-example{
+  width: 100%;
+}
+.payout-form .row,
+.pay-form .row{
+  margin: 0 -15px;
+  flex-direction: row;
+}
+.payout-form .buttons-wrapper{
+  flex-direction: row;
+}
+
+.event-top{
+    flex-direction: column;
+    align-items: flex-start;
+}
+.gig-status{
+  position: relative;
+  right: 0;
+      top: 4px;
+}
+.event-information .context-actions{
+    width: 100%;
+    position: relative !important;
+    top: -10px !important;
+}
+.pay-form {
+    width: 100%;
+}
+.mobileColumn{
+  flex-direction: column !important;
+}
+.pay-info{
+      margin-bottom: 20px;
+}
+.header-info{
+  margin-bottom: 20px;
+}
+.event-header-content, .user-header-content {
+    height: auto;
+}
+.review-text{
+  padding: 0;
+}
+.review > div:first-child{
+  padding: 0px !important;
+  margin-bottom: 10px;
+}
+.review > div:first-child > div:first-child{
+  padding-right: 0px !important;
+}
+.review-rating{
+  float: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.hideMobile{
+  display: none !important;
+}
+.how-it-works-wrapper,
+.request-form-wrapper{
+  margin-top: 0;
+}
+.terms-navigation{
+    display: flex;
+        flex-wrap: wrap;
+  }
+   .event-submit-wrapper{
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.location_howitworks #preFooterPseudo:before{
+  top: -730px;
+}
+
+.popup{
+  max-width: 100% !important;
+}
+
+.social-signup .buttons{
+  flex-direction: column;
+}
+.social-signup .buttons .button-wrapper{
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+ol.breadcrumbs,
+ol.breadcrumbs a{
+  font-size: 14px;
+}
+
+}
+/* Mobile END */
+
+
+

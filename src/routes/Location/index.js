@@ -18,6 +18,8 @@ const AsyncRequestForm = Loadable({
   loading: LoadingRequestForm
 });
 
+const locationParagraph = "Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.";
+
 const locations = {
   denmark: {/* Rectangle 8: */
     cities: {
@@ -52,6 +54,10 @@ class Location extends Component{
   themeColor = "#31DAFF"
   requestForm = null
 
+  state={
+    headerHeight: 600
+  }
+
   getChildContext() {
     return {
       color: this.themeColor
@@ -66,8 +72,16 @@ class Location extends Component{
   });
   }
 
+  componentDidMount(){
+    const isMobile = window.innerWidth <= 768;
+    this.setState({
+      isMobile
+    });
+  }
+
   render() {
     const { match } = this.props;
+    const { isMobile } = this.state;
     const { city, country } = match.params;
     const locationName = !city ? country : city;
     const location = !!city 
@@ -96,10 +110,10 @@ class Location extends Component{
             hideRoads={true}
             radius={radius}
             defaultCenter={{
-              lat: coordinates.lat + 0.05,
-              lng: coordinates.lng - (!!city ? 0.5 : 2)
+              lat: coordinates.lat + (isMobile ? 0 : 0.05),
+              lng: coordinates.lng - (isMobile ? 0 : (!!city ? 0.5 : 2))
             }}
-            height={600}
+            height={isMobile ? 700 : 600}
             value={coordinates}
             editable={false}
             themeColor={this.themeColor}
@@ -108,7 +122,8 @@ class Location extends Component{
             />
         
           <article>
-            <div className="container">
+            
+            <div className="container fix-top-mobile">
               <div className="row">
                 <div className="col-md-5 col-sm-6">
                 <div className="card">
@@ -117,7 +132,7 @@ class Location extends Component{
                     <span>{title}</span>
                     </h1>
                     <p key="paragraph">
-                      Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.
+                      {locationParagraph}
                     </p>
 
                     <div style={{float:"left", marginTop:"20px"}}>
@@ -132,7 +147,19 @@ class Location extends Component{
                 </div>
               </div>
             </div>
+            <div className="show-tablet-down">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-12">
+                  <p key="paragraph">
+                    {locationParagraph}
+                  </p>
+                </div>
+              </div>
+            </div>
+            </div>
           </article>
+            
 
         </header>
 

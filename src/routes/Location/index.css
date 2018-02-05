@@ -99,6 +99,7 @@
 
 .locations-page .request-form .col-md-6{
   margin-left: 26%;
+  z-index: 3;
 }
 
 .locations-page .request-form .card{
@@ -115,24 +116,27 @@
   transform: translateX(-50%);
   position: relative;
   left: 50%;
+  width: 100%;
+  height: auto;
+  bottom: -2px;
 }
 
 /* Tablet */
 @media only screen and (max-width: 768px) {
 
-  .location_locations header .container{
+  .location_locations header .container.fix-top-mobile{
     padding: 0;
     display: block;
     margin: 0;
     width: 100vw;
   }
 
-  .location_locations header .container > .row{
+  .location_locations header .container.fix-top-mobile > .row{
     margin: 0;
     width: 100vw;
   }
 
-  .location_locations header .container > .row > div{
+  .location_locations header .container.fix-top-mobile > .row > div{
     width: 100vw;
   }
 
@@ -161,8 +165,34 @@
   .location_locations header .card *{
     margin: 0 !important;
   }
+
+  .locations-page header .container:before {
+    display: none;
+  }
+
+  .show-tablet-down{
+    position: absolute !important;
+    bottom: 0;
+    padding: 2em 0;
+    background: rgba(49, 217, 255, 0.95);
+    color: white;
+    width: 100%;
+  }
   
   
+  .show-tablet-down p{
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .locations-page .request-form .col-md-6{
+    margin-left: 0%;
+  }
+
+  #city-illustration{
+    width: 245%;
+    bottom: -3px;
+  }
   
 }
 
@@ -170,7 +200,7 @@
 /* Mobile */
 @media only screen and (max-width: 420px) {
   .location_locations header button > div{
-    width: 110px; 
+    width: 110px !important; 
   }
   
 }
