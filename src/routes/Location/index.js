@@ -95,8 +95,7 @@ class Location extends Component{
 
     let title = city || country;
     title = title[0].toUpperCase() + title.substring(1)
-    const radius = !!city ? 25000 : 100000;
-    const zoomlevel = !!city ? 11 : 8;
+    const radius = !!city ? 25000 : (isMobile ? 200000 : 100000);
     const { coordinates } = location;
 
     return (

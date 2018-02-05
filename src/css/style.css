@@ -3288,7 +3288,7 @@ ol.breadcrumbs a{
   .user-header{
     padding-top: 120px;
   }
-  .card{
+  .card:not(.dj-card){
     padding: 20px;
   }
   .nav-container {
