@@ -114,6 +114,20 @@ class footer extends Component{
                 </li>
               </ul>
             </div>
+            <div>
+              <h4>LOCATIONS</h4>
+              <ul>
+                <li>
+                  <Link to="/locations/denmark/copenhagen">Copenhagen</Link>
+                </li>
+                <li>
+                  <Link to="/locations/denmark/aarhus">Århus</Link>
+                </li>
+                <li>
+                  <Link to="/locations/denmark/odense">Odense</Link>
+                </li>
+              </ul>
+            </div>
             {!this.props.signedIn ? 
             <div>
               <h4>CURRENCY</h4>

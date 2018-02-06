@@ -15,27 +15,45 @@
 	}
 }
 
+@keyframes moveLeft {
+	0% {
+		opacity: 1;
+		//box-shadow: 0 5px 15px 0px rgba(0,0,0,0.3);
+		transform: translateX(0%);
+	}
+	100% {
+		opacity: 1;
+	//	box-shadow: 0 5px 15px 0px rgba(0,0,0,0.3);
+		transform: translateX(100%);
+	}
+}
+
 .floating-cards-wrapper{
-  width: 100vw;
   overflow: hidden;
   background: #f7f9fc;
-
+	height: 400px;
 }
 .floating-cards{
   width: auto;
   display: table;
-  transform: translateX(-50%);
-  left: 50%;
-  position: relative;
+	position: relative;
+	transform: translateX(-334px);
 }
 
 .floating-cards .card{
   overflow: visible;
 }
 .floating-cards .card-wrapper{
+	opacity: 0;
   display: table-cell;
   padding: 4em 0;
-  padding-top: 10em;
+	padding-top: 10em;
+	position: absolute;
+	left: 0;
+	top: 0;
+	animation: moveLeft linear infinite;
+	animation-play-state: paused;
+	width: 100%;
 }
 .floating-cards .card-wrapper .card{
   animation: float 6s ease-in-out infinite;

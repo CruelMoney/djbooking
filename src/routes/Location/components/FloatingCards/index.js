@@ -9,21 +9,34 @@ class FloatingCards extends Component {
     let { location } = this.props;
     location = !!location ? location : 'notfound';
 
-    const renderDJS = 
-      shuffle(DJs)
-      .filter(dj => dj.location.toLowerCase().indexOf(location.toLowerCase()) !== -1);
+    let renderDJS = 
+      shuffle(
+        DJs.filter(dj => dj.location.toLowerCase().indexOf(location.toLowerCase()) !== -1)
+      );
+      
+    renderDJS = renderDJS.length > 8 ? renderDJS.slice(0,8) : renderDJS;
+
+    const count = renderDJS.length;
+    const animationDuration = count*6;
+    const animationDelay = animationDuration/count;
 
     return (
       <div className="floating-cards-wrapper">
-        <div className="floating-cards">
+        <div 
+        className="floating-cards"
+        data-count={count}
+        style={{width:((count)*334 + 'px')}}>
         {renderDJS.map((dj, idx) => {
           return(
             <div 
-              dataDJName={dj.name} 
-              key={`dj-card-${idx}`} 
+              key={`dj-card-${idx}`}
+              style={{
+                animationDuration: (animationDuration+'s'),
+                animationDelay: '-'+(idx+1)*animationDelay+'s'}}
               className="card-wrapper">
               <DJCard dj={dj} />
-            </div>)
+            </div>
+            )
           })}
         </div>
       </div>

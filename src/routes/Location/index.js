@@ -24,24 +24,28 @@ const locations = {
   denmark: {/* Rectangle 8: */
     cities: {
       copenhagen : {
+        name: 'Copenhagen',
         coordinates: {
           lat: 55.6760968,
           lng: 12.5683372
         }
       }, 
       odense: {
+        name: 'Odense',
         coordinates: {
           lat: 55.403756,
           lng: 10.40237
         }
       }, 
       aarhus: {
+        name: 'Århus',
         coordinates: {
           lat: 56.162939,
           lng: 10.203921
         }
       }, 
     },
+    name: 'Denmark',
     coordinates: {
       lat: 56.35211531,
       lng: 11.01690928
@@ -93,8 +97,7 @@ class Location extends Component{
       return <Redirect to="/not-found"/>
     }
 
-    let title = city || country;
-    title = title[0].toUpperCase() + title.substring(1)
+    let title = location.name;
     const radius = !!city ? 25000 : (isMobile ? 200000 : 100000);
     const { coordinates } = location;
 

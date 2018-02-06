@@ -3,8 +3,6 @@ import { withRouter } from 'react-router'
 import Navlink  from './common/Navlink'
 
 class BreadCrumbs extends Component {
-
-
   render() {
     const { match, location, history } = this.props
     const crumbs = location.pathname.split('/');
