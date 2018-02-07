@@ -21,7 +21,12 @@ const AsyncRequestForm = Loadable({
 const locationParagraph = "Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.";
 
 const locations = {
-  denmark: {/* Rectangle 8: */
+  denmark: {
+    name: 'Denmark',
+    coordinates: {
+      lat: 56.35211531,
+      lng: 11.01690928
+    },
     cities: {
       copenhagen : {
         name: 'Copenhagen',
@@ -45,11 +50,6 @@ const locations = {
         }
       }, 
     },
-    name: 'Denmark',
-    coordinates: {
-      lat: 56.35211531,
-      lng: 11.01690928
-    }
   }
 }
 
@@ -140,7 +140,6 @@ class Location extends Component{
                     <div style={{float:"left", marginTop:"20px"}}>
                       <Button
                         active
-                        
                         onClick={this.handleButtonClick}>
                         <div style={{width:"150px", color:this.themeColor}}>GET OFFERS</div>
                       </Button>

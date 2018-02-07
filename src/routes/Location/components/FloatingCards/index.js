@@ -5,40 +5,83 @@ import React, { Component } from 'react';
 import './index.css';
 
 class FloatingCards extends Component {
-  render() {
-    let { location } = this.props;
+  state={
+    djs : [],
+    scrollAnimate : false
+  }
+
+  filterDjs = (location) => {
     location = !!location ? location : 'notfound';
 
     let renderDJS = 
-      shuffle(
-        DJs.filter(dj => dj.location.toLowerCase().indexOf(location.toLowerCase()) !== -1)
-      );
-      
-    renderDJS = renderDJS.length > 8 ? renderDJS.slice(0,8) : renderDJS;
+    shuffle(
+      DJs.filter(dj => dj.location.toLowerCase().indexOf(location.toLowerCase()) !== -1)
+    );
 
-    const count = renderDJS.length;
-    const animationDuration = count*6;
-    const animationDelay = animationDuration/count;
+    renderDJS = renderDJS.length > 2 ? renderDJS : [];
+    
+    this.setState({
+      djs: renderDJS,
+      scrollAnimate: false
+    });
+  }
+
+  componentWillMount(){
+    let { location } = this.props;
+    this.filterDjs(location);
+  }
+
+  componentWillReceiveProps(nextProps){
+    let { location } = this.props;
+
+    if(location !== nextProps.location){
+      this.filterDjs(nextProps.location);
+    }
+  }
+
+  startScroll = (count) => {
+    const animationTime = count * 5;
+    this.setState({
+      scrollAnimate: animationTime
+    });
+   }
+
+  render() {
+    const { djs, scrollAnimate } = this.state;
+    const count = djs.length;
+    const renderDJs = scrollAnimate ? [...djs, ...djs] : djs;
 
     return (
       <div className="floating-cards-wrapper">
-        <div 
+        <div
+        ref={r=>{
+          if(!!r && !scrollAnimate && typeof window !== 'undefined'){
+            const cardsWidth = parseInt(window.getComputedStyle(r).width);
+            if(cardsWidth >= window.innerWidth){
+              this.startScroll(count, cardsWidth);
+            }
+          }
+        }}
+        style={{
+          animationName: !!scrollAnimate ? 'marquee' : null,
+          animationDuration: scrollAnimate + 's',
+        }}
         className="floating-cards"
         data-count={count}
-        style={{width:((count)*334 + 'px')}}>
-        {renderDJS.map((dj, idx) => {
+        >
+        {
+          renderDJs.map((dj, idx) => {
           return(
             <div 
               key={`dj-card-${idx}`}
-              style={{
-                animationDuration: (animationDuration+'s'),
-                animationDelay: '-'+(idx+1)*animationDelay+'s'}}
-              className="card-wrapper">
+              className="card-wrapper"
+              >
               <DJCard dj={dj} />
             </div>
             )
           })}
         </div>
+
       </div>
 
     );

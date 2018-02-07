@@ -115,8 +115,11 @@ class footer extends Component{
               </ul>
             </div>
             <div>
-              <h4>LOCATIONS</h4>
+              <h4>TOP LOCATIONS</h4>
               <ul>
+                {/* <li>
+                  <Link to="/">Worldwide</Link>
+                </li> */}
                 <li>
                   <Link to="/locations/denmark/copenhagen">Copenhagen</Link>
                 </li>
@@ -126,6 +129,7 @@ class footer extends Component{
                 <li>
                   <Link to="/locations/denmark/odense">Odense</Link>
                 </li>
+                
               </ul>
             </div>
             {!this.props.signedIn ? 

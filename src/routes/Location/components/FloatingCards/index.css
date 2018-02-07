@@ -15,49 +15,37 @@
 	}
 }
 
-@keyframes moveLeft {
-	0% {
-		opacity: 1;
-		//box-shadow: 0 5px 15px 0px rgba(0,0,0,0.3);
-		transform: translateX(0%);
-	}
-	100% {
-		opacity: 1;
-	//	box-shadow: 0 5px 15px 0px rgba(0,0,0,0.3);
-		transform: translateX(100%);
-	}
+@keyframes marquee{
+	0%{transform: translate(0%)}
+	100%{transform: translate(-50%)}
 }
 
 .floating-cards-wrapper{
   overflow: hidden;
-  background: #f7f9fc;
-	height: 400px;
+	background: #f7f9fc;
 }
 .floating-cards{
   width: auto;
   display: table;
 	position: relative;
-	transform: translateX(-334px);
+	margin: auto;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
 }
 
 .floating-cards .card{
   overflow: visible;
 }
 .floating-cards .card-wrapper{
-	opacity: 0;
+	opacity: 1;
   display: table-cell;
   padding: 4em 0;
 	padding-top: 10em;
-	position: absolute;
-	left: 0;
-	top: 0;
-	animation: moveLeft linear infinite;
-	animation-play-state: paused;
-	width: 100%;
+	position: relative;
 }
 .floating-cards .card-wrapper .card{
   animation: float 6s ease-in-out infinite;
-  margin: 0 1em;
+	margin: 0em 1em;
 }
 .floating-cards .card-wrapper:nth-child(even) .card{
   animation-delay: 1000ms;
