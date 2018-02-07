@@ -97,6 +97,9 @@
   color: white !important;
 }
 
+.locations-page .request-form{
+  margin-top: 50px;
+}
 .locations-page .request-form .col-md-6{
   margin-left: 26%;
   z-index: 3;
@@ -111,6 +114,7 @@
 .location-page .event-submit-wrapper{
   margin-top: 40px;
 }
+
 
 #city-illustration{
   transform: translateX(-50%);
