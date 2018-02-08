@@ -118,20 +118,20 @@ class Location extends Component{
         
         <Helmet>
           <title>{siteTitle}</title>
-          <meta name="description" content={siteDescription} />
+          <meta name="description"                content={siteDescription} />
 
-          <meta property="og:title" content={siteTitle} />
-          <meta property="og:type" content={'website'} />
-          <meta property="og:description" content={siteDescription} />
-          <meta property="og:image" content={location.image} />
+          <meta property="og:title"               content={siteTitle} />
+          <meta property="og:type"                content={'website'} />
+          <meta property="og:description"         content={siteDescription} />
+          <meta property="og:image"               content={location.image} />
 
           <meta name="twitter:title"              content={siteTitle} />
           <meta name="twitter:description"        content={siteDescription} />
           <meta name="twitter:image"              content={location.image} />
 
-          <meta name="geo.position" content={`${location.coordinates.lat}; ${location.coordinates.lng}`} />
-          <meta name="geo.placename" content={title} />
-          <meta name="geo.region" content={title} />
+          <meta name="geo.position"               content={`${location.coordinates.lat}; ${location.coordinates.lng}`} />
+          <meta name="geo.placename"              content={title} />
+          <meta name="geo.region"                 content={title} />
         </Helmet>
 
         <div className="span-wrapper">
