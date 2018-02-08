@@ -1624,7 +1624,20 @@ margin-right: 5px;
   visibility: visible;
 }
 
-
+button span{
+  position: relative;
+}
+button .info-popup{
+  position: absolute;
+  right: -25px;
+  top: 0;
+  display: inline-block;
+  color: #111111;
+  fill: #BBBBBB;
+}
+button.active .info-popup{
+  fill: white;
+}
 
 #stripes {
   position: absolute;

@@ -19,7 +19,7 @@ import ErrorMessage from '../ErrorMessage'
 import * as eventActions from '../../../actions/EventActions'
 import * as userActions from '../../../actions/UserActions'
 import { connect } from 'react-redux'
-
+import GenreChooser from './GenreChooser';
 import wNumb from 'wnumb'
 import c from '../../../constants/constants'
 
@@ -427,13 +427,24 @@ render(){
 }
 class Step2 extends Component{
   validationChecker = null
+
+  state={
+    showGenres: false
+  }
   next=()=>{
   if (this.validationChecker(true)){
     this.props.next()
   }
 }
 
+handleGenreSelection = (letCueupDecide) => {
+    this.setState({
+      showGenres: !letCueupDecide
+    });
+}
+
  render(){
+   const {showGenres} = this.state;
    return(
      <Form
      registerCheckForm={(checker)=>{
@@ -464,11 +475,19 @@ class Step2 extends Component{
       <section>
         <label>Genres</label>
         <p style={{marginBottom:"10px"}}>What kind of music do you need?</p>
-        <ToggleButtonHandler
+        <GenreChooser 
+        onChange={this.handleGenreSelection}
+        name="genres"
+         />
+         { showGenres ?
+          <ToggleButtonHandler
           validate={['required']}
           name="genres"
           potentialValues={c.GENRES}
           columns={4} />
+         : null
+        }
+       
       </section>
       <div style={{position:"relative"}}>
       <span
