@@ -22,6 +22,7 @@ import Faq from './routes/Faq';
 import Terms from './routes/Terms';
 import NotFound from './routes/NotFound';
 import LocationLanding from './routes/Location';
+import defaultImage from './assets/images/cities/default.png'
 
 const AsyncNavigation = Loadable({
   loader: () => import('./components/Navigation'),
@@ -93,18 +94,18 @@ const App = class extends Component {
 
             <meta name="description" content="Cueup is an online platform connecting DJs and event organizers." />
 
-            <meta name="og:url"             content={Environment.CALLBACK_DOMAIN + '/' + location.pathname} />
-            <meta name="fb:app_id"          content={Environment.FACEBOOK_ID}/>
-            <meta name="og:title"           content="Book DJs with ease | Cueup" />
-            <meta name="og:description"     content="Cueup is an online platform connecting DJs and event organizers." />
-            <meta name="og:image"           content={Environment.CALLBACK_DOMAIN + '/previewCard_DJ.png'} />
+            <meta property="og:url"             content={Environment.CALLBACK_DOMAIN + '/' + location.pathname} />
+            <meta property="fb:app_id"          content={Environment.FACEBOOK_ID}/>
+            <meta property="og:title"           content="Book DJs with ease | Cueup" />
+            <meta property="og:description"     content="Cueup is an online platform connecting DJs and event organizers." />
+            <meta property="og:image"           content={defaultImage} />
 
             <meta name="twitter:card"               content="summary_large_image" />
             <meta name="twitter:site"               content="@@CueupDK" />
             <meta name="twitter:creator"            content="@@CueupDK" />
             <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
             <meta name="twitter:description"        content="Cueup is an online platform connecting DJs and event organizers." />
-            <meta name="twitter:image"              content={Environment.CALLBACK_DOMAIN + '/previewCard_DJ.png'} />
+            <meta name="twitter:image"              content={defaultImage} />
           </Helmet>
         <AsyncNavigation />
         <div id="content" className={`location_${location.pathname.split('/')[1]}`}>

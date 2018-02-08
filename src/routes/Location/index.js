@@ -12,6 +12,10 @@ import CitySvg from '../../components/graphics/City';
 import { Redirect } from 'react-router';
 import FloatingDJs from './components/FloatingCards';
 import { Helmet } from 'react-helmet';
+import copenhagen from '../../assets/images/cities/copenhagen.png';
+import odense from '../../assets/images/cities/odense.png'
+import aarhus from '../../assets/images/cities/aarhus.png'
+import defaultImage from '../../assets/images/cities/default.png'
 import './index.css';
 
 const AsyncRequestForm = Loadable({
@@ -25,6 +29,7 @@ const locationParagraph = "Cueup is the easiest way for you to get a great DJ fo
 const locations = {
   denmark: {
     name: 'Denmark',
+    image: defaultImage,
     coordinates: {
       lat: 56.35211531,
       lng: 11.01690928
@@ -32,6 +37,7 @@ const locations = {
     cities: {
       copenhagen : {
         name: 'Copenhagen',
+        image: copenhagen,
         coordinates: {
           lat: 55.6760968,
           lng: 12.5683372
@@ -39,6 +45,7 @@ const locations = {
       }, 
       odense: {
         name: 'Odense',
+        image: odense,
         coordinates: {
           lat: 55.403756,
           lng: 10.40237
@@ -46,6 +53,7 @@ const locations = {
       }, 
       aarhus: {
         name: 'Århus',
+        image: aarhus,
         coordinates: {
           lat: 56.162939,
           lng: 10.203921
@@ -114,7 +122,7 @@ class Location extends Component{
           <meta name="og:type" content={'website'} />
           <meta name="description" content={siteDescription} />
           <meta name="og:description" content={siteDescription} />
-          <meta name="og:image" content={""} />
+          <meta name="og:image" content={location.image} />
         </Helmet>
 
         <div className="span-wrapper">

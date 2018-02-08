@@ -13,8 +13,6 @@ class FloatingCards extends Component {
   filterDjs = (location) => {
     location = !!location ? location : 'notfound';
 
-    console.log(location)
-
     let renderDJS = 
     shuffle(
       DJs.filter(dj => dj.location.toLowerCase().indexOf(location.toLowerCase()) !== -1)
