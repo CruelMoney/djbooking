@@ -91,6 +91,8 @@ const App = class extends Component {
          <Helmet>
             <title>Book DJs with ease | Cueup</title>
 
+            <meta name="description" content="Cueup is an online platform connecting DJs and event organizers." />
+
             <meta name="og:url"             content={Environment.CALLBACK_DOMAIN + '/' + location.pathname} />
             <meta name="fb:app_id"          content={Environment.FACEBOOK_ID}/>
             <meta name="og:title"           content="Book DJs with ease | Cueup" />

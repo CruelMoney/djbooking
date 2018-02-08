@@ -2,6 +2,7 @@ var frank = require('../assets/images/frank-hansen.png');
 var martinE = require('../assets/images/martin-edvardsen.png');
 var martin = require('../assets/images/martin.jpg')
 var simon = require('../assets/images/simon.jpg')
+var oliver = require('../assets/images/oliver.jpg')
 var mads = require('../assets/images/mads.jpg');
 var emma = require('../assets/images/emma.jpg')
 var mussa = require('../assets/images/musa.jpg')
@@ -186,7 +187,7 @@ DJs : [
   },
   {
   name:"Frank",
-  location: "Aarhus, Denmark",
+  location: "Århus, Denmark",
   genres: ["Top 40", "80s", "90s", "00s"],
   img: frank
   },
@@ -235,7 +236,7 @@ DJs : [
       },
   {
       name:"Peter",
-      location: "Aarhus, Denmark",
+      location: "Århus, Denmark",
       genres: ["Reggae", "Hip Hop", "Rock"],
       img: peter
       },
@@ -249,7 +250,7 @@ DJs : [
           name:"Oliver",
           location: "Odense, Denmark",
           genres: ["House", "Remixes", "80's", "Top 40"],
-          img: 'https://scontent.xx.fbcdn.net/v/t1.0-1/14516469_10208681424846926_1439984337302474007_n.jpg?oh=81844be9ade122733f9503c82add0cec&oe=5A7AC372'
+          img: oliver
       },
       {
           name:"Chris",
@@ -298,7 +299,7 @@ DJs : [
 
       {
         name:"Mads",
-        location: "Aarhus, Denmark",
+        location: "Århus, Denmark",
         genres: ["Top 40","Hip Hop", "R&B"],
         img: mads 
       },

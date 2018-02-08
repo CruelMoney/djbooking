@@ -13,6 +13,8 @@ class FloatingCards extends Component {
   filterDjs = (location) => {
     location = !!location ? location : 'notfound';
 
+    console.log(location)
+
     let renderDJS = 
     shuffle(
       DJs.filter(dj => dj.location.toLowerCase().indexOf(location.toLowerCase()) !== -1)
@@ -55,13 +57,13 @@ class FloatingCards extends Component {
       <div className="floating-cards-wrapper">
         <div
         ref={r=>{
-          if(!!r && !scrollAnimate && typeof window !== 'undefined'){
-            const cardsWidth = parseInt(window.getComputedStyle(r).width);
-            if(cardsWidth >= window.innerWidth){
-              this.startScroll(count, cardsWidth);
+            if(!!r && !scrollAnimate && typeof window !== 'undefined'){
+              const cardsWidth = parseInt(window.getComputedStyle(r).width);
+              if(cardsWidth >= window.innerWidth){
+                this.startScroll(count, cardsWidth);
+              }
             }
-          }
-        }}
+          }}
         style={{
           animationName: !!scrollAnimate ? 'marquee' : null,
           animationDuration: scrollAnimate + 's',

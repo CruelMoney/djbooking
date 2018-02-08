@@ -11,6 +11,7 @@ import Map from '../../components/common/Map';
 import CitySvg from '../../components/graphics/City';
 import { Redirect } from 'react-router';
 import FloatingDJs from './components/FloatingCards';
+import { Helmet } from 'react-helmet';
 import './index.css';
 
 const AsyncRequestForm = Loadable({
@@ -19,6 +20,7 @@ const AsyncRequestForm = Loadable({
 });
 
 const locationParagraph = "Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.";
+
 
 const locations = {
   denmark: {
@@ -87,11 +89,10 @@ class Location extends Component{
     const { match } = this.props;
     const { isMobile } = this.state;
     const { city, country } = match.params;
-    const locationName = !city ? country : city;
     const location = !!city 
     ? (!!locations[country] ? locations[country].cities[city] : null)
     : locations[country];
-
+    
     // Redirect
     if(!location){
       return <Redirect to="/not-found"/>
@@ -101,13 +102,26 @@ class Location extends Component{
     const radius = !!city ? 25000 : (isMobile ? 200000 : 100000);
     const { coordinates } = location;
 
+
+    const siteDescription = locationParagraph.replace("{{location}}", title);
+    const siteTitle = `Book DJ in ${title} | Cueup`;
     return (
       <div className="locations-page">
+        
+        <Helmet>
+          <title>{siteTitle}</title>
+          <meta name="og:title" content={siteTitle} />
+          <meta name="og:type" content={'website'} />
+          <meta name="description" content={siteDescription} />
+          <meta name="og:description" content={siteDescription} />
+          <meta name="og:image" content={""} />
+        </Helmet>
+
         <div className="span-wrapper">
         
         <header>
           <Map
-            key={locationName}
+            key={title}
             noCircle={!city}
             hideRoads={true}
             radius={radius}
@@ -178,7 +192,7 @@ class Location extends Component{
           </div>
           
           <FloatingDJs 
-            location={locationName}
+            location={title}
           />
 
           
