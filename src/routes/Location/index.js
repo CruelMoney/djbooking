@@ -123,6 +123,10 @@ class Location extends Component{
           <meta name="description" content={siteDescription} />
           <meta property="og:description" content={siteDescription} />
           <meta property="og:image" content={location.image} />
+
+          <meta name="geo.position" content={`${location.lat}; ${location.lng}`} />
+          <meta name="geo.placename" content={title} />
+          <meta name="geo.region" content={title} />
         </Helmet>
 
         <div className="span-wrapper">

@@ -93,6 +93,7 @@ const App = class extends Component {
             <title>Book DJs with ease | Cueup</title>
 
             <meta name="description" content="Cueup is an online platform connecting DJs and event organizers." />
+            <meta name="keywords" content="dj, book, rent, copenhagen, cueup, music, events, party, wedding, birthday" />
 
             <meta property="og:url"             content={Environment.CALLBACK_DOMAIN + '/' + location.pathname} />
             <meta property="fb:app_id"          content={Environment.FACEBOOK_ID}/>
@@ -106,6 +107,7 @@ const App = class extends Component {
             <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
             <meta name="twitter:description"        content="Cueup is an online platform connecting DJs and event organizers." />
             <meta name="twitter:image"              content={defaultImage} />
+
           </Helmet>
         <AsyncNavigation />
         <div id="content" className={`location_${location.pathname.split('/')[1]}`}>
