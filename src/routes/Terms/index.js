@@ -17,7 +17,7 @@ export default class Index extends Component{
     <Terms {...this.props} >
         <Helmet>
         <title>{title}</title>
-        <meta name="og:title"           content={title} />
+        <meta property="og:title"           content={title} />
         <meta name="twitter:title"      content={title} />
       </Helmet>
       <Switch>

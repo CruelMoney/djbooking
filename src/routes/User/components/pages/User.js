@@ -156,11 +156,11 @@ class User extends Component{
 
         <Helmet>
           <title>{`${firstName} | Cueup`}</title>
-          <meta name="og:title" content={`${firstName} | Cueup`} />
-          <meta name="og:type" content={'profile'} />
+          <meta property="og:title" content={`${firstName} | Cueup`} />
+          <meta property="og:type" content={'profile'} />
           <meta name="description" content={bio} />
-          <meta name="og:description" content={bio} />
-          <meta name="og:image" content={picture} />
+          <meta property="og:description" content={bio} />
+          <meta property="og:image" content={picture} />
         </Helmet>
 
         <Form

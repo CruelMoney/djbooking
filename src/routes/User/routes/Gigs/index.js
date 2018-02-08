@@ -11,7 +11,7 @@ export default class Index extends Component{
       <div>
       <Helmet>
         <title>{title}</title>
-        <meta name="og:title"           content={title} />
+        <meta property="og:title"           content={title} />
         <meta name="twitter:title"      content={title} />
       </Helmet>
     <Gigs {...this.props} />

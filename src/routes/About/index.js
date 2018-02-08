@@ -8,7 +8,7 @@ export default class Index extends Component{
     <div>
       <Helmet>
         <title>About | Cueup</title>
-        <meta name="og:title"           content="About | Cueup" />
+        <meta property="og:title"           content="About | Cueup" />
         <meta name="twitter:title"      content="About | Cueup" />
       </Helmet>
       <About />

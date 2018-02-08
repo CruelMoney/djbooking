@@ -33,7 +33,7 @@ class Profile extends Component{
           <div className="row event-information">
               <Helmet>
                 <title>{title}</title>
-                <meta name="og:title"           content={title} />
+                <meta property="og:title"           content={title} />
                 <meta name="twitter:title"      content={title} />
               </Helmet>
             <Form

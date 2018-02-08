@@ -16,7 +16,7 @@ export default class Index extends Component{
       <div>
       <Helmet>
         <title>Event | Cueup</title>
-        <meta name="og:title"           content="Event | Cueup" />
+        <meta property="og:title"           content="Event | Cueup" />
         <meta name="twitter:title"      content="Event | Cueup" />
       </Helmet>
       <Event {...this.props}>
