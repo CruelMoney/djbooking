@@ -100,7 +100,8 @@
 .locations-page .request-form{
   margin-top: 50px;
 }
-.locations-page .request-form .col-md-6{
+.locations-page .request-form .col-md-6,
+.location-page .thank-you-text{
   margin-left: 26%;
   z-index: 3;
 }

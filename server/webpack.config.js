@@ -25,7 +25,8 @@ module.exports = {
   target: 'node',
   devtool: 'inline-source-map',
   externals: [
-    nodeExternals()
+    nodeExternals(),
+
   ],
   node: {
     __dirname: false
@@ -64,8 +65,8 @@ module.exports = {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
         loader: require.resolve('url-loader'),
         options: {
-          
-          name: '[name].[hash:8].[ext]',
+          limit: 10000,
+          name: '/static/media/[name].[hash:8].[ext]',
         },
       },
       {
@@ -82,7 +83,7 @@ module.exports = {
         ],
         loader: require.resolve('file-loader'),
         options: {
-          name: '[name].[hash:8].[ext]',
+          name: '/static/media/[name].[hash:8].[ext]',
         },
       },
      
@@ -95,7 +96,9 @@ module.exports = {
     ], 
     [ // DEVELOPMENT PLUGINS
       ...commonPlugins,
-      new NodemonPlugin()
+      new NodemonPlugin({
+        script: './build/bundle.js'
+      })
     ]
   )
 }
