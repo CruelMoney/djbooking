@@ -355,7 +355,7 @@ align-items: center;
   fill: #FFFFFF;
 }
 .location_terms .main-menu a,
-.location_locations .main-menu a,
+.location_book-dj .main-menu a,
 .location_faq .main-menu a,
 .location_about .main-menu a,
 .not-found .main-menu a
@@ -363,7 +363,7 @@ align-items: center;
   color: #32325D;
 }
 .location_terms .navigation .logo,
-.location_locations .navigation .logo,
+.location_book-dj .navigation .logo,
 .location_faq .navigation .logo,
 .location_about .navigation .logo,
 .not-found .navigation .logo{
@@ -372,9 +372,9 @@ align-items: center;
 .location_terms  .mobileMenuButton h2,
 .location_terms .mobileMenuButton h2:after,
 .location_terms .mobileMenuButton h2:before,
-.location_locations  .mobileMenuButton h2,
-.location_locations .mobileMenuButton h2:after,
-.location_locations .mobileMenuButton h2:before,
+.location_book-dj  .mobileMenuButton h2,
+.location_book-dj .mobileMenuButton h2:after,
+.location_book-dj .mobileMenuButton h2:before,
 .location_faq .mobileMenuButton h2,
 .location_faq .mobileMenuButton h2:after,
 .location_faq .mobileMenuButton h2:before,
@@ -387,9 +387,9 @@ align-items: center;
 .location_terms  .buttonFixed .mobileMenuButton h2,
 .location_terms .buttonFixed .mobileMenuButton h2:after,
 .location_terms .buttonFixed .mobileMenuButton h2:before,
-.location_locations  .buttonFixed .mobileMenuButton h2,
-.location_locations .buttonFixed .mobileMenuButton h2:after,
-.location_locations .buttonFixed .mobileMenuButton h2:before,
+.location_book-dj  .buttonFixed .mobileMenuButton h2,
+.location_book-dj .buttonFixed .mobileMenuButton h2:after,
+.location_book-dj .buttonFixed .mobileMenuButton h2:before,
 .location_faq .buttonFixed .mobileMenuButton h2,
 .location_faq .buttonFixed .mobileMenuButton h2:after,
 .location_faq .buttonFixed .mobileMenuButton h2:before,

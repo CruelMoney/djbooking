@@ -120,7 +120,7 @@ const App = class extends Component {
             <Route path="/faq" component={Faq}/>
             <Route path="/terms" component={Terms}/>
             <Route path="/event/:id/:hash" component={CueupEvent}/>
-            <Route path="/locations/:country/:city?" component={LocationLanding}/>
+            <Route path="/book-dj/:country/:city?" component={LocationLanding}/>
             <Route component={NotFound}/>
           </Switch>
         </div>

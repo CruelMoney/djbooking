@@ -121,13 +121,13 @@ class footer extends Component{
                   <Link to="/">Worldwide</Link>
                 </li> */}
                 <li>
-                  <Link to="/locations/denmark/copenhagen">Copenhagen</Link>
+                  <Link to="/book-dj/denmark/copenhagen">Copenhagen</Link>
                 </li>
                 <li>
-                  <Link to="/locations/denmark/aarhus">Århus</Link>
+                  <Link to="/book-dj/denmark/aarhus">Århus</Link>
                 </li>
                 <li>
-                  <Link to="/locations/denmark/odense">Odense</Link>
+                  <Link to="/book-dj/denmark/odense">Odense</Link>
                 </li>
                 
               </ul>

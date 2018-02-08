@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../../components/common/Footer'
 import Button from '../../components/common/Button-v2'
-import padlock from '../../assets/padlock.svg'
-import note from '../../assets/note.svg'
+import MoneyIcon from '../../components/graphics/Money';
+import NoteIcon from '../../components/graphics/Note';
 import DJCard from '../../components/common/DJCard';
 import Loadable from 'react-loadable';
 import LoadingRequestForm from '../../components/common/RequestForm/LoadingRequestForm';
@@ -23,7 +23,7 @@ const AsyncRequestForm = Loadable({
   loading: LoadingRequestForm
 });
 
-const locationParagraph = "Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.";
+const locationParagraph = "Cueup is the easiest way for you to find a DJ in {{location}}. Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.";
 
 
 const locations = {
@@ -160,7 +160,7 @@ class Location extends Component{
                     <span>{title}</span>
                     </h1>
                     <p key="paragraph">
-                      {locationParagraph}
+                      {siteDescription}
                     </p>
 
                     <div style={{float:"left", marginTop:"20px"}}>
@@ -213,23 +213,23 @@ class Location extends Component{
               <div className="row">
                       <div  className="col-sm-6 col-md-5 col-md-push-1">
                       <div className="card">
-                    <img src={note} alt="music note icon"/>
+                      <NoteIcon  altGradient={false} />
                     <h2 style={{color:this.themeColor}}>Have the music your way</h2>
                     <p>
                       With Cueup you can easily rent a DJ in {title}. 
                       You can tell us excactly what music you want, and we'll have local DJs specialising in that music contacting you within a day.
-                      No matter if you're looking to hire a DJ for a wedding, birthday or an office party, the professional DJs at Cueup will help making your event unforgettable.
+                      <br/>No matter if you're looking to hire a DJ for a wedding, birthday or an office party, the professional DJs at Cueup will help making your event unforgettable.
                     </p>
                   </div>
                 </div>
                 <div  className="col-sm-6 col-md-5 col-md-push-1"> 
                 <div className="card">
-                      <img src={padlock} alt="padlock icon"/>
+                      <MoneyIcon  altGradient={false} />
                       <h2 style={{color:this.themeColor}}>Compare DJ prices</h2>
                       <p>
-                        the best price without compromising quality 
-                        ranges from professional djs with decades of experience to novice djs with very cheap prices. 
-                        put in budget to get cheap DJ in {title}. 
+                        You will receive offers from various DJs that are suitable to play at your event. 
+                        Our partners ranges from professional DJs with decades of experience to novice DJs with cheap prices - allowing you to get the best price without compromising quality. 
+                        <br/>If you're planning an event on a budget, put it in your description, and get offers within your budget. 
                       </p>
                   </div>
                 </div>
