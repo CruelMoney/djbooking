@@ -264,12 +264,14 @@ const City = props => (
         fill="#000"
         fillRule="nonzero"
       />
-      <path fill="#50E3C2" d="M978.566 31h1.838v6.417h-1.838z" />
-      <path fill="#BD10E0" d="M978.566 41.083h1.838V47.5h-1.838z" />
-      <path fill="#31DAFF" d="M973.97 31h1.839v6.417h-1.838z" />
-      <path fill="#50E3C2" d="M973.97 41.083h1.839V47.5h-1.838z" />
-      <path fill="#BD10E0" d="M969.375 31h1.838v6.417h-1.838z" />
-      <path fill="#31DAFF" d="M969.375 41.083h1.838V47.5h-1.838z" />
+      <g id="window-lights">
+        <path fill="#50E3C2" d="M978.566 31h1.838v6.417h-1.838z" />
+        <path fill="#BD10E0" d="M978.566 41.083h1.838V47.5h-1.838z" />
+        <path fill="#31DAFF" d="M973.97 31h1.839v6.417h-1.838z" />
+        <path fill="#50E3C2" d="M973.97 41.083h1.839V47.5h-1.838z" />
+        <path fill="#BD10E0" d="M969.375 31h1.838v6.417h-1.838z" />
+        <path fill="#31DAFF" d="M969.375 41.083h1.838V47.5h-1.838z" />
+      </g>
       <path
         d="M935.448 123h1.806v6h-1.806v-6zm-7.225 0h1.806v6h-1.806v-6z"
         fill="#D6D6D6"

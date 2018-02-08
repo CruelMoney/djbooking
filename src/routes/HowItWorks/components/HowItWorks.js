@@ -90,7 +90,7 @@ When the organizer receives an offer, they can either confirm the offer by payin
                     </div>
                     <p key="b">
 The next step is for the DJ to play at the event. 
-If for any reason the DJ has to cancel, the full amount will be refunded instantly to the organizer. If the organizer has to cancel, the amount specified by the DJ’s cancellation policy will be refunded. Read more about cancellation process <a href="/faq/organizer" >here</a>.</p>              </section>
+If for any reason the DJ has to cancel, the full amount will be refunded instantly to the organizer. If the organizer has to cancel, the amount specified by the DJ’s cancellation policy will be refunded. Read more about cancellation process <a style={{color:this.themeColor}} href="/faq/organizer" >here</a>.</p>              </section>
               <section>
 
                     <div key="a" className="how-to-title">

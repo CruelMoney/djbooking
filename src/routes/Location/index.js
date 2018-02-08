@@ -212,19 +212,25 @@ class Location extends Component{
             <div className="container">
               <div className="row">
                       <div  className="col-sm-6 col-md-5 col-md-push-1">
-                        <div className="card">
-                          <img src={padlock} alt="icon"/>
-                      <h2 style={{color:this.themeColor}}>Secured booking system</h2>
-                      <p>
-At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
+                      <div className="card">
+                    <img src={note} alt="music note icon"/>
+                    <h2 style={{color:this.themeColor}}>Have the music your way</h2>
+                    <p>
+                      With Cueup you can easily rent a DJ in {title}. 
+                      You can tell us excactly what music you want, and we'll have local DJs specialising in that music contacting you within a day.
+                      No matter if you're looking to hire a DJ for a wedding, birthday or an office party, the professional DJs at Cueup will help making your event unforgettable.
+                    </p>
                   </div>
                 </div>
-                <div  className="col-sm-6 col-md-5 col-md-push-1">
-                  <div className="card">
-                    <img src={note} alt="icon"/>
-                    <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
-                    <p>
-At Cueup we focus on finding the most qualified DJs for your event - so you don’t have to. Don’t waste time searching for DJs when you can have offers from great DJs send directly to you.  Each offer shows the DJ, their reviews and rating so you can confidently choose a DJ you can trust.                     </p>
+                <div  className="col-sm-6 col-md-5 col-md-push-1"> 
+                <div className="card">
+                      <img src={padlock} alt="padlock icon"/>
+                      <h2 style={{color:this.themeColor}}>Compare DJ prices</h2>
+                      <p>
+                        the best price without compromising quality 
+                        ranges from professional djs with decades of experience to novice djs with very cheap prices. 
+                        put in budget to get cheap DJ in {title}. 
+                      </p>
                   </div>
                 </div>
                 </div>

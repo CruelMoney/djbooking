@@ -124,6 +124,28 @@
   height: auto;
   bottom: -2px;
 }
+@keyframes blink {
+ 100%{opacity: 1}
+}
+#window-lights > path{
+  opacity: 0.3;
+  animation: blink 500ms ease infinite;
+}
+#window-lights > path:nth-child(2){
+ animation-delay: 32ms;
+}
+#window-lights > path:nth-child(3){
+  animation-delay: 845ms;
+ }
+ #window-lights > path:nth-child(4){
+  animation-delay: 46ms;
+ }
+ #window-lights > path:nth-child(5){
+  animation-delay: 98ms;
+ }
+ #window-lights > path:nth-child(6){
+  animation-delay: 256ms;
+ }
 
 /* Tablet */
 @media only screen and (max-width: 768px) {
