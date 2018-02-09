@@ -33,10 +33,10 @@
 }
 
 .location_book-dj .menu-wrapper > .container:after{
-  right: -100%;
+  right: -90%;
 }
 .location_book-dj .menu-wrapper > .container:before{
-  left: -100%;
+  left: -90%;
 }
 
 
