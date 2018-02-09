@@ -21,7 +21,7 @@
   right: 0;
   top: 0;
   height: 80px;
-  z-index: 2;
+  z-index: 4;
 }
 
 .location_book-dj .menu-wrapper > .container:after,
