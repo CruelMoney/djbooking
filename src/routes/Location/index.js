@@ -183,7 +183,7 @@ class Location extends Component{
               <div className="row">
                 <div className="col-xs-12">
                   <p key="paragraph">
-                    {locationParagraph}
+                    {siteDescription}
                   </p>
                 </div>
               </div>
