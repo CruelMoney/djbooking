@@ -4,7 +4,6 @@ import Footer from '../../components/common/Footer'
 import Button from '../../components/common/Button-v2'
 import MoneyIcon from '../../components/graphics/Money';
 import NoteIcon from '../../components/graphics/Note';
-import DJCard from '../../components/common/DJCard';
 import Loadable from 'react-loadable';
 import LoadingRequestForm from '../../components/common/RequestForm/LoadingRequestForm';
 import Map from '../../components/common/Map';

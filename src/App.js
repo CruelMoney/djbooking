@@ -8,11 +8,9 @@ import {
 import { connect } from 'react-redux';
 import {init as analytics} from './utils/analytics/autotrack';
 import Loadable from 'react-loadable';
-import LoadHandler from './components/common/LoadingScreen';
 import {Environment} from './constants/constants'
 import { Helmet } from 'react-helmet';
 import Home from './routes/Home';
-import Navigation from './components/Navigation';
 import About from './routes/About';
 import CueupEvent from './routes/Event';
 import HowItWorks from './routes/HowItWorks';

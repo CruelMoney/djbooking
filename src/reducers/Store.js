@@ -14,9 +14,6 @@ import notifications from './Notifications'
 
 import menu from './Menu'
 
-import c from '../constants/constants'
-var ActionTypes = c.ActionTypes
-
 const persistConfig = {
   key: 'root',
   storage,

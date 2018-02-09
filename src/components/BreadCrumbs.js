@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router'
 import Navlink  from './common/Navlink'
 
 class BreadCrumbs extends Component {
   render() {
-    const { match, location, history } = this.props
+    const { location } = this.props
     const crumbs = location.pathname.split('/');
     const renderCrumbs = crumbs.slice(2, crumbs.length)
 
