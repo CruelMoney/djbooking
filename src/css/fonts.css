@@ -1,35 +1,39 @@
 
 @font-face {
 	font-family: 'SourceSansPro-Semibold';
-	src: url('../assets/fonts/SourceSansPro-Semibold.ttf');
-	src: local('☺'), url('../assets/fonts/SourceSansPro-Semibold.ttf') format('truetype');
+	font-weight: 600;
+	src: url('../assets/fonts/SourceSansPro-Semibold.ttf') format('truetype'), local("Arial"), local("Helvetica");
 }
 @font-face {
-  font-family: 'SourceSansPro-Regular';
-	src: url('../assets/fonts/SourceSansPro-Regular.ttf');
-	src: local('☺'), url('../assets/fonts/SourceSansPro-Regular.ttf') format('truetype');
+	font-family: 'SourceSansPro-Regular';
+	font-weight: 400;
+	src: url('../assets/fonts/SourceSansPro-Regular.ttf') format('truetype'), local("Arial"), local("Helvetica");
 }
 @font-face {
 	font-family: 'SourceSansPro-Bold';
+	font-weight: 700;
 	src: url('../assets/fonts/SourceSansPro-Bold.ttf');
-	src: local('☺'), url('../assets/fonts/SourceSansPro-Bold.ttf') format('truetype');
+	src: url('../assets/fonts/SourceSansPro-Bold.ttf') format('truetype'), local("Arial"), local("Helvetica");
 }
 @font-face {
 	font-family: 'SourceSansPro-Light';
+	font-weight: 300;
 	src: url('../assets/fonts/SourceSansPro-Light.ttf');
-	src: local('☺'), url('../assets/fonts/SourceSansPro-Light.ttf') format('truetype');
+	src: url('../assets/fonts/SourceSansPro-Light.ttf') format('truetype'), local("Arial"), local("Helvetica");
 }
 
 @font-face {
 	font-family: 'AvenirNext-Regular';
+	font-weight: 400;
 	src: url('../assets/fonts/AvenirNext-Regular.ttf');
-	src: local('☺'), url('../assets/fonts/AvenirNext-regular.woff') format('woff'), url('../assets/fonts/AvenirNext-Regular.ttf') format('truetype');
+	src: url('../assets/fonts/AvenirNext-regular.woff') format('woff'), url('../assets/fonts/AvenirNext-Regular.ttf') format('truetype'), local("Arial"), local("Helvetica");
 }
 
 @font-face {
 	font-family: 'AvenirNext-Medium';
+	font-weight: 500;
 	src: url('../assets/fonts/AvenirNext-Medium.ttf');
-	src: local('☺'), url('../assets/fonts/AvenirNext-Medium.woff') format('woff'), url('../assets/fonts/AvenirNext-Medium.ttf') format('truetype');
+	src: url('../assets/fonts/AvenirNext-Medium.woff') format('woff'), url('../assets/fonts/AvenirNext-Medium.ttf') format('truetype'), local("Arial"), local("Helvetica");
 }
 
 /* Ostrich Sans Rounded */
@@ -37,7 +41,7 @@
 @font-face {
 	font-family: 'Ostrich Sans Rounded';
 	src: url('../assets/fonts/ostrich-sans-rounded.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-rounded.woff') format('woff'), url('../assets/fonts/ostrich-sans-rounded.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-rounded.svg') format('svg');
+	src: url('../assets/fonts/ostrich-sans-rounded.woff') format('woff'), url('../assets/fonts/ostrich-sans-rounded.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-rounded.svg') format('svg');
 	font-weight: 500;
 	font-style: normal;
 }
@@ -47,14 +51,14 @@
 @font-face {
 	font-family: 'Ostrich Sans Inline';
 	src: url('../assets/fonts/ostrich-sans-inline-regular.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-inline-regular.woff') format('woff'), url('../assets/fonts/ostrich-sans-inline-regular.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-inline-regular.svg') format('svg');
+	src: url('../assets/fonts/ostrich-sans-inline-regular.woff') format('woff'), url('../assets/fonts/ostrich-sans-inline-regular.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-inline-regular.svg') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: 'Ostrich Sans Inline';
 	src: url('../assets/fonts/ostrich-sans-inline-italic.eot');
-	src: local('☺'), url('../assets/fonts/ostrich-sans-inline-italic.woff') format('woff'), url('../assets/fonts/ostrich-sans-inline-italic.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-inline-italic.svg') format('svg');
+	src: url('../assets/fonts/ostrich-sans-inline-italic.woff') format('woff'), url('../assets/fonts/ostrich-sans-inline-italic.ttf') format('truetype'), url('../assets/fonts/ostrich-sans-inline-italic.svg') format('svg');
 	font-weight: normal;
 	font-style: italic;
 }
