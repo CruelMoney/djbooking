@@ -3295,6 +3295,7 @@ ol.breadcrumbs a{
   }
   header{
     padding-top: 90px;
+    padding-bottom: 90px;
     height: 100%;
     position: relative;
   }
@@ -3560,7 +3561,7 @@ table td{
         flex-wrap: wrap;
   }
    .event-submit-wrapper{
-    height: 130px;
+    height: 70px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
