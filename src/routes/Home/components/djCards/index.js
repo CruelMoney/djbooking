@@ -7,6 +7,7 @@ export default class DJCards extends Component{
     
     animation = null;
     cardsLoaded = false;
+    cards = [];
 
     state={
         currentCards: [],
@@ -14,9 +15,44 @@ export default class DJCards extends Component{
         cards: []
     }
 
-componentWillMount(){
-    this.cards = shuffle(DJs.map((dj, idx) => <DJCard key={`dj-card-${idx}`} dj={dj} />))
-}
+    componentWillUnmount(){
+        this.animation && clearInterval(this.animation);
+    }
+
+    componentWillMount(){
+        this.cards = shuffle(DJs.map((dj, idx) => <DJCard onLoad={()=>this.cardsLoaded++} key={`dj-card-${idx}`} dj={dj} />))
+    }
+
+    componentDidMount(){
+        const currentCards = this.cards.slice(0,11);
+        const restCards = this.cards.slice(11,   this.cards.length-1);
+
+        this.setState({
+            currentCards,
+            restCards
+        });
+
+        this.animation = setInterval(this.showNewCard, 4500);
+    }
+    
+
+    showNewCard = () => {
+
+        const { currentCards, restCards } = this.state;
+        if(this.cardsLoaded >= currentCards.length){
+            const idx = Math.floor(Math.random()*currentCards.length);
+            const newCard = restCards.pop();
+            const replacedCard = currentCards[idx];
+            currentCards[idx] = newCard;
+            this.setState({
+                restCards: [replacedCard, ...restCards],
+                currentCards
+            });
+        }      
+    }
+
+    render() {
+    const {currentCards} = this.state;
 
     return (
         <div className="dj-cards">
