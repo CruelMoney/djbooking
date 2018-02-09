@@ -56,7 +56,9 @@ class FloatingCards extends Component {
         <div
         ref={r=>{
             if(!!r && !scrollAnimate && typeof window !== 'undefined'){
-              const cardsWidth = parseInt(window.getComputedStyle(r).width, 2);
+
+              const cardsWidth = parseInt((window.getComputedStyle(r).width), 10);
+
               if(cardsWidth >= window.innerWidth){
                 this.startScroll(count, cardsWidth);
               }
