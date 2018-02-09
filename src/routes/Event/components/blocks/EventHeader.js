@@ -5,7 +5,7 @@ import Notification from '../../../../components/common/Notification'
 
 class eventHeader extends Component{
 
-   componentWillMount() {
+   componentDidMount() {
      window.addEventListener('scroll', this.handleScroll)
    }
 

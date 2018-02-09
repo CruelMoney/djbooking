@@ -9,11 +9,11 @@ import * as eActions from '../../../../../actions/EventActions'
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import {requestFeatures} from '../../../../../actions/Common'
 import {connect} from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 class Profile extends Component{
 
     componentWillMount(){
-          document.title = this.props.event.name + " | Contact information"
     }
 
     state = {
@@ -27,8 +27,15 @@ class Profile extends Component{
     }
 
     render() {
+        const title = this.props.event.name + " | Contact";
+
         return (
           <div className="row event-information">
+              <Helmet>
+                <title>{title}</title>
+                <meta property="og:title"           content={title} />
+                <meta name="twitter:title"      content={title} />
+              </Helmet>
             <Form
               noError
               formInvalidCallback={()=>this.setState({formValid:false})}

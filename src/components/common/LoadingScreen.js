@@ -3,7 +3,7 @@ import EmptyPage from './EmptyPage'
 import Button from './Button-v2';
 import Logo from './Logo';
 
-export default ({isLoading, error}) => {
+export default ({isLoading, error, pastDelay}) => {
   // Handle the loading state
   if (isLoading) {
     return <LoadingScreen />;

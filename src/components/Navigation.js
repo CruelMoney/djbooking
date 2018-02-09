@@ -9,6 +9,7 @@ import Logo from './common/Logo'
 import MobileMenu from './MobileMenu'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import BreadCrumbs from './BreadCrumbs';
 import * as actions from '../actions/LoginActions'
 import * as sessionActions from '../actions/SessionActions'
 
@@ -40,7 +41,7 @@ class Menu extends Component {
   }
 
     checkForLogin = (nextState, replace) => {
-      if (!this.state.didCheckLogin) {
+      if (!this.state.didCheckLogin && !this.props.loggedIn) {
         this.setState({
           didCheckLogin: true,
           checking: true,
@@ -65,20 +66,19 @@ class Menu extends Component {
    }
 
 
-     componentWillMount() {
-       window.addEventListener('scroll', this.handleScroll)
-     }
      componentWillReceiveProps(nextProps){
-       if(nextProps.isRedirect && !this.state.redirected){
-         if(nextProps.profile.user_metadata && nextProps.profile.user_metadata.permaLink){
-          this.props.history.push(`/user/${nextProps.profile.user_metadata.permaLink}/profile`)
-         }else{
-          this.props.history.push(`/user`)
-         }
-         this.setState({redirected:true})
-       }
+      //  if(nextProps.isRedirect && !this.state.redirected){
+      //    if(nextProps.profile.user_metadata && nextProps.profile.user_metadata.permaLink){
+      //     this.props.history.push(`/user/${nextProps.profile.user_metadata.permaLink}/profile`)
+      //    }else{
+      //     this.props.history.push(`/user`)
+      //    }
+      //    this.setState({redirected:true})
+      //  }
      }
      componentDidUpdate(prevProps) {
+      window.addEventListener('scroll', this.handleScroll)
+
       if (this.props.location !== prevProps.location) {
         window.scrollTo(0, 0)
       }
@@ -96,12 +96,12 @@ class Menu extends Component {
     }
 
   render() {
-    const isHome = window.location.pathname === '/'
-    const page = window.location.pathname.split('/')[1]
+    const isHome = this.props.location.pathname === '/';
 
     return (
-        <div  className={"location_" + page}>
+        <div className="menu-wrapper">
           <MobileMenu
+            isHome
             onClosing={()=>this.setState({showMenu:false})}
             show={this.state.showMenu}/>
             <div className="container">
@@ -110,9 +110,13 @@ class Menu extends Component {
             <nav
               className="navigation"
             >
-                <Navlink to="/">
-                  <Logo />
-                </Navlink>
+                <div className="logo-area">
+                  <Navlink to="/">
+                    <Logo />
+                  </Navlink>
+                  <BreadCrumbs />
+                </div>
+
                 <div className=""
                   ref={ref=>this.mobileMenu=ref}
                   >

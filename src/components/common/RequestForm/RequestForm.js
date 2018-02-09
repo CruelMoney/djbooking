@@ -1,26 +1,29 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Button from '../../../components/common/Button-v2'
-import TextField, {TexfieldDisconnected} from '../../../components/common/Textfield'
-import RiderOptions from '../../../components/common/RiderOptions'
-import LocationSelector from '../../../components/common/LocationSelectorSimple'
-import ToggleButtonHandler from '../../../components/common/ToggleButtonHandler'
-import Form from '../../../components/common/Form-v2'
-import Slider from '../../../components/common/Slider'
-import TimeSlider from '../../../components/common/TimeSlider'
+import Button from '../Button-v2'
+import TextField, {TexfieldDisconnected} from '../Textfield'
+import RiderOptions from '../RiderOptions'
+import LocationSelector from '../LocationSelectorSimple'
+import ToggleButtonHandler from '../ToggleButtonHandler'
+import Form from '../Form-v2'
+import Slider from '../Slider'
+import TimeSlider from '../TimeSlider'
 import Progress from './ProgressSubmit'
-import TextBox from '../../../components/common/TextBox'
-import Popup from '../../../components/common/Popup'
-import Login from '../../../components/common/Login'
-import DatePicker from '../../../components/common/Datepicker'
+import TextBox from '../TextBox'
+import Popup from '../Popup'
+import Login from '../Login'
+import DatePicker from '../Datepicker'
 import moment from 'moment-timezone'
-import SubmitButton from '../../../components/common/SubmitButton'
-import ErrorMessage from '../../../components/common/ErrorMessage'
-
+import SubmitButton from '../SubmitButton'
+import ErrorMessage from '../ErrorMessage'
+import * as eventActions from '../../../actions/EventActions'
+import * as userActions from '../../../actions/UserActions'
+import { connect } from 'react-redux'
+import GenreChooser from './GenreChooser';
 import wNumb from 'wnumb'
 import c from '../../../constants/constants'
 
-export default class Index extends Component{
+const MainForm = class extends Component{
   static proptypes = {
     form: PropTypes.object,
     date: PropTypes.object, //moment object
@@ -150,6 +153,7 @@ export default class Index extends Component{
                 <Step1
                   form={this.props.form}
                   date={this.state.date}
+                  initialCity={this.props.initialCity}
                   updateDate={this.updateDate}
                   updateLocation={this.updateLocation}
                   next={()=>this.setState({activeStep:2})}
@@ -262,6 +266,36 @@ export default class Index extends Component{
   }
 }
 
+function mapStateToProps(state, ownProps) {
+  return {
+    isLoggedIn: state.login.status.signedIn,
+    form:   Object.assign(
+        {},
+        state.forms["requestForm-step-1"] ? state.forms["requestForm-step-1"].values : {} ,
+        state.forms["requestForm-step-2"] ? state.forms["requestForm-step-2"].values : {} ,
+        state.forms["requestForm-step-3"] ? state.forms["requestForm-step-3"].values : {} ,
+        state.forms["requestForm-step-4"] ? state.forms["requestForm-step-4"].values : {} ,
+      ),
+    initialCity: ownProps.initialCity || state.session.city,
+    emailExists: state.login.status.emailExists
+  }
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    onSubmit: (form, callback)    => {dispatch(eventActions.postEvent(form, callback))},
+    checkDjAvailability: (form, callback)    => {dispatch(eventActions.checkDjAvailability(form, callback))},
+    checkEmail: (email, callback) => {dispatch(userActions.checkEmail(email, callback))}
+}}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainForm)
+
+
+
+
+
+
+
 
 
 class Step1 extends Component{
@@ -325,7 +359,7 @@ next=()=>{
 
 
 render(){
-  const eventDateString = this.state.date.format("dddd Do, MMMM YYYY")
+  const eventDateString = this.state.date.format("dddd Do, MMMM YYYY");
   return(
     <div> 
       <Popup width="380px" showing={this.state.showPopup}
@@ -393,13 +427,24 @@ render(){
 }
 class Step2 extends Component{
   validationChecker = null
+
+  state={
+    showGenres: false
+  }
   next=()=>{
   if (this.validationChecker(true)){
     this.props.next()
   }
 }
 
+handleGenreSelection = (letCueupDecide) => {
+    this.setState({
+      showGenres: !letCueupDecide
+    });
+}
+
  render(){
+   const {showGenres} = this.state;
    return(
      <Form
      registerCheckForm={(checker)=>{
@@ -430,11 +475,19 @@ class Step2 extends Component{
       <section>
         <label>Genres</label>
         <p style={{marginBottom:"10px"}}>What kind of music do you need?</p>
-        <ToggleButtonHandler
+        <GenreChooser 
+        onChange={this.handleGenreSelection}
+        name="genres"
+         />
+         { showGenres ?
+          <ToggleButtonHandler
           validate={['required']}
           name="genres"
           potentialValues={c.GENRES}
           columns={4} />
+         : null
+        }
+       
       </section>
       <div style={{position:"relative"}}>
       <span

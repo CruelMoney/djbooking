@@ -24,7 +24,8 @@ class event extends Component{
   }
 
   componentWillMount(){
-    this.props.fetchEvent(this.props.match.params.id, this.props.match.params.hash, null)
+    const {event, fetchEvent, match} = this.props;
+    !event && fetchEvent(match.params.id, match.params.hash, null);
   }
 
   goToOffers = () => {
@@ -42,8 +43,11 @@ class event extends Component{
     } 
   }
 
-  componentWillReceiveProps(nextProps){
+  componentDidMount(){
+    notificationService.init(this.props.customerId);
+  }
 
+  componentWillReceiveProps(nextProps){
     notificationService.init(nextProps.customerId);
     const { event, notifications } = nextProps
     if (event && !event.emailVerified) {
@@ -153,10 +157,11 @@ class event extends Component{
 
 
 function mapStateToProps(state, ownProps) {
-  event =  state.events.values[0]
+  const id = ownProps.match.params.id;
+  const theEvent = state.events.values.find(e => e.id === Number(id));
   return {
-    event: event,
-    customerId: event ? event.auth0Id : null,
+    event: theEvent,
+    customerId: theEvent ? theEvent.auth0Id : null,
     profile: state.login.profile,
     loading: state.events.isWaiting,
     loggedIn: state.login.status.signedIn,
@@ -175,8 +180,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     removeMenuItem: (name) => dispatch(commonActions.registerMenuItem(name))
 }}
 
-const SmartEvent = connect(mapStateToProps, mapDispatchToProps)(
-  withRouter(event)
+const SmartEvent = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(event)
 )
 
 export default props => (

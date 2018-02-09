@@ -41,6 +41,10 @@ node_modules
 .log
 yarn-error.log
 build
+/build
+/dist
+/server/build
+
 
 ### Javascript config ###
 .eslintrc

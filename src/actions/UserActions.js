@@ -74,33 +74,40 @@ var ActionTypes = c.ActionTypes
     return (error, result)=>
       {
         if (error) {
-          dispatch (function() {return {
+          callback(error.message)
+          return dispatch ({
               type: ActionTypes.FETCH_USER_FAILED,
               err: error.message
-            }}())
-            callback(error.message)
+            });
         }else{
           const profile = converter.user.fromDTO(result)
-          dispatch (function() {return {
+          callback(null)
+          return dispatch ({
               type: ActionTypes.FETCH_USER_SUCCEEDED,
               profile:profile
-            }}())
-          callback(null)
+            });
         }
       }
   }
 
   export function getUser(permaLink=null,callback){
     return function(dispatch){
-       dispatch (function() {return {
-              type: ActionTypes.FETCH_USER_REQUESTED,
-            }}())
+      
+      let promise = null;
+      
+      dispatch({type: ActionTypes.FETCH_USER_REQUESTED});
+
       if(permaLink){
-        cueup.getUser(permaLink, handleCueup(dispatch, callback));
+        promise = cueup.getUser(permaLink, handleCueup(dispatch, callback))
       }else{
         const token = auth.getAccessToken()
-        cueup.getOwnUser(token, handleCueup(dispatch, callback));
+        promise = cueup.getOwnUser(token, handleCueup(dispatch, callback));
       }
+
+      dispatch ({
+        type: ActionTypes.PUSH_PROMISE,
+        promise: promise
+      });
     }
   }
 

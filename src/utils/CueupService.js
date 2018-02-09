@@ -31,7 +31,7 @@ export default class CueupService {
             var contentType = response.headers.get("content-type");
 
             if (contentType && contentType.indexOf("application/json") !== -1) {
-                response.json().then(function(result) {
+                return response.json().then(function(result) {
                     return callback(null, result)
                 }).catch(function(error){console.log(error)})
             } else {
@@ -40,12 +40,12 @@ export default class CueupService {
             }
         } else {
             //The case that Network response was not ok
-            response.json().then(function(result) {
+            return response.json().then(function(result) {
                 console.log(result)
                 return callback({message:result.message}, null)
             }).catch((e)=>  {
               console.log(e)
-              callback({message:"Something went wrong"}, null)})
+              return callback({message:"Something went wrong"}, null)})
         }
     }
 
@@ -55,7 +55,7 @@ export default class CueupService {
         .then(function(response) {
           return self.responseHandling(response, callback);
       }).catch(function(error) {
-          callback(error)
+          return callback(error)
       });
     }
 
@@ -168,12 +168,12 @@ export default class CueupService {
        this.getInit(this.getHeaders(token)),
        callback
      )}
-     getEvent(token, id, hash, callback) {
-       return this.fetchHandling(
-         `${this.domain}/api/event/${id}/${hash}`,
-         this.getInit(this.getHeaders(token)),
-         callback
-       )}
+    getEvent(token, id, hash, callback) {
+      return this.fetchHandling(
+        `${this.domain}/api/event/${id}/${hash}`,
+        this.getInit(this.getHeaders(token)),
+        callback
+      )}
    updateEvent(token, id, data, callback) {
      return this.fetchHandling(
        `${this.domain}/api/event/${id}/`,

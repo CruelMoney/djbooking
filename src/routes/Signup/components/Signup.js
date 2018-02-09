@@ -10,7 +10,11 @@ export default class Signup extends Component{
   themeColor="#B031FF"
   secondColor="#31DAFF"
 
-  componentWillMount(){
+  state={
+    reference: null
+  }
+
+  componentDidMount(){
     const query = new URLSearchParams(window.location.search)
       const reference = query.get('referredBy')
     console.log(reference) // "a-value"

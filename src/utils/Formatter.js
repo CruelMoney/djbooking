@@ -44,6 +44,10 @@ const formatter = {
 
       //Example formatter.money.Format(2500, "Dkk")
       FormatNumberToString : function(number, currency){
+        if (typeof window === 'undefined'){
+          return '...';
+        } 
+
         switch (currency){
           case "USD":
             return window.accounting.formatMoney(number, "$ ", 2, ",", ".");

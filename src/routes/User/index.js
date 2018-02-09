@@ -13,11 +13,6 @@ import Preferences from "./routes/Preferences";
 import Reviews from "./routes/Reviews";
 
 export default class Index extends Component{
-
-  onComponentWillMount(){
-    document.title = "Profile | Cueup"
-  }
-
   render(){
     return(
       <Switch>

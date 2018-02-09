@@ -90,7 +90,7 @@ When the organizer receives an offer, they can either confirm the offer by payin
                     </div>
                     <p key="b">
 The next step is for the DJ to play at the event. 
-If for any reason the DJ has to cancel, the full amount will be refunded instantly to the organizer. If the organizer has to cancel, the amount specified by the DJ’s cancellation policy will be refunded. Read more about cancellation process <a href="/faq/organizer" >here</a>.</p>              </section>
+If for any reason the DJ has to cancel, the full amount will be refunded instantly to the organizer. If the organizer has to cancel, the amount specified by the DJ’s cancellation policy will be refunded. Read more about cancellation process <a style={{color:this.themeColor}} href="/faq/organizer" >here</a>.</p>              </section>
               <section>
 
                     <div key="a" className="how-to-title">
@@ -108,7 +108,7 @@ If for any reason the DJ has to cancel, the full amount will be refunded instant
       <div className="info-boxes">
             <div className="container">
               <div className="row">
-                      <div  className="col-sm-5 col-sm-push-1">
+                      <div  className="col-sm-6 col-md-5 col-md-push-1">
                         <div className="card">
                           <img src={padlock} alt="icon"/>
                       <h2 style={{color:this.themeColor}}>Secured booking system</h2>
@@ -116,7 +116,7 @@ If for any reason the DJ has to cancel, the full amount will be refunded instant
 At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
                   </div>
                 </div>
-                <div  className="col-sm-5 col-sm-push-1">
+                <div  className="col-sm-6 col-md-5 col-md-push-1">
                   <div className="card">
                     <img src={note} alt="icon"/>
                     <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>

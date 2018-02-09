@@ -84,7 +84,7 @@ const deletedUser={
           ...DTO,
           user_metadata:{
             ...DTO.user_metadata,
-            permaLink: DTO.user_metadata.permaLink.toLowerCase()
+            permaLink: !!DTO.user_metadata.permaLink ? DTO.user_metadata.permaLink.toLowerCase() : null
           },
           bio: DTO.bio,
           email: DTO.email,

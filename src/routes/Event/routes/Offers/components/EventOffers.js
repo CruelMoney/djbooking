@@ -4,13 +4,12 @@ import {notificationService} from '../../../../../utils/NotificationService';
 import {connect} from 'react-redux';
 import moment from 'moment-timezone'
 import EmptyPage from '../../../../../components/common/EmptyPage'
+import { Helmet } from 'react-helmet';
 
 class EventOffers extends Component{
 
 
   componentWillMount(){
-    document.title = this.props.eventName + " | Offers"
-
     var daysUntil = moment(this.props.eventDate).diff(moment(), 'days')
 
     this.setState({
@@ -18,14 +17,16 @@ class EventOffers extends Component{
       eventFinished:  daysUntil < 0,
       gigMessages: {}
     })
+  }
 
+  componentDidMount(){
     notificationService.getChatStatus()
     .then((res,err)=>{
       if (!!err){return}
       this.setState({
         gigMessages: res
       })
-    })
+    });
   }
 
     render() {
@@ -59,9 +60,15 @@ class EventOffers extends Component{
            
           }
         })
+        const title = this.props.event.name + " | Offers";
 
         return (
           <div>
+            <Helmet>
+                <title>{title}</title>
+                <meta property="og:title"           content={title} />
+                <meta name="twitter:title"      content={title} />
+            </Helmet>
             {this.props.status === "Confirmed" ? 
               <div>
               <div className="row">

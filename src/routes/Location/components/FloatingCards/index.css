@@ -1,0 +1,59 @@
+
+/* animation: float 6s ease-in-out infinite; */
+@keyframes float {
+	0% {
+		//box-shadow: 0 5px 15px 0px rgba(0,0,0,0.3);
+		transform: translatey(0px);
+	}
+	50% {
+	//	box-shadow: 0 25px 15px 0px rgba(0,0,0,0.1);
+		transform: translatey(-20px);
+	}
+	100% {
+	//	box-shadow: 0 5px 15px 0px rgba(0,0,0,0.3);
+		transform: translatey(0px);
+	}
+}
+
+@keyframes marquee{
+	0%{transform: translate(0%)}
+	100%{transform: translate(-50%)}
+}
+
+.floating-cards-wrapper{
+  overflow: hidden;
+	background: #f7f9fc;
+}
+.floating-cards{
+  width: auto;
+  display: table;
+	position: relative;
+	margin: auto;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+.floating-cards .card{
+  overflow: visible;
+}
+.floating-cards .card-wrapper{
+	opacity: 1;
+  display: table-cell;
+  padding: 4em 0;
+	padding-top: 10em;
+	position: relative;
+}
+.floating-cards .card-wrapper .card{
+  animation: float 6s ease-in-out infinite;
+	margin: 0em 1em;
+}
+.floating-cards .card-wrapper:nth-child(even) .card{
+  animation-delay: 1000ms;
+}
+.floating-cards .card-wrapper:nth-child(even){
+  margin-top: 2em;
+}
+.floating-cards .card .profile-picture{
+  overflow: hidden;
+  border-radius: 6px 0 0 6px;
+}

@@ -122,14 +122,15 @@ const editableProfile = (state = {}, action, profile) => {
 
 
 function composition(state = {}, action) {
-  let statusResult =            status(state.status, action)
+  let statusResult =           status(state.status, action)
   let profileResult =           profile(state.profile, action)
   let editableProfileResult =   editableProfile(state.editableProfile, action, profileResult)
-
-  return { status:            statusResult,
-           profile:           profileResult,
-           editableProfile:   editableProfileResult
-          }
+  return { 
+        ...state,
+        status:           statusResult,
+        profile:           profileResult,
+        editableProfile:   editableProfileResult
+        }
 }
 
 export default composition

@@ -20,14 +20,17 @@ class MyNavlink extends Component{
     
 
   render() {
+    const { onClick, borderHover, children, label, to, ...rest } = this.props;
+
     return    (    
-    <div onClick={this.props.onClick}>
+    <div onClick={onClick}>
       <NavLink
-        to={this.props.to}
-        className={"navLink " + (this.props.borderHover ? "borderHover" : "")}
+        {...rest}
+        to={to}
+        className={"navLink " + (borderHover ? "borderHover" : "")}
         activeClassName="active"
       >
-        {this.props.label ? this.props.label : this.props.children}
+        {label ? label : children}
       </NavLink>
     </div>)
 }

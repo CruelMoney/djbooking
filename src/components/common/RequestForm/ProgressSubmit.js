@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import dot from '../../../assets/dot.svg'
-var KUTE = require("kute.js"); //grab the core
-require("kute.js/kute-svg"); // Add SVG Plugin
-require("kute.js/kute-css"); // Add CSS Plugin
-require("kute.js/kute-attr"); // Add Attributes Plugin
-require("kute.js/kute-text"); // Add Text Plugin
 
 export default class Index extends Component{
+    KUTE = null;
 
    static proptypes = {
       currentStep: PropTypes.number,
@@ -20,36 +16,61 @@ export default class Index extends Component{
     }
 
     state = {
-        msg: null
+        msg: null,
+        isMounted: false
+      }
+
+      componentDidMount(){
+        import("kute.js")
+        .then((KUTE)=>{
+          this.KUTE = KUTE;
+          return Promise.all([
+            import("kute.js/kute-svg"),  //  Add SVG Plugin
+            import("kute.js/kute-css"),  //  Add CSS Plugin
+            import("kute.js/kute-attr"), //  Add Attributes Plugin
+            import("kute.js/kute-text") //  Add Text Plugin
+          ]);
+        })
+        .then( _ => {
+          this.setState({
+            isMounted: true
+          });
+        });
+      }
+
+      updateSteps = (prevProps, prevState) =>{
+        const step = this.props.currentStep
+        const lastStep = prevProps.currentStep
+
+        const options = { 
+                          easing: 'easingCubicIn', 
+                          duration: 400,
+                          morphIndex: 135,
+                          morphPrecision: 1
+                          }
+
+        if(step !== lastStep){
+          if(lastStep>0){
+            this.KUTE.fromTo('#step'+lastStep+'-circle', 
+              {path: '#step'+lastStep+'-pin' },
+              { path: 'M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0' },
+                {...options, morphIndex: 37}
+              ).start();
+          }
+          if(step>0){
+            this.KUTE.fromTo('#step'+step+'-circle', 
+              {path: '#step'+step+'-circle' },
+              { path: '#step'+step+'-pin' },
+              options
+              ).start();
+          }
+        }
       }
 
     componentDidUpdate(prevProps, prevState){
-      const step = this.props.currentStep
-      const lastStep = prevProps.currentStep
+      if(!this.state.isMounted) return;
 
-      const options = { 
-                        easing: 'easingCubicIn', 
-                        duration: 400,
-                        morphIndex: 135,
-                        morphPrecision: 1
-                        }
-
-      if(step !== lastStep){
-        if(lastStep>0){
-          KUTE.fromTo('#step'+lastStep+'-circle', 
-            {path: '#step'+lastStep+'-pin' },
-            { path: 'M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0' },
-              {...options, morphIndex: 37}
-            ).start();
-        }
-        if(step>0){
-          KUTE.fromTo('#step'+step+'-circle', 
-            {path: '#step'+step+'-circle' },
-            { path: '#step'+step+'-pin' },
-             options
-            ).start();
-        }
-      }
+      this.updateSteps(prevProps, prevState);
 
     }
 

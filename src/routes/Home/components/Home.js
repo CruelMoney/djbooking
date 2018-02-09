@@ -2,25 +2,19 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../../../components/common/Footer'
 import MediaQuery from 'react-responsive';
-import scrollIntoView from 'smoothscroll-polyfill'
+//import scrollIntoView from 'smoothscroll-polyfill'
 import Button from '../../../components/common/Button-v2'
 import padlock from '../../../assets/padlock.svg'
 import note from '../../../assets/note.svg'
 import DJCards from './djCards'
 import Loadable from 'react-loadable';
-import LoadHandler from '../../../components/common/LoadingScreen'
-
-/*animation stuff*/
-import { connect } from 'react-redux'
-import * as eventActions from '../../../actions/EventActions'
-import * as userActions from '../../../actions/UserActions'
+import LoadingRequestForm from '../../../components/common/RequestForm/LoadingRequestForm';
 
 const AsyncRequestForm = Loadable({
-  loader: () => import('./RequestForm'),
-  loading: LoadHandler
+  loader: () => import('../../../components/common/RequestForm/RequestForm'),
+  loading: LoadingRequestForm
 });
 
-scrollIntoView.polyfill()
 
 
 class Home extends Component{
@@ -33,6 +27,9 @@ class Home extends Component{
     }
   }
 
+  componentDidMount(){
+   // scrollIntoView.polyfill()
+  }
 
 requestForm = null
 
@@ -83,24 +80,15 @@ handleButtonClick = () => {
         </header>
 
 
-
           <div className="container request-form-wrapper">
             <div ref={(f) => this.requestForm = f}></div>
-            <AsyncRequestForm
-              onSubmit={this.props.onSubmit}
-              isLoggedIn={this.props.isLoggedIn}
-              form={this.props.form}
-              checkEmail={this.props.checkEmail}
-              emailExists={this.props.emailExists}
-              initialCity={this.props.geoCity}
-              checkDjAvailability={this.props.checkDjAvailability}
-            />
+            <AsyncRequestForm />
           </div>
 
           <div className="info-boxes grey">
             <div className="container">
               <div className="row">
-                      <div  className="col-sm-5 col-sm-push-1">
+                      <div  className="col-sm-6 col-md-5 col-md-push-1">
                         <div className="card">
                           <img src={padlock} alt="icon"/>
                       <h2 style={{color:this.themeColor}}>Secured booking system</h2>
@@ -108,7 +96,7 @@ handleButtonClick = () => {
 At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
                   </div>
                 </div>
-                <div  className="col-sm-5 col-sm-push-1">
+                <div  className="col-sm-6 col-md-5 col-md-push-1">
                   <div className="card">
                     <img src={note} alt="icon"/>
                     <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
@@ -137,39 +125,8 @@ At Cueup we focus on finding the most qualified DJs for your event - so you donâ
   }
 }
 
-
-
 Home.childContextTypes = {
   color: PropTypes.string,
 }
 
-//TODO move magic information about the filters out of container.
-//Should be grabbed from the children that are set as filters
-function mapStateToProps(state, ownProps) {
-  return {
-    isLoggedIn: state.login.status.signedIn,
-    form:   Object.assign(
-        {},
-        state.forms["requestForm-step-1"] ? state.forms["requestForm-step-1"].values : {} ,
-        state.forms["requestForm-step-2"] ? state.forms["requestForm-step-2"].values : {} ,
-        state.forms["requestForm-step-3"] ? state.forms["requestForm-step-3"].values : {} ,
-        state.forms["requestForm-step-4"] ? state.forms["requestForm-step-4"].values : {} ,
-      ),
-    geoCity: state.session.city,
-    emailExists: state.login.status.emailExists
-  }
-}
-
-function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    onSubmit: (form, callback)    => {dispatch(eventActions.postEvent(form, callback))},
-    checkDjAvailability: (form, callback)    => {dispatch(eventActions.checkDjAvailability(form, callback))},
-    checkEmail: (email, callback) => {dispatch(userActions.checkEmail(email, callback))}
-}}
-
-
-const SmartProfile = connect(mapStateToProps, mapDispatchToProps)(Home)
-
-export default props => (
-    <SmartProfile {...props}/>
-)
+export default Home

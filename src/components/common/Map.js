@@ -64,7 +64,7 @@ class SimpleMap extends Component{
             <GoogleMap
               key={this.props.key}
               defaultZoom={this.getZoomLevel(this.props.radius)}
-              defaultCenter={ this.marker.position }
+              defaultCenter={ this.props.defaultCenter || this.marker.position  }
               streetViewControl={false}
               defaultOptions={{
                 scrollwheel: false,
@@ -94,20 +94,23 @@ class SimpleMap extends Component{
                   { "color": "#ffffff" },
                   { "visibility": "on" }
                   ]
-                },{
+                },
+                {
                   "featureType": "administrative.locality",
                   "elementType": "labels.text.stroke",
                   "stylers": [
                   { "color": "#32325D" },
                   { "visibility": "on" }
                   ]
-                },{
+                },
+                {
                   "featureType": "road.arterial",
                   "elementType": "geometry",
                   "stylers": [
-                  { "visibility": "simplified" }
+                  { "visibility": this.props.hideRoads ? "off" : "simplified" }
                   ]
-                },{
+                },
+                {
                   "featureType": "administrative.province",
                   "stylers": [
                   { "visibility": "on" }
@@ -150,7 +153,9 @@ class SimpleMap extends Component{
               }}
             >
 
-              <Circle
+              {
+                !!this.props.noCircle ? null : 
+                <Circle
                 ref={(c) => this.circle = c}
                 defaultOptions={{
                   fillColor: this.context.color,
@@ -164,6 +169,8 @@ class SimpleMap extends Component{
                 onCenterChanged={()=>this.handleLocationChange(this.circle)}
                 onRadiusChanged={()=>this.handleRadiusChange(this.circle)}
               />
+              }
+              
 
             </GoogleMap>
     )}

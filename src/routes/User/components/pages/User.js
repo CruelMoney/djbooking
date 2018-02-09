@@ -1,9 +1,9 @@
 import React,  { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Helmet } from 'react-helmet';
 import UserHeader from '../blocks/UserHeader'
 import Footer from '../../../../components/common/Footer'
 import Form from '../../../../components/common/Form-v2'
-
 import { connect } from 'react-redux'
 import * as actions from '../../../../actions/UserActions'
 import '../../../../css/transitions.css'
@@ -75,15 +75,10 @@ class User extends Component{
         }
   }
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.profile.firstName){
-         document.title = nextProps.profile.firstName + " | Cueup"
-    }
-    
+  componentWillReceiveProps(nextProps){    
     this.updateNotification(nextProps)
 
     if(nextProps.match.params.permalink !== this.props.match.params.permalink){
-
        const permaLink = nextProps.isOwnProfile ? null : nextProps.match.params.permalink
        nextProps.fetchUser(permaLink, (res,err)=>{})
     }
@@ -147,8 +142,27 @@ class User extends Component{
   }
 
   render() {
+    const {
+      profile
+    } = this.props;
+    const {
+      firstName,
+      picture,
+      bio,
+    } = profile ? profile : {};
+
     return (
       <div >
+
+        <Helmet>
+          <title>{`${firstName} | Cueup`}</title>
+          <meta property="og:title" content={`${firstName} | Cueup`} />
+          <meta property="og:type" content={'profile'} />
+          <meta name="description" content={bio} />
+          <meta property="og:description" content={bio} />
+          <meta property="og:image" content={picture} />
+        </Helmet>
+
         <Form
           noError
           resetStatusOnSucces

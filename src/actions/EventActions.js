@@ -26,33 +26,38 @@ export function fetchEvents() {
           dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_SUCCEEDED, events: events} }() )
         }
       })
+
   }
 }
 
 
 export function fetchEvent(id, hash, authID, callback = null) {
   return function (dispatch) {
-
-    dispatch( function() { return {
+      dispatch({
         type: ActionTypes.FETCH_EVENTS_REQUESTED,
-      }}())
+      })
+      const token = null
 
-      const token = auth.getToken()
-
-      cueup.getEvent(token, id, hash, function(err, result){
+      const promise = cueup.getEvent(token, id, hash, function(err, result){
         if (err) {
-          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_FAILED, err: err.message}}() )
           if (callback) {
             callback(err.message)
           }
+          return dispatch({type: ActionTypes.FETCH_EVENTS_FAILED, err: err.message});
         }else{
           var event = converter.cueupEvent.fromDTO(result)
-          dispatch( function() { return {type: ActionTypes.FETCH_EVENTS_SUCCEEDED, events: [event]} }() )
           if (callback) {
             callback(null)
           }
+          return dispatch({type: ActionTypes.FETCH_EVENTS_SUCCEEDED, events: [event]});
         }
-      })
+      });
+
+
+      return dispatch ({
+        type: ActionTypes.PUSH_PROMISE,
+        promise: promise
+      });
   }
 }
 
