@@ -84,26 +84,27 @@ const App = class extends Component {
 
   render() {
     const { location } = this.props;
-
+    const description = 'Cueup is an online platform connecting DJs and event organizers - the easiest way for you to book a great DJ for your event.  Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.'
+    
     return (
       <div className={`location_${location.pathname.split('/')[1]}`}>
          <Helmet>
             <title>Book DJs with ease | Cueup</title>
 
-            <meta name="description" content="Cueup is an online platform connecting DJs and event organizers." />
+            <meta name="description" content={description} />
             <meta name="keywords" content="dj, book, rent, copenhagen, cueup, music, events, party, wedding, birthday" />
 
             <meta property="og:url"             content={Environment.CALLBACK_DOMAIN + location.pathname} />
             <meta property="fb:app_id"          content={Environment.FACEBOOK_ID}/>
             <meta property="og:title"           content="Book DJs with ease | Cueup" />
-            <meta property="og:description"     content="Cueup is an online platform connecting DJs and event organizers." />
+            <meta property="og:description"     content={description} />
             <meta property="og:image"           content={defaultImage} />
 
             <meta name="twitter:card"               content="summary_large_image" />
             <meta name="twitter:site"               content="@@CueupDK" />
             <meta name="twitter:creator"            content="@@CueupDK" />
             <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
-            <meta name="twitter:description"        content="Cueup is an online platform connecting DJs and event organizers." />
+            <meta name="twitter:description"        content={description} />
             <meta name="twitter:image"              content={defaultImage} />
 
           </Helmet>

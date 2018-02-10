@@ -160,7 +160,7 @@ class Location extends Component{
                 <div className="col-md-5 col-sm-6">
                 <div className="card">
                     <h1 key="title">
-                    Book DJ in
+                    {"Book DJ in "}
                     <span>{title}</span>
                     </h1>
                     <p key="paragraph">
@@ -221,7 +221,7 @@ class Location extends Component{
                     <h2 style={{color:this.themeColor}}>Have the music your way</h2>
                     <p>
                       With Cueup you can easily rent a DJ in {title}. 
-                      You can tell us excactly what music you want, and we'll have local DJs specialising in that music contacting you within a day.
+                      You can tell us exactly what music you want, and we'll have local DJs specialising in that music contacting you within a day.
                       <br/>No matter if you're looking to hire a DJ for a wedding, birthday or an office party, the professional DJs at Cueup will help making your event unforgettable.
                     </p>
                   </div>

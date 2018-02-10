@@ -4,12 +4,8 @@ import { NavLink as Link } from 'react-router-dom';
 import ButtonLink from './ButtonLink'
 import * as c from '../../constants/constants'
 /*animation stuff*/
-import QueueAnim from 'rc-queue-anim';
-import ScrollAnim from 'rc-scroll-anim';
 import { connect } from 'react-redux'
 import * as actions from '../../actions/SessionActions'
-
-const ScrollOverPack = ScrollAnim.OverPack;
 
 class footer extends Component{
   static proptypes = {
@@ -35,20 +31,14 @@ class footer extends Component{
         <div className={this.props.noSkew ? "noSkew" : ""} style={{backgroundColor: this.props.bgColor}}  id="preFooterPseudo"> </div>
         <div className="container">
           <div className="row">
-            <ScrollOverPack id="footerScroll" style={{pointerEvents: "none", marginTop:"-300px", width:"100%"}} always={false}>
-              <QueueAnim key="1" className="footer-text">
                 <div key="preFooterText" className="action-title col-md-7">
-                  <QueueAnim key="2">
                     <span key="preFooterTitle" style={{color:this.props.color}}>{this.props.title}</span>
                     {this.props.subTitle}
-                  </QueueAnim>
                 </div>
                 <div key="preFooterButtons" className="col-md-5 action-buttons">
                   <ButtonLink color={this.props.color} className="button elevated" to={this.props.firstTo}>{this.props.firstLabel}</ButtonLink>
                   <ButtonLink color={this.props.color} className="button elevated" to={this.props.secondTo}>{this.props.secondLabel}</ButtonLink>
                 </div>
-              </QueueAnim>
-            </ScrollOverPack>
           </div>
         </div>
       </div>
