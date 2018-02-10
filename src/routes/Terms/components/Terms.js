@@ -5,7 +5,7 @@ import ButtonLink from '../../../components/common/ButtonLink'
 export default class Terms extends Component{
   themeColor = "#25F4D2"
 
-  componentWillMount() {
+  componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
   }
   componentWillUnmount(){

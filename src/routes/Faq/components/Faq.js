@@ -7,7 +7,7 @@ import Button from '../../../components/common/Button-v2'
 export default class Faq extends Component{
   themeColor = "#25F4D2"
 
-  componentWillMount() {
+  componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
   }
   componentWillUnmount(){
@@ -54,7 +54,8 @@ export default class Faq extends Component{
               </div>
             </div>
           </div>
-        </div>      <Footer
+        </div>      
+        <Footer
         color={this.themeColor}
         firstTo="/"
         secondTo="/signup"

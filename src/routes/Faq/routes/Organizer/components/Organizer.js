@@ -12,6 +12,7 @@ export default class Organizer extends Component{
       <p className="subtitle">For organizers</p>
        <CollapsibleContainer
        changeHash
+       lazyLoad={false}
         >
              <Collapsible
                   label="How much does it cost?"  

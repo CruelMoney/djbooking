@@ -12,8 +12,10 @@ export default class DJ extends Component{
       <p className="subtitle">For DJs</p>
         <CollapsibleContainer
           changeHash
+          lazyLoad={false}
         >
              <Collapsible
+                 
                   label="How much does it cost?" 
                 > 
                 <p>
