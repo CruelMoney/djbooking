@@ -21,6 +21,7 @@ import Terms from './routes/Terms';
 import NotFound from './routes/NotFound';
 import LocationLanding from './routes/Location';
 import defaultImage from './assets/images/cities/default.png'
+import Blog from './routes/Blog';
 
 const AsyncNavigation = Loadable({
   loader: () => import('./components/Navigation'),
@@ -120,6 +121,7 @@ const App = class extends Component {
             <Route path="/terms" component={Terms}/>
             <Route path="/event/:id/:hash" component={CueupEvent}/>
             <Route path="/book-dj/:country/:city?" component={LocationLanding}/>
+            <Route path="/blog" component={Blog}/>
             <Route component={NotFound}/>
           </Switch>
         </div>

@@ -1,0 +1,17 @@
+{
+  "posts":[
+    { 
+      "id": 1,
+      "title": "Bliv DJ i København", 
+      "slug": "bliv-dj-i-koebenhavn",
+      "content": "<p>Heyho</p>",
+      "excerpt": "Hey ho",
+      "published_date" : "2012-04-23T18:25:43.511Z",
+      "updated_date" : "2012-04-23T18:25:43.511Z",
+      "author": "Martin Stezig",
+      "thumbnail_url" : "https://cueup.io/someimage.png",
+      "thumbnail_alt" : "thumbnail alt"
+    }
+
+  ]
+}

@@ -80,7 +80,7 @@ class footer extends Component{
                   <Link to="/about">About</Link>
                 </li>
                 <li>
-                  <a href="https://medium.com/@Cueup" target="blank" >Blog</a>
+                <Link to="/blog">Blog</Link>
                 </li>
                 <li>
                   <Link to="/faq/dj">FAQ</Link>
