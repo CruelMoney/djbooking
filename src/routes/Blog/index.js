@@ -7,6 +7,8 @@ import { Helmet } from 'react-helmet';
 import Footer from '../../components/common/Footer'
 import Blog from './components/Blog';
 import Post from './components/Post';
+import './index.css';
+
 export default class Index extends Component{
   themeColor = "#25F4D2"
   secondColor = "#31DAFF"
@@ -14,7 +16,7 @@ export default class Index extends Component{
   render(){
     const title = "Blog | Cueup"
     return(
-    <Fragment>
+    <div className="blog">
       <Helmet>
         <title>{title}</title>
         <meta property="og:title"           content={title} />
@@ -25,7 +27,7 @@ export default class Index extends Component{
         exact path={`/blog`} 
         component={Blog} 
         />
-        <Route path={`/blog/:post-title`} component={Post} />
+        <Route path={`/blog/:postTitle`} component={Post} />
       </Switch>
       <Footer
         color={this.themeColor}
@@ -36,6 +38,6 @@ export default class Index extends Component{
         title="Ready to get started?"
         subTitle="Arrange an event, or apply to become a DJ."
         />
-    </Fragment>
+    </div>
   )}
 }

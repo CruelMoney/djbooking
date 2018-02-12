@@ -45,17 +45,19 @@ class SignupForm extends Component {
   }
 
   render() {
+    const {children} = this.props;
+
     return (
       <div>
         <div className="social-signup">
           <RegistrationElement
             isFilter={true}
             name='signup'
-            label="Sign up"
+            label={!children &&  "Sign up"}
             active={true}
-            text="Do you want to sign in using soundcloud, facebook or your email? By joining you agree to our terms and conditions"
+            text={!children && "Do you want to sign in using soundcloud, facebook or your email? By joining you agree to our terms and conditions"}
             hideOn={['SIGNED_IN']}>
-
+            {children}
             <div className="buttons">
               <Button 
               onClick={()=>{this.signup({}, 'FACEBOOK')}}

@@ -1862,6 +1862,9 @@ button.active, .button.active{
   fill: #FFFFFF;
   border-color: inherit;
 }
+button.glow{
+  transition: all 0.5s ease;
+}
 button.glow:hover, .button.glow:hover{
 box-shadow: inherit;
 }
@@ -3050,6 +3053,37 @@ ol.breadcrumbs a{
 .logo-area{
   display: flex;
   align-items: flex-end;
+}
+
+.share-buttons{
+  display: flex;
+  justify-content: center;
+  margin: 5em 0;
+}
+.share-button{
+  width: 120px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  border-radius: 50px;
+  font-weight: 600;
+  margin: 0 1em;
+}
+.share-button span{
+  margin-right: 1.5em;
+}
+.share-button.SocialMediaShareButton--facebook{
+  background-color: #3B5998;
+}
+.share-button.SocialMediaShareButton--twitter{
+  background-color: rgb(0, 172, 237);
+}
+.share-button.SocialMediaShareButton--linkedin{
+  background-color: rgb(0, 127, 177);
+}
+.share-button.SocialMediaShareButton--email{
+  background-color: rgb(127, 127, 127);
 }
 
 /* SMALL COM BEGIN */
