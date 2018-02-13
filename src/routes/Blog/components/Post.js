@@ -35,8 +35,8 @@ class Post extends Component {
 
           <meta name="description"                content={post.excerpt} />
 
+          <meta property="og:type"                content="article" />
           <meta property="og:title"               content={siteTitle} />
-          <meta property="og:type"                content={'article'} />
           <meta property="og:description"         content={post.excerpt} />
           <meta property="og:image"               content={post.thumbnail_url} />
 
