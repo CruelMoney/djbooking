@@ -3,8 +3,6 @@
 @import "./fonts.css";
 
 
-html{
-}
 
 body {
   margin: 0;
@@ -196,8 +194,9 @@ pre{
   background-repeat: no-repeat;
   background-position: center;
   background-size: auto 100%;
-  width: 36vw;
-  height: 36vw;
+  width: 200px;
+  height: 200px;
+  margin-right: 20px;
   border-radius: 50%;
   display: inline-block;
   margin-bottom: 20px;
@@ -227,7 +226,8 @@ pre{
   padding-top: 10px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
-    font-size: 6vw;
+    font-size: 20px;
+    width: 200px;
   font-family: 'SourceSansPro-SemiBold';
 }
 
@@ -298,18 +298,23 @@ pre{
 }
 .mobileMenu .profileSummary{
   display: flex;
-    flex-direction: column;
-    align-items: center;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobileMenu .profileInfo{
   width: 100%;
-    padding-bottom: 0px;
+  flex: 1;
+  padding-bottom: 0px;
+  min-width: 200px;
 }
 
 .mobileMenu .menu ul {
     column-count: 1;
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 
@@ -358,6 +363,7 @@ align-items: center;
 .location_book-dj .main-menu a,
 .location_faq .main-menu a,
 .location_about .main-menu a,
+.location_blog .main-menu a,
 .not-found .main-menu a
 {
   color: #32325D;
@@ -366,6 +372,7 @@ align-items: center;
 .location_book-dj .navigation .logo,
 .location_faq .navigation .logo,
 .location_about .navigation .logo,
+.location_blog .navigation .logo,
 .not-found .navigation .logo{
   fill: #32325D;
 }
@@ -378,6 +385,9 @@ align-items: center;
 .location_faq .mobileMenuButton h2,
 .location_faq .mobileMenuButton h2:after,
 .location_faq .mobileMenuButton h2:before,
+.location_blog .mobileMenuButton h2,
+.location_blog .mobileMenuButton h2:after,
+.location_blog .mobileMenuButton h2:before,
 .location_about .mobileMenuButton h2,
 .location_about .mobileMenuButton h2:after,
 .location_about .mobileMenuButton h2:before{
@@ -393,6 +403,9 @@ align-items: center;
 .location_faq .buttonFixed .mobileMenuButton h2,
 .location_faq .buttonFixed .mobileMenuButton h2:after,
 .location_faq .buttonFixed .mobileMenuButton h2:before,
+.location_blog .buttonFixed .mobileMenuButton h2,
+.location_blog .buttonFixed .mobileMenuButton h2:after,
+.location_blog .buttonFixed .mobileMenuButton h2:before,
 .location_about .buttonFixed .mobileMenuButton h2,
 .location_about .buttonFixed .mobileMenuButton h2:after,
 .location_about .buttonFixed .mobileMenuButton h2:before{
@@ -402,11 +415,9 @@ align-items: center;
 
 .location_terms nav,
 .location_faq  nav,
+.location_blog  nav,
 .location_about  nav{
   border-bottom: 1px solid #F6F9FC;
-}
-
-.main-menu a:hover{
 }
 
 .copyright{
@@ -676,8 +687,6 @@ input[type="file"] + label * {
 .login button{
   width: 100%;
 }
-.login button.submit:hover{
-}
 
 .login .errors{
   text-align: left;
@@ -926,9 +935,6 @@ input[type="file"] + label * {
 }
 
 
-#content {
-    
-}
 #content > div{
   overflow: hidden;
   padding-top: 80px;
@@ -1193,11 +1199,6 @@ transition: opacity 0.3s ease;
         color: #707070;
 }
 
-
-.user-card-text p,
-.event-card-text p{
-
-}
 .user-card-info,
 .event-card-info{
   border-bottom: 2px solid #F6F9FC;
@@ -1217,10 +1218,7 @@ transition: opacity 0.3s ease;
     text-align: right;
     margin-bottom: 10px;
 }
-.user-card-fact:last-child,
-.event-card-fact:last-child,
-.review-card-fact:last-child{
-}
+
 
 .user-card-fact p,
 .review-card-fact p,
@@ -1245,9 +1243,7 @@ transition: opacity 0.3s ease;
   float: right; 
 }
 
-.user-card-fact:last-child p,
-.event-card-fact:last-child p{
-}
+
 .user-card-about,
 .event-card-about,
 .event-card-status{
@@ -1850,9 +1846,6 @@ button{
   fill: inherit;
 }
 
-
-button.submit{
-}
 button.submit:hover {
   transition: all 0.2s ease-in-out;
 }
@@ -1875,6 +1868,9 @@ button.active, .button.active{
   color: #FFFFFF;
   fill: #FFFFFF;
   border-color: inherit;
+}
+button.glow{
+  transition: all 0.5s ease;
 }
 button.glow:hover, .button.glow:hover{
 box-shadow: inherit;
@@ -1974,9 +1970,7 @@ table{
   float: right;
   margin-bottom: 180px;
 }
-.how-it-works section  > div{
-  
-}
+
 .how-it-works section .how-to-title{
     display: flex;
     margin-bottom: 15px;
@@ -2743,10 +2737,7 @@ header .dj-card p{
 .about-content{
   text-align: center;
 }
-.about-content h1{
-  font-
-  family: SourceSansPro-Light;
-}
+
 .people{
     display: flex;
     justify-content: center;
@@ -3069,6 +3060,38 @@ ol.breadcrumbs a{
 .logo-area{
   display: flex;
   align-items: flex-end;
+}
+
+.share-buttons{
+  display: flex;
+  justify-content: center;
+  margin: 5em 0;
+  flex-wrap: wrap;
+}
+.share-button{
+  width: 120px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  border-radius: 50px;
+  font-weight: 600;
+  margin: 0.8em;
+}
+.share-button span{
+  margin-right: 1.5em;
+}
+.share-button.SocialMediaShareButton--facebook{
+  background-color: #3B5998;
+}
+.share-button.SocialMediaShareButton--twitter{
+  background-color: rgb(0, 172, 237);
+}
+.share-button.SocialMediaShareButton--linkedin{
+  background-color: rgb(0, 127, 177);
+}
+.share-button.SocialMediaShareButton--email{
+  background-color: rgb(127, 127, 127);
 }
 
 /* SMALL COM BEGIN */
@@ -3438,10 +3461,6 @@ table td{
   height: 60px;
 }
 
-.terms-content,
-.faq-content,
-.about-content{
-}
 
 .people{
   margin-bottom: 20px;

@@ -21,6 +21,7 @@ import Terms from './routes/Terms';
 import NotFound from './routes/NotFound';
 import LocationLanding from './routes/Location';
 import defaultImage from './assets/images/cities/default.png'
+import Blog from './routes/Blog';
 
 const AsyncNavigation = Loadable({
   loader: () => import('./components/Navigation'),
@@ -85,7 +86,8 @@ const App = class extends Component {
   render() {
     const { location } = this.props;
     const description = 'Cueup is an online platform connecting DJs and event organizers - the easiest way for you to book a great DJ for your event.  Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.'
-    
+    const pageURL = Environment.CALLBACK_DOMAIN + location.pathname;
+
     return (
       <div className={`location_${location.pathname.split('/')[1]}`}>
          <Helmet>
@@ -94,7 +96,7 @@ const App = class extends Component {
             <meta name="description" content={description} />
             <meta name="keywords" content="dj, book, rent, copenhagen, cueup, music, events, party, wedding, birthday" />
 
-            <meta property="og:url"             content={Environment.CALLBACK_DOMAIN + location.pathname} />
+            <meta property="og:url"             content={pageURL} />
             <meta property="fb:app_id"          content={Environment.FACEBOOK_ID}/>
             <meta property="og:title"           content="Book DJs with ease | Cueup" />
             <meta property="og:description"     content={description} />
@@ -106,6 +108,7 @@ const App = class extends Component {
             <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
             <meta name="twitter:description"        content={description} />
             <meta name="twitter:image"              content={defaultImage} />
+            <meta name="twitter:url"                content={pageURL} />
 
           </Helmet>
         <AsyncNavigation />
@@ -120,6 +123,7 @@ const App = class extends Component {
             <Route path="/terms" component={Terms}/>
             <Route path="/event/:id/:hash" component={CueupEvent}/>
             <Route path="/book-dj/:country/:city?" component={LocationLanding}/>
+            <Route path="/blog" component={Blog}/>
             <Route component={NotFound}/>
           </Switch>
         </div>
