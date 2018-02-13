@@ -86,6 +86,7 @@ export default class Index extends Component{
       <div className="event-submit-wrapper"> 
       <div className="progrezz-wrapper">
         <div
+          suppressHydrationWarning={true}
           style={{
             opacity: this.props.currentStep === 0 ? 0 : 1,
             backgroundImage: dotBg,
@@ -102,6 +103,7 @@ export default class Index extends Component{
               1
             </p>
              <svg 
+             
              id="step1"
              width="49px" height="64px" viewBox="0 0 49 64" version="1.1" xmlns="http://www.w3.org/2000/svg" >          
                 <path className="step-circle" id="step1-circle" d="M0,24.5a24.5,24.5 0 1,0 49,0a24.5,24.5 0 1,0 -49,0"></path>

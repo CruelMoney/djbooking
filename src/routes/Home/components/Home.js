@@ -9,11 +9,7 @@ import note from '../../../assets/note.svg'
 import DJCards from './djCards'
 import Loadable from 'react-loadable';
 import LoadingRequestForm from '../../../components/common/RequestForm/LoadingRequestForm';
-
-const AsyncRequestForm = Loadable({
-  loader: () => import('../../../components/common/RequestForm/RequestForm'),
-  loading: LoadingRequestForm
-});
+import RequestForm from '../../../components/common/RequestForm/RequestForm';
 
 
 
@@ -82,7 +78,7 @@ handleButtonClick = () => {
 
           <div className="container request-form-wrapper">
             <div ref={(f) => this.requestForm = f}></div>
-            <AsyncRequestForm />
+            <RequestForm />
           </div>
 
           <div className="info-boxes grey">
@@ -90,7 +86,7 @@ handleButtonClick = () => {
               <div className="row">
                       <div  className="col-sm-6 col-md-5 col-md-push-1">
                         <div className="card">
-                          <img src={padlock} alt="icon"/>
+                          <img suppressHydrationWarning={true} src={padlock} alt="icon"/>
                       <h2 style={{color:this.themeColor}}>Secured booking system</h2>
                       <p>
 At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
@@ -98,7 +94,7 @@ At Cueup the process of booking ensures that both the organizer and the DJ are p
                 </div>
                 <div  className="col-sm-6 col-md-5 col-md-push-1">
                   <div className="card">
-                    <img src={note} alt="icon"/>
+                    <img suppressHydrationWarning={true} src={note} alt="icon"/>
                     <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
                     <p>
 At Cueup we focus on finding the most qualified DJs for your event - so you don’t have to. Don’t waste time searching for DJs when you can have offers from great DJs send directly to you.  Each offer shows the DJ, their reviews and rating so you can confidently choose a DJ you can trust.                     </p>

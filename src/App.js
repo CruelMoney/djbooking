@@ -22,11 +22,13 @@ import NotFound from './routes/NotFound';
 import LocationLanding from './routes/Location';
 import defaultImage from './assets/images/cities/default.png'
 import Blog from './routes/Blog';
+import ErrorHandling from './components/common/ErrorPage'
+import Navigation from './components/Navigation';
 
-const AsyncNavigation = Loadable({
-  loader: () => import('./components/Navigation'),
-  loading: ()=><div/>
-});
+// const AsyncNavigation = Loadable({
+//   loader: () => import('./components/Navigation'),
+//   loading: ()=><div/>
+// });
 // const AsyncAbout = Loadable({
 //   loader: () => import('./routes/About'),
 //   loading: LoadHandler
@@ -89,46 +91,49 @@ const App = class extends Component {
     const pageURL = Environment.CALLBACK_DOMAIN + location.pathname;
 
     return (
-      <div className={`location_${location.pathname.split('/')[1]}`}>
-         <Helmet>
-            <title>Book DJs with ease | Cueup</title>
+      <ErrorHandling>
+        <div className={`location_${location.pathname.split('/')[1]}`}>
+          <Helmet>
+              <title>Book DJs with ease | Cueup</title>
 
-            <meta name="description" content={description} />
-            <meta name="keywords" content="dj, book, rent, copenhagen, cueup, music, events, party, wedding, birthday" />
+              <meta name="description" content={description} />
+              <meta name="keywords" content="dj, book, rent, copenhagen, cueup, music, events, party, wedding, birthday" />
 
-            <meta property="og:url"             content={pageURL} />
-            <meta property="fb:app_id"          content={Environment.FACEBOOK_ID}/>
-            <meta property="og:title"           content="Book DJs with ease | Cueup" />
-            <meta property="og:description"     content={description} />
-            <meta property="og:image"           content={defaultImage} />
+              <meta property="og:url"             content={pageURL} />
+              <meta property="fb:app_id"          content={Environment.FACEBOOK_ID}/>
+              <meta property="og:title"           content="Book DJs with ease | Cueup" />
+              <meta property="og:description"     content={description} />
+              <meta property="og:image"           content={defaultImage} />
 
-            <meta name="twitter:card"               content="summary_large_image" />
-            <meta name="twitter:site"               content="@@CueupDK" />
-            <meta name="twitter:creator"            content="@@CueupDK" />
-            <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
-            <meta name="twitter:description"        content={description} />
-            <meta name="twitter:image"              content={defaultImage} />
-            <meta name="twitter:url"                content={pageURL} />
+              <meta name="twitter:card"               content="summary_large_image" />
+              <meta name="twitter:site"               content="@@CueupDK" />
+              <meta name="twitter:creator"            content="@@CueupDK" />
+              <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
+              <meta name="twitter:description"        content={description} />
+              <meta name="twitter:image"              content={defaultImage} />
+              <meta name="twitter:url"                content={pageURL} />
 
-          </Helmet>
-        <AsyncNavigation />
-        <div id="content" className={`location_${location.pathname.split('/')[1]}`}>
-          <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route path="/about" component={About}/>
-            <Route path="/user" component={User}/>
-            <Route path="/howitworks" component={HowItWorks}/>
-            <Route path="/signup" component={Signup}/>
-            <Route path="/faq" component={Faq}/>
-            <Route path="/terms" component={Terms}/>
-            <Route path="/event/:id/:hash" component={CueupEvent}/>
-            <Route path="/book-dj/:country/:city?" component={LocationLanding}/>
-            <Route path="/blog" component={Blog}/>
-            <Route component={NotFound}/>
-          </Switch>
-        </div>
-        <div id="popup-container"></div>
-      </div> 
+            </Helmet>
+          <Navigation />
+          <div id="content" className={`location_${location.pathname.split('/')[1]}`}>
+            <Switch>
+              <Route exact path="/" component={Home}/>
+              <Route path="/about" component={About}/>
+              <Route path="/user" component={User}/>
+              <Route path="/howitworks" component={HowItWorks}/>
+              <Route path="/signup" component={Signup}/>
+              <Route path="/faq" component={Faq}/>
+              <Route path="/terms" component={Terms}/>
+              <Route path="/event/:id/:hash" component={CueupEvent}/>
+              <Route path="/book-dj/:country/:city?" component={LocationLanding}/>
+              <Route path="/blog" component={Blog}/>
+              <Route component={NotFound}/>
+            </Switch>
+          </div>
+          <div id="popup-container"></div>
+        </div> 
+      </ErrorHandling>
+
     );
   }
 };
