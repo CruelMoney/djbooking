@@ -234,7 +234,6 @@ function mapDispatchToProps(dispatch, ownprops) {
     logout: ()        => dispatch(actions.userLogout()),
     checkForLogin: (route) => dispatch(actions.checkForLogin(route)),
     setGeoSession: () => dispatch(sessionActions.setGeodata())
-    
   }
 }
 
