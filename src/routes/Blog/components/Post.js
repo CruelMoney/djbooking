@@ -3,10 +3,12 @@ import { posts } from "../posts.json";
 import Formatter from '../../../utils/Formatter';
 import Sharing from '../../../components/common/Sharing-v2';
 import SignUpForm from '../../Signup/components/SignUpForm';
-import Disqus from 'disqus-react';
 import {Environment} from '../../../constants/constants';
 import NewsletterSignup from './NewsletterSignup';
 import { Helmet } from 'react-helmet';
+import Disqus from 'disqus-react';
+import OnlyClientSide from "../../../components/higher-order/onlyClientSide";
+
 
 class Post extends Component {
   render() {
@@ -24,19 +26,21 @@ class Post extends Component {
         title: post.title,
     };
 
+    const siteTitle = post.title + ' | Cueup Blog';
+
     return (
       <article className="blog-post">
         <Helmet>
-          <title>{post.title}</title>
+          <title>{siteTitle}</title>
 
           <meta name="description"                content={post.excerpt} />
 
-          <meta property="og:title"               content={post.title} />
+          <meta property="og:title"               content={siteTitle} />
           <meta property="og:type"                content={'article'} />
           <meta property="og:description"         content={post.excerpt} />
           <meta property="og:image"               content={post.thumbnail_url} />
 
-          <meta name="twitter:title"              content={post.title} />
+          <meta name="twitter:title"              content={siteTitle} />
           <meta name="twitter:description"        content={post.excerpt} />
           <meta name="twitter:image"              content={post.thumbnail_url} />
 
@@ -49,7 +53,7 @@ class Post extends Component {
         </Helmet>
 
         <header className="title">
-          <time datetime={`${publishedDate.getFullYear()}-${publishedDate.getMonth()+1}-${publishedDate.getDate()}`} >
+          <time dateTime={`${publishedDate.getFullYear()}-${publishedDate.getMonth()+1}-${publishedDate.getDate()}`} >
             {Formatter.date.ToLocalString(publishedDate)}
           </time>
           <p>
@@ -80,7 +84,9 @@ class Post extends Component {
               </SignUpForm>
             </div>
             <hr/>
-            <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
+            <OnlyClientSide>
+             <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
+            </OnlyClientSide>
           </div>
 
         </main>

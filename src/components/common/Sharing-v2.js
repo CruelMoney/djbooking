@@ -28,7 +28,7 @@ class Sharing extends Component {
           <FacebookIcon
             size={32}
             round />
-            <span class="st-label">Share</span>
+            <span>Share</span>
         </FacebookShareButton>
         <TwitterShareButton
           url={shareUrl}
@@ -38,7 +38,7 @@ class Sharing extends Component {
           <TwitterIcon
             size={32}
             round />
-            <span class="st-label">Tweet</span>
+            <span>Tweet</span>
         </TwitterShareButton>
         <LinkedinShareButton
           url={shareUrl}
@@ -50,7 +50,7 @@ class Sharing extends Component {
           <LinkedinIcon
             size={32}
             round />
-            <span class="st-label">Share</span>
+            <span>Share</span>
         </LinkedinShareButton>
         <EmailShareButton
             url={shareUrl}
@@ -61,7 +61,7 @@ class Sharing extends Component {
             <EmailIcon
               size={32}
               round />
-              <span class="st-label">Email</span>
+              <span>Email</span>
           </EmailShareButton>
       </div>
     );
