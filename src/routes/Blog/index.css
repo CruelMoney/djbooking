@@ -10,6 +10,7 @@
   padding-top: 4em;
   padding-left: 1em;
   padding-right: 1em;
+  padding-bottom: 0;
 }
 
 .blog h1{
@@ -26,13 +27,15 @@
   margin: 0 -20px;
 }
 
-.post-feed > *:nth-child(6n+1){
-  flex: 1 1 100%;
-  flex-direction: row;
-}
-.post-feed > *:nth-child(6n+1) .img-wrapper{
-  flex: 1.9;
-  height: auto;
+@media (min-width: 768px){
+  .post-feed > *:nth-child(6n+1){
+    flex: 1 1 100%;
+    flex-direction: row;
+  }
+  .post-feed > *:nth-child(6n+1) .img-wrapper{
+    flex: 1.9;
+    height: auto;
+  }
 }
 
 
@@ -143,6 +146,7 @@ button.subscribe-newsletter{
   margin: 1em 0 .5em;
   font-size: 3.6rem;
   font-weight: 300;
+  line-height: 1.2em;
 }
 .post-content > p:first-child{
   font-size: 1.25em;
@@ -191,15 +195,24 @@ button.subscribe-newsletter{
 footer.newsletter-signup{
   z-index: 3;
   margin-bottom: 50px;
+  white-space: normal;
 }
 footer.newsletter-signup .card{
   margin: auto;
   text-align: center; 
-  padding: 4em 10em;
+  padding: 4em 1em;
+  width: 95%;
+  max-width: 700px;
 }
 
 .newsletter-signup form{
   display: flex;
+}
+.card > .newsletter-signup{
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: auto;
 }
 
 .newsletter-signup button{

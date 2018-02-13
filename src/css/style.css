@@ -194,8 +194,9 @@ pre{
   background-repeat: no-repeat;
   background-position: center;
   background-size: auto 100%;
-  width: 36vw;
-  height: 36vw;
+  width: 200px;
+  height: 200px;
+  margin-right: 20px;
   border-radius: 50%;
   display: inline-block;
   margin-bottom: 20px;
@@ -225,7 +226,8 @@ pre{
   padding-top: 10px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
-    font-size: 6vw;
+    font-size: 20px;
+    width: 200px;
   font-family: 'SourceSansPro-SemiBold';
 }
 
@@ -296,18 +298,23 @@ pre{
 }
 .mobileMenu .profileSummary{
   display: flex;
-    flex-direction: column;
-    align-items: center;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobileMenu .profileInfo{
   width: 100%;
-    padding-bottom: 0px;
+  flex: 1;
+  padding-bottom: 0px;
+  min-width: 200px;
 }
 
 .mobileMenu .menu ul {
     column-count: 1;
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 
@@ -3059,6 +3066,7 @@ ol.breadcrumbs a{
   display: flex;
   justify-content: center;
   margin: 5em 0;
+  flex-wrap: wrap;
 }
 .share-button{
   width: 120px;
@@ -3068,7 +3076,7 @@ ol.breadcrumbs a{
   color: white;
   border-radius: 50px;
   font-weight: 600;
-  margin: 0 1em;
+  margin: 0.8em;
 }
 .share-button span{
   margin-right: 1.5em;

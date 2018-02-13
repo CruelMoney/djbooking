@@ -41,7 +41,6 @@ class Blog extends Component {
           <div className="post-feed">
             {
               posts.map(post => (
-             
               <article className="post-preview card">  
                 <div className="img-wrapper">
                  <Link to={`/blog/${post.slug}`}>
@@ -64,8 +63,6 @@ class Blog extends Component {
                 </section>
                 </Link>
               </article>
-           
-
               ))
             }
           </div>
