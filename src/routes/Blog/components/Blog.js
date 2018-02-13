@@ -70,7 +70,9 @@ class Blog extends Component {
         </main>
         <Popup showing={this.state.showPopup}
             onClickOutside={this.hidePopup}>
-            <NewsletterSignup/>
+            <div className="blog">
+              <NewsletterSignup/>
+            </div>
         </Popup>
       </div>
     );

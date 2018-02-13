@@ -6,6 +6,7 @@ import SignUpForm from '../../Signup/components/SignUpForm';
 import Disqus from 'disqus-react';
 import {Environment} from '../../../constants/constants';
 import NewsletterSignup from './NewsletterSignup';
+import { Helmet } from 'react-helmet';
 
 class Post extends Component {
   render() {
@@ -25,9 +26,34 @@ class Post extends Component {
 
     return (
       <article className="blog-post">
+        <Helmet>
+          <title>{post.title}</title>
+
+          <meta name="description"                content={post.excerpt} />
+
+          <meta property="og:title"               content={post.title} />
+          <meta property="og:type"                content={'article'} />
+          <meta property="og:description"         content={post.excerpt} />
+          <meta property="og:image"               content={post.thumbnail_url} />
+
+          <meta name="twitter:title"              content={post.title} />
+          <meta name="twitter:description"        content={post.excerpt} />
+          <meta name="twitter:image"              content={post.thumbnail_url} />
+
+          <meta property="article:published_time" content={post.published_date} />
+          <meta property="article:modified_time" content={post.updated_date} />
+          <meta property="article:tag" content={post.tag} />
+          <meta property="article:publisher" content="https://www.facebook.com/cueupdk" />
+          <meta property="article:author" content={post.author} />
+
+        </Helmet>
+
         <header className="title">
-          <p>
+          <p style={{marginBottom: "0px"}} >
             {Formatter.date.ToLocalString(publishedDate)}
+          </p>
+          <p>
+            Skrevet af {post.author}
           </p>
           <h1>
             { post.title }

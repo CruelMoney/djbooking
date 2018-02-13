@@ -226,3 +226,13 @@ footer.newsletter-signup .card{
 .newsletter-signup .text-field > div:first-child{
   height: 37px !important;
 }
+
+
+.popup .blog{
+  padding: 5em !important;
+}
+@media (max-width: 420px){
+  .popup .blog{
+    padding: 1em !important;
+  }
+}
