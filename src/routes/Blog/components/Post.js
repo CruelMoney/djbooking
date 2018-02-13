@@ -15,7 +15,7 @@ class Post extends Component {
     const { postTitle } = params;
 
     const post = posts.find(p => p.slug === postTitle);
-    const publishedDate = new Date(post.published_date);
+    const publishedDate = new Date(post.updated_date);
 
     const disqusShortname = 'cueup';
     const disqusConfig = {
@@ -49,9 +49,9 @@ class Post extends Component {
         </Helmet>
 
         <header className="title">
-          <p style={{marginBottom: "0px"}} >
+          <time datetime={`${publishedDate.getFullYear()}-${publishedDate.getMonth()+1}-${publishedDate.getDate()}`} >
             {Formatter.date.ToLocalString(publishedDate)}
-          </p>
+          </time>
           <p>
             Skrevet af {post.author}
           </p>

@@ -136,11 +136,15 @@ button.subscribe-newsletter{
   font-size: 2.2rem;
   line-height: 1.6em;
 }
-.blog-post p{
+.blog-post p,
+.blog-post time{
   margin: 0 0 1.5em;
   color: #7e8186;
   font-size: 18px;
   line-height: 1.7;
+}
+.blog-post time{
+  margin-bottom: 0;
 }
 .post-content h2{
   margin: 1em 0 .5em;
