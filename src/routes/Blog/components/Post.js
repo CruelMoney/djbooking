@@ -49,7 +49,6 @@ class Post extends Component {
           <meta property="article:modified_time" content={post.updated_date} />
           <meta property="article:tag" content={post.tag} />
           <meta property="article:publisher" content="https://www.facebook.com/cueupdk" />
-          <meta property="article:author" content={post.author} />
 
         </Helmet>
 
