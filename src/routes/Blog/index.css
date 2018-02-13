@@ -138,11 +138,15 @@ button.subscribe-newsletter{
 }
 .blog-post p,
 .blog-post time,
-.blog-post li{
+.blog-post li,
+.blog-post .author-link{
   margin: 0 0 1.5em;
   color: #7e8186;
   font-size: 18px;
   line-height: 1.7;
+}
+.blog-post .author-link{
+  display: block;
 }
 .blog-post ul{
   list-style: disc;

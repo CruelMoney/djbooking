@@ -56,9 +56,16 @@ class Post extends Component {
           <time dateTime={`${publishedDate.getFullYear()}-${publishedDate.getMonth()+1}-${publishedDate.getDate()}`} >
             {Formatter.date.ToLocalString(publishedDate)}
           </time>
-          <p>
-            Skrevet af {post.author}
-          </p>
+          {!!post.author_link ?
+            <a className="author-link" href={post.author_link}>
+              Skrevet af {post.author}
+            </a>
+             : 
+             <p>
+             Skrevet af {post.author}
+            </p>
+          }
+          
           <h1>
             { post.title }
           </h1>
