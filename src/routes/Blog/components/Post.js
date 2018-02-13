@@ -43,7 +43,8 @@ class Post extends Component {
           <meta name="twitter:title"              content={siteTitle} />
           <meta name="twitter:description"        content={post.excerpt} />
           <meta name="twitter:image"              content={post.thumbnail_url} />
-
+          
+          <meta property="article:content_tier" content="free" />
           <meta property="article:published_time" content={post.published_date} />
           <meta property="article:modified_time" content={post.updated_date} />
           <meta property="article:tag" content={post.tag} />
