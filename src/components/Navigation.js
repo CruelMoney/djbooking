@@ -67,14 +67,14 @@ class Menu extends Component {
 
 
      componentWillReceiveProps(nextProps){
-      //  if(nextProps.isRedirect && !this.state.redirected){
-      //    if(nextProps.profile.user_metadata && nextProps.profile.user_metadata.permaLink){
-      //     this.props.history.push(`/user/${nextProps.profile.user_metadata.permaLink}/profile`)
-      //    }else{
-      //     this.props.history.push(`/user`)
-      //    }
-      //    this.setState({redirected:true})
-      //  }
+       if(nextProps.isRedirect && !this.state.redirected){
+         if(nextProps.profile.user_metadata && nextProps.profile.user_metadata.permaLink){
+          this.props.history.push(`/user/${nextProps.profile.user_metadata.permaLink}/profile`)
+         }else{
+          this.props.history.push(`/user`)
+         }
+         this.setState({redirected:true})
+       }
      }
      componentDidUpdate(prevProps) {
       window.addEventListener('scroll', this.handleScroll)
