@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import dot from '../../../assets/dot.svg'
 
-export default class Index extends Component{
+export default class Index extends PureComponent{
     KUTE = null;
 
    static proptypes = {

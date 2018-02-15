@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button-v2'
 import TextField, {TexfieldDisconnected} from '../Textfield'
@@ -23,7 +23,7 @@ import GenreChooser from './GenreChooser';
 import wNumb from 'wnumb'
 import c from '../../../constants/constants'
 
-const MainForm = class extends Component{
+const MainForm = class extends PureComponent{
   static proptypes = {
     form: PropTypes.object,
     date: PropTypes.object, //moment object
@@ -230,34 +230,6 @@ const MainForm = class extends Component{
           }
         </div>
         
-
-
-      {/*<div style={{position:"relative"}}>
-        <Form
-          noError
-          customIsFormValid={()=>{
-                    var result = this.formValidCheckers.reduce((memo, isValidFunc) =>{
-                      return (isValidFunc(true) && memo)}, true)
-                    return result}}
-          name="requestForm">
-         
-          <Progress
-            step1Done={this.state.step1Done}
-            step2Done={this.state.step2Done}
-            step3Done={this.state.step3Done}
-            onSubmit={this.onSubmit}
-          />
-            <div className="row">
-            <div className="col-xs-12">
-              <p 
-              style={{textAlign: "center"}} 
-              className="terms_link">
-                By clicking send event you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>
-              </p>
-            </div>
-          </div>
-
-      </Form>*/}
         </div>
       </div>
 
@@ -298,7 +270,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(MainForm)
 
 
 
-class Step1 extends Component{
+class Step1 extends PureComponent{
 state={
   showPopup:false, 
   date: moment()
@@ -425,7 +397,7 @@ render(){
   )
 }
 }
-class Step2 extends Component{
+class Step2 extends PureComponent{
   validationChecker = null
 
   state={
@@ -510,7 +482,7 @@ handleGenreSelection = (letCueupDecide) => {
  } 
 }
 
-class Step3 extends Component{
+class Step3 extends PureComponent{
 state={guests:50}
 
   validationChecker = null
@@ -602,7 +574,7 @@ next=()=>{
  } 
 }
 
-class Step4 extends Component{
+class Step4 extends PureComponent{
   state={showPopup:false}
 
    onSubmit(form, callback){
