@@ -2,6 +2,7 @@ import React  from 'react'
 import { hydrate, render } from 'react-dom';
 import Router from './BrowserRouter'
 import './css/style.css'
+import registerServiceWorker from './utils/ServiceWorker';
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin();
 
@@ -12,3 +13,5 @@ if (rootElement.hasChildNodes()) {
 } else {
   render(<Router />, rootElement);
 }
+
+registerServiceWorker();
