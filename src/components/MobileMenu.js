@@ -173,7 +173,7 @@ class MobileMenu extends Component {
                 
               </p>
               {
-                curConverter.getConvertedFormatted(this.props.profile.app_metadata.earned, this.props.profile.app_metadata.bankCurrency, this.props.profile.settings.currency)
+                curConverter.getConvertedFormatted(this.props.profile.earned, this.props.profile.app_metadata.bankCurrency, this.props.profile.settings.currency)
               }
             </div>
         
