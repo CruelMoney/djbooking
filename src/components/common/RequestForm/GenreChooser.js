@@ -28,7 +28,7 @@ class GenreChooser extends React.Component {
 
     render() {
       const {selected} = this.state;
-
+      const {cueupDecideLabel, chooseLabel, cueupDecideDescription} = this.props;
         return (
             <div className="toggle-options">
                 <table>
@@ -39,10 +39,10 @@ class GenreChooser extends React.Component {
                             onClick={this.onChooseGenres}
                             onClickToggled={this.onClickToggled}
                             name="choose"
-                            label="Choose genres"
+                            label={chooseLabel}
                             active={selected === 'choose'}
                             rounded
-                        >Choose genres</ToggleButton>
+                        >{chooseLabel}</ToggleButton>
                         </td>
                         <td>
                         <ToggleButton
@@ -51,9 +51,9 @@ class GenreChooser extends React.Component {
                             name="cueup"
                             label={
                               <span>
-                                Let Cueup decide
+                                {cueupDecideLabel}
                               <InfoPopup
-                                info={"Let us choose suitable music genres based on your other selections and event description."}
+                                info={cueupDecideDescription}
                                 />
                               </span>}
                             active={selected === 'cueup'}

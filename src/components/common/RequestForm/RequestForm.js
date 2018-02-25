@@ -22,6 +22,12 @@ import { connect } from 'react-redux'
 import GenreChooser from './GenreChooser';
 import wNumb from 'wnumb'
 import c from '../../../constants/constants'
+import { getTranslate, addTranslation } from 'react-localize-redux';
+import {store} from '../../../store';
+import content from './content.json';
+
+store.dispatch(addTranslation(content));
+
 
 const MainForm = class extends PureComponent{
   static proptypes = {
@@ -56,20 +62,26 @@ const MainForm = class extends PureComponent{
   formValidCheckers = []
 
   submitEvent = (event, callback) => {
+    const {getTranslate} = this.props;
+
     try {
         var formValid = this.formValidCheckers.reduce((memo, isValidFunc) =>{
                             return (isValidFunc(true) && memo)}, true)
         if(formValid){
             this.props.onSubmit(event, (err,res)=>{
                 if (!err) {
-                  this.setState({msg: "Thank you for using our service. We will send you an email with confirmation of the event."})
+                  this.setState({msg: 
+                    getTranslate('succes-message')
+                  })
                 }
                 callback(err,res)
           })
         }
           
       } catch (error) {
-        callback("Something went wrong")
+        callback(
+          getTranslate('unknown-error')
+        )
       }
   }
 
@@ -120,15 +132,15 @@ const MainForm = class extends PureComponent{
   }
 
   render() {
+    const {getTranslate} = this.props;
+
     return(
       <div className="request-form">
         <Popup width="380px" showing={this.state.showPopup && !this.props.isLoggedIn}
           onClickOutside={this.hidePopup}>
           <div>
             <p style={{marginBottom:"20px"}}>
-              It looks like there's already an account using that email. Please login to continue.<br/>
-              If you don't have a login yet, press the forgot button to create a password. <br/>
-              Then come back here to login and create the event.
+             {getTranslate('request-form.email-exists-message')}
             </p>
             <Login
             redirect={false}
@@ -151,6 +163,7 @@ const MainForm = class extends PureComponent{
               <div className="card">
               <div className={" " + (this.state.activeStep!==1 ? "hidden" : "show")}>
                 <Step1
+                  getTranslate={getTranslate}
                   form={this.props.form}
                   date={this.state.date}
                   initialCity={this.props.initialCity}
@@ -163,6 +176,7 @@ const MainForm = class extends PureComponent{
               </div>
               <div className={" " + (this.state.activeStep!==2 ? "hidden" : "show")}>
                   <Step2
+                  getTranslate={getTranslate}
                   form={this.props.form}
                   next={()=>this.setState({activeStep:3})}
                   back={()=>this.setState({activeStep:1})}
@@ -171,6 +185,7 @@ const MainForm = class extends PureComponent{
               </div>
               <div className={" " + (this.state.activeStep!==3 ? "hidden" : "show")}>
                   <Step3
+                  getTranslate={getTranslate}
                   form={this.props.form}
                   date={this.state.date}
                   next={()=>this.setState({activeStep:4})}
@@ -180,6 +195,7 @@ const MainForm = class extends PureComponent{
               </div>
               <div className={" " + (this.state.activeStep!==4 ? "hidden" : "show")}>
                   <Step4
+                  getTranslate={getTranslate}
                   form={this.props.form}
                   isLoggedIn={this.props.isLoggedIn}
                   active={this.state.activeStep===2}
@@ -201,7 +217,7 @@ const MainForm = class extends PureComponent{
                       className="back-button"
                       onClick={()=>this.setState({activeStep: 3})}
                       >
-                        back
+                        {getTranslate("back")}
                       </span>
               
                     <SubmitButton
@@ -210,14 +226,16 @@ const MainForm = class extends PureComponent{
                       onClick={this.onSubmit}
                       glow
                     >
-                      <div style={{width:"150px"}}>GET OFFERS</div>
+                      <div style={{width:"150px"}}>
+                      {getTranslate("get-offers")}
+                      </div>
                     </SubmitButton>
                         </div>
                       <ErrorMessage center />
                   <p 
                   style={{textAlign: "center"}} 
                   className="terms_link">
-                    By clicking on get offers you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>
+                   {getTranslate("terms-message")}
                   </p>
 
               </Form>
@@ -249,12 +267,14 @@ function mapStateToProps(state, ownProps) {
         state.forms["requestForm-step-4"] ? state.forms["requestForm-step-4"].values : {} ,
       ),
     initialCity: ownProps.initialCity || state.session.city,
-    emailExists: state.login.status.emailExists
+    emailExists: state.login.status.emailExists,
+    getTranslate: getTranslate(state.locale),
   }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
+    
     onSubmit: (form, callback)    => {dispatch(eventActions.postEvent(form, callback))},
     checkDjAvailability: (form, callback)    => {dispatch(eventActions.checkDjAvailability(form, callback))},
     checkEmail: (email, callback) => {dispatch(userActions.checkEmail(email, callback))}
@@ -295,6 +315,7 @@ updateTimezone = (timezoneID) => {
 }
 
 next=()=>{
+  const {getTranslate} = this.props;
   if (this.validationChecker(true)){
     this.setState({loading:true})
     this.props.checkDjAvailability(this.props.form, (err, res, data)=>{
@@ -302,7 +323,7 @@ next=()=>{
       if(err){
         this.setState({
           loading:false, 
-          err: typeof err === 'string' ? err : "Something went wrong.", 
+          err: typeof err === 'string' ? err : getTranslate('unkown-error'), 
           msg: typeof err === 'string' ? err : ""}
         )
       }else{
@@ -320,7 +341,7 @@ next=()=>{
 
         //not available
         }else{
-          this.setState({loading:false, err:"", msg:"Sorry we don't have any DJs available."})
+          this.setState({loading:false, err:"", msg: getTranslate('request-form.no-djs-message')})
         }
       }
     })
@@ -331,6 +352,8 @@ next=()=>{
 
 
 render(){
+  const {getTranslate} = this.props
+
   const eventDateString = this.state.date.format("dddd Do, MMMM YYYY");
   return(
     <div> 
@@ -350,28 +373,39 @@ render(){
       //formValidCallback={(name)=>this.props.updateProgress(name,true)}
       //formInvalidCallback={(name)=>this.props.updateProgress(name,false)}
       name="requestForm-step-1">
-      <h3 className="center">Check if we have DJs available</h3>
+      <h3 className="center">
+        {getTranslate("request-form.step-1.header")}
+      </h3>
       <section>
-        <label htmlFor="location">Event location</label>
+        <label htmlFor="location">
+          {getTranslate("request-form.step-1.event-location")}
+        </label>
         <LocationSelector
           name="location"
+          placeholder={getTranslate('city')}
           validate={['required']}
           value={this.props.initialCity !== "" ? this.props.initialCity : undefined}                    
         />
-        <p>In what city is the event?</p>
+        <p>
+         {getTranslate("request-form.step-1.event-location-description")}
+        </p>
       </section>
        <section
           className="cursor-pointer"
           onClick={()=>{
             this.setState({showLogin:false, showPopup:true})}}
           >
-          <label>Event date</label>
+          <label>
+          {getTranslate("request-form.step-1.event-date")}
+          </label>
           <TexfieldDisconnected
             name="date"
             disabled
             value={eventDateString}
           />
-          <p>Select date of event.</p>
+          <p>
+          {getTranslate("request-form.step-1.event-date-description")}
+          </p>
         </section>
       
         <Button
@@ -379,7 +413,7 @@ render(){
         isLoading={this.state.loading}
         onClick={this.next}
         >
-          CONTINUE
+            {getTranslate("continue")}
         </Button>
     </Form>
 
@@ -416,7 +450,8 @@ handleGenreSelection = (letCueupDecide) => {
 }
 
  render(){
-   const {showGenres} = this.state;
+    const {getTranslate} = this.props;
+    const {showGenres} = this.state;
    return(
      <Form
      registerCheckForm={(checker)=>{
@@ -427,28 +462,44 @@ handleGenreSelection = (letCueupDecide) => {
      // formInvalidCallback={(name)=>this.props.updateProgress(name,false)}
       name="requestForm-step-2">
       <h3>
-        Great we have DJs available.
-        <span>We need a bit of information to make offers.</span>
+        {getTranslate("request-form.step-2.header")}
       </h3>
       <section>
-        <label htmlFor="name">Event name</label>
+        <label htmlFor="name">
+        {getTranslate("request-form.step-2.event-name")}
+        </label>
         <TextField
           name="name"
           validate={['required']}
         />
-        <p>Please choose a descriptive name.</p>
+        <p>
+        {getTranslate("request-form.step-2.event-name-description")}
+        </p>
       </section>
       <section>
-      <label>Speakers & Light</label>
-      <p style={{marginBottom:"10px"}}>Do you need speakers and lights for the event?</p>
+      <label>
+      {getTranslate("request-form.step-2.event-rider")}
+      </label>
+      <p style={{marginBottom:"10px"}}>
+      {getTranslate("request-form.step-2.event-rider-description")}
+      </p>
         <RiderOptions 
+          speakersLabel={getTranslate("speakers")}
+          lightsLabel={getTranslate("lights")}
           name="rider"/>
       </section>
       <section>
-        <label>Genres</label>
-        <p style={{marginBottom:"10px"}}>What kind of music do you need?</p>
+        <label>
+        {getTranslate("request-form.step-2.event-genres")}
+        </label>
+        <p style={{marginBottom:"10px"}}>
+        {getTranslate("request-form.step-2.event-genres-description")}
+        </p>
         <GenreChooser 
         onChange={this.handleGenreSelection}
+        chooseLabel={getTranslate("request-form.choose-genres")}
+        cueupDecideLabel={getTranslate("request-form.let-cueup-decide")}
+        cueupDecideDescription={getTranslate("request-form.let-cueup-decide-description")}
         name="genres"
          />
          { showGenres ?
@@ -466,13 +517,13 @@ handleGenreSelection = (letCueupDecide) => {
         className="back-button"
         onClick={this.props.back}
         >
-          back
+          {getTranslate("back")}
         </span>
         <Button
         type="submit"
         onClick={this.next}
         >
-      NEXT
+      {getTranslate("continue")}
     </Button>
       </div>
         
@@ -494,6 +545,8 @@ next=()=>{
 }
 
  render(){
+   const {getTranslate} = this.props;
+
    return(
      <Form
         registerCheckForm={(checker)=>{
@@ -504,19 +557,23 @@ next=()=>{
        // formInvalidCallback={(name)=>this.props.updateProgress(name,false)}
         name="requestForm-step-3">
         <h3>
-          Thanks! 
-          <span>Please tell us a bit more.</span>
+          {getTranslate('request-form.step-3.header')}
         </h3>
         <section>
-          <label>Music Duration</label>
+          <label>
+          {getTranslate('request-form.step-3.music-duration')}
+          </label>
           <TimeSlider
+            hoursLabel={getTranslate('hours')}
             date={this.props.date}
           />
         </section>
 
 
         <section>
-          <label>People</label>
+          <label>
+          {getTranslate('request-form.step-3.guests')}
+          </label>
           <div>
             <Slider
               name="guests"
@@ -538,19 +595,22 @@ next=()=>{
             />
           </div>
           <p style={{marginTop:"15px"}}>
-            {this.state.guests === 1000 ? "Over " : "Around "} <span>{this.state.guests} people </span>attending the event.</p>
+              {getTranslate(
+                "request-form.step-3.guests-description",
+                { 
+                  prefix: this.state.guests === 1000 ? getTranslate('over') : getTranslate('around'),
+                  amount: this.state.guests
+                })
+                }
+            </p>
         </section>
         <section>
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description">
+          {getTranslate("request-form.step-3.event-description")}
+          </label>
           <TextBox
             height="110px"
-            placeholder={
-              "Please tell about your event. \n" +
-              "What is the budget? \n" +
-              "What is the age of the guests? \n" +
-              "What kind of venue is it? \n" +
-              "Do you have any special requirements? \n" 
-            }
+            placeholder={getTranslate('request-form.step-3.event-description-description')}
             name="description"
             validate={['required']}
           />
@@ -560,13 +620,13 @@ next=()=>{
             className="back-button"
           onClick={this.props.back}
           >
-            back
+            {getTranslate('back')}
           </span>
            <Button
            type="submit"
         onClick={this.next}
         >
-          NEXT
+            {getTranslate('continue')}
         </Button>
         </div>
       </Form>
@@ -577,21 +637,27 @@ next=()=>{
 class Step4 extends PureComponent{
   state={showPopup:false}
 
-   onSubmit(form, callback){
+   onSubmit = (form, callback) =>{
+    const {getTranslate} = this.props;
+
       if(this.context.isFormValid(true)){
         
         this.props.onSubmit(form, (err,res)=>{
                 if (!err) {
-                  this.setState({msg: "Thank you for using our service. We will send you an email with confirmation of the event."})
+                  this.setState({msg: getTranslate('request-form.succes-message')})
                 }
                 callback(err,res)
          })
       }else{
-       callback("Please fill out all required fields") 
+       callback(
+         getTranslate()
+       ) 
       }
     }
 
  render(){
+    const {getTranslate} = this.props;
+
    return(
      <div> 
        
@@ -601,34 +667,45 @@ class Step4 extends PureComponent{
         //formInvalidCallback={(name)=>this.props.updateProgress(name,false)}
         name="requestForm-step-4">
           <h3>
-            Great! We're finding DJs now. 
-            <span>How can we get back to you?</span>
+          {getTranslate('request-form.step-4.header')}
           </h3>
-        <section><label htmlFor="contactName">Contact name</label>
+        <section><label htmlFor="contactName">
+        {getTranslate('request-form.step-4.contact-name')}
+        </label>
           <TextField
             name="contactName"
-            placeholder="First Last"
+            placeholder={getTranslate('first-last')}
             validate={['required', 'lastName']}
           />
-          <p >Your first and last name.</p>
+          <p >
+          {getTranslate('request-form.step-4.contact-name-description')}
+          </p>
         </section>
         
         <section>
-           <label htmlFor="contactName">Phone number</label>
+           <label htmlFor="contactName">
+           {getTranslate('request-form.step-4.contact-phone')}
+           </label>
           <TextField
-            placeholder="Optional"
+            placeholder={getTranslate('optional')}
             name="contactPhone"
             validate={[]}
           />
-          <p>Your phone number is only shared with qualified DJs.</p>
+          <p>
+          {getTranslate('request-form.step-4.contact-phone-description')}
+          </p>
         </section>
-        <section><label htmlFor="contactEmail">Contact email</label>
+        <section><label htmlFor="contactEmail">
+        {getTranslate('request-form.step-4.contact-email')}
+        </label>
           <TextField
             name="contactEmail"
             placeholder="Email"
             validate={['required', 'email']}
           />
-          <p>Your email is only shared with qualified DJs.</p>
+          <p>
+          {getTranslate('request-form.step-4.contact-email-description')}
+          </p>
         </section>
       </Form>
       </div> 

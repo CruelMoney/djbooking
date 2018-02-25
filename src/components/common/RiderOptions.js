@@ -57,6 +57,7 @@ class RiderOptions extends React.Component {
     }
 
     render() {
+        const{ speakersLabel, lightsLabel} = this.props;
         return (
             <div className="toggle-options">
                 <table>
@@ -67,20 +68,24 @@ class RiderOptions extends React.Component {
                             onClick={this.onClick}
                             onClickToggled={this.onClickToggled}
                             name="speakers"
-                            label="Speakers"
+                            label={speakersLabel}
                             active={this.state.speakers || false}
                             rounded
-                        >Speakers</ToggleButton>
+                        >
+                        {speakersLabel}
+                        </ToggleButton>
                         </td>
                         <td>
                         <ToggleButton
                             onClick={this.onClick}
                             onClickToggled={this.onClickToggled}
                             name="light"
-                            label="Lights"
+                            label={lightsLabel}
                             active={this.state.light || false}
                             rounded
-                        >Lights</ToggleButton>
+                        >
+                        {lightsLabel}
+                        </ToggleButton>
                         </td>
                     </tr>
                     </tbody>

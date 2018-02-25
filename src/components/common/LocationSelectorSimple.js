@@ -150,7 +150,7 @@ class LocationSelector extends Component{
           onChange={this.onChange}
           fullWidth={true}
           searchText={this.props.value}
-          hintText={"City"}
+          hintText={this.props.placeholder || "City"}
           dataSource={this.state.dataSource}
           onUpdateInput={this.onChange}
           onNewRequest={this.onValueSelected}

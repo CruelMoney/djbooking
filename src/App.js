@@ -24,49 +24,20 @@ import defaultImage from './assets/images/cities/default.png'
 import Blog from './routes/Blog';
 import ErrorHandling from './components/common/ErrorPage'
 import Navigation from './components/Navigation';
-
-// const AsyncNavigation = Loadable({
-//   loader: () => import('./components/Navigation'),
-//   loading: ()=><div/>
-// });
-// const AsyncAbout = Loadable({
-//   loader: () => import('./routes/About'),
-//   loading: LoadHandler
-// });
-// const AsyncHome = Loadable({
-//   loader: () => import('./routes/Home'),
-//   loading: LoadHandler
-// });
-// const AsyncEvent = Loadable({
-//   loader: () => import('./routes/Event'),
-//   loading: LoadHandler
-// });
-// const AsyncHowItWorks = Loadable({
-//   loader: () => import('./routes/HowItWorks'),
-//   loading: LoadHandler
-// });
-// const AsyncSignup = Loadable({
-//   loader: () => import('./routes/Signup'),
-//   loading: LoadHandler
-// });
-// const AsyncUser = Loadable({
-//   loader: () => import('./routes/User'),
-//   loading: LoadHandler
-// });
-// const AsyncFaq = Loadable({
-//   loader: () => import('./routes/Faq'),
-//   loading: LoadHandler
-// });
-// const AsyncTerms = Loadable({
-//   loader: () => import('./routes/Terms'),
-//   loading: LoadHandler
-// });
-
+import { getActiveLanguage } from 'react-localize-redux';
+import 'moment/locale/da';
+import moment from 'moment';
 
 const App = class extends Component {
 
   state={
     pageLocation: ""
+  }
+  
+  componentWillMount(){
+    //Setup moment localization
+    const {activeLanguage} = this.props;
+    moment.locale(activeLanguage);
   }
 
   componentDidMount(){
@@ -75,12 +46,12 @@ const App = class extends Component {
       // Preload common pages
       // AsyncHowItWorks.preload();
       // AsyncSignup.preload();
-    
    }
 
-   componentWillReceiveProps(props){
-      if(props.loggedIn){
-      //   AsyncUser.preload();
+   componentWillReceiveProps(nextprops){
+    const {activeLanguage, loggedIn} = this.props;
+      if(activeLanguage !== nextprops.activeLanguage){
+        moment.locale(nextprops.activeLanguage);
       }
    }
 
@@ -141,10 +112,13 @@ const App = class extends Component {
 const mapStateToProps = (state, ownprops) => {
   return {
     loggedIn: state.login.status.signedIn,
-    profile: state.login.profile
+    profile: state.login.profile,
+    activeLanguage: getActiveLanguage(state.locale).code
   }
 }
 
 export default withRouter(
-  connect(mapStateToProps)(App)
+  connect(mapStateToProps)(
+    App
+  )
 );

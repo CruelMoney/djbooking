@@ -58,5 +58,57 @@
   "denmark":[
     "Denmark",
     "Danmark"
+  ],
+  "back":[
+    "Back",
+    "Tilbage"
+  ],
+  "continue":[
+    "Continue",
+    "Fortsæt" 
+  ],
+  "terms-message":[
+    "By clicking on get offers you agree to our <a target='_blank' href='/terms/agreements'>terms and conditions</a>.",
+    "Ved at trykke på få tilbud accepterer du automatisk vores <a target='_blank' href='/terms/agreements'>betingelser</a>."
+  ],
+  "unknown-error":[
+    "Something went wrong.",
+    "Noget gik galt."
+  ],
+  "speakers":[
+    "Speakers",
+    "Højtalere"
+  ],
+  "lights":[
+    "Lights",
+    "Lys"
+  ],
+  "hours":[
+    "Hours",
+    "Timer"
+  ],
+  "over":[
+    "Over",
+    "Over"
+  ],
+  "around":[
+    "Around",
+    "Omkring"
+  ],
+  "required-fields-error":[
+    "Please fill out all required fields",
+    "Ufyld venligst alle "
+  ],
+  "optional":[
+    "Optional",
+    "Valgfri"
+  ],
+  "first-last":[
+    "First Last",
+    "Fornavn Efternavn"
+  ],
+  "city":[
+    "City",
+    "By"
   ]
 }

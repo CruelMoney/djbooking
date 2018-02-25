@@ -88,6 +88,8 @@ class TimeSlider extends Component{
 
 
   render() {
+    const {hoursLabel} = this.props;
+
     return (
       <div>
         <div>
@@ -114,7 +116,7 @@ class TimeSlider extends Component{
             marginTop: '10px'
           }}>
           <p>{`Start: ${this.formatNumber(this.state.startHour)}:${this.formatNumber(this.state.startMinute)}`}</p>
-          <p><span>{`${this.state.difHours} hours`}</span></p>
+          <p><span>{`${this.state.difHours} ${hoursLabel}`}</span></p>
           <p>{`End: ${this.formatNumber(this.state.endHour)}:${this.formatNumber(this.state.endMinute)}`}</p>
         </div>
       </div>
