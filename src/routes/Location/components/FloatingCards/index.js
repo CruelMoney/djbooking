@@ -15,7 +15,7 @@ class FloatingCards extends Component {
 
     let renderDJS = 
     shuffle(
-      DJs.filter(dj => dj.location.toLowerCase().indexOf(location.toLowerCase()) !== -1)
+      DJs.filter(dj => dj.location.city.toLowerCase().indexOf(location.toLowerCase()) !== -1)
     );
 
     renderDJS = renderDJS.length > 2 ? renderDJS : [];

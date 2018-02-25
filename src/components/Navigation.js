@@ -12,6 +12,7 @@ import { withRouter } from 'react-router-dom'
 import BreadCrumbs from './BreadCrumbs';
 import * as actions from '../actions/LoginActions'
 import * as sessionActions from '../actions/SessionActions'
+import { getTranslate } from 'react-localize-redux';
 
 
 class Menu extends Component {
@@ -96,6 +97,7 @@ class Menu extends Component {
     }
 
   render() {
+    const {translate} = this.props;
     const isHome = this.props.location.pathname === '/';
 
     return (
@@ -133,14 +135,14 @@ class Menu extends Component {
                 
                 {!isHome    ?    
                 <li>
-                  <Navlink buttonLook={true} to="/" label="Arrange event"/>
+                  <Navlink buttonLook={true} to="/" label={translate('arrange-event')}/>
                 </li>  : null 
                 
                 }
          
 
                 <li>
-                  <Navlink  buttonLook={true} to="/howitworks" label="How it works"/>
+                  <Navlink  buttonLook={true} to="/howitworks" label={translate('how-it-works')}/>
                 </li>
                
 
@@ -148,7 +150,7 @@ class Menu extends Component {
                   <li >
                     <a
                       onClick={this.onLoginButton}
-                    >Login</a>
+                    >{translate('login')}</a>
                     <Dropdown
                       expanded={this.state.loginExpanded}
                       disableOnClickOutside={!this.state.loginExpanded}
@@ -170,13 +172,13 @@ class Menu extends Component {
                   null
                 ) : (
                   <li>
-                    <Navlink buttonLook={true} to="/signup" label="Apply to become DJ" important={true}/>
+                    <Navlink buttonLook={true} to="/signup" label={translate('apply-to-become-dj')} important={true}/>
                   </li>
                 )}
                    {this.props.loggedIn ? (
 
                   <li>
-                    <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label="Log out"/>
+                    <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label={translate('log-out')}/>
                   </li>
                 ) : (
                   null
@@ -225,7 +227,9 @@ function mapStateToProps(state, ownprops) {
     loggedIn: state.login.status.signedIn,
     isRedirect: state.login.status.isRedirect,
     isWaiting: state.login.status.isWaiting,
-    profile: state.login.profile
+    profile: state.login.profile,
+    translate: getTranslate(state.locale),
+
   }
 }
 

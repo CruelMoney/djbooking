@@ -23,6 +23,10 @@
     "Are you a DJ?",
     "Er du DJ?"
   ],
+  "apply-to-become-dj":[
+    "Apply to become DJ",
+    "Ansøg om at blive DJ"
+  ],
   "language":[
     "Language",
     "Sprog"
@@ -110,5 +114,34 @@
   "city":[
     "City",
     "By"
+  ],
+  "arrange-event":[
+    "Arrange event",
+    "Arranger event"
+  ],
+  "log-out":[
+    "Log out",
+    "Log ud"
+  ],
+  "login":[
+    "Login",
+    "Log ind"
+  ],
+  "reset-password-msg":[
+    "We've just sent you an email to reset your password.",
+    "Vi har sendt dig en email til at nulstille dit password."
+  ],
+  "please-enter-email":[
+    "Please enter email.",
+    "Indtast email."
+  ],
+  "or":[
+    "Or",
+    "Eller"
+  ],
+  "forgot":[
+    "Forgot",
+    "Glemt"
   ]
+
 }

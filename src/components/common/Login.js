@@ -9,6 +9,8 @@ import * as actions from '../../actions/LoginActions'
 import { withRouter } from 'react-router-dom'
 import LoadHandler from './LoadingScreen'
 import Loadable from 'react-loadable';
+import { getTranslate } from 'react-localize-redux';
+
 
 const AsyncUser = Loadable({
   loader: () => import('../../routes/User'),
@@ -53,16 +55,18 @@ class Login extends Component{
     }
 
     onRequestChangePassword = (form, callback) => {
+      const {translate} = this.props;
+
       var email = this.state.email;
       let self = this
       if (!email) {
-        return callback("Please enter email.")
+        return callback(translate("please-enter-email"))
       }
         cueup.requestPasswordChange(email,function(err,resp){
           if (err) {
-            callback(err.message || "Something went wrong.")
+            callback(err.message || translate("unknown-error"))
           }else{
-            self.setState({message: "We've just sent you an email to reset your password."})
+            self.setState({message: translate('reset-password-msg')})
             callback(null)
           }
         })    
@@ -105,7 +109,8 @@ class Login extends Component{
     } 
 
   render() {
-   
+    const {translate} = this.props;
+
     return (
       
 <div className="login">
@@ -129,7 +134,7 @@ class Login extends Component{
       >SoundCloud</SubmitButton>
     </Form>
   </div>
-  <p style={{textAlign:"center"}}>OR</p>
+  <p style={{textAlign:"center"}}>{translate("or")}</p>
   <Form
     name="email-login"
   >
@@ -157,14 +162,16 @@ class Login extends Component{
         active
         name="email_login"
         onClick={this.login}
-      >Login</SubmitButton>
+      >
+      {translate('login')}
+      </SubmitButton>
     </div>
   </Form>
   <Form name="forgot_password">
     <SubmitButton
       name="forgot_password"
       onClick={this.onRequestChangePassword}>
-      Forgot?
+      {translate('forgot')+"?"}
     </SubmitButton>
     {this.state.message ?
       <p >
@@ -184,6 +191,11 @@ class Login extends Component{
     color: PropTypes.string
   }
 
+  const getPropsFromState = (state) => {
+    return {
+      translate: getTranslate(state.locale),
+    }
+  }
 
     function mapDispatchToProps(dispatch, ownprops) {
       return {
@@ -194,7 +206,7 @@ class Login extends Component{
     }
 
     const SmartLogin = withRouter(
-      connect(state=>state, mapDispatchToProps)(Login)
+      connect(getPropsFromState, mapDispatchToProps)(Login)
     )
 
     export default props => (
