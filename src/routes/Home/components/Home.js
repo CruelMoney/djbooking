@@ -38,6 +38,8 @@ handleButtonClick = () => {
 }
 
   render() {
+    const { translate } = this.props;
+
     return (
       <div>
         <header>
@@ -49,9 +51,9 @@ handleButtonClick = () => {
 
             <div className="row">
               <div className="col-md-5">
-                  <h1 key="title">Book qualified DJs with ease.</h1>
+                  <h1 key="title">{ translate('home.title') }</h1>
                   <p key="paragraph">
-                    Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.
+                    { translate('home.introduction') }
                   </p>
 
                   <div style={{float:"left", marginTop:"20px"}}>
@@ -59,14 +61,18 @@ handleButtonClick = () => {
                       color="white"
                       className="white elevated"
                       onClick={this.handleButtonClick}>
-                      <div style={{width:"150px", color:this.themeColor}}>GET OFFERS</div>
+                      <div style={{width:"150px", color:this.themeColor}}>
+                      { translate('get-offers') }
+                      </div>
                     </Button>
                   </div>
                
               </div>
               <MediaQuery query="(min-width: 992px)">
                 <div className=" col-md-8">
-                    <DJCards />
+                    <DJCards 
+                     { ...translate(['copenhagen', 'denmark']) }
+                    />
                 </div>
               </MediaQuery>
             </div>
@@ -87,17 +93,23 @@ handleButtonClick = () => {
                       <div  className="col-sm-6 col-md-5 col-md-push-1">
                         <div className="card">
                           <img suppressHydrationWarning={true} src={padlock} alt="icon"/>
-                      <h2 style={{color:this.themeColor}}>Secured booking system</h2>
+                      <h2 style={{color:this.themeColor}}>
+                      { translate('home.sections.left.title') }
+                      </h2>
                       <p>
-At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
-                  </div>
+                      { translate('home.sections.left.content') }
+                      </p>
+                    </div>
                 </div>
                 <div  className="col-sm-6 col-md-5 col-md-push-1">
                   <div className="card">
                     <img suppressHydrationWarning={true} src={note} alt="icon"/>
-                    <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
+                    <h2 style={{color:this.themeColor}}>
+                    { translate('home.sections.right.title') }
+                    </h2>
                     <p>
-At Cueup we focus on finding the most qualified DJs for your event - so you don’t have to. Don’t waste time searching for DJs when you can have offers from great DJs send directly to you.  Each offer shows the DJ, their reviews and rating so you can confidently choose a DJ you can trust.                     </p>
+                    { translate('home.sections.right.content') }
+                    </p>
                   </div>
                 </div>
                 </div>
@@ -109,10 +121,10 @@ At Cueup we focus on finding the most qualified DJs for your event - so you don�
                 color={this.secondColor}
                 firstTo="/signup"
                 secondTo="/howitworks"
-                firstLabel="Become DJ"
-                secondLabel="How it works"
-                title="Are you a DJ?"
-                subTitle="Apply to become DJ, or see how it works."
+                firstLabel={translate("become-dj")}
+                secondLabel={translate("how-it-works")}
+                title={translate("home.footer.first")}
+                subTitle={translate("home.footer.second")}
                 />
 
             </div>

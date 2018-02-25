@@ -6,6 +6,7 @@ import * as c from '../../constants/constants'
 /*animation stuff*/
 import { connect } from 'react-redux'
 import * as actions from '../../actions/SessionActions'
+import { getTranslate, getActiveLanguage, setActiveLanguage } from 'react-localize-redux';
 
 class footer extends Component{
   static proptypes = {
@@ -26,6 +27,8 @@ class footer extends Component{
     }
 
   render() {
+    const { translate } = this.props;
+
     return <div >
       <div className={this.props.noSkew ? "noSkew" : ""}  id="preFooter" >
         <div className={this.props.noSkew ? "noSkew" : ""} style={{backgroundColor: this.props.bgColor}}  id="preFooterPseudo"> </div>
@@ -74,10 +77,10 @@ class footer extends Component{
               </ul>
             </div>
             <div>
-              <h4>COMPANY</h4>
+              <h4>{ translate('company') }</h4>
               <ul>
                 <li>
-                  <Link to="/about">About</Link>
+                  <Link to="/about">{ translate('about') }</Link>
                 </li>
                 <li>
                 <Link to="/blog">Blog</Link>
@@ -88,7 +91,7 @@ class footer extends Component{
               </ul>
             </div>
             <div>
-              <h4>RESOURCES</h4>
+              <h4>{ translate('resources') }</h4>
               <ul>
                  <li>
                   <Link to="/faq/dj">Support</Link>
@@ -97,21 +100,21 @@ class footer extends Component{
                   <a  onClick={
                       /*eslint no-undef: 0*/
                     () =>  olark('api.box.expand')}
-                    >Contact</a>
+                    >{ translate('contact') }</a>
                 </li>
                 <li>
-                  <Link to="/terms/agreements">Privacy & terms</Link>
+                  <Link to="/terms/agreements">{ translate('privacy-and-terms') }</Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h4>TOP LOCATIONS</h4>
+              <h4>{ translate('top-locations') }</h4>
               <ul>
                 {/* <li>
                   <Link to="/">Worldwide</Link>
                 </li> */}
                 <li>
-                  <Link to="/book-dj/denmark/copenhagen">Copenhagen</Link>
+                  <Link to="/book-dj/denmark/copenhagen">{ translate('copenhagen') }</Link>
                 </li>
                 <li>
                   <Link to="/book-dj/denmark/aarhus">Århus</Link>
@@ -124,12 +127,31 @@ class footer extends Component{
             </div>
             {!this.props.signedIn ? 
             <div>
-              <h4>CURRENCY</h4>
+              <h4>{ translate('language') }</h4>
               <ul>
+                <li>
+                   <div className="dropdown-selector-wrapper">
+                  <select 
+                   id="language-selector" 
+                   className="dropdown-selector"
+                   name="language-selector"
+                   onChange={(e)=>this.props.setActiveLanguage(e.target.value)}
+                   value={this.props.currentLanguage}>
+                     <option value={"en"}>
+                     English
+                     </option>
+                     <option value={"da"}>
+                     Dansk
+                     </option>
+                   </select>
+                  <svg className="collapsible-arrow" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>
+                  </div>
+                </li>
                  <li>
-                   <div className="currency-selector-wrapper">
+                   <div className="dropdown-selector-wrapper">
                   <select 
                   id="currency-selector" 
+                  className="dropdown-selector"
                   name="currency-selector"
                   onChange={(e)=>this.props.changeCurrency(e.target.value)}
                   value={this.props.currency}>
@@ -138,6 +160,7 @@ class footer extends Component{
                   <svg className="collapsible-arrow" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>
                   </div>
                 </li>
+                
               </ul>
             </div>
             : null}
@@ -158,13 +181,16 @@ class footer extends Component{
     function mapStatetoProps(state, ownprops){
       return{
         signedIn: state.login.status.signedIn,
-        currency: state.session.currency 
+        currency: state.session.currency,
+        translate: getTranslate(state.locale),
+        currentLanguage: getActiveLanguage(state.locale).code
       }
     }
 
     function mapDispatchToProps(dispatch, ownprops) {
       return {
-        changeCurrency: (currency) => {dispatch(actions.changeCurrency(currency))}
+        changeCurrency: (currency) => {dispatch(actions.changeCurrency(currency))},
+        setActiveLanguage: (code) => {dispatch(setActiveLanguage(code))}
       }
     }
 

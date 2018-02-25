@@ -20,7 +20,12 @@ export default class DJCards extends Component{
     }
 
     componentWillMount(){
-        this.cards = shuffle(DJs.map((dj, idx) => <DJCard onLoad={()=>this.cardsLoaded++} key={`dj-card-${idx}`} dj={dj} />))
+        this.cards = shuffle(DJs.map((dj, idx) => <DJCard 
+            { ...this.props }
+            onLoad={()=>this.cardsLoaded++} 
+            key={`dj-card-${idx}`} 
+            dj={dj} 
+            />))
     }
 
     componentDidMount(){
@@ -52,7 +57,7 @@ export default class DJCards extends Component{
     }
 
     render() {
-    const {currentCards} = this.state;
+    const { currentCards } = this.state;
 
     return (
         <div className="dj-cards">

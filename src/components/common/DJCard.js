@@ -11,6 +11,12 @@ export default class DJCard extends React.Component{
     }
 
     render(){
+        const djCity =  this.props.dj.location.city.toLowerCase();
+        const djCountry =  this.props.dj.location.country.toLowerCase();
+        const locationCity = this.props[djCity] || djCity;
+        const locationCountry = this.props[djCountry] || djCountry;
+
+
         return(
             <div className={"card dj-card " + (this.state.loaded ? "loaded" : "")}>
                 <div className="profile-picture">
@@ -42,7 +48,7 @@ export default class DJCard extends React.Component{
                             </td>
                             <td>
                                 <p>
-                                    {this.props.dj.location}
+                                    {locationCity}, {locationCountry}
                                 </p>
                             </td>
                         </tr>

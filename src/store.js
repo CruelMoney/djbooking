@@ -7,7 +7,10 @@ import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger'
 import reducers from './reducers/Store';
 import { persistStore } from 'redux-persist'
+import { initialize as initLocale, addTranslation} from 'react-localize-redux';
+import commonContent from "./constants/commonContent.json";
 
+const languages = ['en', 'da'];
 
 export const configureStore = (initialState = {}) => {
 
@@ -34,8 +37,11 @@ export const configureStore = (initialState = {}) => {
     composeEnhancers(...enhancers)
   );
 
-  persistStore(store);
+  store.dispatch(initLocale(languages, {defaultLanguage: "da"}));
+  store.dispatch(addTranslation(commonContent));
 
+  persistStore(store);
+  
   return store;
 }
 
@@ -56,6 +62,8 @@ export const configureStoreServer = (initialState = {}) => {
     initialState,
     compose(...enhancers)
   );
+
+  store.dispatch(initLocale(languages, {defaultLanguage: "da"}));
 
   return store;
 }

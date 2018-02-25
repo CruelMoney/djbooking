@@ -11,8 +11,9 @@ import signup from './Signup'
 import login from './Login'
 import session from './Session'
 import notifications from './Notifications'
-
 import menu from './Menu'
+import { localeReducer as locale } from 'react-localize-redux';
+
 
 const persistConfig = {
   key: 'root',
@@ -29,6 +30,7 @@ const store = combineReducers({
   menu,
   notifications,
   session,
+  locale,
   user:   persistReducer(persistConfig, user),
   login:  persistReducer(persistConfig, login),
 });

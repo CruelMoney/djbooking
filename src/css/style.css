@@ -434,7 +434,7 @@ align-items: center;
 }
 
 footer a,
-footer .currency-selector-wrapper{
+footer .dropdown-selector-wrapper{
 font-family: SourceSansPro-Regular;
 font-size: 15px;
 color: #8998AA;
@@ -449,7 +449,7 @@ footer h4{
   line-height: 30px;
 }
 footer a:hover,
-footer .currency-selector-wrapper:hover{
+footer .dropdown-selector-wrapper:hover{
 color:  #32325D !important;
 fill: #32325D !important;
 cursor: pointer;
@@ -527,32 +527,29 @@ top: 0;
   border-color: inherit !important;
   color: inherit !important;
 }
-#currency-selector{
+.dropdown-selector{
   -webkit-appearance: none !important;
     -moz-appearance: none !important;
     appearance: none !important;
     background-color: transparent !important;
     border-radius: 0px !important;
     height: auto !important;
-    display: block !important;
-    width: 100% !important;
+    display: inline-block !important;
     text-align: center;
     border: none;
     cursor: pointer;
 }
-#currency-selector:focus,
-#currency-selector:active{
+.dropdown-selector:focus,
+.dropdown-selector:active{
   -webkit-appearance: none !important;
     -moz-appearance: none !important;
     appearance: none !important;
     outline: none !important;
 }
-.currency-selector-wrapper{
-    margin-left: 50% !important;
-    transform: translateX(-40%);
+.dropdown-selector-wrapper{
     cursor: pointer;
 }
-.currency-selector-wrapper svg{
+.dropdown-selector-wrapper svg{
   pointer-events: none;
   top: 3px;
 }
@@ -1495,6 +1492,11 @@ button{
    width: 24px; 
    user-select: none;
 }
+.dropdown-selector-wrapper .collapsible-arrow{
+  position: relative;
+  top: 7px;
+  right: 0;
+}
 
 .collapsible.collapsed>div:hover .collapsible-arrow{
   margin-top: 3px;
@@ -2131,7 +2133,7 @@ color: #32325D;
 .location_ header h1{
   font-size: 50px;
   line-height: 70px;
-  width: 100vw;
+  width: 150%;
 }
 .location_ header p{
   font-size: 19px;

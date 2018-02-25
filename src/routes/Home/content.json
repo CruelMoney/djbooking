@@ -1,0 +1,44 @@
+{
+  "home":{
+    "title": [
+      "Book qualified DJs with ease.", 
+      "Book kvalificerede DJs uden bekymkringer."
+    ],
+    "introduction": [
+      "Cueup is the easiest way for you to get a great DJ for your event. Just fill out the form below, and soon you will receive non-binding offers from qualified DJs.",
+      "Cueup er den nemmeste løsning på at skaffe en DJ til dit event. Fortæl os om dit event forneden, og snart vil du modtage uforpligtende tilbud fra kvalificerede DJs."
+    ],
+    "sections": {
+      "left":{
+        "title": [
+          "Secured booking system",
+          "Sikkert bookingsystem"
+        ],
+        "content":[
+          "At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.",
+          "At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible."
+        ]
+      },
+      "right":{
+        "title": [
+          "The most qualified DJs",
+          "De mest kvalificerede DJs"
+        ],
+        "content":[
+          "At Cueup we focus on finding the most qualified DJs for your event - so you don’t have to. Don’t waste time searching for DJs when you can have offers from great DJs send directly to you. Each offer shows the DJ, their reviews and rating so you can confidently choose a DJ you can trust.",
+          "At Cueup we focus on finding the most qualified DJs for your event - so you don’t have to. Don’t waste time searching for DJs when you can have offers from great DJs send directly to you. Each offer shows the DJ, their reviews and rating so you can confidently choose a DJ you can trust."
+        ]
+      }
+    },
+    "footer":{
+        "first": [
+          "Are you a DJ?",
+          "Er du DJ?"
+        ],
+        "second": [
+          "Apply to become DJ, or see how it works.",
+          "Tilmeld dig som DJ, eller se hvordan det virker."
+        ] 
+      }
+  }
+}
