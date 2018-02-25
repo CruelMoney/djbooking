@@ -49,7 +49,7 @@
   ],
   "privacy-and-terms":[
     "Privacy & terms",
-    "Privatliv & betingelser"
+    "Betingelser"
   ],
   "top-locations":[
     "Top locations",
@@ -142,6 +142,62 @@
   "forgot":[
     "Forgot",
     "Glemt"
+  ],
+  "close":[
+    "Close",
+    "Luk"
+  ],
+  "change-image":[
+    "Change image",
+    "Luk"
+  ],
+  "experience":[
+    "Experience",
+    "Erfaring"
+  ],
+  "experience-description":[
+    "How many gigs you have played using Cueup. This is shared on your public profile.",
+    "Hvor mange gigs du har spillet gennem Cueup. Dette bliver delt på din offentlige profil."
+  ],
+  "earned":[
+    "Earned",
+    "Fortjeneste"
+  ],
+  "earned-description":[
+    "How much money you have earned. This is NOT shared on your public profile.",
+    "Hvor meget du har tjent gennem Cueup. Dette bliver IKKE delt på din offentlige profil."
+  ],
+  "rating":[
+    "Rating",
+    "Rating"
+  ],
+  "no-reviews-yet":[
+    "No reviews yet",
+    "Ingen anmeldelser endnu"
+  ],
+  "upcoming":[
+    "Upcoming",
+    "Kommende"
+  ],
+  "finished":[
+    "Finished",
+    "Færdige"
+  ],
+  "cueup-points-description":[
+    "Cueup points can be used to remove the fee on gigs, thus increasing the payout.",
+    "Cueup point kan bruges til at fjerne gebyrer fra gigs og dermed øge fortjenesten."
+  ],
+  "profile":[
+    "Profile",
+    "Profil"
+  ],
+  "reviews":[
+    "Reviews",
+    "Anmeldelser"
+  ],
+  "preferences":[
+    "Preferences",
+    "Indstillinger"
   ]
 
 }

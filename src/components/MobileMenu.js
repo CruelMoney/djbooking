@@ -12,6 +12,7 @@ import entries from 'object.entries';
 import Button from './common/Button-v2'
 import {ImageCompressor} from '../utils/ImageCompressor';
 import {currencyConverter as curConverter} from '../utils/CurrencyConverter'
+import { getTranslate } from 'react-localize-redux';
 
 
 
@@ -80,6 +81,8 @@ class MobileMenu extends Component {
 
 
  handleFile = (e) => {
+   const {translate} = this.props;
+
         this.setState({loading:true})
        const file = e.target.files[0]
        
@@ -92,7 +95,7 @@ class MobileMenu extends Component {
           }else{
                 this.props.updatePicture(result, (err)=>{    
                       if (err) {
-                         this.setState({err:"Something went wrong"})
+                         this.setState({err: translate('unknown-error')})
                       }else{
                         this.setState({err:"",loading:false})
                       }
@@ -103,7 +106,7 @@ class MobileMenu extends Component {
 
 
   render() {
-    const {isHome} = this.props;
+    const {isHome, translate} = this.props;
     
     return(
       <div>
@@ -113,7 +116,7 @@ class MobileMenu extends Component {
               <a
                 onClick={()=>this.handleClose()}
                 className="popupCloseButton">
-                Close
+                {translate('close')}
               </a>
             {
               this.props.loggedIn ?
@@ -135,7 +138,7 @@ class MobileMenu extends Component {
               this.state.err ?
                 <label htmlFor="fileuploadMobile"><span>{this.state.err}</span></label>
               :
-              <label htmlFor="fileuploadMobile"><span>Change image</span></label>
+              <label htmlFor="fileuploadMobile"><span>{translate('change-image')}</span></label>
             }
           </div>
 
@@ -156,9 +159,9 @@ class MobileMenu extends Component {
                      {this.props.profile.isDJ ? 
             <div>
             <div className="user-card-fact">
-              <p>Experience
+              <p>{translate('experience')}
                  <InfoPopup
-                  info={"How many gigs you have played using Cueup. This is shared on your public profile." }
+                  info={translate('experience-description')}
                   />
               </p>
              
@@ -166,9 +169,9 @@ class MobileMenu extends Component {
             </div>
           
             <div className="user-card-fact">
-              <p>Earned
+              <p>{translate('earned')}
                 <InfoPopup
-                  info="How much money you have earned. This is NOT shared on your public profile."
+                  info={translate('earned-description')}
                   />
                 
               </p>
@@ -178,8 +181,8 @@ class MobileMenu extends Component {
             </div>
         
             <div className="user-card-fact">
-              <p>Rating</p>
-              {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : "No reviews yet"}
+              <p>{translate('Rating')}</p>
+              {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : translate('no-review-yet')}
             </div>
             </div>
             
@@ -188,11 +191,11 @@ class MobileMenu extends Component {
                 {this.props.profile.isCustomer ? 
                 <div>
                 <div className="user-card-fact">
-                  <p>Upcoming</p>
+                  <p>{translate('upcoming')}</p>
                   {this.props.profile.upcomingEvents + " events"}
                 </div>
                 <div className="user-card-fact">
-                  <p>Finished</p>
+                  <p>{translate('finished')}}</p>
                   {this.props.profile.finishedEvents + " events"}
                 </div>
                 
@@ -204,7 +207,7 @@ class MobileMenu extends Component {
                 <div className="user-card-fact">
                   <p>Cueup points
                     <InfoPopup
-                      info="Cueup points can be used to remove the fee on gigs, thus increasing the payout."
+                      info={translate('cueup-points-description')}
                       />
                   </p>
                   {this.props.profile.discountPoints + " Points"}
@@ -223,14 +226,14 @@ class MobileMenu extends Component {
 
               {!isHome    ?    
                 <li>
-                  <Navlink buttonLook={true} to="/" label="Arrange event"/>
+                  <Navlink buttonLook={true} to="/" label={translate('arrange-event')}/>
                 </li>  : null 
                 
                 }
 
               {this.props.profile.isDJ ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/profile`} label="Profile"/>
+                  <Navlink onClick={()=>this.handleClose()} userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/profile`} label={translate('profile')}/>
                 </li>
               : null}
 
@@ -248,32 +251,32 @@ class MobileMenu extends Component {
 
               {this.props.profile.isDJ ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/reviews`} label="Reviews"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/reviews`} label={translate('reviews')}/>
                 </li>
                 : null
               }
 
               {(this.props.isCustomer && !this.props.isDJ) ?
                 <li >
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/signup" label="Apply to become DJ"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to="/signup" label={translate('apply-to-become-dj')}/>
                 </li>
                 : null
               }
               {this.props.loggedIn ?
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/preferences`}  label="Preferences"/>
+                  <Navlink onClick={()=>this.handleClose()}  userNavigation={true} to={`/user/${this.props.profile.user_metadata.permaLink}/preferences`}  label={translate('preferences')}/>
                 </li>
                 : null
               }
 
 
               <li>
-                <Navlink onClick={()=>this.handleClose()}   buttonLook={true} to="/howitworks" label="How it works"/>
+                <Navlink onClick={()=>this.handleClose()}   buttonLook={true} to="/howitworks" label={translate('how-it-works')}/>
               </li>
               {this.props.loggedIn ? (
 
                 <li>
-                  <Navlink  buttonLook={true} to="/"  onClick={this.logout} label="Log out"/>
+                  <Navlink  buttonLook={true} to="/"  onClick={this.logout} label={translate('log-out')}/>
                 </li>
               ) : (
                 null
@@ -282,7 +285,7 @@ class MobileMenu extends Component {
                 null
               ) : (
                 <li>
-                  <Navlink onClick={()=>this.handleClose()}  buttonLook={true} to="/signup" label="Apply to become DJ" important={true}/>
+                  <Navlink onClick={()=>this.handleClose()}  buttonLook={true} to="/signup" label={translate('apply-to-become-dj')} important={true}/>
                 </li>
               )}
               {this.props.loggedIn ? (
@@ -291,7 +294,9 @@ class MobileMenu extends Component {
                 <li >
                   <a
                     onClick={this.onLoginButton}
-                  >Login</a>
+                  >
+                  {translate('login')}
+                  </a>
 
                 </li>
               )}
@@ -323,6 +328,7 @@ export const mapStateToProps = (state) => {
     profile: state.login.profile,
     loggedIn: state.login.status.signedIn,
     registeredMenuItems: state.menu,
+    translate: getTranslate(state.locale),
   }
 }
 
@@ -336,10 +342,8 @@ export const mapDispatchToProps = (dispatch, ownprops) => {
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
   return {
     ...ownProps,
-    profile: stateProps.profile,
-    loggedIn: stateProps.loggedIn,
-    registeredMenuItems: stateProps.registeredMenuItems,
-    logout: dispatchProps.logout,
+    ...stateProps,
+    ...dispatchProps,
     updatePicture: (img, callback) => dispatchProps.updatePicture(img, callback, stateProps.profile)
 }
 }
