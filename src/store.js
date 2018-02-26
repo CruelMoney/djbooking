@@ -34,7 +34,13 @@ export const configureStore = (initialState = {}) => {
     composeEnhancers(...enhancers)
   );
 
-  persistStore(store);
+  const persistor = persistStore(store);
+
+  // Purge store if token is expired
+  const expiration = localStorage.getItem('expires_at');
+  if(!!expiration &&  expiration < Date.now()){
+    persistor.purge();
+  }
 
   return store;
 }
