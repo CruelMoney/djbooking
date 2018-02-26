@@ -98,7 +98,7 @@ class Menu extends Component {
 
   render() {
     const {translate} = this.props;
-    const isHome = this.props.location.pathname === '/';
+    const isHome = this.props.location.pathname === '/' || this.props.location.pathname === '/dk';
 
     return (
         <div className="menu-wrapper">
@@ -113,7 +113,7 @@ class Menu extends Component {
               className="navigation"
             >
                 <div className="logo-area">
-                  <Navlink to="/">
+                  <Navlink to={translate('routes./')}>
                     <Logo />
                   </Navlink>
                   <BreadCrumbs />
@@ -135,14 +135,14 @@ class Menu extends Component {
                 
                 {!isHome    ?    
                 <li>
-                  <Navlink buttonLook={true} to="/" label={translate('arrange-event')}/>
+                  <Navlink buttonLook={true} to={translate('routes./')} label={translate('arrange-event')}/>
                 </li>  : null 
                 
                 }
          
 
                 <li>
-                  <Navlink  buttonLook={true} to="/howitworks" label={translate('how-it-works')}/>
+                  <Navlink  buttonLook={true} to={translate('routes./how-it-works')} label={translate('how-it-works')}/>
                 </li>
                
 
@@ -172,13 +172,13 @@ class Menu extends Component {
                   null
                 ) : (
                   <li>
-                    <Navlink buttonLook={true} to="/signup" label={translate('apply-to-become-dj')} important={true}/>
+                    <Navlink buttonLook={true} to={translate('routes./signup')}  label={translate('apply-to-become-dj')} important={true}/>
                   </li>
                 )}
                    {this.props.loggedIn ? (
 
                   <li>
-                    <Navlink  buttonLook={true} to="/"  onClick={this.props.logout} label={translate('log-out')}/>
+                    <Navlink  buttonLook={true} to={translate('routes./')}  onClick={this.props.logout} label={translate('log-out')}/>
                   </li>
                 ) : (
                   null
@@ -186,7 +186,7 @@ class Menu extends Component {
 
                 {this.props.loggedIn ? (
                   <li>
-                    <Navlink  buttonLook={true}  to={`/user/${this.props.profile.user_metadata.permaLink}/profile`} important={true} >
+                    <Navlink  buttonLook={true}  to={translate('routes./profile/:username/info', {username: this.props.profile.user_metadata.permaLink })} important={true} >
                       <UserMenuItem
                         name={this.props.profile.name}
                         picture={this.props.profile.picture}

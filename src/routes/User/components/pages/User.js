@@ -205,7 +205,7 @@ class User extends Component{
             noSkew
             color={this.secondColor}
             firstTo="/"
-            secondTo="/howitworks"
+            secondTo="/how-it-works"
             firstLabel="Arrange event"
             secondLabel="How it works"
             title="Organizing yourself?"

@@ -14,19 +14,20 @@ import Reviews from "./routes/Reviews";
 
 export default class Index extends Component{
   render(){
+    const {match} = this.props
     return(
       <Switch>
-        <Route exact path={`/user`} component={FinishSignup} />
-        <Route path={`/user/:permalink/`} render={(props)=>{
+        <Route exact path={`${match.url}`} component={FinishSignup} />
+        <Route path={`${match.url}/:permalink/`} render={(props)=>{
           return (
             <User {...this.props} {...props} >
               <Switch>
-                <Route path={`/user/:permalink/profile`} component={Profile} />
-                <Route path={`/user/:permalink/book`} component={Book} />
-                <Route path={`/user/:permalink/preferences`} component={Preferences} />
-                <Route path={`/user/:permalink/events`} component={Events} />
-                <Route path={`/user/:permalink/gigs`} component={Gigs} />
-                <Route path={`/user/:permalink/reviews`} component={Reviews} />
+                <Route path={`${match.url}/:permalink/profile`} component={Profile} />
+                <Route path={`${match.url}/:permalink/book`} component={Book} />
+                <Route path={`${match.url}/:permalink/preferences`} component={Preferences} />
+                <Route path={`${match.url}/:permalink/events`} component={Events} />
+                <Route path={`${match.url}/:permalink/gigs`} component={Gigs} />
+                <Route path={`${match.url}/:permalink/reviews`} component={Reviews} />
               </Switch>
             </User>
           )

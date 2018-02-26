@@ -8,7 +8,8 @@ import logger from 'redux-logger'
 import reducers from './reducers/Store';
 import { persistStore } from 'redux-persist'
 import { initialize as initLocale, addTranslation} from 'react-localize-redux';
-import commonContent from "./constants/commonContent.json";
+import commonContent from "./constants/content/common.json";
+import routesContent from "./constants/content/routes.json";
 
 const languages = ['en', 'da'];
 
@@ -37,8 +38,9 @@ export const configureStore = (initialState = {}) => {
     composeEnhancers(...enhancers)
   );
 
-  store.dispatch(initLocale(languages, {defaultLanguage: "da"}));
+  store.dispatch(initLocale(languages, {defaultLanguage: "en"}));
   store.dispatch(addTranslation(commonContent));
+  store.dispatch(addTranslation(routesContent));
 
   persistStore(store);
   
@@ -63,7 +65,9 @@ export const configureStoreServer = (initialState = {}) => {
     compose(...enhancers)
   );
 
-  store.dispatch(initLocale(languages, {defaultLanguage: "da"}));
+  store.dispatch(initLocale(languages, {defaultLanguage: "en"}));
+  store.dispatch(addTranslation(commonContent));
+  store.dispatch(addTranslation(routesContent));
 
   return store;
 }

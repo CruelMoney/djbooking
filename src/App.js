@@ -24,9 +24,12 @@ import defaultImage from './assets/images/cities/default.png'
 import Blog from './routes/Blog';
 import ErrorHandling from './components/common/ErrorPage'
 import Navigation from './components/Navigation';
-import { getActiveLanguage } from 'react-localize-redux';
+import { getActiveLanguage, getTranslate } from 'react-localize-redux';
 import 'moment/locale/da';
 import moment from 'moment';
+
+
+
 
 const App = class extends Component {
 
@@ -57,13 +60,16 @@ const App = class extends Component {
 
 
   render() {
-    const { location } = this.props;
+    const { location, translate } = this.props;
     const description = 'Cueup is an online platform connecting DJs and event organizers - the easiest way for you to book a great DJ for your event.  Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.'
     const pageURL = Environment.CALLBACK_DOMAIN + location.pathname;
+    const url = location.pathname.split('/');
+    let cssLocation = url[1] === "dk" ? url[2] : url[1];
+    cssLocation = `location_${cssLocation || ""}`;
 
     return (
       <ErrorHandling>
-        <div className={`location_${location.pathname.split('/')[1]}`}>
+        <div className={cssLocation}>
           <Helmet>
               <title>Book DJs with ease | Cueup</title>
 
@@ -86,18 +92,19 @@ const App = class extends Component {
 
             </Helmet>
           <Navigation />
-          <div id="content" className={`location_${location.pathname.split('/')[1]}`}>
+          <div id="content" className={cssLocation}>
             <Switch>
-              <Route exact path="/" component={Home}/>
-              <Route path="/about" component={About}/>
-              <Route path="/user" component={User}/>
-              <Route path="/howitworks" component={HowItWorks}/>
-              <Route path="/signup" component={Signup}/>
-              <Route path="/faq" component={Faq}/>
-              <Route path="/terms" component={Terms}/>
-              <Route path="/event/:id/:hash" component={CueupEvent}/>
-              <Route path="/book-dj/:country/:city?" component={LocationLanding}/>
-              <Route path="/blog" component={Blog}/>
+              <Route exact path={translate("routes./")} component={Home}/>
+              <Route path={translate("routes./about")} component={About}/>
+              <Route path={translate("routes./user")} component={User}/>
+              <Route path={translate("routes./how-it-works")} component={HowItWorks}/>
+              <Route path={translate("routes./signup")} component={Signup}/>
+              <Route path={translate("routes./faq")} component={Faq}/>
+              <Route path={translate("routes./terms")} component={Terms}/>
+              <Route path={translate("routes./event")+"/:id/:hash"} component={CueupEvent}/>
+              <Route path={translate("routes./book-dj")+"/:country/:city?"} component={LocationLanding}/>
+              <Route path={translate("routes./blog")} component={Blog}/>
+                        
               <Route component={NotFound}/>
             </Switch>
           </div>
@@ -113,7 +120,8 @@ const mapStateToProps = (state, ownprops) => {
   return {
     loggedIn: state.login.status.signedIn,
     profile: state.login.profile,
-    activeLanguage: getActiveLanguage(state.locale).code
+    activeLanguage: getActiveLanguage(state.locale).code,
+    translate: getTranslate(state.locale)
   }
 }
 

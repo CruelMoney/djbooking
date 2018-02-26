@@ -1,0 +1,109 @@
+{
+  "routes":{
+    "/":[
+      "/",
+      "/dk"
+    ],
+    "/about":[
+      "/about",
+      "/dk/om"
+    ],
+    "/faq":[
+      "/faq",
+      "/dk/faq"
+    ],
+    "/terms":[
+      "/terms",
+      "/dk/terms"
+    ],
+    "/event":[
+      "/event",
+      "/dk/event"
+    ],
+    "/blog":[
+      "/blog",
+      "/dk/blog"
+    ],
+    "/signup":[
+      "/signup",
+      "/dk/tilmeld"
+    ],
+    "/book-dj":[
+      "/book-dj",
+      "/dk/book-dj"
+    ],
+    "/how-it-works":[
+      "/how-it-works",
+      "/dk/saadan-virker-det"
+    ],
+    "/user":[
+      "/user",
+      "/dk/user"
+    ],
+    "/user/:username":[
+      "/user/${ username }",
+      "/dk/user/${ username }"
+    ],
+    "/user/:username/info":[
+      "/user/${ username }/info",
+      "/dk/user/${ username }/info"
+    ],
+    "/user/:username/reviews":[
+      "/user/${ username }/reviews",
+      "/dk/user/${ username }/anmeldelser"
+    ],
+    "/user/:username/preferences":[
+      "/user/${ username }/preferences",
+      "/dk/user/${ username }/indstillinger"
+    ],
+    "user":[
+    "user",
+    "user"
+    ],
+    "info":[
+      "info",
+      "info"
+    ],
+    "terms":[
+      "terms",
+      "terms"
+    ],
+    "faq":[
+      "faq",
+      "faq"
+    ],
+    "reviews":[
+      "anmeldelser",
+      "reviews"
+    ],
+    "preferences":[
+      "indstillinger",
+      "preferences"
+    ],
+    "how-it-works":[
+      "saadan-virker-det",
+      "how-it-works"
+    ],
+    "anmeldelser":[
+      "reviews",
+      "anmeldelser"
+    ],
+    "indstillinger":[
+      "preferences",
+      "indstillinger"
+    ],
+    "saadan-virker-det":[
+      "how-it-works",
+      "saadan-virker-det"
+    ],
+    "about":[
+      "om",
+      "about"
+    ],
+    "om":[
+      "about",
+      "om"
+    ]
+  }
+  
+}

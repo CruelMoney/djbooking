@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { NavLink as Link } from 'react-router-dom';
+import { NavLink as Link, withRouter } from 'react-router-dom';
 import ButtonLink from './ButtonLink'
 import * as c from '../../constants/constants'
 /*animation stuff*/
@@ -25,6 +25,26 @@ class footer extends Component{
       color:"#31DAFF",
       bgColor:"#F6F9FC"
     }
+
+  setActiveLanguage = (code) => {
+    const { setActiveLanguage, history, translate } = this.props;
+    this.props.setActiveLanguage(code);
+    let url = history.location.pathname.split('/');
+    
+    url = url
+    .filter(p => p !== "")
+    .map(p => {
+      const transP = translate("routes."+p);
+      return transP.indexOf('Missing translation') !== -1 ? p : transP;
+    })
+    if(code === "da"){
+      url = ["dk", ...url];
+    }else{
+      url = url.slice(1, url.length);
+    }
+    url = url.join('/');
+    history.replace(url)
+  }
 
   render() {
     const { translate } = this.props;
@@ -135,7 +155,7 @@ class footer extends Component{
                    id="language-selector" 
                    className="dropdown-selector"
                    name="language-selector"
-                   onChange={(e)=>this.props.setActiveLanguage(e.target.value)}
+                   onChange={(e)=>this.setActiveLanguage(e.target.value)}
                    value={this.props.currentLanguage}>
                      <option value={"en"}>
                      English
@@ -197,6 +217,4 @@ class footer extends Component{
     const SmartFooter = connect(mapStatetoProps, mapDispatchToProps)(footer)
 
 
-    export default props => (
-        <SmartFooter {...props}/>
-    )
+    export default withRouter(SmartFooter);

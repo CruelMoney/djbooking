@@ -181,8 +181,8 @@ class MobileMenu extends Component {
             </div>
         
             <div className="user-card-fact">
-              <p>{translate('Rating')}</p>
-              {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : translate('no-review-yet')}
+              <p>{translate('rating')}</p>
+              {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : translate('no-reviews-yet')}
             </div>
             </div>
             
@@ -271,7 +271,7 @@ class MobileMenu extends Component {
 
 
               <li>
-                <Navlink onClick={()=>this.handleClose()}   buttonLook={true} to="/howitworks" label={translate('how-it-works')}/>
+                <Navlink onClick={()=>this.handleClose()}   buttonLook={true} to="/how-it-works" label={translate('how-it-works')}/>
               </li>
               {this.props.loggedIn ? (
 

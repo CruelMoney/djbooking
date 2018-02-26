@@ -6,7 +6,8 @@ class BreadCrumbs extends Component {
   render() {
     const { location } = this.props
     const crumbs = location.pathname.split('/');
-    const renderCrumbs = crumbs.slice(2, crumbs.length)
+    const isLocale = crumbs[1] === "dk";
+    const renderCrumbs = crumbs.slice(isLocale ? 3 : 2, crumbs.length)
 
     return (
         <ol 

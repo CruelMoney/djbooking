@@ -245,7 +245,7 @@ class Location extends Component{
                 bgColor="#FFFFFF"
                 color={this.secondColor}
                 firstTo="/signup"
-                secondTo="/howitworks"
+                secondTo="/how-it-works"
                 firstLabel="Become DJ"
                 secondLabel="How it works"
                 title={`Are you a DJ in ${title}?`}

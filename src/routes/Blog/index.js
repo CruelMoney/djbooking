@@ -14,6 +14,8 @@ export default class Index extends Component{
   secondColor = "#31DAFF"
   
   render(){
+    const {match} = this.props
+   
     const title = "Blog | Cueup"
     return(
     <div className="blog">
@@ -25,10 +27,10 @@ export default class Index extends Component{
       </Helmet>
       <Switch>
         <Route 
-        exact path={`/blog`} 
+        exact path={match.path} 
         component={Blog} 
         />
-        <Route path={`/blog/:postTitle`} component={Post} />
+        <Route path={`${match.path}/:postTitle`} component={Post} />
       </Switch>
       <Footer
         color={this.themeColor}

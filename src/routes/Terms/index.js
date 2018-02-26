@@ -12,6 +12,8 @@ export default class Index extends Component{
 
 
   render(){
+    const {match} = this.props;
+
     const title = "Terms & Privacy | Cueup";
     return(
     <Terms {...this.props} >
@@ -21,8 +23,8 @@ export default class Index extends Component{
         <meta name="twitter:title"      content={title} />
       </Helmet>
       <Switch>
-        <Route path={`/terms/agreements`} component={Agreements} />
-        <Route path={`/terms/privacy`} component={Privacy} />
+        <Route path={`${match.url}/agreements`} component={Agreements} />
+        <Route path={`${match.url}/privacy`} component={Privacy} />
       </Switch>
     </Terms>
   )}

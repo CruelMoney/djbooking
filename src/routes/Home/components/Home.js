@@ -120,7 +120,7 @@ handleButtonClick = () => {
                 bgColor="#FFFFFF"
                 color={this.secondColor}
                 firstTo="/signup"
-                secondTo="/howitworks"
+                secondTo="/how-it-works"
                 firstLabel={translate("become-dj")}
                 secondLabel={translate("how-it-works")}
                 title={translate("home.footer.first")}

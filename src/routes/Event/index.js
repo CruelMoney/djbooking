@@ -12,6 +12,8 @@ export default class Index extends Component{
 
 
   render(){
+    const {match} = this.props
+
     return(
       <div>
       <Helmet>
@@ -21,10 +23,10 @@ export default class Index extends Component{
       </Helmet>
       <Event {...this.props}>
         <Switch>
-          <Route path={`/event/:id/:hash/info`} component={EventInfo}/>
-          <Route path={`/event/:id/:hash/offers`} component={Offers}/>
-          <Route path={`/event/:id/:hash/review`} component={Review}/>
-          <Route path={`/event/:id/:hash/user`} component={User}/>
+          <Route path={`${match.url}/:id/:hash/info`} component={EventInfo}/>
+          <Route path={`${match.url}/:id/:hash/offers`} component={Offers}/>
+          <Route path={`${match.url}/:id/:hash/review`} component={Review}/>
+          <Route path={`${match.url}/:id/:hash/user`} component={User}/>
         </Switch>
       </Event>
     </div>
