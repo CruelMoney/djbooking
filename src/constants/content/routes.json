@@ -28,6 +28,14 @@
       "/signup",
       "/dk/tilmeld"
     ],
+    "/book-dj":[
+      "/book-dj",
+      "/dk/book-dj"
+    ],
+    "/book-dj/denmark":[
+      "/book-dj/denmark",
+      "/dk/book-dj/danmark"
+    ],
     "/book-dj/denmark/copenhagen":[
       "/book-dj/denmark/copenhagen",
       "/dk/book-dj/danmark/koebenhavn"
@@ -119,6 +127,18 @@
     "tilmeld":[
       "tilmeld",
       "signup"
+    ],
+    "/not-found":[
+      "/not-found",
+      "/dk/ikke-fundet"
+    ],
+    "ikke-fundet":[
+      "ikke-fundet",
+      "not-found"
+    ],
+    "not-found":[
+      "ikke-fundet",
+      "not-found"
     ]
   }
   

@@ -14,7 +14,8 @@ import { Helmet } from 'react-helmet';
 import copenhagen from '../../assets/images/cities/copenhagen.png';
 import odense from '../../assets/images/cities/odense.png'
 import aarhus from '../../assets/images/cities/aarhus.png'
-import defaultImage from '../../assets/images/cities/default.png'
+import defaultImage from '../../assets/images/cities/default.png';
+import { localize } from 'react-localize-redux';
 import './index.css';
 
 const AsyncRequestForm = Loadable({
@@ -127,18 +128,16 @@ class Location extends Component{
   }
 
   render() {
-    const { match } = this.props;
+    const { match, translate } = this.props;
     const { isMobile } = this.state;
     const { city, country } = match.params;
     const location = !!city 
     ? (!!locations[country] ? locations[country].cities[city] : null)
     : locations[country];
-
-    console.log(city, country)
     
     // Redirect
     if(!location){
-      return <Redirect to="/not-found"/>
+      return <Redirect to={translate("routes./not-found")}/>
     }
 
     let title = location.name;
@@ -280,12 +279,12 @@ class Location extends Component{
               <Footer
                 bgColor="#FFFFFF"
                 color={this.secondColor}
-                firstTo="/signup"
-                secondTo="/how-it-works"
-                firstLabel="Become DJ"
-                secondLabel="How it works"
-                title={`Are you a DJ in ${title}?`}
-                subTitle={`Apply to become DJ or see how it works.`}
+                firstTo={translate("routes./signup")}
+                secondTo={translate("routes./how-it-works")}
+                firstLabel={translate("become-dj")}
+                secondLabel={translate("how-it-works")}
+                title={translate("are-you-a-dj-in-:location", {location: title})}
+                subTitle={translate("apply-to-become-dj-or-see-how-it-works")}
                 />
 
             </div>
@@ -299,4 +298,4 @@ Location.childContextTypes = {
 }
 
 
-export default Location
+export default localize(Location, 'locale');

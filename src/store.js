@@ -50,7 +50,7 @@ export const configureStore = (initialState = {}) => {
     store.dispatch(addTranslation(routesContent));
   }
 
-  persistStore(store);
+//  persistStore(store);
   
   return store;
 }

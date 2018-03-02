@@ -23,9 +23,17 @@
     "Are you a DJ?",
     "Er du DJ?"
   ],
+  "are-you-a-dj-in-:location":[
+    "Are you a DJ in ${ location }?",
+    "Er du DJ i ${ location }?"
+  ],
   "apply-to-become-dj":[
     "Apply to become DJ",
     "Ansøg om at blive DJ"
+  ],
+  "apply-to-become-dj-or-see-how-it-works":[
+    "Apply to become DJ or see how it works.",
+    "Ansøg om at blive DJ eller se hvordan det virker."
   ],
   "language":[
     "Language",
@@ -198,6 +206,22 @@
   "preferences":[
     "Preferences",
     "Indstillinger"
+  ],
+  "not-found-title":[
+    "404 Not found",
+    "404 Ikke fundet"
+  ],
+  "not-found-description":[
+    "<span>Sorry, the page you visited could not be found.<br/>Try to spin up another page.</span>",
+    "<span>Undskyld, siden kunne ikke findes.<br/>Prøv at indlæs en anden side.</span>"
+  ],
+  "ready-to-get-started":[
+    "Ready to get started?",
+    "Klar til at komme i gang?"
+  ],
+  "arrange-event-or-become-dj":[
+    "Arrange an event, or apply to become a DJ.",
+    "Arranger et event, eller ansøg om at blive DJ."
   ]
 
 }
