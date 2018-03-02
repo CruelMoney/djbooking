@@ -37,7 +37,18 @@ export const configureStore = (initialState = {}) => {
     initialState,
     composeEnhancers(...enhancers)
   );
-
+  
+  if(!initialState.locale){
+    let defaultLanguage = "en";
+    let url = window.location.pathname.split('/');
+    if(url[1] === "dk"){
+      defaultLanguage = "da";
+    }
+  
+    store.dispatch(initLocale(languages, {defaultLanguage: defaultLanguage}));
+    store.dispatch(addTranslation(commonContent));
+    store.dispatch(addTranslation(routesContent));
+  }
 
   persistStore(store);
   

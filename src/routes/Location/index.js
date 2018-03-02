@@ -59,6 +59,40 @@ const locations = {
         }
       }, 
     },
+  },
+  danmark: {
+    name: 'Danmark',
+    image: defaultImage,
+    coordinates: {
+      lat: 56.35211531,
+      lng: 11.01690928
+    },
+    cities: {
+      koebenhavn : {
+        name: 'København',
+        image: copenhagen,
+        coordinates: {
+          lat: 55.6760968,
+          lng: 12.5683372
+        }
+      }, 
+      odense: {
+        name: 'Odense',
+        image: odense,
+        coordinates: {
+          lat: 55.403756,
+          lng: 10.40237
+        }
+      }, 
+      aarhus: {
+        name: 'Århus',
+        image: aarhus,
+        coordinates: {
+          lat: 56.162939,
+          lng: 10.203921
+        }
+      }, 
+    },
   }
 }
 
@@ -99,6 +133,8 @@ class Location extends Component{
     const location = !!city 
     ? (!!locations[country] ? locations[country].cities[city] : null)
     : locations[country];
+
+    console.log(city, country)
     
     // Redirect
     if(!location){

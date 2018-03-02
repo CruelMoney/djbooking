@@ -136,13 +136,13 @@ class footer extends Component{
                   <Link to="/">Worldwide</Link>
                 </li> */}
                 <li>
-                  <Link to="/book-dj/denmark/copenhagen">{ translate('copenhagen') }</Link>
+                  <Link to={ translate("routes./book-dj/denmark/copenhagen") }>{ translate('copenhagen') }</Link>
                 </li>
                 <li>
-                  <Link to="/book-dj/denmark/aarhus">Århus</Link>
+                  <Link to={ translate("routes./book-dj/denmark/aarhus") }>Århus</Link>
                 </li>
                 <li>
-                  <Link to="/book-dj/denmark/odense">Odense</Link>
+                  <Link to={ translate("routes./book-dj/denmark/odense") }>Odense</Link>
                 </li>
                 
               </ul>

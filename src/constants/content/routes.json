@@ -28,9 +28,17 @@
       "/signup",
       "/dk/tilmeld"
     ],
-    "/book-dj":[
-      "/book-dj",
-      "/dk/book-dj"
+    "/book-dj/denmark/copenhagen":[
+      "/book-dj/denmark/copenhagen",
+      "/dk/book-dj/danmark/koebenhavn"
+    ],
+    "/book-dj/denmark/aarhus":[
+      "/book-dj/denmark/aarhus",
+      "/dk/book-dj/danmark/aarhus"
+    ],
+    "/book-dj/denmark/odense":[
+      "/book-dj/denmark/odense",
+      "/dk/book-dj/danmark/odense"
     ],
     "/how-it-works":[
       "/how-it-works",
