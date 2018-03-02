@@ -1,17 +1,23 @@
 import React, {Component} from 'react';
 import About from './components/About'; 
 import { Helmet } from 'react-helmet';
+import { localize } from 'react-localize-redux'; 
 
-export default class Index extends Component{
+class Index extends Component{
   render(){
+    const { translate } = this.props;
+    const title = translate('about') + ' | Cueup';
+
     return(
     <div>
       <Helmet>
-        <title>About | Cueup</title>
-        <meta property="og:title"           content="About | Cueup" />
-        <meta name="twitter:title"      content="About | Cueup" />
+        <title>{title}</title>
+        <meta property="og:title"     content={title} />
+        <meta name="twitter:title"    content={title} />
       </Helmet>
       <About />
     </div>
   )}
 }
+
+export default localize(Index, 'locale');

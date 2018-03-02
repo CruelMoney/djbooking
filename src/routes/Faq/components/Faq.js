@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import Footer from '../../../components/common/Footer'
 import ButtonLink from '../../../components/common/ButtonLink'
 import Button from '../../../components/common/Button-v2'
+import { localize } from 'react-localize-redux';
 
-
-export default class Faq extends Component{
+class Faq extends Component{
   themeColor = "#25F4D2"
 
   componentDidMount() {
@@ -23,6 +23,8 @@ export default class Faq extends Component{
    }
   }
   render() {
+    const { translate } = this.props;
+
     return (
       <div className="faq-content">
         <div className="container">
@@ -32,10 +34,10 @@ export default class Faq extends Component{
                 className="terms-navigation"
                 ref={(ref) => this.nav = ref}>
                
-                  <ButtonLink color={this.themeColor} to="/faq/dj">
+                  <ButtonLink color={this.themeColor} to={translate("routes./faq/dj")}>
                     DJ
                   </ButtonLink>
-                  <ButtonLink color={this.themeColor} to="/faq/organizer">
+                  <ButtonLink color={this.themeColor} to={translate("routes./faq/organizer")}>
                    Organizer
                   </ButtonLink>
                   <Button
@@ -56,16 +58,18 @@ export default class Faq extends Component{
           </div>
         </div>      
         <Footer
-        color={this.themeColor}
-        firstTo="/"
-        secondTo="/signup"
-        firstLabel="Arrange event"
-        secondLabel="Become DJ"
-        title="Ready to get started?"
-        subTitle="Arrange an event, or apply to become a DJ."
+          color={this.themeColor}
+          firstTo={translate("routes./")}
+          secondTo={translate("routes./signup")}
+          firstLabel={translate("arrange-event")}
+          secondLabel={translate("become-dj")}
+          title={translate("ready-to-get-started")}
+          subTitle={translate("arrange-event-or-become-dj")}
         />
       </div>
 
     )
   }
 }
+
+export default localize(Faq, 'locale');

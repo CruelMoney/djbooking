@@ -102,13 +102,13 @@ class footer extends Component{
               <h4>{ translate('company') }</h4>
               <ul>
                 <li>
-                  <Link to="/about">{ translate('about') }</Link>
+                  <Link to={translate("routes./about")}>{ translate('about') }</Link>
                 </li>
                 <li>
-                <Link to="/blog">Blog</Link>
+                <Link to={translate("routes./blog")}>Blog</Link>
                 </li>
                 <li>
-                  <Link to="/faq/dj">FAQ</Link>
+                  <Link to={translate("routes./faq/dj")}>FAQ</Link>
                 </li>
               </ul>
             </div>
@@ -116,7 +116,7 @@ class footer extends Component{
               <h4>{ translate('resources') }</h4>
               <ul>
                  <li>
-                  <Link to="/faq/dj">Support</Link>
+                  <Link to={translate("routes./faq/dj")}>Support</Link>
                 </li>
                 <li>
                   <a  onClick={
@@ -125,7 +125,7 @@ class footer extends Component{
                     >{ translate('contact') }</a>
                 </li>
                 <li>
-                  <Link to="/terms/agreements">{ translate('privacy-and-terms') }</Link>
+                  <Link to={translate("routes./terms/agreements")}>{ translate('privacy-and-terms') }</Link>
                 </li>
               </ul>
             </div>
@@ -133,7 +133,7 @@ class footer extends Component{
               <h4>{ translate('top-locations') }</h4>
               <ul>
                 {/* <li>
-                  <Link to="/">Worldwide</Link>
+                  <Link to={translate("/">Worldwide</Link>
                 </li> */}
                 <li>
                   <Link to={ translate("routes./book-dj/denmark/copenhagen") }>{ translate('copenhagen') }</Link>

@@ -12,9 +12,25 @@
       "/faq",
       "/dk/faq"
     ],
+    "/faq/dj":[
+      "/faq/dj",
+      "/dk/faq/dj"
+    ],
+    "/faq/organizer":[
+      "/faq/organizer",
+      "/dk/faq/organisator"
+    ],
     "/terms":[
       "/terms",
-      "/dk/terms"
+      "/dk/betingelser"
+    ],
+    "/terms/agreements":[
+      "/terms/agreements",
+      "/dk/betingelser/aftale"
+    ],
+    "/terms/privacy":[
+      "/terms/privacy",
+      "/dk/betingelser/privat"
     ],
     "/event":[
       "/event",
@@ -80,10 +96,6 @@
       "info",
       "info"
     ],
-    "terms":[
-      "terms",
-      "terms"
-    ],
     "faq":[
       "faq",
       "faq"
@@ -139,6 +151,30 @@
     "not-found":[
       "ikke-fundet",
       "not-found"
+    ],
+    "agreements":[
+      "aftale",
+      "agreements"
+    ],
+    "terms":[
+      "betingelser",
+      "terms"
+    ],
+    "aftale":[
+      "aftale",
+      "agreements"
+    ],
+    "betingelser":[
+      "betingelser",
+      "terms"
+    ],
+    "privacy":[
+      "privat",
+      "privacy"
+    ],
+    "privat":[
+      "privat",
+      "privacy"
     ]
   }
   
