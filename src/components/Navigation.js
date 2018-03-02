@@ -186,7 +186,7 @@ class Menu extends Component {
 
                 {this.props.loggedIn ? (
                   <li>
-                    <Navlink  buttonLook={true}  to={translate('routes./profile/:username/info', {username: this.props.profile.user_metadata.permaLink })} important={true} >
+                    <Navlink  buttonLook={true}  to={translate('routes./user/:username/profile', {username: this.props.profile.user_metadata.permaLink })} important={true} >
                       <UserMenuItem
                         name={this.props.profile.name}
                         picture={this.props.profile.picture}

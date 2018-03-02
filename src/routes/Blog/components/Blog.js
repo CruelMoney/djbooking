@@ -4,6 +4,7 @@ import { NavLink as Link } from 'react-router-dom';
 import NewsletterSignup from './NewsletterSignup';
 import Popup from '../../../components/common/Popup';
 import Button from '../../../components/common/Button-v2';
+import { localize } from 'react-localize-redux';
 
 class Blog extends Component {
   state={
@@ -23,6 +24,8 @@ class Blog extends Component {
 
 
   render() {
+    const { translate } = this.props;
+
     return (
       <div className="blog-overview">
         <header className="title">
@@ -30,24 +33,26 @@ class Blog extends Component {
             Blog
           </h1>
           <p>
-            Follow the Cueup blog for user stories, product announcements, feature updates, and technical posts.
+            {translate("blog.description")}
           </p>
           <Button color={"#25F4D2"} active glow className="subscribe-newsletter" onClick={this.showPopup}>
-            SUBSCRIBE
+          {translate("subscribe")}
           </Button>
         </header>
         <main>
           <div className="container">
           <div className="post-feed">
             {
-              posts.map(post => (
+              posts.map(post => {
+                const link = `${translate("routes./blog")}/${post.slug}`;
+                return(
               <article className="post-preview card">  
                 <div className="img-wrapper">
-                 <Link to={`/blog/${post.slug}`}>
+                 <Link to={link}>
                   <img src={post.thumbnail_url} alt={post.thumbnail_alt} />
                   </Link>
                 </div>        
-                <Link to={`/blog/${post.slug}`}>     
+                <Link to={link}>     
                 <section> 
                   <header>
                     <h2>{post.title}</h2>
@@ -63,7 +68,7 @@ class Blog extends Component {
                 </section>
                 </Link>
               </article>
-              ))
+              )})
             }
           </div>
           </div>
@@ -79,4 +84,4 @@ class Blog extends Component {
   }
 }
 
-export default Blog;
+export default localize(Blog, "locale");

@@ -76,9 +76,9 @@
       "/user/${ username }",
       "/dk/user/${ username }"
     ],
-    "/user/:username/info":[
-      "/user/${ username }/info",
-      "/dk/user/${ username }/info"
+    "/user/:username/profile":[
+      "/user/${ username }/profile",
+      "/dk/user/${ username }/profile"
     ],
     "/user/:username/reviews":[
       "/user/${ username }/reviews",

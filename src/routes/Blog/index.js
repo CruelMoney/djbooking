@@ -7,16 +7,20 @@ import { Helmet } from 'react-helmet';
 import Footer from '../../components/common/Footer'
 import Blog from './components/Blog';
 import Post from './components/Post';
+import { localize,addTranslation } from 'react-localize-redux';
+import content from './content.json';
+import {store} from '../../store';
 import './index.css';
 
-export default class Index extends Component{
+store.dispatch(addTranslation(content));
+
+class Index extends Component{
   themeColor = "#25F4D2"
   secondColor = "#31DAFF"
   
   render(){
-    const {match} = this.props
-   
-    const title = "Blog | Cueup"
+    const {match, translate} = this.props
+    const title = "Blog | Cueup";
     return(
     <div className="blog">
       <Helmet>
@@ -33,14 +37,16 @@ export default class Index extends Component{
         <Route path={`${match.path}/:postTitle`} component={Post} />
       </Switch>
       <Footer
-        color={this.themeColor}
-        firstTo="/"
-        secondTo="/signup"
-        firstLabel="Arrange event"
-        secondLabel="Become DJ"
-        title="Ready to get started?"
-        subTitle="Arrange an event, or apply to become a DJ."
+          color={this.themeColor}
+          firstTo={translate("routes./")}
+          secondTo={translate("routes./signup")}
+          firstLabel={translate("arrange-event")}
+          secondLabel={translate("become-dj")}
+          title={translate("ready-to-get-started")}
+          subTitle={translate("arrange-event-or-become-dj")}
         />
     </div>
   )}
 }
+
+export default localize(Index, "locale");

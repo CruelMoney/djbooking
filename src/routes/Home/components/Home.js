@@ -119,8 +119,8 @@ handleButtonClick = () => {
               <Footer
                 bgColor="#FFFFFF"
                 color={this.secondColor}
-                firstTo="/signup"
-                secondTo="/how-it-works"
+                firstTo={translate("routes./signup")}
+                secondTo={translate("routes./how-it-works")}
                 firstLabel={translate("become-dj")}
                 secondLabel={translate("how-it-works")}
                 title={translate("home.footer.first")}
