@@ -1,4 +1,3 @@
-
 const formatter = {
   date:{
           //returns a datetime object as a eu formatted string
