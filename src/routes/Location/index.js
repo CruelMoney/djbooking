@@ -15,16 +15,17 @@ import copenhagen from '../../assets/images/cities/copenhagen.png';
 import odense from '../../assets/images/cities/odense.png'
 import aarhus from '../../assets/images/cities/aarhus.png'
 import defaultImage from '../../assets/images/cities/default.png';
-import { localize } from 'react-localize-redux';
+import { localize, addTranslation} from 'react-localize-redux';
+import content from './content.json';
+import {store} from '../../store';
 import './index.css';
+
+store.dispatch(addTranslation(content));
 
 const AsyncRequestForm = Loadable({
   loader: () => import('../../components/common/RequestForm/RequestForm'),
   loading: LoadingRequestForm
 });
-
-const locationParagraph = "Cueup is the easiest way for you to find a DJ in {{location}}. Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.";
-
 
 const locations = {
   denmark: {
@@ -145,21 +146,21 @@ class Location extends Component{
     const { coordinates } = location;
 
 
-    const siteDescription = locationParagraph.replace("{{location}}", title);
-    const siteTitle = `Book DJ in ${title} | Cueup`;
+    const siteDescription = translate('location.description', {location:title});
+    const siteTitle = translate('location.title', {location:title});
     return (
       <div className="locations-page">
         
         <Helmet>
-          <title>{siteTitle}</title>
+          <title>{siteTitle + " | Cueup"}</title>
           <meta name="description"                content={siteDescription} />
 
-          <meta property="og:title"               content={siteTitle} />
+          <meta property="og:title"               content={siteTitle + " | Cueup"} />
           <meta property="og:type"                content={'website'} />
           <meta property="og:description"         content={siteDescription} />
           <meta property="og:image"               content={location.image} />
 
-          <meta name="twitter:title"              content={siteTitle} />
+          <meta name="twitter:title"              content={siteTitle + " | Cueup"} />
           <meta name="twitter:description"        content={siteDescription} />
           <meta name="twitter:image"              content={location.image} />
 
@@ -195,8 +196,7 @@ class Location extends Component{
                 <div className="col-md-5 col-sm-6">
                 <div className="card">
                     <h1 key="title">
-                    {"Book DJ in "}
-                    <span>{title}</span>
+                    {translate('location.title-2', {location:title})}
                     </h1>
                     <p key="paragraph">
                       {siteDescription}
@@ -206,7 +206,9 @@ class Location extends Component{
                       <Button
                         active
                         onClick={this.handleButtonClick}>
-                        <div style={{width:"150px", color:this.themeColor}}>GET OFFERS</div>
+                        <div style={{width:"150px", color:this.themeColor}}>
+                        {translate("get-offers")}
+                        </div>
                       </Button>
                     </div>
                     </div>
@@ -243,6 +245,7 @@ class Location extends Component{
           </div>
           
           <FloatingDJs 
+            { ...translate(['copenhagen', 'denmark']) }
             location={title}
           />
 
@@ -253,22 +256,18 @@ class Location extends Component{
                       <div  className="col-sm-6 col-md-5 col-md-push-1">
                       <div className="card">
                       <NoteIcon  altGradient={false} />
-                    <h2 style={{color:this.themeColor}}>Have the music your way</h2>
+                    <h2 style={{color:this.themeColor}}>{translate("location.sections.left.header")}</h2>
                     <p>
-                      With Cueup you can easily rent a DJ in {title}. 
-                      You can tell us exactly what music you want, and we'll have local DJs specialising in that music contacting you within a day.
-                      <br/>No matter if you're looking to hire a DJ for a wedding, birthday or an office party, the professional DJs at Cueup will help making your event unforgettable.
+                    {translate("location.sections.left.content", {location: title})}
                     </p>
                   </div>
                 </div>
                 <div  className="col-sm-6 col-md-5 col-md-push-1"> 
                 <div className="card">
                       <MoneyIcon  altGradient={false} />
-                      <h2 style={{color:this.themeColor}}>Compare DJ prices</h2>
+                      <h2 style={{color:this.themeColor}}>{translate("location.sections.right.header")}</h2>
                       <p>
-                        You will receive offers from various DJs that are suitable to play at your event. 
-                        Our partners ranges from professional DJs with decades of experience to novice DJs with cheap prices - allowing you to get the best price without compromising quality. 
-                        <br/>If you're planning an event on a budget, put it in your description, and get offers within your budget. 
+                      {translate("location.sections.right.content", {location: title})}
                       </p>
                   </div>
                 </div>

@@ -10,12 +10,14 @@ class FloatingCards extends Component {
     scrollAnimate : false
   }
 
-  filterDjs = (location) => {
+  filterDjs = (location) => {    
     location = !!location ? location : 'notfound';
+    location = location.toLowerCase() === "københavn" ? "copenhagen" : location;
 
     let renderDJS = 
     shuffle(
-      DJs.filter(dj => dj.location.city.toLowerCase().indexOf(location.toLowerCase()) !== -1)
+      DJs
+      .filter(dj => dj.location.city.toLowerCase().indexOf(location.toLowerCase()) !== -1)
     );
 
     renderDJS = renderDJS.length > 2 ? renderDJS : [];
@@ -78,7 +80,9 @@ class FloatingCards extends Component {
               key={`dj-card-${idx}`}
               className="card-wrapper"
               >
-              <DJCard dj={dj} />
+              <DJCard 
+               { ...this.props }
+              dj={dj} />
             </div>
             )
           })}

@@ -1,0 +1,39 @@
+{
+  "location":{
+    "title":[
+      "Book DJ in ${ location }",
+      "Book DJ i ${ location }"
+    ],
+    "title-2":[
+      "Book DJ in <b>${ location }</b>",
+      "Book DJ i <b>${ location }</b>"
+    ],
+    "description":[
+      "Cueup is the easiest way for you to find a DJ in ${ location }. Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.",
+      "Cueup is the easiest way for you to find a DJ in ${ location }. Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you."
+    ],
+    "sections":{
+      "left":{
+        "header": [
+          "Have the music your way",
+          "Musik som du ønsker det"
+        ],
+        "content": [
+          "With Cueup you can easily rent a DJ in ${ location }. You can tell us exactly what music you want, and we'll have local DJs specialising in that music contacting you within a day. <br/>No matter if you're looking to hire a DJ for a wedding, birthday or an office party, the professional DJs at Cueup will help making your event unforgettable.",
+          "With Cueup you can easily rent a DJ in ${ location }. You can tell us exactly what music you want, and we'll have local DJs specialising in that music contacting you within a day. <br/>No matter if you're looking to hire a DJ for a wedding, birthday or an office party, the professional DJs at Cueup will help making your event unforgettable."
+        ]
+      },
+      "right":{
+        "header": [
+          "Compare DJ prices",
+          "Sammenlign DJ priser"
+        ],
+        "content": [
+          "You will receive offers from various DJs that are suitable to play at your event. Our partners ranges from professional DJs with decades of experience to novice DJs with cheap prices - allowing you to get the best price without compromising quality. <br/>If you're planning an event on a budget, put it in your description, and get offers within your budget.",
+          "You will receive offers from various DJs that are suitable to play at your event. Our partners ranges from professional DJs with decades of experience to novice DJs with cheap prices - allowing you to get the best price without compromising quality. <br/>If you're planning an event on a budget, put it in your description, and get offers within your budget."
+        ]
+      }
+    }
+  }
+
+}

@@ -87,7 +87,7 @@
 .locations-page h1 {
   font-family: "SourceSansPro-Regular";
 }
-.locations-page h1 span{
+.locations-page h1 b{
   text-transform: capitalize;
   display: block;
   font-weight: bold;

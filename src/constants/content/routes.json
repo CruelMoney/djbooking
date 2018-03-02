@@ -175,7 +175,24 @@
     "privat":[
       "privat",
       "privacy"
+    ],
+    "denmark":[
+      "danmark",
+      "denmark"
+    ],
+    "danmark":[
+      "danmark",
+      "denmark"
+    ],
+    "copenhagen":[
+      "koebenhavn",
+      "copenhagen"
+    ],
+    "koebenhavn":[
+      "koebenhavn",
+      "copenhagen"
     ]
+
   }
   
 }
