@@ -76,7 +76,15 @@
       "anmeldelser",
       "reviews"
     ],
+    "anmeldelser":[
+      "anmeldelser",
+      "reviews"
+    ],
     "preferences":[
+      "indstillinger",
+      "preferences"
+    ],
+    "indstillinger":[
       "indstillinger",
       "preferences"
     ],
@@ -84,25 +92,25 @@
       "saadan-virker-det",
       "how-it-works"
     ],
-    "anmeldelser":[
-      "reviews",
-      "anmeldelser"
-    ],
-    "indstillinger":[
-      "preferences",
-      "indstillinger"
-    ],
     "saadan-virker-det":[
-      "how-it-works",
-      "saadan-virker-det"
+      "saadan-virker-det",
+      "how-it-works"
     ],
     "about":[
       "om",
       "about"
     ],
     "om":[
-      "about",
-      "om"
+      "om",
+      "about"
+    ],
+    "signup":[
+      "tilmeld",
+      "signup"
+    ],
+    "tilmeld":[
+      "tilmeld",
+      "signup"
     ]
   }
   

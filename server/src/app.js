@@ -45,7 +45,7 @@ const getReactApp = (req, res) => {
 
 const handleUniversalRender = async (req, res) => {  
 
-  const store = configureStoreServer();
+  const store = configureStoreServer({}, req);
   res.locals.store = store;
 
   renderToString(getReactApp(req, res));

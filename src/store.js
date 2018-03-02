@@ -38,9 +38,6 @@ export const configureStore = (initialState = {}) => {
     composeEnhancers(...enhancers)
   );
 
-  store.dispatch(initLocale(languages, {defaultLanguage: "en"}));
-  store.dispatch(addTranslation(commonContent));
-  store.dispatch(addTranslation(routesContent));
 
   persistStore(store);
   
@@ -48,7 +45,7 @@ export const configureStore = (initialState = {}) => {
 }
 
 
-export const configureStoreServer = (initialState = {}) => {
+export const configureStoreServer = (initialState = {}, req) => {
 
   // Create the store with two middlewares
   const middlewares = [
@@ -65,7 +62,13 @@ export const configureStoreServer = (initialState = {}) => {
     compose(...enhancers)
   );
 
-  store.dispatch(initLocale(languages, {defaultLanguage: "en"}));
+  let defaultLanguage = "en";
+  let url = req.path.split('/');
+  if(url[1] === "dk"){
+    defaultLanguage = "da";
+  }
+  
+  store.dispatch(initLocale(languages, {defaultLanguage: defaultLanguage}));
   store.dispatch(addTranslation(commonContent));
   store.dispatch(addTranslation(routesContent));
 

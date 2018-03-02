@@ -33,15 +33,17 @@ class footer extends Component{
     
     url = url
     .filter(p => p !== "")
+    .filter(p => p !== "dk")
     .map(p => {
       const transP = translate("routes."+p);
       return transP.indexOf('Missing translation') !== -1 ? p : transP;
     })
     if(code === "da"){
-      url = ["dk", ...url];
+      url = ["", "dk", ...url];
     }else{
-      url = url.slice(1, url.length);
+      url = ["", ...url];
     }
+
     url = url.join('/');
     history.replace(url)
   }
@@ -145,7 +147,7 @@ class footer extends Component{
                 
               </ul>
             </div>
-            {!this.props.signedIn ? 
+           
             <div>
               <h4>{ translate('language') }</h4>
               <ul>
@@ -167,6 +169,7 @@ class footer extends Component{
                   <svg className="collapsible-arrow" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>
                   </div>
                 </li>
+                {!this.props.signedIn ? 
                  <li>
                    <div className="dropdown-selector-wrapper">
                   <select 
@@ -180,10 +183,9 @@ class footer extends Component{
                   <svg className="collapsible-arrow" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>
                   </div>
                 </li>
-                
+                  : null}
               </ul>
             </div>
-            : null}
              
           </div>
           <div className="copyright">

@@ -24,7 +24,7 @@ import defaultImage from './assets/images/cities/default.png'
 import Blog from './routes/Blog';
 import ErrorHandling from './components/common/ErrorPage'
 import Navigation from './components/Navigation';
-import { getActiveLanguage, getTranslate } from 'react-localize-redux';
+import { getActiveLanguage, getTranslate, setActiveLanguage } from 'react-localize-redux';
 import 'moment/locale/da';
 import moment from 'moment';
 
@@ -38,9 +38,14 @@ const App = class extends Component {
   }
   
   componentWillMount(){
-    //Setup moment localization
-    const {activeLanguage} = this.props;
-    moment.locale(activeLanguage);
+    const { activeLanguage, setActiveLanguage, location } = this.props;
+    const url = location.pathname.split('/');
+    const locale = url[1] === "dk" ? "da" : "en";
+
+    if(activeLanguage !== locale){
+      setActiveLanguage(locale)
+    }
+    moment.locale(locale);
   }
 
   componentDidMount(){
@@ -52,6 +57,8 @@ const App = class extends Component {
    }
 
    componentWillReceiveProps(nextprops){
+
+
     const {activeLanguage, loggedIn} = this.props;
       if(activeLanguage !== nextprops.activeLanguage){
         moment.locale(nextprops.activeLanguage);
@@ -60,7 +67,7 @@ const App = class extends Component {
 
 
   render() {
-    const { location, translate } = this.props;
+    const { location, translate, activeLanguage } = this.props;
     const description = 'Cueup is an online platform connecting DJs and event organizers - the easiest way for you to book a great DJ for your event.  Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.'
     const pageURL = Environment.CALLBACK_DOMAIN + location.pathname;
     const url = location.pathname.split('/');
@@ -125,8 +132,15 @@ const mapStateToProps = (state, ownprops) => {
   }
 }
 
+
+function mapDispatchToProps(dispatch, ownprops) {
+  return {
+    setActiveLanguage: (code) => {dispatch(setActiveLanguage(code))}
+  }
+}
+
 export default withRouter(
-  connect(mapStateToProps)(
+  connect(mapStateToProps, mapDispatchToProps)(
     App
   )
 );
