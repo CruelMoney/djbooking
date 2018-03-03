@@ -5,8 +5,9 @@ import krIcon from '../../../assets/money.svg'
 import Footer from '../../../components/common/Footer'
 /*animation stuff*/
 import QueueAnim from 'rc-queue-anim';
+import { localize } from 'react-localize-redux';
 
-export default class Signup extends Component{
+class Signup extends Component{
   themeColor="#B031FF"
   secondColor="#31DAFF"
 
@@ -24,6 +25,8 @@ export default class Signup extends Component{
   }
 
   render() {
+    const {translate} = this.props;
+
     return  <div >
       <header className=""
 
@@ -95,15 +98,17 @@ export default class Signup extends Component{
       </div>
     </div>
       <Footer
-        noSkew
-        color={this.themeColor}
-        firstTo="/how-it-works"
-        secondTo="/"
-        firstLabel="HOW IT WORKS"
-        secondLabel="ARRANGE EVENT"
-        title="Wonder how it works?"
-        subTitle="See how it works, or arrange an event."
+          noSkew
+          color={this.themeColor}
+          firstTo={translate("routes./how-it-works")}
+          secondTo={translate("routes./")}
+          firstLabel={translate("how-it-works")}
+          secondLabel={translate("arrange-event")}
+          title={translate("Wonder how it works?")}
+          subTitle={translate("See how it works, or arrange an event.")}
         />
     </div>
   }
 }
+
+export default localize(Signup, 'locale')

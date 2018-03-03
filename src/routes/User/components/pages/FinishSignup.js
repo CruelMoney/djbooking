@@ -10,6 +10,7 @@ import connectToForm from '../../../../components/higher-order/connectToForm'
 import {default as SimpleMap} from "../../../../components/common/Map"
 import { withRouter } from 'react-router-dom'
 import {connect} from 'react-redux'
+import { localize } from 'react-localize-redux';
 import * as actions from '../../../../actions/SignupActions'
 
 import Form from '../../../../components/common/Form-v2'
@@ -44,6 +45,8 @@ class SignupForm extends Component {
   }
 
   signup = (form, callback) => {
+    const { translate } = this.props;
+
     const values = {
       auth0Profile:{
         ...this.props.profile
@@ -56,18 +59,22 @@ class SignupForm extends Component {
     this.props.handleSubmit(values, (err, res) => {
         if (!err) {
           console.log(res)
-          this.props.history.push(`/user/${res.user_metadata.permaLink}/profile`)
+          this.props.history.push(
+            translate(`routes./user/:username/profile`, {username: res.user_metadata.permaLink})
+          )
         }
         callback(err, res)
       })
   }
 
   updateMap = debounce((location) => {
+    const { translate } = this.props;
+
       //Getting the coordinates of the playing location
       GeoCoder.codeAddress(location, (geoResult) => {
         if(geoResult.error){
           this.setState({
-            locationErr: 'City not found',
+            locationErr: translate('City not found'),
             location: null
           });
         }else{
@@ -80,7 +87,8 @@ class SignupForm extends Component {
   }, 500)
 
   render() {
-    let {name, email} = this.props.profile;
+    const { profile, translate } = this.props;
+    let {name, email} = profile;
     name = name && name.indexOf('@') !== -1
       ? ''
       : name;
@@ -100,9 +108,9 @@ class SignupForm extends Component {
               <div className="user-header-content col-sm-8">
                 <div className="header-info">
                   <div className="user-name text-center">
-                    <h1>{`Welcome ${name || ''}`}</h1>
+                    <h1>{`${translate("Welcome")} ${name || ''}`}</h1>
                     <p>
-                      Please complete your application to start receiving gigs.
+                      {translate("user.finish-signup.please-complete")}
                     </p>
                   </div>
                 </div>
@@ -122,51 +130,51 @@ class SignupForm extends Component {
                 { name ? null :
                 <RegistrationElement
                   name="name"
-                  label="Name"
+                  label={translate("Name")}
                   active={true}
-                  text="Please enter your first and last name. It is important that the given information is correct. Otherwise you can't receive payments.">
+                  text={translate("user.finish-signup.name")}>
                   <Textfield
                     big
                     name="name"
-                    placeholder="First Last"
+                    placeholder={translate("first-last")}
                     validate={['required', 'lastName']}
-                    label="Your name"/>
+                    label={translate("Your name")}/>
                 </RegistrationElement>
               }
               { email ? null :
                 <RegistrationElement
                   name="email"
-                  label="E-mail"
+                  label="Email"
                   active={true}
-                  text="Your email is used to notify you whenever you get a gig or if we have some other important news. It is only shared with organizers and only when you make them an offer.">
+                  text={translate("user.finish-signup.email")}>
                   <Textfield
                     big
                     name="email"
                     validate={['required', 'email']}
                     placeholder="mail@gmail.com"
-                    label="Your Email"/>
+                    label={translate("Your email")}/>
                 </RegistrationElement>
                 }
 
                 <RegistrationElement
                   name="phone"
-                  label="Phone"
+                  label={translate("Phone number")}
                   active={true}
-                  text="Your phone number is used to help organizers get in contact with you. It is only shared with organizers after you have made them an offer.">
+                  text={translate("user.finish-signup.phone")}>
                   <Textfield
                     big
                     name="phone"
                     type="tel"
                     placeholder="12345678"
                     validate={['required']}
-                    label="Your phone number"/>
+                    label={translate("Your phone number")}/>
                 </RegistrationElement>
 
                 <RegistrationElement
                   name="location"
-                  label="Location"
+                  label={translate("Location")}
                   active={true}
-                  text="Tell us what city you want to play in. You will be offered gigs in a radius of 25 km around the city, but you can always change both this and the city in your preferences.">
+                  text={translate("user.finish-signup.location")}>
 
                   <LocationSelectorSimple
                     big
@@ -177,7 +185,7 @@ class SignupForm extends Component {
                     value={this.props.geoCity !== ""
                     ? this.props.geoCity
                     : undefined}
-                    label="Location"/>
+                    label={translate("Location")}/>
 
                   {this.state.location ?
                       <Map
@@ -195,9 +203,9 @@ class SignupForm extends Component {
 
                 <RegistrationElement
                   name="genres"
-                  label="Genres"
+                  label={translate("Genres")}
                   active={true}
-                  text="What genres do you want to play? You can always change this in your preferences.">
+                  text={translate("user.finish-signup.genres")}>
 
                   <ToggleButtonHandler
                     name="genres"
@@ -209,9 +217,9 @@ class SignupForm extends Component {
 
                 <RegistrationElement
                   name="bio"
-                  label="About you"
+                  label={translate("About you")}
                   active={true}
-                  text={`Please tell us a bit about yourself. This description is going to be public. What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?`}>
+                  text={translate("user.finish-signup.about")}>
                   <TextBox validate={['required']} width="100%" height="150px" name="bio"/>
                 </RegistrationElement>
 
@@ -225,7 +233,9 @@ class SignupForm extends Component {
                 onClick={(values, cb) => this.signup(values,cb)}>
                 <div style={{
                   width: "100px"
-                }}>JOIN</div>
+                }}>
+                {translate("Join")}
+                </div>
               </SubmitButton>
               {this.state.msg
                 ? <div style={{
@@ -244,7 +254,7 @@ class SignupForm extends Component {
                     marginTop: "10px"
                   }}
                     className="terms_link">
-                    By clicking join you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>
+                    {translate("terms-message")}
                   </p>
                 </div>
               </div>
@@ -254,12 +264,13 @@ class SignupForm extends Component {
         <Footer
           noSkew
           color={this.secondColor}
-          firstTo="/"
-          secondTo="/how-it-works"
-          firstLabel="Arrange event"
-          secondLabel="How it works"
-          title="Organizing yourself?"
-          subTitle="Arrange event, or see how it works."/>
+          firstTo={translate("routes./how-it-works")}
+          secondTo={translate("routes./")}
+          firstLabel={translate("how-it-works")}
+          secondLabel={translate("arrange-event")}
+          title={translate("Wonder how it works?")}
+          subTitle={translate("See how it works, or arrange an event.")}
+        />
       </div>
     )
   }
@@ -279,4 +290,4 @@ const SmartSignupForm = connect(mapStateToProps, mapDispatchToProps)(
   withRouter(SignupForm)
 )
 
-export default props => (<SmartSignupForm {...props}/>)
+export default localize(SmartSignupForm, 'locale');

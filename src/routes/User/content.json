@@ -1,0 +1,34 @@
+{
+  "user":{
+    "finish-signup":{
+      "please-complete":[
+        "Please complete your application to start receiving gigs.",
+        "Udfyld venligst resterende information, for at begynde at modtage gigs."
+      ],
+      "name":[
+        "Please enter your first and last name. It is important that the given information is correct. Otherwise you can't receive payments.",
+        "Indtast venligst dit fornavn og efternavn. Det er vigtigt at den givne information er korrekt, ellers kan du ikke modtage udbetalinger."       
+      ],
+      "email":[
+        "Your email is used to notify you whenever you get a gig or if we have some other important news. It is only shared with organizers and only when you make them an offer.",
+        "Din email bliver brugt til at give besked om nye gigs og hvis vi har anden vigtig information. Den bliver kun delt med kunder når du afgiver et tilbud."
+      ],
+      "phone":[
+        "Your phone number is used to help organizers get in contact with you. It is only shared with organizers after you have made them an offer.",
+        "Dit telefonnummber bliver brugt til at hjælpe kunder med at komme i kontakt med dig. Det bliver kun delt med kunder efter de har betalt."
+      ],
+      "location":[
+        "Tell us what city you want to play in. You will be offered gigs in a radius of 25 km around the city, but you can always change both this and the city in your preferences.",
+        "Fortæl os hvilken by du gerne vil spille i. Du vil blive tilbudt gigs i en radius af 25 km omkring byen, men du kan altid ændre dette og byen i dine indstillinger."
+      ],
+      "genres":[
+        "What genres do you want to play? You can always change this in your preferences.",
+        "Hvilke genrer vil du gerne spille? Du kan altid ændre dette under dine indstillinger."
+      ],
+      "about":[
+        "Please tell us a bit about yourself. This description is going to be public. What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?",
+        "Fortæl os venligst lidt om dig selv. Denne beskrivelse vil være offentlig på din profil. Fortæl os hvilken slags DJ du er, hvor meget erfaring har du, hvilke typer events spiller du normalt?"
+      ]
+    }
+  }
+}

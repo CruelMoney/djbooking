@@ -79,6 +79,14 @@
     "Continue",
     "Fortsæt" 
   ],
+  "Genres":[
+    "Genres",
+    "Musikgenrer"
+  ],
+  "About you":[
+    "About you",
+    "Om dig"
+  ],
   "terms-message":[
     "By clicking on get offers you agree to our <a target='_blank' href='/terms/agreements'>terms and conditions</a>.",
     "Ved at trykke på få tilbud accepterer du automatisk vores <a target='_blank' href='/terms/agreements'>betingelser</a>."
@@ -86,6 +94,10 @@
   "unknown-error":[
     "Something went wrong.",
     "Noget gik galt."
+  ],
+  "Welcome":[
+    "Welcome",
+    "Velkommen"
   ],
   "speakers":[
     "Speakers",
@@ -98,6 +110,10 @@
   "hours":[
     "Hours",
     "Timer"
+  ],
+  "Join":[
+    "Join",
+    "Bliv medlem"
   ],
   "over":[
     "Over",
@@ -118,6 +134,14 @@
   "first-last":[
     "First Last",
     "Fornavn Efternavn"
+  ],
+  "Your name":[
+    "Your name",
+    "Dit navn"
+  ],
+  "Name":[
+    "Name",
+    "Navn"
   ],
   "city":[
     "City",
@@ -142,6 +166,22 @@
   "please-enter-email":[
     "Please enter email.",
     "Indtast email."
+  ],
+  "Your email":[
+    "Your email",
+    "Din email"
+  ],
+  "Phone number":[
+    "Phone number",
+    "Telefonnummer"
+  ],
+  "Your phone number":[
+    "Your phone number",
+    "Dit telefonnummer"
+  ],
+  "Location":[
+    "Location",
+    "Område"
   ],
   "or":[
     "Or",
@@ -226,6 +266,18 @@
   "subscribe":[
     "Subscribe",
     "Følg"
+  ],
+  "Wonder how it works?":[
+    "Wonder how it works?",
+    "Vil du vide hvordan det virker?"
+  ],
+  "See how it works, or arrange an event.":[
+    "See how it works, or arrange an event.",
+    "Se hvordan det virker, eller arranger et event."
+  ],
+  "City not found":[
+    "City not found",
+    "Kunne ikke finde byen"
   ]
 
 }
