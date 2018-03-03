@@ -207,6 +207,10 @@
     "How many gigs you have played using Cueup. This is shared on your public profile.",
     "Hvor mange gigs du har spillet gennem Cueup. Dette bliver delt på din offentlige profil."
   ],
+  "experience-description-public":[
+    "How many gigs this DJ has played using Cueup.",
+    "Hvor mange gigs denne DJ har spillet gennem Cueup."
+  ],
   "earned":[
     "Earned",
     "Fortjeneste"
@@ -217,7 +221,7 @@
   ],
   "rating":[
     "Rating",
-    "Rating"
+    "Bedømmelse"
   ],
   "no-reviews-yet":[
     "No reviews yet",
@@ -278,6 +282,14 @@
   "City not found":[
     "City not found",
     "Kunne ikke finde byen"
+  ],
+  "No new notifications.":[
+    "No new notifications.",
+    "Ingen nye notifikationer."
+  ],
+  "Change image":[
+    "Change image",
+    "Skift billede"
   ]
 
 }

@@ -72,6 +72,10 @@
       "/user",
       "/dk/user"
     ],
+    "/user/:permalink":[
+      "/user/:permalink",
+      "/dk/user/:permalink"
+    ],
     "/user/:username":[
       "/user/${ username }",
       "/dk/user/${ username }"
@@ -83,6 +87,10 @@
     "/user/:username/reviews":[
       "/user/${ username }/reviews",
       "/dk/user/${ username }/anmeldelser"
+    ],
+    "/user/:username/gigs":[
+      "/user/${ username }/gigs",
+      "/dk/user/${ username }/gigs"
     ],
     "/user/:username/preferences":[
       "/user/${ username }/preferences",

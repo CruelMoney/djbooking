@@ -4,6 +4,7 @@ import UserNavigation from './UserNavigation'
 import UserCard from './UserCard'
 import Notification from '../../../../components/common/Notification'
 import UserPic from '../../../../assets/default-profile-pic.png'
+import { localize } from 'react-localize-redux';
 
 class userHeader extends Component {
 
@@ -66,6 +67,8 @@ class userHeader extends Component {
   }
 
   render() {
+    const { translate } = this.props;
+
     return (
       <header ref={ref => this.userHeader = ref} className="user-header">
         <div id="stripes" className="v2">
@@ -150,7 +153,7 @@ class userHeader extends Component {
                   <h1>{(this.props.loading
                       ? this.state.loadString
                       : (this.props.isOwnProfile
-                        ? "Welcome "
+                        ? (translate("Welcome") + " ")
                         : " ") + this.props.profile.firstName)}</h1>
                 </div>
                 <div className="user-location">
@@ -199,4 +202,4 @@ class userHeader extends Component {
   }
 }
 
-export default userHeader
+export default localize(userHeader, "locale");

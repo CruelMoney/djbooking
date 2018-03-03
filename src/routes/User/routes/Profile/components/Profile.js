@@ -20,21 +20,6 @@ class Profile extends Component {
 }
 
 
-//TODO move magic information about the filters out of container.
-//Should be grabbed from the children that are set as filters
-function mapStateToProps(state, ownProps) {
-   let isOwnProfile = 
-     state.login.status.publicProfileMode ? false :
-    (!!state.login.status.signedIn && !state.login.status.onlyAuth) 
-    ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.match.params.permalink.toLowerCase()
-    : false
-    
-  return {
-    profile: isOwnProfile ? state.login.profile : state.user.profile,
-    isOwnProfile:isOwnProfile,
-    publicProfileMode: state.login.status.publicProfileMode
-  }
-}
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
@@ -51,7 +36,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   }}
 
 
-const SmartProfile = connect(mapStateToProps, mapDispatchToProps, mergeProps, { pure: false })(Profile)
+const SmartProfile = connect(state=>state, mapDispatchToProps, mergeProps, { pure: false })(Profile)
 
 export default props => (
     <SmartProfile {...props}/>

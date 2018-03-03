@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Navlink  from '../../../../components/common/Navlink'
+import { getTranslate } from 'react-localize-redux';
+import { connect } from 'react-redux';
 
-export default class UserNavigation extends Component{
+class UserNavigation extends Component{
 
   static propTypes = {
     isDJ: PropTypes.bool,
@@ -15,25 +17,11 @@ export default class UserNavigation extends Component{
        profile: PropTypes.object
      }
 
-
-
   render() {
-
+    const { translate } = this.props;
+    const { profile } = this.context;
     return (
       <div>
-        {/* {!this.props.isDJ ?
-          <div style={styles.userImageWrap}>
-          <div style={ styles.image}/>
-          {this.context.editMode && <div style={styles.changeProfilePictureText}>
-          <input name="fileupload" id="fileupload"  type="file" onChange={this.handleFile}/>
-          <label htmlFor="fileupload"><span>Change image</span></label>
-          </div> }
-          </div>
-          :null
-        } */}
-
-
-
         <nav >
           <ul className="userNavigation"
             style={
@@ -48,31 +36,42 @@ export default class UserNavigation extends Component{
 
           
               <li>
-                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/profile"} label="Information"/>
+                <Navlink 
+                userNavigation={true} 
+                to={translate("routes./user/:username/profile", {username: profile.user_metadata.permaLink})}
+                label="Information"/>
               </li>
        
               
             {this.props.isCustomer && this.props.isOwnProfile ?
               <li>
-                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/events"} label="Events"/>
+                <Navlink userNavigation={true} 
+                to={translate("routes./user/:username/events", {username: profile.user_metadata.permaLink})} 
+                label="Events"/>
               </li>
             : null}
 
             {this.props.isDJ && this.props.isOwnProfile  ?
               <li >
-                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/gigs"} label="Gigs"/>
+                <Navlink userNavigation={true} 
+                to={translate("routes./user/:username/gigs", {username: profile.user_metadata.permaLink})}
+                label="Gigs"/>
               </li>
             : null}
 
            { !this.props.isOwnProfile && this.props.isDJ ? 
             <li>
-              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/book"} label="Book DJ"/>
+              <Navlink userNavigation={true} 
+                to={translate("routes./user/:username/book", {username: profile.user_metadata.permaLink})}
+                label="Book DJ"/>
             </li>
             :null}    
             
             {this.props.isDJ ?
               <li >
-                <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/reviews"} label="Reviews"/>
+                <Navlink userNavigation={true} 
+                to={translate("routes./user/:username/reviews", {username: profile.user_metadata.permaLink})} 
+                label={translate("reviews")}/>
               </li>
               : null
             }
@@ -80,7 +79,9 @@ export default class UserNavigation extends Component{
            
             { this.props.isOwnProfile ? 
             <li>
-              <Navlink userNavigation={true} to={"/user/"+this.context.profile.user_metadata.permaLink+"/preferences"} label="Preferences"/>
+              <Navlink userNavigation={true} 
+              to={translate("routes./user/:username/preferences", {username: profile.user_metadata.permaLink})} 
+              label={translate("preferences")}/>
             </li>
             :null}
 
@@ -92,3 +93,10 @@ export default class UserNavigation extends Component{
     )
   }
 }
+
+const mapStateToProps = state => ({ translate: getTranslate(state.locale) });
+
+
+export default connect(mapStateToProps, null, null, {
+  pure: false
+})(UserNavigation)

@@ -10,6 +10,7 @@ import * as actions from '../../../../actions/UserActions'
 import { connect } from 'react-redux'
 import {ImageCompressor} from '../../../../utils/ImageCompressor';
 import { currencyConverter } from '../../../../utils/CurrencyConverter'
+import { localize } from 'react-localize-redux';
 
 class UserCard extends Component{
 
@@ -30,6 +31,8 @@ class UserCard extends Component{
 
 
     handleFile = (e) => {
+      const { translate } = this.props;
+
       var self = this
         self.setState({loading:true})
        const file = e.target.files[0]
@@ -43,7 +46,7 @@ class UserCard extends Component{
           }else{
                 self.props.updatePicture(result, (err,res)=>{    
                       if (err) {
-                         self.setState({err:"Something went wrong"})
+                         self.setState({err: translate('unknown-error')})
                       }else{
                         self.setState({err:"",loading:false})
                       }
@@ -53,10 +56,8 @@ class UserCard extends Component{
   }
 
   render() {
-    //calculating the age
-    //var cur = new Date();
-    //var diff = cur- new Date(this.props.birthday);
-    //var age = Math.floor(diff/31536000000);
+    const {translate} = this.props;
+
 
     var genres = []
     const genresCount = this.props.genres.length;
@@ -107,7 +108,7 @@ class UserCard extends Component{
               this.state.err ?
                 <label htmlFor="fileupload"><span>{this.state.err}</span></label>
               :
-              this.props.isOwnProfile ? <label htmlFor="fileupload"><span>Change image</span></label> : null
+              this.props.isOwnProfile ? <label htmlFor="fileupload"><span>{translate("Change image")}</span></label> : null
             }
           </div>
 
@@ -129,12 +130,12 @@ class UserCard extends Component{
             {this.props.profile.isDJ ? 
             <div>
             <div className="user-card-fact">
-              <p>Experience
+              <p>{translate("experience")}
                  <InfoPopup
                   info={
                     this.props.isOwnProfile 
-                    ? "How many gigs you have played using Cueup. This is shared on your public profile."
-                    : "How many gigs this DJ has played using Cueup."
+                    ? translate("experience-description")
+                    : translate("experience-description-public")
                     }
                   />
               </p>
@@ -143,9 +144,9 @@ class UserCard extends Component{
             </div>
             {this.props.isOwnProfile ? 
             <div className="user-card-fact">
-              <p>Earned
+              <p>{translate("earned")}
                 <InfoPopup
-                  info="How much money you have earned. This is NOT shared on your public profile."
+                  info={translate("earned-description")}
                   />
                 
               </p>
@@ -153,8 +154,8 @@ class UserCard extends Component{
             </div>
             : null}
             <div className="user-card-fact">
-              <p>Rating</p>
-              {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : "No reviews yet"}
+              <p>{translate("rating")}</p>
+              {this.props.rating > 0 ? <Rating rating={this.props.rating}/> : translate("no-reviews-yet")}
             </div>
             </div>
             
@@ -163,11 +164,11 @@ class UserCard extends Component{
              {this.props.profile.isCustomer ? 
             <div>
             <div className="user-card-fact">
-              <p>Upcoming</p>
+              <p>{translate("upcoming")}</p>
               {this.props.profile.upcomingEvents + " events"}
             </div>
             <div className="user-card-fact">
-              <p>Finished</p>
+              <p>{translate("finished")}</p>
                {this.props.profile.finishedEvents + " events"}
             </div>
             
@@ -179,7 +180,7 @@ class UserCard extends Component{
             <div className="user-card-fact">
               <p>Cueup points
                 <InfoPopup
-                  info="Cueup points can be used to remove the fee on gigs, thus increasing the payout."
+                  info={translate("cueup-points-description")}
                   />
               </p>
               {this.props.profile.discountPoints + " Points"}
@@ -204,6 +205,4 @@ function mapDispatchToProps(dispatch, ownprops) {
 const SmartUserCard = connect(state=>state, mapDispatchToProps)(UserCard)
 
 
-export default props => (
-    <SmartUserCard {...props}/>
-)
+export default localize(SmartUserCard, 'locale');

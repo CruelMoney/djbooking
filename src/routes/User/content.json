@@ -29,6 +29,28 @@
         "Please tell us a bit about yourself. This description is going to be public. What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?",
         "Fortæl os venligst lidt om dig selv. Denne beskrivelse vil være offentlig på din profil. Fortæl os hvilken slags DJ du er, hvor meget erfaring har du, hvilke typer events spiller du normalt?"
       ]
+    },
+    "notifications":{
+      "email":[
+        "You won't receive any gigs before you have confirmed your email-address.",
+        "Du vil ikke modtage gigs før du har bekræftet din email."
+      ],
+      "standby":[
+        "You are currently on standby and can not be booked.",
+        "Du er på standby og kan ikke blive booket."
+      ],
+      "standby-public":[
+        "This DJ is currently on standby and can not be booked.",
+        "Denne DJ er på standby og kan ikke bookes."
+      ],
+      "picture":[
+        "You should update your profile picture.",
+        "Du bør opdatere dit profilbillede."
+      ],
+      "empty":[
+        "You don't have any new notifications.",
+        "Du har ingen nye notifikation."
+      ]
     }
   }
 }

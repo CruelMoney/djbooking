@@ -103,7 +103,7 @@ const App = class extends Component {
             <Switch>
               <Route exact path={translate("routes./")} component={Home}/>
               <Route path={translate("routes./about")} component={About}/>
-              <Route path={translate("routes./user")} component={User}/>
+              <Route path={translate("routes./user/:permalink")} component={User}/>
               <Route path={translate("routes./how-it-works")} component={HowItWorks}/>
               <Route path={translate("routes./signup")} component={Signup}/>
               <Route path={translate("routes./faq")} component={Faq}/>

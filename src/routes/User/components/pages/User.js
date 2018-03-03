@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet';
 import UserHeader from '../blocks/UserHeader'
 import Footer from '../../../../components/common/Footer'
-import Form from '../../../../components/common/Form-v2'
+import Form from '../../../../components/common/Form-v2';
+import { localize } from 'react-localize-redux';
 import { connect } from 'react-redux'
 import * as actions from '../../../../actions/UserActions'
 import '../../../../css/transitions.css'
@@ -43,36 +44,50 @@ class User extends Component{
   }
 
   updateNotification = (props) => {
-        if(props.profile.app_metadata && props.isOwnProfile){
-          if(props.notifications && props.notifications.length > 0){
-            const notification = props.notifications.sort((a,b)=>a>b)[0];
-            this.setState({notification: notification.content});
-            return
-          }
-          if (!props.profile.app_metadata.emailVerified) {
-            this.setState({notification:"You won't receive any gigs before you have confirmed your email-address."})
-            return
-          }
-          if(props.profile.settings && props.profile.settings.standby ){
-              this.setState({notification:"You are currently on standby and can not be booked."})
-              return
-          }
-          if (props.profile.picture && props.profile.picture.indexOf("default-profile-pic") !== -1) {
-            this.setState({notification:"You should update your profile picture."})
-            return
-          }
-          if (props.profile.app_metadata.notification) {
-            this.setState({notification: props.profile.app_metadata.notification})
-            return
-          }
-          this.setState({notification:"You don't have any new notifications."})
-        }else{
-            if(props.profile.settings && props.profile.settings.standby ){
-              this.setState({notification:"This DJ is currently on standby and can not be booked."})}
-            else{
-              this.setState({notification:""}
-              )}
-        }
+    const { translate } = this.props;
+    if(props.profile.app_metadata && props.isOwnProfile){
+      if(props.notifications && props.notifications.length > 0){        
+        const notification = props.notifications.sort((a,b)=>a>b)[0];
+        this.setState({notification: notification.content});
+        return
+      }
+      if (!props.profile.app_metadata.emailVerified) {
+        this.setState({notification:
+          translate("user.notifications.email")
+        })
+        return
+      }
+      if(props.profile.settings && props.profile.settings.standby ){
+          this.setState({notification:
+            translate("user.notifications.standby")
+            })
+          return
+      }
+      if (props.profile.picture && props.profile.picture.indexOf("default-profile-pic") !== -1) {
+        this.setState({notification:
+          translate("user.notifications.picture")
+        })
+        return
+      }
+      if (props.profile.app_metadata.notification) {
+        const serverNoti = props.profile.app_metadata.notification;
+        let noti = translate(serverNoti);
+        noti = noti.indexOf("Missing translation") === -1 ? noti : serverNoti;
+        this.setState({notification: noti})
+        return
+      }
+      this.setState({notification:
+        translate("user.notifications.empty")
+      })
+    }else{
+        if(props.profile.settings && props.profile.settings.standby ){
+          this.setState({notification:
+            translate("user.notifications.standby-public")
+            })}
+        else{
+          this.setState({notification:""}
+          )}
+    }
   }
 
   componentWillReceiveProps(nextProps){    
@@ -143,7 +158,8 @@ class User extends Component{
 
   render() {
     const {
-      profile
+      profile,
+      translate
     } = this.props;
     const {
       firstName,
@@ -201,15 +217,15 @@ class User extends Component{
           </div>
         </Form>
 
-          <Footer
+           <Footer
             noSkew
             color={this.secondColor}
-            firstTo="/"
-            secondTo="/how-it-works"
-            firstLabel="Arrange event"
-            secondLabel="How it works"
-            title="Organizing yourself?"
-            subTitle="Arrange event, or see how it works."
+            firstTo={translate("routes./how-it-works")}
+            secondTo={translate("routes./")}
+            firstLabel={translate("how-it-works")}
+            secondLabel={translate("arrange-event")}
+            title={translate("Wonder how it works?")}
+            subTitle={translate("See how it works, or arrange an event.")}
           />
       </div>
     )
@@ -218,33 +234,12 @@ class User extends Component{
 }
 
 
-
-
-function mapStateToProps(state, ownProps) {
-  const isOwnProfile = 
-    state.login.status.publicProfileMode ? false :
-    (!!state.login.profile.user_metadata && !!state.login.profile.user_metadata.permaLink) 
-    ? state.login.profile.user_metadata.permaLink.toLowerCase() === ownProps.match.params.permalink.toLowerCase()
-    : false
-  
-  return {
-    profile:  isOwnProfile ? state.login.profile : state.user.profile,
-    loading: isOwnProfile ? state.login.status.isWaiting : state.user.status.isWaiting,
-    geoCity: state.session.city,
-    geoCountry: state.session.country,
-    notifications: state.notifications.data,
-    isOwnProfile:isOwnProfile
-  }
-}
-
 function mapDispatchToProps(dispatch, ownProps) {
   return {
       fetchUser: (permaLink, callback) =>  {dispatch(actions.getUser(permaLink, callback))},
 }}
 
 
-const SmartUser = connect(mapStateToProps,mapDispatchToProps)(User)
+const SmartUser = connect(state=>state,mapDispatchToProps)(User)
 
-export default props => (
-    <SmartUser {...props}/>
-)
+export default localize(SmartUser, 'locale');
