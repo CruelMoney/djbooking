@@ -464,6 +464,26 @@
   "Email verification":[
     "Email verification",
     "Email verifikation"
+  ],
+  "Share profile on facebook":[
+    "Share profile on facebook",
+    "Del profil på facebook"
+  ],
+  "See public profile":[
+    "See public profile",
+    "Se offentlig profil"
+  ],
+  "Refer organizers":[
+    "Refer organizers",
+    "Henvis organisator"
+  ],
+  "Refer DJs":[
+    "Refer DJs",
+    "Henvis DJs"
+  ],
+  "Bio":[
+    "Biography",
+    "Biografi"
   ]
  
 } 

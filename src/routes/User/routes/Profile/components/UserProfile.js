@@ -7,10 +7,11 @@ import {default as SimpleMap} from "../../../../../components/common/Map"
 import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
 import TextWrapper from '../../../../../components/common/TextElement'
 import c from '../../../../../constants/constants'
+import { localize } from 'react-localize-redux';
 
 const Map = connectToForm(SimpleMap)
 
-export default class UserProfile extends Component{
+class UserProfile extends Component{
     static propTypes = {
         profile: PropTypes.object,
         save: PropTypes.func,
@@ -34,15 +35,19 @@ export default class UserProfile extends Component{
     }
 
     getActionButtons = (props = this.props) => {
+      const {translate} = this.props;
+
 
         return (
+
+
             <div className="context-actions" key="profile_actions">
                 {this.props.publicProfileMode ? 
                   <Button
                     onClick={this.props.togglePublicProfile}
                     name="toggle_public"
                     >
-                    Back to profile
+                    {translate("Back to profile")}
                   </Button>
                 :null}
             </div>
@@ -51,6 +56,7 @@ export default class UserProfile extends Component{
     }
 
     render() {
+      const { translate } = this.props;
         const isDJ = this.props.profile.isDJ
        
         return (
@@ -68,7 +74,9 @@ export default class UserProfile extends Component{
                 <div className="profile">
                   
                   {isDJ
-                    ? <TextWrapper label="Bio" text="">
+                    ? <TextWrapper 
+                    label={translate("Bio")} 
+                    text="">
                        <p>
                        {this.props.profile.bio} 
                         </p>
@@ -77,7 +85,7 @@ export default class UserProfile extends Component{
                     </TextWrapper>
                   : null}
                   {isDJ
-                    ? <TextWrapper label="Genres" text="">
+                    ? <TextWrapper label={translate("Genres")} text="">
                       <Genres
                         name="genres"
                         validate={['required']}
@@ -90,7 +98,10 @@ export default class UserProfile extends Component{
                   }
 
                   {isDJ
-                    ? <TextWrapper label="Location" text="The DJ normally plays in this area.">
+                    ? <TextWrapper 
+                    label={translate("Location")} 
+                    text={translate("public-profile.location")}
+                    >
                       <Map
                         radius={this.props.profile.playingRadius}
                         value={this.props.profile.playingLocation}
@@ -101,23 +112,13 @@ export default class UserProfile extends Component{
                     </TextWrapper>
                   : null}
                   
-                  {/* {isDJ
-                    ? <TextWrapper label="Experience" text="How much experience do you have?">
-                    <ExperienceSlider queupGigs={this.props.profile.gigsCount} otherGigs={this.props.profile.experienceCount} disabled={!this.context.editing} name="experienceCount"/>
-                    </TextWrapper>
-                  : null} */}
-
-
-
-
                   {isDJ
                     ? <TextWrapper 
-                    label="Cancelation policy" 
-                    text={
-                     "Full refund if event is cancelled " + this.props.profile.settings.cancelationDays
-                     + " or more days before it starts. Otherwise " +
-                     this.props.profile.settings.refundPercentage +"% is refunded."
-                    }/>
+                    label={translate("Cancelation policy")} 
+                    text={translate("public-profile.refund", {
+                      days: this.props.profile.settings.cancelationDays,
+                      percentage:  this.props.profile.settings.refundPercentage
+                    })}/>
                   : null}
             
 
@@ -128,3 +129,5 @@ export default class UserProfile extends Component{
 
     }
 }
+
+export default localize(UserProfile, 'locale');
