@@ -72,6 +72,10 @@
       "/user",
       "/dk/user"
     ],
+    "/user/signup":[
+      "/user/signup",
+      "/dk/user/tilmeld"
+    ],
     "/user/:permalink":[
       "/user/:permalink",
       "/dk/user/:permalink"
@@ -91,6 +95,10 @@
     "/user/:username/gigs":[
       "/user/${ username }/gigs",
       "/dk/user/${ username }/gigs"
+    ],
+    "/user/:username/book":[
+      "/user/${ username }/book",
+      "/dk/user/${ username }/book"
     ],
     "/user/:username/preferences":[
       "/user/${ username }/preferences",

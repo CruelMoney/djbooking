@@ -22,6 +22,7 @@ import { connect } from 'react-redux'
 import * as eventActions from '../../../../../actions/EventActions'
 import * as userActions from '../../../../../actions/UserActions'
 import debounce from 'lodash.debounce'
+import { localize } from 'react-localize-redux';
 
 class RequestForm extends Component{
   static proptypes = {
@@ -65,9 +66,11 @@ class RequestForm extends Component{
   formValidCheckers= []
 
   submit = (event, callback) => this.props.onSubmit(event, (err, res)=>{
+    const { translate } = this.props;
+
     if(!err){
       this.setState({
-        msg: "Thank you for using our service. We will send you an email with confirmation of the event."
+        msg: translate('succes-message')
       }) 
     }
     callback(err, res)
@@ -147,7 +150,9 @@ class RequestForm extends Component{
     }, 500)
 
   render() {
+    const { translate } = this.props;
     const eventDateString = this.state.date.format("dddd Do, MMMM YYYY")
+    
     return(
       this.context.loadingUser ?
       <LoadingPlaceholder/>
@@ -156,9 +161,9 @@ class RequestForm extends Component{
       <EmptyPage
           message={
             <div> 
-              <p>This DJ is on standby, and cannot be booked.</p>
+              <p>{translate('user.standby-public')}</p>
               <ButtonLink className="button elevated" to={"/"}>
-                Book other DJs
+                {translate('user.Book other DJs')}
               </ButtonLink>
             </div>
           }/>
@@ -170,10 +175,7 @@ class RequestForm extends Component{
             {this.state.showLogin ? 
             <div>
             <p style={{marginBottom:"20px"}}>
-              It looks like there's already an account using that email. Please login to continue.<br/>
-              If you don't have a login yet, press the forgot button to create a password. <br/>
-              Then come back here to login and create the event.
-            </p>
+              {translate('request-form.email-exists-message')} </p>
              <Login
               redirect={false}
              />
@@ -197,62 +199,66 @@ class RequestForm extends Component{
                 <div className="card">
                 
                 <section>
-                  <label htmlFor="name">Event name</label>
+                  <label htmlFor="name">
+                  {translate("request-form.step-2.event-name")}
+                  </label>
 
                   <TextField
                     name="name"
                     validate={['required']}
                   />
-                  <p>Please choose a descriptive name.</p>
+                  <p>
+                  {translate("request-form.step-2.event-name-description")}
+                  </p>
                 </section>
                 <section
                 className="cursor-pointer"
                 onClick={()=>{
                   this.setState({showLogin:false, showPopup:true})}}
                 >
-                  <label>Event date</label>
+                  <label>{translate("request-form.step-1.event-date")}</label>
                   <TexfieldDisconnected
                     name="date"
                     disabled
                     value={eventDateString}
                   />
-                  <p>Choose date.</p>
+                  <p>{translate("request-form.step-1.event-date-description")}</p>
                 </section>
                 <section>
-                  <label htmlFor="location">Event location</label>
+                  <label htmlFor="location">{translate("request-form.step-1.event-location")}</label>
                   <LocationSelector
                     name="location"
                     onChange={this.handleLocationUpdate}
                     errors={this.state.locationErrors}
                     validate={['required']}
                   />
-                  <p>In what city is the event?</p>
+                  <p>{translate("request-form.step-1.event-location-description")}</p>
                 </section>
 
                 <div>
-                  <section><label htmlFor="contactName">Contact name</label>
+                  <section><label htmlFor="contactName">  {translate('request-form.step-4.contact-name')}</label>
 
                     <TextField
                       name="contactName"
                       validate={['required', 'lastName']}
                     />
-                    <p >Your first and last name.</p>
+                    <p >  {translate('request-form.step-4.contact-name-description')}</p>
                   </section>
 
-                  <section><label htmlFor="contactEmail">Contact email</label>
+                  <section><label htmlFor="contactEmail"> {translate('request-form.step-4.contact-email')}</label>
                     <TextField
                       name="contactEmail"
                       validate={['required', 'email']}
                     />
-                    <p>Your email is only shared with qualified DJs.</p>
+                    <p> {translate('request-form.step-4.contact-email-description')}</p>
                   </section>
 
                 </div>
 
 
                 <section>
-                  <label>Genres</label>
-                  <p style={{marginBottom:"10px"}}>What kind of music do you need?</p>
+                  <label> {translate("request-form.step-2.event-genres")}</label>
+                  <p style={{marginBottom:"10px"}}> {translate("request-form.step-2.event-genres-description")}</p>
                   <ToggleButtonHandler
                     validate={['required']}
                     name="genres"
@@ -260,23 +266,28 @@ class RequestForm extends Component{
                     columns={3} />
                 </section>
                 <section>
-                  <label>Speakers & Light</label>
-                  <p style={{marginBottom:"10px"}}>Do you need speakers and lights for the event?</p>
+                  <label>{translate("request-form.step-2.event-rider")}</label>
+                  <p style={{marginBottom:"10px"}}> {translate("request-form.step-2.event-rider-description")}</p>
                     <RiderOptions 
+                      speakersLabel={translate("speakers")}
+                      lightsLabel={translate("lights")}
                       name="rider"/>
                 </section>
               
                 
                 <section>
-                  <label>Music Duration</label>
+                  <label>{translate('request-form.step-3.music-duration')}</label>
                   <TimeSlider
+                    hoursLabel={translate('hours')}
+                    startLabel={translate("start")}
+                    endLabel={translate("end")}
                     date={this.state.date}
                   />
                 </section>
 
 
                 <section>
-                  <label>People</label>
+                  <label>{translate('request-form.step-3.guests')}</label>
                   <div>
                     <Slider
                       name="guests"
@@ -298,19 +309,20 @@ class RequestForm extends Component{
                     />
                   </div>
                   <p style={{marginTop:"15px"}}>
-                    {this.state.guests === 1000 ? "Over " : "Around "} <span>{this.state.guests} people </span>attending the event.</p>
+                  {translate(
+                    "request-form.step-3.guests-description",
+                    { 
+                      prefix: this.state.guests === 1000 ? translate('over') : translate('around'),
+                      amount: this.state.guests
+                    })
+                    }                    
+                  </p>
                 </section>
                 <section>
-                  <label htmlFor="description">Description</label>
+                  <label htmlFor="description">{translate("request-form.step-3.event-description")}</label>
                   <TextBox
                     height="110px"
-                    placeholder={
-                      "Please tell about your event. \n" +
-                      "What is the budget? \n" +
-                      "What is the age of the guests? \n" +
-                      "What kind of venue is it? \n" +
-                      "Do you have any special requirements? \n" 
-                    }
+                    placeholder={translate('request-form.step-3.event-description-description')}
                     name="description"
                     validate={['required']}
                   />
@@ -321,7 +333,7 @@ class RequestForm extends Component{
             active
             onClick={this.onSubmit}
           >
-          BOOK DJ
+          {translate('book-dj')}
           </SubmitButton>
 
           </Form>
@@ -336,7 +348,7 @@ class RequestForm extends Component{
                 <p 
                 style={{textAlign: "center", marginTop: "10px"}} 
                 className="terms_link">
-                  By clicking book DJ you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>
+                   {translate("terms-message")}
                 </p>
               </div>
             </div>
@@ -370,6 +382,4 @@ function mapDispatchToProps(dispatch, ownProps) {
 
 const SmartForm = connect(mapStateToProps, mapDispatchToProps)(RequestForm)
 
-export default props => (
-    <SmartForm {...props}/>
-)
+export default localize(SmartForm, 'locale');

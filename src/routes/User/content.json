@@ -50,6 +50,10 @@
       "empty":[
         "You don't have any new notifications.",
         "Du har ingen nye notifikation."
+      ],
+      "Book other DJs":[
+        "Book other DJs",
+        "Book andre DJs"
       ]
     }
   }

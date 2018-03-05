@@ -38,6 +38,8 @@ class User extends Component{
   componentWillMount(){
     if(!this.props.profile.user_metadata){
       const permaLink = this.props.isOwnProfile ? null : this.props.match.params.permalink
+      console.log(this.props)
+      
       this.props.fetchUser(permaLink, (res,err)=>{})
     }
     this.updateNotification(this.props)

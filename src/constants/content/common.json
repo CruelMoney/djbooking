@@ -233,7 +233,7 @@
   ],
   "finished":[
     "Finished",
-    "Færdige"
+    "Afsluttede"
   ],
   "cueup-points-description":[
     "Cueup points can be used to remove the fee on gigs, thus increasing the payout.",
@@ -290,6 +290,14 @@
   "Change image":[
     "Change image",
     "Skift billede"
+  ],
+  "start":[
+    "Start",
+    "Start"
+  ],
+  "end":[
+    "End",
+    "Slut"
   ]
 
 }

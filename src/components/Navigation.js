@@ -72,7 +72,7 @@ class Menu extends Component {
          if(nextProps.profile.user_metadata && nextProps.profile.user_metadata.permaLink){
           this.props.history.push(`/user/${nextProps.profile.user_metadata.permaLink}/profile`)
          }else{
-          this.props.history.push(`/user`)
+          this.props.history.push(`/user/signup`)
          }
          this.setState({redirected:true})
        }

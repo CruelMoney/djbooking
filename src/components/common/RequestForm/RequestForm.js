@@ -565,6 +565,8 @@ next=()=>{
           </label>
           <TimeSlider
             hoursLabel={getTranslate('hours')}
+            startLabel={getTranslate("start")}
+            endLabel={getTranslate("end")}
             date={this.props.date}
           />
         </section>
