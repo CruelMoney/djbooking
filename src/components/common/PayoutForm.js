@@ -11,6 +11,7 @@ import Button from './Button-v2'
 import ToggleOptions from './ToggleOptions'
 import Formatter from '../../utils/Formatter'
 import InfoPopup from './InfoPopup'
+import { localize } from 'react-localize-redux';
 
 import CountryCurrency from '../../utils/CountryCurrency'
 const countryCur = new CountryCurrency()
@@ -21,6 +22,8 @@ class payoutForm extends Component {
   }
 
   updatePayoutInfo = (form, callback) => {
+    const {translate} = this.props;
+
       const info = form.values
       info.account_holder_name = this.props.user.name
       const country = this.state.area === "usa" ? "USA" : info.bank_country 
@@ -32,7 +35,7 @@ class payoutForm extends Component {
             birthday: Formatter.date.FromEUStringToUSDate(info.birthday),
             account_country: result.countryTwoLetter, 
             account_currency: result.currency}, callback)
-      }).catch((err)=>callback("Country could not be found"))
+      }).catch((err)=>callback(translate("payout.country-not-found")))
 
   }
 
@@ -43,7 +46,7 @@ class payoutForm extends Component {
       }
 
   render() {
-
+    const {translate} = this.props;
     return(
       <div className="payout-form" >
 
@@ -58,9 +61,9 @@ class payoutForm extends Component {
           name="payout-form">
 
           <TextWrapper
-            label="Payout"
+            label={translate("Payout")}
             showLock={true}
-            text="All information is encrypted. We are using IBAN numbers to allow deals between countries. That way you can play gigs in foreign contries if you're traveling.">
+            text={translate('payout.description')}>
              <div className="row" style={{marginBottom:"10px"}}>
             <div className="col-md-12">
                 <ToggleOptions
@@ -72,7 +75,7 @@ class payoutForm extends Component {
                   <Button
                     name="europe"
                 >
-                Europe
+                {translate('europe')}
                 </Button>
 
                   <Button
@@ -92,7 +95,7 @@ class payoutForm extends Component {
                   validate={['required']}
                   value={this.props.country || null}
                   fullWidth={false}
-                  placeholder="Country"
+                  placeholder={translate("country")}
                 />
               </div>
             </div>
@@ -105,7 +108,7 @@ class payoutForm extends Component {
                   type="text"
                   fullWidth={false}
                   validate={['required']}
-                  placeholder="City"
+                  placeholder={translate("city")}
                   value={this.props.city || null}
 
                 />
@@ -116,7 +119,7 @@ class payoutForm extends Component {
                   type="text"
                   validate={['required']}
                   fullWidth={false}
-                  placeholder="Postal code"
+                  placeholder={translate("postal-code")}
 
                 />
               </div>
@@ -130,38 +133,16 @@ class payoutForm extends Component {
                   validate={['required']}
 
                   fullWidth={false}
-                  placeholder="Address"
+                  placeholder={translate("address")}
                 >
                 <InfoPopup
-                      info={"Enter the address of the person or business that the bank account is associated with."
-                        }
+                      info={translate("payout.address-description")}
                       />
                 </TextField>
 
               </div>
             </div>
             
-            {/*<TextField
-            onUpdatePipeFunc={datePipe}
-            maxLength="10"
-            type="text"
-            name="birthday"
-            validate={['required', 'date']}
-            placeholder="Birthday dd/mm/yyyy"
-            label="Birthday"/>
-            */}
-             {/*<div className="col-xs-12">
-                <TextField
-                  name="ssn_number"
-                 
-                  validate={[]}
-                  type="number"
-                  fullWidth={false}
-                  placeholder="SSN-number"
-                  underlineDisabledStyle={styles.plainBorder}
-                  underlineStyle={styles.dottedBorderStyle}
-                />
-              </div>*/}
               {this.state.area === "europe" ?
               <div className="row">
                 <div className="col-xs-12">
@@ -171,10 +152,9 @@ class payoutForm extends Component {
                     validate={['required']}
                     type="text"
                     fullWidth={false}
-                    placeholder="IBAN-number">
+                    placeholder={translate("payout.IBAN-number")}>
                     <InfoPopup
-                      info={"Your IBAN number can typically be found on your online bank, the banks mobile app or on your bank account statement."
-                        }
+                      info={translate("payout.IBAN-description")}
                       />
                     </TextField>
                   
@@ -188,17 +168,16 @@ class payoutForm extends Component {
                   validate={['required']}
                   type="text"
                   fullWidth={false}
-                  placeholder="Routing number"
+                  placeholder={translate("payout.routing-number")}
                 />
                    </div>
                 <div className="col-xs-6">
                   <TextField
                   name="account_number"
-                 
                   validate={['required']}
                   type="text"
                   fullWidth={false}
-                  placeholder="Account number"
+                  placeholder={translate("payout.account-number")}
                 />
                </div>
               </div>
@@ -209,7 +188,9 @@ class payoutForm extends Component {
 
           <div className="row">
             <div className="col-xs-12">
-              <p className="terms_link">By clicking save, you agree to our <a target="_blank" rel="noopener noreferrer" href="/terms/agreements">terms and conditions</a>, and stripes <a target="_blank" rel="noopener noreferrer" href="https://stripe.com/dk/connect-account/legal">connect account agreement.</a></p>
+              <p className="terms_link">
+              {translate("payout.terms")}
+              </p>
             </div>
           </div>
 
@@ -221,7 +202,9 @@ class payoutForm extends Component {
                 active={this.state.valid}
                 name="save_payout_info"
                 onClick={this.updatePayoutInfo}
-              >Save</SubmitButton>
+              >
+              {translate("save")}
+              </SubmitButton>
             </div>
             <div className="col-xs-6">
               <a style={{float: "right"}} href="https://stripe.com/" target="_blank" rel="noopener noreferrer">
@@ -254,7 +237,5 @@ function mapDispatchToProps(dispatch, ownprops) {
 
 const SmartPayout = connect(mapStateToProps, mapDispatchToProps)(payoutForm)
 
+export default localize(SmartPayout, 'locale');
 
-export default props => (
-    <SmartPayout {...props}/>
-)

@@ -298,6 +298,112 @@
   "end":[
     "End",
     "Slut"
+  ],
+  "Request features":[
+    "Request features",
+    "Efterspørg features"
+  ],
+  "See offer example":[
+    "See offer example",
+    "Se eksempel på tilbud"
+  ],
+  "No gigs":[
+    "No gigs",
+    "Ingen gigs"
+  ],
+  "no-gigs-description":[
+    "You will get a notification when new gigs are available.",
+    "Du vil modtage besked når du modater nye gigs."
+  ],
+  "Login to see your gigs":[
+    "Login to see your gigs.",
+    "Log ind for at se dine gigs."
+  ],
+  "Make offer within":[
+    "Make offer within",
+    "Afgiv tilbud inden"
+  ],
+  "days":[
+    "days",
+    "dage"
+  ],
+  "day":[
+    "days",
+    "dag"
+  ],
+  "hour":[
+    "hour",
+    "time"
+  ],
+  "minutes":[
+    "minutes",
+    "minutter"
+  ],
+  "minute":[
+    "minute",
+    "minut"
+  ],
+  "seconds":[
+    "seconds",
+    "sekunder"
+  ],
+  "second":[
+    "second",
+    "sekund"
+  ],
+  "payout":{
+    "country-not-found":[
+      "Country could not be found.",
+      "Landet kunne ikke findes."
+    ],
+    "description":[
+      "All information is encrypted. We are using IBAN numbers to allow deals between countries. That way you can play gigs in foreign contries if you're traveling.",
+      "Alt information er krypteret. Vi bruger IBAN-nummer for at kunne tilbyde gigs i udlandet."
+    ],
+    "address-description":[
+      "Enter the address of the person or business that the bank account is associated with.",
+      "Indtast adressen på den person eller forretning som bankkontoen er forbundet med."
+    ],
+    "IBAN-number":[
+      "IBAN-number",
+      "IBAN-nummer"
+    ],
+    "IBAN-description":[
+      "Your IBAN number can typically be found on your online bank, the banks mobile app or on your bank account statement.",
+      "Dit IBAN-nummer kan typisk findes i netbank, i bankens app eller på din kontooversigt."
+    ],
+    "routing-number":[
+      "Routing number",
+      "Routing nummer"
+    ],
+    "account-number":[
+      "Account number",
+      "Kontonummer"
+    ],
+    "terms":[
+      "By clicking save, you agree to our <a target='_blank' rel='noopener noreferrer' href='/terms/agreements'>terms and conditions</a>, and stripes <a target='_blank' rel='noopener noreferrer' href='https://stripe.com/dk/connect-account/legal'>connect account agreement.</a>",
+      "Ved at trykke gem, accepterer du vores <a target='_blank' rel='noopener noreferrer' href='/dk/betingelser/aftale'>betingelser</a>, og stripes <a target='_blank' rel='noopener noreferrer' href='https://stripe.com/dk/connect-account/legal'>connect account agreement.</a>"
+    ]
+  },
+  "europe":[
+    "Europe",
+    "Europa"
+  ],
+  "country":[
+    "Country",
+    "Land"
+  ],
+  "postal-code":[
+    "Postal code",
+    "Postnummer"
+  ],
+  "save":[
+    "Save",
+    "Gem"
+  ],
+  "address":[
+    "Address",
+    "Adresse"
   ]
-
+ 
 }

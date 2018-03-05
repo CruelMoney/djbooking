@@ -10,6 +10,7 @@ import Popup from '../../../../../components/common/Popup'
 import Login from '../../../../../components/common/Login'
 import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/GigActions'
+import { localize } from 'react-localize-redux';
 
 
 import m from '../../../../../constants/Mocks'
@@ -58,6 +59,8 @@ class Gigs extends Component{
     }
 
   getActionButtons = (props = this.props) => {
+    const {translate} = this.props;
+
     return (
     <div
       className="context-actions"
@@ -68,12 +71,12 @@ class Gigs extends Component{
         onClick={()=>{
            requestFeatures()
         }}
-      >Request features</Button>
+      >{translate("Request features")}</Button>
           {this.props.profile.isDJ ?
               <Button
                 onClick={()=>this.setState({showPopup:true})}
                 name="public_profile"
-              >See offer example
+              >{translate("See offer example")}
               </Button>
               : null}
     </div>
@@ -82,7 +85,7 @@ class Gigs extends Component{
   }
 
   render() {
-
+    const {translate} = this.props;
     var gigs = []
 
     this.state.gigs.forEach((gig, i) => {
@@ -122,8 +125,10 @@ class Gigs extends Component{
       if (gigs.length === 0 && !this.props.loading) {
         return <EmptyPage
           message={
-            <div> No gigs<br/>
-            You will get a notification when new gigs are available</div>
+            <div>{translate("No gigs")}
+              <br/>
+              {translate("no-gigs-description")}
+            </div>
           }/>
       }else {
         return gigs
@@ -172,7 +177,7 @@ class Gigs extends Component{
              <Popup
                 showing={this.state.loginPopup}
                 onClickOutside={()=>this.setState({loginPopup:false})}>
-                <p>Login to see your gigs</p>
+                <p>{translate("Login to see your gigs")}</p>
                 <Login
                   redirect={false}
                 />
@@ -206,12 +211,11 @@ function mapDispatchToProps(dispatch, ownProps) {
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
   return {
+    ...ownProps,
     ...stateProps, 
     ...dispatchProps,
 }
 }
 const SmartPreferences = connect(mapStateToProps, mapDispatchToProps,  mergeProps,{ pure: false })(Gigs)
 
-export default props => (
-    <SmartPreferences {...props}/>
-)
+export default localize(SmartPreferences, 'locale');

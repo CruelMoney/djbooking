@@ -7,7 +7,7 @@ import LoadingPlaceholder from '../../../../../components/common/LoadingPlacehol
 import {requestFeatures} from '../../../../../actions/Common'
 import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/EventActions'
-
+import { localize } from 'react-localize-redux';
 
 class Events extends Component{
   static propTypes= {
@@ -35,6 +35,8 @@ class Events extends Component{
 
 
   getActionButtons = (props = this.props) => {
+    const {translate} = this.props;
+
     return (
     <div className="context-actions" key="events_actions">
 
@@ -43,7 +45,9 @@ class Events extends Component{
           label=""
           name="request_features"
           onClick={requestFeatures}
-        >Request features</Button>
+        >
+        {translate("Request features")}
+        </Button>
 
 
     </div>
@@ -131,6 +135,4 @@ function mapDispatchToProps(dispatch, ownProps) {
 
 const SmartEvents = connect(mapStateToProps, mapDispatchToProps)(Events)
 
-export default props => (
-    <SmartEvents {...props}/>
-)
+export default localize(SmartEvents, 'locale');

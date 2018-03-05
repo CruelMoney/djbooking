@@ -7,6 +7,7 @@ import MoneyTable, {TableItem} from '../../../../../components/common/MoneyTable
 import  * as actions from '../../../../../actions/GigActions'
 import {currencyConverter} from '../../../../../utils/CurrencyConverter'
 import { connect } from 'react-redux'
+import { localize } from 'react-localize-redux';
 
 
 class OfferForm extends Component{
@@ -65,6 +66,8 @@ class OfferForm extends Component{
   }
 
   render() {
+    const {translate} = this.props;
+
       return (
           <div>
                   <Form
@@ -77,15 +80,18 @@ class OfferForm extends Component{
                       <div>
                       <div className="row">
                         <div className="col-xs-12">
-                          <p>Enter your price to play this gig.
-                          You can always update the offer until it has been paid.</p>
+                          <p>
+                            {translate('gig.offer.intro')}
+                          </p>
                           {this.state.usePointPossible ?
-                           <p>Use a Cueup point to discard the DJ fee. 
-                             You can update whether to use or not use the point, until the offer has been paid.
-                             If the gig gets cancelled, the point will be restored.</p>
+                           <p>
+                             {translate('gig.offer.point')}
+                           </p>
                           : null}
                           {this.props.gig.referred ?
-                           <p>This gig is a direct booking of you, therefore the DJ fee is discarded.</p>
+                           <p>
+                             {translate('gig.offer.direct')}
+                           </p>
                           : null}
                         </div>
                         </div>
@@ -109,7 +115,8 @@ class OfferForm extends Component{
                                   <Button
                                     active={this.state.discount}
                                     onClick={this.toggleDiscount}
-                                  >Use Cueup point
+                                  >
+                                  {translate("gig.offer.use-point")}
                                   </Button>
 
                               : null} 
@@ -125,20 +132,18 @@ class OfferForm extends Component{
                             style={{ padding: "20px", marginBottom:"30px", marginTop:"20px"}}
                           >
                           <div className="col-sm-6"> 
-                            <h4 style={{textAlign: "center"}}>Organizer pays</h4>
+                            <h4 style={{textAlign: "center"}}>{translate("Organizer pays")}</h4>
                             <MoneyTable>
                              <TableItem
-                                  label="Your price"
+                                  label={translate("Your price")}
                                     >
                                   {currencyConverter.getConvertedFormatted(this.state.amount, this.state.currency)}
                               </TableItem>
                               <TableItem
-                                  label="Service Fee"
+                                  label={translate("Service fee")}
                                   info={ 
                                       <div>
-                                      This fee is calculated based <br/>
-                                      on the offer. <br/>
-                                      The organizer has to pay this. <br/>
+                                      {translate("gig.offer.service-fee-info")}
                                       </div>
                                       }
                                   >
@@ -159,20 +164,18 @@ class OfferForm extends Component{
                             </MoneyTable>
                            </div>
                              <div className="col-sm-6"> 
-                            <h4 style={{textAlign: "center"}}>You earn</h4>
+                            <h4 style={{textAlign: "center"}}>{translate("You earn")}</h4>
                             <MoneyTable>
                               <TableItem
-                                  label="Your price"
+                                  label={translate("Your price")}
                                     >
                                   {currencyConverter.getConvertedFormatted(this.state.amount, this.state.currency)}
                               </TableItem>
                                 <TableItem
-                                  label="DJ Fee"
+                                  label={translate("DJ fee")}
                                   info={ 
                                       <div>
-                                      A fee on 3% is subtracted <br/>
-                                      from your price. Using a Cueup <br/>
-                                      point will discard this fee. <br/>
+                                           {translate("gig.offer.dj-fee-info")}
                                       </div>
                                       }
                                     >
@@ -202,15 +205,15 @@ class OfferForm extends Component{
 
                     { this.props.gig.status === "Lost" ?
                       <p>
-                        Sorry you have lost this gig to another DJ. <br/>
-                        Next time try to set another price or be faster at responding. <br/>
-                        Adding info to your profile also helps the organizer being comfortable in choosing you.
+                        {translate("gig.offer.lost")}
                       </p>
                     :  null}
 
 
                     {!this.props.payoutInfoValid ?
-                        <p>Please update your payout information before making an offer.</p>
+                        <p>
+                           {translate("gig.offer.update-payout")}
+                        </p>
           
                     : null }
 
@@ -228,10 +231,10 @@ class OfferForm extends Component{
                             <SubmitButton
                               rounded={true}
                               dangerous
-                              warning="Are you sure you want to decline the gig?"
+                              warning={translate("gig.offer.decline-warning")}
                               name="cancel_gig"
                               onClick={(form, callback)=>this.props.declineGig(this.props.gig.id, callback)}
-                            >Decline gig</SubmitButton>
+                            >{translate("Decline gig")}</SubmitButton>
                         : null}
 
 
@@ -242,10 +245,12 @@ class OfferForm extends Component{
                             <SubmitButton
                               rounded={true}
                               dangerous
-                              warning="Are you sure you want to cancel the gig? All money will be refunded to the organizer."
+                              warning={translate("gig.offer.cancel-warning")}
                               name="cancel_gig"
                               onClick={(form, callback)=>this.props.cancelGig(this.props.gig.id, callback)}
-                            >Cancel gig</SubmitButton>
+                            >
+                            {translate("Cancel gig")}
+                            </SubmitButton>
 
                         : null}
 
@@ -257,7 +262,9 @@ class OfferForm extends Component{
                           rounded={true}
                           name="send_offer"
                           onClick={this.updateOffer}
-                        >Send offer</SubmitButton>
+                        >
+                         {translate("Send offer")}
+                        </SubmitButton>
                       : null}
 
                       { this.props.gig.status === "Accepted" && this.props.payoutInfoValid ?
@@ -265,7 +272,9 @@ class OfferForm extends Component{
                           rounded={true}
                           name="update_offer"
                           onClick={this.updateOffer}
-                        >Update price offer</SubmitButton>
+                        >
+                           {translate("Update offer")}
+                        </SubmitButton>
                       :null}
 
                       {!this.props.payoutInfoValid ?
@@ -273,7 +282,9 @@ class OfferForm extends Component{
                           rounded={true}
                           onClick={this.props.showPopup}
                           name="show-payout-popup"
-                        >Update payout information</Button>
+                        >
+                        {translate("Update payout information")}
+                        </Button>
                     : null }
                     
                     </div>
@@ -305,6 +316,5 @@ function mapDispatchToProps(dispatch, ownProps) {
 
 const SmartGig = connect(mapStateToProps, mapDispatchToProps)(OfferForm)
 
-export default props => (
-    <SmartGig {...props}/>
-)
+export default localize(SmartGig, 'locale');
+

@@ -71,7 +71,7 @@ const MainForm = class extends PureComponent{
             this.props.onSubmit(event, (err,res)=>{
                 if (!err) {
                   this.setState({msg: 
-                    getTranslate('succes-message')
+                    getTranslate('request-form.succes-message')
                   })
                 }
                 callback(err,res)

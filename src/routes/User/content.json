@@ -56,5 +56,217 @@
         "Book andre DJs"
       ]
     }
-  }
+  },
+  "gig":{
+    "messages":{
+      "expired":[
+        "Gig has expired 😑",
+        "Gig er udløbet 😑"
+      ],
+      "cancelled":[
+        "The gig has been cancelled ☹️",
+        "Gigget er blevet aflyst ☹️"
+      ],
+      "declined":[
+        "You have declined the gig 😮",
+        "Du har afslået gigget 😮"
+      ],
+      "lost":[
+        "You have lost the gig ☹️",
+        "Du har tabt gigget ☹️"
+      ],
+      "confirmed":[
+        "The gig has been confirmed, get ready to play 😁",
+        "Gigget er bekræftet, gør klar til at spille 😁"
+      ],
+      "finished":[
+        "The gig is finished ☺️",
+        "Gigget er færdigt ☺️"
+      ],
+      "event-finished":[
+        "The event is finished ☺️",
+        "Begivenheden er afsluttet ☺️"
+      ],
+      "accepted":[
+        "Waiting on confirmation from organizer 😊",
+        "Venter på bekræftelse fra kunden 😊"
+      ],
+      "referred":[
+        "Direct booking",
+        "Direkte booking"
+      ],
+      "requested":[
+        "Event happens soon, make your offer quickly 🤑",
+        "Event starter snart, afgiv dit tilbud hurtigt 🤑"
+      ]
+    },
+    "status-description":[
+      "The gig request will automatically be declined if you don't make an offer within this time. Remember, you can change the offer up until the organizer has paid.",
+      "Gigget vil automatisk blive afslået hvis du ikke afgiver et tilbud inden denne tid. Husk at du altid kan ændre tilbudet indtil kunden har betalt."
+    ],
+    "event":{
+      "info":[
+        "Event information",
+        "Event information"
+      ],
+      "info-description":[
+        "If the information below is not enough to give an offer, don't hesitate contacting the organizer.",
+        "Hvis informationen ikke er nok til at afgive et tilbud kan du kontakte kunden for at høre mere."
+      ],
+      "requirements":[
+        "Event requirements",
+        "Event ønsker"
+      ],
+      "rider-dj":[
+        "The organizer does not need speakers or lights.",
+        "Kunden har ikke behov for højtalere eller lys."
+      ],
+      "rider-lights":[
+        "The organizer needs you to bring lights for the event.",
+        "Kunden ønsker at du medbringer lys til begivenheden."
+      ],
+      "rider-speakers":[
+        "The organizer needs you to bring speakers.",
+        "Kunden ønsker at du medbringer højtalere til begivenheden."
+      ],
+      "rider-speakers-lights":[
+        "The organizer needs you to bring speakers and light.",
+        "Kunden ønsker at du medbringer både højtalere og lys til begivenheden."
+      ],
+      "duration-description":[
+        "The music should start at ${ start }, and end at ${ end }.",
+        "Der skal være musik fra ${ start } indtil ${ end }."
+      ],
+      "contact":[
+        "Contact organizer ${ unread }",
+        "Kontakt kunden ${ unread }"
+      ],
+      "contact-description":[
+        "Contact ${ name } to discuss the price, or figure out additional details.",
+        "Kontakt ${ name } for at forhandle prisen eller aftale andre detajler."
+      ],
+      "genres":[
+        "Music wishes",
+        "Musikønsker"
+      ]
+    },
+    "offer":{
+      "intro":[
+        "Enter your price to play this gig. You can always update the offer until it has been paid.",
+        "Indtast din pris for at spille til begivenheden. Du kan altid opdatere tilbudet indtil kunden har betalt."
+      ],
+      "point":[
+        "Use a Cueup point to discard the DJ fee. You can update whether to use or not use the point, until the offer has been paid. If the gig gets cancelled, the point will be restored.",
+        "Brug Cueup point til at fjerne DJ gebyret. Du kan opdatere om du vil benytte et point eller ej indtil kunden har betalt. Hvis eventet bliver aflyst vil dit point blive givet tilbage."
+      ],
+      "direct":[
+        "This gig is a direct booking of you, therefore the DJ fee is discarded.",
+        "Dette gig er en direkte booking af dig, derfor er DJ gebyret fjernet."
+      ],
+      "use-point":[
+        "Use Cueup point",
+        "Brug Cueup point"
+      ],
+      "service-fee-info":[
+        "This fee is calculated based <br/> on the offer. <br/> The organizer will pay this fee. <br/>",
+        "Dette gebyr er udregnet baseret <br/> på dit tilbud. <br/> Kunden betaler dette gebyr. <br/>"
+      ],
+      "dj-fee-info":[
+        "A fee on 3% is subtracted <br/> from your price. Using a Cueup <br/> point will discard this fee. <br/>",
+        "Et gebyr på 3% trækkes <br/> fra din pris. Hvis du bruger et <br/> Cueup point fjernes dette gebyr. <br/>"
+      ],
+      "lost":[
+        "Sorry you have lost this gig to another DJ. <br/> Next time try to set another price or be faster at responding. <br/> Adding info to your profile also helps the organizer being comfortable in choosing you.",
+        "Desværre, du har tabt dette gig til en anden DJ. <br/> Næste gang prøv at afgiv en anden pris eller vær hurtigere til at svare kunden. Du kan ogsp tilføjee mere information til din profil for at gøre kunden mere komfortabel med at vælge dig."
+      ],
+      "update-payout":[
+        "Please update your payout information before making an offer.",
+        "Opdater venligst din udbetalingsinformation før du afgiver et tilbud."
+      ],
+      "decline-warning":[
+        "Are you sure you want to decline the gig?",
+        "Er du sikker på at du vil afslå gigget?"
+      ],
+      "cancel-warning":[
+        "Are you sure you want to cancel the gig? All money will be refunded to the organizer.",
+        "Er du sikker på at du vil aflyse gigget? Hele beløbet vil refunderes til kunden."
+      ]
+    }
+  },
+  "Phone number":[
+    "Phone number",
+    "Telefonnummer"
+  ],
+  "Make offer":[
+    "Make offer",
+    "Afgiv tilbud"
+  ],
+  "date":[
+    "Date",
+    "Dato"
+  ],
+  "description":[
+    "Description",
+    "Beskrivelse"
+  ],
+  "guests":[
+    "Guests",
+    "Gæster"
+  ],
+  "equipment":[
+    "Equipment",
+    "Udstyr"
+  ],
+  "duration":[
+    "Duration",
+    "Varighed"
+  ],
+  "Organizer pays":[
+    "Organizer pays",
+    "Kunden betaler"
+  ],
+  "Your price":[
+    "Your price",
+    "Din pris"
+  ],
+  "Service fee":[
+    "Service fee",
+    "Servicegebyr"
+  ],
+  "You earn":[
+    "You earn",
+    "Du tjener"
+  ],
+  "DJ fee":[
+    "DJ fee",
+    "DJ gebyr"
+  ],
+  "Payout":[
+    "Payout",
+    "Udbetaling"
+  ],
+  "Decline gig":[
+    "Decline gig",
+    "Afslå gig"
+  ],
+  "Cancel gig":[
+    "Cancel gig",
+    "Aflys gig"
+  ],
+  "Send offer":[
+    "Send offer",
+    "Send tilbud"
+  ],
+  "Update offer":[
+    "Update offer",
+    "Opdater tilbud"
+  ],
+  "Update payout information":[
+    "Update payout information",
+    "Opdater udbetalingsinformation"
+  ],
+  "You have a gig request 😁":[
+    "You have a gig request 😁",
+    "Du er blevet tilbudt et gig 😁"
+  ]
 }

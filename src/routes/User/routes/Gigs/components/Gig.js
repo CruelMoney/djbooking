@@ -9,6 +9,7 @@ import Chat from '../../../../../components/common/Chat'
 import moment from 'moment-timezone'
 import { connect } from 'react-redux'
 import  * as actions from '../../../../../actions/GigActions'
+import { localize } from 'react-localize-redux';
 
 class Gig extends Component{
   state= {
@@ -24,6 +25,8 @@ class Gig extends Component{
   }
 
   setGigStatus = (props = this.props) => {
+    const {translate} = this.props;
+
     if(this.timeLeft){
       clearInterval(this.timeLeft);
     }
@@ -52,7 +55,7 @@ class Gig extends Component{
           if(totalSeconds <= 0){
             this.setState({
               expiring: false,
-              gigStatus: `Gig has expired 😑`
+              gigStatus: translate("gig.messages.expired")
             })
           }else{
             let days =  Math.floor(totalSeconds / (24*60*60));
@@ -64,7 +67,7 @@ class Gig extends Component{
             
             this.setState({
               expiring: true,
-              gigStatus: `Make offer within ${!!days ? (days + (days > 1 ? ' days' : ' day')) : ''} ${!!hours ? (hours + (hours > 1 ? ' hours' : ' hour')) : ''} ${!!minutes ? (minutes + (minutes > 1 ? ' minutes' : ' minute')) : ''} ${!!seconds ? (seconds + (seconds > 1 ? ' seconds' : ' second')) : ''}`
+              gigStatus: `${translate("Make offer within")} ${!!days ? (days + " " + (days > 1 ? translate("days") : translate("day"))) : ''} ${!!hours ? (hours + " " + (hours > 1 ? translate("hours") : translate("hour"))) : ''} ${!!minutes ? (minutes + " " + (minutes > 1 ? translate("minutes") : translate("minute"))) : ''} ${!!seconds ? (seconds + " " + (seconds > 1 ? translate("seconds") : translate("second"))) : ''}`
             })
           }
         }, 1000)
@@ -75,23 +78,23 @@ class Gig extends Component{
 
     this.setState({
       gigStatus: props.gig.status === "Cancelled" ?
-          "The gig has been cancelled ☹️"
+          translate("gig.messages.cancelled")    
           :props.gig.status === "Declined" ?
-          "You have declined the gig 😮"
+          translate("gig.messages.declined")    
           :props.gig.status === "Lost" ?
-          "You have lost the gig ☹️"
+          translate("gig.messages.lost")    
           :props.gig.status === "Confirmed" ?
-          "The gig has been confirmed, get ready to play 😁"
+          translate("gig.messages.confirmed")    
           :props.gig.status === "Finished"  ?
-          "The gig is finished ☺️"
+          translate("gig.messages.finished")    
           : this.state.eventFinished ?
-          "The event is finished ☺️"
+          translate("gig.messages.event-finished")    
           :props.gig.status === "Accepted" ?
-          "Waiting on confirmation from organizer 😊"
+          translate("gig.messages.accepted")    
           : props.gig.referred ? 
-          "Direct booking"
+          translate("gig.messages.referred")    
           :props.gig.status === "Requested" ?
-          "Event happens soon, make your offer quickly 🤑"
+          translate("gig.messages.requested")
         : ""
     });
   
@@ -116,6 +119,7 @@ class Gig extends Component{
   }
 
   render() {
+    const {translate} = this.props;
     var genres = ""
     const length = this.props.gig.genres.length
     this.props.gig.genres.forEach(function(genre, i) {
@@ -163,7 +167,9 @@ class Gig extends Component{
                   {this.state.gigStatus} 
                   {this.state.expiring ? 
                   <InfoPopup
-                  info={"The gig request will automatically be declined if you don't make an offer within this time. Remember, you can change the offer up until the organizer has paid."}
+                  info={
+                    translate('gig.status-description')
+                  }
                   />
                   : null}
                 </div>
@@ -178,14 +184,14 @@ class Gig extends Component{
 
                 <Collapsible
                   name="EventInfo"
-                  label="Event Info"
+                  label={translate('gig.event.info')}
                 >
 
                   <p style={{marginBottom:"30px"}}>
-                    If the information below is not enough to give an offer, don't hesitate contacting the organizer!
+                  {translate('gig.event.info-description')}
                   </p>
                   <TextWrapper
-                    label="Date"
+                    label={translate('date')}
                   >
                     <p>
                       {this.props.gig.startTime.format('dddd, MMMM Do YYYY')}
@@ -193,23 +199,28 @@ class Gig extends Component{
                   </TextWrapper>
 
                   <TextWrapper
-                    label="Description"
+                    label={translate('description')}
                   >
                     <p>
                       {this.props.gig.description}
                     </p>
                   </TextWrapper>
                   <TextWrapper
-                    label="Guests"
+                    label={translate('guests')}
 
                   >
                     <p>
-                      {"Around " + this.props.gig.guestCount + " people attending the event."}
+                    {translate(
+                      "request-form.step-3.guests-description",
+                      { 
+                        prefix: this.props.gig.guestCount === 1000 ? translate('over') : translate('around'),
+                        amount: this.props.gig.guestCount
+                      })
+                      }
                     </p>
 
 
                   </TextWrapper>
-
                 </Collapsible>
 
 
@@ -217,35 +228,35 @@ class Gig extends Component{
 
                 <Collapsible
                   name="Requirements"
-                  label="Event Requirements"
+                  label={translate("gig.event.requirements")}
                 >
 
                   <TextWrapper
-                    label="Speakers"
+                    label={translate("equipment")}
                   >
                     <p>
                       {
                         this.props.gig.rider === "DJ"
                         ?
-                        "The organizer does not need speakers or lights."
+                        translate("gig.event.rider-dj")
                         : null
                       }
                        {
                         this.props.gig.rider === "DJ_AND_LIGHT"
                         ?
-                        "The organizer needs you to bring lights for the event."
+                        translate("gig.event.rider-lights")
                         : null
                       }
                       {
                         this.props.gig.rider === "DJ_AND_SPEAKERS"
                         ?
-                        "The organizer needs you to bring speakers."
+                        translate("gig.event.rider-speakers")
                         : null
                       }
                       {
                         this.props.gig.rider === "DJ_SPEAKERS_AND_LIGHT"
                         ?
-                        "The organizer needs you to bring speakers and light."
+                        translate("gig.event.rider-speakers-lights")
                         : null
                       }
                     </p>
@@ -253,16 +264,19 @@ class Gig extends Component{
 
 
                   <TextWrapper
-                    label="Duration"
+                    label={translate("duration")}
 
                   >
                     <p>
-                      {"The music should start at " + this.props.gig.startTime.format('HH:mm') + ", and end at " + this.props.gig.endTime.format('HH:mm') + "."}
+                      {translate("gig.event.duration-description", {
+                        end: this.props.gig.endTime.format('HH:mm'),
+                        start: this.props.gig.startTime.format('HH:mm')
+                      })}
                     </p>
                   </TextWrapper>
 
                   <TextWrapper
-                    label="Genres">
+                    label={translate("gig.event.genres")}>
                     <p>{genres}</p>
 
                   </TextWrapper>
@@ -273,15 +287,21 @@ class Gig extends Component{
                 <Collapsible
                   lazyLoad
                   name="ContactInfo"
-                  label={`Contact Organizer ${this.props.notification ? "(Unread message 📫)" : ""}`}
+                  label={
+                    translate("gig.event.contact", {
+                      unread: this.props.notification ? "(Unread message 📫)" : ""
+                    })
+                  }
                 >                   
-                  <p>Feel free to contact {this.props.gig.contactName} to discuss the price, or figure out additional details.</p>
+                  <p>
+                    {translate("gig.event.contact-description", {name: this.props.gig.contactName})}
+                    </p>
                       { this.props.gig.status === 'Confirmed' && this.props.payoutInfoValid ? 
                         <div>
                          { 
                            this.props.gig.contactPhone ?
                           <TextWrapper
-                            label="Phone"
+                            label={translate("Phone number")}
                           >
                             <a href={"tel:"+this.props.gig.contactPhone}>{this.props.gig.contactPhone}</a>
                           </TextWrapper>
@@ -322,7 +342,7 @@ class Gig extends Component{
 
                 <Collapsible
                   name="Offer"
-                  label="Make Offer"
+                  label={translate("Make offer")}
                 >
 
                  <OfferForm 
@@ -364,6 +384,4 @@ function mapDispatchToProps(dispatch, ownProps) {
 
 const SmartGig = connect(mapStateToProps, mapDispatchToProps)(Gig)
 
-export default props => (
-    <SmartGig {...props}/>
-)
+export default localize(SmartGig, 'locale');
