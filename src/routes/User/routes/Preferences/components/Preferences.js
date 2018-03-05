@@ -18,6 +18,7 @@ import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/UserActions'
 import {userLogout} from '../../../../../actions/LoginActions'
 import { withRouter } from 'react-router-dom'
+import { localize } from 'react-localize-redux';
 
 
 class Preferences extends Component{
@@ -103,6 +104,7 @@ class Preferences extends Component{
   }
 
   getActionButtons = (props = this.props) => {
+      const {translate} = this.props;
       const editing = this.context.editing
       
       return (
@@ -116,7 +118,7 @@ class Preferences extends Component{
                    onSucces={()=>setTimeout(()=>{
                       this.context.disableEditMode()
                       }, 1700)}
-                > Save
+                >{translate("save")}
                 </SubmitButton>
               :
               <div className={this.state.showHelp ? "pulse" : ""}
@@ -124,21 +126,22 @@ class Preferences extends Component{
                 <Button
                   onClick={this.context.toggleEditMode}
                   name="edit_profile"
-                  >Edit settings
+                  >{translate("Edit settings")}
                 </Button>
               </div>
             }
 
             <SubmitButton
               dangerous
-              warning="Are you sure you want to delete? All future gigs, events and payments will be lost."
+              warning={translate("user.preferences.delete-warning")}
               onClick={(form, callback) => this.props.deleteProfile(callback)}
               name="Delete_profile"
               onSucces={()=>
                         {setTimeout(()=> {
                           this.props.logout()
                         }, 1000)}}
-            > Delete profile
+            >
+            {translate("Delete profile")}
             </SubmitButton>
             <ErrorMessage/>
 
@@ -160,7 +163,9 @@ class Preferences extends Component{
   }
 
   render() {
-    const isDJ = this.props.profile.isDJ
+    const {translate} = this.props;
+    const isDJ = this.props.profile.isDJ;
+
     return <div>
       { this.context.loading ?
         <div>
@@ -182,13 +187,14 @@ class Preferences extends Component{
             <div>
               {isDJ ?
                 <TextWrapper
-                  label="Payout"
-                  text="To get paid, you need to set up a payout method.
-                  Cueup releases payouts about 24 hours after a job is finished.">
+                  label={translate("Payout")}
+                  text={translate("user.preferences.payout-info")}>
                   {this.props.profile.stripeID ?
                     <div className="user-card-info">
                       <div className="user-card-fact">
-                        <p>Last 4 digits of current account number</p>
+                        <p>
+                          {translate("user.preferences.card-info")}
+                          </p>
                         {"..." + this.props.profile.last4}
                       </div>
                     </div>
@@ -199,9 +205,7 @@ class Preferences extends Component{
                       rounded={true}
                       onClick={()=>this.setState({showPopup:true})}
                       name="show-payout-popup"
-                    >{!this.props.profile.last4 ?
-                      "Setup payout info"
-                    : "Update payout info"}</Button>
+                    >{translate("Update payout information")}</Button>
                   </div>
 
                 </TextWrapper>
@@ -209,8 +213,8 @@ class Preferences extends Component{
 
               <TextWrapper
                   onDisabledClick={this.showHelp}
-                    label="Currency"
-                    text="What currency do you wish to have prices shown in?">
+                    label={translate("Currency")}
+                    text={translate("user.preferences.currency")}>
 
                     <ToggleOptions
                       name="currency"
@@ -245,8 +249,8 @@ class Preferences extends Component{
                 <div>
                   <TextWrapper
                     onDisabledClick={this.showHelp}
-                    label="Email notifications"
-                    text="What kind of notifications do you wish to receive?">
+                    label={translate("Email notifications")}
+                    text={translate("user.preferences.email")}>
                     <ToggleHandler
                       disabled={!this.context.editing}
                       name="emailSettings"
@@ -261,10 +265,8 @@ class Preferences extends Component{
                 <div>
                   <TextWrapper
                     onDisabledClick={this.showHelp}
-                    label="Cancelation policy"
-                    text="How many days notice do you allow for cancelations?
-                    If the organizer wants to cancel the event within less days, the percentage specified below will be refunded.
-                    The organizer will have to agree to this policy when confirming your offer.">
+                    label={translate("Cancelation policy")}
+                    text={translate('user.preferences.cancelation')}>
 
                     <ToggleOptions
                       disabled={!this.context.editing}
@@ -275,29 +277,29 @@ class Preferences extends Component{
 
                       <Button
                         name={1}
-                      >1 day</Button>
+                      >1 {translate("day")}</Button>
                       <Button
                         name={2}
-                      >2 days</Button>
+                      >2 {translate("days")}</Button>
                       <Button
                         name={7}
-                      >A week</Button>
+                      >1 {translate("week")}</Button>
 
                       <Button
                         name={14}
-                      >Two weeks</Button>
+                      >2 {translate("weeks")}</Button>
 
                       <Button
                         name={30}
-                      >A month</Button>
+                      >1 {translate("month")}</Button>
 
                     </ToggleOptions>
                   </TextWrapper>
 
                   <TextWrapper
                   onDisabledClick={this.showHelp}
-                    label="Refund percentage"
-                    text="How many percentage of the offer should be returned if the organizer cancels within less days than the minimum notice?">
+                    label={translate("Refund percentage")}
+                    text={translate('user.preferences.refund')}>
                     <Slider
                       disabled={!this.context.editing}
                       name="refundPercentage"
@@ -310,12 +312,16 @@ class Preferences extends Component{
                       })}
                     />
                     <p style={{marginTop:"15px"}}>
-                      <span>{this.state.refundPercentage}% </span>will be refunded.</p>
+                      {translate("user.preferences.refunded", {
+                        percentage: this.state.refundPercentage
+                      })
+                      }</p>
                   </TextWrapper>
                   <TextWrapper
                   onDisabledClick={this.showHelp}
-                    label="Standby"
-                    text="Are you unavailable to play at the moment? You will not receive requests if you're unavailable.">
+                    label={translate("Standby")}
+                    text={translate("user.preferences.standby")}
+                    >
 
                     <ToggleOptions
                       name="standby"
@@ -326,10 +332,10 @@ class Preferences extends Component{
                     >
                       <Button
                         name={true}
-                      >Unavailable</Button>
+                      >{translate("Unavailable")}</Button>
                       <Button
                         name={false}
-                      >Available</Button>
+                      >{translate("Available")}</Button>
                     </ToggleOptions>
                   </TextWrapper>
                 </div>
@@ -337,7 +343,9 @@ class Preferences extends Component{
 
               <TextWrapper 
                     onDisabledClick={this.showHelp}
-                    label="Profile URL" text="What URL do you want people to find you at.">
+                    label={translate("Profile URL")}
+                    text={translate("user.preferences.permalink")}
+                    >
                     <p className="permalink-input">
                     www.cueup.io/user/
                     <TextField
@@ -355,13 +363,13 @@ class Preferences extends Component{
 
                 <TextWrapper
                   label="Password"
-                  text="Request an email to change your password.">
+                  text={translate('user.preferences.password')}>
                   <div style={{display:"inline-block"}}>
                     <SubmitButton
                       onClick={(email, callback) => {
                         this.props.changePassword(this.props.profile.email, callback)}}
                       name="request_change_password"
-                    >Request email</SubmitButton>
+                    >{translate("Request email")}</SubmitButton>
                   </div>
                 </TextWrapper>
               : null }
@@ -369,13 +377,13 @@ class Preferences extends Component{
               { !this.props.profile.app_metadata.emailVerified  ?
 
                 <TextWrapper
-                  label="Email verification"
-                  text="Request an email to verify your email.">
+                  label={translate("Email verification")}
+                  text={translate("user.preferences.email-verification")}>
                   <div style={{display:"inline-block"}}>
                     <SubmitButton
                       onClick={(id, callback) => this.props.resendVerification(this.props.profile.auth0Id, callback)}
                       name="request_verification_email"
-                    >Request email</SubmitButton>
+                    >{translate("Request email")}</SubmitButton>
                   </div>
                 </TextWrapper>
               : null }
@@ -390,7 +398,7 @@ class Preferences extends Component{
              <Popup
                 showing={this.state.loginPopup}
                 onClickOutside={()=>this.setState({loginPopup:false})}>
-                <p>Login to see your preferences</p>
+                <p>{translate("user.preferences.login")}</p>
                 <Login
                   redirect={false}
                 />
@@ -432,7 +440,7 @@ function mapDispatchToProps(dispatch, ownProps) {
 
 
   function mergeProps(stateProps, dispatchProps, ownProps) {
-    return {...stateProps, ...dispatchProps}
+    return {...ownProps, ...stateProps, ...dispatchProps}
   }
 
 
@@ -440,6 +448,4 @@ const SmartPreferences = connect(mapStateToProps, mapDispatchToProps, mergeProps
   withRouter(Preferences)
 )
 
-export default props => (
-    <SmartPreferences {...props}/>
-)
+export default localize(SmartPreferences, 'locale');

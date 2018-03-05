@@ -55,6 +55,62 @@
         "Book other DJs",
         "Book andre DJs"
       ]
+    },
+    "preferences":{
+      "delete-warning":[
+        "Are you sure you want to delete? All future gigs, events and payments will be lost.",
+        "Er du sikker på at du vil slette din profil? Alle fremtidige gigs, begivenheder og udbetalinger vil blive tabt."
+      ],
+      "payout-info":[
+        "To get paid, you need to set up a payout method. Cueup releases payouts about 24 hours after a job is finished.",
+        "For at blive betalt, skal du udfylde din udbetalingsmetode. Cueup frigøre udbetalinger 24 timer efter et job er udført."
+      ],
+      "card-info":[
+        "Last 4 digits of current account number",
+        "De sidste 4 cifre af dit nuværende kontonummer"
+      ],
+      "currency":[
+        "What currency do you wish to have prices shown in?",
+        "Hvilken valuta ønsker du at vise priser i?"
+      ],
+      "email":[
+        "What kind of notifications do you wish to receive?",
+        "Hvilke slags notifikationer ønsker du at modtage?"
+      ],
+      "cancelation":[
+        "How many days notice do you allow for cancelations? If the organizer wants to cancel the event within less days, the percentage specified below will be refunded. The organizer will have to agree to this policy when confirming your offer.",
+        "Hvor mange dages varsel tillader du for aflysninger? Hvis kunden vil aflyse begivenheden inden for færre dage, vil den angivne procentdel blive refunderet. Kunder vil blive bedt om at acceptere denne politik, når de bekræfter dit tilbud."
+      ],
+      "refund":[
+        "How many percentage of the offer should be returned if the organizer cancels within less days than your minimum notice?",
+        "Hvor mange procent af tilbuddet skal refunderes hvis kunden aflyser inden for færre dage end hvad du tillader."
+      ],
+      "refunded":[
+        "<span>${ percentage }% </span> will be refunded.",
+        "<span>${ percentage }% </span> vil blive refunderet."
+      ],
+      "standby":[
+        "Are you unavailable to play at the moment? You will not receive requests if you're unavailable.",
+        "Er du ikke ledig til at spille for tiden? Du vil ikke modtage nogle gigs hvis du er utilgængelig."
+      ],
+      "permalink":[
+        "What URL do you want people to find you at.",
+        "Hvilken URL skal din profil kunne findes på?"
+      ],
+      "password":[
+        "Request an email to change your password.",
+        "Anmod om en email til at ændre dit password."
+      ],
+      "email-verification":[
+        "Request an email to verify your email.",
+        "Anmod om en email til at verificere din email."
+      ],
+      "login":[
+        "Login to see your preferences.",
+        "Log ind for at se dine indstillinger."
+      ]
+      
+
     }
   },
   "gig":{
@@ -268,5 +324,5 @@
   "You have a gig request 😁":[
     "You have a gig request 😁",
     "Du er blevet tilbudt et gig 😁"
-  ]
+  ] 
 }

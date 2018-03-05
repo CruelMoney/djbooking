@@ -323,6 +323,18 @@
     "Make offer within",
     "Afgiv tilbud inden"
   ],
+  "month":[
+    "month",
+    "måned"
+  ],
+  "weeks":[
+    "weeks",
+    "uger"
+  ],
+  "week":[
+    "week",
+    "uge"
+  ],
   "days":[
     "days",
     "dage"
@@ -404,6 +416,54 @@
   "address":[
     "Address",
     "Adresse"
+  ],
+  "Edit settings":[
+    "Edit settings",
+    "Skift indstillinger"
+  ],
+  "Delete profile":[
+    "Delete profile",
+    "Slet profil"
+  ],
+  "Currency":[
+    "Currency",
+    "Valuta"
+  ],
+  "Email notifications":[
+    "Email notifications",
+    "Email notifikationer"
+  ],
+  "Cancelation policy":[
+    "Cancelation policy",
+    "Aflysningspolitik"
+  ],
+  "Refund percentage":[
+    "Refund percentage",
+    "Tilbagebetalt procentdel"
+  ],
+  "Standby":[
+    "Standby",
+    "Standby"
+  ],
+  "Unavailable":[
+    "Unavailable",
+    "Utilgængelig"
+  ],
+  "Available":[
+    "Available",
+    "Tilgængelig"
+  ],
+  "Profile URL":[
+    "Profile URL",
+    "Profil URL"
+  ],
+  "Request email":[
+    "Request email",
+    "Anmod om email"
+  ],
+  "Email verification":[
+    "Email verification",
+    "Email verifikation"
   ]
  
-}
+} 
