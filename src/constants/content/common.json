@@ -484,6 +484,10 @@
   "Bio":[
     "Biography",
     "Biografi"
+  ],
+  "empty-page-message":[
+    "Looks like there's nothing here.",
+    "Ser ud til at der ikke findes noget her."
   ]
  
 } 

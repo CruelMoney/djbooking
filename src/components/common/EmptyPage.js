@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import { localize } from "react-localize-redux";
 
 class EmptyPage extends Component {
+  
+
   render() {
+    const {translate} = this.props;
     return(
     <div className="empty-page-message">
-      <h2>{this.props.title ? this.props.title : "Looks like there's nothing here"}</h2>
+      <h2>{this.props.title ? this.props.title : translate('empty-page-message')}</h2>
       <svg 
       style={{
         margin: "20px 0px"
@@ -23,4 +27,4 @@ class EmptyPage extends Component {
   }
 }
 
-export default EmptyPage;
+export default localize(EmptyPage, 'locale');
