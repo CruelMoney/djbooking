@@ -342,7 +342,12 @@ class Gig extends Component{
 
                 <Collapsible
                   name="Offer"
-                  label={translate("Make offer")}
+                  label={
+                    this.props.gig.status === "Accepted" ?
+                    translate("Update offer")
+                    :
+                    translate("Make offer")
+                  }
                 >
 
                  <OfferForm 
