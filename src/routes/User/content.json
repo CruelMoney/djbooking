@@ -381,5 +381,13 @@
       "Full refund if event is cancelled ${ days } or more days before it starts. Otherwise ${ percentage }% is refunded.",
       "Fuld refundering hvis event bliver aflyst ${ days } eller flere dage inden det starter. Ellers bliver ${ percentage }% refunderet."
     ]
-  }
+  },
+  "empty-reviews-own":[
+    "Ask your customers to leave a review. <br/> It will help you get more gigs.",
+    "Bed dine kunder om af skrive en anmeldelse. <br/> Det vil hjælpe dig få flere gigs."
+  ],
+  "empty-reviews":[
+    "This DJ does not have any reviews. <br/>",
+    "Denne DJ har ingen anmeldelser. <br/>"
+  ]
 }

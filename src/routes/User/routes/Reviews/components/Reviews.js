@@ -9,6 +9,8 @@ import EmptyPage from '../../../../../components/common/EmptyPage'
 import {requestFeatures} from '../../../../../actions/Common'
 import { connect } from 'react-redux'
 import * as actions from '../../../../../actions/ReviewActions'
+import { localize } from 'react-localize-redux';
+
 
 /*eslint no-undef: 0*/
 
@@ -39,6 +41,8 @@ class Reviews extends Component{
   }
 
   getActionButtons = (props = this.props) => {
+    const {translate} = this.props;
+
     return (
       <div
         className="context-actions"
@@ -52,7 +56,7 @@ class Reviews extends Component{
             onClick={()=>{
             requestFeatures()
           }}
-        >Request features</Button>
+        >{translate("Request features")}</Button>
       </div>
 
     </div>
@@ -61,7 +65,7 @@ class Reviews extends Component{
   }
 
   render() {
-
+    const{translate} = this.props;
       function renderReview(review, i){
         return (
           <div
@@ -103,15 +107,15 @@ class Reviews extends Component{
                 <div className="col-sm-5" >
                   <div className="review-card-info">
                     <div className="review-card-fact">
-                      <p>Event</p>
+                      <p>{translate("Event")}</p>
                       {review.eventName}
                     </div>
                     <div className="review-card-fact">
-                      <p>Location</p>
+                      <p>{translate("Location")}</p>
                       {review.eventLocation.name}
                     </div>
                     <div className="review-card-fact">
-                      <p>Date</p>
+                      <p>{translate("Date")}</p>
                       {Formatter.date.ToEU(review.eventDate)}
                     </div>
                   </div>
@@ -144,11 +148,12 @@ class Reviews extends Component{
           this.props.reviews.length === 0 ?
             <EmptyPage message={
             this.context.isOwnProfile  ?
-              <div>Ask your customers to leave a review <br/>
-            It will help you get more gigs</div>
+              <div>
+                {translate("empty-reviews-own")}
+              </div>
             : 
              <div>
-               This DJ does not have any reviews <br/>
+                {translate("empty-reviews")}
             </div>
             }/>
           :
@@ -175,12 +180,11 @@ function mapDispatchToProps(dispatch, ownProps) {
 }}
 function mergeProps(stateProps, dispatchProps, ownProps) {
   return {
+    ...ownProps,
     ...stateProps, 
     fetchReviews: ()=>dispatchProps.fetchReviews(stateProps.userID)}
 }
 
 const SmartReviews = connect(mapStateToProps, mapDispatchToProps, mergeProps,{ pure: false })(Reviews)
 
-export default props => (
-    <SmartReviews {...props}/>
-)
+export default localize(SmartReviews, 'locale');
