@@ -10,7 +10,7 @@ const {Helmet} = require('react-helmet');
 const {default: App} = require('../../src/App');
 const {StaticRouter} = require('react-router-dom')
 const { Provider } = require("react-redux");
-const { configureStoreServer } = require('../../src/store');
+const { configureStore } = require('../../src/store');
 
 var express = require('express');
 var app = express();
@@ -45,7 +45,7 @@ const getReactApp = (req, res) => {
 
 const handleUniversalRender = async (req, res) => {  
 
-  const store = configureStoreServer({}, req);
+  const store = configureStore({}, req);
   res.locals.store = store;
 
   renderToString(getReactApp(req, res));
