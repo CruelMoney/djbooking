@@ -58,10 +58,17 @@ class Events extends Component{
 
 
   render() {
+    const {translate} = this.props;
+
     let renderEvent = (event, i) => {
       return(
         <div key={event.id}>
-  <NavLink to={"/event/"+event.id+'/'+event.hashKey+'/info'}>
+  <NavLink to={
+    translate("routes./event/:id/:hash/info",{
+      id: event.id,
+      hash: event.hashKey
+    })
+   }>
   <div style={{borderColor:this.context.color}}>
         <div className="event-card" key={i}>
 
@@ -86,7 +93,7 @@ class Events extends Component{
           </div>
           <div className="event-status">
             
-          {Formatter.cueupEvent.GetStatus(event.status)}
+          {Formatter.cueupEvent.GetStatus(event.status, translate)}
           </div>
         </div>
         </div>

@@ -109,25 +109,25 @@ const formatter = {
   },
 
     cueupEvent: {
-      GetStatus: function(statusEnum){
+      GetStatus: function(statusEnum, translate){
         switch (statusEnum) {
           case "Initial":
-            return "No relevant DJ could be found"
+            return translate("No relevant DJ could be found")
 
           case "Cancelled":
-            return "The event is cancelled"
+            return translate("The event is cancelled")
 
           case "Offering":
-            return "Waiting on DJ's to make offers"
+            return translate("Waiting on DJ's to make offers")
 
           case "Accepted":
-            return "There's an offer"
+            return translate("There's an offer")
 
           case "Confirmed":
-            return "The event is confirmed and payed"
+            return translate("The event is confirmed and payed")
 
           case "Finished":
-            return "The event is finished"
+            return translate("The event is finished")
 
           default:
             return statusEnum

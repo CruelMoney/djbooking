@@ -100,9 +100,17 @@
       "/user/${ username }/book",
       "/dk/user/${ username }/book"
     ],
+    "/user/:username/events":[
+      "/user/${ username }/events",
+      "/dk/user/${ username }/events"
+    ],
     "/user/:username/preferences":[
       "/user/${ username }/preferences",
       "/dk/user/${ username }/indstillinger"
+    ],
+    "/event/:id/:hash/info":[
+      "/event/${ id }/${ hash }/info",
+      "/dk/event/${ id }/${ hash }/info"
     ],
     "user":[
     "user",

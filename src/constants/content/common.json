@@ -488,6 +488,30 @@
   "empty-page-message":[
     "Looks like there's nothing here.",
     "Ser ud til at der ikke findes noget her."
+  ],
+  "No relevant DJ could be found":[
+    "No relevant DJ could be found",
+    "Ingen DJs kunne findes"
+  ],
+  "The event is cancelled":[
+    "The event is cancelled",
+    "Eventet er aflyst"
+  ],
+  "Waiting on DJ's to make offers":[
+    "Waiting on DJ's to make offers",
+    "Venter på tilbud fra DJs"
+  ],
+  "There's an offer":[
+    "There's an offer",
+    "Der er et tilbud"
+  ],
+  "The event is confirmed and payed":[
+    "The event is confirmed and payed",
+    "Eventet er bekræftet og betalt"
+  ],
+  "The event is finished":[
+    "The event is finished",
+    "Eventet er afsluttet"
   ]
  
 } 
