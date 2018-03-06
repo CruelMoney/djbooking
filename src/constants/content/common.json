@@ -544,5 +544,21 @@
   "Book DJs with ease":[
     "Book DJs with ease",
     "Book DJs uden bekymringer"
-  ]
+  ],
+  "hreflang":{
+    "en":[
+      "da-dk",
+      "da-dk"
+    ],
+    "da":[
+      "en-dk",
+      "en-dk"
+    ]
+  },
+  "code":{
+    "da":["en", "en"],
+    "en":["da", "da"]
+  }
+
+ 
 } 

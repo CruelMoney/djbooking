@@ -32,8 +32,6 @@ const getDefaultLanguage = (req) => {
 
 
 export const configureStore = (initialState = {}, req) => {
-
-  console.log("confiiguring store", !!req)
   // Create the store with two middlewares
   const middlewares = [
     thunkMiddleware

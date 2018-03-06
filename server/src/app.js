@@ -51,8 +51,6 @@ const handleUniversalRender = async (req, res) => {
   renderToString(getReactApp(req, res));
   const preloadedState = store.getState();
 
-  console.log(preloadedState)
-
   await Promise.all(preloadedState.session.promises);
   
   const stream = renderToNodeStream(getReactApp(req, res));

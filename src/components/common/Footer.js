@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import * as actions from '../../actions/SessionActions'
 import { getTranslate, getActiveLanguage, setActiveLanguage } from 'react-localize-redux';
 import {authService} from '../../utils/AuthService';
-
+import { getTranslatedURL } from '../../utils/HelperFunctions';
 
 class footer extends Component{
   static proptypes = {
@@ -31,24 +31,16 @@ class footer extends Component{
   setActiveLanguage = (code) => {
     const { history, translate } = this.props;
     this.props.setActiveLanguage(code);
-    let url = history.location.pathname.split('/');
+    let url = history.location.pathname;
     
-    url = url
-    .filter(p => p !== "")
-    .filter(p => p !== "dk")
-    .map(p => {
-      const transP = translate("routes."+p);
-      return transP.indexOf('Missing translation') !== -1 ? p : transP;
-    })
+    url = getTranslatedURL(url, code, translate);
+
     if(code === "da"){
-      url = ["", "dk", ...url];
       authService.updateRedirectURL('/dk');
     }else{
-      url = ["", ...url];
       authService.updateRedirectURL('');
     }
 
-    url = url.join('/');
     history.replace(url)
   }
 

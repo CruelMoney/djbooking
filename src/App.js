@@ -27,27 +27,25 @@ import { getActiveLanguage, getTranslate, setActiveLanguage } from 'react-locali
 import 'moment/locale/da';
 import moment from 'moment';
 import {authService} from './utils/AuthService';
+import { getTranslatedURL } from './utils/HelperFunctions';
 
 
 
 const App = class extends Component {
 
-  state={
+  state = {
     pageLocation: ""
   }
   
   componentWillMount(){
-    const { activeLanguage, setActiveLanguage, location } = this.props;
+    const { location } = this.props;
     const url = location.pathname.split('/');
-    const locale = url[1] === "dk" ? "da" : "en";
-    
-    if(locale !== "en"){
+    const urlLocale = url[1] === "dk" ? "da" : "en";
+
+    if(urlLocale !== "en"){
       authService.updateRedirectURL('/dk');
     }
-    if(activeLanguage !== locale){
-      setActiveLanguage(locale)
-    }
-    moment.locale(locale);
+    moment.locale(urlLocale);
   }
 
   componentDidMount(){
@@ -69,18 +67,24 @@ const App = class extends Component {
 
 
   render() {
-    const { location, translate } = this.props;
+    const { location, translate, activeLanguage } = this.props;
     const title = translate("Book DJs with ease") + " | Cueup"
     const description =  translate('site-description')
-    const pageURL = Environment.CALLBACK_DOMAIN + location.pathname;
-    const url = location.pathname.split('/');
-    let cssLocation = url[1] === "dk" ? url[2] : url[1];
+    const url = location.pathname;
+    const urlArr = url.split('/');
+    let cssLocation = urlArr[1] === "dk" ? urlArr[2] : urlArr[1];
     cssLocation = `location_${cssLocation || ""}`;
+    const pageURL = Environment.CALLBACK_DOMAIN + location.pathname;
+    const altLangURL = Environment.CALLBACK_DOMAIN + getTranslatedURL(url, translate("code."+activeLanguage), translate);
+   
 
     return (
       <ErrorHandling>
         <div className={cssLocation}>
           <Helmet>
+
+              <link rel="alternate" href={altLangURL} hrefLang={translate("hreflang."+activeLanguage)} />
+              
               <title>{title}</title>
 
               <meta name="description" content={description} />
