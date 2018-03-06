@@ -5,12 +5,10 @@ import Offers from './routes/Offers';
 import Review from './routes/Review'; 
 import User from './routes/User'; 
 import { Helmet } from 'react-helmet';
-import {addTranslation, localize} from 'react-localize-redux';
 import {Switch, Route} from 'react-router-dom'; 
-import {store} from '../../store';
 import content from './content.json';
+import addTranslate from '../../components/higher-order/addTranslate';
 
-store.dispatch(addTranslation(content));
 
 class Index extends Component{
   render(){
@@ -37,7 +35,7 @@ class Index extends Component{
   )}
 }
 
-export default localize(Index, 'locale');
+export default addTranslate(Index, content);
 
 
 

@@ -7,12 +7,10 @@ import { Helmet } from 'react-helmet';
 import Footer from '../../components/common/Footer'
 import Blog from './components/Blog';
 import Post from './components/Post';
-import { localize,addTranslation } from 'react-localize-redux';
 import content from './content.json';
-import {store} from '../../store';
+import addTranslate from '../../components/higher-order/addTranslate';
 import './index.css';
 
-store.dispatch(addTranslation(content));
 
 class Index extends Component{
   themeColor = "#25F4D2"
@@ -49,4 +47,4 @@ class Index extends Component{
   )}
 }
 
-export default localize(Index, "locale");
+export default addTranslate(Index, content);

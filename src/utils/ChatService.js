@@ -1,6 +1,6 @@
 import {Environment} from '../constants/constants'
 import io from 'socket.io-client';
-import {store} from '../store'
+import store from '../store'
 import * as actions from '../actions/NotificationsActions'
 
 export default class ChatService {

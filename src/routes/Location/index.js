@@ -15,12 +15,9 @@ import copenhagen from '../../assets/images/cities/copenhagen.png';
 import odense from '../../assets/images/cities/odense.png'
 import aarhus from '../../assets/images/cities/aarhus.png'
 import defaultImage from '../../assets/images/cities/default.png';
-import { localize, addTranslation} from 'react-localize-redux';
 import content from './content.json';
-import {store} from '../../store';
+import addTranslate from '../../components/higher-order/addTranslate';
 import './index.css';
-
-store.dispatch(addTranslation(content));
 
 const AsyncRequestForm = Loadable({
   loader: () => import('../../components/common/RequestForm/RequestForm'),
@@ -297,4 +294,5 @@ Location.childContextTypes = {
 }
 
 
-export default localize(Location, 'locale');
+
+export default addTranslate(Location, content);

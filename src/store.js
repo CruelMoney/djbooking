@@ -10,6 +10,7 @@ import { initialize as initLocale, addTranslation} from 'react-localize-redux';
 import commonContent from "./constants/content/common.json";
 import routesContent from "./constants/content/routes.json";
 
+let singletonStore = null;
 const isClient = typeof window !== 'undefined';
 const languages = ['en', 'da'];
 
@@ -29,7 +30,10 @@ const getDefaultLanguage = (req) => {
   return defaultLanguage;
 }
 
+
 export const configureStore = (initialState = {}, req) => {
+
+  console.log("confiiguring store", !!req)
   // Create the store with two middlewares
   const middlewares = [
     thunkMiddleware
@@ -59,11 +63,9 @@ export const configureStore = (initialState = {}, req) => {
     store.dispatch(addTranslation(routesContent));
   }
 
-//  persistStore(store);
-  
-  return store;
+  singletonStore = store
+  return singletonStore;
 }
-
 
 // Grab the state from a global variable injected into the server-generated HTML
 const preloadedState = 
@@ -74,4 +76,4 @@ const preloadedState =
 // Allow the passed state to be garbage-collected
 isClient && delete window.__PRELOADED_STATE__;
 
-export let store = configureStore(preloadedState);
+export default !!singletonStore ? singletonStore : configureStore(preloadedState);

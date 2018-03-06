@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Home from './components/Home'; 
-import { addTranslation, localize } from 'react-localize-redux';
 import content from './content.json';
-import {store} from '../../store';
+import addTranslate from '../../components/higher-order/addTranslate';
 
-store.dispatch(addTranslation(content));
-
-const Index = (props) => {
+class Index extends Component{
+  render(){
     return(
       <Home 
-       {...props}
+       {...this.props}
       />
     )
+  }
 };
 
-export default localize(Index, 'locale')
+
+export default addTranslate(Index, content);

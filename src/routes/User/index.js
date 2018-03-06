@@ -11,14 +11,9 @@ import Events from "./routes/Events";
 import Gigs from "./routes/Gigs";
 import Preferences from "./routes/Preferences";
 import Reviews from "./routes/Reviews";
-import {getTranslate, addTranslation, localize} from 'react-localize-redux';
 import content from './content.json';
-import {store} from '../../store';
 import {connect} from 'react-redux';
-
-store.dispatch(addTranslation(content));
-
-
+import addTranslate from '../../components/higher-order/addTranslate';
 
 class ControlUser extends Component{
   render(){
@@ -55,7 +50,6 @@ function mapStateToProps(state, ownProps) {
     geoCountry: state.session.country,
     notifications: state.notifications.data,
     isOwnProfile:isOwnProfile,
-    translate: getTranslate(state.locale)
   }
 }
 
@@ -70,7 +64,7 @@ class Index extends Component{
         <Route exact path={translate("routes./user/signup")} component={FinishSignup} />
         <Route path={translate("routes./user/:permalink")} render={(props)=>{
           return (
-            <SmartUser {...props} />
+            <SmartUser {...this.props} {...props} />
           )
         }}/>
       </Switch>
@@ -78,7 +72,5 @@ class Index extends Component{
   )}
 }
 
-
-
-export default localize(Index, 'locale');
+export default addTranslate(Index, content);
 

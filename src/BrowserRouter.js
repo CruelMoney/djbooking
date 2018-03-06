@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import App from './App'; 
-import {store} from './store';
+import store from './store';
 import './polyfills';
 
 const theme = getMuiTheme();
