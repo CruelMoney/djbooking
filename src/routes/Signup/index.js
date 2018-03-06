@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import Signup from './components/Signup'; 
 import { Helmet } from 'react-helmet';
+import {localize} from 'react-localize-redux';
 
-export default class Index extends Component{
+class Index extends Component{
   render(){
-    const title = "Apply to become DJ | Cueup"
+    const {translate} = this.props;
+    const title = translate("apply-to-become-dj") + " | Cueup"
     return(
       <div>
       <Helmet>
@@ -16,3 +18,5 @@ export default class Index extends Component{
     </div>
   )}
 }
+
+export default localize(Index, 'locale');

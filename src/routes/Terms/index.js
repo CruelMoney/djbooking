@@ -13,7 +13,7 @@ class Index extends Component{
   render(){
     const { translate} = this.props;
 
-    const title = "Terms & Privacy | Cueup";
+    const title = translate("Terms & Privacy") + " | Cueup";
     
     return(
     <Terms {...this.props} >

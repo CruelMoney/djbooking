@@ -70,7 +70,8 @@ const App = class extends Component {
 
   render() {
     const { location, translate } = this.props;
-    const description = 'Cueup is an online platform connecting DJs and event organizers - the easiest way for you to book a great DJ for your event.  Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.'
+    const title = translate("Book DJs with ease") + " | Cueup"
+    const description =  translate('site-description')
     const pageURL = Environment.CALLBACK_DOMAIN + location.pathname;
     const url = location.pathname.split('/');
     let cssLocation = url[1] === "dk" ? url[2] : url[1];
@@ -80,21 +81,21 @@ const App = class extends Component {
       <ErrorHandling>
         <div className={cssLocation}>
           <Helmet>
-              <title>Book DJs with ease | Cueup</title>
+              <title>{title}</title>
 
               <meta name="description" content={description} />
               <meta name="keywords" content="dj, book, rent, copenhagen, cueup, music, events, party, wedding, birthday" />
 
               <meta property="og:url"             content={pageURL} />
               <meta property="fb:app_id"          content={Environment.FACEBOOK_ID}/>
-              <meta property="og:title"           content="Book DJs with ease | Cueup" />
+              <meta property="og:title"           content={title} />
               <meta property="og:description"     content={description} />
               <meta property="og:image"           content={defaultImage} />
 
               <meta name="twitter:card"               content="summary_large_image" />
               <meta name="twitter:site"               content="@@CueupDK" />
               <meta name="twitter:creator"            content="@@CueupDK" />
-              <meta name="twitter:title"              content="Book DJs with ease | Cueup" />
+              <meta name="twitter:title"              content={title} />
               <meta name="twitter:description"        content={description} />
               <meta name="twitter:image"              content={defaultImage} />
               <meta name="twitter:url"                content={pageURL} />

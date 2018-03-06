@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import  Reviews  from "./components/Reviews";
 import { Helmet } from 'react-helmet';
+import { localize } from 'react-localize-redux'; 
 
-export default class Index extends Component{
-
+class Index extends Component{
 
   render(){
+    const {translate} = this.props;
     const djName = this.props.match.params.permalink;
-    const title = djName + " | Reviews"
+    const title = djName + " | " + translate("reviews");
 
     return(
       <div>
@@ -21,3 +22,4 @@ export default class Index extends Component{
 
   )}
 }
+export default localize(Index, 'locale');

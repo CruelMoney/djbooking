@@ -524,5 +524,25 @@
   "Send message":[
     "Send message",
     "Send besked"
+  ],
+  "Contact us":[
+    "Contact us",
+    "Kontakt os"
+  ],
+  "Organizer":[
+    "Organizer",
+    "Arrangør"
+  ],
+  "Terms & Privacy":[
+    "Terms & Privacy",
+    "Betingelser"
+  ],
+  "site-description":[
+    "Cueup is an online platform connecting DJs and event organizers - the easiest way for you to book a great DJ for your event.  Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.",
+    "Cueup er en online platform der forbinder DJs og eventarrangører - den nemmeste måde at booke en fremragende DJ til dit event. Du skal blot fortælle os om dit event, og inden for 1 dag vil du modtage ikke-bindende tilbud fra lokale DJs."
+  ],
+  "Book DJs with ease":[
+    "Book DJs with ease",
+    "Book DJs uden bekymringer"
   ]
 } 

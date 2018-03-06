@@ -15,7 +15,7 @@ class Faq extends Component{
   }
 
   handleScroll = (event) => {
-   let scrollTop = event.srcElement.body.scrollTop
+   let scrollTop = window.pageYOffset;;
    if (scrollTop > 80) {
       this.nav.className =  "fixed terms-navigation"
    }else{
@@ -38,14 +38,14 @@ class Faq extends Component{
                     DJ
                   </ButtonLink>
                   <ButtonLink color={this.themeColor} to={translate("routes./faq/organizer")}>
-                   Organizer
+                   {translate("Organizer")}
                   </ButtonLink>
                   <Button
                   color={this.themeColor} 
                   onClick={
                       /*eslint no-undef: 0*/
                     () =>  olark('api.box.expand')}
-                    >Contact us
+                    >{translate("Contact us")}
                 </Button>
               </div>
             </div>

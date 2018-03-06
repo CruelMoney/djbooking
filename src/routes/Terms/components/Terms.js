@@ -14,7 +14,7 @@ class Terms extends Component{
   }
 
   handleScroll = (event) => {
-   let scrollTop = event.srcElement.body.scrollTop
+   let scrollTop = window.pageYOffset;;
    if (scrollTop > 80) {
       this.nav.className =  "fixed terms-navigation"
    }else{

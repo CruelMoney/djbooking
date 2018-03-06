@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import  Profile  from "./components/Profile";
 import { Helmet } from 'react-helmet';
+import { localize } from 'react-localize-redux'; 
 
-export default class Index extends Component{
+class Index extends Component{
 
 
   render(){
+    const {translate} = this.props;
     const djName = this.props.profile.firstName;
-    const title = djName + " | Profile"
+    const title = djName + " | " + translate("profile");
 
     return(
       <div>
@@ -18,6 +20,7 @@ export default class Index extends Component{
       </Helmet>
     <Profile {...this.props} />
     </div>
-
   )}
 }
+
+export default localize(Index, 'locale');
