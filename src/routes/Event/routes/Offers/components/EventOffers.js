@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import moment from 'moment-timezone'
 import EmptyPage from '../../../../../components/common/EmptyPage'
 import { Helmet } from 'react-helmet';
+import {getTranslate} from 'react-localize-redux';
 
 class EventOffers extends Component{
 
@@ -31,7 +32,7 @@ class EventOffers extends Component{
 
     render() {
         const ShowOffers = []
-        const {offers, notifications} = this.props;
+        const {offers, notifications, translate} = this.props;
 
         offers.forEach((o,i)=>{
           const notification = notifications.find(n => String(n.room) === String(o.gigID))
@@ -60,7 +61,7 @@ class EventOffers extends Component{
            
           }
         })
-        const title = this.props.event.name + " | Offers";
+        const title = this.props.event.name + " | " + translate("Offers");
 
         return (
           <div>
@@ -74,7 +75,7 @@ class EventOffers extends Component{
               <div className="row">
                     <div className="col-xs-12">
                       <p style={{textAlign:"center", marginBottom: "20px"}}>
-                        The offer has been paid and confirmed.
+                        {translate("event.paid-message")}
                       </p>
                     </div>
                   </div>
@@ -88,10 +89,10 @@ class EventOffers extends Component{
              <div className="row">
                   <div className="col-xs-12">
                     <p style={{textAlign:"center"}}>
-                      Keep in mind that quality often follows price.
+                      {translate("event.quality-message")}
                     </p>
                     <p style={{textAlign:"center", marginBottom: "20px"}}>
-                      You can always contact the DJ to discuss the price. If a DJ updates the offer, the new price will be shown here.
+                      {translate("event.contact-dj-message")}
                     </p>
                   </div>
                 </div>
@@ -100,8 +101,11 @@ class EventOffers extends Component{
               </div>
               </div>
               :
-              <EmptyPage message={<div style={{marginBottom:"180px"}}>The DJs are currently creating offers for you.<br/>
-              You will be notified whenever there's a new offer.</div>}/>
+              <EmptyPage message={<div style={{marginBottom:"180px"}}>
+
+              {translate("event.no-offers-message")}
+              
+              </div>}/>
             }
           </div>
 
@@ -113,6 +117,7 @@ class EventOffers extends Component{
 
 function mapStateToProps(state, ownProps) {
   return {
+    translate: getTranslate(state.locale),
     event: state.events.values[0],
     eventContactId: state.events.values[0].auth0Id,
     eventContactName: state.events.values[0].contactName,

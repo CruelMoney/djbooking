@@ -20,6 +20,7 @@ import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import {requestFeatures} from '../../../../../actions/Common'
 import RiderOptions from '../../../../../components/common/RiderOptions'
 import * as actions from '../../../../../actions/EventActions'
+import {getTranslate} from 'react-localize-redux';
 
 class Event extends Component{
 
@@ -52,7 +53,9 @@ class Event extends Component{
     }
 
     render() {
+        const {translate} = this.props;
         const title = this.props.event.name + " | Cueup";
+        
         return (
           <div className="row event-information">
               <Helmet>
@@ -72,25 +75,26 @@ class Event extends Component{
 
                   onClick={this.updateEvent}
                   name="update_event">
-                Save changes</SubmitButton>
+                {translate("Save changes")}</SubmitButton>
                 <SubmitButton
                   dangerous={true}
-                  warning="Are you sure you want to cancel the event?"
+                  warning={translate("cancel-event-warning")}
                   onClick={(form, callback)=>this.cancelEvent(this.props.event.id, callback)}
                   name="cancel_event">
-                Cancel event</SubmitButton>
+                  {translate("Cancel event")}
+                </SubmitButton>
                 <Button
                   onClick={()=>requestFeatures()}
 
                   name="request_features">
-                Request features</Button>
+                {translate("Request features")}</Button>
                 <ErrorMessage/>
               </div>
               <div className="event-card-wrapper">
                 <div className="card col-md-7">
                   <TextWrapper
-                    label="Event name"
-                    text="Please choose a descriptive name.">
+                    label= {translate("request-form.step-2.event-name")}
+                    text={translate("request-form.step-2.event-name-description")}>
                     <TextField
                       name="name"
                       value={this.props.event.name}
@@ -98,8 +102,8 @@ class Event extends Component{
                     />
                   </TextWrapper>
                   <TextWrapper
-                    label="Event date"
-                    text="If the date of the event has changed, either cancel this event and create a new, or consult the dj.">
+                    label={translate("request-form.step-1.event-date")}
+                    text={translate("event.event-date-description")}>
                     <TextField
                       name="date"
                       disabled
@@ -108,8 +112,8 @@ class Event extends Component{
                   </TextWrapper>
 
                   <TextWrapper
-                    label="Event location"
-                    text="In what city is the event?">
+                    label={translate("request-form.step-1.event-location")}
+                    text={translate("request-form.step-1.event-location-description")}>
                     <LocationSelector
                       name="location"
                       disabled
@@ -127,8 +131,8 @@ class Event extends Component{
                   </TextWrapper>
 
                   <TextWrapper
-                    label="Genres"
-                    text="What kind of music do you need?">
+                    label={translate("request-form.step-2.event-genres")}
+                    text={translate("request-form.step-2.event-genres-description")}>
                     <ToggleButtonHandler
                       validate={['required']}
                       name="genres"
@@ -138,17 +142,22 @@ class Event extends Component{
                       columns={3} />
                   </TextWrapper>
                   <TextWrapper
-                    label="Speakers & Light"
-                    text="Do you need speakers and lights for the event?">
+                    label={translate("request-form.step-2.event-rider")}
+                    text={translate("request-form.step-2.event-rider-description")}>
                     <RiderOptions 
+                      speakersLabel={translate("speakers")}
+                      lightsLabel={translate("lights")}
                       value={this.props.event.rider}
                       name="rider"/>
                   </TextWrapper>
                   <TextWrapper
-                    label="Duration"
-                    text="How much time should the dj play?">
+                    label={translate('request-form.step-3.music-duration')}
+                    >
                     <TimeSlider
                       disabled
+                      hoursLabel={translate('hours')}
+                      startLabel={translate("start")}
+                      endLabel={translate("end")}
                       date={moment(this.props.event.startTime)}
                       startTime={this.props.event.startTime}
                       endTime={this.props.event.endTime}
@@ -157,8 +166,8 @@ class Event extends Component{
 
 
                   <TextWrapper
-                    label="People"
-                    text="How many people do you expect at the event?">
+                    label={translate('request-form.step-3.guests')}
+                    >
                     <Slider
                       name="guests"
                       range={{
@@ -178,22 +187,23 @@ class Event extends Component{
                       })}
                     />
                     <p style={{marginTop:"15px"}}>
-                    {this.state.guests === "1000" ? "Over " : "Around "} <span>{this.state.guests} people </span>attending the event.</p>
+                    {translate(
+                    "request-form.step-3.guests-description",
+                    { 
+                      prefix: this.state.guests === 1000 ? translate('over') : translate('around'),
+                      amount: this.state.guests
+                    })
+                    }    
+                   </p>
 
                   </TextWrapper>
 
                   <TextWrapper
-                    label="Description"
-                    text={"Please tell about your event. \n" +
-                      "What kind of venue is it, what is the age of the guests? \n" +
-                      "Do you have any special requirements? \n" +
-                    "What is the budget?"}>
+                    label={translate("request-form.step-3.event-description")}
+                    text={translate('request-form.step-3.event-description-description')}>
                     <TextBox
                       height="110px"
-                      placeholder={"Please tell about your event. \n" +
-                        "What kind of venue is it, what is the age of the guests? \n" +
-                        "Do you have any special requirements? \n" +
-                      "What is the budget?"}
+                      placeholder={translate('request-form.step-3.event-description-description')}
                       name="description"
                       value={this.props.event.description}
                       validate={['required']}
@@ -215,7 +225,8 @@ class Event extends Component{
 function mapStateToProps(state, ownProps) {
   return {
     event:  state.events.values[0],
-    profile: state.login.profile
+    profile: state.login.profile,
+    translate: getTranslate(state.locale)
   }
 }
 

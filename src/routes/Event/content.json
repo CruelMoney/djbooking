@@ -53,6 +53,60 @@
         "You have no new notifications",
         "Du har ingen nye notifikationer"
       ]
+    },
+    "event-date-description":[
+      "If the date of the event has changed, either cancel this event and create a new, or consult the dj.",
+      "Hvis datoen på eventet er ændret kan du enten aflyse dette event og oprette et nyt, eller gøre DJen opmærksom på ændringen."
+    ],
+    "paid-message":[
+      "The offer has been paid and confirmed.",
+      "Tilbudet er betalt og bekræftet."
+    ],
+    "quality-message":[
+      "Keep in mind that quality often follows price.",
+      "Husk at kvalitet oftest følger pris."
+    ],
+    "contact-dj-message":[
+      "You can always contact the DJ to discuss the price. If a DJ updates the offer, the new price will be shown here.",
+      "Du kan altid kontakte DJen for at forhandle prisen. Hvis en DJ opdaterer sit tilbud, vil den nye pris stå her."
+    ],
+    "no-offers-message":[
+      "The DJs are currently creating offers for you.<br/> You will be notified whenever there's a new offer.",
+      "Vores DJs er i gang med at afgive tilbud til dig.<br/> Du vil få besked når der kommer nye tilbud."
+    ],
+    "offer":{
+      "empty-chat":[
+        "No Messages<br/> Send a message to the DJ.",
+        "Ingen beskeder<br/> Send en besked til DJen."
+      ],
+      "refund":[
+        "Full refund if event is cancelled ${ days } or more days before it starts. Otherwise ${ percentage }% is refunded.",
+        "Fuld refundering hvis event bliver aflyst ${ days } eller flere dage inden det starter. Ellers bliver ${ percentage }% refunderet."
+      ],
+      "payment-failed":[
+        "Something went wrong, the payment has not been made",
+        "Noget gik galt, betalingen er ikke gået igennem."
+      ],
+      "payment-info":[
+        "Please enter payment information below. In case of cancelation by the DJ, the full amount will be refunded. If you cancel the amount specified by the DJs cancelation policy will be refunded. All information is encrypted.",
+        "Indtast betalingsinformation. I tilfældet at DJen aflyser, vil hele beløbet refunderes. Hvis du aflyser vil det beløb der er specificeret i DJens aflysningspolitik blive refunderet. Alt information er krypteret."
+      ],
+      "pay-later":[
+        "The offer can be confirmed and paid up to 60 days before the event. To get notified by email click notify.",
+        "Tilbudet kan bekræftes og betales op til 60 dage før eventet. For at få en besked når du kan betale, klik GIV BESKED."
+      ],
+      "price":[
+        "The price the DJ has offered.",
+        "Prisen DJen har tilbudt"
+      ],
+      "fee":[
+        "The fee is calculated per offer, and helps us run the platform. <br/> It includes VAT.",
+        "Gebyret er udregnet baseret på tilbudet, og hjælper os holde platformen kørende. <br/>Det inkluderer moms."
+      ],
+      "terms":[
+        "By clicking confirm & pay you agree to our <a target='_blank' href='/terms/agreements'>terms and conditions</a>, and the cancelation policy specified by the DJ.",
+        "Ved at klikke på bekræft & betal accepterer du vores <a target='_blank' href='/dk/betingelser/aftale'>betingelser</a>, og aflysningspolitiken specificeret af DJen."
+      ]
     }
   },
   "Event information":[
@@ -70,5 +124,43 @@
   "Organizing a new event?":[
     "Organizing a new event?",
     "Planlægger du et nyt event?"
+  ],
+  "Cancel event":[
+    "Cancel event",
+    "Aflys event"
+  ],
+  "cancel-event-warning":[
+    "Are you sure you want to cancel the event?",
+    "Er du sikker på at du vil aflyse begivenheden?"
+  ],
+  "Offers":[
+    "Offers",
+    "Tilbud"
+  ],
+  "Pay":[
+    "Pay",
+    "Betal"
+  ],
+  "DJ price":[
+    "DJ price",
+    "DJ pris"
+  ],
+  "Cardholder name":[
+    "Cardholder name",
+    "Kortholders navn"
+  ],
+  "mm/yy":[
+    "mm/yy",
+    "mm/åå"
+  ],
+  "Notify":[
+    "Notify",
+    "Giv besked"
+  ],
+  "Confirm & pay":[
+    "Confirm & pay",
+    "Bekræft & betal"
   ]
+  
+
 }

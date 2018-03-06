@@ -12,7 +12,7 @@ import Formatter from '../../utils/Formatter'
 import MoneyTable, {TableItem} from './MoneyTable'
 import {currencyConverter} from '../../utils/CurrencyConverter'
 import assign from 'lodash.assign'
-
+import {getTranslate} from 'react-localize-redux';
 
 
 
@@ -35,25 +35,32 @@ class payForm extends Component{
 
 
   confirmPayment = (form, callback) => {
-      const data = assign(form.values, {
-        amount: Formatter.money.ToSmallest(this.amount, this.props.currency),
-        fee: Formatter.money.ToSmallest(this.fee, this.props.currency),
-        currency: this.props.currency,
-        chosenGigID: this.props.gigId
-      })
-      try {
-         this.props.confirmPayment(this.props.event.id, this.props.event.hashKey, data, callback)
-      } catch (error) {
-        callback("Something went wrong, the payment has not been made")
-      }
+    const {translate} = this.props;
+    const data = assign(form.values, {
+      amount: Formatter.money.ToSmallest(this.amount, this.props.currency),
+      fee: Formatter.money.ToSmallest(this.fee, this.props.currency),
+      currency: this.props.currency,
+      chosenGigID: this.props.gigId
+    })
+    try {
+        this.props.confirmPayment(this.props.event.id, this.props.event.hashKey, data, callback)
+    } catch (error) {
+      callback(
+        translate("event.offer.payment-failed")
+      );
+    }
   }
 
   notify = (form, callback) => {
-      try {
-       this.props.notify(this.props.event.id, this.props.event.hashKey, callback)
-      } catch (error) {
-        callback("Something went wrong")
-      }
+    const {translate} = this.props;
+  
+    try {
+      this.props.notify(this.props.event.id, this.props.event.hashKey, callback)
+    } catch (error) {
+      callback(
+        translate("unknown-error")
+      );
+    }
   }
 
 state={
@@ -62,7 +69,7 @@ state={
 
 
   render() {
-
+    const {translate} = this.props;
     const styles ={
 
       inline:{
@@ -143,6 +150,8 @@ state={
           display: 'none',
         }
     }
+
+
     return(
       <div>
 
@@ -159,12 +168,13 @@ state={
             <div className="col-md-12">
 
             <TextWrapper
-              label="Pay"
+              label={translate("Pay")}
               showLock={true}
               text={this.props.paymentPossible ?
-               "Please enter payment information below. In case of cancelation by the DJ, all money will be refunded. All information is encrypted. " 
+                translate('event.offer.payment-info')
                : 
-               "The offer can be confirmed and paid up to 60 days before the event. To get notified by email click notify."}>
+               translate("event.offer.pay-later")
+               }>
             </TextWrapper>
             </div>
 
@@ -176,18 +186,16 @@ state={
         <div className={this.props.paymentPossible ? "col-md-push-7 col-md-5" : 'col-xs-12'}>
            <MoneyTable>
              <TableItem
-                label="DJ price"
-                info="The price the DJ has offered."
+                label={translate("DJ price")}
+                info={translate("event.offer.price")}
                 >
                 {this.amountFormatted}
             </TableItem>
              <TableItem
-                label="Service fee"
+                label={translate("Service fee")}
                 info={ 
                     <div>
-                    The fee is calculated per offer, <br/>
-                    and helps us run the platform. <br/>
-                    It includes VAT.
+                    {translate("event.offer.fee")}
                     </div>
                     }
                 >
@@ -218,7 +226,7 @@ state={
                           validate={['required', 'lastName']}
                           onUpdatePipeFunc={cardNumberPipe}
                           fullWidth={false}
-                          placeholder="Cardholder name"
+                          placeholder={translate("Cardholder name")}
                           underlineDisabledStyle={styles.plainBorder}
                           underlineStyle={styles.dottedBorderStyle}
                         />
@@ -258,7 +266,7 @@ state={
                           validate={['required', 'validateCardExpiry']}
                           type="text"
                           fullWidth={true}
-                          placeholder="mm/yy"
+                          placeholder={translate("mm/yy")}
                           underlineDisabledStyle={styles.plainBorder}
                           underlineStyle={styles.dottedBorderStyle}
                         />
@@ -291,7 +299,9 @@ state={
           </div>
            <div style={{marginTop:"20px"}} className="row">
             <div className="col-md-12">
-              <p className="terms_link">By clicking confirm you agree to our <a target="_blank" href="/terms/agreements">terms and conditions</a>, and the cancelation policy specified by the DJ.</p>
+              <p className="terms_link">
+                {translate("event.offer.terms")}
+              </p>
             </div>
           </div>
           <div className="row">
@@ -304,7 +314,7 @@ state={
                       rounded={true}
                       name={this.props.paymentPossible ? "confirm_payment" : "notify_payment"}
                       onClick={this.props.paymentPossible ? this.confirmPayment : this.notify}
-                    >{this.props.paymentPossible ? "Confirm & Pay" : "Notify"}</SubmitButton>
+                    >{this.props.paymentPossible ? translate("Confirm & pay") : translate("Notify")}</SubmitButton>
                  </div>
                  <div className="col-xs-6">
               <a  
@@ -332,7 +342,8 @@ state={
 
 function mapStateToProps(state, ownprops){
   return{
-    event: state.events.values[0]
+    event: state.events.values[0],
+    translate: getTranslate(state.locale),
 }
 }
 

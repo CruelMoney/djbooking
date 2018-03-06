@@ -512,6 +512,17 @@
   "The event is finished":[
     "The event is finished",
     "Eventet er afsluttet"
+  ],
+  "Save changes":[
+    "Save changes",
+    "Gem ændringer"
+  ],
+  "Confirm":[
+    "Confirm",
+    "Bekræft"
+  ],
+  "Send message":[
+    "Send message",
+    "Send besked"
   ]
- 
 } 

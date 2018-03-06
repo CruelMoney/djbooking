@@ -236,7 +236,8 @@ class RequestForm extends Component{
                 </section>
 
                 <div>
-                  <section><label htmlFor="contactName">  {translate('request-form.step-4.contact-name')}</label>
+                  <section><label htmlFor="contactName">  
+                  {translate('request-form.step-4.contact-name')}</label>
 
                     <TextField
                       name="contactName"
@@ -257,8 +258,9 @@ class RequestForm extends Component{
 
 
                 <section>
-                  <label> {translate("request-form.step-2.event-genres")}</label>
-                  <p style={{marginBottom:"10px"}}> {translate("request-form.step-2.event-genres-description")}</p>
+                  <label>{translate("request-form.step-2.event-genres")}</label>
+                  <p style={{marginBottom:"10px"}}>
+                  {translate("request-form.step-2.event-genres-description")}</p>
                   <ToggleButtonHandler
                     validate={['required']}
                     name="genres"

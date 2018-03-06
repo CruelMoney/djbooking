@@ -7,6 +7,7 @@ import Popup from '../../../../../components/common/Popup'
 import { currencyConverter } from '../../../../../utils/CurrencyConverter'
 import Chat from '../../../../../components/common/Chat'
 import EmptyPage from '../../../../../components/common/EmptyPage'
+import { localize } from 'react-localize-redux';
 
 class OfferCard extends Component{
   static propTypes = {
@@ -33,6 +34,7 @@ class OfferCard extends Component{
   }
 
   render(){
+    const { translate } = this.props;
 
     const image ={
       backgroundImage: 'url('+this.props.offer.dj.picture+')',
@@ -78,8 +80,9 @@ class OfferCard extends Component{
             chatId={this.props.offer.gigID}
              placeholder={<EmptyPage
               message={
-                <div> No Messages<br/>
-                Send a message to the DJ.</div>
+                <div>
+                  {translate("event.offer.empty-chat")}
+                </div>
               }/>}
             />
         </Popup>
@@ -101,7 +104,7 @@ class OfferCard extends Component{
                 {" " + this.props.offer.dj.city}
               </div>
               {this.props.offer.dj.avgRating === 0?
-              <p style={{fontSize: "12px", margin: "0"}}>No ratings yet</p>
+              <p style={{fontSize: "12px", margin: "0"}}>{translate("no-reviews-yet")}</p>
               :
                 <Rating
                   rating={this.props.offer.dj.avgRating}
@@ -123,7 +126,7 @@ class OfferCard extends Component{
               <a href={"mailto:"+this.props.offer.dj.email}>{this.props.offer.dj.email}</a>
             </div>
             <div className="user-card-fact">
-              <p>Phone</p>
+              <p>{translate("Phone")}</p>
               <a href={"tel:"+this.props.offer.dj.phone}>{this.props.offer.dj.phone}</a>
             </div>
 
@@ -133,7 +136,10 @@ class OfferCard extends Component{
           
             <div className="cancelation-policy">
               {this.props.onlyChat ? null : 
-                `Cancelation policy: Full refund if event is cancelled ${this.props.offer.cancelationDays} or more days before it starts. Otherwise ${this.props.offer.refundPercentage}% is refunded.`
+                translate("event.offer.refund",{
+                  days: this.props.offer.cancelationDays,
+                  percentage: this.props.offer.refundPercentage
+                })
               }
             </div>
       
@@ -172,7 +178,7 @@ class OfferCard extends Component{
                   1
               </div>
               : null}
-            Send message</Button>
+            {translate("Send message")}</Button>
             {this.props.offer.gigStatus === "Confirmed" ||
             this.props.offer.gigStatus === "Requested" ||
               this.props.eventFinished
@@ -183,7 +189,7 @@ class OfferCard extends Component{
                 active={true}
                 onClick={()=>this.setState({showPopup:true})}
                 name="show-payout-popup"
-              >Confirm</Button>
+              >{translate("Confirm")}</Button>
             }
           </div>
           }
@@ -194,4 +200,4 @@ class OfferCard extends Component{
   }
 }
 
-export default OfferCard
+export default localize(OfferCard, 'locale');
