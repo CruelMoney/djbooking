@@ -48,7 +48,6 @@ function mapStateToProps(state, ownProps) {
     : false
   
   return {
-    isOwnProfile:isOwnProfile,
     publicProfileMode: state.login.status.publicProfileMode,
     profile:  isOwnProfile ? state.login.profile : state.user.profile,
     loading: isOwnProfile ? state.login.status.isWaiting : state.user.status.isWaiting,
@@ -65,7 +64,7 @@ const SmartUser = connect(mapStateToProps)(ControlUser)
 
 class Index extends Component{
   render(){
-    const {match, translate} = this.props;
+    const { translate} = this.props;
     return(
       <Switch>
         <Route exact path={translate("routes./user/signup")} component={FinishSignup} />

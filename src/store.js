@@ -6,7 +6,6 @@ import {
 import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger'
 import reducers from './reducers/Store';
-import { persistStore } from 'redux-persist'
 import { initialize as initLocale, addTranslation} from 'react-localize-redux';
 import commonContent from "./constants/content/common.json";
 import routesContent from "./constants/content/routes.json";

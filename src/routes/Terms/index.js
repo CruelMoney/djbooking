@@ -11,7 +11,7 @@ import { localize } from 'react-localize-redux';
 
 class Index extends Component{
   render(){
-    const {match, translate} = this.props;
+    const { translate} = this.props;
 
     const title = "Terms & Privacy | Cueup";
     

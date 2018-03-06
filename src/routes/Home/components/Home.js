@@ -7,8 +7,6 @@ import Button from '../../../components/common/Button-v2'
 import padlock from '../../../assets/padlock.svg'
 import note from '../../../assets/note.svg'
 import DJCards from './djCards'
-import Loadable from 'react-loadable';
-import LoadingRequestForm from '../../../components/common/RequestForm/LoadingRequestForm';
 import RequestForm from '../../../components/common/RequestForm/RequestForm';
 
 

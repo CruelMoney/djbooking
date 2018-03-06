@@ -14,7 +14,6 @@ store.dispatch(addTranslation(content));
 
 class Index extends Component{
   render(){
-    const {match} = this.props
     const { translate } = this.props;
     const baseurl = translate("routes./event/:id/:hash");
     

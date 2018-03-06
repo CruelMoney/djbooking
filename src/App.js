@@ -7,7 +7,6 @@ import {
   } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {init as analytics} from './utils/analytics/autotrack';
-import Loadable from 'react-loadable';
 import {Environment} from './constants/constants'
 import { Helmet } from 'react-helmet';
 import Home from './routes/Home';
@@ -62,7 +61,7 @@ const App = class extends Component {
    componentWillReceiveProps(nextprops){
 
 
-    const {activeLanguage, loggedIn} = this.props;
+    const { activeLanguage } = this.props;
       if(activeLanguage !== nextprops.activeLanguage){
         moment.locale(nextprops.activeLanguage);
       }
@@ -70,7 +69,7 @@ const App = class extends Component {
 
 
   render() {
-    const { location, translate, activeLanguage } = this.props;
+    const { location, translate } = this.props;
     const description = 'Cueup is an online platform connecting DJs and event organizers - the easiest way for you to book a great DJ for your event.  Just tell us about your event, and within 1 day you will receive non-binding offers from DJs near you.'
     const pageURL = Environment.CALLBACK_DOMAIN + location.pathname;
     const url = location.pathname.split('/');

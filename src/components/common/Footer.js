@@ -29,7 +29,7 @@ class footer extends Component{
     }
 
   setActiveLanguage = (code) => {
-    const { setActiveLanguage, history, translate } = this.props;
+    const { history, translate } = this.props;
     this.props.setActiveLanguage(code);
     let url = history.location.pathname.split('/');
     
