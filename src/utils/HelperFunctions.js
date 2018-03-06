@@ -1,7 +1,6 @@
 
 
 const getTranslatedURL = (url, code, translate) => {
-  console.log(url,code)
   url = url
     .split('/')
     .filter(p => p !== "")
@@ -16,7 +15,7 @@ const getTranslatedURL = (url, code, translate) => {
   }else{
     url = ["", ...url];
   }
-  console.log(url.join('/'))
+
   return url.join('/');
 }
 

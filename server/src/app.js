@@ -86,7 +86,7 @@ const renderer = async (req, res, stream, htmlData, options) => {
 const addHelmetDataToHTML = (htmlString) => {
   const segments = htmlString.split('</head>');
   const helmet = Helmet.renderStatic();
-
+  
   return(`
     ${segments[0]}
       ${helmet.title.toString()}
