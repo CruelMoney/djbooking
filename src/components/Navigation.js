@@ -68,11 +68,13 @@ class Menu extends Component {
 
 
      componentWillReceiveProps(nextProps){
+      const {translate} = this.props;
+
        if(nextProps.isRedirect && !this.state.redirected){
          if(nextProps.profile.user_metadata && nextProps.profile.user_metadata.permaLink){
-          this.props.history.push(`/user/${nextProps.profile.user_metadata.permaLink}/profile`)
+          this.props.history.push(translate(`routes./user/:username/profile`,{username:nextProps.profile.user_metadata.permaLink}))
          }else{
-          this.props.history.push(`/user/signup`)
+          this.props.history.push(translate(`routes./user/signup`))
          }
          this.setState({redirected:true})
        }

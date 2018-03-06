@@ -24,6 +24,17 @@ class AuthService extends EventEmitter {
         this.signup = this.signup.bind(this)
     }
 
+    updateRedirectURL = (suffix) => {
+        this.auth0 = new Auth0.WebAuth({
+            domain: Environment.AUTH0_CLIENT_DOMAIN,
+            clientID: Environment.AUTH0_CLIENT_ID,
+            responseType: 'token id_token',
+            audience: Environment.AUTH0_AUDIENCE,
+            scope: 'openid profile email user_metadata app_metadata',
+            redirectUri: Environment.CALLBACK_DOMAIN + suffix
+        });
+    }
+
     
     handleLogin = (err, authResult, onError) => {
         if(err !=null && err.code === "invalid_user_password"){

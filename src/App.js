@@ -27,7 +27,7 @@ import Navigation from './components/Navigation';
 import { getActiveLanguage, getTranslate, setActiveLanguage } from 'react-localize-redux';
 import 'moment/locale/da';
 import moment from 'moment';
-
+import {authService} from './utils/AuthService';
 
 
 
@@ -41,7 +41,10 @@ const App = class extends Component {
     const { activeLanguage, setActiveLanguage, location } = this.props;
     const url = location.pathname.split('/');
     const locale = url[1] === "dk" ? "da" : "en";
-
+    
+    if(locale !== "en"){
+      authService.updateRedirectURL('/dk');
+    }
     if(activeLanguage !== locale){
       setActiveLanguage(locale)
     }

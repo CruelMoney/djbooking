@@ -7,6 +7,8 @@ import * as c from '../../constants/constants'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/SessionActions'
 import { getTranslate, getActiveLanguage, setActiveLanguage } from 'react-localize-redux';
+import {authService} from '../../utils/AuthService';
+
 
 class footer extends Component{
   static proptypes = {
@@ -40,8 +42,10 @@ class footer extends Component{
     })
     if(code === "da"){
       url = ["", "dk", ...url];
+      authService.updateRedirectURL('/dk');
     }else{
       url = ["", ...url];
+      authService.updateRedirectURL('');
     }
 
     url = url.join('/');
