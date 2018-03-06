@@ -9,6 +9,7 @@ import {requestFeatures} from '../../../../../actions/Common'
 import {connect} from 'react-redux';
 import * as actions from '../../../../../actions/EventActions'
 import { Helmet } from 'react-helmet';
+import {getTranslate} from 'react-localize-redux';
 
 
 class Review extends Component {
@@ -30,74 +31,73 @@ class Review extends Component {
   }
 
   render() {
-        const title = this.props.event.name + " | Review";
+    const { translate}  = this.props;
+    const title = this.props.event.name + " | " + translate("Review");
 
-        return (
-          <div className="row event-information">
-             <Helmet>
-                <title>{title}</title>
-                <meta property="og:title"           content={title} />
-                <meta name="twitter:title"      content={title} />
-              </Helmet>
-            <Form
-              resetStatusOnSucces
-              formInvalidCallback={()=>this.setState({formValid:false})}
-              formValidCallback={()=>this.setState({formValid:true})}
-              name="event-review">
-              <div className="context-actions" key="profile_actions">
+    return (
+      <div className="row event-information">
+          <Helmet>
+            <title>{title}</title>
+            <meta property="og:title"           content={title} />
+            <meta name="twitter:title"      content={title} />
+          </Helmet>
+        <Form
+          resetStatusOnSucces
+          formInvalidCallback={()=>this.setState({formValid:false})}
+          formValidCallback={()=>this.setState({formValid:true})}
+          name="event-review">
+          <div className="context-actions" key="profile_actions">
 
-                <SubmitButton
-                  active={this.state.formValid}
-                  name="submit_review"
-                  onClick={this.submitReview}
-                >
+            <SubmitButton
+              active={this.state.formValid}
+              name="submit_review"
+              onClick={this.submitReview}
+            >{translate("Submit review")}</SubmitButton>
 
-                Submit review</SubmitButton>
+            <Button
+              onClick={()=>requestFeatures()}
+              name="request_features">
+            {translate("Request features")}</Button>
+          </div>
+          <div className="event-card-wrapper">
+            <div className="card profile col-md-7">
 
-                <Button
-                  onClick={()=>requestFeatures()}
-                  name="request_features">
-                Request features</Button>
-              </div>
-              <div className="event-card-wrapper">
-                <div className="card profile col-md-7">
-
-                  <TextWrapper
-                    label="Rating"
-                    text="Click on the stars to rate, and save your review on the button to the left."
-                  >
-                    <div style={{width: "100%"}}>
-                      <Rating
-                        rating={this.props.review.rating ? this.props.review.rating : 0}
-                        editable={true}
-                        name="rating"
-                        validate={['required']}
-                      />
-                    </div>
-                  </TextWrapper>
-
-                  <div
-                    style={{
-                      width:'100%',
-                      paddingTop: '0px',
-                      paddingBottom: '20px',
-
-                    }}
-                  >
-
-                    <TextBox
-                      width="100%"
-                      height="100px"
-                      name="description"
-                      value={this.props.review.description ? this.props.review.description : ""}
-                      placeholder="Optionally tell us how the DJ performed."
-                    />
-
-                  </div>
-                  </div>
+              <TextWrapper
+                label={translate("Rating")}
+                text={translate("event.review.rating")}
+              >
+                <div style={{width: "100%"}}>
+                  <Rating
+                    rating={this.props.review.rating ? this.props.review.rating : 0}
+                    editable={true}
+                    name="rating"
+                    validate={['required']}
+                  />
                 </div>
-              </Form>
+              </TextWrapper>
+
+              <div
+                style={{
+                  width:'100%',
+                  paddingTop: '0px',
+                  paddingBottom: '20px',
+
+                }}
+              >
+
+                <TextBox
+                  width="100%"
+                  height="100px"
+                  name="description"
+                  value={this.props.review.description ? this.props.review.description : ""}
+                  placeholder={translate("event.review.description")}
+                />
+
+              </div>
+              </div>
             </div>
+          </Form>
+        </div>
     )}
   }
 
@@ -109,7 +109,8 @@ class Review extends Component {
       dj: offer.dj,
       eventId: event.id,
       hashKey: event.hashKey,
-      review: event.review ? event.review : {}
+      review: event.review ? event.review : {},
+      translate: getTranslate(state.locale)
     }
   }
 

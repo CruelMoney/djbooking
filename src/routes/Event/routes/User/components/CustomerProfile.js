@@ -10,6 +10,7 @@ import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import {requestFeatures} from '../../../../../actions/Common'
 import {connect} from 'react-redux';
 import { Helmet } from 'react-helmet';
+import {getTranslate} from 'react-localize-redux';
 
 class Profile extends Component{
 
@@ -27,7 +28,8 @@ class Profile extends Component{
     }
 
     render() {
-        const title = this.props.event.name + " | Contact";
+      const {translate} = this.props;
+        const title = this.props.event.name + " | " + translate("Contact");
 
         return (
           <div className="row event-information">
@@ -45,24 +47,29 @@ class Profile extends Component{
                 <SubmitButton
                   active={this.state.formValid}
                   onClick={this.update}
-                  name="update_settings">
-                Save changes</SubmitButton>
+                  name="update_settings">{translate("Save changes")}</SubmitButton>
 
                 <Button
                   onClick={()=>requestFeatures()}
                   name="request_features">
-                Request features</Button>
+                {translate("Request features")}</Button>
                 <ErrorMessage/>
 
               </div>
               <div className="event-card-wrapper">
                 <div className="card profile col-md-7">
-                  <TextWrapper label="contact Name" text="What is the name of the contact person?">
+                  <TextWrapper 
+                  label={translate("Contact name")} 
+                  text={translate("event.contact.name")}
+                  >
                     <TextField
                       value={this.props.event.contactName} name="contactName"
                       validate={['required']} />
                   </TextWrapper>
-                  <TextWrapper label="E-mail" text="We only share your email with qualified DJs. Login to change email.">
+                  <TextWrapper 
+                  label="Email" 
+                  text={translate("event.contact.email")}
+                  >
                     <TextField value={this.props.event.contactEmail} name="email"
                       type="email" validate={['required', 'email']}
                       disabled
@@ -70,7 +77,10 @@ class Profile extends Component{
 
                   </TextWrapper>
 
-                  <TextWrapper label="Phone" text="We only share your phone number with qualified DJs">
+                  <TextWrapper 
+                  label={translate("Phone number")} 
+                  text={translate("event.contact.phone")}
+                  >
                     <TextField name="contactPhone" value={this.props.event.contactPhone}
                       type="tel"
                     />
@@ -80,13 +90,12 @@ class Profile extends Component{
 
                     <TextWrapper
                       label="Profile"
-                      text="Organizing multiple events? If yes, you should create a profile to keep track of the events.
-                      Request an email to create a password for your profile.">
+                      text={translate("event.contact.profile")}>
                       <div style={{display:"inline-block"}}>
                         <SubmitButton
                           onClick={(email, callback) => this.props.changePassword(this.props.event.contactEmail, callback)}
                           name="request_change_password"
-                        >Request email</SubmitButton>
+                        >{translate("Request email")}</SubmitButton>
                       </div>
                     </TextWrapper>
                   : null }
@@ -118,7 +127,8 @@ class Profile extends Component{
 export const mapStateToProps = (state) => {
   return {
     event: state.events.values[0],
-    loggedIn: state.login.status.signedIn
+    loggedIn: state.login.status.signedIn,
+    translate: getTranslate(state.locale)
   }
 }
 

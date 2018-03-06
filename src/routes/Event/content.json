@@ -107,6 +107,34 @@
         "By clicking confirm & pay you agree to our <a target='_blank' href='/terms/agreements'>terms and conditions</a>, and the cancelation policy specified by the DJ.",
         "Ved at klikke på bekræft & betal accepterer du vores <a target='_blank' href='/dk/betingelser/aftale'>betingelser</a>, og aflysningspolitiken specificeret af DJen."
       ]
+    },
+    "review":{
+      "rating":[
+        "Click on the stars to rate, and save your review on the button to the left.",
+        "Klik på stjernerne for at rate, og gem din anmeldelse med knappen til venstre."
+      ],
+      "description":[
+        "Optionally tell us how the DJ performed.",
+        "Valgfrit uddbyb hvordan DJen spillede."
+      ]
+    },
+    "contact":{
+      "name":[
+        "What is the name of the contact person?",
+        "Hvad er navnet på kontaktpersonen?"
+      ],
+      "email":[
+        "We only share the email with qualified DJs. Login to change email.",
+        "Vi deler kun emailen med kvalificerede DJs. Log ind for at ændre emailen."
+      ],
+      "phone":[
+        "We only share the phone number with qualified DJs.",
+        "Vi deler kun telefonnummeret med kvalificerede DJs."
+      ],
+      "profile":[
+        "Organizing multiple events? If yes, you should create a profile to keep track of the events. Request an email tp create a profile associated you email.",
+        "Arrangerer du flere events? Så bør du oprette en profil for at få en oversigt over dine events. Efterspørg en email til at oprette en profil til din email."
+      ]
     }
   },
   "Event information":[
@@ -160,6 +188,18 @@
   "Confirm & pay":[
     "Confirm & pay",
     "Bekræft & betal"
+  ],
+  "Submit review":[
+    "Submit review",
+    "Gem anmeldelse"
+  ],
+  "Contact name":[
+    "Contact name",
+    "Kontaktnavn"
+  ],
+  "Contact":[
+    "Contact",
+    "Kontakt"
   ]
   
 
