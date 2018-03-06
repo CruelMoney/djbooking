@@ -5,15 +5,19 @@ import Offers from './routes/Offers';
 import Review from './routes/Review'; 
 import User from './routes/User'; 
 import { Helmet } from 'react-helmet';
-
+import {addTranslation, localize} from 'react-localize-redux';
 import {Switch, Route} from 'react-router-dom'; 
+import {store} from '../../store';
+import content from './content.json';
 
-export default class Index extends Component{
+store.dispatch(addTranslation(content));
 
-
+class Index extends Component{
   render(){
     const {match} = this.props
-
+    const { translate } = this.props;
+    const baseurl = translate("routes./event/:id/:hash");
+    
     return(
       <div>
       <Helmet>
@@ -23,16 +27,18 @@ export default class Index extends Component{
       </Helmet>
       <Event {...this.props}>
         <Switch>
-          <Route path={`${match.url}/:id/:hash/info`} component={EventInfo}/>
-          <Route path={`${match.url}/:id/:hash/offers`} component={Offers}/>
-          <Route path={`${match.url}/:id/:hash/review`} component={Review}/>
-          <Route path={`${match.url}/:id/:hash/user`} component={User}/>
+          <Route path={`${baseurl}/info`} component={EventInfo}/>
+          <Route path={`${baseurl}/offers`} component={Offers}/>
+          <Route path={`${baseurl}/review`} component={Review}/>
+          <Route path={`${baseurl}/user`} component={User}/>
         </Switch>
       </Event>
     </div>
 
   )}
 }
+
+export default localize(Index, 'locale');
 
 
 

@@ -48,10 +48,11 @@ class event extends Component{
   }
 
   componentWillReceiveProps(nextProps){
-    notificationService.init(nextProps.customerId);
-    const { event, notifications } = nextProps
+    const {translate} = this.props;
+    const { event, notifications, customerId } = nextProps
+    notificationService.init(customerId);
     if (event && !event.emailVerified) {
-      this.setState({notification:"You won't receive any offers before you confirm your email-address 🙄"})
+      this.setState({notification: translate("event.notifications.verify-email")})
     }else if(event){
       
       if(event.offers && event.offers.some(offer => {
@@ -61,7 +62,7 @@ class event extends Component{
           )
         })){
         this.setState({
-          notification: "You have unread messages in offers 📫"
+          notification: translate("event.notifications.unread-messages")
         })
         this.goToOffers();
         return
@@ -69,29 +70,29 @@ class event extends Component{
 
       this.setState({notification:
       event.status === "Cancelled" ?
-      "The event is cancelled ☹️"
+      translate('event.notifications.cancelled')
       :event.status === "Initial" ?
-      "The event has been confirmed 😊"
+      translate("event.notifications.initial")
       :event.status === "Offering" ?
         event.referredBy > 0 ?
-        "Waiting on offer from the DJ 😊"
-        : "Waiting on offers from DJs 😊"
+        translate("event.notifications.offering-referred")
+        : translate("event.notifications.offering")
       :event.status === "NoMatches" ?
-      "No DJs could be found 😮"
+      translate("event.notifications.no-matches")
       :event.status === "Accepted" ?
            event.referredBy > 0 ?
-          "The DJ has made an offer 😊"
-          : "A DJ has made an offer 😊"
+           translate("event.notifications.accepted-referred")
+          : translate("event.notifications.accepted")
       :event.status === "Confirmed" ?
-      "The event has been paid & confirmed, get ready to rock 😁"
+      translate("event.notifications.confirmed")
       :event.status === "Finished" && event.chosenOfferId === 0 ?
-      "The event is finished ☺️"
+      translate("event.notifications.finished")
       :event.status === "Finished" ?
-      "The event is finished, please leave a review ☺️"
-    :"You have no new notifications"})
+      translate("event.notifications.finished-review")
+    :translate("event.notifications.default")})
   }else{
     this.setState({notification
-        :"You have no new notifications"})
+        :translate("event.notifications.default")})
   }
   }
 
@@ -103,6 +104,7 @@ class event extends Component{
 
 
   render() {
+    const {translate} = this.props;
 
       function renderLoadingItem(){
         return [
@@ -139,14 +141,14 @@ class event extends Component{
         </div>
 
         <Footer
-          color={this.secondColor}
-          firstTo="/"
-          secondTo="/how-it-works"
-          firstLabel="Arrange event"
-          secondLabel="How it works"
-          title="Organizing a new event?"
-          subTitle="Arrange event, or see how it works."
-        />
+            color={this.secondColor}
+            firstTo={translate("routes./how-it-works")}
+            secondTo={translate("routes./")}
+            firstLabel={translate("how-it-works")}
+            secondLabel={translate("arrange-event")}
+            title={translate("Organizing a new event?")}
+            subTitle={translate("See how it works, or arrange an event.")}
+          />
       </div>
     )
 

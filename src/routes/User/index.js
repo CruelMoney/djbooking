@@ -23,16 +23,17 @@ store.dispatch(addTranslation(content));
 class ControlUser extends Component{
   render(){
     const { translate } = this.props;
-
+    const baseurl = translate("routes./user/:permalink");
+    
     return(
       <User {...this.props}>
         <Switch>
-          <Route path={`${translate("routes./user/:permalink")}/profile`} render={(props)=><Profile {...this.props} {...props} />} />
-          <Route path={`${translate("routes./user/:permalink")}/book`} render={(props)=><Book {...this.props} {...props} />} />
-          <Route path={`${translate("routes./user/:permalink")}/${translate("preferences")}`} render={(props)=><Preferences {...this.props} {...props} />} />
-          <Route path={`${translate("routes./user/:permalink")}/events`} render={(props)=><Events {...this.props} {...props} />} />
-          <Route path={`${translate("routes./user/:permalink")}/gigs`} render={(props)=><Gigs {...this.props} {...props} />} />
-          <Route path={`${translate("routes./user/:permalink")}/${translate("reviews")}`} render={(props)=><Reviews {...this.props} {...props} />} />
+          <Route path={`${baseurl}/profile`} render={(props)=><Profile {...this.props} {...props} />} />
+          <Route path={`${baseurl}/book`} render={(props)=><Book {...this.props} {...props} />} />
+          <Route path={`${baseurl}/${translate("preferences")}`} render={(props)=><Preferences {...this.props} {...props} />} />
+          <Route path={`${baseurl}/events`} render={(props)=><Events {...this.props} {...props} />} />
+          <Route path={`${baseurl}/gigs`} render={(props)=><Gigs {...this.props} {...props} />} />
+          <Route path={`${baseurl}/${translate("reviews")}`} render={(props)=><Reviews {...this.props} {...props} />} />
         </Switch>
       </User>
     )

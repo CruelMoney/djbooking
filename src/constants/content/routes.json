@@ -108,9 +108,25 @@
       "/user/${ username }/preferences",
       "/dk/user/${ username }/indstillinger"
     ],
+    "/event/:id/:hash":[
+      "/event/:id/:hash",
+      "/dk/event/:id/:hash"
+    ],
     "/event/:id/:hash/info":[
       "/event/${ id }/${ hash }/info",
       "/dk/event/${ id }/${ hash }/info"
+    ],
+    "/event/:id/:hash/offers":[
+      "/event/${ id }/${ hash }/offers",
+      "/dk/event/${ id }/${ hash }/offers"
+    ],
+    "/event/:id/:hash/review":[
+      "/event/${ id }/${ hash }/review",
+      "/dk/event/${ id }/${ hash }/review"
+    ],
+    "/event/:id/:hash/user":[
+      "/event/${ id }/${ hash }/user",
+      "/dk/event/${ id }/${ hash }/user"
     ],
     "user":[
     "user",

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Navlink  from '../../../../components/common/Navlink'
-
+import { getTranslate } from 'react-localize-redux';
 import { connect } from 'react-redux'
 import * as commonActions from '../../../../actions/Common'
 
@@ -15,23 +15,52 @@ class eventNavigation extends Component{
   }
 
   registerNavigationItems = () => {
-    this.props.registerMenuItem("Event information", "/event/"+this.props.id+"/"+this.props.hash+"/info")
-    this.props.registerMenuItem("Dj offers", "/event/"+this.props.id+"/"+this.props.hash+"/offers")
+    const {translate, id, hash} = this.props;
+
+    this.props.registerMenuItem(
+      translate("Event information"), 
+      translate("routes./event/:id/:hash/info",{
+        id: id,
+        hash: hash
+      })
+    );
+    this.props.registerMenuItem(
+      translate("DJ offers"), 
+      translate("routes./event/:id/:hash/offers",{
+        id: id,
+        hash: hash
+      })
+    );
     if (this.props.isFinished && this.props.paid){
-    this.props.registerMenuItem("Review", "/event/"+this.props.id+"/"+this.props.hash+"/review")
+      this.props.registerMenuItem(
+        translate("Review"), 
+        translate("routes./event/:id/:hash/review",{
+          id: id,
+          hash: hash
+        })
+      );
     } else{
-    this.props.registerMenuItem("Contact information", "/event/"+this.props.id+"/"+this.props.hash+"/user")
+      this.props.registerMenuItem(
+        translate("Contact information"), 
+        translate("routes./event/:id/:hash/user",{
+          id: id,
+          hash: hash
+        })
+      );
     }
   }
 
   removeNavigationItems = () => {
-    this.props.removeMenuItem("Event information")
-    this.props.removeMenuItem("Dj offers")
-    this.props.removeMenuItem("Review")
-    this.props.removeMenuItem("Contact information")  
+    const {translate} = this.props;
+    this.props.removeMenuItem(translate("Event information"));
+    this.props.removeMenuItem(translate("DJ offers"));
+    this.props.removeMenuItem(translate("Review"));
+    this.props.removeMenuItem(translate("Contact information"));  
   }
 
   render() {
+    const {translate, id, hash} = this.props;
+
     return (
       <div>
 
@@ -49,19 +78,43 @@ class eventNavigation extends Component{
 
 
             <li>
-              <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/info"} label="Event information"/>
+              <Navlink 
+              to={
+                translate("routes./event/:id/:hash/info",{
+                  id: id,
+                  hash: hash
+                })
+              } 
+              label={translate("Event information")}
+              />
             </li>
 
 
             <li>
-              <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/offers"} label="Dj offers"/>
+              <Navlink 
+              to={translate("routes./event/:id/:hash/offers",{
+                id: id,
+                hash: hash
+              })} 
+              label={translate("DJ offers")}/>
             </li>
 
             <li >
               { this.props.isFinished && this.props.paid ? 
-                <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/review"} label="Review"/>
+                <Navlink 
+                to={
+                  translate("routes./event/:id/:hash/review",{
+                    id: id,
+                    hash: hash
+                  })
+                } label={translate("Review")}/>
                 :
-                <Navlink to={"/event/"+this.props.id+"/"+this.props.hash+"/user"} label="Contact information"/>}
+                <Navlink 
+                to={translate("routes./event/:id/:hash/user",{
+                  id: id,
+                  hash: hash
+                })} 
+                label={translate("Contact information")}/>}
             </li>
 
 
@@ -72,6 +125,7 @@ class eventNavigation extends Component{
   }
 }
 
+const mapStateToProps = state => ({ translate: getTranslate(state.locale) });
 
 
 function mapDispatchToProps(dispatch, ownProps) {
@@ -80,8 +134,6 @@ function mapDispatchToProps(dispatch, ownProps) {
     removeMenuItem: (name) => dispatch(commonActions.removeMenuItem(name))
 }}
 
-const SmartNavigation = connect(state=>state, mapDispatchToProps)(eventNavigation)
+const SmartNavigation = connect(mapStateToProps, mapDispatchToProps, null, {pure:false})(eventNavigation)
 
-export default props => (
-    <SmartNavigation {...props}/>
-)
+export default SmartNavigation;

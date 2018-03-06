@@ -1,0 +1,74 @@
+{
+  "event":{
+    "notifications":{
+      "cancelled":[
+        "The event is cancelled ☹️",
+        "Eventet er aflyst ☹️"
+      ],
+      "initial":[
+        "The event has been confirmed 😊",
+        "Eventet er nu bekræftet 😊"
+      ],
+      "offering-referred":[
+        "Waiting on offer from the DJ 😊",
+        "Venter på tilbud fra DJen 😊"
+      ],
+      "offering":[
+        "Waiting on offer from the DJs 😊",
+        "Venter på tilbud fra DJs 😊"
+      ],
+      "no-matches":[
+        "No DJs could be found 😮",
+        "Der kunne ikke findes nogle DJs 😮"
+      ],
+      "accepted-referred":[
+        "The DJ has made an offer 😊",
+        "DJen har afgivet et tilbud 😊"
+      ],
+      "accepted":[
+        "A DJ has made an offer 😊",
+        "En DJ har givet et tilbud 😊"
+      ],
+      "confirmed":[
+        "The event has been paid & confirmed, get ready to rock 😁",
+        "Eventet er betalt og bekræftet 😁"
+      ],
+      "finished":[
+        "The event is finished ☺️",
+        "Begivenheden er afsluttet ☺️"
+      ],
+      "finished-review":[
+        "The event is finished, please leave a review ☺️",
+        "Begivenheden er afsluttet, giv venligst en anmeldelse ☺️"
+      ],
+      "unread-messages":[
+        "You have unread messages in offers 📫",
+        "Du har ulæste beskeder under tilbud 📫"
+      ],
+      "verify-email":[
+        "You won't receive any offers before you confirm your email-address 🙄",
+        "Du vil ikke modtage nogle tilbud før du bekræfter din email 🙄"
+      ],
+      "default":[
+        "You have no new notifications",
+        "Du har ingen nye notifikationer"
+      ]
+    }
+  },
+  "Event information":[
+    "Event information",
+    "Event information"
+  ],
+  "DJ offers":[
+    "DJ offers",
+    "DJ tilbud"
+  ],
+  "Contact information":[
+    "Contact information",
+    "Kontaktinformation"
+  ],
+  "Organizing a new event?":[
+    "Organizing a new event?",
+    "Planlægger du et nyt event?"
+  ]
+}

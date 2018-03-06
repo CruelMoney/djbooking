@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import Navlink from '../../../../components/common/Navlink'
 import EventNavigation from './EventNavigation'
 import Notification from '../../../../components/common/Notification'
-
+import { getTranslate } from 'react-localize-redux';
+import { connect } from 'react-redux'
 class eventHeader extends Component{
 
    componentDidMount() {
@@ -17,7 +18,7 @@ class eventHeader extends Component{
    sttate={loadString:"..."}
 
   handleScroll = (event) => {
-   let scrollTop = event.srcElement.body.scrollTop
+   let scrollTop = window.pageYOffset;
    if (scrollTop > 280) {
      this.eventHeader.className =  "user-header fixed"
    }else{
@@ -25,7 +26,13 @@ class eventHeader extends Component{
    }
   }
 
+  shouldComponentUpdate(){
+    console.log("update yo")
+    return true;
+  }
+
   render() {
+    const { translate } = this.props;
     return (
         <header ref={ref=>this.eventHeader=ref}
           className="user-header">
@@ -51,18 +58,22 @@ class eventHeader extends Component{
 
               {this.props.loggedIn ?
                 <div className="back-button userNavigation">
-                  <Navlink to={"/user/"+this.props.permaLink+"/events"} label="< Events"/>
+                  <Navlink to={
+                    translate("routes./user/:username/events",{
+                      username: this.props.permaLink
+                    })}
+                    label="< Events"/>
                 </div>
               :null}
               <div className="event-header-content col-sm-7">
                 <div className="header-info">
                   <div className="user-name">
-                    <h1>{this.props.loading || !this.props.event ? '' : "Welcome " + this.props.event.contactName }</h1>
+                    <h1>{this.props.loading || !this.props.event ? '' : translate("Welcome") + " " + this.props.event.contactName }</h1>
                   </div>
                   <div className="user-location">
                     <h2>
 
-                      {this.props.loading || !this.props.event ? ''  : "Event: " + this.props.event.name }
+                      {this.props.loading || !this.props.event ? ''  : this.props.event.name }
                     </h2>
                   </div>
                 </div>
@@ -85,4 +96,8 @@ class eventHeader extends Component{
   }
 }
 
-export default eventHeader
+const mapStateToProps = state => ({ translate: getTranslate(state.locale) });
+
+const SmartNavigation = connect(mapStateToProps, null, null, {pure:false})(eventHeader)
+
+export default SmartNavigation;
