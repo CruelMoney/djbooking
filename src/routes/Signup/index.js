@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Signup from './components/Signup'; 
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async';
 import {localize} from 'react-localize-redux';
 
 class Index extends Component{

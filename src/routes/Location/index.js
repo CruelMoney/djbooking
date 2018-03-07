@@ -10,7 +10,7 @@ import Map from '../../components/common/Map';
 import CitySvg from '../../components/graphics/City';
 import { Redirect } from 'react-router';
 import FloatingDJs from './components/FloatingCards';
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async';
 import copenhagen from '../../assets/images/cities/copenhagen.png';
 import odense from '../../assets/images/cities/odense.png'
 import aarhus from '../../assets/images/cities/aarhus.png'

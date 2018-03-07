@@ -6,7 +6,7 @@ const clientBuildPath = path.resolve(__dirname, 'client');
 const {default: staticLoader} = require('@cra-express/static-loader');
 const {default: universalLoader} = require('@cra-express/universal-loader');
 const { renderToNodeStream, renderToString } = require("react-dom/server");
-const {Helmet} = require('react-helmet');
+const {default: Helmet, HelmetProvider } = require('react-helmet-async');
 const {default: App} = require('../../src/App');
 const {StaticRouter} = require('react-router-dom')
 const { Provider } = require("react-redux");
@@ -20,22 +20,22 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 const getReactApp = (req, res) => {
   const store = res.locals.store;
-  const context = {
-    store
-  };
+  const context = { store };
   
   const theme = getMuiTheme({
     userAgent: req.headers['user-agent'],
   });
 
-  return( 
+  return(
     <Provider store={store}>
       <StaticRouter
           location={req.url}
           context={context}
         >
         <MuiThemeProvider muiTheme={theme}>
-          <App />
+          <HelmetProvider context={res.locals.helmetContext}>
+            <App />
+          </HelmetProvider>
         </MuiThemeProvider>
       </StaticRouter>
     </Provider>
@@ -47,6 +47,7 @@ const handleUniversalRender = async (req, res) => {
 
   const store = configureStore({}, req);
   res.locals.store = store;
+  res.locals.helmetContext = {};
 
   renderToString(getReactApp(req, res));
   const preloadedState = store.getState();
@@ -67,7 +68,7 @@ const renderer = async (req, res, stream, htmlData, options) => {
   );
 
   renderToString(getReactApp(req, res));
-  htmlData = addHelmetDataToHTML(htmlData);
+  htmlData = addHelmetDataToHTML(htmlData, res);
 
   var segments = htmlData.split('<div id="root">');
   res.write(segments[0] + '<div id="root">');
@@ -83,9 +84,9 @@ const renderer = async (req, res, stream, htmlData, options) => {
 
 
 // Adds the helmet markup to the end of head tag
-const addHelmetDataToHTML = (htmlString) => {
+const addHelmetDataToHTML = (htmlString, res) => {
   const segments = htmlString.split('</head>');
-  const helmet = Helmet.renderStatic();
+  const {helmet} = res.locals.helmetContext
   
   return(`
     ${segments[0]}

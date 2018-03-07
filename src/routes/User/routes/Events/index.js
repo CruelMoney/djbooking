@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  Events  from "./components/Events";
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async'
 
 export default class Index extends Component{
 

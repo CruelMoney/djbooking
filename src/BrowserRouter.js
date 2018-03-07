@@ -8,6 +8,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import App from './App'; 
 import store from './store';
+import { HelmetProvider } from 'react-helmet-async';
+
 import './polyfills';
 
 const theme = getMuiTheme();
@@ -17,7 +19,9 @@ class MyRouter extends Component {
         return  ( 
           <Router>
               <MuiThemeProvider muiTheme={theme}>
-                <App/>
+                <HelmetProvider>
+                  <App/>
+                </HelmetProvider>
               </MuiThemeProvider>
           </Router>
           )

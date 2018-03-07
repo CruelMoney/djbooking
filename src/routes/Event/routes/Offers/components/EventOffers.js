@@ -4,7 +4,7 @@ import {notificationService} from '../../../../../utils/NotificationService';
 import {connect} from 'react-redux';
 import moment from 'moment-timezone'
 import EmptyPage from '../../../../../components/common/EmptyPage'
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async'
 import {getTranslate} from 'react-localize-redux';
 
 class EventOffers extends Component{

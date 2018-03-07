@@ -5,7 +5,7 @@ import Sharing from '../../../components/common/Sharing-v2';
 import SignUpForm from '../../Signup/components/SignUpForm';
 import {Environment} from '../../../constants/constants';
 import NewsletterSignup from './NewsletterSignup';
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async'
 import Disqus from 'disqus-react';
 import OnlyClientSide from "../../../components/higher-order/onlyClientSide";
 

@@ -7,7 +7,7 @@ import {
 import Faq from './components/Faq'
 import DJ from './routes/DJ'
 import Organizer from './routes/Organizer'
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async';
 import { localize } from 'react-localize-redux'; 
 
 class Index extends Component{

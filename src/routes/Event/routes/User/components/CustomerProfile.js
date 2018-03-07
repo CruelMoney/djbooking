@@ -9,7 +9,7 @@ import * as eActions from '../../../../../actions/EventActions'
 import ErrorMessage from '../../../../../components/common/ErrorMessage'
 import {requestFeatures} from '../../../../../actions/Common'
 import {connect} from 'react-redux';
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async'
 import {getTranslate} from 'react-localize-redux';
 
 class Profile extends Component{

@@ -1,6 +1,6 @@
 import React,  { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async';
 import UserHeader from '../blocks/UserHeader'
 import Footer from '../../../../components/common/Footer'
 import Form from '../../../../components/common/Form-v2';

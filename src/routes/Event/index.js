@@ -4,7 +4,7 @@ import EventInfo from './routes/EventInformation';
 import Offers from './routes/Offers'; 
 import Review from './routes/Review'; 
 import User from './routes/User'; 
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async';
 import {Switch, Route} from 'react-router-dom'; 
 import content from './content.json';
 import addTranslate from '../../components/higher-order/addTranslate';

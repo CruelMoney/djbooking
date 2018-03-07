@@ -8,7 +8,7 @@ import Form from '../../../../../components/common/Form-v2'
 import {requestFeatures} from '../../../../../actions/Common'
 import {connect} from 'react-redux';
 import * as actions from '../../../../../actions/EventActions'
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async'
 import {getTranslate} from 'react-localize-redux';
 
 

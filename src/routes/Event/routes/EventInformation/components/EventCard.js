@@ -9,7 +9,7 @@ import Form from '../../../../../components/common/Form-v2'
 import TextWrapper from '../../../../../components/common/TextElement'
 import SubmitButton from '../../../../../components/common/SubmitButton'
 import assign from 'lodash.assign'
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async'
 import Map from '../../../../../components/common/Map'
 import ToggleButtonHandler from '../../../../../components/common/ToggleButtonHandler'
 import c from '../../../../../constants/constants'

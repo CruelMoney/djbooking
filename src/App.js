@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import {init as analytics} from './utils/analytics/autotrack';
 import {Environment} from './constants/constants'
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet-async'
 import Home from './routes/Home';
 import About from './routes/About';
 import CueupEvent from './routes/Event';
