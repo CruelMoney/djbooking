@@ -12,6 +12,7 @@ import Gigs from "./routes/Gigs";
 import Preferences from "./routes/Preferences";
 import Reviews from "./routes/Reviews";
 import content from './content.json';
+import requestformContent from '../../components/common/RequestForm/content.json';
 import {connect} from 'react-redux';
 import addTranslate from '../../components/higher-order/addTranslate';
 
@@ -72,5 +73,5 @@ class Index extends Component{
   )}
 }
 
-export default addTranslate(Index, content);
+export default addTranslate(Index, [content, requestformContent]);
 

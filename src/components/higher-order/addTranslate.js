@@ -25,7 +25,15 @@ const addTranslate = (Wrappee, content) => {
 
   const mapDispatchToProps = dispatch => {
     return{
-      initLocale: () => dispatch(addTranslation(content))
+      initLocale: () => {
+        if(Array.isArray(content)){
+          content.forEach(data => {
+            dispatch(addTranslation(data))
+          });
+        }else{
+          dispatch(addTranslation(content))
+        }
+      }
     }
   }
 
