@@ -7,6 +7,7 @@ import User from './routes/User';
 import Helmet from 'react-helmet-async';
 import {Switch, Route} from 'react-router-dom'; 
 import content from './content.json';
+import requestFormContent from '../../components/common/RequestForm/content.json';
 import addTranslate from '../../components/higher-order/addTranslate';
 
 
@@ -35,7 +36,7 @@ class Index extends Component{
   )}
 }
 
-export default addTranslate(Index, content);
+export default addTranslate(Index, [content, requestFormContent]);
 
 
 
