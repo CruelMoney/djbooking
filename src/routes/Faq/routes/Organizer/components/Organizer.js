@@ -55,12 +55,7 @@ export default class Organizer extends Component{
                   {translate("faq.organizer.6.a")}
                   </p>
               </Collapsible>
-                  <Collapsible
-                  label={translate("faq.organizer.7.q")}> 
-                    <p>
-                    {translate("faq.organizer.7.a")}
-                    </p>
-                </Collapsible>
+                  
               <Collapsible
                 label={translate("faq.organizer.8.q")}> 
                   <p>
