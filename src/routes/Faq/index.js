@@ -8,7 +8,8 @@ import Faq from './components/Faq'
 import DJ from './routes/DJ'
 import Organizer from './routes/Organizer'
 import Helmet from 'react-helmet-async';
-import { localize } from 'react-localize-redux'; 
+import content from './content.json';
+import addTranslate from '../../components/higher-order/addTranslate';
 
 class Index extends Component{
   render(){
@@ -24,11 +25,11 @@ class Index extends Component{
       </Helmet>
       <Switch>
         <Redirect exact from={`${match.url}`} to={translate("routes./faq/dj")} />
-        <Route path={translate("routes./faq/dj")} component={DJ} />
-        <Route path={translate("routes./faq/organizer")} component={Organizer} />
+        <Route path={translate("routes./faq/dj")} render={(props)=><DJ {...props} translate={translate}/>} />
+        <Route path={translate("routes./faq/organizer")} render={(props)=><Organizer {...props} translate={translate}/>} />
       </Switch>
     </Faq>
   )}
 }
 
-export default localize(Index, 'locale');
+export default addTranslate(Index, content);

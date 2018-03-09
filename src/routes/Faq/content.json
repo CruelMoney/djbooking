@@ -1,0 +1,261 @@
+{
+  "faq":{
+    "dj":{
+      "1":{
+        "q":[
+          "How much does it cost?",
+          "Hvor meget koster det?"
+        ],
+        "a":[
+          "The membership at Cueup is free of charge, and at no time we will charge you money. A fee of 3% will be subtracted from your offer when you get paid for a gig. When making an offer this is completely transparent - you will see your actual payout and how much we will subtract.",
+          "Det er gratis at være tilmeldt som DJ hos Cueup, og vi trækker ingen penge fra din konto. Når du bliver betalt for et gig har vi trukket 3% fra dit tilbud. Dette vil fremgå tydeligt når du afgiver et tilbud - du kan se præcist hvad du vil få udbetalt og hvor meget vi trækker."
+        ]
+      },
+      "2":{
+        "q":[
+          "How much can I earn?",
+          "Hvor meget kan jeg tjene?"
+        ],
+        "a":[
+          "You set your own prices, so that depends on your own rates. We will do everything in our power to get you as many gigs as possible.",
+          "Du sætter dine egne priser, så hvor meget du tjener afhænger af din pris. Vi vil gøre alt hvad vi kan for at skaffe dig gigs."
+        ]
+      },
+      "3":{
+        "q":[
+          "Where can I play?",
+          "Hvor kan jeg spille?"
+        ],
+        "a":[
+          "Technically you can play in the whole world, as we accept a range of currencies. At the moment we are focused on growing in Denmark, therefore don't expect to receive gigs outside of Denmark.",
+          "Teknisk set kan du spille i hele verden, da vi accepterer flere valuta. I øjeblikket fokuserer vi på at gro i Danmark, og derfor skal du ikke forvente at modtage gigs uden for Danmark."
+        ]
+      },
+      "4":{
+        "q":[
+          "Can I talk to the organizer before playing or making an offer?",
+          "Kan jeg snakke med arrangøren før jeg spiller eller giver et tilbud?"
+        ],
+        "a":[
+          "Yes, we have built in chat functionality to contact the organizer before you make an offer. After the organizer has paid, both your phone numbers and emails will be shared.",
+          "Ja, vi har indbygget chatfunktionalitet til at kontakte arrangøren før du afgiver et tilbud. Efter arrangøren har betalt, kan i begge se hinandens telefonnummer og emails."
+        ]
+      },
+      "5":{
+        "q":[
+          "What if the organizer cancels the event?",
+          "Hvad hvis arrangøren aflyser eventet?"
+        ],
+        "a":[
+          "If the organizer cancels an event where you have been confirmed to play, the organizer will be refunded in regards to your cancelation policy. You can set your own cancelation policy in your preferences specifying how many percentages are refunded to the organizer if he cancels. After the organizer has cancelled, the rest of the money will be transferred to your bank account.",
+          "Hvis arrangøren aflyser et event som du var blevet booket til, hvis arrangøren blive refunderet i overenstemmelse med din aflysningspolitik. Du kan indstille din egen aflysningspolitik under indstillinger og specificere hvor procent er refunderet. Efter arrangøren har aflyst vil det resterende beløb bliv overført til din bankkonto. "
+        ]
+      },
+      "6":{
+        "q":[
+          "What if I cancel the gig?",
+          "Hvad hvis jeg aflyser et gig?"
+        ],
+        "a":[
+          "If you cancel a confirmed gig, all the money will be refunded to the organizer immediately.",
+          "Hvis du aflyser et bekræftet gig, vil alle pengene refunderes til arrangøren med det samme."
+        ]
+      },
+      "7":{
+        "q":[
+          "What to do if the organizer want's to pay under the table?",
+          "Hvad hvis arrangøren vil betale under bordet?"
+        ],
+        "a":[
+          "If the organizer asks if he can pay in another way than using Cueup, you should refuse. The payment process at Cueup ensures safety for both you and the organizer. If the event is not paid through Cueup, it won't count as an experience, and you can't get a rating for that event thus lowering your trustworthiness. When a organizer sees your offer, the experience will be showed alongside and it will help justify a higher price if you have played at more events. To see an example of what the organizer sees, go to your profile and select 'price offer example'.",
+          "Hvis arrangøren beder om at betale på en anden måde end Cueup, skal du afslå. Betalingsprocessen hos Cueup garanterer sikkerhed for både dig og arrangøren. Hvis eventet ikke betales gennem Cueup, vil det ikke tælle som erfaring på din profil, og du kan ikke modtage en anmeldelse. Når en arrangør ser dit tilbud, vil din erfaring fremgå og det vil hjælpe begrunde en højere pris hvis du har spillet til flere events. For at se et eksempel på hvad arrangøren ser, gå til din profil og vælg 'tilbud eksempel'."
+        ]
+      },
+      "8":{
+        "q":[
+          "Does the organizer always choose the cheapest offer?",
+          "Vælger arrangøren altid det billigeste tilbud?"
+        ],
+        "a":[
+          "The organizer will be able to see many things in addition to the price you have set. For example having a good description of yourself often helps getting the gig. Your experience will also be shown and will help you justify a higher price if you have played at more events.<br/> When setting a price for your offer, an additionals service fee is added to the price to help us run the platform. This fee is a calculated percentage of your price where the percentage is higher for a small offer and lower for a large offer. In this manner we encourage you to make a higher offer.",
+          "Arrangøren vil se dit tilbud i forbindelse med andet information. For eksempel hvis du har en god beskrivelse af dig selv og et imødekommende billede, vil det hjælpe dig hive gigs hjem. Din erfaring vil også vises på tilbudet og det vil hjælpe dig godtgøre en højere pris hvis du har spillet til flere events.<br/> Når du afgiver et tilbud, vil der tilføjes et servicegebyr. Dette gebyr er en udregnet procentdel baseret på dit tilbud, hvor procentdelen vil være større for et billigt tilbud og mindre for et dyrere tilbud. På den måde støtter vi højere tilbud." 
+        ]
+      },
+      "9":{
+        "q":[
+          "Can my own customers pay through Cueup?",
+          "Kan mine egne kunder betale gennem Cueup?"
+        ],
+        "a":[
+          "Yes. Go to your profile and scroll to the bottom. Here you'll find a section called 'REFER ORGANIZERS', and you can use one of the provided methods to get share a link to your profile. When referring your own customers the DJ fee will be discarded.",
+          "Ja. Gå til din profil og scroll ned i bunden. Her finder du 'HENVIS ARRANGØRER', og du kan bruge en af metoderne til at dele din profil til at blive booket direkte. Når du henviser dine egne kunder, vil DJ gebyret blive fjernet."
+        ]
+      },
+      "10":{
+        "q":[
+          "Can I add my own reviews from earlier customers?",
+          "Kan jeg selv tilføje anmeldelser fra tidligere kunder?"
+        ],
+        "a":[
+          "Yes. Contact us using the chat function or our email, and we'll sort it out.",
+          "Ja, kontakt os og vi vil hjælpe dig med at få anmeldelsen på din profil."
+        ]
+      },
+      "11":{
+        "q":[
+          "How quickly do I get my money?",
+          "Hvor hurtigt bliver jeg udbetalt?"
+        ],
+        "a":[
+          "When you have played a gig, the transfer to your bankaccount will be made a day after the event is finished. Depending on the bank you are using, the transfer can take up to a week.",
+          "Når du har spillet et gig, overfører vi til din bankkonto dagen efter eventet er færdigt. Alt afhængigt af din bank, kan overførslen tage op til en uge."
+        ]
+      },
+      "12":{
+        "q":[
+          "Does Cueup pay or report my taxes?",
+          "Betaler eller indberetter Cueup min skat?"
+        ],
+        "a":[
+          "Currently Cueup does not handle any of your taxes. If an organizer asks for a receipt, it is your responsibility to provide a receipt showing VAT for the amount you are paid. When the organizer pays, Cueup will send the organizer an initial receipt showing the total amount paid and the VAT of the service fees.",
+          "I øjeblikket håndterer Cueup ikke din skat. Hvis en arrangør beder om en kvittering, er det dit ansvar at forsyne en kvittering der viser moms for din andel af betalingen. Når arrangøren betaler, vil Cueup sende en kvittering der viser det fulde beløb betalt og moms af vores servicegebyr."
+        ]
+      },
+      "13":{
+        "q":[
+          "Is my profile public?",
+          "Er min profil offentlig?" 
+        ],
+        "a":[
+          "Yes, but people can only find your profile if they have the corresponding link. To see your public profile either go to your profile and select 'public profile', or logout and go to the url of your profile.",
+          "Ja. For at se din offentlige profil, gå til din profil og tryk 'public profile', eller log ud og besøg din profils URL."
+        ]
+      }
+    },
+    "organizer":{
+      "1":{
+        "q":[
+          "How much does it cost?",
+          "Hvor meget koster det?"
+        ],
+        "a":[
+          "At Cueup the DJs set their own prices, therefore we can't guarentee finding a DJ within your budget. It will help a lot if you write what your budget is when posting the event.",
+          "Hos Cueup sætter vores DJs deres egne priser, derfor kan vi ikke garantere at finde en DJ inden for dit budget. Det vil hjælpe meget hvis du skriver hvad dit budget er når du indsender dit event."
+        ]
+      },
+      "2":{
+        "q":[
+          "Is it safe?",
+          "Er det sikkert?"
+        ],
+        "a":[
+          "The booking process at Cueup is very safe. When choosing between offers from the DJs, you can see previous reviews, their average rating and pictures. That way you can choose a DJ that you trust.<br/> In the case that a DJ cancels all your money will be refunded. If you are not satisfied for some other reason, please contact us and we will do our best to help your case.",
+          "Bookingprocessen hos Cueup er meget sikker. Når du vælger mellem tilbud fra DJs, kan du se tidligere anmeldelser, deres gennemsnitlige bedømmelse og billeder. På den måde kan du vælge en DJ som du stoler på. <br/> i tilfælde af at en DJ aflyser, vil alle dine penge blive refunderet. Hvis du ikke er tilfreds af andre grunde, så kontakt os, og vi vil gøre vores bedste for at hjælpe dig."
+        ]
+      },
+      "3":{
+        "q":[
+          "Where are the DJs available?",
+          "Hvor kan jeg booke DJs?"
+        ],
+        "a":[
+          "Our DJs are located all over the world, but currently we are focusing on growing in Denmark. When posting an event, you will get notified if no DJs could be found in the area.",
+          "Vores DJs befinder sig i hele verden, men i øjeblikket er vi fokuseret på Danmark, og det er her vi har flest DJs. Når du laver et event, vil du få besked hvis vi ikke kan finde nogle DJs i dit område."
+        ]
+      },
+      "4":{
+        "q":[
+          "Can I contact the DJ before booking?",
+          "Kan jeg kontakte DJen før jeg booker?"
+        ],
+        "a":[
+          "Yes. When receiving an offer, you can chat with the DJ. You can then contact the DJ to discuss the price for example. After paying you will receive the DJs phonenumber and email.",
+          "Ja. Når du modtager et tilbud kan du chatte med DJen for at afstemme prisen etc. Efter du har betalt vil du modtage email og telefonnummer på DJen."
+        ]
+      },
+      "5":{
+        "q":[
+          "What if the DJ cancels?",
+          "Hvad hvis DJen aflyser?"
+        ],
+        "a":[
+          "If the DJ cancels all your money will be refunded. Then we will do our best to get you a new DJ as quickly as possible. If you had multiple offers before confirming the DJ, you will be able to choose and confirm a new DJ.",
+          "Hvis DJen aflyser vil alle dine penge blive refunderet. Dernæst vil vi gøre vores bedste for at finde en ny DJ så hurtigt som muligt. Hvis du havde andre tilbud før du betalte, kan du gå tilbage og vælge en ny DJ."
+        ]
+      },
+      "6":{
+        "q":[
+          "What if I cancel the event?",
+          "Hvad hvis jeg aflyser et event?"
+        ],
+        "a":[
+          "If you cancel the event, your money will be refunded in regards to the DJs cancelation policy. An example of a cancelation policy would be a 50% refund if cancelled less than 2 days before event, otherwise 100% refund.",
+          "Hvis du aflyser et event, vil du refunderet penge i overenstemmelse med DJens aflysningspolitik. Et eksmpel på en aflysningspolitik kan være 50% refunderet hvis eventet aflyses med mindre end 2 dage til start, ellers 100% refunderet."
+        ]
+      },
+      "8":{
+        "q":[
+          "What to do if the DJ want's to get paid under the table?",
+          "Hvad hvis DJen vil betale udenom Cueup?"
+        ],
+        "a":[
+          "If the DJ asks if you can pay in another way than using Cueup, you should refuse. The payment process at Cueup ensures safety for both you and the DJ. If the event is not paid through Cueup, we won't be able to help you if a DJ cancels.",
+          "Hvis DJen beder dig om at betale på anden vis end Cueup, bør du afslå det. Betalingsprocessen hos Cueup garanterer sikkerhed for både dig og DJen. Hvis eventet ikke betales gennem Cueup, kan vi f.eks. ikke hjælpe dig i tilfældet af at DJen aflyser, eller hvis DJen ikke opfylder dine behov."
+        ]
+      },
+      "9":{
+        "q":[
+          "How many offers do I get?",
+          "Hvor mange tilbud vil jeg modtage="
+        ],
+        "a":[
+          "We aim to give you 3 offers but you might receive more or less.",
+          "Vi forsøger at give dig 3 tilbud, men du kan også modtage færre eller flere."  
+        ]
+      },
+      "10":{
+        "q":[
+          "The money has not been charged from my card yet?",
+          "Pengene er ikke trukket fra mit kort endnu?"
+        ],
+        "a":[
+          "It can be up to seven days for the charge to appear. If you have received an email confirming the charge, and the event is marked as confirmed, the DJ has been confirmed succesfully.",
+          "Det kan tage op til 7 dage før opkrævningen fremgår på din konto. Hvis du har modtaget en email med bekræftelse og eventet fremgår som bekræftet, er DJen booket og bekræftet."
+        ]
+      },
+      "11":{
+        "q":[
+          "Can I change the location or time of my event?",
+          "Kan jeg ændre placeringen eller tidspunktet for mit event?"
+        ],
+        "a":[
+          "No. In case that the location or time changes, remember to tell the DJ. If the DJ is not able to play at the new location, you'll have to cancel the event and post a new event at the new location.",
+          "Nej. Hvis du vil ændre placeringen eller tiden, skal du fortælle det til DJen. Hvis DJ ikke kan imødekomme ændringerne er du nødt til at aflyse eventet og oprette et nyt."
+        ]
+      },
+      "12":{
+        "q":[
+          "I need a receipt including VAT.",
+          "Jeg skal bruge en kvittering der viser moms."
+
+        ],
+        "a":[
+          "When an event is paid, Cueup will send an initial receipt showing the total amount paid and the VAT ONLY of the service fees. It is the responsibility of the DJs to provide a receipt showing VAT of their part of the offer.",
+          "Når du betaler en DJ, vil Cueuep sende dig en kvittering der viser det fulde beløb og moms for servicegebyret. Det resterende beløb er en aftale mellem dig og DJen, og du skal bede DJen om at levere en kvittering for deres andel."
+        ]
+      }
+    }
+  },
+  "Questions and answers":[
+    "Questions and answers",
+    "Spørgsmål og svar"
+  ],
+  "For DJs":[
+    "For DJs",
+    "Til DJs"
+  ],
+  "For organizers":[
+    "For organizers",
+    "Til arrangører"
+  ]
+}
