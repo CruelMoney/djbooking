@@ -3,7 +3,8 @@ import React, {Component} from 'react'
 import {
   Route,
   Switch,
-  withRouter
+  withRouter,
+  Redirect
   } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {init as analytics} from './utils/analytics/autotrack';
@@ -29,23 +30,35 @@ import moment from 'moment';
 import {authService} from './utils/AuthService';
 import { getTranslatedURL } from './utils/HelperFunctions';
 
-
+let redirected = false;
 
 const App = class extends Component {
 
   state = {
-    pageLocation: ""
+    pageLocation: "",
+    redirect: false
   }
   
   componentWillMount(){
-    const { location } = this.props;
-    const url = location.pathname.split('/');
-    const urlLocale = url[1] === "dk" ? "da" : "en";
+    const { location, translate, activeLanguage, setActiveLanguage } = this.props;
+    const savedLanguage = localStorage.language;
+    const url = location.pathname;
+    const urlLocale = url.split('/')[1] === "dk" ? "da" : "en";
+    let language = !!savedLanguage ? savedLanguage : urlLocale;
 
-    if(urlLocale !== "en"){
+    // Update language and url if user has different language saved
+    if(!!savedLanguage && savedLanguage !== urlLocale){
+      setActiveLanguage(language);
+      const redirectUrl = getTranslatedURL(url, translate("code."+activeLanguage), translate);
+      this.setState({
+        redirect: redirectUrl
+      })
+    }
+
+    if(language !== "en"){
       authService.updateRedirectURL('/dk');
     }
-    moment.locale(urlLocale);
+    moment.locale(language);
   }
 
   componentDidMount(){
@@ -57,8 +70,6 @@ const App = class extends Component {
    }
 
    componentWillReceiveProps(nextprops){
-
-
     const { activeLanguage } = this.props;
       if(activeLanguage !== nextprops.activeLanguage){
         moment.locale(nextprops.activeLanguage);
@@ -68,6 +79,12 @@ const App = class extends Component {
 
   render() {
     const { location, translate, activeLanguage } = this.props;
+    const { redirect } = this.state;
+    if(!!redirect && location.pathname !== redirect && !redirected){
+      redirected = true;
+      return <Redirect to={redirect} />
+    }
+
     const title = translate("Book DJs with ease") + " | Cueup"
     const description =  translate('site-description')
     const url = location.pathname;
@@ -76,7 +93,7 @@ const App = class extends Component {
     cssLocation = `location_${cssLocation || ""}`;
     const pageURL = Environment.CALLBACK_DOMAIN + location.pathname;
     const altLangURL = Environment.CALLBACK_DOMAIN + getTranslatedURL(url, translate("code."+activeLanguage), translate);
-   
+    
 
     return (
       <ErrorHandling>

@@ -41,6 +41,8 @@ class footer extends Component{
       authService.updateRedirectURL('');
     }
 
+    localStorage.language = code;
+
     history.replace(url)
   }
 
