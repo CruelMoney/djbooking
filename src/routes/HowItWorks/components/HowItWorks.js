@@ -16,6 +16,8 @@ export default class Index extends Component{
   themeColor = "#31DAFF"
 
   render() {
+    const { translate } = this.props;
+
     return (
       <div>
         <header className="">
@@ -28,8 +30,9 @@ export default class Index extends Component{
           <div className="container">
             <div className="row">
             <div className="col-sm-5 col-md-4 col-md-push-6 col-sm-push-5">
-                <h1 key="title">How it works</h1>
-                <p key="paragraph">The booking process at Cueup is designed to be secure and easy to use for both DJs and bookers. Learn more about the booking process below. If you have additional questions check out the faq or write us a message. 
+                <h1 key="title">{translate('how-it-works.title')}</h1>
+                <p key="paragraph">
+                {translate('how-it-works.introduction')}
                 </p>
             </div>
               <div className="col-md-4 col-md-pull-3 col-sm-4 col-sm-pull-4 particles">
@@ -58,11 +61,12 @@ export default class Index extends Component{
                   <div>
                     <div key="a" className="how-to-title">
                       <div className="circle">1</div>
-                      <h2>Organizer creates event</h2>
+                      <h2>
+                        {translate('how-it-works.process.1.h')}
+                      </h2>
                     </div>
                     <p key="b">
-                      Organizers choose a date and fill out the form with details about their event and what requirements they have on the arrange event page.
-After creating an event, the best qualified DJs that meet the requirements of the event will be asked to give an offer.
+                    {translate('how-it-works.process.1.p')}
                     </p>
                   </div>
                 </div>
@@ -70,35 +74,34 @@ After creating an event, the best qualified DJs that meet the requirements of th
               <section>
                     <div key="a" className="how-to-title">
                       <div className="circle">2</div>
-                      <h2>Qualified DJs return offer</h2>
+                      <h2>{translate('how-it-works.process.2.h')}</h2>
                     </div>
                     <p key="b">
-The DJs will then either decline the event or send their offer for the event. If necessary they can contact the organizer and discuss the requirements further. As soon as an offer is made, the organizer will be notified.    </p>
+                    {translate('how-it-works.process.2.p')}
+                    </p>
               </section>
               <section>
                     <div key="a" className="how-to-title">
                       <div className="circle">3</div>
-                      <h2>Organizer confirms an offer</h2>
+                      <h2>{translate('how-it-works.process.3.h')}</h2>
                     </div>
-                    <p key="b">
-When the organizer receives an offer, they can either confirm the offer by paying the specified amount using Cueup's build in payment system, or decline the offer if no longer needed. If necessary the organizer can contact the DJ to clear up any uncertainties. </p>
+                    <p key="b">{translate('how-it-works.process.3.p')}</p>
               </section>
               <section>
                     <div key="a" className="how-to-title">
                       <div className="circle">4</div>
-                      <h2>DJ plays at event</h2>
+                      <h2>{translate('how-it-works.process.4.h')}</h2>
                     </div>
-                    <p key="b">
-The next step is for the DJ to play at the event. 
-If for any reason the DJ has to cancel, the full amount will be refunded instantly to the organizer. If the organizer has to cancel, the amount specified by the DJ’s cancellation policy will be refunded. Read more about cancellation process <a style={{color:this.themeColor}} href="/faq/organizer" >here</a>.</p>              </section>
+                    <p key="b">{translate('how-it-works.process.4.p')}</p> 
+             </section>
               <section>
 
                     <div key="a" className="how-to-title">
                       <div className="circle">5</div>
-                      <h2>Payout is released</h2>
+                      <h2>{translate('how-it-works.process.5.h')}</h2>
                     </div>
                     <p key="b">
-                      The money will be withhold by us, until the day after the event has taken place. This is in order to assure that the job was completed. The money will then be transferred to the DJ’s bank account.
+                        {translate('how-it-works.process.5.p')}
                       </p>
 
               </section>
@@ -107,35 +110,41 @@ If for any reason the DJ has to cancel, the full amount will be refunded instant
       </div>
       <div className="info-boxes">
             <div className="container">
-              <div className="row">
+            <div className="row">
                       <div  className="col-sm-6 col-md-5 col-md-push-1">
                         <div className="card">
-                          <img src={padlock} alt="icon"/>
-                      <h2 style={{color:this.themeColor}}>Secured booking system</h2>
+                          <img suppressHydrationWarning={true} src={padlock} alt="icon"/>
+                      <h2 style={{color:this.themeColor}}>
+                      { translate('how-it-works.sections.left.title') }
+                      </h2>
                       <p>
-At Cueup the process of booking ensures that both the organizer and the DJ are protected from fraud. In case of a cancelation from either side, the money is instantly refunded. Otherwise the money is disbursed when the DJ has played at the event. In case of a cancelation by the DJ, we will try to find a new DJ as quickly as possible.</p>
-                  </div>
+                      { translate('how-it-works.sections.left.content') }
+                      </p>
+                    </div>
                 </div>
                 <div  className="col-sm-6 col-md-5 col-md-push-1">
                   <div className="card">
-                    <img src={note} alt="icon"/>
-                    <h2 style={{color:this.themeColor}}>The most qualified DJs</h2>
+                    <img suppressHydrationWarning={true} src={note} alt="icon"/>
+                    <h2 style={{color:this.themeColor}}>
+                    { translate('how-it-works.sections.right.title') }
+                    </h2>
                     <p>
-At Cueup we focus on finding the most qualified DJs for your event - so you don’t have to. Don’t waste time searching for DJs when you can have offers from great DJs send directly to you.  Each offer shows the DJ, their reviews and rating so you can confidently choose a DJ you can trust.                     </p>
+                    { translate('how-it-works.sections.right.content') }
+                    </p>
                   </div>
                 </div>
                 </div>
               </div>
               </div>
-      <Footer
-        color={this.themeColor}
-        firstTo="/"
-        secondTo="/signup"
-        firstLabel="Arrange event"
-        secondLabel="Become DJ"
-        title="Ready to get started?"
-        subTitle="Arrange an event, or apply to become a DJ."
-        />
+          <Footer
+            color={this.themeColor}
+            firstTo={translate("routes./")}
+            secondTo={translate("routes./signup")}
+            firstLabel={translate("arrange-event")}
+            secondLabel={translate("become-dj")}
+            title={translate("ready-to-get-started")}
+            subTitle={translate("arrange-event-or-become-dj")}
+          />
       </div>
 
     )

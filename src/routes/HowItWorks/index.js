@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import HowItWorks from './components/HowItWorks'; 
 import Helmet from 'react-helmet-async';
-import {localize} from 'react-localize-redux';
+import content from './content.json';
+import addTranslate from '../../components/higher-order/addTranslate';
 
 class Index extends Component{
   render(){
@@ -14,9 +15,9 @@ class Index extends Component{
         <meta property="og:title"       content={title} />
         <meta name="twitter:title"      content={title} />
       </Helmet>
-      <HowItWorks />
+      <HowItWorks translate={translate} />
     </div>
   )}
 }
 
-export default localize(Index, 'locale');
+export default addTranslate(Index, content);
