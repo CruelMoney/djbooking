@@ -41,9 +41,10 @@ class Signup extends Component{
       <div className="row center-xs"> 
         <div className="col-xs-12">
             <h1 className="Header-title common-PageTitle">
-              Apply to become DJ at Cueup.
+              {translate('signup.title')}
                <span className="Header-subTitle common-PageSubtitle">
-               Get the gigs you want.
+               {translate('signup.description')}
+              
                </span>
               </h1>
              
@@ -60,12 +61,11 @@ class Signup extends Component{
           <div  className="col-sm-6 col-md-5 col-md-push-1">
             <div className="card">
               <img src={krIcon} alt="Money icon"/>
-              <h2 style={{color:"rgb(176, 49, 255)"}}>Membership FREE of charge, you set your own prices</h2>
+              <h2 style={{color:"rgb(176, 49, 255)"}}>
+              {translate('signup.sections.left.header')}
+              </h2>
               <p style={{color:"#32325D"}}>
-                At Cueup you don't have to pay anything to start getting gigs. 
-                In fact you don't have to pay anything at anytime. 
-                For each gig you play, a fee of 3% will be subtracted from the price you have offered. That's how we keep the platform running. When the gig is finished, the money is transferred to your bank account.
-                To get started - just sign up below.
+              {translate('signup.sections.left.content')}
               </p>
             </div>
           </div>
@@ -74,11 +74,12 @@ class Signup extends Component{
         <div  className="col-sm-6 col-md-5 col-md-push-1">
           <div className="card">
             <img src={vinyl} alt="vinyl icon"/>
-            <h2 style={{color:"rgb(176, 49, 255)"}}>We handle the payment, you enjoy the benefits</h2>
+            <h2 style={{color:"rgb(176, 49, 255)"}}>
+            {translate('signup.sections.right.header')}
+            </h2>
             <p style={{color:"#32325D"}}>
-            Cueup is build for the DJs! We will find the gigs that suites your style. At the same time you have the freedom to decline any gig that you are offered. You'll never have to worry about collecting money again, as the organizers will pay up front using Cueup. In case of a cancelation, you define your own cancelation policy and will still get paid according to your policy. 
-           
-            {/* Cueup is build for the DJs! By specifying what genres you like to play and telling about yourself, we will find the gigs that suites your style. At the same time you have the freedom to decline any gig that you are offered. The gig will simply be offered to the next DJ in line. We also strive to make sure, that all DJs get an equal amount of gigs.  */}
+            
+            {translate('signup.sections.right.content')}
               
             </p>
           </div>
@@ -93,6 +94,7 @@ class Signup extends Component{
     <div className="container"  style={{marginTop: "80px", marginBottom: "80px"}}>
       <div className="signup">
         <SignUpForm
+          translate={translate}
           reference={this.state.reference}
         />
       </div>

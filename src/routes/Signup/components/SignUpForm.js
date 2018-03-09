@@ -45,7 +45,7 @@ class SignupForm extends Component {
   }
 
   render() {
-    const {children} = this.props;
+    const {children, translate} = this.props;
 
     return (
       <div>
@@ -53,9 +53,9 @@ class SignupForm extends Component {
           <RegistrationElement
             isFilter={true}
             name='signup'
-            label={!children &&  "Sign up"}
+            label={!children &&  translate("Sign up")}
             active={true}
-            text={!children && "Do you want to sign in using soundcloud, facebook or your email? By joining you agree to our terms and conditions"}
+            text={!children && translate("signup.form.description")}
             hideOn={['SIGNED_IN']}>
             {children}
             <div className="buttons">
@@ -82,23 +82,23 @@ class SignupForm extends Component {
 
           <RegistrationElement
             name="email"
-            label="E-mail"
+            label="Email"
             active={true}
-            text="Your email is used to notify you whenever you get a gig or if we have some other important news. It is only shared with organizers and only when you make them an offer."
+            text={translate("signup.form.email")}
             hideOn={['FACEBOOK', 'SIGNED_IN']}>
             <Textfield
               big
               name="email"
               validate={['required', 'email']}
               placeholder="mail@gmail.com"
-              label="Your Email"/>
+              label={translate("Your Email")}/>
           </RegistrationElement>
 
           <RegistrationElement
             name="password"
             label="Password"
             active={true}
-            text="Please specify a password with a minimum length of 6 characters."
+            text={translate("signup.form.password")}
             hideOn={['FACEBOOK', 'SOUNDCLOUD', 'SIGNED_IN']}>
             <Textfield
               big
@@ -106,7 +106,7 @@ class SignupForm extends Component {
               name="password"
               validate={['required', 'minLength']}
               placeholder="••••••"
-              label="Your password"/>
+              label={translate("Your password")}/>
           </RegistrationElement>
 
         </NumberedList>
@@ -122,7 +122,7 @@ class SignupForm extends Component {
           >
           <div style={{
             width: "100px"
-          }}>CONTINUE</div>
+          }}>{translate("continue")}</div>
         </SubmitButton>
         {this.state.msg
           ? <div style={{
