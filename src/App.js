@@ -41,7 +41,7 @@ const App = class extends Component {
   
   componentWillMount(){
     const { location, translate, activeLanguage, setActiveLanguage } = this.props;
-    const savedLanguage = localStorage.language;
+    const savedLanguage = typeof localStorage !== 'undefined' ? localStorage.language : false;
     const url = location.pathname;
     const urlLocale = url.split('/')[1] === "dk" ? "da" : "en";
     let language = !!savedLanguage ? savedLanguage : urlLocale;
@@ -63,10 +63,7 @@ const App = class extends Component {
 
   componentDidMount(){
       // Setup custom analytics
-      analytics();
-      // Preload common pages
-      // AsyncHowItWorks.preload();
-      // AsyncSignup.preload();
+      analytics();      
    }
 
    componentWillReceiveProps(nextprops){
