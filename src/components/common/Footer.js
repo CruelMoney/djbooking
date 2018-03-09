@@ -207,8 +207,8 @@ class footer extends Component{
 
     function mapDispatchToProps(dispatch, ownprops) {
       return {
-        changeCurrency: (currency) => {dispatch(actions.changeCurrency(currency))},
-        setActiveLanguage: (code) => {dispatch(setActiveLanguage(code))}
+        changeCurrency: (currency) => { dispatch(actions.changeCurrency(currency)) },
+        setActiveLanguage: (code) => { dispatch(setActiveLanguage(code)) }
       }
     }
 
