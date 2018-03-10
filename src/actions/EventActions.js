@@ -5,6 +5,7 @@ import CueupService from '../utils/CueupService'
 import GeoCoder from '../utils/GeoCoder'
 import StripeService from '../utils/StripeService'
 import * as tracker from '../utils/analytics/autotrack'
+import ReactPixel from 'react-facebook-pixel';
 
 var ActionTypes = c.ActionTypes
 const stripe = new StripeService()
@@ -106,6 +107,7 @@ export function postEvent(event, callback) {
           }else{
             (callback(null))
             tracker.trackEventPosted()
+            ReactPixel.track('Lead');
           }
         }
       ).catch(errMessage=>callback(errMessage))
@@ -116,7 +118,8 @@ export function postEvent(event, callback) {
 
 export function checkDjAvailability(form, callback) {
   return function (dispatch) {
-      tracker.trackCheckAvailability()
+      tracker.trackCheckAvailability();
+      ReactPixel.track('Search'); 
       getLocation(form.location).then((geoResult)=>{
               const event = converter.cueupEvent.toDTO(form);
               const geoData = {
@@ -225,7 +228,8 @@ export function payEvent(id, hash, data, callback) {
         if (err) {
           (callback(err))
         }else{
-          tracker.trackEventPaid(data.Amount+data.Fee)
+          tracker.trackEventPaid(data.Amount+data.Fee);
+          ReactPixel.track('Purchase', {currency: data.currency, value: data.Amount+data.Fee} );
           dispatch(fetchEvent(id, hash, null, callback))
         }
       })

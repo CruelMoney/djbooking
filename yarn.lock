@@ -7200,6 +7200,10 @@ react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
+react-facebook-pixel@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-facebook-pixel/-/react-facebook-pixel-0.1.0.tgz#8170b9bf3b1290b8a14f9ed594f25b1eb888b516"
+
 react-google-maps@^9.2.1:
   version "9.4.5"
   resolved "https://registry.yarnpkg.com/react-google-maps/-/react-google-maps-9.4.5.tgz#920c199bdc925e0ce93880edffb09428d263aafa"

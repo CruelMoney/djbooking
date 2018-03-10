@@ -9,6 +9,7 @@ import {
   ActionTypes
 } from '../constants/constants'
 import converter from '../utils/AdapterDTO'
+import ReactPixel from 'react-facebook-pixel';
 
 const cueup = new CueupService()
 
@@ -110,6 +111,7 @@ export function finishSignup({form, auth0Profile}, isDJ = false, callback) {
           loggedInCueup: true,
           redirect: true
         });
+        ReactPixel.track('CompleteRegistration'); 
       }
       callback(err,user)
     })

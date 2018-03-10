@@ -30,6 +30,7 @@ import 'moment/locale/da';
 import moment from 'moment';
 import {authService} from './utils/AuthService';
 import { getTranslatedURL } from './utils/HelperFunctions';
+import ReactPixel from 'react-facebook-pixel';
 
 let redirected = false;
 
@@ -65,6 +66,7 @@ const App = class extends Component {
   componentDidMount(){
       // Setup custom analytics
       analytics();      
+      ReactPixel.init(Environment.PIXEL_ID);
    }
 
    componentWillReceiveProps(nextprops){

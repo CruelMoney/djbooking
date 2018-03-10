@@ -8,6 +8,7 @@ import { currencyConverter } from '../../../../../utils/CurrencyConverter'
 import Chat from '../../../../../components/common/Chat'
 import EmptyPage from '../../../../../components/common/EmptyPage'
 import { localize } from 'react-localize-redux';
+import ReactPixel from 'react-facebook-pixel';
 
 class OfferCard extends Component{
   static propTypes = {
@@ -31,6 +32,11 @@ class OfferCard extends Component{
     this.setState({
       showChat: false
     })
+  }
+
+  showPayment = () => {
+    this.setState({showPopup:true})
+    ReactPixel.track('InitiateCheckout'); 
   }
 
   render(){
@@ -187,7 +193,7 @@ class OfferCard extends Component{
                 glow
                 disabled={this.props.disabled}
                 active={true}
-                onClick={()=>this.setState({showPopup:true})}
+                onClick={this.showPayment}
                 name="show-payout-popup"
               >{translate("Confirm")}</Button>
             }
