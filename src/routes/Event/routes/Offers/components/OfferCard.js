@@ -126,7 +126,7 @@ class OfferCard extends Component{
               <a href={"mailto:"+this.props.offer.dj.email}>{this.props.offer.dj.email}</a>
             </div>
             <div className="user-card-fact">
-              <p>{translate("Phone")}</p>
+              <p>{translate("Phone number")}</p>
               <a href={"tel:"+this.props.offer.dj.phone}>{this.props.offer.dj.phone}</a>
             </div>
 

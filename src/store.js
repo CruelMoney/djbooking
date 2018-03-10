@@ -13,6 +13,7 @@ import routesContent from "./constants/content/routes.json";
 let singletonStore = null;
 const isClient = typeof window !== 'undefined';
 const languages = ['en', 'da'];
+const missingTranslationMsg = '${key}';
 
 const getDefaultLanguage = (req) => {
   let defaultLanguage = "en";
@@ -56,7 +57,10 @@ export const configureStore = (initialState = {}, req) => {
   );
   
   if(!initialState.locale){
-    store.dispatch(initLocale(languages, {defaultLanguage: getDefaultLanguage(req)}));
+    store.dispatch(initLocale(languages, {
+      defaultLanguage: getDefaultLanguage(req),
+      missingTranslationMsg: missingTranslationMsg
+    }));
     store.dispatch(addTranslation(commonContent));
     store.dispatch(addTranslation(routesContent));
   }
