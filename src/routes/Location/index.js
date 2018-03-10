@@ -21,6 +21,7 @@ import aarhusDa from '../../assets/images/cities/aarhus_da.png'
 import defaultImageDa from '../../assets/images/cities/default_da.png';
 import content from './content.json';
 import addTranslate from '../../components/higher-order/addTranslate';
+import {Environment} from '../../constants/constants'
 import './index.css';
 
 const AsyncRequestForm = Loadable({
@@ -145,10 +146,10 @@ class Location extends Component{
     let title = location.name;
     const radius = !!city ? 25000 : (isMobile ? 200000 : 100000);
     const { coordinates } = location;
-
-
     const siteDescription = translate('location.description', {location:title});
     const siteTitle = translate('location.title', {location:title});
+    const thumb = Environment.CALLBACK_DOMAIN + location.image;
+
     return (
       <div className="locations-page">
         
@@ -159,11 +160,11 @@ class Location extends Component{
           <meta property="og:title"               content={siteTitle + " | Cueup"} />
           <meta property="og:type"                content={'website'} />
           <meta property="og:description"         content={siteDescription} />
-          <meta property="og:image"               content={location.image} />
+          <meta property="og:image"               content={thumb} />
 
           <meta name="twitter:title"              content={siteTitle + " | Cueup"} />
           <meta name="twitter:description"        content={siteDescription} />
-          <meta name="twitter:image"              content={location.image} />
+          <meta name="twitter:image"              content={thumb} />
 
           <meta name="geo.position"               content={`${location.coordinates.lat}; ${location.coordinates.lng}`} />
           <meta name="geo.placename"              content={title} />

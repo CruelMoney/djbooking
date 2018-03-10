@@ -21,6 +21,7 @@ import Terms from './routes/Terms';
 import NotFound from './routes/NotFound';
 import LocationLanding from './routes/Location';
 import defaultImage from './assets/images/cities/default.png'
+import defaultImageDa from './assets/images/cities/default_da.png'
 import Blog from './routes/Blog';
 import ErrorHandling from './components/common/ErrorPage'
 import Navigation from './components/Navigation';
@@ -82,6 +83,7 @@ const App = class extends Component {
       return <Redirect to={redirect} />
     }
 
+    const thumb = Environment.CALLBACK_DOMAIN + (activeLanguage === "da" ? defaultImageDa : defaultImage);
     const title = translate("Book DJs with ease") + " | Cueup"
     const description =  translate('site-description')
     const url = location.pathname;
@@ -108,14 +110,14 @@ const App = class extends Component {
               <meta property="fb:app_id"          content={Environment.FACEBOOK_ID}/>
               <meta property="og:title"           content={title} />
               <meta property="og:description"     content={description} />
-              <meta property="og:image"           content={defaultImage} />
+              <meta property="og:image"           content={thumb} />
 
               <meta name="twitter:card"               content="summary_large_image" />
               <meta name="twitter:site"               content="@@CueupDK" />
               <meta name="twitter:creator"            content="@@CueupDK" />
               <meta name="twitter:title"              content={title} />
               <meta name="twitter:description"        content={description} />
-              <meta name="twitter:image"              content={defaultImage} />
+              <meta name="twitter:image"              content={thumb} />
               <meta name="twitter:url"                content={pageURL} />
 
             </Helmet>
