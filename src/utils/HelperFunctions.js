@@ -6,7 +6,8 @@ const getTranslatedURL = (url, code, translate) => {
     .filter(p => p !== "")
     .filter(p => p !== "dk")
     .map(p => {
-      return translate("routes."+p);
+      const transP = translate("routes."+p);
+      return transP.indexOf('routes.') !== -1 ? p : transP;
     });
 
   if(code === "da"){
