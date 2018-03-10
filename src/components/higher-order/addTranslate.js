@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { addTranslation, getTranslate } from 'react-localize-redux';
+import { addTranslation, getTranslate, getActiveLanguage } from 'react-localize-redux';
 import { connect } from 'react-redux';
 
 const addTranslate = (Wrappee, content) => {
@@ -19,7 +19,8 @@ const addTranslate = (Wrappee, content) => {
 
   const mapStateToProps = state => {
     return{
-      translate: getTranslate(state.locale)
+      translate: getTranslate(state.locale),
+      currentLanguage: getActiveLanguage(state.locale).code
     }
   }
 

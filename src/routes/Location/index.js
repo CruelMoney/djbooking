@@ -15,6 +15,10 @@ import copenhagen from '../../assets/images/cities/copenhagen.png';
 import odense from '../../assets/images/cities/odense.png'
 import aarhus from '../../assets/images/cities/aarhus.png'
 import defaultImage from '../../assets/images/cities/default.png';
+import copenhagenDa from '../../assets/images/cities/copenhagen_da.png';
+import odenseDa from '../../assets/images/cities/odense_da.png'
+import aarhusDa from '../../assets/images/cities/aarhus_da.png'
+import defaultImageDa from '../../assets/images/cities/default_da.png';
 import content from './content.json';
 import addTranslate from '../../components/higher-order/addTranslate';
 import './index.css';
@@ -61,7 +65,7 @@ const locations = {
   },
   danmark: {
     name: 'Danmark',
-    image: defaultImage,
+    image: defaultImageDa,
     coordinates: {
       lat: 56.35211531,
       lng: 11.01690928
@@ -69,7 +73,7 @@ const locations = {
     cities: {
       koebenhavn : {
         name: 'København',
-        image: copenhagen,
+        image: copenhagenDa,
         coordinates: {
           lat: 55.6760968,
           lng: 12.5683372
@@ -77,7 +81,7 @@ const locations = {
       }, 
       odense: {
         name: 'Odense',
-        image: odense,
+        image: odenseDa,
         coordinates: {
           lat: 55.403756,
           lng: 10.40237
@@ -85,7 +89,7 @@ const locations = {
       }, 
       aarhus: {
         name: 'Århus',
-        image: aarhus,
+        image: aarhusDa,
         coordinates: {
           lat: 56.162939,
           lng: 10.203921
