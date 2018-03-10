@@ -66,7 +66,9 @@ const App = class extends Component {
   componentDidMount(){
       // Setup custom analytics
       analytics();      
+      console.log(Environment.PIXEL_ID)
       ReactPixel.init(Environment.PIXEL_ID);
+      ReactPixel.pageView(); 
    }
 
    componentWillReceiveProps(nextprops){
