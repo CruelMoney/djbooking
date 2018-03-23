@@ -20,8 +20,8 @@ import Faq from './routes/Faq';
 import Terms from './routes/Terms';
 import NotFound from './routes/NotFound';
 import LocationLanding from './routes/Location';
-import defaultImage from './assets/images/cities/default.png'
-import defaultImageDa from './assets/images/cities/default_da.png'
+import defaultImage from './assets/images/default.png'
+import defaultImageDa from './assets/images/default_da.png'
 import Blog from './routes/Blog';
 import ErrorHandling from './components/common/ErrorPage'
 import Navigation from './components/Navigation';
