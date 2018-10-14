@@ -19,6 +19,15 @@
 	position: sticky;
 }
 
+@media only screen and (max-width: 990px) {
+	.context-actions-wrapper {
+		position: relative;
+		height: 100%;
+		left: 0;
+		top: 0;
+	}
+}
+
 @media only screen and (max-width: 480px) {
 	.user-header {
 		position: relative;
