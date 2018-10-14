@@ -2602,12 +2602,49 @@ header .info-boxes {
 	flex-direction: row;
 	width: 276px;
 	margin-left: 20px;
-	opacity: 0;
-	transform: translateX(15px);
+}
+.dj-card .profile-picture {
+	background: #f4f9fc;
+	position: relative;
+}
+.dj-card .profile-picture:after {
+	content: "";
+	width: 40%;
+	height: 40%;
+	background: rgba(191, 191, 191, 0.1);
+	border-radius: 50%;
+	z-index: 0;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -90%);
+	position: absolute;
+}
+.dj-card .profile-picture:before {
+	content: "";
+	width: 60%;
+	height: 70%;
+	background: rgba(191, 191, 191, 0.1);
+	border-radius: 20%;
+	z-index: 0;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -90%);
+	-ms-transform: translate(-50%, -90%);
+	transform: translate(-50%, 10%);
+	position: absolute;
 }
 
-.dj-card.loaded {
-	animation: 1000ms slidein forwards cubic-bezier(0.77, 0, 0.175, 1);
+.dj-card img {
+	z-index: 1;
+	position: relative;
+	opacity: 0;
+	transition: all 500ms ease;
+	transform: scale(1.1);
+}
+
+.dj-card.loaded img {
+	opacity: 1;
+	transform: none;
 }
 
 .dj-card .profile-picture img,
