@@ -13,6 +13,7 @@ class CurrencyConverter {
 				this.initialize();
 			} else {
 				document.querySelector("#money-js").addEventListener("load", () => {
+					this.fx = window.fx;
 					this.initialize();
 				});
 			}
@@ -40,7 +41,7 @@ class CurrencyConverter {
 							.catch(error => {
 								console.log(error);
 								this.error = true;
-								throw Error("JSON could not be parsed");
+								return error;
 							});
 					} else {
 						this.error = true;
