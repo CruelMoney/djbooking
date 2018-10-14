@@ -215,6 +215,11 @@ class footer extends Component {
 										Odense
 									</Link>
 								</li>
+								{this.props.currentLanguage === "en" && (
+									<li>
+										<Link to={"/book-dj/indonesia/bali"}>Bali</Link>
+									</li>
+								)}
 							</ul>
 						</div>
 
