@@ -10,6 +10,7 @@ import EmptyPage from "../../../../../components/common/EmptyPage";
 import { localize } from "react-localize-redux";
 import ReactPixel from "react-facebook-pixel";
 import moment from "moment";
+import CurrencyValue from "../../../../../components/common/CurrencyValue";
 
 class OfferCard extends Component {
 	static propTypes = {
@@ -162,19 +163,23 @@ class OfferCard extends Component {
 								textAlign: "center"
 							}}
 						>
-							{this.props.offer.gigStatus === "Confirmed"
-								? currencyConverter.getConvertedFormatted(
-										this.props.paymentAmount,
-										this.props.paymentCurrency,
-										this.props.currency,
-										true
-									)
-								: currencyConverter.getConvertedFormatted(
-										this.props.offer.amount + this.props.offer.serviceFeeAmount,
-										this.props.offer.currency,
-										this.props.currency,
-										true
-									)}
+							{this.props.offer.gigStatus === "Confirmed" ? (
+								<CurrencyValue
+									amount={this.props.paymentAmount}
+									from={this.props.paymentCurrency}
+									to={this.props.currency}
+									safeConvert
+								/>
+							) : (
+								<CurrencyValue
+									amount={
+										this.props.offer.amount + this.props.offer.serviceFeeAmount
+									}
+									from={this.props.offer.currency}
+									to={this.props.currency}
+									safeConvert
+								/>
+							)}
 						</div>
 					) : null}
 
