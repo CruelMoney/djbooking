@@ -105,6 +105,9 @@ textarea:focus {
 	border-color: inherit !important;
 }
 
+#content {
+	margin-top: 90px;
+}
 ul {
 	list-style-type: none;
 	padding: 0;
@@ -476,37 +479,32 @@ footer .social svg {
 	align-items: center;
 	pointer-events: all;
 }
-
-#preFooter {
+#preFooter-wrapper {
+	overflow: hidden;
+	padding-top: 500px;
+	margin-top: -500px;
+	background: transparent;
 	position: relative;
-	padding: 50px 0;
-	height: 229px;
-	width: 100%;
-	margin-top: -80px;
 }
-#preFooterPseudo:before {
+#preFooter {
+	width: 100%;
+	padding: 50px 0;
+	background: transparent;
+}
+#preFooter:before {
 	content: "";
 	position: absolute;
 	left: 0;
 	right: 0;
-	top: -100px;
+	top: 350px;
 	z-index: 0;
 	height: 2000px;
 	background-color: inherit;
 	-webkit-transform: skew(0, -12deg);
 	transform: skew(0, -12deg);
 }
-#preFooterPseudo.noSkew:before {
-	content: "";
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: -100px;
-	z-index: 0;
-	height: 2000px;
-	background-color: inherit;
-	transform: none;
-	top: 0;
+#preFooter.noSkew:before {
+	display: none;
 }
 #preFooter.noSkew {
 	margin-top: 0;
@@ -926,11 +924,6 @@ input[type="file"] + label * {
 	}
 }
 
-#content > div {
-	overflow: hidden;
-	padding-top: 80px;
-}
-
 .collapsible {
 	position: relative;
 	/* fix for overflow Hidden */
@@ -976,26 +969,15 @@ input[type="file"] + label * {
 
 .user-header {
 	z-index: 2;
-	height: 250px;
 	width: 100%;
+	overflow: hidden;
+	padding-bottom: 10px;
+	min-height: 180px;
 }
 .header-info {
 	margin-bottom: 40px;
 }
-.user-header.fixed {
-	top: -200px;
-	position: fixed;
-}
-.user-header.fixed + div {
-	margin-top: 270px;
-}
-.user-header.fixed #stripes {
-	height: 270px;
-}
 
-.user-header.fixed .user-card-wrapper {
-	transform: translate3d(0, -150px, 0);
-}
 .user-card-picture-overlay {
 	position: absolute;
 	width: 100%;
@@ -1008,18 +990,6 @@ input[type="file"] + label * {
 	height: 35px;
 }
 
-.user-header.fixed .user-card-picture-overlay {
-	opacity: 1;
-}
-.user-header.fixed .user-header-img-overlay {
-	opacity: 1;
-}
-.user-header.fixed .user-card-picture,
-.user-header.fixed .user-card-picture-blurred,
-.user-header.fixed input[type="file"] + label {
-	opacity: 0;
-	pointer-events: none;
-}
 #profile-picture-upload {
 	position: absolute;
 	width: 100%;
@@ -1172,10 +1142,7 @@ input[type="file"] + label * {
 	margin-bottom: 15px;
 	margin-top: 0px;
 }
-.user-header.fixed + div .event-information .context-actions {
-	position: fixed;
-	top: 65px;
-}
+
 .event-card-wrapper {
 	display: flex;
 	justify-content: center;
@@ -1624,9 +1591,9 @@ button.active .info-popup {
 #stripes {
 	position: absolute;
 	z-index: -1;
-	top: -20px;
 	width: 100%;
 	height: 790px;
+	top: 0;
 	-webkit-transform: skewY(-12deg);
 	transform: skewY(-12deg);
 	-webkit-transform-origin: 0;
@@ -1648,6 +1615,7 @@ button.active .info-popup {
 		#00d1ff 80%,
 		#31daff 90%
 	);
+	top: -25px;
 }
 
 #stripes.v2 {
@@ -1659,7 +1627,7 @@ button.active .info-popup {
 		#31daff 100%
 	);
 	transform: skewX(0deg);
-	height: 350px;
+	height: 100%;
 }
 
 #stripes.v2 :nth-child(1),
@@ -1785,7 +1753,7 @@ button.active .info-popup {
 	z-index: -2;
 	position: absolute;
 	margin-top: -20vw;
-	height: 130%;
+	height: 170%;
 	transform: skewX(5deg) translateX(-30%);
 }
 
@@ -1984,13 +1952,15 @@ table {
 	align-items: flex-end;
 	margin-bottom: 70px;
 	margin-top: -90px;
-	height: 1900px;
 }
 
 .how-it-works section {
 	width: 570px;
 	float: right;
 	margin-bottom: 180px;
+}
+.how-it-works section:last-child {
+	margin-bottom: 0px;
 }
 
 .how-it-works section .how-to-title {
@@ -2008,10 +1978,8 @@ table {
 	background-color: #b031ff;
 	position: absolute;
 }
-.location_howitworks #preFooterPseudo:before {
-	top: -600px;
-}
-.location_howitworks .info-boxes {
+
+.location_how-it-works .info-boxes {
 	min-height: 0px;
 }
 .circle {
@@ -2068,7 +2036,7 @@ table {
 }
 .signup {
 	margin: 0 200px;
-	margin-top: -30px;
+	margin-top: 90px;
 	z-index: 1;
 	position: relative;
 	margin-bottom: 80px;
@@ -2263,14 +2231,15 @@ p.error {
 }
 
 .info-boxes {
-	padding: 100px 0;
-	min-height: 650px;
-	z-index: -1;
+	padding-top: 100px;
+	padding-bottom: 50px;
 }
+
 .info-boxes > .container {
 	position: relative;
 	z-index: 1;
 }
+
 header .info-boxes {
 	padding: 0;
 }
@@ -2364,9 +2333,7 @@ header .info-boxes {
 }
 
 .notification {
-	transform: translateY(-50px) translateX(-50%);
-	position: absolute;
-	left: 50%;
+	margin: 1em 0;
 }
 
 .notification p {
@@ -2546,16 +2513,10 @@ header .info-boxes {
 	line-height: 26px;
 	color: #4a4a4a;
 }
-.event-header-content,
-.user-header-content {
-	height: 180px;
-}
-.event-header-content {
-	padding: 0;
-}
+
 .back-button {
 	position: absolute;
-	bottom: 10px;
+	bottom: 0;
 	left: 0;
 	cursor: pointer;
 }
@@ -3012,7 +2973,7 @@ header .dj-card p {
 	margin-bottom: 20px;
 }
 
-.not-found #preFooterPseudo:before {
+.not-found #preFooter:before {
 	top: 0px;
 }
 
@@ -3131,7 +3092,7 @@ ol.breadcrumbs a {
 		display: flex;
 		justify-content: center;
 		top: -10px !important;
-		position: relative;
+		position: relative !important;
 	}
 	.mobileActions .context-actions > div,
 	.event-information .context-actions > div {
@@ -3158,7 +3119,7 @@ ol.breadcrumbs a {
 	.show-tablet-down {
 		display: block;
 	}
-	#preFooterPseudo:before {
+	#preFooter:before {
 		top: -50px;
 	}
 	.request-columns {
@@ -3180,7 +3141,7 @@ ol.breadcrumbs a {
 		width: 80%;
 	}
 
-	.location_howitworks #stripes {
+	.location_how-it-works #stripes {
 		height: 570px;
 	}
 	.how-it-works-wrapper {
@@ -3286,6 +3247,7 @@ ol.breadcrumbs a {
 	.location_ header .col-md-5:first-of-type {
 		margin-top: 0px;
 	}
+
 	#content > div {
 		padding-top: 0px;
 	}
@@ -3386,9 +3348,7 @@ ol.breadcrumbs a {
 	.info-boxes .card {
 		margin-bottom: 30px;
 	}
-	#preFooter {
-		height: 280px;
-	}
+
 	#preFooter .action-buttons {
 		margin-left: -15px;
 		justify-content: flex-start;
@@ -3411,7 +3371,6 @@ ol.breadcrumbs a {
 	}
 
 	.user-header {
-		position: relative;
 		height: auto;
 		padding-bottom: 0px;
 		overflow: hidden;
@@ -3420,13 +3379,7 @@ ol.breadcrumbs a {
 	.user-header-content {
 		height: auto;
 	}
-	.user-header.fixed {
-		top: 0px;
-		position: relative;
-	}
-	.user-header.fixed + div {
-		margin-top: 20px;
-	}
+
 	.user-container {
 		margin-top: 20px;
 		margin-bottom: 40px;
@@ -3519,7 +3472,7 @@ ol.breadcrumbs a {
 	.how-it-works section .how-to-title {
 		margin-left: 0px;
 	}
-	#preFooterPseudo:before {
+	#preFooter:before {
 		top: -30px;
 	}
 	.offer-example {
@@ -3597,7 +3550,7 @@ ol.breadcrumbs a {
 		justify-content: flex-end;
 	}
 
-	.location_howitworks #preFooterPseudo:before {
+	.location_how-it-works #preFooter:before {
 		top: -730px;
 	}
 

@@ -1,0 +1,26 @@
+.location_event #content {
+	margin: 0;
+}
+.location_event form {
+	position: relative;
+}
+.location_event .event-information .context-actions {
+	position: sticky;
+	top: 60px;
+}
+.context-actions-wrapper {
+	position: absolute;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+
+.user-header {
+	position: sticky;
+}
+
+@media only screen and (max-width: 480px) {
+	.user-header {
+		position: relative;
+	}
+}

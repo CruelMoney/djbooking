@@ -1,260 +1,254 @@
-.blog{
-  padding-top: 80px !important;
+.blog {
 }
 
-.blog  header.title{
-  color: #32325D;
-  text-align: center;
-  max-width: 500px;
-  margin: auto;
-  padding-top: 4em;
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-bottom: 0;
+.blog header.title {
+	color: #32325d;
+	text-align: center;
+	max-width: 500px;
+	margin: auto;
+	padding-top: 4em;
+	padding-left: 1em;
+	padding-right: 1em;
+	padding-bottom: 0;
 }
 
-.blog h1{
-  font-size: 62px;
+.blog h1 {
+	font-size: 62px;
 }
 
-.blog main{
-  margin: 5em 0 6em 0;
+.blog main {
+	margin: 5em 0 6em 0;
 }
 
-.post-feed{
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -20px;
+.post-feed {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -20px;
 }
 
-@media (min-width: 768px){
-  .post-feed > *:nth-child(6n+1){
-    flex: 1 1 100%;
-    flex-direction: row;
-  }
-  .post-feed > *:nth-child(6n+1) .img-wrapper{
-    flex: 1.9;
-    height: auto;
-  }
+@media (min-width: 768px) {
+	.post-feed > *:nth-child(6n + 1) {
+		flex: 1 1 100%;
+		flex-direction: row;
+	}
+	.post-feed > *:nth-child(6n + 1) .img-wrapper {
+		flex: 1.9;
+		height: auto;
+	}
 }
 
-
-
-
-
-article.post-preview{
-  flex: 1 1 300px;
-  display: flex;
-  margin: 0 20px 40px;
-  flex-direction: column;
-  min-height: 300px;
-  padding: 0 !important;
-  overflow: hidden;
-  box-shadow: 8px 14px 38px rgba(39,44,49,.06), 1px 3px 8px rgba(39,44,49,.03);
-  transition: all .5s ease;
+article.post-preview {
+	flex: 1 1 300px;
+	display: flex;
+	margin: 0 20px 40px;
+	flex-direction: column;
+	min-height: 300px;
+	padding: 0 !important;
+	overflow: hidden;
+	box-shadow: 8px 14px 38px rgba(39, 44, 49, 0.06),
+		1px 3px 8px rgba(39, 44, 49, 0.03);
+	transition: all 0.5s ease;
 }
-article.post-preview:hover{
-  box-shadow: 0 0 1px rgba(39,44,49,.1), 0 3px 16px rgba(39,44,49,.07);
-  transition: all .3s ease;
-  transform: translate3D(0,-1px,0);
+article.post-preview:hover {
+	box-shadow: 0 0 1px rgba(39, 44, 49, 0.1), 0 3px 16px rgba(39, 44, 49, 0.07);
+	transition: all 0.3s ease;
+	transform: translate3D(0, -1px, 0);
 }
 
-.blog .img-wrapper{
-  background: #c5d2d9 no-repeat 50%;
-  position: relative;
+.blog .img-wrapper {
+	background: #c5d2d9 no-repeat 50%;
+	position: relative;
 }
-.post-preview > .img-wrapper{
-  height: 200px;
+.post-preview > .img-wrapper {
+	height: 200px;
 }
-.blog .img-wrapper img{
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.blog .img-wrapper img {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
-article.post-preview > a:last-child{
-  flex: 1;
+article.post-preview > a:last-child {
+	flex: 1;
 }
-.post-preview section{
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.post-preview section {
+	padding: 40px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
-.post-preview .post-card-excerpt{
-  color: #32325D;
+.post-preview .post-card-excerpt {
+	color: #32325d;
 }
 
 .post-preview footer,
 .blog-post footer,
-.post-preview header{
-  padding: 0;
-  border: none;
-  align-items: left;
-  text-align: left;
+.post-preview header {
+	padding: 0;
+	border: none;
+	align-items: left;
+	text-align: left;
 }
-.post-preview header{
-  color: #32325D;
-  height: auto;
+.post-preview header {
+	color: #32325d;
+	height: auto;
 }
-.post-preview footer{
-  margin-top: auto;
+.post-preview footer {
+	margin-top: auto;
 }
-.post-preview h2{
-  margin-top: 0 !important;
+.post-preview h2 {
+	margin-top: 0 !important;
 }
-.post-preview footer p{
-  margin: 0;
-}
-
-button.subscribe-newsletter{
-  margin-top: 1em;
+.post-preview footer p {
+	margin: 0;
 }
 
+button.subscribe-newsletter {
+	margin-top: 1em;
+}
 
-.blog-post header.title{
-  max-width: 600px;
+.blog-post header.title {
+	max-width: 600px;
 }
 .blog-post .img-wrapper {
-  height: 540px;
-  max-width: 1140px;
-  margin: auto;
-  border-radius: 6px;
-  overflow: hidden;
+	height: 540px;
+	max-width: 1140px;
+	margin: auto;
+	border-radius: 6px;
+	overflow: hidden;
 }
 
-.post-content{
-  font-family: SourceSansPro-Regular;
-  position: relative;
-  min-height: 230px;
-  margin: 0 auto;
-  padding: 70px 0 0;
-  font-size: 2.2rem;
-  line-height: 1.6em;
+.post-content {
+	font-family: SourceSansPro-Regular;
+	position: relative;
+	min-height: 230px;
+	margin: 0 auto;
+	padding: 70px 0 0;
+	font-size: 2.2rem;
+	line-height: 1.6em;
 }
 .blog-post p,
 .blog-post time,
 .blog-post li,
-.blog-post .author-link{
-  margin: 0 0 1.5em;
-  color: #7e8186;
-  font-size: 18px;
-  line-height: 1.7;
+.blog-post .author-link {
+	margin: 0 0 1.5em;
+	color: #7e8186;
+	font-size: 18px;
+	line-height: 1.7;
 }
-.blog-post .author-link{
-  display: block;
+.blog-post .author-link {
+	display: block;
 }
-.blog-post ul{
-  list-style: disc;
-  margin: -1.2em 0 1.5em;
+.blog-post ul {
+	list-style: disc;
+	margin: -1.2em 0 1.5em;
 }
-.blog-post li{
-  margin-bottom: 0;
+.blog-post li {
+	margin-bottom: 0;
 }
-.blog-post time{
-  margin-bottom: 0;
+.blog-post time {
+	margin-bottom: 0;
 }
-.blog-post strong{
-  margin-bottom: 0;
+.blog-post strong {
+	margin-bottom: 0;
 }
-.blog-post a{
-  color: rgb(37, 244, 210);
+.blog-post a {
+	color: rgb(37, 244, 210);
 }
-.post-content h2{
-  margin: 1em 0 .5em;
-  font-size: 3.6rem;
-  font-weight: 300;
-  line-height: 1.2em;
+.post-content h2 {
+	margin: 1em 0 0.5em;
+	font-size: 3.6rem;
+	font-weight: 300;
+	line-height: 1.2em;
 }
-.post-content > p:first-child{
-  font-size: 1.25em;
-  line-height: 1.5em;
+.post-content > p:first-child {
+	font-size: 1.25em;
+	line-height: 1.5em;
 }
-.blog-post main .container{
-  max-width: 700px;
-  position: relative;
-  z-index: 3;
-}
-
-.blog-post main .post-content img{
-  display: block;
-  max-width: 1040px;
-  margin: 1.5em auto;
-  position: relative;
-  transform: translateX(-50%);
-  left: 50%;
-  top: 0;
-  max-height: 600px;
-  max-width: 100vw;
-  margin-bottom: 3em;
-}
-.blog-post .social-signup{
-  text-align: center;
-  margin-bottom: 5em;
-}
-.blog-post .social-signup > div{
-  margin-top: 0 !important;
-}
-.blog-post .social-signup p{
- font-size: 1.2em;
-}
-.blog h3{
-  color: #32325D;
-  font-size: 35px;
-  font-weight: 600;
-  margin-bottom: 0.2em;
-  line-height: 1.2em;
+.blog-post main .container {
+	max-width: 700px;
+	position: relative;
+	z-index: 3;
 }
 
-.blog-post .signup{
-  margin: 0 !important;
+.blog-post main .post-content img {
+	display: block;
+	max-width: 1040px;
+	margin: 1.5em auto;
+	position: relative;
+	transform: translateX(-50%);
+	left: 50%;
+	top: 0;
+	max-height: 600px;
+	max-width: 100vw;
+	margin-bottom: 3em;
+}
+.blog-post .social-signup {
+	text-align: center;
+	margin-bottom: 5em;
+}
+.blog-post .social-signup > div {
+	margin-top: 0 !important;
+}
+.blog-post .social-signup p {
+	font-size: 1.2em;
+}
+.blog h3 {
+	color: #32325d;
+	font-size: 35px;
+	font-weight: 600;
+	margin-bottom: 0.2em;
+	line-height: 1.2em;
 }
 
-footer.newsletter-signup{
-  z-index: 3;
-  margin-bottom: 50px;
-  white-space: normal;
-}
-footer.newsletter-signup .card{
-  margin: auto;
-  text-align: center; 
-  padding: 4em 1em;
-  width: 95%;
-  max-width: 700px;
+.blog-post .signup {
+	margin: 0 !important;
 }
 
-.newsletter-signup form{
-  display: flex;
+footer.newsletter-signup {
+	z-index: 3;
+	margin-bottom: 50px;
+	white-space: normal;
 }
-.card > .newsletter-signup{
-  display: flex;
-  flex-direction: column;
-  max-width: 400px;
-  margin: auto;
-}
-
-.newsletter-signup button{
-  width:120px;
-  height: 40px;
-  margin-left: 10px;
-}
-.newsletter-signup .text-field{
-  width:100%;
-}
-.newsletter-signup .text-field > div:first-child{
-  height: 37px !important;
+footer.newsletter-signup .card {
+	margin: auto;
+	text-align: center;
+	padding: 4em 1em;
+	width: 95%;
+	max-width: 700px;
 }
 
-
-.popup .blog{
-  padding: 5em !important;
+.newsletter-signup form {
+	display: flex;
 }
-@media (max-width: 420px){
-  .popup .blog{
-    padding: 1em !important;
-  }
+.card > .newsletter-signup {
+	display: flex;
+	flex-direction: column;
+	max-width: 400px;
+	margin: auto;
+}
+
+.newsletter-signup button {
+	width: 120px;
+	height: 40px;
+	margin-left: 10px;
+}
+.newsletter-signup .text-field {
+	width: 100%;
+}
+.newsletter-signup .text-field > div:first-child {
+	height: 37px !important;
+}
+
+.popup .blog {
+	padding: 5em !important;
+}
+@media (max-width: 420px) {
+	.popup .blog {
+		padding: 1em !important;
+	}
 }
