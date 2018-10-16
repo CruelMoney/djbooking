@@ -146,18 +146,16 @@ module.exports = {
 		{ name: "Disco" },
 		{ name: "Rock" },
 
-		{ name: "Trap" },
-		{ name: "Dubstep" },
-
 		{ name: "Techno" },
 		{ name: "House" },
-		{ name: "UKG" },
 		{ name: "Lounge" },
 
 		{ name: "Top 40" },
 		{ name: "Remixes" },
 		{ name: "Latin" },
-		{ name: "Local" }
+		{ name: "Local" },
+
+		{ name: "Vinyl" }
 	],
 	WEEKDAYS: [
 		{ name: "Monday" },

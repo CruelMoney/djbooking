@@ -1944,6 +1944,21 @@ table {
 	border-collapse: separate;
 	width: 100%;
 }
+.edit-text-button {
+	background: blue;
+}
+.edit-text-button input {
+	border: none;
+	letter-spacing: 0.39px;
+	font-size: 16px;
+	width: 100%;
+	background: transparent;
+	text-align: center;
+	outline: none;
+	-webkit-appearance: none;
+	font-weight: 600;
+	text-transform: uppercase;
+}
 
 .how-it-works {
 	position: relative;

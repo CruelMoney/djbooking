@@ -1,103 +1,144 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import ToggleButton from './ToggleButton'
-import connectToForm from '../higher-order/connectToForm'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ToggleButton from "./ToggleButton";
+import ToggleButtonInput from "./ToggleButtonInput";
 
-class ToggleButtonHandler extends Component{
+import connectToForm from "../higher-order/connectToForm";
 
-  static propTypes= {
-    name: PropTypes.string.isRequired,
-    disabled: PropTypes.bool,
-    value: PropTypes.arrayOf(PropTypes.string),
-    required: PropTypes.bool
-  }
+class ToggleButtonHandler extends Component {
+	constructor() {
+		super();
+		this.state = {
+			addedGenres: []
+		};
+		this.currentNewGenre = React.createRef();
+	}
 
- static defaultProps = {
-       rounded: true,
-       columns: 3,
-       potentialValues: [],
-       value: [],
-       errorAbove: false,
-       required: true,
- }
+	static defaultProps = {
+		rounded: true,
+		columns: 3,
+		potentialValues: [],
+		value: [],
+		errorAbove: false,
+		required: true
+	};
 
+	spliceHelper(list, index) {
+		list.splice(index, 1);
+		return list;
+	}
 
-  spliceHelper(list, index){
-    list.splice(index,1)
-    return list
-  }
+	handleButtonPress = value => {
+		var toggledButtons = this.props.value;
+		var valueIndex = toggledButtons.indexOf(value);
 
-  handleButtonPress = (value) => {
-    var toggledButtons = this.props.value
-    var valueIndex = toggledButtons.indexOf(value)
+		var newList =
+			valueIndex === -1
+				? [...toggledButtons, value]
+				: this.spliceHelper(toggledButtons, valueIndex);
 
-    var newList = (valueIndex===-1)
-                   ? [ ...toggledButtons, value ]
-                   : this.spliceHelper(toggledButtons, valueIndex)
+		this.props.onChange(newList);
+	};
 
+	handleAddNew = () => {
+		this.setState(
+			state => ({
+				addedGenres: [...state.addedGenres, { type: "edit-button", name: " " }]
+			}),
+			_ => {
+				console.log("edit me");
+			}
+		);
+	};
 
-    this.props.onChange(newList)
- }
+	getButton = value => {
+		const name = typeof value === "string" ? value : value.name;
 
-  render() {
-    var rows = []
-    var buttons = []
-    var currentRow = 0
-    this.props.potentialValues.forEach(function(genre, i) {
+		switch (value.type) {
+			case "add-button":
+				return (
+					<ToggleButton
+						rounded={this.props.rounded}
+						label={"Add new +"}
+						active={false}
+						disabled={this.props.disabled}
+						onClick={this.handleAddNew}
+					/>
+				);
+			case "edit-button":
+				return (
+					<ToggleButtonInput
+						ref={this.currentNewGenre}
+						active={true}
+						rounded={this.props.rounded}
+					/>
+				);
+			default:
+				var isToggled = false;
+				var toggledButtons = this.props.value;
+				if (toggledButtons.indexOf(name) !== -1) {
+					isToggled = true;
+				}
+				return (
+					<ToggleButton
+						rounded={this.props.rounded}
+						label={name}
+						active={isToggled}
+						disabled={this.props.disabled}
+						onClick={this.handleButtonPress}
+					/>
+				);
+		}
+	};
 
-      var isToggled = false
-      var toggledButtons = this.props.value
+	render() {
+		var rows = [];
+		var buttons = [];
+		var currentRow = 0;
+		const values = [
+			...this.props.potentialValues,
+			...this.state.addedGenres,
+			{ type: "add-button", name: "add-button" }
+		];
+		values.forEach((genre, i) => {
+			//Adding to array
+			buttons.push(<td key={i}>{this.getButton(genre)}</td>);
 
-      if (toggledButtons.indexOf(genre.name)!==-1){
-        isToggled = true
-      }
+			if (
+				((i + 1) % this.props.columns === 0 && i !== 0) ||
+				i === values.length - 1
+			) {
+				currentRow++;
+				rows.push(<tr key={currentRow}>{buttons}</tr>);
+				buttons = [];
+			}
+		});
 
-      //Adding to array
-      buttons.push(
-        <td
-          key={genre.name}>
-          <ToggleButton
-            rounded={this.props.rounded}
-            label={genre.name}
-            active={isToggled}
-            disabled={this.props.disabled}
-            onClick={this.handleButtonPress}/>
-        </td>  )
+		return (
+			<div>
+				<div className="toggle-button-handler">
+					{this.props.errors.length && this.props.errorAbove ? (
+						<div className="errors">
+							{this.props.errors.map((error, i) => <p key={i}>{error}</p>)}
+						</div>
+					) : null}
 
-      if (((i+1) % this.props.columns === 0 && i!==0) || (i===this.props.potentialValues.length-1)){
-        currentRow++
-        rows.push(
-          <tr
-            key={currentRow}>
-            {buttons}
-          </tr>
-          )
-          buttons = []
-      }
-    }.bind(this))
+					<table>
+						<tbody>{rows}</tbody>
+					</table>
+				</div>
+				{this.props.errors.length && !this.props.errorAbove ? (
+					<div style={{ marginTop: "10px" }} className="errors">
+						{this.props.errors.map((error, i) => (
+							<p className="error" key={i}>
+								{error}
+							</p>
+						))}
+					</div>
+				) : null}
+			</div>
+		);
+	}
+}
 
-    return (
-      <div>
-        <div className="toggle-button-handler">
-          {(this.props.errors.length && this.props.errorAbove) ? (
-            < div className="errors">
-            {this.props.errors.map((error, i) => <p key={i}>{error}</p>)}
-            </div>
-          ) : null}
-
-          <table>
-            <tbody>{rows}</tbody>
-          </table>
-        </div>
-        {(this.props.errors.length && !this.props.errorAbove) ? (
-          < div style={{marginTop: "10px"}} className="errors">
-          {this.props.errors.map((error, i) => <p className="error" key={i}>{error}</p>)}
-          </div>
-          ) : null}
-          </div>
-          )
-          }
-          }
-
-
-export default connectToForm(ToggleButtonHandler)
+export default connectToForm(ToggleButtonHandler);
