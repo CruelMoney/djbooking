@@ -3,20 +3,14 @@ import PropTypes from "prop-types";
 import Button from "./Button-v2";
 
 class ToggleButton extends Component {
-	static propTypes = {
-		name: PropTypes.string,
-		rounded: PropTypes.bool,
-		label: PropTypes.string,
-		labelToggled: PropTypes.string,
-		onClick: PropTypes.func,
-		onClickToggled: PropTypes.func,
-		disabled: PropTypes.bool,
-		active: PropTypes.bool
-	};
-
-	state = {
-		toggled: false
-	};
+	constructor() {
+		super();
+		this.selfRef = React.createRef();
+		this.state = {
+			toggled: false,
+			value: ""
+		};
+	}
 
 	static defaultProps = {
 		rounded: false,
@@ -29,6 +23,10 @@ class ToggleButton extends Component {
 		});
 	}
 
+	componentDidMount() {
+		this.selfRef.current.focus();
+	}
+
 	componentWillReceiveProps(nextProps, nextContext) {
 		if (nextProps.active !== undefined) {
 			this.setState({
@@ -36,6 +34,17 @@ class ToggleButton extends Component {
 			});
 		}
 	}
+
+	onBlur = () => {
+		this.setState({
+			blurred: true
+		});
+		!!this.props.onChange && this.props.onChange(this.state.value);
+	};
+
+	onChange = e => {
+		this.setState({ value: e.target.value });
+	};
 
 	render() {
 		return (
@@ -45,7 +54,13 @@ class ToggleButton extends Component {
 				active={this.state.toggled}
 				onClick={null}
 			>
-				<input type="text" />
+				<input
+					onBlur={this.onBlur}
+					onChange={this.onChange}
+					disabled={this.state.blurred}
+					ref={this.selfRef}
+					type="text"
+				/>
 			</Button>
 		);
 	}

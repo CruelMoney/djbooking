@@ -11,7 +11,6 @@ class ToggleButtonHandler extends Component {
 		this.state = {
 			addedGenres: []
 		};
-		this.currentNewGenre = React.createRef();
 	}
 
 	static defaultProps = {
@@ -29,6 +28,8 @@ class ToggleButtonHandler extends Component {
 	}
 
 	handleButtonPress = value => {
+		if (!value.trim()) return;
+
 		var toggledButtons = this.props.value;
 		var valueIndex = toggledButtons.indexOf(value);
 
@@ -41,20 +42,39 @@ class ToggleButtonHandler extends Component {
 	};
 
 	handleAddNew = () => {
-		this.setState(
-			state => ({
-				addedGenres: [...state.addedGenres, { type: "edit-button", name: " " }]
-			}),
-			_ => {
-				console.log("edit me");
-			}
-		);
+		this.setState(state => ({
+			addedGenres: [
+				...state.addedGenres,
+				{ type: "edit-button", name: " ", id: state.addedGenres.length }
+			]
+		}));
 	};
 
-	getButton = value => {
-		const name = typeof value === "string" ? value : value.name;
+	inputUpdate = (val, id) => {
+		this.setState(state => {
+			const addedGenres = state.addedGenres.map(g => {
+				if (g.id === id) {
+					return {
+						...g,
+						type: "",
+						name: val
+					};
+				} else {
+					return g;
+				}
+			});
+			this.handleButtonPress(val);
 
-		switch (value.type) {
+			return {
+				addedGenres
+			};
+		});
+	};
+
+	getButton = (genre, idx) => {
+		const name = typeof genre === "string" ? genre : genre.name;
+
+		switch (genre.type) {
 			case "add-button":
 				return (
 					<ToggleButton
@@ -68,14 +88,14 @@ class ToggleButtonHandler extends Component {
 			case "edit-button":
 				return (
 					<ToggleButtonInput
-						ref={this.currentNewGenre}
+						onChange={value => this.inputUpdate(value, genre.id)}
 						active={true}
 						rounded={this.props.rounded}
 					/>
 				);
 			default:
 				var isToggled = false;
-				var toggledButtons = this.props.value;
+				var toggledButtons = [...this.props.value];
 				if (toggledButtons.indexOf(name) !== -1) {
 					isToggled = true;
 				}
@@ -97,9 +117,15 @@ class ToggleButtonHandler extends Component {
 		var currentRow = 0;
 		const values = [
 			...this.props.potentialValues,
-			...this.state.addedGenres,
-			{ type: "add-button", name: "add-button" }
+			...this.state.addedGenres.filter(
+				g => !this.props.potentialValues.includes(g.name)
+			)
 		];
+
+		if (!this.props.disabled) {
+			values.push({ type: "add-button", name: "add-button" });
+		}
+
 		values.forEach((genre, i) => {
 			//Adding to array
 			buttons.push(<td key={i}>{this.getButton(genre)}</td>);
