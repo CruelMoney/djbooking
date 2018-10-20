@@ -147,5 +147,10 @@
 	"Submit review": ["Submit review", "Gem anmeldelse"],
 	"Contact name": ["Contact name", "Kontaktnavn"],
 	"Contact": ["Contact", "Kontakt"],
-	"Member for": ["Member for", "Medlem i"]
+	"Member for": ["Member for", "Medlem i"],
+	"Decline DJ": ["Decline DJ", "Afslå DJ"],
+	"decline-warning": [
+		"Are you sure you want to decline this DJ? If you decline, the DJ will be removed, and a new DJ will be asked to make an offer. If you are dissatisfied with the price, you can message the DJ asking for a different offer.",
+		"Er du sikker på at du vil afslå DJ'en? Hvis du aflslår, vil DJ'en blive fjernet, og en ny DJ vil blive spurgt om at give et tilbud. Hvis du er utilfreds med prisen, kan du skrive til DJ'en og spørge om et nyt tilbud."
+	]
 }

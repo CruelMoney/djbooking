@@ -1132,6 +1132,7 @@ input[type="file"] + label * {
 	position: absolute;
 }
 .event-information {
+	flex-wrap: wrap;
 	justify-content: center;
 }
 .event-information > div:not(.col-sm-6) {
@@ -2379,7 +2380,7 @@ header .info-boxes {
 
 .user-container p,
 .user-container input {
-	font-size: 15px !important;
+	font-size: 15px;
 }
 
 .timeline-item {

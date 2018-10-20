@@ -4,13 +4,14 @@ import Button from "../../../../../components/common/Button-v2";
 import Rating from "../../../../../components/common/Rating";
 import PayForm from "../../../../../components/common/PayForm";
 import Popup from "../../../../../components/common/Popup";
-import { currencyConverter } from "../../../../../utils/CurrencyConverter";
 import Chat from "../../../../../components/common/Chat";
 import EmptyPage from "../../../../../components/common/EmptyPage";
-import { localize } from "react-localize-redux";
 import ReactPixel from "react-facebook-pixel";
 import moment from "moment";
 import CurrencyValue from "../../../../../components/common/CurrencyValue";
+import { getTranslate } from "react-localize-redux";
+import * as actions from "../../../../../actions/EventActions";
+import { connect } from "react-redux";
 
 class OfferCard extends Component {
 	static propTypes = {
@@ -21,7 +22,9 @@ class OfferCard extends Component {
 
 	state = {
 		showPopup: false,
-		showChat: false
+		showChat: false,
+		errors: null,
+		loadingDecline: false
 	};
 
 	hidePopup = () => {
@@ -40,6 +43,26 @@ class OfferCard extends Component {
 		ReactPixel.track("InitiateCheckout");
 	};
 
+	declineDJ = () => {
+		const { declineDJ } = this.props;
+		this.setState({
+			error: null,
+			loadingDecline: true
+		});
+		declineDJ((err, res) => {
+			if (err) {
+				this.setState({
+					error: err.message,
+					loadingDecline: false
+				});
+			} else {
+				this.setState({
+					loadingDecline: false
+				});
+			}
+		});
+	};
+
 	render() {
 		const { translate } = this.props;
 
@@ -52,10 +75,10 @@ class OfferCard extends Component {
 			backgroundSize: "auto 100%",
 			width: "80px",
 			height: "80px",
+			minWidth: "80px",
 			borderRadius: "50%",
 			marginRight: "20px"
 		};
-
 		return (
 			<div>
 				<Popup showing={this.state.showPopup} onClickOutside={this.hidePopup}>
@@ -88,6 +111,7 @@ class OfferCard extends Component {
 						chatId={this.props.offer.gigID}
 						placeholder={
 							<EmptyPage
+								title="  "
 								message={<div>{translate("event.offer.empty-chat")}</div>}
 							/>
 						}
@@ -96,33 +120,54 @@ class OfferCard extends Component {
 				<div className="card offer-card">
 					<div style={{ display: "flex" }}>
 						<div style={image} />
-						<div className>
-							<h4>{this.props.offer.dj.censoredName}</h4>
-							<div className="dj-location">
-								<svg
-									version="1.1"
-									id="Capa_1"
-									x="0px"
-									y="0px"
-									width="1em"
-									height="1em"
-									viewBox="0 0 466.583 466.582"
-									style={{ enableBackground: "new 0 0 466.583 466.582" }}
-								>
-									<g>
-										<path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
-									</g>
-								</svg>
-								{" " + this.props.offer.dj.city}
+						<div className="top">
+							<div>
+								<div>
+									<h4>{this.props.offer.dj.censoredName}</h4>
+
+									<div className="dj-location">
+										<svg
+											version="1.1"
+											id="Capa_1"
+											x="0px"
+											y="0px"
+											width="1em"
+											height="1em"
+											viewBox="0 0 466.583 466.582"
+											style={{ enableBackground: "new 0 0 466.583 466.582" }}
+										>
+											<g>
+												<path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
+											</g>
+										</svg>
+										{" " + this.props.offer.dj.city}
+									</div>
+								</div>
+								{this.props.offer.dj.avgRating === 0 ? (
+									<p
+										style={{
+											fontSize: "12px",
+											textAlign: "right",
+											margin: "0"
+										}}
+									>
+										{translate("Member for") + " " + memberSince}
+									</p>
+								) : (
+									<Rating rating={this.props.offer.dj.avgRating} />
+								)}
 							</div>
 
-							{this.props.offer.dj.avgRating === 0 ? (
-								<p style={{ fontSize: "12px", margin: "0" }}>
-									{translate("Member for") + " " + memberSince}
-								</p>
-							) : (
-								<Rating rating={this.props.offer.dj.avgRating} />
-							)}
+							<Button
+								className="send-message-button"
+								onClick={() => this.setState({ showChat: true })}
+								name="show-chat-popup"
+							>
+								{this.props.notification ? (
+									<div className="notification-bubble">1</div>
+								) : null}
+								{translate("Message")}
+							</Button>
 						</div>
 					</div>
 
@@ -154,73 +199,100 @@ class OfferCard extends Component {
 								})}
 					</div>
 
-					{this.props.offer.gigStatus === "Confirmed" ||
-					this.props.offer.gigStatus === "Accepted" ? (
-						<div
-							className="offer-price"
-							style={{
-								width: "100%",
-								textAlign: "center"
-							}}
-						>
-							{this.props.offer.gigStatus === "Confirmed" ? (
-								<CurrencyValue
-									amount={this.props.paymentAmount}
-									from={this.props.paymentCurrency}
-									to={this.props.currency}
-									safeConvert
-								/>
-							) : (
-								<CurrencyValue
-									amount={
-										this.props.offer.amount + this.props.offer.serviceFeeAmount
-									}
-									from={this.props.offer.currency}
-									to={this.props.currency}
-									safeConvert
-								/>
-							)}
-						</div>
-					) : null}
-
-					{this.props.disabled ? null : (
-						<div
-							style={{
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center",
-								marginTop: "15px"
-							}}
-						>
-							<Button
-								className="send-message-button"
-								onClick={() => this.setState({ showChat: true })}
-								name="show-chat-popup"
+					<div className="bottom">
+						{this.props.offer.gigStatus === "Confirmed" ||
+						this.props.offer.gigStatus === "Accepted" ? (
+							<div
+								className="offer-price"
+								style={{
+									width: "100%",
+									textAlign: "center"
+								}}
 							>
-								{this.props.notification ? (
-									<div className="notification-bubble">1</div>
+								{this.props.offer.gigStatus === "Confirmed" ? (
+									<CurrencyValue
+										amount={this.props.paymentAmount}
+										from={this.props.paymentCurrency}
+										to={this.props.currency}
+										safeConvert
+									/>
+								) : (
+									<CurrencyValue
+										amount={
+											this.props.offer.amount +
+											this.props.offer.serviceFeeAmount
+										}
+										from={this.props.offer.currency}
+										to={this.props.currency}
+										safeConvert
+									/>
+								)}
+							</div>
+						) : null}
+
+						{this.props.disabled ? null : (
+							<div
+								style={{
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									marginTop: "15px"
+								}}
+							>
+								{this.props.offer.gigStatus === "Accepted" ? (
+									<Button
+										warning={translate("decline-warning")}
+										dangerous={true}
+										disabled={this.props.disabled}
+										active={false}
+										onClick={this.declineDJ}
+										isLoading={this.state.loadingDecline}
+										name="decline-dj"
+									>
+										{translate("Decline DJ")}
+									</Button>
 								) : null}
-								{translate("Send message")}
-							</Button>
-							{this.props.offer.gigStatus === "Confirmed" ||
-							this.props.offer.gigStatus === "Requested" ||
-							this.props.eventFinished ? null : (
-								<Button
-									glow
-									disabled={this.props.disabled}
-									active={true}
-									onClick={this.showPayment}
-									name="show-payout-popup"
-								>
-									{translate("Confirm")}
-								</Button>
-							)}
+
+								{this.props.offer.gigStatus === "Confirmed" ||
+								this.props.offer.gigStatus === "Requested" ||
+								this.props.eventFinished ? null : (
+									<Button
+										glow
+										disabled={this.props.disabled}
+										active={true}
+										onClick={this.showPayment}
+										name="show-payout-popup"
+									>
+										{translate("Confirm")}
+									</Button>
+								)}
+							</div>
+						)}
+						<div className="errors">
+							<p className="error">{this.state.error}</p>
 						</div>
-					)}
+					</div>
 				</div>
 			</div>
 		);
 	}
 }
 
-export default localize(OfferCard, "locale");
+export const mapStateToProps = state => {
+	return {
+		...state,
+		translate: getTranslate(state.locale)
+	};
+};
+
+export const mapDispatchToProps = (dispatch, ownProps) => {
+	console.log({ ownProps });
+	return {
+		declineDJ: callback =>
+			dispatch(
+				actions.declineDJ(ownProps.event, ownProps.offer.gigID, callback)
+			)
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OfferCard);

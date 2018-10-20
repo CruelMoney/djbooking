@@ -18,6 +18,29 @@
 .user-header {
 	position: sticky;
 }
+.offer-card .top {
+	width: 100%;
+}
+.offer-card .top > div {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+.offer-card .top button {
+	height: 2em;
+	font-size: 14px;
+}
+.offer-card .rating {
+	margin-bottom: 0.5em;
+}
+.offer-card .bottom button {
+	margin: 0 0.5em;
+}
+
+.offer-card .errors {
+	text-align: center;
+	margin-top: 0.5em;
+}
 
 @media only screen and (max-width: 990px) {
 	.context-actions-wrapper {
@@ -31,5 +54,11 @@
 @media only screen and (max-width: 480px) {
 	.user-header {
 		position: relative;
+	}
+	.offer-card .top > div {
+		flex-direction: column;
+	}
+	.offers .col-xs-12 {
+		z-index: 2;
 	}
 }
