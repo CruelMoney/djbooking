@@ -945,7 +945,6 @@ input[type="file"] + label * {
 }
 .collapsible.active .collapsible-container {
 	max-height: 1000px;
-	transition-delay: 0.4s;
 }
 
 .collapsible.collapsed .collapsible-container {
