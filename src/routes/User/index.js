@@ -17,6 +17,7 @@ class ControlUser extends Component {
 	render() {
 		const { translate, match } = this.props;
 		const baseurl = match.url;
+
 		return (
 			<User {...this.props}>
 				<Switch>
