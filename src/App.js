@@ -147,7 +147,7 @@ const App = class extends Component {
 					<Navigation />
 					<div id="content" className={cssLocation}>
 						<Switch>
-							<Redirect strict from={cleanURL + "/"} to={cleanURL} />
+							{/* <Redirect strict from={cleanURL + "/"} to={cleanURL} /> */}
 							<Route exact path={translate("routes./")} component={Home} />
 							<Route path={translate("routes./about")} component={About} />
 							<Route path={translate("routes./user")} component={User} />

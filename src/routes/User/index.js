@@ -21,7 +21,7 @@ class ControlUser extends Component {
 		return (
 			<User {...this.props}>
 				<Switch>
-					<Redirect exact from={`${baseurl}`} to={`${baseurl}/profile`} />
+					{/* <Redirect exact from={`${baseurl}`} to={`${baseurl}/profile`} /> */}
 
 					<Route
 						path={`${baseurl}/profile`}
