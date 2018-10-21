@@ -45,7 +45,7 @@ class IbanField extends Component {
 								fontSize: "14px",
 								lineHeight: "24px",
 								fontFamily: "Roboto, sans-serif",
-								color: "rgb(37, 244, 210)",
+								color: "#32325d",
 								"::placeholder": {
 									color: "rgb(187, 187, 187)"
 								}

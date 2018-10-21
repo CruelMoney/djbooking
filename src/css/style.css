@@ -485,6 +485,11 @@ footer .social svg {
 	margin-top: -500px;
 	background: transparent;
 	position: relative;
+	pointer-events: none;
+}
+#preFooter-wrapper > *{
+	pointer-events: all;
+
 }
 #preFooter {
 	width: 100%;

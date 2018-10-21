@@ -132,10 +132,7 @@ class OwnProfile extends Component {
 		const { translate } = this.props;
 		const isDJ = this.props.profile.isDJ;
 
-		let genres = new Set([
-			...c.GENRES.map(g => g.name),
-			...this.props.profile.genres
-		]);
+		let genres = new Set([...c.GENRES, ...this.props.profile.genres]);
 
 		genres = [...genres];
 

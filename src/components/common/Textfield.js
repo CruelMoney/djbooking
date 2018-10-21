@@ -25,9 +25,7 @@ class MyTextField extends Component {
 
 			input: {
 				fontSize: "22px",
-				color: this.context.textColor
-					? this.context.textColor
-					: this.context.color,
+				color: "#32325d",
 				fontFamily: "AvenirNext-Regular"
 			},
 			underlineStyle: {
@@ -52,7 +50,7 @@ class MyTextField extends Component {
 			},
 			input: {
 				fontSize: "14px",
-				color: this.context.color,
+				color: "#32325d",
 				fontFamily: "AvenirNext-Regular",
 				top: "0",
 				marginTop: "0px",

@@ -8,14 +8,20 @@ import connectToForm from "../higher-order/connectToForm";
 class ToggleButtonHandler extends Component {
 	constructor(props) {
 		super(props);
+		console.log(props.potentialValues);
 		this.state = {
 			addedGenres: [],
-			selectedValues: [...props.value.map(g => g.toLowerCase())],
-			potentialValues: [
-				...new Set(props.potentialValues.map(g => g.toLowerCase()))
-			]
+			selectedValues: [...this.parseValues(props.value)],
+			potentialValues: [...new Set(this.parseValues(props.potentialValues))]
 		};
 	}
+
+	parseValues = vals => {
+		return vals.filter(v => !!v).map(v => {
+			let name = typeof v === "string" ? v : v.name;
+			return name.toLowerCase();
+		});
+	};
 
 	static defaultProps = {
 		rounded: true,

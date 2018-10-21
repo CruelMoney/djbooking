@@ -135,27 +135,22 @@ module.exports = {
 		PUSH_PROMISE: null
 	}),
 	GENRES: [
-		{ name: "80's" },
-		{ name: "90's" },
-		{ name: "00's" },
-
-		{ name: "R&B" },
-		{ name: "Hip Hop" },
-		{ name: "Reggae" },
-
-		{ name: "Disco" },
-		{ name: "Rock" },
-
-		{ name: "Techno" },
-		{ name: "House" },
-		{ name: "Lounge" },
-
-		{ name: "Top 40" },
-		{ name: "Remixes" },
-		{ name: "Latin" },
-		{ name: "Local" },
-
-		{ name: "Vinyl" }
+		"80's",
+		"90's",
+		"00's",
+		"R&B",
+		"Hip Hop",
+		"Reggae",
+		"Disco",
+		"Rock",
+		"Techno",
+		"House",
+		"Lounge",
+		"Top 40",
+		"Remixes",
+		"Latin",
+		"Local",
+		"Vinyl"
 	],
 	WEEKDAYS: [
 		{ name: "Monday" },
