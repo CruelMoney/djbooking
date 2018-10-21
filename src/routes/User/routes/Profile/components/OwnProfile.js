@@ -199,6 +199,9 @@ class OwnProfile extends Component {
 									text={translate("profile.genres")}
 								>
 									<Genres
+										key={this.props.profile.genres.length}
+										enableAdditions
+										updateBeforeSubmit
 										name="genres"
 										validate={["required"]}
 										potentialValues={genres}

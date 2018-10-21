@@ -6,10 +6,14 @@ import ToggleButtonInput from "./ToggleButtonInput";
 import connectToForm from "../higher-order/connectToForm";
 
 class ToggleButtonHandler extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
-			addedGenres: []
+			addedGenres: [],
+			selectedValues: [...props.value.map(g => g.toLowerCase())],
+			potentialValues: [
+				...new Set(props.potentialValues.map(g => g.toLowerCase()))
+			]
 		};
 	}
 
@@ -27,10 +31,27 @@ class ToggleButtonHandler extends Component {
 		return list;
 	}
 
-	handleButtonPress = value => {
-		if (!value.trim()) return;
+	getFilteredAddedGenres = () => {
+		return this.state.addedGenres.filter(
+			g => this.state.selectedValues.indexOf(g) === -1
+		);
+	};
 
-		var toggledButtons = this.props.value;
+	updateContext = () => {
+		const concatList = [
+			...new Set([
+				...this.state.addedGenres
+					.map(g => g.toLowerCase())
+					.filter(g => !!g.trim()),
+				...this.state.selectedValues.map(g => g.toLowerCase())
+			])
+		];
+
+		this.props.onChange(concatList);
+	};
+
+	handleButtonPress = value => {
+		const toggledButtons = this.state.selectedValues;
 		var valueIndex = toggledButtons.indexOf(value);
 
 		var newList =
@@ -38,107 +59,112 @@ class ToggleButtonHandler extends Component {
 				? [...toggledButtons, value]
 				: this.spliceHelper(toggledButtons, valueIndex);
 
-		this.props.onChange(newList);
+		this.setState(
+			{
+				selectedValues: newList
+			},
+			this.updateContext
+		);
 	};
 
 	handleAddNew = () => {
 		this.setState(state => ({
-			addedGenres: [
-				...state.addedGenres,
-				{ type: "edit-button", name: " ", id: state.addedGenres.length }
-			]
+			addedGenres: [...state.addedGenres, " "]
 		}));
 	};
 
 	inputUpdate = (val, id) => {
+		if (!val.trim()) return;
 		this.setState(state => {
-			const addedGenres = state.addedGenres.map(g => {
-				if (g.id === id) {
-					return {
-						...g,
-						type: "",
-						name: val
-					};
+			const addedGenres = state.addedGenres.map((g, idx) => {
+				if (idx === id) {
+					return val;
 				} else {
 					return g;
 				}
 			});
-			this.handleButtonPress(val);
-
 			return {
 				addedGenres
 			};
-		});
+		}, this.updateContext);
 	};
 
-	getButton = (genre, idx) => {
-		const name = typeof genre === "string" ? genre : genre.name;
+	getButton = (genre, type, idx) => {
+		let name = typeof genre === "string" ? genre : genre.name;
+		name = name.toLowerCase();
 
-		switch (genre.type) {
+		switch (type) {
 			case "add-button":
 				return (
-					<ToggleButton
-						rounded={this.props.rounded}
-						label={"Add new +"}
-						active={false}
-						disabled={this.props.disabled}
-						onClick={this.handleAddNew}
-					/>
+					<td key={genre} data-key={genre}>
+						<ToggleButton
+							rounded={this.props.rounded}
+							label={"Add new +"}
+							active={false}
+							disabled={this.props.disabled}
+							onClick={this.handleAddNew}
+						/>
+					</td>
 				);
 			case "edit-button":
 				return (
-					<ToggleButtonInput
-						onChange={value => this.inputUpdate(value, genre.id)}
-						active={true}
-						rounded={this.props.rounded}
-					/>
+					<td key={"edit-genre-" + idx} data-key={"edit-genre-" + idx}>
+						<ToggleButtonInput
+							onChange={value => this.inputUpdate(value, idx)}
+							active={true}
+							rounded={this.props.rounded}
+						/>
+					</td>
 				);
 			default:
-				var isToggled = false;
-				var toggledButtons = [...this.props.value];
-				if (toggledButtons.indexOf(name) !== -1) {
-					isToggled = true;
-				}
 				return (
-					<ToggleButton
-						rounded={this.props.rounded}
-						label={name}
-						active={isToggled}
-						disabled={this.props.disabled}
-						onClick={this.handleButtonPress}
-					/>
+					<td key={genre} data-key={genre}>
+						<ToggleButton
+							rounded={this.props.rounded}
+							label={name}
+							active={this.state.selectedValues.indexOf(name) !== -1}
+							disabled={this.props.disabled}
+							onClick={this.handleButtonPress}
+						/>
+					</td>
 				);
 		}
 	};
 
 	render() {
-		var rows = [];
-		var buttons = [];
-		var currentRow = 0;
-		const values = [
-			...this.props.potentialValues,
-			...this.state.addedGenres.filter(
-				g => !this.props.potentialValues.includes(g.name)
-			)
-		];
+		const { addedGenres, potentialValues } = this.state;
 
-		if (!this.props.disabled) {
-			values.push({ type: "add-button", name: "add-button" });
-		}
+		let rows = [];
+		let buttons = [];
+		let currentRow = 0;
+		let idx = 0;
+		let itemCount = potentialValues.length + addedGenres.length;
+		itemCount =
+			!this.props.disabled && this.props.enableAdditions
+				? itemCount + 1
+				: itemCount;
 
-		values.forEach((genre, i) => {
-			//Adding to array
-			buttons.push(<td key={i}>{this.getButton(genre)}</td>);
-
-			if (
-				((i + 1) % this.props.columns === 0 && i !== 0) ||
-				i === values.length - 1
-			) {
+		const rowLogic = _ => {
+			if (++idx % this.props.columns === 0 || idx === itemCount) {
 				currentRow++;
 				rows.push(<tr key={currentRow}>{buttons}</tr>);
 				buttons = [];
 			}
+		};
+
+		potentialValues.forEach(genre => {
+			buttons.push(this.getButton(genre, "normal-button"));
+			rowLogic();
 		});
+		addedGenres.forEach((genre, _idx) => {
+			buttons.push(this.getButton(genre, "edit-button", _idx));
+			rowLogic();
+		});
+
+		if (!this.props.disabled && this.props.enableAdditions) {
+			buttons.push(this.getButton("add", "add-button"));
+			rowLogic();
+		}
 
 		return (
 			<div>

@@ -25,6 +25,13 @@ class ToggleButton extends Component {
 
 	componentDidMount() {
 		this.selfRef.current.focus();
+		this.selfRef.current.addEventListener("keypress", e => {
+			var key = e.which || e.keyCode;
+			if (key === 13) {
+				// 13 is enter
+				!!this.props.onChange && this.props.onChange(this.state.value);
+			}
+		});
 	}
 
 	componentWillReceiveProps(nextProps, nextContext) {
@@ -35,15 +42,9 @@ class ToggleButton extends Component {
 		}
 	}
 
-	onBlur = () => {
-		this.setState({
-			blurred: true
-		});
-		!!this.props.onChange && this.props.onChange(this.state.value);
-	};
-
 	onChange = e => {
 		this.setState({ value: e.target.value });
+		!!this.props.onChange && this.props.onChange(e.target.value);
 	};
 
 	render() {
@@ -54,13 +55,7 @@ class ToggleButton extends Component {
 				active={this.state.toggled}
 				onClick={null}
 			>
-				<input
-					onBlur={this.onBlur}
-					onChange={this.onChange}
-					disabled={this.state.blurred}
-					ref={this.selfRef}
-					type="text"
-				/>
+				<input onChange={this.onChange} ref={this.selfRef} type="text" />
 			</Button>
 		);
 	}

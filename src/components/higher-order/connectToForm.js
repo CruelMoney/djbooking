@@ -7,7 +7,8 @@ function connectToForm(WrappedComponent) {
 		static contextTypes = {
 			registerValidation: PropTypes.func.isRequired,
 			updateValue: PropTypes.func,
-			registerReset: PropTypes.func
+			registerReset: PropTypes.func,
+			registerBeforeSubmit: PropTypes.func
 		};
 
 		//errors needs to exist
@@ -22,22 +23,32 @@ function connectToForm(WrappedComponent) {
 		};
 
 		isValid = (showErrors: boolean, value: any = this.state.value) => {
+			let errors = this.state.errors;
+
 			if (this.props.validate) {
-				const errors = this.props.validate.reduce(
+				const newErrors = this.props.validate.reduce(
 					(memo, currentName) => memo.concat(validators[currentName](value)),
 					this.props.errors || []
 				);
+
+				errors = newErrors;
 
 				if (showErrors) {
 					this.setState({
 						errors
 					});
 				}
-
-				return !errors.length;
 			}
 
-			return !this.state.errors.length;
+			const valid = !errors.length;
+
+			return valid;
+		};
+
+		beforeSubmit = _ => {
+			if (this.props.updateBeforeSubmit) {
+				return this.updateValue(this.state.value);
+			}
 		};
 
 		componentWillMount() {
@@ -56,6 +67,9 @@ function connectToForm(WrappedComponent) {
 				this.removeReset = this.context.registerReset(() =>
 					this.setState({ value: this.props.value })
 				);
+			}
+			if (this.context.registerBeforeSubmit) {
+				this.context.registerBeforeSubmit(this.beforeSubmit);
 			}
 		}
 
@@ -98,7 +112,7 @@ function connectToForm(WrappedComponent) {
 
 		updateValue = value => {
 			if (this.context.updateValue) {
-				this.context.updateValue(this.props.name, value);
+				return this.context.updateValue(this.props.name, value);
 			}
 		};
 

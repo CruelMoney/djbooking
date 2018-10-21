@@ -93,13 +93,7 @@ class Preferences extends Component {
 	};
 
 	getPotentialEmailNotifications = () => {
-		const vals = Object.keys(this.props.profile.settings.emailSettings).map(
-			function(s) {
-				return { name: s };
-			}
-		);
-
-		return vals;
+		return Object.keys(this.props.profile.settings.emailSettings);
 	};
 
 	getActionButtons = (props = this.props) => {
