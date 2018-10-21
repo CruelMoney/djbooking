@@ -8,7 +8,6 @@ import connectToForm from "../higher-order/connectToForm";
 class ToggleButtonHandler extends Component {
 	constructor(props) {
 		super(props);
-		console.log(props.potentialValues);
 		this.state = {
 			addedGenres: [],
 			selectedValues: [...this.parseValues(props.value)],

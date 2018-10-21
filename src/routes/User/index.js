@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router";
+import { Switch, Route, Redirect } from "react-router";
 import User from "./components/pages/User";
 import FinishSignup from "./components/pages/FinishSignup";
 import Profile from "./routes/Profile";
@@ -15,12 +15,13 @@ import addTranslate from "../../components/higher-order/addTranslate";
 import "./index.css";
 class ControlUser extends Component {
 	render() {
-		const { translate } = this.props;
-		const baseurl = translate("routes./user/:permalink");
-
+		const { translate, match } = this.props;
+		const baseurl = match.url;
 		return (
 			<User {...this.props}>
 				<Switch>
+					<Redirect exact from={`${baseurl}`} to={`${baseurl}/profile`} />
+
 					<Route
 						path={`${baseurl}/profile`}
 						render={props => <Profile {...this.props} {...props} />}
