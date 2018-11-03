@@ -12,6 +12,8 @@ import CurrencyValue from "../../../../../components/common/CurrencyValue";
 import { getTranslate } from "react-localize-redux";
 import * as actions from "../../../../../actions/EventActions";
 import { connect } from "react-redux";
+import { ReactComponent as PhoneIcon } from "../../../../../assets/phone.svg";
+import { ReactComponent as EmailIcon } from "../../../../../assets/email.svg";
 
 class OfferCard extends Component {
 	static propTypes = {
@@ -93,6 +95,7 @@ class OfferCard extends Component {
 				</Popup>
 				<Popup
 					hideClose
+					noPadding
 					showing={this.state.showChat}
 					onClickOutside={this.hideChat}
 				>
@@ -141,6 +144,14 @@ class OfferCard extends Component {
 											</g>
 										</svg>
 										{" " + this.props.offer.dj.city}
+									</div>
+									<div className="dj-location">
+										<PhoneIcon />
+										{" " + this.props.offer.dj.phone}
+									</div>
+									<div className="dj-location">
+										<EmailIcon />
+										{" " + this.props.offer.dj.phone}
 									</div>
 								</div>
 								{this.props.offer.dj.avgRating === 0 ? (

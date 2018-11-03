@@ -121,7 +121,11 @@ class Popup extends Component {
 								: "white",
 							zIndex: "1001"
 						}}
-						className={"card popup" + (this.state.showing ? " active" : "")}
+						className={
+							"card popup" +
+							(this.state.showing ? " active" : "") +
+							(this.props.noPadding ? " no-padding" : "")
+						}
 						onClick={function(event) {
 							event.stopPropagation();
 						}}

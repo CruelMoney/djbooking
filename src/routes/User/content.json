@@ -294,5 +294,9 @@
 	"empty-reviews": [
 		"This DJ does not have any reviews. <br/>",
 		"Denne DJ har ingen anmeldelser. <br/>"
+	],
+	"Appears after the offer is confirmed by the organizer.": [
+		"Appears after the offer is confirmed by the organizer.",
+		"Bliver synligt efter tilbuddet er godkendt af kunden."
 	]
 }

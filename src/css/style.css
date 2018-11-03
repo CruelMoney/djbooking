@@ -487,9 +487,8 @@ footer .social svg {
 	position: relative;
 	pointer-events: none;
 }
-#preFooter-wrapper > *{
+#preFooter-wrapper > * {
 	pointer-events: all;
-
 }
 #preFooter {
 	width: 100%;
@@ -1007,6 +1006,9 @@ input[type="file"] + label * {
 	top: 50%;
 	transform: translateY(-50%);
 	transition: opacity 0.3s;
+}
+#profile-picture-upload label {
+	color: white;
 }
 
 .user-header-img-wrapper {
