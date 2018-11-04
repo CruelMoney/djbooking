@@ -14,6 +14,7 @@ import * as actions from "../../../../../actions/EventActions";
 import { connect } from "react-redux";
 import { ReactComponent as PhoneIcon } from "../../../../../assets/phone.svg";
 import { ReactComponent as EmailIcon } from "../../../../../assets/email.svg";
+import { PayUsingCueupOrganizer } from "../../../../../components/common/modals";
 
 class OfferCard extends Component {
 	static propTypes = {
@@ -81,8 +82,10 @@ class OfferCard extends Component {
 			borderRadius: "50%",
 			marginRight: "20px"
 		};
+
+		const confirmed = this.props.offer.gigStatus === "Confirmed";
 		return (
-			<div>
+			<>
 				<Popup showing={this.state.showPopup} onClickOutside={this.hidePopup}>
 					<PayForm
 						paymentPossible={this.props.paymentPossible}
@@ -100,6 +103,7 @@ class OfferCard extends Component {
 					onClickOutside={this.hideChat}
 				>
 					<Chat
+						ModalContent={PayUsingCueupOrganizer}
 						eventId={this.props.eventId}
 						receiver={{
 							id: this.props.offer.dj.auth0Id,
@@ -143,15 +147,27 @@ class OfferCard extends Component {
 												<path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
 											</g>
 										</svg>
-										{" " + this.props.offer.dj.city}
+										{this.props.offer.dj.city}
 									</div>
 									<div className="dj-location">
 										<PhoneIcon />
-										{" " + this.props.offer.dj.phone}
+										{confirmed ? (
+											<a href={"tel:" + this.props.offer.dj.phone}>
+												{this.props.offer.dj.phone}
+											</a>
+										) : (
+											translate("Phone number visible after confirmation")
+										)}
 									</div>
 									<div className="dj-location">
 										<EmailIcon />
-										{" " + this.props.offer.dj.phone}
+										{confirmed ? (
+											<a href={"mailto:" + this.props.offer.dj.email}>
+												{this.props.offer.dj.email}
+											</a>
+										) : (
+											translate("Email visible after confirmation")
+										)}
 									</div>
 								</div>
 								{this.props.offer.dj.avgRating === 0 ? (
@@ -183,23 +199,6 @@ class OfferCard extends Component {
 					</div>
 
 					<div className="user-bio">{this.props.offer.dj.bio}</div>
-
-					{this.props.offer.gigStatus === "Confirmed" ? (
-						<div className="user-card-info">
-							<div className="user-card-fact">
-								<p>Email</p>
-								<a href={"mailto:" + this.props.offer.dj.email}>
-									{this.props.offer.dj.email}
-								</a>
-							</div>
-							<div className="user-card-fact">
-								<p>{translate("Phone number")}</p>
-								<a href={"tel:" + this.props.offer.dj.phone}>
-									{this.props.offer.dj.phone}
-								</a>
-							</div>
-						</div>
-					) : null}
 
 					<div className="cancelation-policy">
 						{this.props.onlyChat
@@ -284,7 +283,7 @@ class OfferCard extends Component {
 						</div>
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

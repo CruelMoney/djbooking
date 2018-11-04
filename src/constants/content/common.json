@@ -230,5 +230,9 @@
 		"da": ["en", "en"],
 		"en": ["da", "da"]
 	},
-	"Service fee": ["Service fee", "Servicegebyr"]
+	"Service fee": ["Service fee", "Servicegebyr"],
+	"Remember to pay using Cueup": [
+		"Remember to pay using Cueup",
+		"Husk at betale med Cueup"
+	]
 }

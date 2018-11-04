@@ -13,7 +13,7 @@ import moment from "moment-timezone";
 import { connect } from "react-redux";
 import * as actions from "../../../../../actions/GigActions";
 import { localize } from "react-localize-redux";
-import PayUsingCueupDJ from "../../../../../components/common/modals/PayUsingCueupDJ";
+import { PayUsingCueupDJ } from "../../../../../components/common/modals";
 class Gig extends Component {
 	state = {
 		showPopup: false,

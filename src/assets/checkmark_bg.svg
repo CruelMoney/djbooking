@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="123.134615%" y1="-25.033371%" x2="3.20819711%" y2="95.2219788%" id="linearGradient-1">
+            <stop stop-color="#31FFF5" offset="0%"></stop>
+            <stop stop-color="#31FFC5" offset="21.7952806%"></stop>
+            <stop stop-color="#00D1FF" offset="92.6877392%"></stop>
+            <stop stop-color="#32DAFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="HomePage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-1974.000000, -926.000000)" fill-rule="nonzero">
+            <g id="Group-3" transform="translate(1974.000000, 926.000000)">
+                <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="50" height="50" rx="6"></rect>
+                <polyline id="Line-6" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" points="13 25.9276262 20.0345981 33.0588745 36.8622726 16"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

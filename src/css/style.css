@@ -1141,9 +1141,6 @@ input[type="file"] + label * {
 	flex-wrap: wrap;
 	justify-content: center;
 }
-.event-information > div:not(.col-sm-6) {
-	width: 100%;
-}
 
 .event-information .context-actions button {
 	margin-bottom: 15px;
@@ -3130,6 +3127,51 @@ ol.breadcrumbs a {
 }
 .share-button.SocialMediaShareButton--email {
 	background-color: rgb(127, 127, 127);
+}
+
+.reminder-popup {
+	width: 600px;
+}
+.reminder-popup h2 {
+	font-family: SourceSansPro-Bold;
+
+	text-align: center;
+	width: 350px;
+	margin: auto;
+	margin-bottom: 1em;
+}
+.reminder-popup button {
+	width: 10em;
+}
+
+.checklist {
+	font-size: 16px;
+	width: 400px;
+	margin: auto;
+	margin-bottom: 2em;
+}
+.checklist li {
+	display: flex;
+	height: 4em;
+	align-items: center;
+}
+.checklist li > * {
+	flex: 1;
+}
+.checklist li:before {
+	background-image: url("../assets/checkmark_bg.svg");
+	background-repeat: no-repeat;
+	background-size: 1.5em 1.5em;
+	content: "";
+	position: relative;
+	display: inline-block;
+	height: 1.5em;
+	width: 1.5em;
+	min-width: 1.5em;
+	margin-right: 0.7em;
+}
+.checklist li.soon {
+	opacity: 0.5;
 }
 
 /* SMALL COM BEGIN */

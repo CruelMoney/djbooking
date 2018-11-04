@@ -51,15 +51,15 @@
 		],
 		"paid-message": [
 			"The offer has been paid and confirmed.",
-			"Tilbudet er betalt og bekræftet."
+			"Tilbuddet er betalt og bekræftet."
 		],
 		"quality-message": [
 			"Keep in mind that quality often follows price.",
 			"Husk at kvalitet oftest følger pris."
 		],
 		"contact-dj-message": [
-			"You can always contact the DJ to discuss the price. If a DJ updates the offer, the new price will be shown here.",
-			"Du kan altid kontakte DJen for at forhandle prisen. Hvis en DJ opdaterer sit tilbud, vil den nye pris stå her."
+			"You can always contact the DJ to discuss the price. If a DJ updates the offer, the new price will be shown here. After the event has been confirmed, the DJ's phone number and email will become visible.",
+			"Du kan altid kontakte DJen for at forhandle prisen. Hvis en DJ opdaterer sit tilbud, vil den nye pris stå her. Efter eventet er bekræftet, vil DJ'ens telefonnummer og email blive synlig."
 		],
 		"no-offers-message": [
 			"The DJs are currently creating offers for you.<br/> You will be notified whenever there's a new offer.",
@@ -84,12 +84,12 @@
 			],
 			"pay-later": [
 				"The offer can be confirmed and paid up to 60 days before the event. To get notified by email click notify.",
-				"Tilbudet kan bekræftes og betales op til 60 dage før eventet. For at få en besked når du kan betale, klik GIV BESKED."
+				"tilbuddet kan bekræftes og betales op til 60 dage før eventet. For at få en besked når du kan betale, klik GIV BESKED."
 			],
 			"price": ["The price the DJ has offered.", "Prisen DJen har tilbudt"],
 			"fee": [
 				"The fee is calculated per offer, and helps us run the platform. <br/> It includes VAT.",
-				"Gebyret er udregnet baseret på tilbudet, og hjælper os holde platformen kørende. <br/>Det inkluderer moms."
+				"Gebyret er udregnet baseret på tilbuddet, og hjælper os holde platformen kørende. <br/>Det inkluderer moms."
 			],
 			"terms": [
 				"By clicking confirm & pay you agree to our <a target='_blank' href='/terms/agreements'>terms and conditions</a>, and the cancelation policy specified by the DJ.",
@@ -152,5 +152,13 @@
 	"decline-warning": [
 		"Are you sure you want to decline this DJ? If you decline, the DJ will be removed, and a new DJ will be asked to make an offer. If you are dissatisfied with the price, you can message the DJ asking for a different offer.",
 		"Er du sikker på at du vil afslå DJ'en? Hvis du aflslår, vil DJ'en blive fjernet, og en ny DJ vil blive spurgt om at give et tilbud. Hvis du er utilfreds med prisen, kan du skrive til DJ'en og spørge om et nyt tilbud."
+	],
+	"Phone number visible after confirmation": [
+		"Phone number visible after confirmation",
+		"Telefonnummer synligt efter bekræftelse"
+	],
+	"Email visible after confirmation": [
+		"Email visible after confirmation",
+		"Email synlig efter bekræftelse"
 	]
 }

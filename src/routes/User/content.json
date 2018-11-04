@@ -138,7 +138,7 @@
 		},
 		"status-description": [
 			"The gig request will automatically be declined if you don't make an offer within this time. Remember, you can change the offer up until the organizer has paid.",
-			"Gigget vil automatisk blive afslået hvis du ikke afgiver et tilbud inden denne tid. Husk at du altid kan ændre tilbudet indtil kunden har betalt."
+			"Gigget vil automatisk blive afslået hvis du ikke afgiver et tilbud inden denne tid. Husk at du altid kan ændre tilbuddet indtil kunden har betalt."
 		],
 		"event": {
 			"info": ["Event information", "Event information"],
@@ -180,7 +180,7 @@
 		"offer": {
 			"intro": [
 				"Enter your price to play this gig. You can always update the offer until it has been paid.",
-				"Indtast din pris for at spille til begivenheden. Du kan altid opdatere tilbudet indtil kunden har betalt."
+				"Indtast din pris for at spille til begivenheden. Du kan altid opdatere tilbuddet indtil kunden har betalt."
 			],
 			"point": [
 				"Use a Cueup point to discard the DJ fee. You can update whether to use or not use the point, until the offer has been paid. If the gig gets cancelled, the point will be restored.",

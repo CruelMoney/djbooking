@@ -43,24 +43,22 @@ class EventOffers extends Component {
 
 			if (hasOffer || hasMessages) {
 				const offer = (
-					<div className="col-sm-6">
-						<OfferCard
-							key={o.gigID}
-							onlyChat={!hasOffer && hasMessages}
-							eventId={this.props.event.id}
-							notification={notification}
-							profileId={this.props.eventContactId}
-							profileName={this.props.eventContactName}
-							profilePicture={this.props.eventContactPicture}
-							paymentPossible={this.state.paymentPossible}
-							eventFinished={this.state.eventFinished}
-							currency={this.props.currency}
-							paymentAmount={this.props.paymentAmount}
-							paymentCurrency={this.props.paymentCurrency}
-							offer={o}
-							event={this.props.event}
-						/>
-					</div>
+					<OfferCard
+						key={o.gigID}
+						onlyChat={!hasOffer && hasMessages}
+						eventId={this.props.event.id}
+						notification={notification}
+						profileId={this.props.eventContactId}
+						profileName={this.props.eventContactName}
+						profilePicture={this.props.eventContactPicture}
+						paymentPossible={this.state.paymentPossible}
+						eventFinished={this.state.eventFinished}
+						currency={this.props.currency}
+						paymentAmount={this.props.paymentAmount}
+						paymentCurrency={this.props.paymentCurrency}
+						offer={o}
+						event={this.props.event}
+					/>
 				);
 
 				ShowOffers.push(offer);
@@ -93,13 +91,13 @@ class EventOffers extends Component {
 					</div>
 				) : ShowOffers.length ? (
 					<div>
-						<div className="row">
-							<div className="col-xs-12">
+						<div className="row center">
+							<div className="col-xs-12 col-sm-5">
 								<p style={{ textAlign: "center" }}>
-									{translate("event.quality-message")}
+									{translate("event.contact-dj-message")}
 								</p>
 								<p style={{ textAlign: "center", marginBottom: "20px" }}>
-									{translate("event.contact-dj-message")}
+									{translate("event.quality-message")}
 								</p>
 							</div>
 						</div>

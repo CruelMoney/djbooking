@@ -18,6 +18,12 @@
 .user-header {
 	position: sticky;
 }
+.offer-card.card {
+	width: 500px;
+	max-width: 90vw;
+	margin: 10px;
+}
+
 .offer-card .top {
 	width: 100%;
 }
@@ -26,9 +32,14 @@
 	justify-content: space-between;
 	width: 100%;
 }
+.offer-card .top a {
+	color: #32325d;
+}
 .offer-card .top button {
 	height: 2em;
 	font-size: 14px;
+	margin: 0;
+	width: 130px;
 }
 .offer-card .rating {
 	margin-bottom: 0.5em;
@@ -40,6 +51,23 @@
 .offer-card .errors {
 	text-align: center;
 	margin-top: 0.5em;
+}
+.offer-card .dj-location {
+	margin: 10px 0;
+	font-size: 12px;
+	line-height: 1em;
+	display: flex;
+	align-items: center;
+}
+
+.dj-location svg {
+	height: 1em;
+	width: 1.2em;
+	margin-right: 0.5em;
+}
+.offer-card .top .button-wrapper {
+	justify-content: flex-end;
+	margin-top: -40px;
 }
 
 @media only screen and (max-width: 990px) {
@@ -60,5 +88,8 @@
 	}
 	.offers .col-xs-12 {
 		z-index: 2;
+	}
+	.offer-card .top .button-wrapper {
+		margin-top: 0px;
 	}
 }

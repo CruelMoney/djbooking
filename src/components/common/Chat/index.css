@@ -146,8 +146,10 @@
 	background: #26f4d2;
 	padding: 0.5em 1em;
 	color: white;
-	font-weight: 900;
+	font-family: "AvenirNext-Medium";
+	font-weight: 600;
 	border-radius: 6px 6px 0px 0px;
+	text-align: right;
 }
 
 /* Mobile */
