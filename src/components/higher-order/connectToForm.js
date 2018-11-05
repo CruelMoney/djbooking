@@ -22,7 +22,7 @@ function connectToForm(WrappedComponent) {
 			}));
 		};
 
-		isValid = (showErrors: boolean, value: any = this.state.value) => {
+		isValid = (showErrors, value = this.state.value) => {
 			let errors = this.state.errors;
 
 			if (this.props.validate) {

@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../Button-v2";
 
-export default ({ closeModal, translate: t, ...props }) => (
+export default ({ closeModal, hideButtons, translate: t, ...props }) => (
 	<div className="reminder-popup">
 		<h2 className="center">
 			{t("Remember to get paid using Cueup to enjoy the benefits")}
@@ -24,8 +24,10 @@ export default ({ closeModal, translate: t, ...props }) => (
 				{t("Coming soon: create and manage invoices for your customers.")}
 			</li>
 		</ul>
-		<Button active glow onClick={closeModal}>
-			{t("got it!")}
-		</Button>
+		{!hideButtons && (
+			<Button active glow onClick={closeModal}>
+				{t("got it!")}
+			</Button>
+		)}
 	</div>
 );

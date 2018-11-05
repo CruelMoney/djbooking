@@ -174,7 +174,12 @@ class Chat extends Component {
 			<div className="chat">
 				<Popup showing={this.state.showPopup} onClickOutside={this.hidePopup}>
 					<div>
-						{ModalContent && <ModalContent closeModal={this.hidePopup} />}
+						{ModalContent && (
+							<ModalContent
+								closeModal={this.hidePopup}
+								hideButtons={declinedMessage}
+							/>
+						)}
 						{declinedMessage && (
 							<div className="flex">
 								<Button

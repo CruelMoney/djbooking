@@ -1,5 +1,6 @@
+const getMuiTheme = require("material-ui/styles/getMuiTheme").default;
+const MuiThemeProvider = require("material-ui/styles/MuiThemeProvider").default;
 const React = require("react");
-
 const path = require("path");
 const clientBuildPath = path.resolve(__dirname, "client");
 const { default: staticLoader } = require("@cra-express/static-loader");
@@ -14,9 +15,6 @@ const proxy = require("express-http-proxy");
 
 var express = require("express");
 var app = express();
-
-import getMuiTheme from "material-ui/styles/getMuiTheme";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 const getReactApp = (req, res) => {
 	const store = res.locals.store;
@@ -65,7 +63,10 @@ const renderer = async (req, res, stream, htmlData, options) => {
 
 	var segments = htmlData.split('<div id="root">');
 	res.write(segments[0] + '<div id="root">');
-	stream.pipe(res, { end: false });
+	stream.pipe(
+		res,
+		{ end: false }
+	);
 	stream.on("end", function() {
 		if (options.onEndReplace) {
 			segments[1] = options.onEndReplace(segments[1]);
