@@ -13,7 +13,7 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="theme-color" content="#ffffff">
-
+    {{HELMET_META}}
     <!-- <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es6"></script> -->
 
     <!-- Adds an event listener to capture uncaught errors. -->
@@ -55,14 +55,12 @@
     </script>
 
 
-
+    {{HELMET_TITLE}}
 </head>
 
 <body>
     <div id="root"></div>
-    <script>
-        window.__PRELOADED_STATE__ = "%PRELOADED_STATE%"
-    </script>
+    {{SCRIPT}}
 
     <!-- begin olark code -->
     <script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark || (function (c) {

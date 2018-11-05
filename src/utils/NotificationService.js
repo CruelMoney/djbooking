@@ -1,74 +1,72 @@
-import io from 'socket.io-client';
-import {Environment} from '../constants/constants'
-import store from '../store'
-import * as actions from '../actions/NotificationsActions'
+import io from "socket.io-client";
+import { Environment } from "../constants/constants";
+import store from "../store";
+import * as actions from "../actions/NotificationsActions";
 
 export default class NotificationService {
-    constructor() {
-        this.domain = Environment.CHAT_DOMAIN;
-        this.notificationHandlers = [];
-        this.onInitialized = []
-    }
+	constructor() {
+		this.domain = Environment.CHAT_DOMAIN;
+		this.notificationHandlers = [];
+		this.onInitialized = [];
+	}
 
-    init(userId){
-        if(!this.socket && userId){
-            console.log('connecting to: ', Environment.CHAT_DOMAIN+'?userId='+userId);
+	init(userId) {
+		if (!this.socket && userId) {
+			console.log(
+				"connecting to: ",
+				Environment.CHAT_DOMAIN + "?userId=" + userId
+			);
 
-            this.socket = io(Environment.CHAT_DOMAIN+'?userId='+userId)
+			this.socket = io(Environment.CHAT_DOMAIN + "?userId=" + userId);
 
-            this.socket.on('initialize notifications', (notifications)=>{
-                store.dispatch(
-                    actions.fetchedNotifications(notifications)
-                );
-                this.onInitialized.reduce( (_, fn) => {
-                    return fn()
-                }, 0);
-            })
+			this.socket.on("initialize notifications", notifications => {
+				store.dispatch(actions.fetchedNotifications(notifications));
+				this.onInitialized.reduce((_, fn) => {
+					return fn();
+				}, 0);
+			});
 
-            this.socket.on('new notification', (notification)=>{
-                store.dispatch(
-                    actions.newNotification(notification)
-                );
-                this.notificationHandlers.reduce((acc, fn) => {
-                    return fn(notification);
-                }, 0);
-            });
-        }
-    }
+			this.socket.on("new notification", notification => {
+				store.dispatch(actions.newNotification(notification));
+				this.notificationHandlers.reduce((acc, fn) => {
+					return fn(notification);
+				}, 0);
+			});
+		}
+	}
 
-    addNotificationHandler = (handler) =>{
-        this.notificationHandlers.push(handler);
-    }
+	addNotificationHandler = handler => {
+		this.notificationHandlers.push(handler);
+	};
 
-    // Not mutation safe
-    removeNotificationHandler = (handler) =>{
-        const idx = this.notificationHandlers.indexOf(handler);
-        this.notificationHandlers.splice(idx, 1);
-    }
+	// Not mutation safe
+	removeNotificationHandler = handler => {
+		const idx = this.notificationHandlers.indexOf(handler);
+		this.notificationHandlers.splice(idx, 1);
+	};
 
-    reset = () => {
-        this.notificationHandlers = []
-    }
+	reset = () => {
+		this.notificationHandlers = [];
+	};
 
-    getChatStatus = () => {
-        return new Promise((resolve, reject)=>{
-               const chatFetcher = () => {
-                    this.socket.emit('get chat status', response => {
-                        if(response.error){        
-                            return reject(response);
-                        }else{
-                            return resolve(response);
-                        }
-                    })
-                }
-                if(this.socket){
-                    chatFetcher();
-                }else{
-                    this.onInitialized.push(chatFetcher);
-                }
-        });
-    }
-
+	getChatStatus = () => {
+		return new Promise((resolve, reject) => {
+			const chatFetcher = () => {
+				this.socket.emit("get chat status", response => {
+					if (response.error) {
+						return reject(response);
+					} else {
+						return resolve(response);
+					}
+				});
+			};
+			if (this.socket) {
+				chatFetcher();
+			} else {
+				this.onInitialized.push(chatFetcher);
+			}
+		});
+	};
 }
 
 // Singleton pattern
