@@ -2,7 +2,6 @@ const getMuiTheme = require("material-ui/styles/getMuiTheme").default;
 const MuiThemeProvider = require("material-ui/styles/MuiThemeProvider").default;
 const React = require("react");
 const path = require("path");
-const clientBuildPath = path.resolve(__dirname, "client");
 const { default: staticLoader } = require("@cra-express/static-loader");
 const { default: universalLoader } = require("@cra-express/universal-loader");
 const { renderToNodeStream, renderToString } = require("react-dom/server");
@@ -12,6 +11,7 @@ const { StaticRouter } = require("react-router-dom");
 const { Provider } = require("react-redux");
 const { configureStore } = require("../../src/store");
 const proxy = require("express-http-proxy");
+const clientBuildPath = path.resolve(__dirname, "client");
 
 var express = require("express");
 var app = express();
