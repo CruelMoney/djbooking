@@ -60,14 +60,11 @@ const app = createReactAppExpress({
 		const helmetMeta = helmet.meta.toString();
 
 		const newHtml = html
-			.replace("{{HELMET_TITLE}}", helmetTitle)
-			.replace("{{HELMET_META}}", helmetMeta)
+			.replace("</head>", helmetTitle + "</head>")
+			.replace("</head>", helmetMeta + "</head>")
 			.replace(
-				"{{SCRIPT}}",
-				`${tag}<script>
-				window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, "\\u003c")};
-			 
-			</script>`
+				"%PRELOADED_STATE%",
+				JSON.stringify(state).replace(/</g, "\\u003c")
 			);
 
 		res.send(newHtml);

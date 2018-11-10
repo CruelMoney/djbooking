@@ -156,7 +156,9 @@ class Location extends Component {
 		const { isMobile } = this.state;
 		const { city, country } = match.params;
 		const location = !!city
-			? !!locations[country] ? locations[country].cities[city] : null
+			? !!locations[country]
+				? locations[country].cities[city]
+				: null
 			: locations[country];
 
 		// Redirect

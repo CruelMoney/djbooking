@@ -44,7 +44,7 @@ build
 /build
 /dist
 /server/build
-
+server-build
 
 ### Javascript config ###
 .eslintrc
