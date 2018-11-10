@@ -90,6 +90,7 @@
 		"analyze": "source-map-explorer build/static/js/main.*",
 		"start": "NODE_ENV=production node dist/server/bundle.js",
 		"startDev": "NODE_ENV=production react-scripts start",
+		"start-server": "yarn cra-universal start",
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",
 		"eject": "react-scripts eject",
