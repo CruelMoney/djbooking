@@ -96,9 +96,6 @@ class EventOffers extends Component {
 								<p style={{ textAlign: "center" }}>
 									{translate("event.contact-dj-message")}
 								</p>
-								<p style={{ textAlign: "center", marginBottom: "20px" }}>
-									{translate("event.quality-message")}
-								</p>
 							</div>
 						</div>
 						<div className="row event-information">{ShowOffers}</div>

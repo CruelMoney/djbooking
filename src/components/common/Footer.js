@@ -255,7 +255,7 @@ class footer extends Component {
 												}
 												value={this.props.currency}
 											>
-												{c.Currencies.map((c, idx) => (
+												{c.OrganizerCurrencies.map((c, idx) => (
 													<option key={`currency-option-${idx}`} value={c}>
 														{c}
 													</option>
@@ -297,6 +297,9 @@ function mapDispatchToProps(dispatch, ownprops) {
 	};
 }
 
-const SmartFooter = connect(mapStatetoProps, mapDispatchToProps)(footer);
+const SmartFooter = connect(
+	mapStatetoProps,
+	mapDispatchToProps
+)(footer);
 
 export default withRouter(SmartFooter);

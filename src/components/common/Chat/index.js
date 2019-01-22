@@ -6,7 +6,7 @@ import ContactReminder from "./ContactReminder";
 import Popup from "../Popup";
 import "./index.css";
 import Button from "../Button-v2";
-
+import LoadingPlaceholder from "../LoadingPlaceholder";
 class Chat extends Component {
 	chat = null;
 	auth = null;
@@ -18,7 +18,8 @@ class Chat extends Component {
 		messages: [],
 		newMessage: "",
 		typingAnimation: false,
-		showPopup: false
+		showPopup: false,
+		loading: true
 	};
 
 	componentDidMount() {
@@ -35,7 +36,8 @@ class Chat extends Component {
 					messages: messages,
 					showPopup: messages.some(
 						msg => msg.containsEmail || msg.containsNumber
-					)
+					),
+					loading: false
 				},
 				this.scrollToBottom
 			);
@@ -208,6 +210,7 @@ class Chat extends Component {
 					}}
 					className="messages"
 				>
+					{this.state.loading ? <LoadingPlaceholder /> : null}
 					{this.state.messages.length > 0
 						? this.state.messages.map((msg, idx) => {
 								const own = this.props.sender.id === msg.from;
@@ -275,13 +278,15 @@ class Chat extends Component {
 													) : null}
 													{this.state.sending
 														? "Sending"
-														: msg.read ? "Seen" : "Delivered"}
+														: msg.read
+															? "Seen"
+															: "Delivered"}
 												</span>
 											) : null}
 										</div>
 									</div>
 								);
-							})
+						  })
 						: this.props.placeholder}
 					{this.state.typingAnimation ? (
 						<div className="message received">

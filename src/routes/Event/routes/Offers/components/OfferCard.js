@@ -129,7 +129,7 @@ class OfferCard extends Component {
 						<div style={image} />
 						<div className="top">
 							<div>
-								<div>
+								<div style={{ width: "55%" }}>
 									<h4>{this.props.offer.dj.censoredName}</h4>
 
 									<div className="dj-location">
@@ -170,17 +170,16 @@ class OfferCard extends Component {
 										)}
 									</div>
 								</div>
-								{this.props.offer.dj.avgRating === 0 ? (
-									<p
-										style={{
-											fontSize: "12px",
-											textAlign: "right",
-											margin: "0"
-										}}
-									>
-										{translate("Member for") + " " + memberSince}
-									</p>
-								) : (
+								{this.props.offer.dj.avgRating === 0 ? // 	style={{ // <p
+								// 		fontSize: "12px",
+								// 		textAlign: "right",
+								// 		margin: "0",
+								// 		lineHeight: "1.2em"
+								// 	}}
+								// >
+								// 	{translate("Member for") + " " + memberSince}
+								// </p>
+								null : (
 									<Rating rating={this.props.offer.dj.avgRating} />
 								)}
 							</div>
@@ -206,7 +205,7 @@ class OfferCard extends Component {
 							: translate("event.offer.refund", {
 									days: this.props.offer.cancelationDays,
 									percentage: this.props.offer.refundPercentage
-								})}
+							  })}
 					</div>
 
 					<div className="bottom">
@@ -305,4 +304,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OfferCard);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(OfferCard);
