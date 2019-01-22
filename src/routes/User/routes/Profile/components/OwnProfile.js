@@ -59,10 +59,15 @@ class OwnProfile extends Component {
 	}
 
 	state = {
-		showHelp: false
+		showHelp: false,
+		loading: false
 	};
 
 	submit = (form, callback) => {
+		this.setState({
+			loading: true
+		});
+
 		const profile = {
 			...this.props.profile,
 			...form.values
@@ -81,12 +86,14 @@ class OwnProfile extends Component {
 					<SubmitButton
 						active={this.context.valid}
 						onClick={this.submit}
+						loading={this.state.loading}
 						name="save_edit_profile"
-						onSucces={() =>
+						onSucces={() => {
+							this.setState({ loading: false });
 							setTimeout(() => {
 								this.context.disableEditMode();
-							}, 1700)
-						}
+							}, 1700);
+						}}
 					>
 						{translate("save")}
 					</SubmitButton>
