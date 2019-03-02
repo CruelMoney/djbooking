@@ -45,7 +45,7 @@ class payoutForm extends Component {
 				};
 
 				// custom if iban element
-				if (this.state.area === "europe") {
+				if (this.state.area === "other") {
 					delete data.country;
 				}
 
@@ -67,7 +67,7 @@ class payoutForm extends Component {
 
 	state = {
 		valid: false,
-		area: "europe"
+		area: "other"
 	};
 
 	render() {
@@ -90,19 +90,21 @@ class payoutForm extends Component {
 					>
 						<div className="row" style={{ marginBottom: "10px" }}>
 							<div className="col-md-12">
+								<label style={{ marginBottom: "10px" }}>
+									{translate("payout.location")}
+								</label>
 								<ToggleOptions
 									name="area"
 									glued={true}
 									value={this.state.area}
 									onChange={val => this.setState({ area: val })}
 								>
-									<Button name="europe">{translate("europe")}</Button>
-
 									<Button name="usa">USA</Button>
+									<Button name="other">{translate("other")}</Button>
 								</ToggleOptions>
 							</div>
 						</div>
-						{this.state.area === "europe" ? (
+						{this.state.area === "other" ? (
 							<div className="row">
 								<div className="col-xs-12">
 									<label>{translate("country")}</label>
@@ -112,7 +114,6 @@ class payoutForm extends Component {
 										validate={["required"]}
 										value={this.props.country || null}
 										fullWidth={false}
-										placeholder={"Denmark"}
 									/>
 								</div>
 							</div>
@@ -126,7 +127,6 @@ class payoutForm extends Component {
 									fullWidth={false}
 									validate={["required"]}
 									value={this.props.city || null}
-									placeholder={"Copenhagen"}
 								/>
 							</div>
 							<div className="col-sm-6">
@@ -136,7 +136,6 @@ class payoutForm extends Component {
 									type="text"
 									validate={["required"]}
 									fullWidth={false}
-									placeholder={"2100"}
 								/>
 							</div>
 						</div>
@@ -148,14 +147,13 @@ class payoutForm extends Component {
 									type="text"
 									validate={["required"]}
 									fullWidth={false}
-									placeholder={"Streetname 42"}
 								>
 									<InfoPopup info={translate("payout.address-description")} />
 								</TextField>
 							</div>
 						</div>
 
-						{this.state.area === "europe" ? (
+						{this.state.area === "other" ? (
 							<div className="row">
 								<div className="col-xs-12">
 									<label>{translate("payout.IBAN-number")}</label>
@@ -250,7 +248,13 @@ function mapDispatchToProps(dispatch, ownprops) {
 }
 
 const SmartPayout = injectStripe(
-	localize(connect(mapStateToProps, mapDispatchToProps)(payoutForm), "locale")
+	localize(
+		connect(
+			mapStateToProps,
+			mapDispatchToProps
+		)(payoutForm),
+		"locale"
+	)
 );
 
 class StripeWrapper extends Component {

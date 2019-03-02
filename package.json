@@ -14,7 +14,7 @@
 		"@cra-express/static-loader": "^4.0.0",
 		"@svgr/core": "^3.1.0",
 		"@svgr/webpack": "^3.1.0",
-		"auth0-js": "^8.10.1",
+		"auth0-js": "^9.2.3",
 		"autoprefixer": "^7.1.6",
 		"autotrack": "^2.0.1",
 		"case-sensitive-paths-webpack-plugin": "^2.1.1",
