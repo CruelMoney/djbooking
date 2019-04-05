@@ -32,8 +32,8 @@ class Review extends Component {
 	};
 
 	render() {
-		const { translate } = this.props;
-		const title = this.props.event.name + " | " + translate("Review");
+		const { translate, eventName } = this.props;
+		const title = eventName + " | " + translate("Review");
 
 		return (
 			<div className="row event-information">
@@ -128,4 +128,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Review);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Review);
