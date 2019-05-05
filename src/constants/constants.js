@@ -11,7 +11,7 @@ var peter = require("../assets/images/peter.png");
 var keyMirror = require("keymirror");
 
 const production = process.env.NODE_ENV === "production";
-console.log(process.env.NODE_ENV)
+console.log(process.env.NODE_ENV);
 module.exports = {
 	Environment: {
 		STRIPE_PUBLIC_KEY: production
@@ -32,6 +32,9 @@ module.exports = {
 		API_DOMAIN: production
 			? process.env.REACT_APP_CUEUP_PROD_API_DOMAIN
 			: process.env.REACT_APP_CUEUP_DEV_API_DOMAIN,
+		GQL_DOMAIN: production
+			? "https://staging.gql.cueup.io"
+			: "https://staging.gql.cueup.io",
 		CHAT_DOMAIN: production
 			? process.env.REACT_APP_CUEUP_PROD_CHAT_DOMAIN
 			: process.env.REACT_APP_CUEUP_DEV_CHAT_DOMAIN,

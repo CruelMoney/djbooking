@@ -1,214 +1,189 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import SubmitButton from './SubmitButton'
-import Textfield from './Textfield'
-import Form from './Form-v2'
-import CueupService from '../../utils/CueupService'
-import { connect } from 'react-redux'
-import * as actions from '../../actions/LoginActions'
-import { withRouter } from 'react-router-dom'
-import LoadHandler from './LoadingScreen'
-import Loadable from 'react-loadable';
-import { getTranslate } from 'react-localize-redux';
-
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import SubmitButton from "./SubmitButton";
+import Textfield from "./Textfield";
+import Form from "./Form-v2";
+import CueupService from "../../utils/CueupService";
+import { connect } from "react-redux";
+import * as actions from "../../actions/LoginActions";
+import { withRouter } from "react-router-dom";
+import LoadHandler from "./LoadingScreen";
+import Loadable from "react-loadable";
+import { getTranslate } from "react-localize-redux";
+import { Mutation } from "react-apollo";
+import { LOGIN } from "../gql";
+import Button from "./Button-v2";
 
 const AsyncUser = Loadable({
-  loader: () => import('../../routes/User'),
-  loading: LoadHandler
+	loader: () => import("../../routes/User"),
+	loading: LoadHandler
 });
 
-let cueup = new CueupService()
+let cueup = new CueupService();
 
-class Login extends Component{
-    displayName = 'Login'
-    color = "#31DAFF"
+class Login extends Component {
+	displayName = "Login";
+	color = "#31DAFF";
 
-    static proptypes = {
-      login: PropTypes.func.isRequired,
-      loginFacebook: PropTypes.func,
-      loginSoundcloud: PropTypes.func,
-      isLoading: PropTypes.bool,
-      error: PropTypes.string,
-    }
+	static proptypes = {
+		login: PropTypes.func.isRequired,
+		isLoading: PropTypes.bool,
+		error: PropTypes.string
+	};
 
-    getChildContext(){
-      return{
-        color: this.color
-      }
-    }
+	getChildContext() {
+		return {
+			color: this.color
+		};
+	}
 
-    static defaultProps = {
-        redirect:true
-      }
+	static defaultProps = {
+		redirect: true
+	};
 
-    state={
-        email: "",
-        password: "",
-        isValid: false,
-      }
+	state = {
+		email: "",
+		password: "",
+		isValid: false
+	};
 
-    componentWillMount(){
-      this.setState({
-        error: this.props.error,
-        message: ""
-      })
-    }
+	componentWillMount() {
+		this.setState({
+			error: this.props.error,
+			message: ""
+		});
+	}
 
-    onRequestChangePassword = (form, callback) => {
-      const {translate} = this.props;
+	onRequestChangePassword = (form, callback) => {
+		const { translate } = this.props;
 
-      var email = this.state.email;
-      let self = this
-      if (!email) {
-        return callback(translate("please-enter-email"))
-      }
-        cueup.requestPasswordChange(email,function(err,resp){
-          if (err) {
-            callback(err.message || translate("unknown-error"))
-          }else{
-            self.setState({message: translate('reset-password-msg')})
-            callback(null)
-          }
-        })    
-    }
+		var email = this.state.email;
+		let self = this;
+		if (!email) {
+			return callback(translate("please-enter-email"));
+		}
+		cueup.requestPasswordChange(email, function(err, resp) {
+			if (err) {
+				callback(err.message || translate("unknown-error"));
+			} else {
+				self.setState({ message: translate("reset-password-msg") });
+				callback(null);
+			}
+		});
+	};
 
-    onChangeEmail = (email) => {
-      this.setState({
-        email
-      })
-    }
+	onChangeEmail = email => {
+		this.setState({
+			email
+		});
+	};
 
-    onChangePassword = (password) => {
-      this.setState({
-        password
-      })
-    }
+	onChangePassword = password => {
+		this.setState({
+			password
+		});
+	};
 
-    redirectAfterLogin = (user) =>{
-      if(user && user.user_metadata && user.user_metadata.permaLink){
-        this.props.history.push(`/user/${user.user_metadata.permaLink}/profile`)
-      }
-    }
+	redirectAfterLogin = user => {
+		if (user && user.user_metadata && user.user_metadata.permaLink) {
+			this.props.history.push(`/user/${user.user_metadata.permaLink}/profile`);
+		}
+	};
 
-    login = (form, cb) => {
-      AsyncUser.preload();
-      this.props.login( this.state.email, this.state.password, (err,res)=>{
-        if(!err && this.props.closeLogin){
-          this.props.closeLogin();
-        }
-        cb(err,res);
-      })
-    }
-    loginFacebook = (form) =>{
-      AsyncUser.preload();
-      this.props.loginFacebook(form)
-    } 
-    loginSoundcloud = (form) =>{
-      AsyncUser.preload();
-      this.props.loginSoundcloud(form)
-    } 
+	login = (form, cb) => {
+		AsyncUser.preload();
+		this.props.login(this.state.email, this.state.password, (err, res) => {
+			if (!err && this.props.closeLogin) {
+				this.props.closeLogin();
+			}
+			cb(err, res);
+		});
+	};
 
-  render() {
-    const {translate} = this.props;
+	render() {
+		const { translate } = this.props;
 
-    return (
-      
-<div className="login">
+		return (
+			<div className="login">
+				<Mutation
+					mutation={LOGIN}
+					variables={this.state}
+					onCompleted={console.log}
+				>
+					{(mutate, { loading }) => {
+						return (
+							<Fragment>
+								<div>
+									<Textfield
+										name="email"
+										type="email"
+										validate={["required", "email"]}
+										floatingLabelText="Email"
+										onChange={this.onChangeEmail}
+									/>
+								</div>
+								<div>
+									<Textfield
+										name="password"
+										validate={["required"]}
+										type="password"
+										floatingLabelText="Password"
+										onChange={this.onChangePassword}
+									/>
+								</div>
+								<div>
+									<Button
+										glow
+										active
+										isLoading={loading}
+										name="email_login"
+										onClick={_ => mutate()}
+									>
+										{translate("login")}
+									</Button>
+								</div>
+							</Fragment>
+						);
+					}}
+				</Mutation>
+				<Form name="forgot_password">
+					<Button name="forgot_password" onClick={this.onRequestChangePassword}>
+						{translate("forgot") + "?"}
+					</Button>
+					{this.state.message ? <p>{this.state.message}</p> : null}
+				</Form>
+			</div>
+		);
+	}
+}
 
-  <div className="social-login">
-    <Form
-      name="social-login">
-      <SubmitButton
-        glow
-        active
-        color="#3b5998"
-        name="facebook_login"
-        onClick={this.loginFacebook}
-      >Facebook</SubmitButton>
-      <SubmitButton
-        glow
-        active
-        color="#ff7700"
-        name="soundcloud_login"
-        onClick={this.loginSoundcloud}
-      >SoundCloud</SubmitButton>
-    </Form>
-  </div>
-  <p style={{textAlign:"center"}}>{translate("or")}</p>
-  <Form
-    name="email-login"
-  >
-    <div>
-      <Textfield
-        name="email"
-        type="email"
-        validate={['required', 'email']}
-        floatingLabelText="Email"
-        onChange={this.onChangeEmail}
-      />
-    </div>
-    <div >
-      <Textfield
-        name="password"
-        validate={['required']}
-        type="password"
-        floatingLabelText="Password"
-        onChange={this.onChangePassword}
-      />
-    </div>
-    <div >
-      <SubmitButton
-        glow
-        active
-        name="email_login"
-        onClick={this.login}
-      >
-      {translate('login')}
-      </SubmitButton>
-    </div>
-  </Form>
-  <Form name="forgot_password">
-    <SubmitButton
-      name="forgot_password"
-      onClick={this.onRequestChangePassword}>
-      {translate('forgot')+"?"}
-    </SubmitButton>
-    {this.state.message ?
-      <p >
-        {this.state.message}
-      </p>
-    :null}
-  </Form>
+Login.childContextTypes = {
+	color: PropTypes.string
+};
 
+const getPropsFromState = state => {
+	return {
+		translate: getTranslate(state.locale)
+	};
+};
 
-</div>
-    )}}
+function mapDispatchToProps(dispatch, ownprops) {
+	return {
+		login: (email, password, callback) =>
+			dispatch(
+				actions.login(
+					{ type: "EMAIL", email, password, redirect: true },
+					callback
+				)
+			)
+	};
+}
 
-    
+const SmartLogin = withRouter(
+	connect(
+		getPropsFromState,
+		mapDispatchToProps
+	)(Login)
+);
 
-
-  Login.childContextTypes = {
-    color: PropTypes.string
-  }
-
-  const getPropsFromState = (state) => {
-    return {
-      translate: getTranslate(state.locale),
-    }
-  }
-
-    function mapDispatchToProps(dispatch, ownprops) {
-      return {
-        login: (email, password, callback) => dispatch(actions.login({type:"EMAIL", email, password, redirect:true}, callback)),
-        loginFacebook: (form, callback)        => dispatch(actions.login({type:"FACEBOOK"}, callback)),
-        loginSoundcloud: (form, callback)      => dispatch(actions.login({type:"SOUNDCLOUD"}, callback)),
-      }
-    }
-
-    const SmartLogin = withRouter(
-      connect(getPropsFromState, mapDispatchToProps)(Login)
-    )
-
-    export default props => (
-        <SmartLogin {...props}/>
-    )
+export default props => <SmartLogin {...props} />;

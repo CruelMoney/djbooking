@@ -1,38 +1,36 @@
 /* eslint-disable import/first */
-import React, {Component} from 'react'
-import {
-  BrowserRouter as Router
-} from 'react-router-dom'
-import { Provider } from 'react-redux'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import App from './App'; 
-import store from './store';
-import { HelmetProvider } from 'react-helmet-async';
+import React, { Component } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
+import getMuiTheme from "material-ui/styles/getMuiTheme";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import App from "./App";
+import store from "./store";
+import { HelmetProvider } from "react-helmet-async";
 
-import './polyfills';
+import "./polyfills";
+import ApolloProvider from "./ApolloProvider";
 
 const theme = getMuiTheme();
 
 class MyRouter extends Component {
-      render(){        
-        return  ( 
-          <Router>
-              <MuiThemeProvider muiTheme={theme}>
-                <HelmetProvider>
-                  <App/>
-                </HelmetProvider>
-              </MuiThemeProvider>
-          </Router>
-          )
-      }
+	render() {
+		return (
+			<ApolloProvider>
+				<Router>
+					<MuiThemeProvider muiTheme={theme}>
+						<HelmetProvider>
+							<App />
+						</HelmetProvider>
+					</MuiThemeProvider>
+				</Router>
+			</ApolloProvider>
+		);
+	}
 }
- 
+
 export default props => (
-  <Provider store={store}>
-    <MyRouter {...props}/>
-  </Provider>
+	<Provider store={store}>
+		<MyRouter {...props} />
+	</Provider>
 );
-
-
-
