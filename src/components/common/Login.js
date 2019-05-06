@@ -13,6 +13,8 @@ import { getTranslate } from "react-localize-redux";
 import { Mutation } from "react-apollo";
 import { LOGIN } from "../gql";
 import Button from "./Button-v2";
+import ErrorMessage from "./ErrorMessage";
+import ErrorMessageApollo from "./ErrorMessageApollo";
 
 const AsyncUser = Loadable({
 	loader: () => import("../../routes/User"),
@@ -44,7 +46,8 @@ class Login extends Component {
 	state = {
 		email: "",
 		password: "",
-		isValid: false
+		isValid: false,
+		isLoading: false
 	};
 
 	componentWillMount() {
@@ -90,27 +93,22 @@ class Login extends Component {
 		}
 	};
 
-	login = (form, cb) => {
-		AsyncUser.preload();
-		this.props.login(this.state.email, this.state.password, (err, res) => {
-			if (!err && this.props.closeLogin) {
-				this.props.closeLogin();
-			}
-			cb(err, res);
-		});
-	};
-
 	render() {
-		const { translate } = this.props;
+		const { isLoading } = this.state;
+		const { translate, onLogin } = this.props;
 
 		return (
 			<div className="login">
 				<Mutation
 					mutation={LOGIN}
 					variables={this.state}
-					onCompleted={console.log}
+					onCompleted={({ signIn: { token } }) => {
+						onLogin(token, _ => {
+							this.setState({ isLoading: false });
+						});
+					}}
 				>
-					{(mutate, { loading }) => {
+					{(mutate, { error }) => {
 						return (
 							<Fragment>
 								<div>
@@ -135,13 +133,17 @@ class Login extends Component {
 									<Button
 										glow
 										active
-										isLoading={loading}
+										isLoading={isLoading}
 										name="email_login"
-										onClick={_ => mutate()}
+										onClick={_ => {
+											this.setState({ isLoading: true });
+											mutate();
+										}}
 									>
 										{translate("login")}
 									</Button>
 								</div>
+								<ErrorMessageApollo error={error} />
 							</Fragment>
 						);
 					}}
@@ -169,7 +171,7 @@ const getPropsFromState = state => {
 
 function mapDispatchToProps(dispatch, ownprops) {
 	return {
-		login: (email, password, callback) => new Error("not implemented")
+		onLogin: (token, callback) => dispatch(actions.onLogin(token, callback))
 	};
 }
 

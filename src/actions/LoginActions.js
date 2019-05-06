@@ -55,6 +55,12 @@ function handleLoginFeedback(dispatch, callback, redirect = false) {
 	};
 }
 
+export function onLogin(token, cb) {
+	return function(dispatch) {
+		handleLoginFeedback(dispatch, cb)(null, token);
+	};
+}
+
 export function checkForLogin() {
 	return function(dispatch) {
 		if (auth.loggedIn()) {
