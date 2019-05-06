@@ -169,13 +169,7 @@ const getPropsFromState = state => {
 
 function mapDispatchToProps(dispatch, ownprops) {
 	return {
-		login: (email, password, callback) =>
-			dispatch(
-				actions.login(
-					{ type: "EMAIL", email, password, redirect: true },
-					callback
-				)
-			)
+		login: (email, password, callback) => new Error("not implemented")
 	};
 }
 

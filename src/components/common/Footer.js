@@ -39,12 +39,6 @@ class footer extends Component {
 
 		url = getTranslatedURL(url, code, translate);
 
-		if (code === "da") {
-			authService.updateRedirectURL("/dk");
-		} else {
-			authService.updateRedirectURL("");
-		}
-
 		localStorage.language = code;
 
 		history.replace(url);

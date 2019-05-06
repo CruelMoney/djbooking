@@ -65,9 +65,6 @@ const App = class extends Component {
 			});
 		}
 
-		if (language !== "en") {
-			authService.updateRedirectURL("/dk");
-		}
 		moment.locale(language);
 	}
 
