@@ -47,6 +47,7 @@ function handleLoginFeedback(dispatch, callback, redirect = false) {
 			);
 			callback(err.message || err);
 		} else {
+			auth.setSession(token);
 			cueup.getOwnUser(
 				token,
 				handleCueupFeedBack(dispatch, callback, redirect)
@@ -70,6 +71,7 @@ export function checkForLogin() {
 				})()
 			);
 			const token = auth.getAccessToken();
+			console.log({ token });
 			handleLoginFeedback(dispatch, (err, res) => {})(null, token);
 		} else {
 			let err = {
