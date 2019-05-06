@@ -28,8 +28,8 @@
 	"Genres": ["Genres", "Musikgenrer"],
 	"About you": ["About you", "Om dig"],
 	"terms-message": [
-		"By clicking on get offers you agree to our <a target='_blank' href='/terms/agreements'>terms and conditions</a>.",
-		"Ved at trykke på få tilbud accepterer du automatisk vores <a target='_blank' href='/terms/agreements'>betingelser</a>."
+		"By clicking join you agree to our <a target='_blank' href='/terms/agreements'>terms and conditions</a>.",
+		"Ved at trykke på bliv medlem accepterer du automatisk vores <a target='_blank' href='/terms/agreements'>betingelser</a>."
 	],
 	"unknown-error": ["Something went wrong.", "Noget gik galt."],
 	"Welcome": ["Welcome", "Velkommen"],

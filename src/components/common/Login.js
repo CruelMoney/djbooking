@@ -102,6 +102,9 @@ class Login extends Component {
 				<Mutation
 					mutation={LOGIN}
 					variables={this.state}
+					onError={_ => {
+						this.setState({ isLoading: false });
+					}}
 					onCompleted={({ signIn: { token } }) => {
 						onLogin(token, _ => {
 							this.setState({ isLoading: false });

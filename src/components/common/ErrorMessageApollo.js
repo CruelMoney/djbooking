@@ -1,5 +1,22 @@
 import React from "react";
 
+export const getErrorMessage = error => {
+	let msgs = "There was an error";
+
+	if (!error) return null;
+	if (typeof error === "string") {
+		msgs = error;
+	}
+
+	const { graphQLErrors } = error;
+
+	if (graphQLErrors && graphQLErrors.length > 0) {
+		graphQLErrors.map(e => (msgs = e.message));
+	}
+
+	return msgs;
+};
+
 const ErrorMessageApollo = ({ error, center }) => {
 	let msgs = ["There was an error"];
 	if (!error) return null;
