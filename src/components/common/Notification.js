@@ -1,23 +1,28 @@
-import React, {Component} from 'react'
+import React from "react";
+import { Spinner } from "react-activity";
+import "react-activity/lib/Spinner/Spinner.css";
 
+const Notification = ({
+	overlay,
+	loading,
+	children,
+	active,
+	message = "You have no new notifications"
+}) => {
+	return (
+		<div
+			className={`center ${overlay ? "notification-overlay" : ""} ${
+				active ? "active" : ""
+			}`}
+		>
+			<div className="notification">
+				<div>
+					{loading && <Spinner color="#fff" />}
+					{children || <p style={{ marginLeft: "8px" }}>{message}</p>}
+				</div>
+			</div>
+		</div>
+	);
+};
 
-class Notification extends Component {
-
-  //defining defaults
-  static defaultProps = { message: "You have no new notifications" };
-
-  
-  render() {
-    return (
-      <div className="center">
-        <div className="notification">
-          <div>
-            <p>{this.props.message}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-export default Notification
+export default Notification;

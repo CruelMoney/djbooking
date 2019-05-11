@@ -65,7 +65,7 @@ class SignupForm extends Component {
 				radius: playingRadius
 			},
 			reference: this.props.reference,
-			redirectLink: c.Environment.CALLBACK_DOMAIN + "/confirm-email"
+			redirectLink: c.Environment.CALLBACK_DOMAIN
 		};
 		try {
 			await mutate({ variables });

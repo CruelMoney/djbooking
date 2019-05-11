@@ -1895,6 +1895,14 @@ button.white {
 	border-color: inherit;
 	background-color: #ffffff;
 }
+button.link {
+	border: none;
+	display: inline-block;
+	height: 40px;
+	width: auto;
+	padding: 0;
+	font-weight: bold;
+}
 
 .pulse .button {
 	animation: pulse 0.5s infinite;
@@ -2363,6 +2371,41 @@ header .info-boxes {
 	background-color: rgba(0, 0, 0, 0.1);
 	border-radius: 30px;
 	padding: 0 10px;
+}
+
+.notification-overlay {
+	position: fixed;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	transform: translateY(-200%);
+	top: 3px;
+	color: white;
+	z-index: 200;
+	pointer-events: none;
+	transition: transform 1s ease;
+}
+.notification-overlay.active {
+	transform: translateY(0%);
+}
+
+.notification-overlay .notification > div {
+	padding: 0 30px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.4);
+	border-radius: 20px;
+	min-width: 200px;
+	position: "relative";
+}
+.notification-overlay p {
+	line-height: 40px;
+	margin: 0;
+}
+.notification-overlay .errors {
+	margin-bottom: 0;
 }
 
 .context-actions {

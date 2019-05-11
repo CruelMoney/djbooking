@@ -102,7 +102,7 @@ class Login extends Component {
 				<Mutation
 					mutation={LOGIN}
 					variables={this.state}
-					onError={_ => {
+					onError={error => {
 						this.setState({ isLoading: false });
 					}}
 					onCompleted={({ signIn: { token } }) => {
@@ -113,7 +113,7 @@ class Login extends Component {
 				>
 					{(mutate, { error }) => {
 						return (
-							<Fragment>
+							<form onSubmit={_ => mutate()}>
 								<div>
 									<Textfield
 										name="email"
@@ -136,6 +136,7 @@ class Login extends Component {
 									<Button
 										glow
 										active
+										type={"submit"}
 										isLoading={isLoading}
 										name="email_login"
 										onClick={_ => {
@@ -146,8 +147,8 @@ class Login extends Component {
 										{translate("login")}
 									</Button>
 								</div>
-								<ErrorMessageApollo error={error} />
-							</Fragment>
+								<ErrorMessageApollo email={this.state.email} error={error} />
+							</form>
 						);
 					}}
 				</Mutation>
@@ -157,6 +158,7 @@ class Login extends Component {
 					</Button>
 					{this.state.message ? <p>{this.state.message}</p> : null}
 				</Form>
+				<p>{translate("removed-facebook")}</p>
 			</div>
 		);
 	}

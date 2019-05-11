@@ -30,6 +30,7 @@ import moment from "moment";
 import { authService } from "./utils/AuthService";
 import { getTranslatedURL } from "./utils/HelperFunctions";
 import ReactPixel from "react-facebook-pixel";
+import ConfirmEmail from "./routes/ConfirmEmail";
 
 let redirected = false;
 
@@ -164,6 +165,10 @@ const App = class extends Component {
 								component={LocationLanding}
 							/>
 							<Route path={translate("routes./blog")} component={Blog} />
+							<Route
+								path={translate("routes./confirm-email")}
+								component={ConfirmEmail}
+							/>
 
 							<Route component={NotFound} />
 						</Switch>

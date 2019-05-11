@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Navlink from "./common/Navlink";
 import Dropdown from "./common/Dropdown";
@@ -13,6 +13,78 @@ import BreadCrumbs from "./BreadCrumbs";
 import * as actions from "../actions/LoginActions";
 import * as sessionActions from "../actions/SessionActions";
 import { getTranslate } from "react-localize-redux";
+import Notification from "./common/Notification";
+import { Mutation } from "react-apollo";
+import { VERIFY_EMAIL } from "./gql";
+import ErrorMessageApollo from "./common/ErrorMessageApollo";
+
+const EmailVerifier = () => {
+	const parsedUrl = new URL(window.location.href);
+	const verifyToken = parsedUrl.searchParams.get("token");
+	const isEmailValidation = parsedUrl.searchParams.get("emailVerification");
+
+	if (!verifyToken || !isEmailValidation) return null;
+
+	return (
+		<Mutation mutation={VERIFY_EMAIL} onError={console.log}>
+			{(mutate, { loading, error, data }) => (
+				<EmailVerifyIndicator
+					verifyToken={verifyToken}
+					mutate={mutate}
+					loading={loading}
+					data={data}
+					error={error}
+				/>
+			)}
+		</Mutation>
+	);
+};
+
+const EmailVerifyIndicator = ({
+	verifyToken,
+	mutate,
+	loading,
+	data,
+	error
+}) => {
+	const verifyEmail = async () => {
+		await mutate({
+			variables: {
+				verifyToken
+			}
+		});
+	};
+
+	useEffect(
+		() => {
+			verifyEmail();
+		},
+		[verifyToken]
+	);
+
+	const [active, setActive] = useState(true);
+	useEffect(
+		() => {
+			if (loading === false) {
+				// TODO should remove params here
+				const r = setTimeout(_ => setActive(false), 2000);
+				return _ => clearTimeout(r);
+			}
+		},
+		[loading]
+	);
+
+	return (
+		<Notification
+			overlay
+			active={active}
+			loading={loading}
+			message={data ? "Email verified" : "Verifying email"}
+		>
+			{error && <ErrorMessageApollo error={error} />}
+		</Notification>
+	);
+};
 
 class Menu extends Component {
 	static propTypes = {
@@ -116,6 +188,8 @@ class Menu extends Component {
 
 		return (
 			<div className="menu-wrapper">
+				<EmailVerifier />
+
 				<MobileMenu
 					isHome
 					onClosing={() => this.setState({ showMenu: false })}
@@ -257,7 +331,10 @@ function mapDispatchToProps(dispatch, ownprops) {
 }
 
 const SmartNavigation = withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(Menu)
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Menu)
 );
 
 export default props => <SmartNavigation {...props} />;
