@@ -4,6 +4,7 @@
 }
 .location_book-dj #content {
 	margin: 0;
+	padding: 0;
 }
 .location_book-dj #content > div,
 .location_book-dj header {

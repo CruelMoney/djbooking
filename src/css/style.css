@@ -106,7 +106,8 @@ textarea:focus {
 }
 
 #content {
-	margin-top: 90px;
+	padding-top: 90px;
+	overflow: hidden;
 }
 ul {
 	list-style-type: none;
@@ -3394,6 +3395,7 @@ ol.breadcrumbs a {
 
 	#content > div {
 		padding-top: 0px;
+		padding: 0;
 	}
 	.location_about #content,
 	.location_faq #content,

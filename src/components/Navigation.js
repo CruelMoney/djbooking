@@ -18,7 +18,7 @@ import { Mutation } from "react-apollo";
 import { VERIFY_EMAIL } from "./gql";
 import ErrorMessageApollo from "./common/ErrorMessageApollo";
 
-const EmailVerifier = () => {
+const EmailVerifier = ({ onVerified }) => {
 	const parsedUrl = new URL(window.location.href);
 	const verifyToken = parsedUrl.searchParams.get("token");
 	const isEmailValidation = parsedUrl.searchParams.get("emailVerification");
@@ -26,7 +26,11 @@ const EmailVerifier = () => {
 	if (!verifyToken || !isEmailValidation) return null;
 
 	return (
-		<Mutation mutation={VERIFY_EMAIL} onError={console.log}>
+		<Mutation
+			mutation={VERIFY_EMAIL}
+			onError={console.log}
+			onCompleted={onVerified}
+		>
 			{(mutate, { loading, error, data }) => (
 				<EmailVerifyIndicator
 					verifyToken={verifyToken}
@@ -67,7 +71,7 @@ const EmailVerifyIndicator = ({
 		() => {
 			if (loading === false) {
 				// TODO should remove params here
-				const r = setTimeout(_ => setActive(false), 2000);
+				const r = setTimeout(_ => setActive(false), 10000);
 				return _ => clearTimeout(r);
 			}
 		},
@@ -188,7 +192,7 @@ class Menu extends Component {
 
 		return (
 			<div className="menu-wrapper">
-				<EmailVerifier />
+				<EmailVerifier onVerified={this.onLoginButton} />
 
 				<MobileMenu
 					isHome
