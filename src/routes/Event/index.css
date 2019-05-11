@@ -1,5 +1,6 @@
 .location_event #content {
 	margin: 0;
+	padding: 0;
 }
 .location_event form {
 	position: relative;

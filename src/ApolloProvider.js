@@ -6,6 +6,7 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 import { setContext } from "apollo-link-context";
+import { createUploadLink } from "apollo-upload-client";
 import { Environment } from "./constants/constants";
 // custome error handling, only logging errors atm
 const errorLink = onError(
@@ -84,7 +85,9 @@ const httpLink = new HttpLink({
 	uri: Environment.GQL_DOMAIN
 });
 
-const link = ApolloLink.from([errorLink, authFlowLink, httpLink]);
+const uploadLink = createUploadLink({ uri: Environment.GQL_DOMAIN });
+
+const link = ApolloLink.from([errorLink, authFlowLink, uploadLink, httpLink]);
 
 const client = new ApolloClient({
 	cache,

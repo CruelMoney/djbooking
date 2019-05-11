@@ -1012,6 +1012,14 @@ input[type="file"] + label * {
 	color: white;
 }
 
+.picture-upload-component label span {
+	z-index: 2;
+}
+
+.picture-upload-component #profile-picture-upload:hover .user-card-picture {
+	opacity: 0;
+}
+
 .user-header-img-wrapper {
 	position: absolute;
 	top: 0;

@@ -26,6 +26,7 @@ import { CREATE_USER } from "../../../components/gql";
 import ErrorMessageApollo, {
 	getErrorMessage
 } from "../../../components/common/ErrorMessageApollo";
+import FileInput from "../../../components/common/FileInput";
 const Map = connectToForm(SimpleMap);
 
 class SignupForm extends Component {
@@ -70,6 +71,10 @@ class SignupForm extends Component {
 		try {
 			await mutate({ variables });
 			cb(null, true);
+			this.setState({
+				msg:
+					"Thanks for joining. Please verify your email using the link we've just sent."
+			});
 		} catch (error) {
 			console.log({ error, variables });
 			const message = getErrorMessage(error);
@@ -213,6 +218,15 @@ class SignupForm extends Component {
 										validate={["required"]}
 										columns={4}
 									/>
+								</RegistrationElement>
+
+								<RegistrationElement
+									name="picture"
+									label={translate("Picture")}
+									active={true}
+									text={translate("finish-signup.picture")}
+								>
+									<FileInput validate={["required"]} name="picture" />
 								</RegistrationElement>
 
 								<RegistrationElement

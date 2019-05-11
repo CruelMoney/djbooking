@@ -63,6 +63,7 @@ const CREATE_USER = gql`
 		$experienceLevel: ExperienceLevel
 		$bio: String!
 		$redirectLink: String!
+		$picture: Upload!
 	) {
 		signUp(
 			email: $email
@@ -74,6 +75,7 @@ const CREATE_USER = gql`
 			genres: $genres
 			experienceLevel: $experienceLevel
 			bio: $bio
+			picture: $picture
 		)
 	}
 `;

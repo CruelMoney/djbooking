@@ -70,6 +70,10 @@
 		"about": [
 			"Please tell us a bit about yourself. This description is going to be public. What kind of DJ are you? What is your level of experience? What kind of events do you usually play at?",
 			"Fortæl os venligst lidt om dig selv. Denne beskrivelse vil være offentlig på din profil. Fortæl os hvilken slags DJ du er, hvor meget erfaring har du, hvilke typer events spiller du normalt?"
+		],
+		"picture": [
+			"Please choose a picture with your face visible. This helps the customer feel safe when they book you.",
+			"Vælg venligst et billede hvor de ansigt er synligt. Det giver kunden mere sikkerhed når du skal bookes."
 		]
 	},
 	"Sign up": ["Sign up", "Tilmeld"]
