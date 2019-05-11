@@ -107,7 +107,7 @@ class NotFound extends Component {
 													type="password"
 													name="repeatPassword"
 													validate={["required"]}
-													placeholder="Min. 6 characters"
+													placeholder="Something super secret"
 													label={translate("Repeat password")}
 												/>
 											</RegistrationElement>

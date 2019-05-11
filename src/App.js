@@ -31,6 +31,7 @@ import { authService } from "./utils/AuthService";
 import { getTranslatedURL } from "./utils/HelperFunctions";
 import ReactPixel from "react-facebook-pixel";
 import ResetPassword from "./routes/ResetPassword";
+import ApolloProvider from "./ApolloProvider";
 
 let redirected = false;
 
@@ -111,71 +112,73 @@ const App = class extends Component {
 		const cleanURL = stripDash(url);
 
 		return (
-			<ErrorHandling>
-				<div className={cssLocation}>
-					<Helmet>
-						<link
-							rel="alternate"
-							href={altLangURL}
-							hrefLang={translate("hreflang." + activeLanguage)}
-						/>
-
-						<title>{title}</title>
-
-						<meta name="description" content={description} />
-						<meta
-							name="keywords"
-							content="dj, book, rent, copenhagen, cueup, music, events, party, wedding, birthday"
-						/>
-
-						<meta property="og:url" content={pageURL} />
-						<meta property="fb:app_id" content={Environment.FACEBOOK_ID} />
-						<meta property="og:title" content={title} />
-						<meta property="og:description" content={description} />
-						<meta property="og:image" content={thumb} />
-
-						<meta name="twitter:card" content="summary_large_image" />
-						<meta name="twitter:site" content="@@CueupDK" />
-						<meta name="twitter:creator" content="@@CueupDK" />
-						<meta name="twitter:title" content={title} />
-						<meta name="twitter:description" content={description} />
-						<meta name="twitter:image" content={thumb} />
-						<meta name="twitter:url" content={pageURL} />
-					</Helmet>
-					<Navigation />
-					<div id="content" className={cssLocation}>
-						<Switch>
-							{/* <Redirect strict from={cleanURL + "/"} to={cleanURL} /> */}
-							<Route exact path={translate("routes./")} component={Home} />
-							<Route path={translate("routes./about")} component={About} />
-							<Route path={translate("routes./user")} component={User} />
-							<Route
-								path={translate("routes./how-it-works")}
-								component={HowItWorks}
-							/>
-							<Route path={translate("routes./signup")} component={Signup} />
-							<Route path={translate("routes./faq")} component={Faq} />
-							<Route path={translate("routes./terms")} component={Terms} />
-							<Route
-								path={translate("routes./event") + "/:id/:hash"}
-								component={CueupEvent}
-							/>
-							<Route
-								path={translate("routes./book-dj") + "/:country/:city?"}
-								component={LocationLanding}
-							/>
-							<Route path={translate("routes./blog")} component={Blog} />
-							<Route
-								path={translate("routes./reset-password")}
-								component={ResetPassword}
+			<ApolloProvider>
+				<ErrorHandling>
+					<div className={cssLocation}>
+						<Helmet>
+							<link
+								rel="alternate"
+								href={altLangURL}
+								hrefLang={translate("hreflang." + activeLanguage)}
 							/>
 
-							<Route component={NotFound} />
-						</Switch>
+							<title>{title}</title>
+
+							<meta name="description" content={description} />
+							<meta
+								name="keywords"
+								content="dj, book, rent, copenhagen, cueup, music, events, party, wedding, birthday"
+							/>
+
+							<meta property="og:url" content={pageURL} />
+							<meta property="fb:app_id" content={Environment.FACEBOOK_ID} />
+							<meta property="og:title" content={title} />
+							<meta property="og:description" content={description} />
+							<meta property="og:image" content={thumb} />
+
+							<meta name="twitter:card" content="summary_large_image" />
+							<meta name="twitter:site" content="@@CueupDK" />
+							<meta name="twitter:creator" content="@@CueupDK" />
+							<meta name="twitter:title" content={title} />
+							<meta name="twitter:description" content={description} />
+							<meta name="twitter:image" content={thumb} />
+							<meta name="twitter:url" content={pageURL} />
+						</Helmet>
+						<Navigation />
+						<div id="content" className={cssLocation}>
+							<Switch>
+								{/* <Redirect strict from={cleanURL + "/"} to={cleanURL} /> */}
+								<Route exact path={translate("routes./")} component={Home} />
+								<Route path={translate("routes./about")} component={About} />
+								<Route path={translate("routes./user")} component={User} />
+								<Route
+									path={translate("routes./how-it-works")}
+									component={HowItWorks}
+								/>
+								<Route path={translate("routes./signup")} component={Signup} />
+								<Route path={translate("routes./faq")} component={Faq} />
+								<Route path={translate("routes./terms")} component={Terms} />
+								<Route
+									path={translate("routes./event") + "/:id/:hash"}
+									component={CueupEvent}
+								/>
+								<Route
+									path={translate("routes./book-dj") + "/:country/:city?"}
+									component={LocationLanding}
+								/>
+								<Route path={translate("routes./blog")} component={Blog} />
+								<Route
+									path={translate("routes./reset-password")}
+									component={ResetPassword}
+								/>
+
+								<Route component={NotFound} />
+							</Switch>
+						</div>
+						<div id="popup-container" />
 					</div>
-					<div id="popup-container" />
-				</div>
-			</ErrorHandling>
+				</ErrorHandling>
+			</ApolloProvider>
 		);
 	}
 };

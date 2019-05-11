@@ -138,7 +138,7 @@ class SignupForm extends Component {
 										type="password"
 										name="password"
 										validate={["required", "minLength"]}
-										placeholder="••••••"
+										placeholder="Something super secret"
 										label={translate("Your password")}
 									/>
 								</RegistrationElement>

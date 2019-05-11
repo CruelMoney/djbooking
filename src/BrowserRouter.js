@@ -9,22 +9,19 @@ import store from "./store";
 import { HelmetProvider } from "react-helmet-async";
 
 import "./polyfills";
-import ApolloProvider from "./ApolloProvider";
 
 const theme = getMuiTheme();
 
 class MyRouter extends Component {
 	render() {
 		return (
-			<ApolloProvider>
-				<Router>
-					<MuiThemeProvider muiTheme={theme}>
-						<HelmetProvider>
-							<App />
-						</HelmetProvider>
-					</MuiThemeProvider>
-				</Router>
-			</ApolloProvider>
+			<Router>
+				<MuiThemeProvider muiTheme={theme}>
+					<HelmetProvider>
+						<App />
+					</HelmetProvider>
+				</MuiThemeProvider>
+			</Router>
 		);
 	}
 }
