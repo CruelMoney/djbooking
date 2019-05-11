@@ -19,9 +19,17 @@ import { VERIFY_EMAIL } from "./gql";
 import ErrorMessageApollo from "./common/ErrorMessageApollo";
 
 const EmailVerifier = ({ onVerified }) => {
-	const parsedUrl = new URL(window.location.href);
-	const verifyToken = parsedUrl.searchParams.get("token");
-	const isEmailValidation = parsedUrl.searchParams.get("emailVerification");
+	const [state, setState] = useState({});
+
+	useEffect(() => {
+		const parsedUrl = new URL(window.location.href);
+		const verifyToken = parsedUrl.searchParams.get("token");
+		const isEmailValidation = parsedUrl.searchParams.get("emailVerification");
+
+		setState({ isEmailValidation, verifyToken });
+	});
+
+	const { verifyToken, isEmailValidation } = state;
 
 	if (!verifyToken || !isEmailValidation) return null;
 
