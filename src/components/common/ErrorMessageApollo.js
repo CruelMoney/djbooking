@@ -13,6 +13,10 @@ export const getErrorMessage = error => {
 
 	const { graphQLErrors } = error;
 
+	if (error.message && !graphQLErrors) {
+		return error.message;
+	}
+
 	if (graphQLErrors && graphQLErrors.length > 0) {
 		graphQLErrors.map(e => (msgs = e.message));
 	}

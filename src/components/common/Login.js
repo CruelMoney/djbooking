@@ -11,10 +11,10 @@ import LoadHandler from "./LoadingScreen";
 import Loadable from "react-loadable";
 import { getTranslate } from "react-localize-redux";
 import { Mutation } from "react-apollo";
-import { LOGIN } from "../gql";
+import { LOGIN, REQUEST_PASSWORD_RESET } from "../gql";
 import Button from "./Button-v2";
-import ErrorMessage from "./ErrorMessage";
-import ErrorMessageApollo from "./ErrorMessageApollo";
+import * as c from "../../constants/constants";
+import ErrorMessageApollo, { getErrorMessage } from "./ErrorMessageApollo";
 
 const AsyncUser = Loadable({
 	loader: () => import("../../routes/User"),
@@ -57,22 +57,23 @@ class Login extends Component {
 		});
 	}
 
-	onRequestChangePassword = (form, callback) => {
+	onRequestChangePassword = mutate => async (form, callback) => {
 		const { translate } = this.props;
+		const { email } = this.state;
 
-		var email = this.state.email;
-		let self = this;
 		if (!email) {
 			return callback(translate("please-enter-email"));
 		}
-		cueup.requestPasswordChange(email, function(err, resp) {
-			if (err) {
-				callback(err.message || translate("unknown-error"));
-			} else {
-				self.setState({ message: translate("reset-password-msg") });
-				callback(null);
-			}
-		});
+
+		try {
+			const redirectLink =
+				c.Environment.CALLBACK_DOMAIN + translate("routes./reset-password");
+			await mutate({ variables: { email, redirectLink } });
+			this.setState({ message: translate("reset-password-msg") });
+			callback(null);
+		} catch (error) {
+			return callback(getErrorMessage(error));
+		}
 	};
 
 	onChangeEmail = email => {
@@ -152,13 +153,24 @@ class Login extends Component {
 						);
 					}}
 				</Mutation>
-				<Form name="forgot_password">
-					<Button name="forgot_password" onClick={this.onRequestChangePassword}>
-						{translate("forgot") + "?"}
-					</Button>
-					{this.state.message ? <p>{this.state.message}</p> : null}
-				</Form>
-				<p>{translate("removed-facebook")}</p>
+				<Mutation mutation={REQUEST_PASSWORD_RESET}>
+					{mutate => {
+						return (
+							<Form name="forgot_password">
+								<SubmitButton
+									name="forgot_password"
+									onClick={this.onRequestChangePassword(mutate)}
+								>
+									{translate("forgot") + "?"}
+								</SubmitButton>
+								{this.state.message ? <p>{this.state.message}</p> : null}
+							</Form>
+						);
+					}}
+				</Mutation>
+				<p style={{ fontSize: "12px", lineHeight: "1.5em", textAlign: "left" }}>
+					{translate("removed-facebook")}
+				</p>
 			</div>
 		);
 	}

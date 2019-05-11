@@ -15,6 +15,7 @@
 		"Ansøg om at blive DJ eller se hvordan det virker."
 	],
 	"language": ["Language", "Sprog"],
+	"language-and-currency": ["Language & Currency", "Sprog & Valuta"],
 	"company": ["Company", "Selskab"],
 	"about": ["About", "Om"],
 	"resources": ["Resources", "Resurser"],
@@ -94,8 +95,8 @@
 		"<span>Sorry, the page you visited could not be found.<br/>Try to spin up another page.</span>",
 		"<span>Undskyld, siden kunne ikke findes.<br/>Prøv at indlæs en anden side.</span>"
 	],
-	"confirm-email-title": ["Confirm email", "Verificér email"],
-	"confirm-email-description": ["Confirm email", "Verificér email"],
+	"reset-password-title": ["Create new password", "Opret nyt kodeord"],
+	"reset-password-description": ["Create new password", "Opret nyt kodeord"],
 	"ready-to-get-started": [
 		"Ready to get started?",
 		"Klar til at komme i gang?"
@@ -240,7 +241,7 @@
 		"Husk at betale med Cueup"
 	],
 	"removed-facebook": [
-		"To protect our users privacy, we have removed facebook as a login option. If you previously logged in using facebook, reset your password <a target='_blank' rel='noopener noreferrer' href='/forgot'>here</a>.",
-		"For at beskytte vores brugeres data, har vi fjernet facebook som login. Hvis du tidligere har brugt facebook som login, kan du nulstille dit kodeord <a target='_blank' rel='noopener noreferrer' href='/forgot'>her</a>."
+		"To protect our users privacy, we have removed facebook as a login option. If you previously logged in using facebook, create a new password by clicking FORGOT.",
+		"For at beskytte vores brugeres data, har vi fjernet facebook som login. Hvis du tidligere har brugt facebook som login, kan du oprette et nyt kodeord ved at trykke på GLEMT."
 	]
 }

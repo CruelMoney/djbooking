@@ -218,7 +218,7 @@ class footer extends Component {
 						</div>
 
 						<div>
-							<h4>{translate("language")}</h4>
+							<h4>{translate("language-and-currency")}</h4>
 							<ul>
 								<li>
 									<div className="dropdown-selector-wrapper">

@@ -26,7 +26,8 @@ class MyTextField extends Component {
 			input: {
 				fontSize: "22px",
 				color: "#32325d",
-				fontFamily: "AvenirNext-Regular"
+				fontFamily: "AvenirNext-Regular",
+				letterSpacing: this.props.type === "password" ? "4px" : 0
 			},
 			underlineStyle: {
 				borderColor: this.context.textColor
@@ -55,7 +56,8 @@ class MyTextField extends Component {
 				top: "0",
 				marginTop: "0px",
 				marginBottom: "5px",
-				opacity: "1"
+				opacity: "1",
+				letterSpacing: this.props.type === "password" ? "4px" : 0
 			},
 			underlineStyle: {
 				borderColor: this.context.color,

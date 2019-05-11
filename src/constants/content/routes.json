@@ -97,6 +97,6 @@
 		"danmark": ["danmark", "denmark"],
 		"copenhagen": ["koebenhavn", "copenhagen"],
 		"koebenhavn": ["koebenhavn", "copenhagen"],
-		"/confirm-email": ["/confirm-email", "/dk/confirm-email"]
+		"/reset-password": ["/reset-password", "/dk/reset-password"]
 	}
 }
