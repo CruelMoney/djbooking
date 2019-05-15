@@ -3443,10 +3443,11 @@ ol.breadcrumbs a {
 		text-align: left;
 	}
 	#stripes {
-		height: 100%;
+		height: 125% ;
+		top: -22% !important;
 	}
 	header {
-		padding-top: 90px;
+		padding-top: 0px;
 		padding-bottom: 90px;
 		height: 100%;
 		position: relative;
