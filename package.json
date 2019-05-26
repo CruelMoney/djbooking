@@ -85,7 +85,7 @@
 		"react-router-dom": "^4.3.1",
 		"react-scripts": "^2.1.1",
 		"react-share": "^2.3.1",
-		"react-stripe-elements": "^2.0.1",
+		"react-stripe-elements": "^3.0.0",
 		"redux": "^3.6.0",
 		"redux-form": "^7.4.2",
 		"redux-logger": "^3.0.6",
@@ -100,7 +100,7 @@
 	"scripts": {
 		"analyze": "source-map-explorer build/static/js/main.*",
 		"start": "NODE_ENV=production node dist/server/bundle.js",
-		"start:dev": "NODE_ENV=production react-scripts start",
+		"start:dev": "HTTPS=true NODE_ENV=production react-scripts start",
 		"start-server": "yarn cra-universal start",
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",

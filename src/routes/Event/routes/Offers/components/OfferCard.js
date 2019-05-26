@@ -103,10 +103,8 @@ class OfferCard extends Component {
 					<PayForm
 						paymentPossible={paymentPossible}
 						id={gig.id}
-						fee={offer.serviceFeeAmount}
-						amount={offer.amount}
+						offer={offer}
 						currency={currency}
-						offerCurrency={offer.currency}
 					/>
 				</Popup>
 				<Popup
@@ -183,9 +181,9 @@ class OfferCard extends Component {
 										)}
 									</div>
 								</div>
-								{dj.avgRating === 0 ? null : ( // </p> // 	{translate("Member for") + " " + memberSince} // > // 	}} // 		lineHeight: "1.2em" // 		margin: "0", // 		textAlign: "right", // 		fontSize: "12px", // 	style={{ // <p
-									<Rating rating={dj.avgRating} />
-								)}
+								{dj.averageRating &&
+								dj.averageRating > 0 && <Rating rating={dj.averageRating // </p> // 	{translate("Member for") + " " + memberSince} // > // 	}} // 		lineHeight: "1.2em" // 		margin: "0", // 		textAlign: "right", // 		fontSize: "12px", // 	style={{ // <p
+											} />}
 							</div>
 
 							<Button

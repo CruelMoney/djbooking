@@ -12,79 +12,17 @@ import Formatter from "../../utils/Formatter";
 import MoneyTable, { TableItem } from "./MoneyTable";
 import { currencyConverter } from "../../utils/CurrencyConverter";
 import assign from "lodash.assign";
-import { getTranslate } from "react-localize-redux";
+import { getTranslate, getActiveLanguage } from "react-localize-redux";
+import { Query } from "react-apollo";
+import { REQUEST_PAYMENT_INTENT } from "../../routes/Event/gql";
+import StripeFormWrapper from "./StripePayForm";
 
 class payForm extends Component {
-	static proptypes = {
-		amount: PropTypes.number,
-		event: PropTypes.object,
-		gigId: PropTypes.number,
-		currency: PropTypes.string,
-		confirmPayment: PropTypes.func
-	};
-
-	componentWillMount() {
-		this.amount = currencyConverter.convert(
-			this.props.amount,
-			this.props.offerCurrency,
-			this.props.currency,
-			true
-		);
-		this.fee = currencyConverter.convert(
-			this.props.fee,
-			this.props.offerCurrency,
-			this.props.currency,
-			true
-		);
-		this.amountFormatted = currencyConverter.getConvertedFormatted(
-			this.props.amount,
-			this.props.offerCurrency,
-			this.props.currency,
-			true
-		);
-		this.feeFormatted = currencyConverter.getConvertedFormatted(
-			this.props.fee,
-			this.props.offerCurrency,
-			this.props.currency,
-			true
-		);
-		this.totalFormatted = currencyConverter.getConvertedFormatted(
-			this.props.fee + this.props.amount,
-			this.props.offerCurrency,
-			this.props.currency,
-			true
-		);
-	}
-
-	confirmPayment = (form, callback) => {
-		const { translate } = this.props;
-		const data = assign(form.values, {
-			amount: Formatter.money.ToSmallest(this.amount, this.props.currency),
-			fee: Formatter.money.ToSmallest(this.fee, this.props.currency),
-			currency: this.props.currency,
-			chosenGigID: this.props.gigId
-		});
-		try {
-			this.props.confirmPayment(
-				this.props.event.id,
-				this.props.event.hashKey,
-				data,
-				callback
-			);
-		} catch (error) {
-			callback(translate("event.offer.payment-failed"));
-		}
-	};
-
 	notify = (form, callback) => {
-		const { translate } = this.props;
+		const { translate, notify, event } = this.props;
 
 		try {
-			this.props.notify(
-				this.props.event.id,
-				this.props.event.hashKey,
-				callback
-			);
+			notify(event.id, event.hashKey, callback);
 		} catch (error) {
 			callback(translate("unknown-error"));
 		}
@@ -95,133 +33,78 @@ class payForm extends Component {
 	};
 
 	render() {
-		const { translate } = this.props;
-		const styles = {
-			inline: {
-				display: "inline-block"
-			},
-			flex: {
-				display: "flex",
-				alignItems: "center"
-			},
-			large: {
-				textarea: {
-					height: "80px"
-				},
-
-				paragraph: {
-					fontSize: "14px"
-				},
-
-				input: {
-					fontSize: "24px",
-					height: "initial",
-					fontWeight: "300"
-				},
-
-				hint: {
-					bottom: "20px",
-					fontSize: "30px",
-					fontWeight: "300"
-				}
-			},
-			medium: {
-				textarea: {
-					height: "40px"
-				},
-
-				paragraph: {
-					fontSize: "14px"
-				},
-
-				input: {
-					fontSize: "14px",
-					height: "initial",
-					fontWeight: "300"
-				},
-
-				hint: {
-					fontSize: "14px",
-					height: "initial",
-					fontWeight: "300"
-				}
-			},
-			dottedBorderStyle: {
-				borderTop: "none rgba(0, 0, 0, 1)",
-				borderRight: "none rgba(0, 0, 0, 1)",
-				borderBottom: "2px dotted rgba(0, 0, 0, 1) ",
-				borderLeft: "none rgba(0, 0, 0, 1)",
-				borderImage: "initial",
-				bottom: "8px",
-				boxSizing: "content-box",
-				margin: "0px",
-				position: "absolute",
-				width: "100%",
-				borderColor: "rgba(0,0,0, 0.5)"
-			},
-			plainBorder: {
-				borderTop: "none rgb(224, 224, 224)",
-				borderRight: "none rgb(224, 224, 224)",
-				borderBottom: "1px solid rgb(224, 224, 224)",
-				borderLeft: "none rgb(224, 224, 224)",
-				borderImage: "initial",
-				bottom: "8px",
-				boxSizing: "content-box",
-				margin: "0px",
-				position: "absolute",
-				width: "100%",
-				display: "none"
-			}
-		};
-
+		const {
+			translate,
+			paymentPossible,
+			offer,
+			id,
+			currency,
+			currentLanguage
+		} = this.props;
+		console.log(this.props);
 		return (
 			<div>
-				<Form
-					formValidCallback={() => this.setState({ valid: true })}
-					formInvalidCallback={() => this.setState({ valid: false })}
-					name="pay-form"
-				>
-					<div className="pay-form">
-						<div className="row">
-							<div className="col-md-12">
-								<TextWrapper
-									label={translate("Pay")}
-									showLock={true}
-									text={
-										this.props.paymentPossible
-											? translate("event.offer.payment-info")
-											: translate("event.offer.pay-later")
-									}
-								/>
-							</div>
+				<div className="pay-form">
+					<div className="row">
+						<div className="col-md-12">
+							<TextWrapper
+								label={translate("Pay")}
+								showLock={true}
+								text={
+									paymentPossible
+										? translate("event.offer.payment-info")
+										: translate("event.offer.pay-later")
+								}
+							/>
+						</div>
+					</div>
+
+					<div className="row mobileColumn">
+						<div
+							className={
+								paymentPossible ? "col-md-push-7 col-md-5" : "col-xs-12"
+							}
+						>
+							<MoneyTable>
+								<TableItem
+									label={translate("DJ price")}
+									info={translate("event.offer.price")}
+								>
+									{offer.offer.formatted}
+								</TableItem>
+								<TableItem
+									label={translate("Service fee")}
+									info={<div>{translate("event.offer.fee")}</div>}
+								>
+									{offer.serviceFee.formatted}
+								</TableItem>
+								<TableItem label="Total">
+									{offer.totalPayment.formatted}
+								</TableItem>
+							</MoneyTable>
 						</div>
 
-						<div className="row mobileColumn">
-							<div
-								className={
-									this.props.paymentPossible
-										? "col-md-push-7 col-md-5"
-										: "col-xs-12"
-								}
-							>
-								<MoneyTable>
-									<TableItem
-										label={translate("DJ price")}
-										info={translate("event.offer.price")}
-									>
-										{this.amountFormatted}
-									</TableItem>
-									<TableItem
-										label={translate("Service fee")}
-										info={<div>{translate("event.offer.fee")}</div>}
-									>
-										{this.feeFormatted}
-									</TableItem>
-									<TableItem label="Total">{this.totalFormatted}</TableItem>
-								</MoneyTable>
-							</div>
+						<div className="col-md-pull-5 col-md-7">
+							{paymentPossible && (
+								<Query
+									query={REQUEST_PAYMENT_INTENT}
+									variables={{
+										id,
+										currency,
+										locale: currentLanguage
+									}}
+									onError={console.log}
+									onCompleted={console.log}
+									skip={true}
+								>
+									{({ data, loading }) => {
+										return <StripeFormWrapper />;
+									}}
+								</Query>
+							)}
+						</div>
 
-							{this.props.paymentPossible ? (
+						{/* {paymentPossible ? (
 								<div className="col-md-pull-5 col-md-7">
 									<div>
 										<div className="row ">
@@ -297,52 +180,14 @@ class payForm extends Component {
 										</div>
 									</div>
 								</div>
-							) : null}
-						</div>
-						<div style={{ marginTop: "20px" }} className="row">
-							<div className="col-md-12">
-								<p className="terms_link">{translate("event.offer.terms")}</p>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-md-12">
-								<div className="row">
-									<div className="col-xs-6">
-										<SubmitButton
-											glow
-											active={this.state.valid}
-											rounded={true}
-											name={
-												this.props.paymentPossible
-													? "confirm_payment"
-													: "notify_payment"
-											}
-											onClick={
-												this.props.paymentPossible
-													? this.confirmPayment
-													: this.notify
-											}
-										>
-											{this.props.paymentPossible
-												? translate("Confirm & pay")
-												: translate("Notify")}
-										</SubmitButton>
-									</div>
-									<div className="col-xs-6">
-										<a
-											style={{ float: "right" }}
-											rel="noopener noreferrer"
-											href="https://stripe.com/"
-											target="_blank"
-										>
-											<img alt="powered by stripe" src={PoweredByStripe} />
-										</a>
-									</div>
-								</div>
-							</div>
+							) : null} */}
+					</div>
+					<div style={{ marginTop: "32px" }} className="row">
+						<div className="col-md-12">
+							<p className="terms_link">{translate("event.offer.terms")}</p>
 						</div>
 					</div>
-				</Form>
+				</div>
 			</div>
 		);
 	}
@@ -351,7 +196,8 @@ class payForm extends Component {
 function mapStateToProps(state, ownprops) {
 	return {
 		event: state.events.values[0],
-		translate: getTranslate(state.locale)
+		translate: getTranslate(state.locale),
+		currentLanguage: getActiveLanguage(state.locale).code
 	};
 }
 
@@ -364,6 +210,9 @@ function mapDispatchToProps(dispatch, ownprops) {
 	};
 }
 
-const SmartPay = connect(mapStateToProps, mapDispatchToProps)(payForm);
+const SmartPay = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(payForm);
 
 export default props => <SmartPay {...props} />;

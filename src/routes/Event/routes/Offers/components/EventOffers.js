@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import moment from "moment-timezone";
 import EmptyPage from "../../../../../components/common/EmptyPage";
 import Helmet from "react-helmet-async";
-import { getTranslate } from "react-localize-redux";
+import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Query } from "react-apollo";
 import { EVENT } from "../../../gql";
 import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
@@ -33,7 +33,13 @@ class EventOffers extends Component {
 	}
 
 	render() {
-		const { event, currency, notifications, translate } = this.props;
+		const {
+			event,
+			currency,
+			notifications,
+			translate,
+			currentLanguage
+		} = this.props;
 		const title = this.props.event.name + " | " + translate("Offers");
 		const renderGigs = [];
 
@@ -66,7 +72,8 @@ class EventOffers extends Component {
 							variables={{
 								id: event.id,
 								hash: event.hashKey.toString(),
-								currency
+								currency,
+								locale: currentLanguage
 							}}
 							onError={console.log}
 						>
@@ -148,7 +155,8 @@ function mapStateToProps(state, ownProps) {
 		eventDate: state.events.values[0].startTime,
 		currency: state.login.status.signedIn
 			? state.login.profile.settings.currency
-			: state.session.currency
+			: state.session.currency,
+		currentLanguage: getActiveLanguage(state.locale).code
 	};
 }
 
