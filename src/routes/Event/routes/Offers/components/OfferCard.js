@@ -7,8 +7,6 @@ import Popup from "../../../../../components/common/Popup";
 import Chat from "../../../../../components/common/Chat";
 import EmptyPage from "../../../../../components/common/EmptyPage";
 import ReactPixel from "react-facebook-pixel";
-import moment from "moment";
-import CurrencyValue from "../../../../../components/common/CurrencyValue";
 import { getTranslate } from "react-localize-redux";
 import * as actions from "../../../../../actions/EventActions";
 import { connect } from "react-redux";
@@ -182,8 +180,13 @@ class OfferCard extends Component {
 									</div>
 								</div>
 								{dj.averageRating &&
-								dj.averageRating > 0 && <Rating rating={dj.averageRating // </p> // 	{translate("Member for") + " " + memberSince} // > // 	}} // 		lineHeight: "1.2em" // 		margin: "0", // 		textAlign: "right", // 		fontSize: "12px", // 	style={{ // <p
-											} />}
+									dj.averageRating > 0 && (
+										<Rating
+											rating={
+												dj.averageRating // </p> // 	{translate("Member for") + " " + memberSince} // > // 	}} // 		lineHeight: "1.2em" // 		margin: "0", // 		textAlign: "right", // 		fontSize: "12px", // 	style={{ // <p
+											}
+										/>
+									)}
 							</div>
 
 							<Button

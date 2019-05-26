@@ -10,7 +10,6 @@ import * as actions from "../../actions/EventActions";
 import { datePipeCard, cardNumberPipe } from "../../utils/TextPipes";
 import Formatter from "../../utils/Formatter";
 import MoneyTable, { TableItem } from "./MoneyTable";
-import { currencyConverter } from "../../utils/CurrencyConverter";
 import assign from "lodash.assign";
 import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Query } from "react-apollo";

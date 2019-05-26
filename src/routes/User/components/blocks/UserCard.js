@@ -10,7 +10,6 @@ import * as actions from "../../../../actions/UserActions";
 import { connect } from "react-redux";
 import { ImageCompressor } from "../../../../utils/ImageCompressor";
 import { localize } from "react-localize-redux";
-import CurrencyValue from "../../../../components/common/CurrencyValue";
 
 class UserCard extends Component {
 	static propTypes = {
@@ -157,19 +156,7 @@ class UserCard extends Component {
 
 									{this.props.experience + " gigs"}
 								</div>
-								{this.props.isOwnProfile ? (
-									<div className="user-card-fact">
-										<p>
-											{translate("earned")}
-											<InfoPopup info={translate("earned-description")} />
-										</p>
-										<CurrencyValue
-											amount={this.props.earned}
-											from={this.props.bankCurrency}
-											to={this.props.currency}
-										/>
-									</div>
-								) : null}
+
 								<div className="user-card-fact">
 									<p>{translate("rating")}</p>
 									{this.props.rating > 0 ? (
@@ -219,6 +206,9 @@ function mapDispatchToProps(dispatch, ownprops) {
 	};
 }
 
-const SmartUserCard = connect(state => state, mapDispatchToProps)(UserCard);
+const SmartUserCard = connect(
+	state => state,
+	mapDispatchToProps
+)(UserCard);
 
 export default localize(SmartUserCard, "locale");
