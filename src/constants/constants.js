@@ -32,9 +32,7 @@ module.exports = {
 		API_DOMAIN: production
 			? process.env.REACT_APP_CUEUP_PROD_API_DOMAIN
 			: process.env.REACT_APP_CUEUP_DEV_API_DOMAIN,
-		GQL_DOMAIN: production
-			? "https://staging.gql.cueup.io"
-			: "https://staging.gql.cueup.io",
+		GQL_DOMAIN: process.env.REACT_APP_CUEUP_GQL_DOMAIN,
 		CHAT_DOMAIN: production
 			? process.env.REACT_APP_CUEUP_PROD_CHAT_DOMAIN
 			: process.env.REACT_APP_CUEUP_DEV_CHAT_DOMAIN,

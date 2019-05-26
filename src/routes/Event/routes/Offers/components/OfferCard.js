@@ -67,12 +67,25 @@ class OfferCard extends Component {
 	};
 
 	render() {
-		const { translate } = this.props;
+		const {
+			disabled,
+			translate,
+			eventFinished,
+			paymentPossible,
+			currency,
+			eventId,
+			gig,
+			profileId,
+			profileName,
+			profilePicture,
+			notification,
+			onlyChat
+		} = this.props;
 
-		const memberSince = moment(this.props.offer.dj.createdAt).fromNow(true);
+		const { offer, dj } = gig;
 
 		const image = {
-			backgroundImage: "url(" + this.props.offer.dj.picture + ")",
+			backgroundImage: "url(" + dj.picture.path + ")",
 			backgroundRepeat: "no-repeat",
 			backgroundPosition: "center",
 			backgroundSize: "auto 100%",
@@ -83,17 +96,17 @@ class OfferCard extends Component {
 			marginRight: "20px"
 		};
 
-		const confirmed = this.props.offer.gigStatus === "Confirmed";
+		const confirmed = gig.status === "CONFIRMED";
 		return (
 			<>
 				<Popup showing={this.state.showPopup} onClickOutside={this.hidePopup}>
 					<PayForm
-						paymentPossible={this.props.paymentPossible}
-						gigId={this.props.offer.gigID}
-						fee={this.props.offer.serviceFeeAmount}
-						amount={this.props.offer.amount}
-						currency={this.props.currency}
-						offerCurrency={this.props.offer.currency}
+						paymentPossible={paymentPossible}
+						id={gig.id}
+						fee={offer.serviceFeeAmount}
+						amount={offer.amount}
+						currency={currency}
+						offerCurrency={offer.currency}
 					/>
 				</Popup>
 				<Popup
@@ -104,18 +117,18 @@ class OfferCard extends Component {
 				>
 					<Chat
 						ModalContent={PayUsingCueupOrganizer}
-						eventId={this.props.eventId}
+						eventId={eventId}
 						receiver={{
-							id: this.props.offer.dj.auth0Id,
-							name: this.props.offer.dj.censoredName,
-							image: this.props.offer.dj.picture
+							id: dj.id,
+							name: dj.userMetadata.firstName,
+							image: dj.picture.path
 						}}
 						sender={{
-							id: this.props.profileId,
-							name: this.props.profileName,
-							image: this.props.profilePicture
+							id: profileId,
+							name: profileName,
+							image: profilePicture
 						}}
-						chatId={this.props.offer.gigID}
+						chatId={offer.id}
 						placeholder={
 							<EmptyPage
 								title="  "
@@ -130,7 +143,7 @@ class OfferCard extends Component {
 						<div className="top">
 							<div>
 								<div style={{ width: "55%" }}>
-									<h4>{this.props.offer.dj.censoredName}</h4>
+									<h4>{dj.userMetadata.firstName}</h4>
 
 									<div className="dj-location">
 										<svg
@@ -147,40 +160,31 @@ class OfferCard extends Component {
 												<path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
 											</g>
 										</svg>
-										{this.props.offer.dj.city}
+										{dj.playingLocation.name}
 									</div>
-									<div className="dj-location">
-										<PhoneIcon />
-										{confirmed ? (
-											<a href={"tel:" + this.props.offer.dj.phone}>
-												{this.props.offer.dj.phone}
-											</a>
-										) : (
-											translate("Phone number visible after confirmation")
-										)}
-									</div>
+									{dj.userMetadata.phone && (
+										<div className="dj-location">
+											<PhoneIcon />
+											{confirmed ? (
+												<a href={"tel:" + dj.userMetadata.phone}>
+													{dj.userMetadata.phone}
+												</a>
+											) : (
+												translate("Phone number visible after confirmation")
+											)}
+										</div>
+									)}
 									<div className="dj-location">
 										<EmailIcon />
 										{confirmed ? (
-											<a href={"mailto:" + this.props.offer.dj.email}>
-												{this.props.offer.dj.email}
-											</a>
+											<a href={"mailto:" + dj.email}>{dj.email}</a>
 										) : (
 											translate("Email visible after confirmation")
 										)}
 									</div>
 								</div>
-								{this.props.offer.dj.avgRating === 0 ? // 	style={{ // <p
-								// 		fontSize: "12px",
-								// 		textAlign: "right",
-								// 		margin: "0",
-								// 		lineHeight: "1.2em"
-								// 	}}
-								// >
-								// 	{translate("Member for") + " " + memberSince}
-								// </p>
-								null : (
-									<Rating rating={this.props.offer.dj.avgRating} />
+								{dj.avgRating === 0 ? null : ( // </p> // 	{translate("Member for") + " " + memberSince} // > // 	}} // 		lineHeight: "1.2em" // 		margin: "0", // 		textAlign: "right", // 		fontSize: "12px", // 	style={{ // <p
+									<Rating rating={dj.avgRating} />
 								)}
 							</div>
 
@@ -189,7 +193,7 @@ class OfferCard extends Component {
 								onClick={() => this.setState({ showChat: true })}
 								name="show-chat-popup"
 							>
-								{this.props.notification ? (
+								{notification ? (
 									<div className="notification-bubble">1</div>
 								) : null}
 								{translate("Message")}
@@ -197,20 +201,19 @@ class OfferCard extends Component {
 						</div>
 					</div>
 
-					<div className="user-bio">{this.props.offer.dj.bio}</div>
+					<div className="user-bio">{dj.userMetadata.bio}</div>
 
 					<div className="cancelation-policy">
-						{this.props.onlyChat
+						{onlyChat
 							? null
 							: translate("event.offer.refund", {
-									days: this.props.offer.cancelationDays,
-									percentage: this.props.offer.refundPercentage
+									days: offer.cancelationPolicy.days,
+									percentage: offer.cancelationPolicy.percentage
 							  })}
 					</div>
 
 					<div className="bottom">
-						{this.props.offer.gigStatus === "Confirmed" ||
-						this.props.offer.gigStatus === "Accepted" ? (
+						{gig.status === "CONFIRMED" || gig.status === "ACCEPTED" ? (
 							<div
 								className="offer-price"
 								style={{
@@ -218,28 +221,11 @@ class OfferCard extends Component {
 									textAlign: "center"
 								}}
 							>
-								{this.props.offer.gigStatus === "Confirmed" ? (
-									<CurrencyValue
-										amount={this.props.paymentAmount}
-										from={this.props.paymentCurrency}
-										to={this.props.currency}
-										safeConvert
-									/>
-								) : (
-									<CurrencyValue
-										amount={
-											this.props.offer.amount +
-											this.props.offer.serviceFeeAmount
-										}
-										from={this.props.offer.currency}
-										to={this.props.currency}
-										safeConvert
-									/>
-								)}
+								{offer.totalPayment.formatted}
 							</div>
 						) : null}
 
-						{this.props.disabled ? null : (
+						{disabled ? null : (
 							<div
 								style={{
 									display: "flex",
@@ -248,11 +234,11 @@ class OfferCard extends Component {
 									marginTop: "15px"
 								}}
 							>
-								{this.props.offer.gigStatus === "Accepted" ? (
+								{gig.status === "ACCEPTED" ? (
 									<Button
 										warning={translate("decline-warning")}
 										dangerous={true}
-										disabled={this.props.disabled}
+										disabled={disabled}
 										active={false}
 										onClick={this.declineDJ}
 										isLoading={this.state.loadingDecline}
@@ -262,12 +248,12 @@ class OfferCard extends Component {
 									</Button>
 								) : null}
 
-								{this.props.offer.gigStatus === "Confirmed" ||
-								this.props.offer.gigStatus === "Requested" ||
-								this.props.eventFinished ? null : (
+								{gig.status === "CONFIRMED" ||
+								gig.status === "REQUESTED" ||
+								eventFinished ? null : (
 									<Button
 										glow
-										disabled={this.props.disabled}
+										disabled={disabled}
 										active={true}
 										onClick={this.showPayment}
 										name="show-payout-popup"
@@ -295,12 +281,9 @@ export const mapStateToProps = state => {
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
-	console.log({ ownProps });
 	return {
 		declineDJ: callback =>
-			dispatch(
-				actions.declineDJ(ownProps.event, ownProps.offer.gigID, callback)
-			)
+			dispatch(actions.declineDJ(ownProps.event, ownProps.gig.id, callback))
 	};
 };
 

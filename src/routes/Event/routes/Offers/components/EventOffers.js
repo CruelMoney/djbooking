@@ -6,13 +6,16 @@ import moment from "moment-timezone";
 import EmptyPage from "../../../../../components/common/EmptyPage";
 import Helmet from "react-helmet-async";
 import { getTranslate } from "react-localize-redux";
+import { Query } from "react-apollo";
+import { EVENT } from "../../../gql";
+import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
 
 class EventOffers extends Component {
 	componentWillMount() {
 		var daysUntil = moment(this.props.eventDate).diff(moment(), "days");
 
 		this.setState({
-			paymentPossible: daysUntil <= 60,
+			paymentPossible: daysUntil <= 80,
 			eventFinished: daysUntil < 0,
 			gigMessages: {}
 		});
@@ -30,41 +33,9 @@ class EventOffers extends Component {
 	}
 
 	render() {
-		const ShowOffers = [];
-		const { offers, notifications, translate } = this.props;
-
-		offers.forEach((o, i) => {
-			const notification = notifications.find(
-				n => String(n.room) === String(o.gigID)
-			);
-			const hasMessages = !!this.state.gigMessages[o.gigID];
-			const hasOffer =
-				o.gigStatus === "Accepted" || o.gigStatus === "Confirmed";
-
-			if (hasOffer || hasMessages) {
-				const offer = (
-					<OfferCard
-						key={o.gigID}
-						onlyChat={!hasOffer && hasMessages}
-						eventId={this.props.event.id}
-						notification={notification}
-						profileId={this.props.eventContactId}
-						profileName={this.props.eventContactName}
-						profilePicture={this.props.eventContactPicture}
-						paymentPossible={this.state.paymentPossible}
-						eventFinished={this.state.eventFinished}
-						currency={this.props.currency}
-						paymentAmount={this.props.paymentAmount}
-						paymentCurrency={this.props.paymentCurrency}
-						offer={o}
-						event={this.props.event}
-					/>
-				);
-
-				ShowOffers.push(offer);
-			}
-		});
+		const { event, currency, notifications, translate } = this.props;
 		const title = this.props.event.name + " | " + translate("Offers");
+		const renderGigs = [];
 
 		return (
 			<div className="offers">
@@ -73,42 +44,87 @@ class EventOffers extends Component {
 					<meta property="og:title" content={title} />
 					<meta name="twitter:title" content={title} />
 				</Helmet>
-				{this.props.status === "Confirmed" ? (
-					<div>
-						<div className="row">
-							<div className="col-xs-12">
-								<p
-									style={{
-										textAlign: "center",
-										marginBottom: "20px"
-									}}
-								>
-									{translate("event.paid-message")}
-								</p>
-							</div>
+
+				<div>
+					<div className="row center">
+						<div className="col-sm-6 col-xs-12">
+							<p
+								style={{
+									textAlign: "center",
+									marginBottom: "20px"
+								}}
+							>
+								{this.props.status === "Confirmed"
+									? translate("event.paid-message")
+									: translate("event.contact-dj-message")}
+							</p>
 						</div>
-						<div className="row event-information">{ShowOffers}</div>
 					</div>
-				) : ShowOffers.length ? (
-					<div>
-						<div className="row center">
-							<div className="col-xs-12 col-sm-5">
-								<p style={{ textAlign: "center" }}>
-									{translate("event.contact-dj-message")}
-								</p>
-							</div>
-						</div>
-						<div className="row event-information">{ShowOffers}</div>
+					<div className="row event-information">
+						<Query
+							query={EVENT}
+							variables={{
+								id: event.id,
+								hash: event.hashKey.toString(),
+								currency
+							}}
+							onError={console.log}
+						>
+							{({ data = {}, loading }) => {
+								if (loading) {
+									return <LoadingPlaceholder />;
+								}
+								const { event = {} } = data;
+								const { gigs = [] } = event;
+								gigs.forEach((o, i) => {
+									const notification = notifications.find(
+										n => String(n.room) === String(o.id)
+									);
+									const hasMessages = !!this.state.gigMessages[o.id];
+									const hasOffer =
+										o.status === "ACCEPTED" || o.status === "CONFIRMED";
+
+									if (hasOffer || hasMessages) {
+										const offer = (
+											<OfferCard
+												key={o.id}
+												onlyChat={!hasOffer && hasMessages}
+												eventId={this.props.event.id}
+												notification={notification}
+												profileId={this.props.eventContactId}
+												profileName={this.props.eventContactName}
+												profilePicture={this.props.eventContactPicture}
+												paymentPossible={this.state.paymentPossible}
+												eventFinished={this.state.eventFinished}
+												currency={this.props.currency}
+												paymentAmount={this.props.paymentAmount}
+												paymentCurrency={this.props.paymentCurrency}
+												gig={o}
+												event={this.props.event}
+											/>
+										);
+
+										renderGigs.push(offer);
+									}
+								});
+
+								if (renderGigs.length === 0) {
+									return (
+										<EmptyPage
+											message={
+												<div style={{ marginBottom: "180px" }}>
+													{translate("event.no-offers-message")}
+												</div>
+											}
+										/>
+									);
+								}
+
+								return renderGigs;
+							}}
+						</Query>
 					</div>
-				) : (
-					<EmptyPage
-						message={
-							<div style={{ marginBottom: "180px" }}>
-								{translate("event.no-offers-message")}
-							</div>
-						}
-					/>
-				)}
+				</div>
 			</div>
 		);
 	}
