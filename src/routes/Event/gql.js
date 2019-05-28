@@ -82,4 +82,10 @@ const REQUEST_PAYMENT_INTENT = gql`
 	}
 `;
 
-export { EVENT, REQUEST_PAYMENT_INTENT };
+const PAYMENT_CONFIRMED = gql`
+	mutation($gigId: ID!) {
+		paymentConfirmed(gigId: $gigId) @client
+	}
+`;
+
+export { EVENT, REQUEST_PAYMENT_INTENT, PAYMENT_CONFIRMED };

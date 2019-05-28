@@ -41,7 +41,6 @@ class EventOffers extends Component {
 			currentLanguage
 		} = this.props;
 		const title = this.props.event.name + " | " + translate("Offers");
-		const renderGigs = [];
 
 		return (
 			<div className="offers">
@@ -83,6 +82,9 @@ class EventOffers extends Component {
 								}
 								const { event = {} } = data;
 								const { gigs = [] } = event;
+								const renderGigs = [];
+
+								console.log({ gigs });
 								gigs.forEach((o, i) => {
 									const notification = notifications.find(
 										n => String(n.room) === String(o.id)

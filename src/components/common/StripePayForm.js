@@ -78,7 +78,7 @@ class StripeForm extends PureComponent {
 	};
 
 	handlePayment = async ({ email, name, country, cardToken }) => {
-		const { stripe, paymentIntent } = this.props;
+		const { stripe, paymentIntent, onPaymentConfirmed } = this.props;
 		const { token } = paymentIntent;
 		const PAYMENT_INTENT_CLIENT_SECRET = token.token;
 
@@ -109,6 +109,7 @@ class StripeForm extends PureComponent {
 			if (error) {
 				throw new Error(error.message || "Something went wrong");
 			}
+			onPaymentConfirmed();
 			return paymentIntent;
 		} catch (error) {
 			throw error;

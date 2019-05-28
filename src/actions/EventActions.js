@@ -3,12 +3,10 @@ import { authService as auth } from "../utils/AuthService";
 import converter from "../utils/AdapterDTO";
 import CueupService from "../utils/CueupService";
 import GeoCoder from "../utils/GeoCoder";
-import StripeService from "../utils/StripeService";
 import * as tracker from "../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
 
 var ActionTypes = c.ActionTypes;
-const stripe = new StripeService();
 const cueup = new CueupService();
 
 export function fetchEvents() {
@@ -221,42 +219,6 @@ export function cancelEvent(id, hash, callback) {
 	};
 }
 
-export function payEvent(id, hash, data, callback) {
-	return function(dispatch) {
-		stripe.createCardToken(data, (err, result) => {
-			if (err) {
-				callback(err);
-			} else {
-				const token = auth.getToken();
-
-				data = {
-					CardToken: result.id,
-					Amount: data.amount,
-					Fee: data.fee,
-					Currency: data.currency,
-					ChosenGigID: data.chosenGigID,
-					City: data.card_city,
-					Zip: data.card_zip,
-					Address: data.card_address,
-					Name: data.card_name
-				};
-				cueup.payEvent(token, id, hash, data, function(err, result) {
-					if (err) {
-						callback(err);
-					} else {
-						tracker.trackEventPaid(data.Amount + data.Fee);
-						ReactPixel.track("Purchase", {
-							currency: data.currency,
-							value: data.Amount + data.Fee
-						});
-						dispatch(fetchEvent(id, hash, null, callback));
-					}
-				});
-			}
-		});
-	};
-}
-
 export function declineDJ(event, gigID, callback) {
 	return function(dispatch) {
 		const token = auth.getToken();
@@ -270,5 +232,12 @@ export function declineDJ(event, gigID, callback) {
 				dispatch(fetchEvent(event.id, event.hashKey, null, callback));
 			}
 		});
+	};
+}
+
+export function eventConfirmed(id) {
+	return {
+		type: ActionTypes.EVENT_CONFIRMED,
+		id
 	};
 }

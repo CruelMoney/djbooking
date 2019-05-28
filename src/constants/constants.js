@@ -134,7 +134,9 @@ module.exports = {
 		NOTIFICATION_SEEN: null,
 		ROOM_SEEN: null,
 
-		PUSH_PROMISE: null
+		PUSH_PROMISE: null,
+
+		EVENT_CONFIRMED: null
 	}),
 	GENRES: [
 		"80's",

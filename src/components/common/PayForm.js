@@ -1,21 +1,16 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import TextField from "./Textfield";
+
 import TextWrapper from "./TextElement";
-import PoweredByStripe from "../../assets/powered_by_stripe.png";
-import Form from "./Form-v2";
 import Button from "./Button-v2";
-import SubmitButton from "./SubmitButton";
 import { connect } from "react-redux";
 import * as actions from "../../actions/EventActions";
-import { datePipeCard, cardNumberPipe } from "../../utils/TextPipes";
-import Formatter from "../../utils/Formatter";
 import MoneyTable, { TableItem } from "./MoneyTable";
-import assign from "lodash.assign";
 import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Query } from "react-apollo";
 import { REQUEST_PAYMENT_INTENT } from "../../routes/Event/gql";
 import StripeFormWrapper from "./StripePayForm";
+import * as tracker from "../../utils/analytics/autotrack";
+import ReactPixel from "react-facebook-pixel";
 
 class payForm extends Component {
 	notify = (form, callback) => {
@@ -32,6 +27,17 @@ class payForm extends Component {
 		valid: false
 	};
 
+	onPaymentConfirmed = () => {
+		const { onPaymentConfirmed, currency, offer, eventConfirmed } = this.props;
+		tracker.trackEventPaid(offer.totalPayment.amount);
+		ReactPixel.track("Purchase", {
+			currency: currency,
+			value: offer.totalPayment.amount
+		});
+		onPaymentConfirmed();
+		eventConfirmed();
+	};
+
 	render() {
 		const {
 			translate,
@@ -39,8 +45,7 @@ class payForm extends Component {
 			offer,
 			id,
 			currency,
-			currentLanguage,
-			country
+			currentLanguage
 		} = this.props;
 
 		return (
@@ -65,7 +70,6 @@ class payForm extends Component {
 								locale: currentLanguage
 							}}
 							onError={console.log}
-							onCompleted={console.log}
 						>
 							{({ data, loading }) => {
 								if (loading) {
@@ -75,6 +79,7 @@ class payForm extends Component {
 								} else {
 									return (
 										<StripeFormWrapper
+											onPaymentConfirmed={this.onPaymentConfirmed}
 											paymentIntent={data.requestPaymentIntent}
 										/>
 									);
@@ -208,10 +213,9 @@ function mapStateToProps(state, ownprops) {
 
 function mapDispatchToProps(dispatch, ownprops) {
 	return {
-		confirmPayment: (id, hash, data, callback) =>
-			dispatch(actions.payEvent(id, hash, data, callback)),
 		notify: (id, hash, callback) =>
-			dispatch(actions.notifyPayment(id, hash, callback))
+			dispatch(actions.notifyPayment(id, hash, callback)),
+		eventConfirmed: id => dispatch(actions.eventConfirmed(id))
 	};
 }
 

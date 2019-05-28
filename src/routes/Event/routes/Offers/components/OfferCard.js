@@ -13,6 +13,8 @@ import { connect } from "react-redux";
 import { ReactComponent as PhoneIcon } from "../../../../../assets/phone.svg";
 import { ReactComponent as EmailIcon } from "../../../../../assets/email.svg";
 import { PayUsingCueupOrganizer } from "../../../../../components/common/modals";
+import { Mutation } from "react-apollo";
+import { PAYMENT_CONFIRMED } from "../../../gql";
 
 class OfferCard extends Component {
 	static propTypes = {
@@ -102,12 +104,17 @@ class OfferCard extends Component {
 					onClickOutside={this.hidePopup}
 					noPadding
 				>
-					<PayForm
-						paymentPossible={paymentPossible}
-						id={gig.id}
-						offer={offer}
-						currency={currency}
-					/>
+					<Mutation mutation={PAYMENT_CONFIRMED} variables={{ gigId: gig.id }}>
+						{mutate => (
+							<PayForm
+								paymentPossible={paymentPossible}
+								onPaymentConfirmed={mutate}
+								id={gig.id}
+								offer={offer}
+								currency={currency}
+							/>
+						)}
+					</Mutation>
 				</Popup>
 				<Popup
 					hideClose
