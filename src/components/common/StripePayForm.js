@@ -185,31 +185,33 @@ function mapStateToProps(state, ownprops) {
 
 const ConnectedCard = connectToForm(({ ref, onChange }) => {
 	return (
-		<CardElement
-			style={{
-				base: {
-					color: "#32325d",
-					fontFamily: '"AvenirNext-Regular", Helvetica, sans-serif',
-					fontSmoothing: "antialiased",
-					fontSize: "14px",
-					"::placeholder": {
-						color: "#BBBBBB"
+		<div className="stripe-card">
+			<CardElement
+				style={{
+					base: {
+						color: "#32325d",
+						fontFamily: '"AvenirNext-Regular", Helvetica, sans-serif',
+						fontSmoothing: "antialiased",
+						fontSize: "14px",
+						"::placeholder": {
+							color: "#BBBBBB"
+						}
+					},
+					invalid: {
+						color: "#f44336",
+						iconColor: "#f44336"
 					}
-				},
-				invalid: {
-					color: "#f44336",
-					iconColor: "#f44336"
-				}
-			}}
-			onReady={el => (ref = el)}
-			onChange={({ complete }) => {
-				if (complete) {
-					onChange(true);
-				} else {
-					onChange(null);
-				}
-			}}
-		/>
+				}}
+				onReady={el => (ref = el)}
+				onChange={({ complete }) => {
+					if (complete) {
+						onChange(true);
+					} else {
+						onChange(null);
+					}
+				}}
+			/>
+		</div>
 	);
 });
 
