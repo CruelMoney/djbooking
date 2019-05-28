@@ -1337,6 +1337,9 @@ input[type="file"] + label * {
 			background-color: #f44336;
 		}
 	}
+	form ~ .errors{
+		margin-top: 2em;
+	}
 }
 .or-divider {
 	position: relative;

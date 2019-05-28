@@ -4,6 +4,7 @@ import TextField from "./Textfield";
 import TextWrapper from "./TextElement";
 import PoweredByStripe from "../../assets/powered_by_stripe.png";
 import Form from "./Form-v2";
+import Button from "./Button-v2";
 import SubmitButton from "./SubmitButton";
 import { connect } from "react-redux";
 import * as actions from "../../actions/EventActions";
@@ -38,7 +39,8 @@ class payForm extends Component {
 			offer,
 			id,
 			currency,
-			currentLanguage
+			currentLanguage,
+			country
 		} = this.props;
 
 		return (
@@ -64,10 +66,19 @@ class payForm extends Component {
 							}}
 							onError={console.log}
 							onCompleted={console.log}
-							skip={true}
 						>
 							{({ data, loading }) => {
-								return <StripeFormWrapper />;
+								if (loading) {
+									return (
+										<LoadingIndicator label={translate("gettingPayment")} />
+									);
+								} else {
+									return (
+										<StripeFormWrapper
+											paymentIntent={data.requestPaymentIntent}
+										/>
+									);
+								}
 							}}
 						</Query>
 					)}
@@ -170,6 +181,22 @@ class payForm extends Component {
 		);
 	}
 }
+
+const LoadingIndicator = ({ label }) => (
+	<div
+		style={{
+			height: "200px",
+			textAlign: "center",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			flexDirection: "column"
+		}}
+	>
+		<Button rounded glow active disabled isLoading />
+		<p style={{ marginTop: "1em" }}>{label}</p>
+	</div>
+);
 
 function mapStateToProps(state, ownprops) {
 	return {

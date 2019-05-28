@@ -60,14 +60,17 @@ const REQUEST_PAYMENT_INTENT = gql`
 				totalPayment(currency: $currency) {
 					amount
 					formatted(locale: $locale)
+					currency
 				}
 				serviceFee(currency: $currency) {
 					amount
 					formatted(locale: $locale)
+					currency
 				}
 				offer(currency: $currency) {
 					amount
 					formatted(locale: $locale)
+					currency
 				}
 			}
 			... on StripePaymentIntent {

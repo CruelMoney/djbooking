@@ -19,15 +19,28 @@ class StripeForm extends PureComponent {
 	constructor(props) {
 		super(props);
 
+		const { offer } = props.paymentIntent;
 		// For full documentation of the available paymentRequest options, see:
 		// https://stripe.com/docs/stripe.js#the-payment-request-object
 		const paymentRequest = props.stripe.paymentRequest({
-			country: "US",
-			currency: "usd",
+			currency: offer.totalPayment.currency.toLowerCase(),
+			country: "DK",
 			total: {
-				label: "Demo total",
-				amount: 1000
-			}
+				label: "Total",
+				amount: offer.totalPayment.amount
+			},
+			displayItems: [
+				{
+					label: "DJ offer",
+					amount: offer.offer.amount
+				},
+				{
+					label: "Service fee",
+					amount: offer.serviceFee.amount
+				}
+			],
+			requestPayerName: true,
+			requestPayerEmail: true
 		});
 
 		paymentRequest.on("token", ({ complete, token, ...data }) => {
@@ -37,7 +50,6 @@ class StripeForm extends PureComponent {
 		});
 
 		paymentRequest.canMakePayment().then(result => {
-			console.log({ result });
 			this.setState({ canMakePayment: !!result });
 		});
 
@@ -50,14 +62,25 @@ class StripeForm extends PureComponent {
 		this.cardElement = React.createRef();
 	}
 
-	handleCardPayment = async ({
-		PAYMENT_INTENT_CLIENT_SECRET,
-		email,
-		name,
-		country,
-		cardToken
-	}) => {
-		const { stripe } = this.props;
+	confirmPayment = async (form, cb) => {
+		const { card_email, card_name, card_country } = form.values;
+
+		try {
+			await this.handlePayment({
+				email: card_email,
+				name: card_name,
+				country: card_country
+			});
+			cb();
+		} catch (error) {
+			cb(error.message || "Something went wrong");
+		}
+	};
+
+	handlePayment = async ({ email, name, country, cardToken }) => {
+		const { stripe, paymentIntent } = this.props;
+		const { token } = paymentIntent;
+		const PAYMENT_INTENT_CLIENT_SECRET = token.token;
 
 		try {
 			const options = {
@@ -68,14 +91,13 @@ class StripeForm extends PureComponent {
 						},
 						name,
 						email
-					},
-					receipt_email: email
-				}
+					}
+				},
+				receipt_email: email
 			};
 			if (cardToken) {
 				options.payment_method_data.card = cardToken;
 			}
-
 			const result = cardToken
 				? await stripe.handleCardPayment(PAYMENT_INTENT_CLIENT_SECRET, options)
 				: await stripe.handleCardPayment(
@@ -83,10 +105,13 @@ class StripeForm extends PureComponent {
 						this.cardElement.current,
 						options
 				  );
-
-			console.log({ result });
+			const { error, paymentIntent } = result;
+			if (error) {
+				throw new Error(error.message || "Something went wrong");
+			}
+			return paymentIntent;
 		} catch (error) {
-			console.log({ paymnetError: error });
+			throw error;
 		}
 	};
 
@@ -106,11 +131,9 @@ class StripeForm extends PureComponent {
 							paymentRequest={this.state.paymentRequest}
 							className="PaymentRequestButton"
 							style={{
-								// For more details on how to style the Payment Request Button, see:
-								// https://stripe.com/docs/elements/payment-request-button#styling-the-element
 								paymentRequestButton: {
 									theme: "dark",
-									height: "50px"
+									height: "40px"
 								}
 							}}
 						/>
@@ -145,7 +168,7 @@ class StripeForm extends PureComponent {
 					</div>
 				</div>
 
-				<ConnectedCard validate={["required"]} />
+				<ConnectedCard validate={["required"]} refForward={this.cardElement} />
 
 				<div style={{ marginTop: "24px" }}>
 					<SubmitButton
@@ -179,11 +202,12 @@ class StripeFormWrapper extends PureComponent {
 
 function mapStateToProps(state, ownprops) {
 	return {
+		...ownprops,
 		translate: getTranslate(state.locale)
 	};
 }
 
-const ConnectedCard = connectToForm(({ ref, onChange }) => {
+const ConnectedCard = connectToForm(({ refForward, onChange }) => {
 	return (
 		<div className="stripe-card">
 			<CardElement
@@ -202,7 +226,9 @@ const ConnectedCard = connectToForm(({ ref, onChange }) => {
 						iconColor: "#f44336"
 					}
 				}}
-				onReady={el => (ref = el)}
+				onReady={el => {
+					refForward.current = el;
+				}}
 				onChange={({ complete }) => {
 					if (complete) {
 						onChange(true);
