@@ -58,7 +58,9 @@ class Popup extends Component {
 	};
 
 	handleClickOutside = evt => {
-		this.props.onClickOutside();
+		const { onClickOutside } = this.props;
+
+		onClickOutside();
 	};
 
 	getParent = () => {
@@ -66,6 +68,8 @@ class Popup extends Component {
 	};
 
 	render() {
+		const { noPadding, width, hideClose, noBackground, children } = this.props;
+
 		const style = {
 			overlay: {
 				position: "fixed",
@@ -82,7 +86,7 @@ class Popup extends Component {
 				overflow: "auto",
 				WebkitOverflowScrolling: "touch",
 				outline: "none",
-				padding: "20px",
+				padding: noPadding ? 0 : "20px",
 				border: "none",
 				background: "none",
 				pointerEvents: "none"
@@ -106,34 +110,34 @@ class Popup extends Component {
 						display: "flex",
 						justifyContent: "center",
 						alignItems: "center",
-						padding: "10px"
+						padding: noPadding ? 0 : "10px"
 					}}
 					onClick={this.handleClickOutside}
 				>
 					<div
 						style={{
-							padding: "20px",
-							paddingTop: this.props.hideClose ? "0px" : "5px",
+							padding: noPadding ? 0 : "20px",
+							paddingTop: hideClose || noPadding ? "0px" : "5px",
 							minWidth: "300px",
-							width: this.props.width ? this.props.width : null,
-							backgroundColor: this.props.noBackground
-								? "transparent"
-								: "white",
+							width: width ? width : null,
+							backgroundColor: noBackground ? "transparent" : "white",
 							zIndex: "1001"
 						}}
 						className={
 							"card popup" +
 							(this.state.showing ? " active" : "") +
-							(this.props.noPadding ? " no-padding" : "")
+							(noPadding ? " no-padding" : "")
 						}
 						onClick={function(event) {
 							event.stopPropagation();
 						}}
 					>
-						{!this.props.hideClose ? (
+						{!hideClose ? (
 							<div
 								style={{
+									position: noPadding ? "absolute" : "relative",
 									textAlign: "right",
+									right: noPadding ? "1em" : null,
 									width: "100%"
 								}}
 							>
@@ -150,7 +154,7 @@ class Popup extends Component {
 								</span>
 							</div>
 						) : null}
-						{this.state.showing ? <div>{this.props.children}</div> : null}
+						{this.state.showing ? <div>{children}</div> : null}
 					</div>
 				</div>
 			</Modal>

@@ -79,8 +79,8 @@
 				"Noget gik galt, betalingen er ikke gået igennem."
 			],
 			"payment-info": [
-				"Please enter payment information below. In case of cancelation by the DJ, the full amount will be refunded. If you cancel the amount specified by the DJs cancelation policy will be refunded. All information is encrypted.",
-				"Indtast betalingsinformation. I tilfældet at DJen aflyser, vil hele beløbet refunderes. Hvis du aflyser vil det beløb der er specificeret i DJens aflysningspolitik blive refunderet. Alt information er krypteret."
+				"In case of cancelation by the DJ, the full amount will be refunded. If you cancel the amount specified by the DJs cancelation policy will be refunded.",
+				"I tilfældet at DJen aflyser, vil hele beløbet refunderes. Hvis du aflyser vil det beløb der er specificeret i DJens aflysningspolitik blive refunderet."
 			],
 			"pay-later": [
 				"The offer can be confirmed and paid up to 60 days before the event. To get notified by email click notify.",

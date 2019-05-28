@@ -1,7 +1,7 @@
 import React from "react";
 import { hydrate, render } from "react-dom";
 import Router from "./BrowserRouter";
-import "./css/style.css";
+import "./css/style.scss";
 // import registerServiceWorker from "./utils/ServiceWorker";
 
 const rootElement = document.getElementById("root");

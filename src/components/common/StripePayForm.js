@@ -12,6 +12,8 @@ import Form from "./Form-v2";
 import SubmitButton from "./SubmitButton";
 import { getTranslate } from "react-localize-redux";
 import { connect } from "react-redux";
+import CountrySelector from "./CountrySelector";
+import connectToForm from "../higher-order/connectToForm";
 
 class StripeForm extends PureComponent {
 	constructor(props) {
@@ -35,6 +37,7 @@ class StripeForm extends PureComponent {
 		});
 
 		paymentRequest.canMakePayment().then(result => {
+			console.log({ result });
 			this.setState({ canMakePayment: !!result });
 		});
 
@@ -43,7 +46,49 @@ class StripeForm extends PureComponent {
 			paymentRequest,
 			valid: false
 		};
+
+		this.cardElement = React.createRef();
 	}
+
+	handleCardPayment = async ({
+		PAYMENT_INTENT_CLIENT_SECRET,
+		email,
+		name,
+		country,
+		cardToken
+	}) => {
+		const { stripe } = this.props;
+
+		try {
+			const options = {
+				payment_method_data: {
+					billing_details: {
+						address: {
+							country
+						},
+						name,
+						email
+					},
+					receipt_email: email
+				}
+			};
+			if (cardToken) {
+				options.payment_method_data.card = cardToken;
+			}
+
+			const result = cardToken
+				? await stripe.handleCardPayment(PAYMENT_INTENT_CLIENT_SECRET, options)
+				: await stripe.handleCardPayment(
+						PAYMENT_INTENT_CLIENT_SECRET,
+						this.cardElement.current,
+						options
+				  );
+
+			console.log({ result });
+		} catch (error) {
+			console.log({ paymnetError: error });
+		}
+	};
 
 	render() {
 		const { canMakePayment } = this.state;
@@ -56,34 +101,51 @@ class StripeForm extends PureComponent {
 				name="pay-form"
 			>
 				{canMakePayment && (
-					<PaymentRequestButtonElement
-						paymentRequest={this.state.paymentRequest}
-						className="PaymentRequestButton"
-						style={{
-							// For more details on how to style the Payment Request Button, see:
-							// https://stripe.com/docs/elements/payment-request-button#styling-the-element
-							paymentRequestButton: {
-								theme: "light",
-								height: "64px"
-							}
-						}}
-					/>
+					<>
+						<PaymentRequestButtonElement
+							paymentRequest={this.state.paymentRequest}
+							className="PaymentRequestButton"
+							style={{
+								// For more details on how to style the Payment Request Button, see:
+								// https://stripe.com/docs/elements/payment-request-button#styling-the-element
+								paymentRequestButton: {
+									theme: "dark",
+									height: "50px"
+								}
+							}}
+						/>
+						<div className="or-divider">
+							<hr />
+							<span>OR</span>
+						</div>
+					</>
 				)}
+
 				<Textfield
-					big
-					name="card_name"
-					type="text"
-					validate={["required", "lastName"]}
-					placeholder={translate("Cardholder name")}
-				/>
-				<Textfield
-					big
 					name="card_email"
 					type="email"
 					validate={["required", "email"]}
 					placeholder={translate("Billing email")}
 				/>
-				<CardElement />
+				<div className="row">
+					<div className="col-xs-6">
+						<Textfield
+							name="card_name"
+							type="text"
+							validate={["required", "lastName"]}
+							placeholder={translate("Cardholder name")}
+						/>
+					</div>
+					<div className="col-xs-6">
+						<CountrySelector
+							name="card_country"
+							validate={["required"]}
+							placeholder={translate("country")}
+						/>
+					</div>
+				</div>
+
+				<ConnectedCard validate={["required"]} />
 
 				<div style={{ marginTop: "24px" }}>
 					<SubmitButton
@@ -120,5 +182,35 @@ function mapStateToProps(state, ownprops) {
 		translate: getTranslate(state.locale)
 	};
 }
+
+const ConnectedCard = connectToForm(({ ref, onChange }) => {
+	return (
+		<CardElement
+			style={{
+				base: {
+					color: "#32325d",
+					fontFamily: '"AvenirNext-Regular", Helvetica, sans-serif',
+					fontSmoothing: "antialiased",
+					fontSize: "14px",
+					"::placeholder": {
+						color: "#BBBBBB"
+					}
+				},
+				invalid: {
+					color: "#f44336",
+					iconColor: "#f44336"
+				}
+			}}
+			onReady={el => (ref = el)}
+			onChange={({ complete }) => {
+				if (complete) {
+					onChange(true);
+				} else {
+					onChange(null);
+				}
+			}}
+		/>
+	);
+});
 
 export default connect(mapStateToProps)(StripeFormWrapper);

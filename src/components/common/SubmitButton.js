@@ -27,6 +27,7 @@ export default class SubmitButton extends Component {
 		return (
 			<Button
 				{...this.props}
+				disabled={!this.props.active}
 				name={this.props.name}
 				className="submit"
 				type="submit"

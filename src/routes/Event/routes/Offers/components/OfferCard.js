@@ -97,7 +97,11 @@ class OfferCard extends Component {
 		const confirmed = gig.status === "CONFIRMED";
 		return (
 			<>
-				<Popup showing={this.state.showPopup} onClickOutside={this.hidePopup}>
+				<Popup
+					showing={this.state.showPopup}
+					onClickOutside={this.hidePopup}
+					noPadding
+				>
 					<PayForm
 						paymentPossible={paymentPossible}
 						id={gig.id}

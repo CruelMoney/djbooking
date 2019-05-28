@@ -40,70 +40,56 @@ class payForm extends Component {
 			currency,
 			currentLanguage
 		} = this.props;
-		console.log(this.props);
+
 		return (
-			<div>
-				<div className="pay-form">
-					<div className="row">
-						<div className="col-md-12">
-							<TextWrapper
-								label={translate("Pay")}
-								showLock={true}
-								text={
-									paymentPossible
-										? translate("event.offer.payment-info")
-										: translate("event.offer.pay-later")
-								}
-							/>
-						</div>
-					</div>
+			<div className="pay-form">
+				<div className="left">
+					<TextWrapper
+						label={translate("Pay")}
+						showLock={true}
+						text={
+							paymentPossible
+								? translate("event.offer.payment-info")
+								: translate("event.offer.pay-later")
+						}
+					/>
 
-					<div className="row mobileColumn">
-						<div
-							className={
-								paymentPossible ? "col-md-push-7 col-md-5" : "col-xs-12"
-							}
+					{paymentPossible && (
+						<Query
+							query={REQUEST_PAYMENT_INTENT}
+							variables={{
+								id,
+								currency,
+								locale: currentLanguage
+							}}
+							onError={console.log}
+							onCompleted={console.log}
+							skip={true}
 						>
-							<MoneyTable>
-								<TableItem
-									label={translate("DJ price")}
-									info={translate("event.offer.price")}
-								>
-									{offer.offer.formatted}
-								</TableItem>
-								<TableItem
-									label={translate("Service fee")}
-									info={<div>{translate("event.offer.fee")}</div>}
-								>
-									{offer.serviceFee.formatted}
-								</TableItem>
-								<TableItem label="Total">
-									{offer.totalPayment.formatted}
-								</TableItem>
-							</MoneyTable>
-						</div>
+							{({ data, loading }) => {
+								return <StripeFormWrapper />;
+							}}
+						</Query>
+					)}
+				</div>
 
-						<div className="col-md-pull-5 col-md-7">
-							{paymentPossible && (
-								<Query
-									query={REQUEST_PAYMENT_INTENT}
-									variables={{
-										id,
-										currency,
-										locale: currentLanguage
-									}}
-									onError={console.log}
-									onCompleted={console.log}
-									skip={true}
-								>
-									{({ data, loading }) => {
-										return <StripeFormWrapper />;
-									}}
-								</Query>
-							)}
-						</div>
+				<div className="right">
+					<MoneyTable>
+						<TableItem label={translate("DJ price")}>
+							{offer.offer.formatted}
+						</TableItem>
+						<TableItem
+							label={translate("Service fee")}
+							info={<div>{translate("event.offer.fee")}</div>}
+						>
+							{offer.serviceFee.formatted}
+						</TableItem>
+						<TableItem label="Total">{offer.totalPayment.formatted}</TableItem>
+					</MoneyTable>
+					<p className="terms_link">{translate("event.offer.terms")}</p>
+				</div>
 
-						{/* {paymentPossible ? (
+				{/* {paymentPossible ? (
 								<div className="col-md-pull-5 col-md-7">
 									<div>
 										<div className="row ">
@@ -180,13 +166,6 @@ class payForm extends Component {
 									</div>
 								</div>
 							) : null} */}
-					</div>
-					<div style={{ marginTop: "32px" }} className="row">
-						<div className="col-md-12">
-							<p className="terms_link">{translate("event.offer.terms")}</p>
-						</div>
-					</div>
-				</div>
 			</div>
 		);
 	}
