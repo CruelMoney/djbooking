@@ -56,6 +56,7 @@ const REQUEST_PAYMENT_INTENT = gql`
 		requestPaymentIntent(gigId: $id, currency: $currency) {
 			__typename
 			gigId
+			recommendedCurrency
 			offer {
 				totalPayment(currency: $currency) {
 					amount

@@ -11,6 +11,7 @@ import { REQUEST_PAYMENT_INTENT } from "../../routes/Event/gql";
 import StripeFormWrapper from "./StripePayForm";
 import * as tracker from "../../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
+import { changeCurrency } from "../../actions/SessionActions";
 
 class payForm extends Component {
 	notify = (form, callback) => {
@@ -41,7 +42,7 @@ class payForm extends Component {
 	render() {
 		const {
 			translate,
-			paymentPossible,
+			changeCurrency,
 			offer,
 			id,
 			currency,
@@ -50,138 +51,78 @@ class payForm extends Component {
 
 		return (
 			<div className="pay-form">
-				<div className="left">
-					<TextWrapper
-						label={translate("Pay")}
-						showLock={true}
-						text={
-							paymentPossible
-								? translate("event.offer.payment-info")
-								: translate("event.offer.pay-later")
-						}
-					/>
+				<Query
+					query={REQUEST_PAYMENT_INTENT}
+					variables={{
+						id,
+						currency,
+						locale: currentLanguage
+					}}
+					onError={console.log}
+					onCompleted={console.log}
+				>
+					{({ data, loading }) => {
+						const { requestPaymentIntent = {} } = data;
+						const { recommendedCurrency } = requestPaymentIntent;
+						const showCurrencyChange = recommendedCurrency !== currency;
 
-					{paymentPossible && (
-						<Query
-							query={REQUEST_PAYMENT_INTENT}
-							variables={{
-								id,
-								currency,
-								locale: currentLanguage
-							}}
-							onError={console.log}
-						>
-							{({ data, loading }) => {
-								if (loading) {
-									return (
+						return (
+							<>
+								<div className="left">
+									<TextWrapper
+										label={translate("Pay")}
+										showLock={true}
+										text={translate("event.offer.payment-info")}
+									/>
+									{loading ? (
 										<LoadingIndicator label={translate("gettingPayment")} />
-									);
-								} else {
-									return (
+									) : (
 										<StripeFormWrapper
 											onPaymentConfirmed={this.onPaymentConfirmed}
-											paymentIntent={data.requestPaymentIntent}
+											paymentIntent={requestPaymentIntent}
 										/>
-									);
-								}
-							}}
-						</Query>
-					)}
-				</div>
-
-				<div className="right">
-					<MoneyTable>
-						<TableItem label={translate("DJ price")}>
-							{offer.offer.formatted}
-						</TableItem>
-						<TableItem
-							label={translate("Service fee")}
-							info={<div>{translate("event.offer.fee")}</div>}
-						>
-							{offer.serviceFee.formatted}
-						</TableItem>
-						<TableItem label="Total">{offer.totalPayment.formatted}</TableItem>
-					</MoneyTable>
-					<p className="terms_link">{translate("event.offer.terms")}</p>
-				</div>
-
-				{/* {paymentPossible ? (
-								<div className="col-md-pull-5 col-md-7">
-									<div>
-										<div className="row ">
-											<div className="col-xs-12">
-												<TextField
-													big
-													name="card_name"
-													hintStyle={styles.medium.hint}
-													style={styles.medium.textarea}
-													inputStyle={styles.medium.input}
-													type="text"
-													validate={["required", "lastName"]}
-													onUpdatePipeFunc={cardNumberPipe}
-													fullWidth={false}
-													placeholder={translate("Cardholder name")}
-													underlineDisabledStyle={styles.plainBorder}
-													underlineStyle={styles.dottedBorderStyle}
-												/>
-											</div>
-										</div>
-										<div className="row">
-											<div className="col-xs-12">
-												<TextField
-													big
-													name="card_number"
-													hintStyle={styles.medium.hint}
-													style={styles.medium.textarea}
-													inputStyle={styles.medium.input}
-													type="text"
-													maxLength="19"
-													validate={["required", "validateCardNumber"]}
-													onUpdatePipeFunc={cardNumberPipe}
-													fullWidth={false}
-													placeholder="1234 1234 1234 1234"
-													underlineDisabledStyle={styles.plainBorder}
-													underlineStyle={styles.dottedBorderStyle}
-												/>
-											</div>
-										</div>
-										<div className="row">
-											<div className="col-xs-6">
-												<TextField
-													big
-													name="card_expiry"
-													onUpdatePipeFunc={datePipeCard}
-													maxLength="5"
-													hintStyle={styles.medium.hint}
-													style={styles.medium.textarea}
-													inputStyle={styles.medium.input}
-													validate={["required", "validateCardExpiry"]}
-													type="text"
-													fullWidth={true}
-													placeholder={translate("mm/yy")}
-													underlineDisabledStyle={styles.plainBorder}
-													underlineStyle={styles.dottedBorderStyle}
-												/>
-											</div>
-											<div className="col-xs-6">
-												<TextField
-													big
-													name="card_cvc"
-													hintStyle={styles.medium.hint}
-													style={styles.medium.textarea}
-													inputStyle={styles.medium.input}
-													validate={["required", "validateCardCVC"]}
-													type="number"
-													fullWidth={false}
-													placeholder="CVC"
-													underlineDisabledStyle={styles.plainBorder}
-													underlineStyle={styles.dottedBorderStyle}
-												/>
-											</div>
-										</div>
-									</div>
+									)}
 								</div>
-							) : null} */}
+
+								<div className="right">
+									{!loading &&
+										showCurrencyChange && (
+											<p className="notice">
+												This DJ uses a different currency than {currency}, you
+												might getter a better deal by paying in{" "}
+												{recommendedCurrency}.{" "}
+												<a
+													href
+													onClick={_ => {
+														console.log({ recommendedCurrency });
+														changeCurrency(recommendedCurrency);
+													}}
+												>
+													Change to {recommendedCurrency}
+												</a>
+											</p>
+										)}
+
+									<MoneyTable>
+										<TableItem label={translate("DJ price")}>
+											{offer.offer.formatted}
+										</TableItem>
+										<TableItem
+											label={translate("Service fee")}
+											info={<div>{translate("event.offer.fee")}</div>}
+										>
+											{offer.serviceFee.formatted}
+										</TableItem>
+										<TableItem label="Total">
+											{offer.totalPayment.formatted}
+										</TableItem>
+									</MoneyTable>
+									<p className="terms_link">{translate("event.offer.terms")}</p>
+								</div>
+							</>
+						);
+					}}
+				</Query>
 			</div>
 		);
 	}
@@ -215,7 +156,10 @@ function mapDispatchToProps(dispatch, ownprops) {
 	return {
 		notify: (id, hash, callback) =>
 			dispatch(actions.notifyPayment(id, hash, callback)),
-		eventConfirmed: id => dispatch(actions.eventConfirmed(id))
+		eventConfirmed: id => dispatch(actions.eventConfirmed(id)),
+		changeCurrency: currency => {
+			dispatch(changeCurrency(currency));
+		}
 	};
 }
 
