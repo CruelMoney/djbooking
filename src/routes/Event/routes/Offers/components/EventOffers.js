@@ -8,7 +8,7 @@ import Helmet from "react-helmet-async";
 import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Query } from "react-apollo";
 import { EVENT } from "../../../gql";
-import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
+import { LoadingCard } from "../../../../../components/common/LoadingPlaceholder";
 
 class EventOffers extends Component {
 	componentWillMount() {
@@ -78,13 +78,12 @@ class EventOffers extends Component {
 						>
 							{({ data = {}, loading }) => {
 								if (loading) {
-									return <LoadingPlaceholder />;
+									return <LoadingCard />;
 								}
 								const { event = {} } = data;
 								const { gigs = [] } = event;
 								const renderGigs = [];
 
-								console.log({ gigs });
 								gigs.forEach((o, i) => {
 									const notification = notifications.find(
 										n => String(n.room) === String(o.id)

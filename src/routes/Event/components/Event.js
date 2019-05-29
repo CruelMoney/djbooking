@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import EventHeader from "./blocks/EventHeader";
 import Footer from "../../../components/common/Footer";
-import LoadingPlaceholder from "../../../components/common/LoadingPlaceholder";
+import LoadingPlaceholder, {
+	LoadingCard
+} from "../../../components/common/LoadingPlaceholder";
 import { notificationService } from "../../../utils/NotificationService";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -115,13 +117,7 @@ class event extends Component {
 		const { translate } = this.props;
 
 		function renderLoadingItem() {
-			return [
-				<LoadingPlaceholder />,
-				<LoadingPlaceholder />,
-				<LoadingPlaceholder />,
-				<LoadingPlaceholder />,
-				<LoadingPlaceholder />
-			];
+			return <LoadingCard />;
 		}
 
 		return (
@@ -143,11 +139,7 @@ class event extends Component {
 					<div className="row">
 						<div style={{ paddingTop: "11px" }} className={"col-xs-12"}>
 							{this.props.loading || !this.props.event ? (
-								<div className="row">
-									<div className="col-xs-push-3 col-xs-7">
-										{renderLoadingItem()}
-									</div>
-								</div>
+								<div className="row center">{renderLoadingItem()}</div>
 							) : (
 								this.props.children
 							)}
@@ -201,7 +193,10 @@ function mapDispatchToProps(dispatch, ownProps) {
 }
 
 const SmartEvent = withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(event)
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(event)
 );
 
 export default props => <SmartEvent {...props} />;
