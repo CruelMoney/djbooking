@@ -36,9 +36,12 @@ class Popup extends Component {
 		onClickOutside: PropTypes.func
 	};
 
-	state = {
-		showing: false
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			showing: props.showing
+		};
+	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({

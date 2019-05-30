@@ -7,9 +7,12 @@ class Button extends Component {
 		rounded: true
 	};
 
-	state = {
-		succes: false
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			succes: !!props.succes
+		};
+	}
 
 	color = "";
 
@@ -18,7 +21,9 @@ class Button extends Component {
 			? this.props.color
 			: this.props.dangerous
 				? "#F44336"
-				: this.context.color ? this.context.color : "";
+				: this.context.color
+					? this.context.color
+					: "";
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -65,17 +70,23 @@ class Button extends Component {
 				? "0px 6px 6px 0px"
 				: this.props.leftRounded
 					? "6px 0px 0px 6px"
-					: this.props.rounded ? "6px 6px 6px 6px" : "0px 0px 0px 0px",
+					: this.props.rounded
+						? "6px 6px 6px 6px"
+						: "0px 0px 0px 0px",
 			backgroundColor: this.props.isLoading
 				? "transparent"
 				: this.props.active
 					? this.color
-					: this.state.succes ? this.color : null,
+					: this.state.succes
+						? this.color
+						: null,
 			borderColor: this.props.isLoading
 				? "transparent"
 				: this.props.active
 					? this.color
-					: this.state.succes ? this.color : null,
+					: this.state.succes
+						? this.color
+						: null,
 			borderLeftColor: this.props.isLoading ? this.color : null
 		};
 	};

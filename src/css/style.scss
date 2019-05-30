@@ -2754,6 +2754,21 @@ header .info-boxes {
 	width: 100%;
 }
 
+.payment-confirmation {
+	min-height: 300px;
+	min-width: 800px;
+	display: flex;
+	padding: 2em;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	> h3 {
+		max-width: 19em;
+		margin-top: 1em;
+	}
+}
+
 .text-field {
 	position: relative;
 }

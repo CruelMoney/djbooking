@@ -244,5 +244,9 @@
 		"To protect our users privacy, we have removed facebook as a login option. If you previously logged in using facebook, create a new password by clicking FORGOT.",
 		"For at beskytte vores brugeres data, har vi fjernet facebook som login. Hvis du tidligere har brugt facebook som login, kan du oprette et nyt kodeord ved at trykke på GLEMT."
 	],
-	"gettingPayment": ["Loading payment", "Henter betaling"]
+	"gettingPayment": ["Loading payment", "Henter betaling"],
+	"payment-succes-message": [
+		"Your payment has been received, and you will receive a receipt on email.",
+		"Din betaling er modtaget, og du vil få en kvittering på din email."
+	]
 }
