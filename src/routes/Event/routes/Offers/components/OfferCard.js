@@ -135,7 +135,7 @@ class OfferCard extends Component {
 							name: profileName,
 							image: profilePicture
 						}}
-						chatId={offer.id}
+						chatId={gig.id}
 						placeholder={
 							<EmptyPage
 								title="  "

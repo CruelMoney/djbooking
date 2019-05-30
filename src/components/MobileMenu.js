@@ -69,9 +69,9 @@ class MobileMenu extends Component {
 	getMenuItems = () => {
 		var items = entries(this.props.registeredMenuItems)
 			.filter(item => item[1] !== null)
-			.map(item => {
+			.map((item, idx) => {
 				return (
-					<li>
+					<li key={idx}>
 						<Navlink
 							onClick={() => this.handleClose()}
 							to={item[1]}
@@ -168,21 +168,22 @@ class MobileMenu extends Component {
 										{this.props.profile.isDJ ? (
 											<div>
 												<div className="user-card-fact">
-													<p>
-														{translate("experience")}
+													<span>
+														<p>{translate("experience")}</p>
 														<InfoPopup
 															info={translate("experience-description")}
 														/>
-													</p>
+													</span>
 
 													{this.props.profile.gigsCount + " gigs"}
 												</div>
 
 												<div className="user-card-fact">
-													<p>
-														{translate("earned")}
+													<span>
+														<p>{translate("earned")}</p>
 														<InfoPopup info={translate("earned-description")} />
-													</p>
+													</span>
+
 													<CurrencyValue
 														amount={this.props.profile.earned}
 														from={this.props.profile.app_metadata.bankCurrency}
@@ -216,12 +217,13 @@ class MobileMenu extends Component {
 
 										{this.props.profile.discountPoints > 0 ? (
 											<div className="user-card-fact">
-												<p>
+												<span>	<p>
 													Cueup points
-													<InfoPopup
+												
+												</p>	<InfoPopup
 														info={translate("cueup-points-description")}
-													/>
-												</p>
+													/></span>
+											
 												{this.props.profile.discountPoints + " Points"}
 											</div>
 										) : null}
@@ -398,6 +400,8 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => {
 			dispatchProps.updatePicture(img, callback, stateProps.profile)
 	};
 };
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
-	MobileMenu
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+	mergeProps
+)(MobileMenu);

@@ -5,7 +5,7 @@ import * as validators from "../../utils/validators";
 function connectToForm(WrappedComponent) {
 	class FormConnection extends Component {
 		static contextTypes = {
-			registerValidation: PropTypes.func.isRequired,
+			registerValidation: PropTypes.func,
 			updateValue: PropTypes.func,
 			registerReset: PropTypes.func,
 			registerBeforeSubmit: PropTypes.func

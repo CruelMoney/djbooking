@@ -7,10 +7,12 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import App from "./App";
 import store from "./store";
 import { HelmetProvider } from "react-helmet-async";
-
+import ReactModal from "react-modal";
 import "./polyfills";
 
 const theme = getMuiTheme();
+
+ReactModal.setAppElement("#root");
 
 class MyRouter extends Component {
 	render() {
