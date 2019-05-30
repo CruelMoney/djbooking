@@ -99,7 +99,7 @@ class MyTextField extends Component {
 				<TextField
 					id={this.props.name}
 					placeholder=""
-					value={this.props.value || ""}
+					value={this.props.value || undefined}
 					name={this.props.name}
 					disabled={this.props.disabled}
 					maxLength={this.props.maxLength}
@@ -113,9 +113,12 @@ class MyTextField extends Component {
 					floatingLabelText={this.props.floatingLabelText}
 					floatingLabelStyle={styles.floatingLabelStyle}
 					fullWidth={this.props.fullWidth || true}
-					hintText={this.props.placeholder}
+					hintText={
+						!this.props.initialValue ? this.props.placeholder : undefined
+					}
 					onChange={e => this.onChange(e)}
 					onBlur={this.props.onBlur}
+					defaultValue={this.props.initialValue}
 					errorText={
 						this.props.errors ? (
 							this.props.errors.length ? (

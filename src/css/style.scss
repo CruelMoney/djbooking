@@ -1281,6 +1281,11 @@ input[type="file"] + label * {
 	justify-content: space-between;
 }
 
+.terms_link {
+	margin: 0;
+	font-size: 0.8em;
+	line-height: 1.4em;
+}
 .pay-form {
 	max-width: 800px;
 	width: auto;
@@ -1294,11 +1299,7 @@ input[type="file"] + label * {
 	.text-element-wrapper {
 		margin-bottom: 2em;
 	}
-	.terms_link {
-		margin: 0;
-		font-size: 0.8em;
-		line-height: 1.4em;
-	}
+
 
 	.left,
 	.right {
@@ -2780,10 +2781,18 @@ header .info-boxes {
 }
 .payout-form {
 	max-width: 430px;
+	button{
+		margin: 1em 0;
+	}
+	.text-element-wrapper{
+
+		margin-bottom: 0;
+	}
 }
-.payout-form .text-element-wrapper {
-	margin-bottom: 30px;
-}
+
+
+
+
 .payout-form .errors p {
 	font-size: 14px;
 }

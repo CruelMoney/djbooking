@@ -164,7 +164,6 @@ class Preferences extends Component {
 		const { translate, profile } = this.props;
 		const isDJ = profile.isDJ;
 		const hasPayout = profile.stripeID || profile.last4;
-		console.log({ profile });
 		return (
 			<div>
 				{this.context.loading ? (
@@ -182,7 +181,7 @@ class Preferences extends Component {
 							showing={this.state.showPopup}
 							onClickOutside={this.hidePopup}
 						>
-							<PayoutForm />
+							<PayoutForm isUpdate={hasPayout} />
 						</Popup>
 
 						<div>

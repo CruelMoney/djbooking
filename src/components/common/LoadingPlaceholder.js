@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Button from "./Button-v2";
 
 class LoadingPlaceholder extends Component {
 	render() {
@@ -65,6 +66,22 @@ class LoadingCard extends Component {
 	}
 }
 
-export { LoadingCard, LoadingPlaceholder2 };
+const LoadingIndicator = ({ label }) => (
+	<div
+		style={{
+			height: "200px",
+			textAlign: "center",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			flexDirection: "column"
+		}}
+	>
+		<Button rounded glow active disabled isLoading />
+		<p style={{ marginTop: "1em" }}>{label}</p>
+	</div>
+);
+
+export { LoadingCard, LoadingPlaceholder2, LoadingIndicator };
 
 export default LoadingPlaceholder;

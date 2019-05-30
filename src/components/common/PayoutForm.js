@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import TextField from "./Textfield";
 import TextWrapper from "./TextElement";
-import PoweredByStripe from "../../assets/powered_by_stripe.png";
 import Form from "./Form-v2";
 import SubmitButton from "./SubmitButton";
 import { connect } from "react-redux";
 import * as actions from "../../actions/UserActions";
-import Button from "./Button-v2";
-import ToggleOptions from "./ToggleOptions";
-import Formatter from "../../utils/Formatter";
 import InfoPopup from "./InfoPopup";
 import {
 	localize,
@@ -24,13 +19,17 @@ import CountrySelector, {
 	ConnectedBankSelector
 } from "./CountrySelector";
 import Textfield from "./Textfield";
+import { USER_BANK_ACCOUNT } from "../gql";
+import { LoadingIndicator } from "./LoadingPlaceholder";
+import { Query } from "react-apollo";
 
-const PayoutForm = () => {
-	const { translate } = useTranslate();
-	const [country, setCountry] = useState(null);
+const PayoutForm = ({ isUpdate, translate }) => {
 	const [valid, setValidity] = useState(false);
 
-	const inIndonesia = country === "ID";
+	const submit = (form, cb) => {
+		console.log({ form });
+		cb();
+	};
 
 	return (
 		<div className="payout-form">
@@ -48,97 +47,46 @@ const PayoutForm = () => {
 					showLock={true}
 					text={translate("payout.description")}
 				>
-					<div className="row">
-						<div className="col-xs-12">
-							<label>{translate("country")}</label>
-							<CountrySelector
-								name="bank_country"
-								validate={["required"]}
-								placeholder={translate("country")}
-								onChange={setCountry}
-							/>
-						</div>
-					</div>
+					<Query query={USER_BANK_ACCOUNT}>
+						{({ data, loading }) => {
+							if (loading) {
+								return (
+									<div style={{ height: 200, justifyContent: "center" }}>
+										<LoadingIndicator label={"Loading bank information"} />
+									</div>
+								);
+							}
 
-					<div className="row">
-						<div className="col-xs-12">
-							<label>{translate("currency")}</label>
-							<ConnectedCurrencySelector
-								name="bank_currency"
-								validate={["required"]}
-								value={inIndonesia ? "IDR" : null}
-								placeholder={translate("currency")}
-							/>
-						</div>
-					</div>
+							const {
+								me: {
+									userMetadata: { bankAccount = {} }
+								}
+							} = data;
 
-					<div className="row">
-						<div className="col-xs-12">
-							<label>{translate("payout.account-name")}</label>
-							<Textfield
-								name="bank_accountholder_name"
-								type="text"
-								validate={["required", "lastName"]}
-								placeholder={translate("Full name")}
-							/>
-						</div>
-					</div>
-
-					{inIndonesia ? (
-						<>
-							<div className="row">
-								<div className="col-xs-12">
-									<label>{translate("Bank")}</label>
-									<ConnectedBankSelector
-										name="bankCode"
-										validate={["required"]}
-										placeholder={" "}
-									/>
-								</div>
-							</div>
-
-							<div className="row">
-								<div className="col-xs-12">
-									<label>{translate("payout.account-number")}</label>
-									<TextField
-										name="account_number"
-										validate={["required"]}
-										type="tel"
-										fullWidth={false}
-										placeholder={"000000000"}
-									/>
-								</div>
-							</div>
-						</>
-					) : (
-						<div className="row">
-							<div className="col-xs-12">
-								<label>{translate("payout.IBAN-number")}</label>
-								<IbanField validate={["required"]}>
-									<InfoPopup info={translate("payout.IBAN-description")} />
-								</IbanField>
-							</div>
-						</div>
-					)}
+							return (
+								<MainForm bankAccount={bankAccount} translate={translate} />
+							);
+						}}
+					</Query>
 				</TextWrapper>
-
-				<div className="row">
-					<div className="col-xs-12">
-						<p className="terms_link">{translate("payout.terms")}</p>
-					</div>
-				</div>
 
 				<div className="row buttons-wrapper">
 					<div className="col-xs-6">
 						<SubmitButton
 							glow
 							type="submit"
-							active={this.state.valid}
+							active={valid}
+							onClick={submit}
 							name="save_payout_info"
-							onClick={this.updatePayoutInfo}
 						>
-							{translate("save")}
+							{isUpdate ? translate("update") : translate("save")}
 						</SubmitButton>
+					</div>
+				</div>
+
+				<div className="row">
+					<div className="col-xs-12">
+						<p className="terms_link">{translate("payout.terms")}</p>
 					</div>
 				</div>
 			</Form>
@@ -146,17 +94,101 @@ const PayoutForm = () => {
 	);
 };
 
-const StripeWrapper = () => {
+const MainForm = ({ bankAccount, translate }) => {
+	const [country, setCountry] = useState(bankAccount.countryCode);
+
+	const inIndonesia = country === "ID";
+
+	return (
+		<>
+			<div className="row">
+				<div className="col-xs-12">
+					<label>{translate("country")}</label>
+					<CountrySelector
+						initialValue={bankAccount.countryCode}
+						name="bank_country"
+						validate={["required"]}
+						placeholder={translate("country")}
+						onChange={setCountry}
+					/>
+				</div>
+			</div>
+			<div className="row">
+				<div className="col-xs-12">
+					<label>{translate("currency")}</label>
+					<ConnectedCurrencySelector
+						key={country}
+						name="bank_currency"
+						validate={["required"]}
+						value={inIndonesia ? "IDR" : undefined}
+						disabled={inIndonesia}
+						initialValue={bankAccount.currency}
+						placeholder={inIndonesia ? undefined : translate("currency")}
+					/>
+				</div>
+			</div>
+			<div className="row">
+				<div className="col-xs-12">
+					<label>{translate("payout.account-name")}</label>
+					<Textfield
+						initialValue={bankAccount.accountHolderName}
+						name="bank_accountholder_name"
+						type="text"
+						validate={["required", "lastName"]}
+						placeholder={translate("Full name")}
+					/>
+				</div>
+			</div>
+			{inIndonesia ? (
+				<>
+					<div className="row">
+						<div className="col-xs-12">
+							<label>{translate("Bank")}</label>
+							<ConnectedBankSelector
+								initialValue={bankAccount.bankCode}
+								name="bankCode"
+								validate={["required"]}
+								placeholder={" "}
+							/>
+						</div>
+					</div>
+
+					<div className="row">
+						<div className="col-xs-12">
+							<label>{translate("payout.account-number")}</label>
+							<TextField
+								name="account_number"
+								validate={["required"]}
+								type="tel"
+								fullWidth={false}
+								placeholder={"000000000"}
+							/>
+						</div>
+					</div>
+				</>
+			) : (
+				<div className="row">
+					<div className="col-xs-12">
+						<label>{translate("payout.IBAN-number")}</label>
+						<IbanField validate={["required"]}>
+							<InfoPopup info={translate("payout.IBAN-description")} />
+						</IbanField>
+					</div>
+				</div>
+			)}
+		</>
+	);
+};
+
+const StripeWrapper = props => {
 	return (
 		<StripeProvider apiKey={Environment.STRIPE_PUBLIC_KEY}>
 			<Elements>
-				<PayoutForm />
+				<PayoutForm {...props} />
 			</Elements>
 		</StripeProvider>
 	);
 };
-
-export default StripeWrapper;
 
 function mapStateToProps(state, ownprops) {
 	return {
@@ -165,8 +197,4 @@ function mapStateToProps(state, ownprops) {
 	};
 }
 
-const useTranslate = connect(mapStateToProps)(
-	({ translate, currentLanguage }) => {
-		return { translate, currentLanguage };
-	}
-);
+export default connect(mapStateToProps)(StripeWrapper);

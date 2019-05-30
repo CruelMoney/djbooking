@@ -118,6 +118,25 @@ const AVAILABLE_BANKS = gql`
 	}
 `;
 
+const USER_BANK_ACCOUNT = gql`
+  query Me {
+    me {
+      id
+      userMetadata {
+        bankAccount {
+          last4
+          currency
+          accountHolderName
+          bankName
+          bankCode
+          countryCode
+          status
+        }
+      }
+    }
+  }
+`;
+
 export {
 	AVAILABLE_BANKS,
 	LOGIN,
@@ -126,5 +145,6 @@ export {
 	RESET_PASSWORD,
 	CREATE_USER,
 	REQUEST_EMAIL_VERIFICATION,
-	VERIFY_EMAIL
+	VERIFY_EMAIL,
+	USER_BANK_ACCOUNT
 };

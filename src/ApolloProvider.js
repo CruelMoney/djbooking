@@ -9,6 +9,8 @@ import { setContext } from "apollo-link-context";
 import { createUploadLink } from "apollo-upload-client";
 import { Environment } from "./constants/constants";
 import resolvers from "./actions/resolvers";
+import { authService } from "./utils/AuthService";
+
 // custome error handling, only logging errors atm
 const errorLink = onError(
 	({ graphQLErrors, networkError, operation, forward, response }) => {
@@ -52,7 +54,7 @@ const withToken = setContext(async (_, { headers }) => {
 	// get token if not present
 	if (!token) {
 		try {
-			const userToken = window.localStorage.getItem("auth_token");
+			const userToken = authService.getToken();
 			token = userToken;
 		} catch (error) {
 			console.warn(error);

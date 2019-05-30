@@ -12,7 +12,7 @@ import StripeFormWrapper from "./StripePayForm";
 import * as tracker from "../../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
 import { changeCurrency } from "../../actions/SessionActions";
-import { LoadingPlaceholder2 } from "./LoadingPlaceholder";
+import { LoadingPlaceholder2, LoadingIndicator } from "./LoadingPlaceholder";
 
 const PayForm = ({
 	translate,
@@ -125,22 +125,6 @@ const PayForm = ({
 		</div>
 	);
 };
-
-const LoadingIndicator = ({ label }) => (
-	<div
-		style={{
-			height: "200px",
-			textAlign: "center",
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center",
-			flexDirection: "column"
-		}}
-	>
-		<Button rounded glow active disabled isLoading />
-		<p style={{ marginTop: "1em" }}>{label}</p>
-	</div>
-);
 
 const ThankYouContent = ({ translate, style }) => {
 	return (
