@@ -70,6 +70,7 @@
 		"react-addons-css-transition-group": "^15.3.2",
 		"react-addons-update": "^15.3.2",
 		"react-apollo": "^2.5.5",
+		"react-credit-card-input": "^1.1.5",
 		"react-datepicker": "^0.61.0",
 		"react-dom": "^16.8.6",
 		"react-facebook-pixel": "^0.1.1",
@@ -96,6 +97,7 @@
 		"smoothscroll-polyfill": "^0.4.3",
 		"socket.io-client": "^2.1.1",
 		"source-map-explorer": "^1.6.0",
+		"styled-components": "^4.2.0",
 		"url-polyfill": "^1.1.0",
 		"wnumb": "^1.0.4"
 	},

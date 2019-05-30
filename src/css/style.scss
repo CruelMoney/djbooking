@@ -1288,6 +1288,8 @@ input[type="file"] + label * {
 	p.error {
 		font-size: 1em;
 		line-height: 1.5em;
+		position: absolute;
+		top: -0.9em;
 	}
 	.text-element-wrapper {
 		margin-bottom: 2em;
@@ -1325,6 +1327,12 @@ input[type="file"] + label * {
 				}
 			}
 		}
+		.animated-background {
+			margin: 3em 0;
+			.background-masker {
+				background: #edf2f7;
+			}
+		}
 	}
 	.stripe-card {
 		.StripeElement {
@@ -1333,6 +1341,7 @@ input[type="file"] + label * {
 			padding-top: 0.7em;
 			position: relative;
 			margin-bottom: 3em;
+			width: 100%;
 		}
 		.StripeElement:after {
 			content: "";
@@ -1350,6 +1359,11 @@ input[type="file"] + label * {
 		.StripeElement--invalid:after {
 			transform: none;
 			background-color: #f44336;
+		}
+		#field-wrapper {
+			label:first-of-type {
+				flex: 1;
+			}
 		}
 	}
 	form ~ .errors {
@@ -1579,8 +1593,8 @@ button {
 		padding-bottom: 0.2em;
 		padding-top: 0.3em;
 	}
-	.errors {
-		margin-top: 4px;
+	p.error {
+		top: 2.1em;
 	}
 }
 
@@ -2680,6 +2694,20 @@ header .info-boxes {
 .background-masker.content-third-end {
 	left: 300px;
 	top: 88px;
+}
+
+.animated-background.two {
+	height: 100px;
+	.content-first-line {
+		top: 20px;
+		height: 20px;
+		width: 100%;
+	}
+	.content-second-line {
+		left: 0;
+		height: 20px;
+		top: 60px;
+	}
 }
 
 .offer-buttons {

@@ -26,6 +26,17 @@ class LoadingPlaceholder extends Component {
 	}
 }
 
+class LoadingPlaceholder2 extends Component {
+	render() {
+		return (
+			<div className="animated-background two">
+				<div className="background-masker content-first-line" />
+				<div className="background-masker content-second-line" />
+			</div>
+		);
+	}
+}
+
 class LoadingCard extends Component {
 	render() {
 		return (
@@ -54,6 +65,6 @@ class LoadingCard extends Component {
 	}
 }
 
-export { LoadingCard };
+export { LoadingCard, LoadingPlaceholder2 };
 
 export default LoadingPlaceholder;

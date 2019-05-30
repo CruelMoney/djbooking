@@ -12,6 +12,8 @@ import StripeFormWrapper from "./StripePayForm";
 import * as tracker from "../../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
 import { changeCurrency } from "../../actions/SessionActions";
+import XenditPayForm from "./XenditPayForm";
+import LoadingPlaceholder, { LoadingPlaceholder2 } from "./LoadingPlaceholder";
 
 class payForm extends Component {
 	notify = (form, callback) => {
@@ -43,7 +45,6 @@ class payForm extends Component {
 		const {
 			translate,
 			changeCurrency,
-			offer,
 			id,
 			currency,
 			currentLanguage
@@ -63,7 +64,11 @@ class payForm extends Component {
 				>
 					{({ data, loading }) => {
 						const { requestPaymentIntent = {} } = data;
-						const { recommendedCurrency } = requestPaymentIntent;
+						const {
+							recommendedCurrency,
+							__typename,
+							offer
+						} = requestPaymentIntent;
 						const showCurrencyChange = recommendedCurrency !== currency;
 
 						return (
@@ -102,21 +107,24 @@ class payForm extends Component {
 												</a>
 											</p>
 										)}
-
-									<MoneyTable>
-										<TableItem label={translate("DJ price")}>
-											{offer.offer.formatted}
-										</TableItem>
-										<TableItem
-											label={translate("Service fee")}
-											info={<div>{translate("event.offer.fee")}</div>}
-										>
-											{offer.serviceFee.formatted}
-										</TableItem>
-										<TableItem label="Total">
-											{offer.totalPayment.formatted}
-										</TableItem>
-									</MoneyTable>
+									{loading ? (
+										<LoadingPlaceholder2 />
+									) : (
+										<MoneyTable>
+											<TableItem label={translate("DJ price")}>
+												{offer.offer.formatted}
+											</TableItem>
+											<TableItem
+												label={translate("Service fee")}
+												info={<div>{translate("event.offer.fee")}</div>}
+											>
+												{offer.serviceFee.formatted}
+											</TableItem>
+											<TableItem label="Total">
+												{offer.totalPayment.formatted}
+											</TableItem>
+										</MoneyTable>
+									)}
 									<p className="terms_link">{translate("event.offer.terms")}</p>
 								</div>
 							</>
