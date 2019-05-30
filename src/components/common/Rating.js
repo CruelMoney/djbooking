@@ -2,17 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class Star extends Component {
-	static proptypes = {
-		index: PropTypes.number,
-		color: PropTypes.string,
-		emptyColor: PropTypes.string,
-		fillPercentage: PropTypes.string,
-		onClick: PropTypes.func,
-		onHover: PropTypes.func,
-		active: PropTypes.bool,
-		editable: PropTypes.bool
-	};
-
 	handleMouseOver = () => {
 		if (this.props.editable) {
 			this.props.onHover(this.props.index);
@@ -108,12 +97,6 @@ class Star extends Component {
 }
 
 export default class Rating extends Component {
-	static proptypes = {
-		rating: PropTypes.number,
-		editable: PropTypes.bool,
-		name: PropTypes.string
-	};
-
 	state = {
 		errors: []
 	};

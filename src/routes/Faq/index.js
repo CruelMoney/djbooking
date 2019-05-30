@@ -7,7 +7,8 @@ import {
 import Faq from './components/Faq'
 import DJ from './routes/DJ'
 import Organizer from './routes/Organizer'
-import Helmet from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
+
 import content from './content.json';
 import addTranslate from '../../components/higher-order/addTranslate';
 

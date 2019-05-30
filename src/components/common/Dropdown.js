@@ -5,10 +5,6 @@ import onClickOutside from 'react-onclickoutside'
 class Dropdown extends Component{
     displayName= 'Dropdown'
 
-    static proptypes = {
-      expanded: PropTypes.bool,
-      onClickOutside: PropTypes.func
-    }
 
     state={
         expanded: false

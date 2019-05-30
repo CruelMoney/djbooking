@@ -4,7 +4,8 @@ import { notificationService } from "../../../../../utils/NotificationService";
 import { connect } from "react-redux";
 import moment from "moment-timezone";
 import EmptyPage from "../../../../../components/common/EmptyPage";
-import Helmet from "react-helmet-async";
+import { Helmet } from 'react-helmet-async';
+
 import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Query } from "react-apollo";
 import { EVENT } from "../../../gql";

@@ -5,16 +5,6 @@ import { Button } from "./Form-v2";
 import { ImageCompressor } from "../../utils/ImageCompressor";
 
 class FileInput extends PureComponent {
-	static proptypes = {
-		maxLength: PropTypes.number,
-		name: PropTypes.string.isRequired,
-		placeholder: PropTypes.string,
-		validate: PropTypes.arrayOf(PropTypes.string),
-		onUpdatePipeFunc: PropTypes.func,
-		height: PropTypes.string,
-		width: PropTypes.string
-	};
-
 	static defaultProps = {
 		active: true,
 		validate: [],

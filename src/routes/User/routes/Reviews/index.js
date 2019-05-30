@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Reviews from "./components/Reviews";
-import Helmet from "react-helmet-async";
+import { Helmet } from 'react-helmet-async';
+
 import { localize } from "react-localize-redux";
 
 class Index extends Component {

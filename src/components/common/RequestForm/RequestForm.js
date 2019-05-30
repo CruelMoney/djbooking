@@ -26,15 +26,6 @@ import content from "./content.json";
 import addTranslate from "../../../components/higher-order/addTranslate";
 
 const MainForm = class extends PureComponent {
-	static proptypes = {
-		form: PropTypes.object,
-		date: PropTypes.object, //moment object
-		onSubmit: PropTypes.func,
-		isLoggedIn: PropTypes.bool,
-		checkEmail: PropTypes.func,
-		emailExists: PropTypes.bool
-	};
-
 	static defaultProps = {
 		form: { values: {} }
 	};
@@ -311,7 +302,10 @@ function mapDispatchToProps(dispatch, ownProps) {
 	};
 }
 
-const smartForm = connect(mapStateToProps, mapDispatchToProps)(MainForm);
+const smartForm = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(MainForm);
 
 export default addTranslate(smartForm, content);
 
@@ -453,7 +447,9 @@ class Step1 extends PureComponent {
 				>
 					{this.state.err
 						? this.state.err
-						: this.state.msg ? this.state.msg : null}
+						: this.state.msg
+							? this.state.msg
+							: null}
 				</p>
 			</div>
 		);

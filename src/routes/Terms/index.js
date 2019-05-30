@@ -6,7 +6,8 @@ import {
 import Terms from './components/Terms'
 import Agreements from './routes/Agreements'
 import Privacy from './routes/Privacy'
-import Helmet from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
+
 import { localize } from 'react-localize-redux'; 
 
 class Index extends Component{

@@ -7,10 +7,6 @@ import "react-datepicker/dist/react-datepicker.min.css";
 import "../../css/calendar.css";
 
 export default class MyDatePicker extends Component {
-	static proptypes = {
-		handleChange: PropTypes.func
-	};
-
 	state = {
 		startDate: moment()
 	};

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import EmptyPage from "../../components/common/EmptyPage";
 import Footer from "../../components/common/Footer";
 import { localize } from "react-localize-redux";
-import Helmet from "react-helmet-async";
+import { Helmet } from 'react-helmet-async';
+
 import NumberedList from "../../components/common/NumberedList";
 import FormV2, {
 	RegistrationElement,

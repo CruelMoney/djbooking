@@ -25,13 +25,7 @@ import debounce from 'lodash.debounce'
 import { localize } from 'react-localize-redux';
 
 class RequestForm extends Component{
-  static proptypes = {
-    form: PropTypes.object,
-    date: PropTypes.object, //moment object
-    onSubmit: PropTypes.func,
-    isLoggedIn: PropTypes.bool,
-    checkEmail: PropTypes.func,
-  }
+
 
 
   static contextTypes={

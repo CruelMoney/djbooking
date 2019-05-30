@@ -3,7 +3,8 @@ import {
   Switch, 
   Route
 } from 'react-router';
-import Helmet from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
+
 import Footer from '../../components/common/Footer'
 import Blog from './components/Blog';
 import Post from './components/Post';

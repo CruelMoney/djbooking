@@ -6,14 +6,6 @@ import connectToForm from "../higher-order/connectToForm";
 class LocationSelector extends Component {
 	displayName = "LocationSelectorSimple";
 
-	static proptypes = {
-		name: PropTypes.string.isRequired,
-		placeholder: PropTypes.string,
-		label: PropTypes.string,
-		validate: PropTypes.arrayOf(PropTypes.string),
-		value: PropTypes.string
-	};
-
 	state = {
 		dataSource: []
 	};

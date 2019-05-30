@@ -8,23 +8,6 @@ import * as actions from "../../actions/FormActions";
 class form extends Component {
 	displayNamen = "Form";
 
-	//TO be supplied is name and onsubmit that will be called with the form automatically
-	static proptypes = {
-		name: PropTypes.string,
-		formValidCallback: PropTypes.func,
-		formInvalidCallback: PropTypes.func,
-		status: PropTypes.object,
-		children: PropTypes.node,
-		onSubmit: PropTypes.func,
-		updateFilters: PropTypes.func,
-		resetState: PropTypes.func,
-		updateValue: PropTypes.func,
-		err: PropTypes.string,
-		form: PropTypes.object,
-		customIsFormValid: PropTypes.func,
-		registerCheckForm: PropTypes.func
-	};
-
 	componentWillMount() {
 		if (this.props.registerCheckForm) {
 			this.props.registerCheckForm(this.isFormValid);
@@ -101,7 +84,7 @@ class form extends Component {
 			: this.validations.reduce(
 					(memo, isValidFunc) => isValidFunc(showErrors) && memo,
 					true
-				);
+			  );
 
 		this.setState({
 			isValid: isValid
@@ -227,9 +210,11 @@ form.childContextTypes = {
 	errorMessage: PropTypes.string
 };
 
-const SmartForm = connect(mapStateToProps, mapDispatchToProps, mergeProps)(
-	form
-);
+const SmartForm = connect(
+	mapStateToProps,
+	mapDispatchToProps,
+	mergeProps
+)(form);
 
 export default props => <SmartForm {...props} />;
 export { default as Text } from "./Text";

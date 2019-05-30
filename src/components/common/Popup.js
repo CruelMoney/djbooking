@@ -31,11 +31,6 @@ const removeClass = function(className, el) {
 class Popup extends Component {
 	displayName = "Popup";
 
-	static proptypes = {
-		showing: PropTypes.bool,
-		onClickOutside: PropTypes.func
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = {

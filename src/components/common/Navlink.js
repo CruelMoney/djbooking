@@ -3,15 +3,6 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 
 class MyNavlink extends Component {
-	static proptypes = {
-		rounded: PropTypes.bool,
-		primary: PropTypes.bool,
-		onClick: PropTypes.func,
-		borderHover: PropTypes.bool,
-		buttonLook: PropTypes.bool,
-		userNavigation: PropTypes.bool
-	};
-
 	static defaultProps = {
 		rounded: true
 	};

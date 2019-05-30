@@ -3,16 +3,6 @@ import PropTypes from "prop-types";
 import connectToForm from "../higher-order/connectToForm";
 
 class TextBox extends Component {
-	static proptypes = {
-		maxLength: PropTypes.number,
-		name: PropTypes.string.isRequired,
-		placeholder: PropTypes.string,
-		validate: PropTypes.arrayOf(PropTypes.string),
-		onUpdatePipeFunc: PropTypes.func,
-		height: PropTypes.string,
-		width: PropTypes.string
-	};
-
 	static defaultProps = {
 		active: true,
 		validate: [],

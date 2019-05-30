@@ -15,18 +15,6 @@ import { authService } from "../../utils/AuthService";
 import { getTranslatedURL } from "../../utils/HelperFunctions";
 
 class footer extends Component {
-	static proptypes = {
-		bgColor: PropTypes.string,
-		color: PropTypes.string,
-		firstTo: PropTypes.string,
-		secondTo: PropTypes.string,
-		firstLabel: PropTypes.string,
-		secondLabel: PropTypes.string,
-		title: PropTypes.string,
-		subTitle: PropTypes.string,
-		noSkew: PropTypes.bool
-	};
-
 	static defaultProps = {
 		color: "#31DAFF",
 		bgColor: "#F6F9FC"

@@ -27,12 +27,6 @@ class Login extends Component {
 	displayName = "Login";
 	color = "#31DAFF";
 
-	static proptypes = {
-		login: PropTypes.func.isRequired,
-		isLoading: PropTypes.bool,
-		error: PropTypes.string
-	};
-
 	getChildContext() {
 		return {
 			color: this.color

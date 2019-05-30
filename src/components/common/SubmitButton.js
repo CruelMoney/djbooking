@@ -3,13 +3,6 @@ import PropTypes from "prop-types";
 import Button from "./Button-v2";
 
 export default class SubmitButton extends Component {
-	static proptypes = {
-		onClick: PropTypes.func, // has to take to parameters (form, callback)
-		noCheckMark: PropTypes.bool,
-		name: PropTypes.string.isRequired,
-		resetOnSucces: PropTypes.bool
-	};
-
 	handleClick = e => {
 		this.context.onSubmit(this.props.onClick, this.props.name);
 	};

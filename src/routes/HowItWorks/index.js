@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import HowItWorks from './components/HowItWorks'; 
-import Helmet from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
+
 import content from './content.json';
 import addTranslate from '../../components/higher-order/addTranslate';
 
