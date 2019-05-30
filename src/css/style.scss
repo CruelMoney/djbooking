@@ -5,7 +5,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: AvenirNext-Regular;
+	font-family: AvenirNext-Regular, sans-serif;
 	color: #32325d;
 	-webkit-font-smoothing: antialiased;
 	overflow-y: auto;
@@ -48,27 +48,27 @@ h4 path {
 }
 
 h1 {
-	font-family: SourceSansPro-SemiBold;
+	font-family: "SourceSansPro-Semibold", sans-serif;
 	font-size: 42px;
 	margin-left: -3px;
 	margin-bottom: 15px;
 }
 h2 {
-	font-family: SourceSansPro-Semibold;
+	font-family: "SourceSansPro-Semibold", sans-serif;
 	font-size: 22px;
 	letter-spacing: 2px;
 	line-height: 30px;
 }
 
 h4 {
-	font-family: SourceSansPro-Semibold;
+	font-family: "SourceSansPro-Semibold", sans-serif;
 	font-size: 15px;
 	text-transform: uppercase;
 	letter-spacing: 0.025em;
 	margin: 0 0 5px;
 }
 p {
-	font-family: SourceSansPro-Regular;
+	font-family: "SourceSansPro-Regular", sans-serif;
 	font-size: 17px;
 	letter-spacing: 0.41px;
 	line-height: 28px;
@@ -235,7 +235,7 @@ pre {
 	-webkit-margin-after: 0;
 	font-size: 20px;
 	width: 200px;
-	font-family: "SourceSansPro-SemiBold";
+	font-family: "SourceSansPro-Semibold", sans-serif;
 }
 
 .mobileMenuButton {
@@ -348,7 +348,7 @@ pre {
 .main-menu a {
 	cursor: pointer;
 	/* Login: */
-	font-family: "SourceSansPro-Semibold";
+	font-family: "SourceSansPro-Semibold", sans-serif;
 	font-size: 17px;
 	color: #ffffff;
 	letter-spacing: 0.3px;
@@ -436,7 +436,7 @@ pre {
 
 .copyright {
 	color: #cfd7df;
-	font-family: SourceSansPro-Regular;
+	font-family: "SourceSansPro-Regular", sans-serif;
 }
 
 .footer-columns {
@@ -449,7 +449,7 @@ pre {
 
 footer a,
 footer .dropdown-selector-wrapper {
-	font-family: SourceSansPro-Regular;
+	font-family: "SourceSansPro-Regular", sans-serif;
 	font-size: 15px;
 	color: #8998aa;
 	fill: #8998aa;
@@ -457,7 +457,7 @@ footer .dropdown-selector-wrapper {
 	margin: auto;
 }
 footer .social a {
-	font-family: SourceSansPro-Bold;
+	font-family: "SourceSansPro-Bold", sans-serif;
 }
 footer h4 {
 	line-height: 30px;
@@ -516,7 +516,7 @@ footer .social svg {
 }
 #preFooter .action-title {
 	margin: 0.75em 0;
-	font-family: SourceSansPro-Regular;
+	font-family: "SourceSansPro-Regular", sans-serif;
 	font-size: 30px;
 	color: #32325d;
 	letter-spacing: 0.91px;
@@ -787,7 +787,7 @@ input[type="file"] + label * {
 }
 
 .Header-title {
-	font-family: "SourceSansPro-Regular";
+	font-family: "SourceSansPro-Regular", sans-serif;
 	text-align: center;
 	margin: 0;
 	padding: 0em 0 1.5em;
@@ -795,7 +795,7 @@ input[type="file"] + label * {
 }
 .Header-title span {
 	display: block;
-	font-family: "SourceSansPro-Light";
+	font-family: "SourceSansPro-Light", sans-serif;
 }
 
 .first-card {
@@ -1064,7 +1064,7 @@ input[type="file"] + label * {
 	font-weight: 100;
 }
 .user-location h2 {
-	font-family: SourceSansPro-Regular;
+	font-family: "SourceSansPro-Regular", sans-serif;
 	font-size: 28px;
 	letter-spacing: normal;
 }
@@ -1261,7 +1261,7 @@ input[type="file"] + label * {
 }
 
 .userNavigation a {
-	font-family: SourceSansPro-Semibold;
+	font-family: "SourceSansPro-Semibold", sans-serif;
 	font-size: 22px;
 	color: #ffffff;
 	line-height: 33px;
@@ -1619,7 +1619,7 @@ button {
 }
 
 .offer-card h4 {
-	font-family: AvenirNext-Regular;
+	font-family: AvenirNext-Regular, sans-serif;
 	text-transform: capitalize;
 	font-size: 18px;
 	line-height: 15px;
@@ -1913,7 +1913,7 @@ button.active .info-popup {
 	height: 40px;
 	padding: 10px 10px;
 	/* Text */
-	font-family: SourceSansPro-Semibold;
+	font-family: "SourceSansPro-Semibold", sans-serif;
 	font-size: 16px;
 	line-height: 16px;
 	text-transform: uppercase;
@@ -2147,7 +2147,7 @@ table {
 	min-height: 0px;
 }
 .circle {
-	font-family: SourceSansPro-Semibold;
+	font-family: "SourceSansPro-Semibold", sans-serif;
 	height: 60px;
 	width: 60px;
 	border-radius: 100%;
@@ -2208,7 +2208,7 @@ table {
 }
 
 .signup h2 {
-	font-family: SourceSansPro-Regular;
+	font-family: "SourceSansPro-Regular", sans-serif;
 	font-size: 30px;
 	margin-top: 3px;
 	margin-bottom: 10px;
@@ -2254,7 +2254,7 @@ p.error {
 	margin-bottom: 80px;
 }
 .terms .subtitle {
-	font-family: AvenirNext-Regular;
+	font-family: AvenirNext-Regular, sans-serif;
 	font-size: 18px;
 	color: #8998aa;
 	line-height: 26px;
@@ -2262,7 +2262,7 @@ p.error {
 	border-bottom: 1px solid #f6f9fc;
 }
 .terms h2 {
-	font-family: SourceSansPro-Regular;
+	font-family: "SourceSansPro-Regular", sans-serif;
 	font-size: 28px;
 	color: #32325d;
 }
@@ -2326,7 +2326,7 @@ p.error {
 }
 
 .request-form label {
-	font-family: AvenirNext-Medium;
+	font-family: AvenirNext-Medium, sans-serif;
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 22px;
@@ -2347,13 +2347,13 @@ p.error {
 .request-form .toggle-options .button {
 	font-size: 14px;
 	line-height: 14px;
-	font-family: AvenirNext-Medium;
+	font-family: AvenirNext-Medium, sans-serif;
 	text-transform: capitalize;
 	height: 33px;
 }
 
 .request-form p {
-	font-family: AvenirNext-Regular;
+	font-family: AvenirNext-Regular, sans-serif;
 	font-size: 14px;
 	line-height: 19px;
 	color: #8998aa;
@@ -2951,7 +2951,7 @@ header .dj-card p {
 	text-transform: none;
 	margin: 13px 0px !important;
 	font-size: 20px;
-	font-family: "SourceSansPro-Regular";
+	font-family: "SourceSansPro-Regular", sans-serif;
 }
 .location_faq .subtitle {
 	margin-bottom: 0px;
@@ -3104,12 +3104,12 @@ header .dj-card p {
 	border-radius: 20px !important;
 }
 .preview-card h1 {
-	font-family: Camphor, Open Sans, Segoe UI, sans-serif;
+	font-family: "SourceSansPro-Bold", Camphor, Open Sans, Segoe UI, sans-serif;
 	font-size: 22px;
 	margin-bottom: 5px;
 }
 .preview-card.large h1 {
-	font-family: SourceSansPro-Bold;
+	font-family: "SourceSansPro-Bold", sans-serif;
 	font-size: 72px;
 }
 .preview-card p {
@@ -3118,7 +3118,7 @@ header .dj-card p {
 	text-align: left;
 }
 .preview-card.large p {
-	font-family: SourceSansPro-Bold;
+	font-family: "SourceSansPro-Bold", sans-serif;
 	font-size: 51px !important;
 	line-height: 60px !important;
 	margin-bottom: 30px;
@@ -3328,7 +3328,7 @@ ol.breadcrumbs a {
 	width: 600px;
 }
 .reminder-popup h2 {
-	font-family: SourceSansPro-Bold;
+	font-family: "SourceSansPro-Bold", sans-serif;
 
 	text-align: center;
 	width: 350px;

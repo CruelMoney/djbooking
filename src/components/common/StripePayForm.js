@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, useState, useEffect, useRef } from "react";
 import {
 	CardElement,
 	injectStripe,
@@ -19,44 +19,9 @@ class StripeForm extends PureComponent {
 	constructor(props) {
 		super(props);
 
-		const { offer } = props.paymentIntent;
-		// For full documentation of the available paymentRequest options, see:
-		// https://stripe.com/docs/stripe.js#the-payment-request-object
-		const paymentRequest = props.stripe.paymentRequest({
-			currency: offer.totalPayment.currency.toLowerCase(),
-			country: "DK",
-			total: {
-				label: "Total",
-				amount: offer.totalPayment.amount
-			},
-			displayItems: [
-				{
-					label: "DJ offer",
-					amount: offer.offer.amount
-				},
-				{
-					label: "Service fee",
-					amount: offer.serviceFee.amount
-				}
-			],
-			requestPayerName: true,
-			requestPayerEmail: true
-		});
-
-		paymentRequest.on("token", ({ complete, token, ...data }) => {
-			console.log("Received Stripe token: ", token);
-			console.log("Received customer information: ", data);
-			complete("success");
-		});
-
-		paymentRequest.canMakePayment().then(result => {
-			this.setState({ canMakePayment: !!result });
-		});
-
 		this.state = {
-			canMakePayment: false,
-			paymentRequest,
-			valid: false
+			valid: false,
+			error: null
 		};
 
 		this.cardElement = React.createRef();
@@ -77,7 +42,7 @@ class StripeForm extends PureComponent {
 		}
 	};
 
-	handlePayment = async ({ email, name, country, cardToken }) => {
+	handlePayment = async ({ email, name, country }) => {
 		const { stripe, paymentIntent, onPaymentConfirmed } = this.props;
 		const { token } = paymentIntent;
 		const PAYMENT_INTENT_CLIENT_SECRET = token.token;
@@ -95,16 +60,11 @@ class StripeForm extends PureComponent {
 				},
 				receipt_email: email
 			};
-			if (cardToken) {
-				options.payment_method_data.card = cardToken;
-			}
-			const result = cardToken
-				? await stripe.handleCardPayment(PAYMENT_INTENT_CLIENT_SECRET, options)
-				: await stripe.handleCardPayment(
-						PAYMENT_INTENT_CLIENT_SECRET,
-						this.cardElement.current,
-						options
-				  );
+			const result = await stripe.handleCardPayment(
+				PAYMENT_INTENT_CLIENT_SECRET,
+				this.cardElement.current,
+				options
+			);
 			const { error, paymentIntent } = result;
 			if (error) {
 				throw new Error(error.message || "Something went wrong");
@@ -117,8 +77,6 @@ class StripeForm extends PureComponent {
 	};
 
 	render() {
-		const { canMakePayment } = this.state;
-
 		const { translate } = this.props;
 		return (
 			<Form
@@ -126,25 +84,6 @@ class StripeForm extends PureComponent {
 				formInvalidCallback={() => this.setState({ valid: false })}
 				name="pay-form"
 			>
-				{canMakePayment && (
-					<>
-						<PaymentRequestButtonElement
-							paymentRequest={this.state.paymentRequest}
-							className="PaymentRequestButton"
-							style={{
-								paymentRequestButton: {
-									theme: "dark",
-									height: "40px"
-								}
-							}}
-						/>
-						<div className="or-divider">
-							<hr />
-							<span>OR</span>
-						</div>
-					</>
-				)}
-
 				<Textfield
 					name="card_email"
 					type="email"
@@ -187,15 +126,120 @@ class StripeForm extends PureComponent {
 	}
 }
 
+const PaymentRequestButtonWrapper = ({
+	paymentIntent,
+	stripe,
+	onPaymentConfirmed
+}) => {
+	const [canMakePayment, setCanMakePayment] = useState(false);
+	const paymentRequest = useRef();
+
+	const confirmPaymentRequest = async ({ complete, paymentMethod }) => {
+		const { token } = paymentIntent;
+		const PAYMENT_INTENT_CLIENT_SECRET = token.token;
+
+		const confirmResult = await stripe.confirmPaymentIntent(
+			PAYMENT_INTENT_CLIENT_SECRET,
+			{
+				payment_method: paymentMethod.id
+			}
+		);
+		try {
+			if (confirmResult.error) {
+				complete("fail");
+				throw new Error(confirmResult.error.message);
+			} else {
+				complete("success");
+				const result = await stripe.handleCardPayment(
+					PAYMENT_INTENT_CLIENT_SECRET,
+					{
+						payment_method: paymentMethod.id
+					}
+				);
+				const { error } = result;
+				if (error) {
+					throw new Error(error.message || "Something went wrong");
+				}
+				onPaymentConfirmed(true);
+			}
+		} catch (error) {
+			setTimeout(() => {
+				alert(error.message);
+			}, 1000);
+			complete("fail");
+		}
+	};
+
+	useEffect(() => {
+		const { offer } = paymentIntent;
+		// For full documentation of the available paymentRequest options, see:
+		// https://stripe.com/docs/stripe.js#the-payment-request-object
+		paymentRequest.current = stripe.paymentRequest({
+			currency: offer.totalPayment.currency.toLowerCase(),
+			country: "DK",
+			total: {
+				label: "Total",
+				amount: offer.totalPayment.amount
+			},
+			displayItems: [
+				{
+					label: "DJ offer",
+					amount: offer.offer.amount
+				},
+				{
+					label: "Service fee",
+					amount: offer.serviceFee.amount
+				}
+			],
+			requestPayerName: true,
+			requestPayerEmail: true
+		});
+
+		paymentRequest.current.on("paymentmethod", confirmPaymentRequest);
+
+		paymentRequest.current.canMakePayment().then(result => {
+			setCanMakePayment(!!result);
+		});
+	}, []);
+
+	if (!canMakePayment) return null;
+
+	return (
+		<>
+			<PaymentRequestButtonElement
+				paymentRequest={paymentRequest.current}
+				className="PaymentRequestButton"
+				style={{
+					paymentRequestButton: {
+						theme: "dark",
+						height: "40px"
+					}
+				}}
+			/>
+			<div className="or-divider">
+				<hr />
+				<span>OR</span>
+			</div>
+		</>
+	);
+};
+
+const SmartButton = injectStripe(PaymentRequestButtonWrapper);
+
 const SmartForm = injectStripe(StripeForm);
 
 class StripeFormWrapper extends PureComponent {
 	render() {
 		return (
 			<StripeProvider apiKey={Environment.STRIPE_PUBLIC_KEY}>
-				<Elements>
-					<SmartForm {...this.props} />
-				</Elements>
+				<>
+					<Elements>
+						<SmartButton {...this.props} />
+					</Elements>
+					<Elements>
+						<SmartForm {...this.props} />
+					</Elements>
+				</>
 			</StripeProvider>
 		);
 	}

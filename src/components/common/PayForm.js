@@ -62,7 +62,7 @@ class payForm extends Component {
 					onError={console.log}
 					onCompleted={console.log}
 				>
-					{({ data, loading }) => {
+					{({ data = {}, loading }) => {
 						const { requestPaymentIntent = {} } = data;
 						const {
 							recommendedCurrency,
@@ -97,9 +97,8 @@ class payForm extends Component {
 												might getter a better deal by paying in{" "}
 												{recommendedCurrency}.{" "}
 												<a
-													href
+													href="#recommended"
 													onClick={_ => {
-														console.log({ recommendedCurrency });
 														changeCurrency(recommendedCurrency);
 													}}
 												>
