@@ -135,37 +135,29 @@ const PaymentRequestButtonWrapper = ({
 	const paymentRequest = useRef();
 
 	const confirmPaymentRequest = async ({ complete, paymentMethod }) => {
-		const { token } = paymentIntent;
-		const PAYMENT_INTENT_CLIENT_SECRET = token.token;
-
-		const confirmResult = await stripe.confirmPaymentIntent(
-			PAYMENT_INTENT_CLIENT_SECRET,
-			{
-				payment_method: paymentMethod.id
-			}
-		);
+		console.log("Confirming payment");
 		try {
-			if (confirmResult.error) {
-				complete("fail");
-				throw new Error(confirmResult.error.message);
-			} else {
-				complete("success");
-				const result = await stripe.handleCardPayment(
-					PAYMENT_INTENT_CLIENT_SECRET,
-					{
-						payment_method: paymentMethod.id
-					}
-				);
-				const { error } = result;
-				if (error) {
-					throw new Error(error.message || "Something went wrong");
+			const { token } = paymentIntent;
+			const PAYMENT_INTENT_CLIENT_SECRET = token.token;
+
+			complete("success");
+			const result = await stripe.handleCardPayment(
+				PAYMENT_INTENT_CLIENT_SECRET,
+				{
+					payment_method: paymentMethod.id
 				}
-				onPaymentConfirmed(true);
+			);
+			const { error } = result;
+			if (error) {
+				console.log({ error });
+				throw new Error(error.message || "Something went wrong");
 			}
+			onPaymentConfirmed(true);
 		} catch (error) {
 			setTimeout(() => {
 				alert(error.message);
 			}, 1000);
+			console.log({ error });
 			complete("fail");
 		}
 	};
