@@ -135,7 +135,6 @@ const PaymentRequestButtonWrapper = ({
 	const paymentRequest = useRef();
 
 	const confirmPaymentRequest = async ({ complete, paymentMethod }) => {
-		console.log("Confirming payment");
 		try {
 			const { token } = paymentIntent;
 			const PAYMENT_INTENT_CLIENT_SECRET = token.token;
