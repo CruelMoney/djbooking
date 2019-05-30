@@ -119,22 +119,50 @@ const AVAILABLE_BANKS = gql`
 `;
 
 const USER_BANK_ACCOUNT = gql`
-  query Me {
-    me {
-      id
-      userMetadata {
-        bankAccount {
-          last4
-          currency
-          accountHolderName
-          bankName
-          bankCode
-          countryCode
-          status
-        }
-      }
-    }
-  }
+	query Me {
+		me {
+			id
+			userMetadata {
+				bankAccount {
+					last4
+					currency
+					accountHolderName
+					bankName
+					bankCode
+					countryCode
+					status
+				}
+			}
+		}
+	}
+`;
+
+const UPDATE_USER_PAYOUT = gql`
+	mutation updateUser($id: ID!, $payoutInfo: JSON!) {
+		updateUser(id: $id, payoutInfo: $payoutInfo) {
+			id
+			userMetadata {
+				bankAccount {
+					last4
+					currency
+					accountHolderName
+					bankName
+					bankCode
+					countryCode
+					status
+				}
+			}
+			appMetadata {
+				earned {
+					amount
+					currency
+				}
+			}
+			userSettings {
+				currency
+			}
+		}
+	}
 `;
 
 export {
@@ -146,5 +174,6 @@ export {
 	CREATE_USER,
 	REQUEST_EMAIL_VERIFICATION,
 	VERIFY_EMAIL,
-	USER_BANK_ACCOUNT
+	USER_BANK_ACCOUNT,
+	UPDATE_USER_PAYOUT
 };

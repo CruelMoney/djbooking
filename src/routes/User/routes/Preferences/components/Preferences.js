@@ -181,7 +181,7 @@ class Preferences extends Component {
 							showing={this.state.showPopup}
 							onClickOutside={this.hidePopup}
 						>
-							<PayoutForm isUpdate={hasPayout} />
+							<PayoutForm isUpdate={hasPayout} profile={profile}/>
 						</Popup>
 
 						<div>

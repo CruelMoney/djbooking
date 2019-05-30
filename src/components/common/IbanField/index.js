@@ -11,10 +11,11 @@ class IbanField extends Component {
 
 	onChange = event => {
 		const { setErrors, onChange } = this.props;
+		console.log({ event });
 		if (event.error) {
 			setErrors([event.error.message]);
 		} else {
-			onChange("not empty");
+			onChange(event.complete ? event.bankName || event : null);
 		}
 	};
 
@@ -67,6 +68,7 @@ class IbanField extends Component {
 							invalid: "invalid"
 						}}
 						onChange={this.onChange}
+						onReady={this.props.onReady}
 					/>
 					{this.props.children}
 				</div>

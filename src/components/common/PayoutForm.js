@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import TextField from "./Textfield";
 import TextWrapper from "./TextElement";
 import Form from "./Form-v2";
@@ -19,83 +19,126 @@ import CountrySelector, {
 	ConnectedBankSelector
 } from "./CountrySelector";
 import Textfield from "./Textfield";
-import { USER_BANK_ACCOUNT } from "../gql";
+import { USER_BANK_ACCOUNT, UPDATE_USER_PAYOUT } from "../gql";
 import { LoadingIndicator } from "./LoadingPlaceholder";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 
-const PayoutForm = ({ isUpdate, translate }) => {
+const getStripeData = async ({ country, stripe, name, currency }) => {
+	let tokenData = {
+		currency,
+		account_holder_name: name,
+		account_holder_type: "individual"
+	};
+
+	const { error, token } = await stripe.createToken(tokenData);
+
+	if (error) {
+		throw new Error(error.message);
+	} else {
+		console.log({token})
+		return { payoutInfo: token };
+	}
+};
+
+const getXenditData = ({ country, name, bankCode, bankAccountNumber }) => {
+	return {
+		payoutInfo: {
+			country,
+			currency: "IDR",
+			bankAccountHolderName: name,
+			bankAccountNumber: bankAccountNumber.trim(),
+			bankCode
+		}
+	};
+};
+
+const PayoutForm = ({ profile, isUpdate, translate, stripe }) => {
 	const [valid, setValidity] = useState(false);
-
-	const submit = (form, cb) => {
-		console.log({ form });
-		cb();
+	const submit = mutate => async ({ values }, cb) => {
+		try {
+			const useXendit = values.country === "ID";
+			const data = useXendit
+				? getXenditData(values)
+				: await getStripeData({ ...values, stripe });
+			await mutate({ variables: {...data,id:profile.user_id} });
+			cb();
+		} catch (error) {
+			cb(error.message || "Something went wrong");
+		}
 	};
 
 	return (
 		<div className="payout-form">
-			<Form
-				formValidCallback={() => {
-					setValidity(true);
-				}}
-				formInvalidCallback={() => {
-					setValidity(false);
-				}}
-				name="payout-form"
-			>
-				<TextWrapper
-					label={translate("Payout")}
-					showLock={true}
-					text={translate("payout.description")}
-				>
-					<Query query={USER_BANK_ACCOUNT}>
-						{({ data, loading }) => {
-							if (loading) {
-								return (
-									<div style={{ height: 200, justifyContent: "center" }}>
-										<LoadingIndicator label={"Loading bank information"} />
-									</div>
-								);
-							}
-
-							const {
-								me: {
-									userMetadata: { bankAccount = {} }
-								}
-							} = data;
-
-							return (
-								<MainForm bankAccount={bankAccount} translate={translate} />
-							);
+			<Mutation mutation={UPDATE_USER_PAYOUT}>
+				{mutate => (
+					<Form
+						formValidCallback={() => {
+							setValidity(true);
 						}}
-					</Query>
-				</TextWrapper>
-
-				<div className="row buttons-wrapper">
-					<div className="col-xs-6">
-						<SubmitButton
-							glow
-							type="submit"
-							active={valid}
-							onClick={submit}
-							name="save_payout_info"
+						formInvalidCallback={() => {
+							setValidity(false);
+						}}
+						name="payout-form"
+					>
+						<TextWrapper
+							label={translate("Payout")}
+							showLock={true}
+							text={translate("payout.description")}
 						>
-							{isUpdate ? translate("update") : translate("save")}
-						</SubmitButton>
-					</div>
-				</div>
+							<Query query={USER_BANK_ACCOUNT}>
+								{({ data, loading }) => {
+									if (loading) {
+										return (
+											<div style={{ height: 200, justifyContent: "center" }}>
+												<LoadingIndicator label={"Loading bank information"} />
+											</div>
+										);
+									}
 
-				<div className="row">
-					<div className="col-xs-12">
-						<p className="terms_link">{translate("payout.terms")}</p>
-					</div>
-				</div>
-			</Form>
+									const {
+										me: {
+											userMetadata: { bankAccount = {} }
+										}
+									} = data;
+
+									return (
+										<MainForm bankAccount={bankAccount} translate={translate} />
+									);
+								}}
+							</Query>
+						</TextWrapper>
+
+						<div className="row  center">
+							<div className="col-xs-6">
+								<SubmitButton
+									glow
+									type="submit"
+									active={valid}
+									onClick={submit(mutate)}
+									name="save_payout_info"
+								>
+									{isUpdate ? translate("update") : translate("save")}
+								</SubmitButton>
+							</div>
+						</div>
+
+						<div className="row center">
+							<div className="col-xs-10">
+								<p className="terms_link text-center">
+									{translate("payout.terms")}
+								</p>
+							</div>
+						</div>
+					</Form>
+				)}
+			</Mutation>
 		</div>
 	);
 };
 
 const MainForm = ({ bankAccount, translate }) => {
 	const [country, setCountry] = useState(bankAccount.countryCode);
+	const [bankName, setBankName] = useState(null);
 
 	const inIndonesia = country === "ID";
 
@@ -105,8 +148,8 @@ const MainForm = ({ bankAccount, translate }) => {
 				<div className="col-xs-12">
 					<label>{translate("country")}</label>
 					<CountrySelector
-						initialValue={bankAccount.countryCode}
-						name="bank_country"
+						value={bankAccount.countryCode}
+						name="country"
 						validate={["required"]}
 						placeholder={translate("country")}
 						onChange={setCountry}
@@ -118,11 +161,10 @@ const MainForm = ({ bankAccount, translate }) => {
 					<label>{translate("currency")}</label>
 					<ConnectedCurrencySelector
 						key={country}
-						name="bank_currency"
+						name="currency"
 						validate={["required"]}
-						value={inIndonesia ? "IDR" : undefined}
+						value={inIndonesia ? "IDR" : bankAccount.currency}
 						disabled={inIndonesia}
-						initialValue={bankAccount.currency}
 						placeholder={inIndonesia ? undefined : translate("currency")}
 					/>
 				</div>
@@ -131,8 +173,8 @@ const MainForm = ({ bankAccount, translate }) => {
 				<div className="col-xs-12">
 					<label>{translate("payout.account-name")}</label>
 					<Textfield
-						initialValue={bankAccount.accountHolderName}
-						name="bank_accountholder_name"
+						value={bankAccount.accountHolderName}
+						name="name"
 						type="text"
 						validate={["required", "lastName"]}
 						placeholder={translate("Full name")}
@@ -143,21 +185,9 @@ const MainForm = ({ bankAccount, translate }) => {
 				<>
 					<div className="row">
 						<div className="col-xs-12">
-							<label>{translate("Bank")}</label>
-							<ConnectedBankSelector
-								initialValue={bankAccount.bankCode}
-								name="bankCode"
-								validate={["required"]}
-								placeholder={" "}
-							/>
-						</div>
-					</div>
-
-					<div className="row">
-						<div className="col-xs-12">
 							<label>{translate("payout.account-number")}</label>
 							<TextField
-								name="account_number"
+								name="bankAccountNumber"
 								validate={["required"]}
 								type="tel"
 								fullWidth={false}
@@ -165,26 +195,53 @@ const MainForm = ({ bankAccount, translate }) => {
 							/>
 						</div>
 					</div>
+					<div className="row">
+						<div className="col-xs-12">
+							<label>{translate("Bank")}</label>
+							<ConnectedBankSelector
+								value={bankAccount.bankCode}
+								name="bankCode"
+								validate={["required"]}
+								placeholder={" "}
+							/>
+						</div>
+					</div>
 				</>
 			) : (
-				<div className="row">
-					<div className="col-xs-12">
-						<label>{translate("payout.IBAN-number")}</label>
-						<IbanField validate={["required"]}>
-							<InfoPopup info={translate("payout.IBAN-description")} />
-						</IbanField>
+				<>
+					<div className="row">
+						<div className="col-xs-12">
+							<label>{translate("payout.IBAN-number")}</label>
+							<IbanField
+								onChange={setBankName}
+								name="iban"
+								validate={["required"]}
+							>
+								<InfoPopup info={translate("payout.IBAN-description")} />
+							</IbanField>
+						</div>
 					</div>
-				</div>
+					{typeof bankName === "string" && (
+						<div className="row">
+							<div className="col-xs-12">
+								<label>{translate("Bank")}</label>
+								<Textfield disabled value={bankName} />
+							</div>
+						</div>
+					)}
+				</>
 			)}
 		</>
 	);
 };
 
+const Injected = injectStripe(PayoutForm);
+
 const StripeWrapper = props => {
 	return (
 		<StripeProvider apiKey={Environment.STRIPE_PUBLIC_KEY}>
 			<Elements>
-				<PayoutForm {...props} />
+				<Injected {...props} />
 			</Elements>
 		</StripeProvider>
 	);
@@ -192,6 +249,7 @@ const StripeWrapper = props => {
 
 function mapStateToProps(state, ownprops) {
 	return {
+		...ownprops,
 		translate: getTranslate(state.locale),
 		currentLanguage: getActiveLanguage(state.locale).code
 	};
