@@ -54,7 +54,7 @@ const PayForm = ({
 				onError={console.log}
 				onCompleted={console.log}
 			>
-				{({ data = {}, loading }) => {
+				{({ data = {}, loading, error }) => {
 					const { requestPaymentIntent = {} } = data;
 					const {
 						recommendedCurrency,
@@ -63,6 +63,8 @@ const PayForm = ({
 					} = requestPaymentIntent;
 					const showCurrencyChange = recommendedCurrency !== currency;
 
+					console.log({ error });
+					if (error) return null;
 					return (
 						<>
 							<div className="left">

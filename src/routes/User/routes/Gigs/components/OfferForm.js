@@ -301,9 +301,12 @@ class OfferForm extends Component{
 
 
 function mapStateToProps(state, ownProps){
+  const {profile} = state.login;
+  const payoutInfoValid = profile.stripeID || profile.last4;
+
   return {
-    discountPoints: state.login.profile.discountPoints,
-    payoutInfoValid:  state.login.profile.stripeID ? true : false }
+    discountPoints: profile.discountPoints,
+    payoutInfoValid: !!payoutInfoValid }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
