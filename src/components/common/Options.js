@@ -5,6 +5,7 @@ const Options = ({
 	initialValue,
 	placeholder,
 	options,
+	setErrors,
 	...props
 }) => {
 	return (

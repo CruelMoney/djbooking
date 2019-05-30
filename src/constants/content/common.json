@@ -168,7 +168,8 @@
 			"By clicking save, you agree to our <a target='_blank' rel='noopener noreferrer' href='/terms/agreements'>terms and conditions</a>, and stripes <a target='_blank' rel='noopener noreferrer' href='https://stripe.com/dk/connect-account/legal'>connect account agreement.</a>",
 			"Ved at trykke gem, accepterer du vores <a target='_blank' rel='noopener noreferrer' href='/dk/betingelser/aftale'>betingelser</a>, og stripes <a target='_blank' rel='noopener noreferrer' href='https://stripe.com/dk/connect-account/legal'>connect account agreement.</a>"
 		],
-		"location": ["Location", "Område"]
+		"location": ["Location", "Område"],
+		"account-name": ["Accountholder name", "Kontoindehaverens navn"]
 	},
 	"other": ["Other", "Andet"],
 	"europe": ["Europe", "Europa"],

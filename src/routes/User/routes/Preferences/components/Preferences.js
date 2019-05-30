@@ -53,7 +53,8 @@ class Preferences extends Component {
 	}
 
 	updateSettings = (form, callback) => {
-		var eSettings = this.props.profile.settings.emailSettings;
+		const { profile, updateSettings } = this.props;
+		var eSettings = profile.settings.emailSettings;
 
 		//setting all settings to false initially
 		for (var s in eSettings) {
@@ -72,7 +73,7 @@ class Preferences extends Component {
 			refundPercentage: this.state.refundPercentage
 		});
 
-		this.props.updateSettings(settings, callback);
+		updateSettings(settings, callback);
 	};
 
 	hidePopup = () => {
@@ -83,7 +84,7 @@ class Preferences extends Component {
 
 	getUserEmailNotifications = () => {
 		// Using the experimental Object.entries
-		// var vals = Object.entries(this.props.profile.settings.emailSettings)
+		// var vals = Object.entries(profile.settings.emailSettings)
 		// using shim from npm instead
 		var vals = entries(this.props.profile.settings.emailSettings)
 			.filter(s => s[1] === true)
@@ -97,7 +98,7 @@ class Preferences extends Component {
 	};
 
 	getActionButtons = (props = this.props) => {
-		const { translate } = this.props;
+		const { translate, deleteProfile, logout } = this.props;
 		const editing = this.context.editing;
 
 		return (
@@ -126,11 +127,11 @@ class Preferences extends Component {
 				<SubmitButton
 					dangerous
 					warning={translate("user.preferences.delete-warning")}
-					onClick={(form, callback) => this.props.deleteProfile(callback)}
+					onClick={(form, callback) => deleteProfile(callback)}
 					name="Delete_profile"
 					onSucces={() => {
 						setTimeout(() => {
-							this.props.logout();
+							logout();
 						}, 1000);
 					}}
 				>
@@ -160,9 +161,10 @@ class Preferences extends Component {
 	};
 
 	render() {
-		const { translate } = this.props;
-		const isDJ = this.props.profile.isDJ;
-
+		const { translate, profile } = this.props;
+		const isDJ = profile.isDJ;
+		const hasPayout = profile.stripeID || profile.last4;
+		console.log({ profile });
 		return (
 			<div>
 				{this.context.loading ? (
@@ -174,7 +176,7 @@ class Preferences extends Component {
 					</div>
 				) : null}
 
-				{!this.context.loading && this.props.profile.user_id ? (
+				{!this.context.loading && profile.user_id ? (
 					<div>
 						<Popup
 							showing={this.state.showPopup}
@@ -189,11 +191,11 @@ class Preferences extends Component {
 									label={translate("Payout")}
 									text={translate("user.preferences.payout-info")}
 								>
-									{this.props.profile.stripeID ? (
+									{hasPayout ? (
 										<div className="user-card-info">
 											<div className="user-card-fact">
 												<p>{translate("user.preferences.card-info")}</p>
-												{"..." + this.props.profile.last4}
+												{"..." + profile.last4}
 											</div>
 										</div>
 									) : null}
@@ -218,9 +220,11 @@ class Preferences extends Component {
 									name="currency"
 									glued={true}
 									disabled={!this.context.editing}
-									value={this.props.profile.settings.currency}
+									value={profile.settings.currency}
 								>
-									{c.Currencies.map(c => <Button name={c}>{c}</Button>)}
+									{c.Currencies.map(c => (
+										<Button name={c}>{c}</Button>
+									))}
 								</ToggleOptions>
 							</TextWrapper>
 
@@ -251,7 +255,7 @@ class Preferences extends Component {
 											disabled={!this.context.editing}
 											name="cancelationDays"
 											glued={true}
-											value={this.props.profile.settings.cancelationDays}
+											value={profile.settings.cancelationDays}
 										>
 											<Button name={1}>1 {translate("day")}</Button>
 											<Button name={2}>2 {translate("days")}</Button>
@@ -274,7 +278,7 @@ class Preferences extends Component {
 											range={{ min: 0, max: 100 }}
 											step={1}
 											connect="lower"
-											value={[this.props.profile.settings.refundPercentage]}
+											value={[profile.settings.refundPercentage]}
 											onChange={values =>
 												this.setState({
 													refundPercentage: values[0]
@@ -296,7 +300,7 @@ class Preferences extends Component {
 											name="standby"
 											glued={true}
 											disabled={!this.context.editing}
-											value={this.props.profile.settings.standby ? true : false}
+											value={profile.settings.standby ? true : false}
 										>
 											<Button name={true}>{translate("Unavailable")}</Button>
 											<Button name={false}>{translate("Available")}</Button>
@@ -313,7 +317,7 @@ class Preferences extends Component {
 								<p className="permalink-input">
 									www.cueup.io/user/
 									<TextField
-										value={this.props.profile.user_metadata.permaLink}
+										value={profile.user_metadata.permaLink}
 										name="permaLink"
 										disabled={!this.context.editing}
 										type="text"
@@ -321,53 +325,11 @@ class Preferences extends Component {
 									/>
 								</p>
 							</TextWrapper>
-
-							{this.props.provider === "auth0" ? (
-								<TextWrapper
-									label="Password"
-									text={translate("user.preferences.password")}
-								>
-									<div style={{ display: "inline-block" }}>
-										<SubmitButton
-											onClick={(email, callback) => {
-												this.props.changePassword(
-													this.props.profile.email,
-													callback
-												);
-											}}
-											name="request_change_password"
-										>
-											{translate("Request email")}
-										</SubmitButton>
-									</div>
-								</TextWrapper>
-							) : null}
-
-							{!this.props.profile.app_metadata.emailVerified ? (
-								<TextWrapper
-									label={translate("Email verification")}
-									text={translate("user.preferences.email-verification")}
-								>
-									<div style={{ display: "inline-block" }}>
-										<SubmitButton
-											onClick={(id, callback) =>
-												this.props.resendVerification(
-													this.props.profile.auth0Id,
-													callback
-												)
-											}
-											name="request_verification_email"
-										>
-											{translate("Request email")}
-										</SubmitButton>
-									</div>
-								</TextWrapper>
-							) : null}
 						</div>
 					</div>
 				) : null}
 
-				{!this.props.profile.user_id && !this.context.loadingUser ? (
+				{!profile.user_id && !this.context.loadingUser ? (
 					<Popup
 						showing={this.state.loginPopup}
 						onClickOutside={() => this.setState({ loginPopup: false })}
@@ -390,24 +352,11 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
 	return {
-		connectFacebook: () => {
-			console.log("not implemented");
-		},
-		connectSoundCloud: () => {
-			console.log("not implemented");
-		},
-		connectDB: () => {
-			console.log("not implemented");
-		},
 		updateSettings: (settings, callback) =>
 			dispatch(actions.updateSettings(settings, callback)),
 		deleteProfile: callback => {
 			dispatch(actions.deleteProfile(callback));
 		},
-		changePassword: (email, callback) =>
-			dispatch(actions.changePassword(email, callback)),
-		resendVerification: (form, callback) =>
-			dispatch(actions.resendVerification(callback)),
 		logout: () => {
 			ownProps.history.push(`/`);
 			dispatch(userLogout());

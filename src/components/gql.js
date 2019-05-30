@@ -112,7 +112,14 @@ const VERIFY_EMAIL = gql`
 	}
 `;
 
+const AVAILABLE_BANKS = gql`
+	query banks($countryCode: String!) {
+		availableBanks(countryCode: $countryCode)
+	}
+`;
+
 export {
+	AVAILABLE_BANKS,
 	LOGIN,
 	ME,
 	REQUEST_PASSWORD_RESET,

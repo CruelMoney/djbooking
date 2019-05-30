@@ -31,7 +31,7 @@ class IbanField extends Component {
 		return (
 			<div
 				className={
-					"iban-wrapper" +
+					"iban-wrapper text-field" +
 					(focused ? " focused " : "") +
 					(!!errors.length > 0 ? " invalid " : "")
 				}
@@ -42,16 +42,17 @@ class IbanField extends Component {
 						placeholderCountry={"DK"}
 						style={{
 							base: {
-								fontSize: "14px",
-								lineHeight: "24px",
-								fontFamily: "Roboto, sans-serif",
 								color: "#32325d",
+								fontFamily: '"AvenirNext-Regular", Helvetica, sans-serif',
+								fontSmoothing: "antialiased",
+								fontSize: "14px",
 								"::placeholder": {
-									color: "rgb(187, 187, 187)"
+									color: "#BBBBBB"
 								}
 							},
 							invalid: {
-								color: "#F44336"
+								color: "#f44336",
+								iconColor: "#f44336"
 							}
 						}}
 						onBlur={this.onBlur}
