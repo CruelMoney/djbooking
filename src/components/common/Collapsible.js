@@ -12,6 +12,7 @@ export class Collapsible extends Component {
 					}
 				>
 					<div
+						className="collapsible-tab"
 						onClick={() => this.props.handleClick(this.props.number)}
 						style={{
 							cursor: "pointer"
@@ -22,25 +23,22 @@ export class Collapsible extends Component {
 							{(this.props.numbered ? this.props.number + ". " : "") +
 								this.props.label}{" "}
 						</h4>
-						<span>
-							<svg
-								className="collapsible-arrow"
-								viewBox="0 0 24 24"
-								style={{
-									position: "absolute",
-									right: "15px",
-									top: "0px",
-									display: "inline-block",
-									color: "rgba(0, 0, 0, 0.870588)",
-									fill: "currentcolor",
-									height: "24px",
-									width: "24px",
-									WebkitUserSelect: "none"
-								}}
-							>
-								<path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
-							</svg>
-						</span>
+						<svg
+							className="collapsible-arrow"
+							viewBox="0 0 24 24"
+							style={{
+								position: "absolute",
+								right: "15px",
+								top: "0px",
+								display: "inline-block",
+								color: "rgba(0, 0, 0, 0.870588)",
+								fill: "currentcolor",
+								height: "24px",
+								width: "24px"
+							}}
+						>
+							<path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+						</svg>
 					</div>
 					<div
 						className="collapsible-container"

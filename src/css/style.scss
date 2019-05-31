@@ -556,6 +556,7 @@ footer .social svg {
 	text-align: center;
 	border: none;
 	cursor: pointer;
+	text-align: left;
 }
 .dropdown-selector:focus,
 .dropdown-selector:active {
@@ -1407,6 +1408,7 @@ input[type="file"] + label * {
 		margin-top: 0.5em;
 	}
 }
+
 .pay-fact p {
 	margin: 0px;
 }
@@ -1569,12 +1571,12 @@ button {
 		right: 0;
 	}
 }
-.collapsible.collapsed > div:hover .collapsible-arrow {
+.collapsible.collapsed > .collapsible-tab:hover .collapsible-arrow {
 	margin-top: 3px;
 	opacity: 0.8;
 }
 
-.collapsible.active .collapsible-arrow {
+.collapsible.active .collapsible-tab .collapsible-arrow {
 	transform: rotate(0deg);
 }
 
@@ -1679,9 +1681,17 @@ button {
 	right: -20px;
 	top: 2px;
 }
+
+.text-field {
+	.info-popup {
+		right: 5px;
+		top: -4px;
+	}
+}
 .info-popup > svg {
 	width: 1em;
 }
+
 .info-popup .info {
 	position: absolute;
 	visibility: hidden;
