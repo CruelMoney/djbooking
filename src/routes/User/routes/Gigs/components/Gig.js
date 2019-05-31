@@ -7,7 +7,6 @@ import {
 import OfferForm from "./OfferForm";
 import PayoutForm from "../../../../../components/common/PayoutForm";
 import Popup from "../../../../../components/common/Popup";
-import InfoPopup from "../../../../../components/common/InfoPopup";
 import Chat from "../../../../../components/common/Chat";
 import moment from "moment-timezone";
 import { connect } from "react-redux";

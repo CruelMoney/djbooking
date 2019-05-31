@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Button from "../../../../../components/common/Button-v2";
 import TextField from "../../../../../components/common/Textfield";
-import Form from "../../../../../components/common/Form-v2";
 import SubmitButton from "../../../../../components/common/SubmitButton";
 import MoneyTable, {
 	TableItem
@@ -89,7 +88,7 @@ class OfferForm extends Component {
 		const { currency } = this.state;
 		return (
 			<div>
-				<div name={"gig-offer-" + gig.id} formValidCallback={this.getFees}>
+				<div name={"gig-offer-" + gig.id}>
 					{payoutInfoValid &&
 					gig.status !== "CONFIRMED" &&
 					gig.status !== "FINISHED" ? (
@@ -216,7 +215,7 @@ class OfferForm extends Component {
 
 					{moment(event.start) > moment() ? (
 						<div className="offer-buttons">
-							<Form name={"gig-cancel-" + gig.id}>
+							<div name={"gig-cancel-" + gig.id}>
 								{gig.status === "REQUESTED" || gig.status === "ACCEPTED" ? (
 									<SubmitButton
 										rounded={true}
@@ -240,7 +239,7 @@ class OfferForm extends Component {
 										{translate("Cancel gig")}
 									</SubmitButton>
 								) : null}
-							</Form>
+							</div>
 
 							{gig.status === "REQUESTED" && payoutInfoValid ? (
 								<SubmitButton

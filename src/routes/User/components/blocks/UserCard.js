@@ -142,8 +142,8 @@ class UserCard extends Component {
 						{this.props.profile.isDJ ? (
 							<div>
 								<div className="user-card-fact">
-									<p>
-										{translate("experience")}
+									<span>
+										<p>{translate("experience")}</p>
 										<InfoPopup
 											info={
 												this.props.isOwnProfile
@@ -151,7 +151,7 @@ class UserCard extends Component {
 													: translate("experience-description-public")
 											}
 										/>
-									</p>
+									</span>
 
 									{this.props.experience + " gigs"}
 								</div>
@@ -177,17 +177,6 @@ class UserCard extends Component {
 									<p>{translate("finished")}</p>
 									{this.props.profile.finishedEvents + " events"}
 								</div>
-							</div>
-						) : null}
-
-						{this.props.profile.discountPoints > 0 &&
-						this.props.isOwnProfile ? (
-							<div className="user-card-fact">
-								<p>
-									Cueup points
-									<InfoPopup info={translate("cueup-points-description")} />
-								</p>
-								{this.props.profile.discountPoints + " Points"}
 							</div>
 						) : null}
 					</div>
