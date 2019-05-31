@@ -26,29 +26,29 @@ class UserCard extends Component {
 
 	state = { loading: false, err: null };
 
-	handleFile = e => {
+	handleFile = async e => {
 		const { translate } = this.props;
 
-		var self = this;
-		self.setState({ loading: true });
+		this.setState({ loading: true });
 		const file = e.target.files[0];
 
-		ImageCompressor(file, (err, result) => {
-			if (err) {
-				self.setState({
-					err: err,
-					loading: false
-				});
-			} else {
-				self.props.updatePicture(result, (err, res) => {
-					if (err) {
-						self.setState({ err: translate("unknown-error") });
-					} else {
-						self.setState({ err: "", loading: false });
-					}
-				});
-			}
-		});
+		try {
+			const { imageData: image } = await ImageCompressor(file);
+			this.props.updatePicture(image, (err, res) => {
+				if (err) {
+					this.setState({ err: translate("unknown-error") });
+				} else {
+					this.setState({ err: "", loading: false });
+				}
+			});
+		} catch (error) {
+			console.log({ error });
+
+			this.setState({
+				err: error.message,
+				loading: false
+			});
+		}
 	};
 
 	render() {

@@ -82,28 +82,28 @@ class MobileMenu extends Component {
 		return items;
 	};
 
-	handleFile = e => {
+	handleFile = async e => {
 		const { translate } = this.props;
 
 		this.setState({ loading: true });
 		const file = e.target.files[0];
 
-		ImageCompressor(file, (err, result) => {
-			if (err) {
-				this.setState({
-					err: err,
-					loading: false
-				});
-			} else {
-				this.props.updatePicture(result, err => {
-					if (err) {
-						this.setState({ err: translate("unknown-error") });
-					} else {
-						this.setState({ err: "", loading: false });
-					}
-				});
-			}
-		});
+		try {
+			const { imageData: image } = await ImageCompressor(file);
+			this.props.updatePicture(image, err => {
+				if (err) {
+					this.setState({ err: translate("unknown-error") });
+				} else {
+					this.setState({ err: "", loading: false });
+				}
+			});
+		} catch (error) {
+			console.log({ error });
+			this.setState({
+				err: error.message,
+				loading: false
+			});
+		}
 	};
 
 	render() {
@@ -177,8 +177,6 @@ class MobileMenu extends Component {
 													{this.props.profile.gigsCount + " gigs"}
 												</div>
 
-										
-
 												<div className="user-card-fact">
 													<p>{translate("rating")}</p>
 													{this.props.rating > 0 ? (
@@ -205,13 +203,14 @@ class MobileMenu extends Component {
 
 										{this.props.profile.discountPoints > 0 ? (
 											<div className="user-card-fact">
-												<span>	<p>
-													Cueup points
-												
-												</p>	<InfoPopup
+												<span>
+													{" "}
+													<p>Cueup points</p>{" "}
+													<InfoPopup
 														info={translate("cueup-points-description")}
-													/></span>
-											
+													/>
+												</span>
+
 												{this.props.profile.discountPoints + " Points"}
 											</div>
 										) : null}

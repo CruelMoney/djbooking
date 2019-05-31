@@ -124,7 +124,9 @@ section {
 pre {
 	text-align: left !important;
 }
-
+span {
+	position: relative;
+}
 .row {
 	display: flex;
 	position: relative;
@@ -446,9 +448,8 @@ pre {
 .footer-columns > div {
 	width: 150px;
 }
-.text-center{
+.text-center {
 	text-align: center;
-
 }
 
 footer a,
@@ -666,7 +667,7 @@ input[type="file"] + label {
 	height: 100%;
 	font-size: 20px;
 	/* 20px */
-	font-family: Avenir-Medium;
+	font-family: "AvenirNext-Medium";
 	text-overflow: ellipsis;
 	white-space: normal;
 	cursor: pointer;
@@ -1304,7 +1305,6 @@ input[type="file"] + label * {
 		margin-bottom: 2em;
 	}
 
-
 	.left,
 	.right {
 		flex: 1;
@@ -1675,11 +1675,9 @@ button {
 }
 
 .info-popup {
-	float: right;
-	margin-top: 2px;
-	margin-left: 5px;
-	position: relative;
-	text-transform: none;
+	position: absolute;
+	right: -20px;
+	top: 2px;
 }
 .info-popup > svg {
 	width: 1em;
@@ -2785,17 +2783,13 @@ header .info-boxes {
 }
 .payout-form {
 	max-width: 430px;
-	button{
+	button {
 		margin: 1em 0;
 	}
-	.text-element-wrapper{
-
+	.text-element-wrapper {
 		margin-bottom: 0;
 	}
 }
-
-
-
 
 .payout-form .errors p {
 	font-size: 14px;
@@ -2971,7 +2965,7 @@ header .dj-card p {
 	box-shadow: none;
 	padding: 0px;
 }
-.popup.card{
+.popup.card {
 	overflow: visible;
 }
 
@@ -3616,6 +3610,7 @@ ol.breadcrumbs a {
 	.user-card-fact {
 		text-align: left;
 	}
+
 	#stripes {
 		height: 125%;
 		top: -22% !important;

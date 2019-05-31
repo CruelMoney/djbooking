@@ -49,6 +49,7 @@
 		"isomorphic-fetch": "^2.2.1",
 		"keymirror": "^0.1.1",
 		"kute.js": "^1.6.6",
+		"load-js": "^3.0.3",
 		"loadable-components": "^2.2.3",
 		"lodash.assign": "^4.2.0",
 		"lodash.debounce": "^4.0.8",

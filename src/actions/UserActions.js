@@ -2,11 +2,9 @@ import c from "../constants/constants";
 import { authService as auth } from "../utils/AuthService";
 import converter from "../utils/AdapterDTO";
 import CueupService from "../utils/CueupService";
-import StripeService from "../utils/StripeService";
 import ReactPixel from "react-facebook-pixel";
 
 const cueup = new CueupService();
-const stripe = new StripeService();
 
 var ActionTypes = c.ActionTypes;
 

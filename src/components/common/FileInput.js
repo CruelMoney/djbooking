@@ -16,28 +16,26 @@ class FileInput extends PureComponent {
 		loading: false
 	};
 
-	handleFile = e => {
+	handleFile = async e => {
 		const { onChange } = this.props;
 
 		var self = this;
 		const file = e.target.files[0];
 
-		ImageCompressor(
-			file,
-			(err, image, base64) => {
-				if (err) {
-					self.setState({
-						err: err
-					});
-				} else {
-					this.setState({
-						image: base64
-					});
-					onChange(image);
-				}
-			},
-			true
-		);
+		try {
+			const { file: image, imageData: base64 } = await ImageCompressor(
+				file,
+				true
+			);
+			this.setState({
+				image: base64
+			});
+			onChange(image);
+		} catch (error) {
+			self.setState({
+				err: error.message
+			});
+		}
 	};
 
 	render() {
