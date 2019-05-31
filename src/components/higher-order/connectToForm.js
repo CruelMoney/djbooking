@@ -52,11 +52,13 @@ function connectToForm(WrappedComponent) {
 		};
 
 		componentWillMount() {
+			const { dontUpdateOnMount, value } = this.props;
 			if (
-				typeof this.props.value !== "undefined" &&
-				this.props.value !== null
+				typeof value !== "undefined" &&
+				value !== null &&
+				!dontUpdateOnMount
 			) {
-				this.onChange(this.props.value);
+				this.onChange(value);
 			}
 			if (this.context.registerValidation) {
 				this.removeValidationFromContext = this.context.registerValidation(

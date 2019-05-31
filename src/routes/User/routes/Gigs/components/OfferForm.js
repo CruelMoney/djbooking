@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, { useReducer, useState } from "react";
 import Button from "../../../../../components/common/Button-v2";
 import TextField from "../../../../../components/common/Textfield";
-import SubmitButton from "../../../../../components/common/SubmitButton";
 import MoneyTable, {
 	TableItem
 } from "../../../../../components/common/MoneyTable";
@@ -11,272 +10,306 @@ import { localize } from "react-localize-redux";
 import moment from "moment-timezone";
 import formatter from "../../../../../utils/Formatter";
 import { ConnectedCurrencySelector } from "../../../../../components/common/CountrySelector";
+import debounce from "lodash.debounce";
 
-class OfferForm extends Component {
-	componentWillMount() {
-		const { profileCurrency, gig } = this.props;
-		let { offer } = gig;
+const OfferForm = ({
+	gig,
+	profileCurrency,
+	translate,
+	currentLanguage,
+	payoutInfoValid,
+	event,
+	cancelGig,
+	updateGig,
+	declineGig,
+	showPopup
+}) => {
+	let { offer } = gig;
 
-		offer = offer
-			? {
-					amount: offer.offer.amount,
-					serviceFeeAmount: offer.serviceFee.amount,
-					djFeeAmount: offer.djFee.amount,
-					currency: offer.totalPayment.currency
-			  }
-			: {
-					currency: profileCurrency.toUpperCase()
-			  };
+	const initState = offer
+		? {
+				amount: offer.offer.amount,
+				serviceFeeAmount: offer.serviceFee.amount,
+				djFeeAmount: offer.djFee.amount,
+				currency: offer.totalPayment.currency
+		  }
+		: {
+				currency: profileCurrency.toUpperCase()
+		  };
 
-		this.setState({
-			...offer
-		});
-	}
+	const [state, setState] = useState(initState);
+	const [error, setError] = useState(null);
+	const [currency, setCurrency] = useState(initState.currency);
+	const [loading, setLoading] = useState(false);
+	const [cancelLoading, setCancelLoading] = useState(false);
+	const [submitLoading, setSubmitLoading] = useState(false);
 
-	updateOffer = (form, callback) => {
-		const { payoutInfoValid, updateGig } = this.props;
+	const updateOffer = () => {
 		if (payoutInfoValid) {
-			updateGig(this.state, callback);
+			setSubmitLoading(true);
+			updateGig(
+				{ currency, amount: state.amount, gigId: gig.id },
+				(err, res) => {
+					setError(err.message);
+					setSubmitLoading(false);
+				}
+			);
 		}
 	};
 
-	init = true;
-
-	getFees = () => {
-		//Dont fire first time
-		if (this.init) {
-			this.init = false;
-			return;
-		}
-
-		this.setState(
-			{
-				loading: true
-			},
-			() =>
-				actions.getFee(
-					{
-						...this.state
-					},
-					(err, res) => {
-						if (err) {
-							this.setState({
-								loading: false
-							});
-						} else {
-							this.setState({
-								...res,
-								loading: false
-							});
-						}
-					}
-				)
-		);
+	const cancelOffer = () => {
+		setCancelLoading(true);
+		cancelGig(gig.id, (err, res) => {
+			setError(err.message);
+			setCancelLoading(false);
+		});
 	};
 
-	render() {
-		const {
-			translate,
-			currentLanguage,
-			payoutInfoValid,
-			gig,
-			event,
-			cancelGig,
-			declineGig,
-			showPopup
-		} = this.props;
-		const { currency } = this.state;
-		return (
+	const declineOffer = () => {
+		setCancelLoading(true);
+		declineGig(gig.id, (err, res) => {
+			setError(err.message);
+			setCancelLoading(false);
+		});
+	};
+
+	const setCurrencyAndFetch = c => {
+		setCurrency(c);
+		getFees({ currency: c, amount: state.amount });
+	};
+
+	const getFeesDebounced = debounce(
+		({ amount, newCurrency = currency }) => {
+			actions.getFee(
+				{
+					...state,
+					gigId: gig.id,
+					amount: amount,
+					currency: newCurrency
+				},
+				(err, res) => {
+					setState({ ...state, ...res });
+					setLoading(false);
+				}
+			);
+		},
+		1000,
+		{ trailing: true }
+	);
+
+	const getFees = data => {
+		setLoading(true);
+		getFeesDebounced(data);
+	};
+
+	const canSubmit =
+		(state.amount !== initState.amount || currency !== initState.currency) &&
+		parseInt(state.amount, 10) > 0 &&
+		!loading;
+
+	return (
+		<div>
 			<div>
-				<div name={"gig-offer-" + gig.id}>
-					{payoutInfoValid &&
-					gig.status !== "CONFIRMED" &&
-					gig.status !== "FINISHED" ? (
-						<div>
-							<div className="row">
-								<div className="col-xs-12">
-									<p>{translate("gig.offer.intro")}</p>
+				{payoutInfoValid &&
+				gig.status !== "CONFIRMED" &&
+				gig.status !== "FINISHED" ? (
+					<div>
+						<div className="row">
+							<div className="col-xs-12">
+								<p>{translate("gig.offer.intro")}</p>
 
-									{gig.referred ? <p>{translate("gig.offer.direct")}</p> : null}
-								</div>
-							</div>
-							<div className="row" style={{ marginTop: "20px" }}>
-								<div className="col-sm-6">
-									<TextField
-										name="amount"
-										placeholder="00,00"
-										//onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
-										disabled={
-											gig.status === "CANCELLED" ||
-											gig.status === "LOST" ||
-											gig.status === "CONFIRMED" ||
-											gig.status === "FINISHED"
-										}
-										type="string"
-										fullWidth={true}
-										onChange={val =>
-											this.setState({ amount: parseInt(val, 10) })
-										}
-										value={this.state.amount}
-									/>
-								</div>
-								<div className="col-sm-6">
-									<ConnectedCurrencySelector initialValue={currency} />
-								</div>
+								{gig.referred ? <p>{translate("gig.offer.direct")}</p> : null}
 							</div>
 						</div>
-					) : null}
-
-					{payoutInfoValid ? (
-						<div
-							className="row card offer-table"
-							style={{
-								padding: "20px",
-								marginBottom: "30px",
-								marginTop: "20px"
-							}}
-						>
+						<div className="row" style={{ marginTop: "20px" }}>
 							<div className="col-sm-6">
-								<h4 style={{ textAlign: "center" }}>
-									{translate("Organizer pays")}
-								</h4>
-								<MoneyTable>
-									<TableItem label={translate("Your price")}>
-										{formatter.money.price(
-											this.state.amount,
-											this.state.currency,
-											currentLanguage
-										)}
-									</TableItem>
-									<TableItem
-										label={translate("Service fee")}
-										info={<div>{translate("gig.offer.service-fee-info")}</div>}
-									>
-										{this.state.loading
-											? "loading..."
-											: formatter.money.price(
-													this.state.serviceFeeAmount,
-													this.state.currency,
-													currentLanguage
-											  )}
-									</TableItem>
-									<TableItem label="Total">
-										{this.state.loading
-											? "loading..."
-											: formatter.money.price(
-													this.state.serviceFeeAmount + this.state.amount,
-													this.state.currency,
-													currentLanguage
-											  )}
-									</TableItem>
-								</MoneyTable>
+								<TextField
+									name="amount"
+									placeholder="00,00"
+									//onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
+									disabled={
+										gig.status === "CANCELLED" ||
+										gig.status === "LOST" ||
+										gig.status === "CONFIRMED" ||
+										gig.status === "FINISHED"
+									}
+									type="string"
+									fullWidth={true}
+									onChange={val => getFees({ amount: parseInt(val, 10) * 100 })}
+									initialValue={initState.amount && initState.amount / 100}
+								/>
 							</div>
 							<div className="col-sm-6">
-								<h4 style={{ textAlign: "center" }}>{translate("You earn")}</h4>
-								<MoneyTable>
-									<TableItem label={translate("Your price")}>
-										{formatter.money.price(
-											this.state.amount,
-											this.state.currency,
-											currentLanguage
-										)}
-									</TableItem>
-									<TableItem
-										label={translate("DJ fee")}
-										info={<div>{translate("gig.offer.dj-fee-info")}</div>}
-									>
-										{this.state.loading
-											? "loading..."
-											: formatter.money.price(
-													-this.state.djFeeAmount,
-													this.state.currency,
-													currentLanguage
-											  )}
-									</TableItem>
-									<TableItem label="Total">
-										{this.state.loading
-											? "loading..."
-											: formatter.money.price(
-													this.state.amount - this.state.djFeeAmount,
-													this.state.currency,
-													currentLanguage
-											  )}
-									</TableItem>
-								</MoneyTable>
+								<ConnectedCurrencySelector
+									initialValue={currency}
+									onChange={setCurrencyAndFetch}
+								/>
 							</div>
 						</div>
-					) : null}
+					</div>
+				) : null}
 
-					{gig.status === "LOST" ? <p>{translate("gig.offer.lost")}</p> : null}
-
-					{!payoutInfoValid ? (
-						<p>{translate("gig.offer.update-payout")}</p>
-					) : null}
-
-					{moment(event.start) > moment() ? (
-						<div className="offer-buttons">
-							<div name={"gig-cancel-" + gig.id}>
-								{gig.status === "REQUESTED" || gig.status === "ACCEPTED" ? (
-									<SubmitButton
-										rounded={true}
-										dangerous
-										warning={translate("gig.offer.decline-warning")}
-										name="cancel_gig"
-										onClick={(form, callback) => declineGig(gig.id, callback)}
-									>
-										{translate("Decline gig")}
-									</SubmitButton>
-								) : null}
-
-								{gig.status === "CONFIRMED" ? (
-									<SubmitButton
-										rounded={true}
-										dangerous
-										warning={translate("gig.offer.cancel-warning")}
-										name="cancel_gig"
-										onClick={(form, callback) => cancelGig(gig.id, callback)}
-									>
-										{translate("Cancel gig")}
-									</SubmitButton>
-								) : null}
-							</div>
-
-							{gig.status === "REQUESTED" && payoutInfoValid ? (
-								<SubmitButton
-									rounded={true}
-									name="send_offer"
-									onClick={this.updateOffer}
+				{payoutInfoValid ? (
+					<div
+						className="row card offer-table"
+						style={{
+							padding: "20px",
+							marginBottom: "30px",
+							marginTop: "20px"
+						}}
+					>
+						<div className="col-sm-6">
+							<h4 style={{ textAlign: "center" }}>
+								{translate("Organizer pays")}
+							</h4>
+							<MoneyTable>
+								<TableItem label={translate("Your price")}>
+									{formatter.money.price(
+										state.amount,
+										currency,
+										currentLanguage
+									)}
+								</TableItem>
+								<TableItem
+									label={translate("Service fee")}
+									info={<div>{translate("gig.offer.service-fee-info")}</div>}
 								>
-									{translate("Send offer")}
-								</SubmitButton>
-							) : null}
-
-							{gig.status === "ACCEPTED" && payoutInfoValid ? (
-								<SubmitButton
-									rounded={true}
-									name="update_offer"
-									onClick={this.updateOffer}
+									{loading
+										? "loading..."
+										: formatter.money.price(
+												state.serviceFeeAmount,
+												currency,
+												currentLanguage
+										  )}
+								</TableItem>
+								<TableItem label="Total">
+									{loading
+										? "loading..."
+										: formatter.money.price(
+												state.serviceFeeAmount + state.amount,
+												currency,
+												currentLanguage
+										  )}
+								</TableItem>
+							</MoneyTable>
+						</div>
+						<div className="col-sm-6">
+							<h4 style={{ textAlign: "center" }}>{translate("You earn")}</h4>
+							<MoneyTable>
+								<TableItem label={translate("Your price")}>
+									{formatter.money.price(
+										state.amount,
+										currency,
+										currentLanguage
+									)}
+								</TableItem>
+								<TableItem
+									label={translate("DJ fee")}
+									info={<div>{translate("gig.offer.dj-fee-info")}</div>}
 								>
-									{translate("Update offer")}
-								</SubmitButton>
-							) : null}
+									{loading
+										? "loading..."
+										: formatter.money.price(
+												-state.djFeeAmount,
+												currency,
+												currentLanguage
+										  )}
+								</TableItem>
+								<TableItem label="Total">
+									{loading
+										? "loading..."
+										: formatter.money.price(
+												state.amount - state.djFeeAmount,
+												currency,
+												currentLanguage
+										  )}
+								</TableItem>
+							</MoneyTable>
+						</div>
+					</div>
+				) : null}
 
-							{!payoutInfoValid ? (
+				{gig.status === "LOST" ? <p>{translate("gig.offer.lost")}</p> : null}
+
+				{!payoutInfoValid ? (
+					<p>{translate("gig.offer.update-payout")}</p>
+				) : null}
+
+				{moment(event.start) > moment() ? (
+					<div className="offer-buttons">
+						<div name={"gig-cancel-" + gig.id}>
+							{gig.status === "REQUESTED" || gig.status === "ACCEPTED" ? (
 								<Button
 									rounded={true}
-									onClick={showPopup}
-									name="show-payout-popup"
+									dangerous
+									valid={true}
+									warning={translate("gig.offer.decline-warning")}
+									name="cancel_gig"
+									isLoading={cancelLoading}
+									onClick={declineOffer}
 								>
-									{translate("Update payout information")}
+									{translate("Decline gig")}
+								</Button>
+							) : null}
+
+							{gig.status === "CONFIRMED" ? (
+								<Button
+									rounded={true}
+									dangerous
+									valid={true}
+									warning={translate("gig.offer.cancel-warning")}
+									name="cancel_gig"
+									isLoading={cancelLoading}
+									onClick={cancelOffer}
+								>
+									{translate("Cancel gig")}
 								</Button>
 							) : null}
 						</div>
-					) : null}
-				</div>
+
+						{gig.status === "REQUESTED" && payoutInfoValid ? (
+							<Button
+								disabled={!canSubmit}
+								active={canSubmit}
+								rounded={true}
+								name="send_offer"
+								isLoading={submitLoading}
+								onClick={updateOffer}
+							>
+								{translate("Send offer")}
+							</Button>
+						) : null}
+
+						{gig.status === "ACCEPTED" && payoutInfoValid ? (
+							<Button
+								disabled={!canSubmit}
+								active={canSubmit}
+								rounded={true}
+								name="update_offer"
+								isLoading={submitLoading}
+								onClick={updateOffer}
+							>
+								{translate("Update offer")}
+							</Button>
+						) : null}
+
+						{!payoutInfoValid ? (
+							<Button
+								rounded={true}
+								onClick={showPopup}
+								name="show-payout-popup"
+							>
+								{translate("Update payout information")}
+							</Button>
+						) : null}
+					</div>
+				) : null}
+
+				{error && <p className="error">{error}</p>}
 			</div>
-		);
-	}
-}
+		</div>
+	);
+};
 
 function mapStateToProps(state, ownProps) {
 	const { profile } = state.login;
