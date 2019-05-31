@@ -20,115 +20,6 @@ class Gig extends Component {
 		gigStatus: ""
 	};
 
-	componentWillMount() {
-		this.setState({
-			eventFinished: this.props.gig.startTime.valueOf() - Date.now() <= 0
-		});
-		this.setGigStatus();
-	}
-
-	setGigStatus = (props = this.props) => {
-		const { translate } = this.props;
-
-		if (this.timeLeft) {
-			clearInterval(this.timeLeft);
-		}
-		// Only autodeclines if the gig is not a direct booking,
-		// and if the gig is still en request status,
-		if (
-			!props.gig.referred &&
-			props.gig.status === "Requested" &&
-			!!props.gig.createdAt &&
-			!!props.gig.startTime
-		) {
-			let createdAt = moment(props.gig.createdAt);
-			let eventStartAt = moment(props.gig.startTime);
-			let eventGigDifference =
-				(eventStartAt.valueOf() - createdAt.valueOf()) / 1000;
-
-			// and if gig is created more than 4 days before the event.
-			if (eventGigDifference > 4 * 24 * 60 * 60) {
-				// Calculate seconds until autodecline
-				let now = new moment();
-				let autoDeclineMoment = createdAt.add(3, "days");
-				let secondsToDecline = autoDeclineMoment.diff(now, "seconds");
-
-				this.timeLeft = setInterval(() => {
-					secondsToDecline--;
-					let totalSeconds = secondsToDecline;
-
-					if (totalSeconds <= 0) {
-						this.setState({
-							expiring: false,
-							gigStatus: translate("gig.messages.expired")
-						});
-					} else {
-						let days = Math.floor(totalSeconds / (24 * 60 * 60));
-						totalSeconds %= 24 * 60 * 60;
-						let hours = Math.floor(totalSeconds / 3600);
-						totalSeconds %= 3600;
-						let minutes = Math.floor(totalSeconds / 60);
-						let seconds = Math.floor(totalSeconds % 60);
-
-						this.setState({
-							expiring: true,
-							gigStatus: `${translate("Make offer within")} ${
-								!!days
-									? days +
-										" " +
-										(days > 1 ? translate("days") : translate("day"))
-									: ""
-							} ${
-								!!hours
-									? hours +
-										" " +
-										(hours > 1 ? translate("hours") : translate("hour"))
-									: ""
-							} ${
-								!!minutes
-									? minutes +
-										" " +
-										(minutes > 1 ? translate("minutes") : translate("minute"))
-									: ""
-							} ${
-								!!seconds
-									? seconds +
-										" " +
-										(seconds > 1 ? translate("seconds") : translate("second"))
-									: ""
-							}`
-						});
-					}
-				}, 1000);
-
-				return;
-			}
-		}
-
-		this.setState({
-			gigStatus:
-				props.gig.status === "Cancelled"
-					? translate("gig.messages.cancelled")
-					: props.gig.status === "Declined"
-						? translate("gig.messages.declined")
-						: props.gig.status === "Lost"
-							? translate("gig.messages.lost")
-							: props.gig.status === "Confirmed"
-								? translate("gig.messages.confirmed")
-								: props.gig.status === "Finished"
-									? translate("gig.messages.finished")
-									: this.state.eventFinished
-										? translate("gig.messages.event-finished")
-										: props.gig.status === "Accepted"
-											? translate("gig.messages.accepted")
-											: props.gig.referred
-												? translate("gig.messages.referred")
-												: props.gig.status === "Requested"
-													? translate("gig.messages.requested")
-													: ""
-		});
-	};
-
 	showPopup = () => {
 		this.setState({
 			showPopup: true
@@ -148,18 +39,29 @@ class Gig extends Component {
 	}
 
 	render() {
-		const { translate } = this.props;
-		var genres = "";
-		const length = this.props.gig.genres.length;
-		const showContactInfo =
-			this.props.gig.status === "Confirmed" && this.props.payoutInfoValid;
-		this.props.gig.genres.forEach(function(genre, i) {
-			if (i + 1 === length) {
-				genres += genre;
-			} else {
-				genres = genres + genre + ", ";
-			}
-		});
+		const {
+			translate,
+			gig,
+			payoutInfoValid,
+			notification,
+			profileCurrency,
+			profileId,
+			profileName,
+			profilePicture
+		} = this.props;
+		const { event, statusHumanized } = gig;
+		const {
+			organizer,
+			genres,
+			status,
+			location,
+			start,
+			end,
+			guestsCount
+		} = event;
+
+		const showContactInfo = status === "CONFIRMED" && payoutInfoValid;
+
 		return (
 			<div>
 				<Popup
@@ -173,7 +75,7 @@ class Gig extends Component {
 					<div className="col-xs-12">
 						<div className="event-top">
 							<div>
-								<div className="event-name">{this.props.gig.name}</div>
+								<div className="event-name">{event.name}</div>
 								<div className="event-location">
 									<svg
 										version="1.1"
@@ -189,18 +91,11 @@ class Gig extends Component {
 											<path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
 										</g>
 									</svg>
-									{" " + this.props.gig.location.name}
+									{" " + location.name}
 								</div>
 							</div>
-							<div className="gig-from-now">
-								{this.props.gig.startTime.fromNow()}
-							</div>
-							<div className="gig-status">
-								{this.state.gigStatus}
-								{this.state.expiring ? (
-									<InfoPopup info={translate("gig.status-description")} />
-								) : null}
-							</div>
+							<div className="gig-from-now">{moment(start).fromNow()}</div>
+							<div className="gig-status">{statusHumanized}</div>
 						</div>
 
 						<CollapsibleContainer>
@@ -209,20 +104,20 @@ class Gig extends Component {
 									{translate("gig.event.info-description")}
 								</p>
 								<TextWrapper label={translate("date")}>
-									<p>{this.props.gig.startTime.format("dddd, MMMM Do YYYY")}</p>
+									<p>{moment(start).format("dddd, MMMM Do YYYY")}</p>
 								</TextWrapper>
 
 								<TextWrapper label={translate("description")}>
-									<p>{this.props.gig.description}</p>
+									<p>{event.description}</p>
 								</TextWrapper>
 								<TextWrapper label={translate("guests")}>
 									<p>
 										{translate("request-form.step-3.guests-description", {
 											prefix:
-												this.props.gig.guestCount === 1000
+												guestsCount === 1000
 													? translate("over")
 													: translate("around"),
-											amount: this.props.gig.guestCount
+											amount: guestsCount
 										})}
 									</p>
 								</TextWrapper>
@@ -233,57 +128,42 @@ class Gig extends Component {
 								label={translate("gig.event.requirements")}
 							>
 								<TextWrapper label={translate("equipment")}>
-									<p>
-										{this.props.gig.rider === "DJ"
-											? translate("gig.event.rider-dj")
-											: null}
-										{this.props.gig.rider === "DJ_AND_LIGHT"
-											? translate("gig.event.rider-lights")
-											: null}
-										{this.props.gig.rider === "DJ_AND_SPEAKERS"
-											? translate("gig.event.rider-speakers")
-											: null}
-										{this.props.gig.rider === "DJ_SPEAKERS_AND_LIGHT"
-											? translate("gig.event.rider-speakers-lights")
-											: null}
-									</p>
+									<p>{event.rider.formatted}</p>
 								</TextWrapper>
 
 								<TextWrapper label={translate("duration")}>
 									<p>
 										{translate("gig.event.duration-description", {
-											end: this.props.gig.endTime.format("HH:mm"),
-											start: this.props.gig.startTime.format("HH:mm")
+											end: moment(end).format("HH:mm"),
+											start: moment(start).format("HH:mm")
 										})}
 									</p>
 								</TextWrapper>
 
 								<TextWrapper label={translate("gig.event.genres")}>
-									<p>{genres}</p>
+									<p>{genres.join(", ")}</p>
 								</TextWrapper>
 							</Collapsible>
 
-							{this.props.gig.status === "Lost" ? (
-								<div />
-							) : (
+							{gig.status === "LOST" ? null : (
 								<Collapsible
 									lazyLoad
 									name="ContactInfo"
 									label={translate("gig.event.contact", {
-										unread: this.props.notification ? "(Unread message 📫)" : ""
+										unread: notification ? "(Unread message 📫)" : ""
 									})}
 								>
 									<p>
 										{translate("gig.event.contact-description", {
-											name: this.props.gig.contactName
+											name: organizer.userMetadata.firstName
 										})}
 									</p>
 									<div>
-										{this.props.gig.contactPhone ? (
+										{organizer.userMetadata.phone ? (
 											<TextWrapper label={translate("Phone number")}>
 												{showContactInfo ? (
-													<a href={"tel:" + this.props.gig.contactPhone}>
-														{this.props.gig.contactPhone}
+													<a href={"tel:" + organizer.userMetadata.phone}>
+														{organizer.userMetadata.phone}
 													</a>
 												) : (
 													<p>
@@ -297,8 +177,8 @@ class Gig extends Component {
 
 										<TextWrapper label="Email">
 											{showContactInfo ? (
-												<a href={"mailto:" + this.props.gig.contactEmail}>
-													{this.props.gig.contactEmail}
+												<a href={"mailto:" + organizer.email}>
+													{organizer.email}
 												</a>
 											) : (
 												<p>
@@ -312,44 +192,33 @@ class Gig extends Component {
 									<TextWrapper label="Chat">
 										<Chat
 											ModalContent={PayUsingCueupDJ}
-											eventId={this.props.gig.eventID}
+											eventId={event.id}
 											receiver={{
-												id: this.props.gig.customerID,
-												name: this.props.gig.contactName,
-												image: this.props.gig.customer.picture
+												id: organizer.id,
+												name: organizer.userMetadata.firstName,
+												image: organizer.picture.path
 											}}
 											sender={{
-												id: this.props.profileId,
-												name: this.props.profileName,
-												image: this.props.profilePicture
+												id: profileId,
+												name: profileName,
+												image: profilePicture
 											}}
-											chatId={this.props.gig.id}
+											chatId={gig.id}
 										/>
 									</TextWrapper>
 								</Collapsible>
 							)}
 
-							{this.props.gig.status === "Cancelled" ||
-							this.props.gig.status === "Declined" ||
-							this.props.gig.status === "Lost" ||
-							this.state.eventFinished ? (
-								<div />
-							) : (
-								<Collapsible
-									name="Offer"
-									label={
-										this.props.gig.status === "Accepted"
-											? translate("Update offer")
-											: translate("Make offer")
-									}
-								>
+							{
+								<Collapsible name="Offer" label={translate("Offer")}>
 									<OfferForm
 										showPopup={this.showPopup}
-										profileCurrency={this.props.profileCurrency}
-										gig={this.props.gig}
+										profileCurrency={profileCurrency}
+										gig={gig}
+										event={event}
 									/>
 								</Collapsible>
-							)}
+							}
 						</CollapsibleContainer>
 					</div>
 				</div>
@@ -376,6 +245,9 @@ function mapDispatchToProps(dispatch, ownProps) {
 	};
 }
 
-const SmartGig = connect(mapStateToProps, mapDispatchToProps)(Gig);
+const SmartGig = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Gig);
 
 export default localize(SmartGig, "locale");

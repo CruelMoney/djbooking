@@ -1,221 +1,173 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Button from '../../../../../components/common/Button-v2'
-import Gig from './Gig'
-import LoadingPlaceholder from '../../../../../components/common/LoadingPlaceholder'
-import EmptyPage from '../../../../../components/common/EmptyPage'
-import {requestFeatures} from '../../../../../actions/Common'
-import OfferCard from '../../../../Event/routes/Offers/components/OfferCard'
-import Popup from '../../../../../components/common/Popup'
-import Login from '../../../../../components/common/Login'
-import { connect } from 'react-redux'
-import * as actions from '../../../../../actions/GigActions'
-import { localize } from 'react-localize-redux';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Button from "../../../../../components/common/Button-v2";
+import Gig from "./Gig";
+import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
+import EmptyPage from "../../../../../components/common/EmptyPage";
+import { requestFeatures } from "../../../../../actions/Common";
+import OfferCard from "../../../../Event/routes/Offers/components/OfferCard";
+import Popup from "../../../../../components/common/Popup";
+import Login from "../../../../../components/common/Login";
+import { connect } from "react-redux";
+import * as actions from "../../../../../actions/GigActions";
+import { localize } from "react-localize-redux";
 
+import m from "../../../../../constants/Mocks";
+import { Query } from "react-apollo";
+import { MY_GIGS } from "../../../../../components/gql";
 
-import m from '../../../../../constants/Mocks'
+class Gigs extends Component {
+	static contextTypes = {
+		registerActions: PropTypes.func,
+		isOwnProfile: PropTypes.bool,
+		loadingUser: PropTypes.bool
+	};
 
-class Gigs extends Component{
-  static propTypes = {
-    gigs: PropTypes.arrayOf(PropTypes.object),
-    fetchGigs: PropTypes.func,
-    loading: PropTypes.bool
-  }
-  static contextTypes = {
-    registerActions: PropTypes.func,
-    isOwnProfile:   PropTypes.bool,
-    loadingUser:    PropTypes.bool
-  }
+	state = {
+		showPopup: false,
+		loginPopup: true
+	};
 
-  state = {
-      gigs: [],
-      filter: "requested",
-      showPopup:false,
-      loginPopup:true
-    }
+	componentWillMount() {
+		this.context.registerActions(this.getActionButtons);
+	}
 
-  componentWillMount() {
-    this.context.registerActions(this.getActionButtons)
+	hidePopup = () => {
+		this.setState({
+			showPopup: false
+		});
+	};
 
-    if(this.context.isOwnProfile && this.props.gigs && this.props.gigs.length === 0){
-      this.props.fetchGigs(this.props.profile.user_id)
-    }
+	getActionButtons = (props = this.props) => {
+		const { translate, profile } = props;
 
-  }
+		return (
+			<div className="context-actions" key="profile_actions">
+				<Button
+					name="request_features"
+					onClick={() => {
+						requestFeatures();
+					}}
+				>
+					{translate("Request features")}
+				</Button>
+				{profile.isDJ ? (
+					<Button
+						onClick={() => this.setState({ showPopup: true })}
+						name="public_profile"
+					>
+						{translate("See offer example")}
+					</Button>
+				) : null}
+			</div>
+		);
+	};
 
-  componentWillReceiveProps(nextprops, nextContext){
-    if(nextprops.gigs){
-      this.setState({gigs:nextprops.gigs})
-    }
-    if(!this.context.isOwnProfile && nextContext.isOwnProfile){
-      this.props.fetchGigs(nextprops.profile.user_id)
-    }
-  }
+	render() {
+		const { translate, notifications, profile } = this.props;
+		const { loginPopup } = this.state;
 
-    hidePopup = () => {
-      this.setState({
-        showPopup: false
-      })
-    }
+		const renderGigs = gigs => {
+			if (gigs.length === 0) {
+				return (
+					<EmptyPage
+						message={
+							<div>
+								{translate("No gigs")}
+								<br />
+								{translate("no-gigs-description")}
+							</div>
+						}
+					/>
+				);
+			} else {
+				return gigs
+					.filter(
+						({ event, status }) =>
+							event.state !== "FINISHED" &&
+							status !== "DECLINED" &&
+							status !== "CANCELLED"
+					)
+					.map(gig => {
+						const notification = notifications.find(noti => {
+							return String(noti.room) === String(gig.id);
+						});
+						return <Gig notification={notification} key={gig.id} gig={gig} />;
+					});
+			}
+		};
 
-  getActionButtons = (props = this.props) => {
-    const {translate} = this.props;
+		var OfferMock = m.MockOffer;
+		if (profile.settings) {
+			OfferMock.refundPercentage = profile.settings.refundPercentage;
+			OfferMock.cancelationDays = profile.settings.cancelationDays;
+			OfferMock.dj = profile;
+		}
 
-    return (
-    <div
-      className="context-actions"
-      key="profile_actions">
-      
-      <Button
-        name="request_features"
-        onClick={()=>{
-           requestFeatures()
-        }}
-      >{translate("Request features")}</Button>
-          {this.props.profile.isDJ ?
-              <Button
-                onClick={()=>this.setState({showPopup:true})}
-                name="public_profile"
-              >{translate("See offer example")}
-              </Button>
-              : null}
-    </div>
+		return (
+			<Query
+				query={MY_GIGS}
+				variables={{ limit: 100 }}
+				skip={!this.context.isOwnProfile}
+				onCompleted={console.log}
+				onError={console.log}
+			>
+				{({ data = {}, loading }) => {
+					if (loading) {
+						return <LoadingPlaceholder />;
+					}
 
-    )
-  }
+					const { myGigs = {} } = data;
+					const { edges: gigs = [] } = myGigs;
 
-  render() {
-    const {translate} = this.props;
-    var gigs = []
-
-    this.state.gigs.forEach((gig, i) => {
-      let show = false;
-      if((gig.startTime.valueOf() - Date.now()) > 0){
-        show = true
-      }
-
-      switch (gig.status) {
-        case 'Finished':
-          show = true
-          break
-        case 'Confirmed':
-          show = true
-          break
-        case 'Declined':
-          //Do not show
-          show = false
-          break
-        default:
-          break
-      }
-
-      if(show){
-        const notification = this.props.notifications.find(noti => {
-          return String(noti.room) === String(gig.id);
-        })
-        gigs.push(<Gig 
-          notification={notification}
-          key={gig.name+i} 
-          gig={gig}/>
-          )
-      }
-    })
-
-    const renderGigs = (gigs) => {
-      if (gigs.length === 0 && !this.props.loading) {
-        return <EmptyPage
-          message={
-            <div>{translate("No gigs")}
-              <br/>
-              {translate("no-gigs-description")}
-            </div>
-          }/>
-      }else {
-        return gigs
-      }
-    }
-
-    function renderLoadingItem(){
-      return [
-        <LoadingPlaceholder/>,
-        <LoadingPlaceholder/>]
-    }
-
-     var OfferMock = m.MockOffer
-            if (this.props.profile.settings) {
-              OfferMock.refundPercentage = this.props.profile.settings.refundPercentage
-              OfferMock.cancelationDays = this.props.profile.settings.cancelationDays
-              OfferMock.dj = this.props.profile
-            }
-
-    return(
-
-
-      
-      <div>
-            {OfferMock.dj ?
-              <Popup
-                showing={this.state.showPopup}
-                onClickOutside={this.hidePopup}>
-                <div className="offer-example">
-                  <OfferCard 
-                  disabled
-                  offer={OfferMock}/>
-                </div>
-              </Popup>
-              : null}
-              <div>
-              {renderGigs(gigs)}
-            </div>
-        {this.props.loading ? 
-          renderLoadingItem()
-          :
-            null
-        }
-          {  
-            !this.props.profile.user_id && !this.context.loadingUser ? 
-             <Popup
-                showing={this.state.loginPopup}
-                onClickOutside={()=>this.setState({loginPopup:false})}>
-                <p>{translate("Login to see your gigs")}</p>
-                <Login
-                  redirect={false}
-                />
-              </Popup>
-              :null
-            }
-        
-
-
-
-      </div>)
-
-  }
+					return (
+						<>
+							<div>{!loading && renderGigs(gigs)}</div>
+							{!profile.user_id && !this.context.loadingUser ? (
+								<Popup
+									showing={loginPopup}
+									onClickOutside={() => this.setState({ loginPopup: false })}
+								>
+									<p>{translate("Login to see your gigs")}</p>
+									<Login redirect={false} />
+								</Popup>
+							) : null}
+						</>
+					);
+				}}
+			</Query>
+		);
+	}
 }
 
 function mapStateToProps(state, ownProps) {
-  return {
-    profile: state.login.profile,
-    gigs:  state.gigs.values,
-    loading: state.gigs.isWaiting,
-    notifications: state.notifications.data
-  }
+	return {
+		profile: state.login.profile,
+		loading: state.gigs.isWaiting,
+		notifications: state.notifications.data
+	};
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    fetchGigs: (userID) => { dispatch(actions.fetchGigs(userID)) },
-    //acceptGig: (gigID, price) => {dispatch(actions.//(gigID, price))},
-    declineGig: (gigID) => {dispatch(actions.declineGig(gigID))},
-}}
+	return {
+		declineGig: gigID => {
+			dispatch(actions.declineGig(gigID));
+		}
+	};
+}
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-  return {
-    ...ownProps,
-    ...stateProps, 
-    ...dispatchProps,
+	return {
+		...ownProps,
+		...stateProps,
+		...dispatchProps
+	};
 }
-}
-const SmartPreferences = connect(mapStateToProps, mapDispatchToProps,  mergeProps,{ pure: false })(Gigs)
+const SmartPreferences = connect(
+	mapStateToProps,
+	mapDispatchToProps,
+	mergeProps,
+	{ pure: false }
+)(Gigs);
 
-export default localize(SmartPreferences, 'locale');
+export default localize(SmartPreferences, "locale");

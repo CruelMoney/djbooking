@@ -45,88 +45,17 @@ const formatter = {
 	},
 
 	money: {
-		ExtractFromString: function(value) {
-			if (!isNaN(value) || !value) {
-				return value;
-			}
-			value = value.replace(/[^\d]/gi, "");
-			return value.slice(0, value.length - 2);
-		},
-
-		//Example formatter.money.Format(2500, "Dkk")
-		FormatNumberToString: function(number, currency) {
-			if (typeof window === "undefined") {
-				return "...";
-			}
-
-			switch (currency) {
-				case "USD":
-					return window.accounting.formatMoney(number, "$ ", 2, ",", ".");
-				case "DKK":
-					return window.accounting.formatMoney(
-						number,
-						"DKK",
-						2,
-						".",
-						",",
-						"%v %s"
-					);
-				case "EUR":
-					return window.accounting.formatMoney(number, "€ ", 2, ".", ",");
-				case "NOK":
-					return window.accounting.formatMoney(
-						number,
-						"NOK",
-						2,
-						".",
-						",",
-						"%v %s"
-					);
-				case "SEK":
-					return window.accounting.formatMoney(
-						number,
-						"SEK",
-						2,
-						".",
-						",",
-						"%v %s"
-					);
-				case "GBP":
-					return window.accounting.formatMoney(number, "£ ", 2, ".", ",");
-				case "IDR":
-					return window.accounting.formatMoney(number, "IDR ", 0, ".", ",");
-				default:
-					return window.accounting.formatMoney(number, "? ", 2, ".", ",");
-			}
-		},
-		ToStandard: function(number, currency) {
-			switch (currency) {
-				case "DKK":
-					number /= 100; //From øre to kroner
-					break;
-				case "USD":
-					number /= 100; //From cents to dollar
-					break;
-				default:
-					number /= 100;
-					break;
-			}
-			return number;
-		},
-		ToSmallest: function(number, currency) {
-			switch (currency) {
-				case "DKK":
-					number *= 100; //From øre to kroner
-					break;
-				case "USD":
-					number *= 100; //From cents to dollar
-					break;
-				default:
-					number *= 100;
-					break;
-			}
-			return Math.round(number);
-		}
+		price: (price, currency, locale, smallestUnit = true) =>
+			parseFloat((smallestUnit ? price / 100 : price) || 0).toLocaleString(
+				locale,
+				{
+					currency,
+					currencyDisplay: "symbol",
+					style: "currency",
+					minimumFractionDigits: currency === "IDR" ? 0 : 2,
+					maximumFractionDigits: currency === "IDR" ? 0 : 2
+				}
+			)
 	},
 
 	name: {

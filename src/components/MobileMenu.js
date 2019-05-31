@@ -12,7 +12,6 @@ import entries from "object.entries";
 import Button from "./common/Button-v2";
 import { ImageCompressor } from "../utils/ImageCompressor";
 import { getTranslate } from "react-localize-redux";
-import CurrencyValue from "./common/CurrencyValue";
 
 class MobileMenu extends Component {
 	themeColor = "#31DAFF";
@@ -178,18 +177,7 @@ class MobileMenu extends Component {
 													{this.props.profile.gigsCount + " gigs"}
 												</div>
 
-												<div className="user-card-fact">
-													<span>
-														<p>{translate("earned")}</p>
-														<InfoPopup info={translate("earned-description")} />
-													</span>
-
-													<CurrencyValue
-														amount={this.props.profile.earned}
-														from={this.props.profile.app_metadata.bankCurrency}
-														to={this.props.profile.settings.currency}
-													/>
-												</div>
+										
 
 												<div className="user-card-fact">
 													<p>{translate("rating")}</p>

@@ -18,7 +18,6 @@ class UserCard extends Component {
 		about: PropTypes.string,
 		rating: PropTypes.number,
 		experience: PropTypes.number,
-		earned: PropTypes.number,
 		birthday: PropTypes.string,
 		genres: PropTypes.arrayOf(PropTypes.string),
 		onlyPicture: PropTypes.bool,

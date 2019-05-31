@@ -1,95 +1,81 @@
-import Formatter from './Formatter'
+import Formatter from "./Formatter";
 
 //Will insert / in between values
-export function datePipe(lastValue, value){
-  if ((value.substring(value.length -1) === "/"
-   && (lastValue.substring(lastValue.length -1) === "/"))) {
-    return lastValue
-  }
-  switch (value.length) {
-  case 2:
-    //The case that we deleted something, return
-    if (lastValue.length === 3) {
-      return value.substring(0, value.length-1)
-    }
+export function datePipe(lastValue, value) {
+	if (
+		value.substring(value.length - 1) === "/" &&
+		lastValue.substring(lastValue.length - 1) === "/"
+	) {
+		return lastValue;
+	}
+	switch (value.length) {
+		case 2:
+			//The case that we deleted something, return
+			if (lastValue.length === 3) {
+				return value.substring(0, value.length - 1);
+			}
 
-    return (value + "/")
+			return value + "/";
 
-  case 5:
-    //The case that we deleted something
-    if (lastValue.length === 6) {
-      return value.substring(0, value.length-1)
-    }
+		case 5:
+			//The case that we deleted something
+			if (lastValue.length === 6) {
+				return value.substring(0, value.length - 1);
+			}
 
-    return (value + "/")
+			return value + "/";
 
-
-  default:
-    //If trying to type anything else than numbers
-    if (isNaN(value.substring(value.length -1)) && (value.substring(value.length -1) !== "/") ) {
-      return lastValue
-    }
-    return value}
-
+		default:
+			//If trying to type anything else than numbers
+			if (
+				isNaN(value.substring(value.length - 1)) &&
+				value.substring(value.length - 1) !== "/"
+			) {
+				return lastValue;
+			}
+			return value;
+	}
 }
 
-export function datePipeCard(lastValue, value){
-  if ((value.substring(value.length -1) === "/"
-   && (lastValue.substring(lastValue.length -1) === "/"))) {
-    return lastValue
-  }
-  switch (value.length) {
-  case 2:
-    //The case that we deleted something, return
-    if (lastValue.length === 3) {
-      return value.substring(0, value.length-1)
-    }
+export function datePipeCard(lastValue, value) {
+	if (
+		value.substring(value.length - 1) === "/" &&
+		lastValue.substring(lastValue.length - 1) === "/"
+	) {
+		return lastValue;
+	}
+	switch (value.length) {
+		case 2:
+			//The case that we deleted something, return
+			if (lastValue.length === 3) {
+				return value.substring(0, value.length - 1);
+			}
 
-    return (value + "/")
+			return value + "/";
 
-
-  default:
-    //If trying to type anything else than numbers
-    if (isNaN(value.substring(value.length -1)) && (value.substring(value.length -1) !== "/") ) {
-      return lastValue
-    }
-    return value}
-
+		default:
+			//If trying to type anything else than numbers
+			if (
+				isNaN(value.substring(value.length - 1)) &&
+				value.substring(value.length - 1) !== "/"
+			) {
+				return lastValue;
+			}
+			return value;
+	}
 }
 
-export function cardNumberPipe(lastValue, value){
-
-    var v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-    var matches = v.match(/\d{4,16}/g);
-    var match = (matches && matches[0]) || ''
-    var parts = []
-    for (var i=0, len=match.length; i<len; i+=4) {
-      parts.push(match.substring(i, i+4))
-    }
-    if (parts.length) {
-      return parts.join(' ')
-    } else {
-      return value
-    }
-
-}
-
-export function moneyPipe(lastValue, value, currency){
-    if (!isNaN(value)) {
-      return Formatter.money.FormatNumberToString(value, currency)
-    }
-    if (isNaN(value.charAt(value.length - 1))) {
-      return lastValue ? lastValue : Formatter.money.FormatNumberToString(0, currency)
-    }else{
-      if (lastValue && value.length < lastValue.length) {
-        lastValue = lastValue.replace(/[^\d]/gi, '')
-        lastValue = lastValue.slice(0,lastValue.length-3)
-        return Formatter.money.FormatNumberToString(lastValue, currency)
-      }
-      lastValue = lastValue ? lastValue.replace(/[^\d]/gi, '') : "  "
-      lastValue = lastValue.slice(0, lastValue.length-2)
-      value = value.slice(value.length-1,value.length)
-      return Formatter.money.FormatNumberToString([lastValue ? lastValue : ""]+[value], currency)
-    }
-
+export function cardNumberPipe(lastValue, value) {
+	var v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+	var matches = v.match(/\d{4,16}/g);
+	var match = (matches && matches[0]) || "";
+	var parts = [];
+	for (var i = 0, len = match.length; i < len; i += 4) {
+		parts.push(match.substring(i, i + 4));
+	}
+	if (parts.length) {
+		return parts.join(" ");
+	} else {
+		return value;
+	}
 }

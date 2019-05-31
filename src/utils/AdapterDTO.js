@@ -126,10 +126,7 @@ var user = {
 			//App metadata stuff here
 			auth0Id: DTO.app_metadata.auth0Id,
 			avgRating: DTO.app_metadata.avgRating,
-			earned: Formatter.money.ToStandard(
-				DTO.app_metadata.earned,
-				DTO.app_metadata.bankCurrency
-			),
+			earned: "0",
 			email_verified: DTO.app_metadata.email_verified,
 			gigsCount: DTO.app_metadata.gigsCount,
 			upcomingEvents: DTO.app_metadata.upcomingEvents,
@@ -208,63 +205,13 @@ var review = {
 	}
 };
 
-var offer = {
-	fromDTO: function(DTO) {
-		return {
-			...DTO,
-			gigID: DTO.gigID,
-			amount: Formatter.money.ToStandard(DTO.amount, DTO.currency),
-			currency: DTO.currency,
-			dj: DTO.dj ? user.fromDTO(DTO.dj) : deletedUser,
-			djFeeAmount: Formatter.money.ToStandard(DTO.djFeeAmount, DTO.currency),
-			serviceFeeAmount: Formatter.money.ToStandard(
-				DTO.serviceFeeAmount,
-				DTO.currency
-			),
-			status: DTO.GigStatus
-		};
-	},
-	toDTO: function(offer) {
-		let { dj, ...rest } = offer;
-		return {
-			...rest,
-			Amount: Formatter.money.ToSmallest(
-				Formatter.money.ExtractFromString(offer.amount),
-				offer.currency
-			),
-			djFeeAmount: Formatter.money.ToSmallest(
-				Formatter.money.ExtractFromString(offer.djFeeAmount),
-				offer.currency
-			),
-			serviceFeeAmount: Formatter.money.ToSmallest(
-				Formatter.money.ExtractFromString(offer.serviceFeeAmount),
-				offer.currency
-			)
-		};
-	}
-};
-
 var cueupEvent = {
 	fromDTO: function(DTO) {
 		return {
 			...DTO,
 			id: DTO.id,
-			paymentAmount: Formatter.money.ToStandard(
-				DTO.paymentAmount,
-				DTO.paymentCurrency
-			),
 			genres: DTO.genres,
 			customerId: DTO.customerId,
-			offers: !DTO.offers
-				? []
-				: DTO.offers
-						.filter(
-							o =>
-								o.gigStatus !== "Declined" &&
-								o.gigStatus !== "Lost" &&
-								o.gigStatus !== "Cancelled"
-						)
-						.map(o => offer.fromDTO(o)),
 			description: DTO.description,
 			name: DTO.name,
 			chosenOfferId: DTO.chosenOfferId,
@@ -301,26 +248,10 @@ var cueupEvent = {
 	}
 };
 
-var cueupGig = {
-	fromDTO: function(DTO) {
-		return assign({}, DTO, {
-			offer: offer.fromDTO(DTO.offer),
-			startTime: moment.tz(DTO.startTime, DTO.timeZone),
-			endTime: moment.tz(DTO.endTime, DTO.timeZone),
-			customer: DTO.customer ? user.fromDTO(DTO.customer) : deletedUser
-		});
-	},
-	toDTO: function(gig) {
-		return gig;
-	}
-};
-
 export default {
 	user,
 	settings,
 	location,
-	offer,
 	cueupEvent,
-	review,
-	cueupGig
+	review
 };

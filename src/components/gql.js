@@ -165,6 +165,86 @@ const UPDATE_USER_PAYOUT = gql`
 	}
 `;
 
+const MY_GIGS = gql`
+	query($limit: Int, $page: Int, $currency: Currency) {
+		myGigs(pagination: { limit: $limit, page: $page }) {
+			__typename
+			edges {
+				id
+				statusHumanized
+				status
+				offer {
+					offer(currency: $currency) {
+						amount
+						currency
+						formatted
+					}
+					serviceFee(currency: $currency) {
+						amount
+						currency
+						formatted
+					}
+					djFee(currency: $currency) {
+						amount
+						currency
+						formatted
+					}
+					totalPayment(currency: $currency) {
+						amount
+						currency
+						formatted
+					}
+					totalPayout(currency: $currency) {
+						amount
+						currency
+						formatted
+					}
+				}
+				event {
+					id
+					name
+					guestsCount
+					start
+					end
+					genres
+					description
+					rider {
+						formatted
+					}
+					location {
+						name
+						latitude
+						longitude
+					}
+					duration {
+						formatted
+					}
+					organizer {
+						id
+						email
+						userMetadata {
+							firstName
+							phone
+						}
+						picture {
+							path
+						}
+					}
+				}
+			}
+			pageInfo {
+				hasPrevPage
+				hasNextPage
+				page
+				totalPages
+				prevPage
+				nextPage
+				totalDocs
+			}
+		}
+	}
+`;
+
 export {
 	AVAILABLE_BANKS,
 	LOGIN,
@@ -175,5 +255,6 @@ export {
 	REQUEST_EMAIL_VERIFICATION,
 	VERIFY_EMAIL,
 	USER_BANK_ACCOUNT,
-	UPDATE_USER_PAYOUT
+	UPDATE_USER_PAYOUT,
+	MY_GIGS
 };
