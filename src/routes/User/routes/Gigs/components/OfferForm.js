@@ -50,7 +50,7 @@ const OfferForm = ({
 			updateGig(
 				{ currency, amount: state.amount, gigId: gig.id },
 				(err, res) => {
-					setError(err.message);
+					setError(err && err.message);
 					setSubmitLoading(false);
 				}
 			);
@@ -60,7 +60,7 @@ const OfferForm = ({
 	const cancelOffer = () => {
 		setCancelLoading(true);
 		cancelGig(gig.id, (err, res) => {
-			setError(err.message);
+			setError(err && err.message);
 			setCancelLoading(false);
 		});
 	};
@@ -68,7 +68,7 @@ const OfferForm = ({
 	const declineOffer = () => {
 		setCancelLoading(true);
 		declineGig(gig.id, (err, res) => {
-			setError(err.message);
+			setError(err && err.message);
 			setCancelLoading(false);
 		});
 	};
