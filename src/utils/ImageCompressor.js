@@ -1,7 +1,7 @@
-import loadJS from "load-js";
 
 export const ImageCompressor = (file, asFile) => {
 	return new Promise(async (resolve, reject) => {
+		const loadJS = require("load-js");
 		await loadJS(["/load-image.all.min.js"]);
 		const reader = new FileReader();
 		reader.onload = upload => {
