@@ -69,13 +69,16 @@ const ResendVerificationEmail = ({ email }) => {
 					<button
 						disabled={loading || data || error}
 						className={"link"}
-						onClick={mutate}
+						onClick={e => {
+							e.preventDefault();
+							mutate();
+						}}
 					>
 						{loading
 							? "Sending"
 							: data
-								? "Email sent"
-								: "Resend verification email"}
+							? "Email sent"
+							: "Resend verification email"}
 					</button>
 				);
 			}}

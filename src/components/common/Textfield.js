@@ -95,13 +95,17 @@ class MyTextField extends Component {
 		var className = "text-field";
 		className += this.props.disabled ? " disabled" : "";
 		return (
-			<div className={className}>
+			<div
+				className={className}
+				style={{
+					pointerEvents: this.props.disabled ? "none" : "auto"
+				}}
+			>
 				<TextField
 					id={this.props.name}
 					placeholder=""
 					value={this.props.value || undefined}
 					name={this.props.name}
-					disabled={this.props.disabled}
 					maxLength={this.props.maxLength}
 					style={styles.textarea}
 					inputStyle={styles.input}

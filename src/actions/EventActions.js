@@ -5,6 +5,7 @@ import CueupService from "../utils/CueupService";
 import GeoCoder from "../utils/GeoCoder";
 import * as tracker from "../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
+import moment from "moment-timezone";
 
 var ActionTypes = c.ActionTypes;
 const cueup = new CueupService();
@@ -116,53 +117,71 @@ export const getLocation = location => {
 	});
 };
 
-export function postEvent(event, callback) {
-	return function(dispatch) {
-		const token = auth.getToken();
-		cueup
-			.createEvent(token, event, function(err, result) {
-				if (err) {
-					callback(err);
-				} else {
-					callback(null);
-					tracker.trackEventPosted();
-					ReactPixel.track("Lead");
-				}
-			})
-			.catch(errMessage => callback(errMessage));
+export function postEvent(event, mutate, callback) {
+	return async dispatch => {
+		let { startTime, endTime } = event;
+		startTime = moment(startTime);
+		endTime = moment(endTime);
+
+		startTime = moment(startTime)
+			.utc(true)
+			.hour(startTime.hour())
+			.minute(startTime.minute())
+			.seconds(0)
+			.toDate();
+		endTime = moment(endTime)
+			.utc(true)
+			.hour(endTime.hour())
+			.minute(endTime.minute())
+			.seconds(0)
+			.toDate();
+
+		try {
+			const { error } = await mutate({
+				variables: { ...event, startTime, endTime }
+			});
+			callback(error);
+			if (!error) {
+				tracker.trackEventPosted();
+				ReactPixel.track("Lead");
+			}
+		} catch (error) {
+			callback(error.message);
+		}
 	};
 }
 
-export function checkDjAvailability(form, callback) {
+export const checkDjAvailability = (form, mutate, callback) => {
 	return function(dispatch) {
 		tracker.trackCheckAvailability();
 		ReactPixel.track("Search");
 		getLocation(form.location)
-			.then(geoResult => {
+			.then(async geoResult => {
 				const event = converter.cueupEvent.toDTO(form);
 				const geoData = {
 					location: {
-						lat: geoResult.position.lat,
-						lng: geoResult.position.lng,
+						latitude: geoResult.position.lat,
+						longitude: geoResult.position.lng,
 						name: event.location
 					},
 					timeZoneId: geoResult.timeZoneId
 				};
-				const data = {
+				const variables = {
 					...event,
 					location: geoData.location
 				};
-				cueup.checkDjAvailability(data, function(err, result) {
-					if (err) {
-						callback(err);
-					} else {
-						callback(null, result, geoData);
-					}
-				});
+
+				try {
+					const { data = {}, error } = await mutate({ variables });
+
+					callback(error, data.djsAvailable, geoData);
+				} catch (error) {
+					callback(error);
+				}
 			})
 			.catch(errMessage => callback(errMessage));
 	};
-}
+};
 
 export function updateEvent(event, callback) {
 	return function(dispatch) {

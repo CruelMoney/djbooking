@@ -4,16 +4,18 @@ import { notificationService } from "../../../../../utils/NotificationService";
 import { connect } from "react-redux";
 import moment from "moment-timezone";
 import EmptyPage from "../../../../../components/common/EmptyPage";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Query } from "react-apollo";
-import { EVENT } from "../../../gql";
+import { EVENT, EVENT_GIGS } from "../../../gql";
 import { LoadingCard } from "../../../../../components/common/LoadingPlaceholder";
 
 class EventOffers extends Component {
 	componentWillMount() {
-		var daysUntil = moment(this.props.eventDate).diff(moment(), "days");
+		const { theEvent } = this.props;
+
+		var daysUntil = moment(theEvent.start).diff(moment(), "days");
 
 		this.setState({
 			paymentPossible: daysUntil <= 80,
@@ -35,13 +37,14 @@ class EventOffers extends Component {
 
 	render() {
 		const {
-			event,
+			theEvent,
 			currency,
 			notifications,
 			translate,
-			currentLanguage
+			currentLanguage,
+			hashKey
 		} = this.props;
-		const title = this.props.event.name + " | " + translate("Offers");
+		const title = theEvent.name + " | " + translate("Offers");
 
 		return (
 			<div className="offers">
@@ -60,7 +63,7 @@ class EventOffers extends Component {
 									marginBottom: "20px"
 								}}
 							>
-								{this.props.status === "Confirmed"
+								{theEvent.status === "Confirmed"
 									? translate("event.paid-message")
 									: translate("event.contact-dj-message")}
 							</p>
@@ -68,10 +71,10 @@ class EventOffers extends Component {
 					</div>
 					<div className="row event-information">
 						<Query
-							query={EVENT}
+							query={EVENT_GIGS}
 							variables={{
-								id: event.id,
-								hash: event.hashKey.toString(),
+								id: theEvent.id,
+								hash: hashKey.toString(),
 								currency,
 								locale: currentLanguage
 							}}
@@ -98,18 +101,16 @@ class EventOffers extends Component {
 											<OfferCard
 												key={o.id}
 												onlyChat={!hasOffer && hasMessages}
-												eventId={this.props.event.id}
+												eventId={event.id}
 												notification={notification}
-												profileId={this.props.eventContactId}
-												profileName={this.props.eventContactName}
-												profilePicture={this.props.eventContactPicture}
+												profileId={theEvent.organizer.id}
+												profileName={theEvent.contactName}
+												profilePicture={theEvent.organizer.picture.path}
 												paymentPossible={this.state.paymentPossible}
 												eventFinished={this.state.eventFinished}
-												currency={this.props.currency}
-												paymentAmount={this.props.paymentAmount}
-												paymentCurrency={this.props.paymentCurrency}
+												currency={currency}
 												gig={o}
-												event={this.props.event}
+												event={event}
 											/>
 										);
 
@@ -142,19 +143,7 @@ class EventOffers extends Component {
 function mapStateToProps(state, ownProps) {
 	return {
 		translate: getTranslate(state.locale),
-		event: state.events.values[0],
-		eventContactId: state.events.values[0].auth0Id,
-		eventContactName: state.events.values[0].contactName,
-		eventContactPicture:
-			state.login.profile.picture ||
-			"/static/media/default-profile-pic.228cd63f.png",
 		notifications: state.notifications.data,
-		status: state.events.values[0].status,
-		paymentAmount: state.events.values[0].paymentAmount,
-		paymentCurrency: state.events.values[0].paymentCurrency,
-		eventName: state.events.values[0].name,
-		offers: state.events.values[0].offers,
-		eventDate: state.events.values[0].startTime,
 		currency: state.login.status.signedIn
 			? state.login.profile.settings.currency
 			: state.session.currency,

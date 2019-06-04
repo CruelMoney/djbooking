@@ -190,14 +190,13 @@ class OfferCard extends Component {
 										)}
 									</div>
 								</div>
-								{dj.averageRating &&
-									dj.averageRating > 0 && (
-										<Rating
-											rating={
-												dj.averageRating // </p> // 	{translate("Member for") + " " + memberSince} // > // 	}} // 		lineHeight: "1.2em" // 		margin: "0", // 		textAlign: "right", // 		fontSize: "12px", // 	style={{ // <p
-											}
-										/>
-									)}
+								{dj.averageRating && dj.averageRating > 0 && (
+									<Rating
+										rating={
+											dj.averageRating // </p> // 	{translate("Member for") + " " + memberSince} // > // 	}} // 		lineHeight: "1.2em" // 		margin: "0", // 		textAlign: "right", // 		fontSize: "12px", // 	style={{ // <p
+										}
+									/>
+								)}
 							</div>
 
 							<Button

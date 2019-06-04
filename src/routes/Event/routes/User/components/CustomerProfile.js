@@ -9,7 +9,7 @@ import * as eActions from "../../../../../actions/EventActions";
 import ErrorMessage from "../../../../../components/common/ErrorMessage";
 import { requestFeatures } from "../../../../../actions/Common";
 import { connect } from "react-redux";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 import { getTranslate } from "react-localize-redux";
 
@@ -21,13 +21,14 @@ class Profile extends Component {
 	};
 
 	update = (form, callback) => {
-		let event = { ...this.props.event, ...form.values };
-		this.props.save(event, callback);
+		const { theEvent, save } = this.props;
+		let event = { ...theEvent, ...form.values };
+		save(event, callback);
 	};
 
 	render() {
-		const { translate } = this.props;
-		const title = this.props.event.name + " | " + translate("Contact");
+		const { translate, theEvent } = this.props;
+		const title = theEvent.name + " | " + translate("Contact");
 
 		return (
 			<div className="row event-information">
@@ -65,7 +66,7 @@ class Profile extends Component {
 								text={translate("event.contact.name")}
 							>
 								<TextField
-									value={this.props.event.contactName}
+									value={theEvent.contactName}
 									name="contactName"
 									validate={["required"]}
 								/>
@@ -75,7 +76,7 @@ class Profile extends Component {
 								text={translate("event.contact.email")}
 							>
 								<TextField
-									value={this.props.event.contactEmail}
+									value={theEvent.contactEmail}
 									name="email"
 									type="email"
 									validate={["required", "email"]}
@@ -89,52 +90,10 @@ class Profile extends Component {
 							>
 								<TextField
 									name="contactPhone"
-									value={this.props.event.contactPhone}
+									value={theEvent.contactPhone}
 									type="tel"
 								/>
 							</TextWrapper>
-
-							{!this.props.loggedIn ? (
-								<TextWrapper
-									label="Profile"
-									text={translate("event.contact.profile")}
-								>
-									<div style={{ display: "inline-block" }}>
-										<SubmitButton
-											onClick={(email, callback) =>
-												this.props.changePassword(
-													this.props.event.contactEmail,
-													callback
-												)
-											}
-											name="request_change_password"
-										>
-											{translate("Request email")}
-										</SubmitButton>
-									</div>
-								</TextWrapper>
-							) : null}
-
-							{!this.props.event.emailVerified ? (
-								<TextWrapper
-									label="Email verification"
-									text="Request an email to verify your email. You will not receive offers before you verify your email."
-								>
-									<div style={{ display: "inline-block" }}>
-										<SubmitButton
-											onClick={(id, callback) =>
-												this.props.resendVerification(
-													this.props.event.auth0Id,
-													callback
-												)
-											}
-											name="request_verification_email"
-										>
-											Request email
-										</SubmitButton>
-									</div>
-								</TextWrapper>
-							) : null}
 						</div>
 					</div>
 				</Form>
@@ -145,7 +104,6 @@ class Profile extends Component {
 
 export const mapStateToProps = state => {
 	return {
-		event: state.events.values[0],
 		loggedIn: state.login.status.signedIn,
 		translate: getTranslate(state.locale)
 	};
@@ -153,12 +111,11 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		save: (event, callback) => dispatch(eActions.updateEvent(event, callback)),
-		changePassword: (email, callback) =>
-			dispatch(actions.changePassword(email, callback)),
-		resendVerification: (form, callback) =>
-			dispatch(actions.resendVerification(callback))
+		save: (event, callback) => dispatch(eActions.updateEvent(event, callback))
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Profile);

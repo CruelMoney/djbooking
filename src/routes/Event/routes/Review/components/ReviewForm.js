@@ -8,14 +8,19 @@ import Form from "../../../../../components/common/Form-v2";
 import { requestFeatures } from "../../../../../actions/Common";
 import { connect } from "react-redux";
 import * as actions from "../../../../../actions/EventActions";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 import { getTranslate } from "react-localize-redux";
+import { Query } from "react-apollo";
+import { EVENT_GIGS } from "../../../gql";
+import { LoadingCard } from "../../../../../components/common/LoadingPlaceholder";
 
 class Review extends Component {
 	componentWillMount() {
+		const { theEvent } = this.props;
+
 		this.setState({
-			editable: this.props.review ? false : true
+			editable: theEvent.review ? false : true
 		});
 	}
 
@@ -24,17 +29,14 @@ class Review extends Component {
 	};
 
 	submitReview = (form, callback) => {
-		this.props.submitReview(
-			this.props.eventId,
-			this.props.hashKey,
-			form.values,
-			callback
-		);
+		const { theEvent, hashKey, submitReview } = this.props;
+
+		submitReview(theEvent.id, hashKey, form.values, callback);
 	};
 
 	render() {
-		const { translate, eventName } = this.props;
-		const title = eventName + " | " + translate("Review");
+		const { translate, theEvent, hashKey } = this.props;
+		const title = theEvent.name + " | " + translate("Review");
 
 		return (
 			<div className="row event-information">
@@ -43,81 +45,89 @@ class Review extends Component {
 					<meta property="og:title" content={title} />
 					<meta name="twitter:title" content={title} />
 				</Helmet>
-				<Form
-					resetStatusOnSucces
-					formInvalidCallback={() => this.setState({ formValid: false })}
-					formValidCallback={() => this.setState({ formValid: true })}
-					name="event-review"
+				<Query
+					query={EVENT_GIGS}
+					variables={{
+						id: theEvent.id,
+						hash: hashKey.toString()
+					}}
+					onError={console.log}
 				>
-					<div className="context-actions-wrapper">
-						<div className="context-actions" key="profile_actions">
-							<SubmitButton
-								active={this.state.formValid}
-								name="submit_review"
-								onClick={this.submitReview}
+					{({ data = {}, loading }) => {
+						if (loading) {
+							return <LoadingCard />;
+						}
+						const { event = {} } = data;
+						const { review = {} } = event;
+						return (
+							<Form
+								resetStatusOnSucces
+								formInvalidCallback={() => this.setState({ formValid: false })}
+								formValidCallback={() => this.setState({ formValid: true })}
+								name="event-review"
 							>
-								{translate("Submit review")}
-							</SubmitButton>
+								<div className="context-actions-wrapper">
+									<div className="context-actions" key="profile_actions">
+										<SubmitButton
+											active={this.state.formValid}
+											name="submit_review"
+											onClick={this.submitReview}
+										>
+											{translate("Submit review")}
+										</SubmitButton>
 
-							<Button onClick={() => requestFeatures()} name="request_features">
-								{translate("Request features")}
-							</Button>
-						</div>
-					</div>
-					<div className="event-card-wrapper">
-						<div className="card profile col-md-7">
-							<TextWrapper
-								label={translate("Rating")}
-								text={translate("event.review.rating")}
-							>
-								<div style={{ width: "100%" }}>
-									<Rating
-										rating={
-											this.props.review.rating ? this.props.review.rating : 0
-										}
-										editable={true}
-										name="rating"
-										validate={["required"]}
-									/>
+										<Button
+											onClick={() => requestFeatures()}
+											name="request_features"
+										>
+											{translate("Request features")}
+										</Button>
+									</div>
 								</div>
-							</TextWrapper>
+								<div className="event-card-wrapper">
+									<div className="card profile col-md-7">
+										<TextWrapper
+											label={translate("Rating")}
+											text={translate("event.review.rating")}
+										>
+											<div style={{ width: "100%" }}>
+												<Rating
+													rating={review.rating ? review.rating : 0}
+													editable={true}
+													name="rating"
+													validate={["required"]}
+												/>
+											</div>
+										</TextWrapper>
 
-							<div
-								style={{
-									width: "100%",
-									paddingTop: "0px",
-									paddingBottom: "20px"
-								}}
-							>
-								<TextBox
-									width="100%"
-									height="100px"
-									name="description"
-									value={
-										this.props.review.description
-											? this.props.review.description
-											: ""
-									}
-									placeholder={translate("event.review.description")}
-								/>
-							</div>
-						</div>
-					</div>
-				</Form>
+										<div
+											style={{
+												width: "100%",
+												paddingTop: "0px",
+												paddingBottom: "20px"
+											}}
+										>
+											<TextBox
+												width="100%"
+												height="100px"
+												name="description"
+												value={review.description ? review.description : ""}
+												placeholder={translate("event.review.description")}
+											/>
+										</div>
+									</div>
+								</div>
+							</Form>
+						);
+					}}
+				</Query>
 			</div>
 		);
 	}
 }
 
-export const mapStateToProps = state => {
-	let event = state.events.values[0];
-	let offer = event.offers.filter(o => o.gigID === event.chosenOfferId)[0];
+export const mapStateToProps = (state, ownProps) => {
 	return {
-		eventName: event.name,
-		dj: offer.dj,
-		eventId: event.id,
-		hashKey: event.hashKey,
-		review: event.review ? event.review : {},
 		translate: getTranslate(state.locale)
 	};
 };

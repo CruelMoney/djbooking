@@ -1,6 +1,39 @@
 import gql from "graphql-tag";
 
 const EVENT = gql`
+	query($id: ID!, $hash: String!) {
+		event(id: $id, hash: $hash) {
+			id
+			name
+			description
+			start
+			end
+			genres
+			guestsCount
+			status
+			contactName
+			contactPhone
+			contactEmail
+			rider {
+				lights
+				speakers
+			}
+			location {
+				name
+				latitude
+				longitude
+			}
+			organizer {
+				id
+				picture {
+					path
+				}
+			}
+		}
+	}
+`;
+
+const EVENT_GIGS = gql`
 	query($id: ID!, $hash: String!, $currency: Currency, $locale: String) {
 		event(id: $id, hash: $hash) {
 			id
@@ -89,4 +122,4 @@ const PAYMENT_CONFIRMED = gql`
 	}
 `;
 
-export { EVENT, REQUEST_PAYMENT_INTENT, PAYMENT_CONFIRMED };
+export { EVENT, REQUEST_PAYMENT_INTENT, PAYMENT_CONFIRMED, EVENT_GIGS };

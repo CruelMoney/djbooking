@@ -9,7 +9,7 @@ import Form from "../../../../../components/common/Form-v2";
 import TextWrapper from "../../../../../components/common/TextElement";
 import SubmitButton from "../../../../../components/common/SubmitButton";
 import assign from "lodash.assign";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 import Map from "../../../../../components/common/Map";
 import ToggleButtonHandler from "../../../../../components/common/ToggleButtonHandler";
@@ -19,7 +19,9 @@ import LocationSelector from "../../../../../components/common/LocationSelectorS
 import { connect } from "react-redux";
 import ErrorMessage from "../../../../../components/common/ErrorMessage";
 import { requestFeatures } from "../../../../../actions/Common";
-import RiderOptions from "../../../../../components/common/RiderOptions";
+import RiderOptions, {
+	optionsToEnum as getRiderEnum
+} from "../../../../../components/common/RiderOptions";
 import * as actions from "../../../../../actions/EventActions";
 import { getTranslate } from "react-localize-redux";
 
@@ -27,7 +29,7 @@ class Event extends Component {
 	state = { startTime: 0, endTime: 0, editMode: false, formValid: false };
 
 	componentWillMount() {
-		this.setState({ guests: this.props.event.guestsCount });
+		this.setState({ guests: this.props.theEvent.guestsCount });
 	}
 
 	mergeEventForm = (form, event) => {
@@ -41,24 +43,24 @@ class Event extends Component {
 
 	updateEvent = (form, callback) => {
 		this.props.updateEvent(
-			this.mergeEventForm(form, this.props.event),
+			this.mergeEventForm(form, this.props.theEvent),
 			callback
 		);
 	};
 
 	submitReview = (form, callback) => {
-		const review = assign(form.values, { eventId: this.props.event.id });
+		const review = assign(form.values, { eventId: this.props.theEvent.id });
 		this.props.reviewEvent(review, callback);
 	};
 
 	cancelEvent = (id, callback) => {
-		this.props.cancelEvent(id, this.props.event.hashKey, callback);
+		this.props.cancelEvent(id, this.props.hashKey, callback);
 	};
 
 	render() {
-		const { translate } = this.props;
-		const title = this.props.event.name + " | Cueup";
-
+		const { translate, theEvent } = this.props;
+		const title = theEvent.name + " | Cueup";
+		console.log({ theEvent });
 		return (
 			<div className="row event-information">
 				<Helmet>
@@ -86,7 +88,7 @@ class Event extends Component {
 								dangerous={true}
 								warning={translate("cancel-event-warning")}
 								onClick={(form, callback) =>
-									this.cancelEvent(this.props.event.id, callback)
+									this.cancelEvent(theEvent.id, callback)
 								}
 								name="cancel_event"
 							>
@@ -106,7 +108,7 @@ class Event extends Component {
 							>
 								<TextField
 									name="name"
-									value={this.props.event.name}
+									value={theEvent.name}
 									validate={["required"]}
 								/>
 							</TextWrapper>
@@ -117,9 +119,9 @@ class Event extends Component {
 								<TextField
 									name="date"
 									disabled
-									value={moment(this.props.event.startTime).format(
-										"dddd Do, MMMM YYYY"
-									)}
+									value={moment
+										.utc(theEvent.start)
+										.format("dddd Do, MMMM YYYY")}
 								/>
 							</TextWrapper>
 
@@ -132,13 +134,13 @@ class Event extends Component {
 								<LocationSelector
 									name="location"
 									disabled
-									value={this.props.event.location.name}
+									value={theEvent.location.name}
 									validate={["required"]}
 								/>
 								<Map
 									height="315px"
 									name="location"
-									value={this.props.event.location}
+									value={theEvent.location}
 									radius={0}
 									disabled
 									zoom={11}
@@ -153,8 +155,8 @@ class Event extends Component {
 									validate={["required"]}
 									name="genres"
 									disabled
-									value={this.props.event.genres}
-									potentialValues={c.GENRES}
+									value={theEvent.genres.map(s => s.toUpperCase())}
+									potentialValues={c.GENRES.map(s => s.toUpperCase())}
 									columns={3}
 								/>
 							</TextWrapper>
@@ -165,7 +167,7 @@ class Event extends Component {
 								<RiderOptions
 									speakersLabel={translate("speakers")}
 									lightsLabel={translate("lights")}
-									value={this.props.event.rider}
+									value={getRiderEnum(theEvent.rider)}
 									name="rider"
 								/>
 							</TextWrapper>
@@ -177,9 +179,9 @@ class Event extends Component {
 									hoursLabel={translate("hours")}
 									startLabel={translate("start")}
 									endLabel={translate("end")}
-									date={moment(this.props.event.startTime)}
-									startTime={this.props.event.startTime}
-									endTime={this.props.event.endTime}
+									date={moment(theEvent.start)}
+									startTime={theEvent.start}
+									endTime={theEvent.end}
 								/>
 							</TextWrapper>
 
@@ -194,7 +196,7 @@ class Event extends Component {
 									}}
 									step={1}
 									connect="lower"
-									value={[this.props.event.guestsCount]}
+									value={[theEvent.guestsCount]}
 									onChange={values =>
 										this.setState({
 											guests: values[0]
@@ -227,7 +229,7 @@ class Event extends Component {
 										"request-form.step-3.event-description-description"
 									)}
 									name="description"
-									value={this.props.event.description}
+									value={theEvent.description}
 									validate={["required"]}
 								/>
 							</TextWrapper>
@@ -241,7 +243,6 @@ class Event extends Component {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		event: state.events.values[0],
 		profile: state.login.profile,
 		translate: getTranslate(state.locale)
 	};
@@ -256,4 +257,7 @@ function mapDispatchToProps(dispatch, ownProps) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Event);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Event);

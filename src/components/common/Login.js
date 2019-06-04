@@ -7,21 +7,12 @@ import CueupService from "../../utils/CueupService";
 import { connect } from "react-redux";
 import * as actions from "../../actions/LoginActions";
 import { withRouter } from "react-router-dom";
-import LoadHandler from "./LoadingScreen";
-import Loadable from "react-loadable";
 import { getTranslate } from "react-localize-redux";
 import { Mutation } from "react-apollo";
 import { LOGIN, REQUEST_PASSWORD_RESET } from "../gql";
 import Button from "./Button-v2";
 import * as c from "../../constants/constants";
 import ErrorMessageApollo, { getErrorMessage } from "./ErrorMessageApollo";
-
-const AsyncUser = Loadable({
-	loader: () => import("../../routes/User"),
-	loading: LoadHandler
-});
-
-let cueup = new CueupService();
 
 class Login extends Component {
 	displayName = "Login";
@@ -88,6 +79,11 @@ class Login extends Component {
 		}
 	};
 
+	isValid = () => {
+		const { email, password } = this.state;
+		return !!email && !!password;
+	};
+
 	render() {
 		const { isLoading } = this.state;
 		const { translate, onLogin } = this.props;
@@ -130,7 +126,8 @@ class Login extends Component {
 								<div>
 									<Button
 										glow
-										active
+										active={this.isValid()}
+										disabled={!this.isValid()}
 										type={"submit"}
 										isLoading={isLoading}
 										name="email_login"

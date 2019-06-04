@@ -24,12 +24,54 @@ class Index extends Component {
 					<meta name="twitter:title" content="Event | Cueup" />
 				</Helmet>
 				<Event {...this.props}>
-					<Switch>
-						<Route path={`${baseurl}/info`} component={EventInfo} />
-						<Route path={`${baseurl}/offers`} component={Offers} />
-						<Route path={`${baseurl}/review`} component={Review} />
-						<Route path={`${baseurl}/user`} component={User} />
-					</Switch>
+					{({ theEvent, loading, hashKey }) => (
+						<Switch>
+							<Route
+								path={`${baseurl}/info`}
+								component={props => (
+									<EventInfo
+										{...props}
+										theEvent={theEvent}
+										loading={loading}
+										hashKey={hashKey}
+									/>
+								)}
+							/>
+							<Route
+								path={`${baseurl}/offers`}
+								component={props => (
+									<Offers
+										{...props}
+										theEvent={theEvent}
+										loading={loading}
+										hashKey={hashKey}
+									/>
+								)}
+							/>
+							<Route
+								path={`${baseurl}/review`}
+								component={props => (
+									<Review
+										{...props}
+										theEvent={theEvent}
+										loading={loading}
+										hashKey={hashKey}
+									/>
+								)}
+							/>
+							<Route
+								path={`${baseurl}/user`}
+								component={props => (
+									<User
+										{...props}
+										theEvent={theEvent}
+										loading={loading}
+										hashKey={hashKey}
+									/>
+								)}
+							/>
+						</Switch>
+					)}
 				</Event>
 			</div>
 		);

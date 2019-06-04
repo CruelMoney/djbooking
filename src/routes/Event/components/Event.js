@@ -11,6 +11,8 @@ import { withRouter } from "react-router-dom";
 import * as actions from "../../../actions/EventActions";
 import * as commonActions from "../../../actions/Common";
 import "../../../css/transitions.css";
+import { EVENT } from "../gql";
+import { Query } from "react-apollo";
 
 class event extends Component {
 	themeColor = "#25F4D2";
@@ -24,11 +26,6 @@ class event extends Component {
 		notification: "You have no new notifications",
 		redirected: false
 	};
-
-	componentWillMount() {
-		const { fetchEvent, match } = this.props;
-		fetchEvent(match.params.id, match.params.hash, null);
-	}
 
 	goToOffers = () => {
 		const { history } = this.props;
@@ -81,24 +78,24 @@ class event extends Component {
 					event.status === "Cancelled"
 						? translate("event.notifications.cancelled")
 						: event.status === "Initial"
-							? translate("event.notifications.initial")
-							: event.status === "Offering"
-								? event.referredBy > 0
-									? translate("event.notifications.offering-referred")
-									: translate("event.notifications.offering")
-								: event.status === "NoMatches"
-									? translate("event.notifications.no-matches")
-									: event.status === "Accepted"
-										? event.referredBy > 0
-											? translate("event.notifications.accepted-referred")
-											: translate("event.notifications.accepted")
-										: event.status === "Confirmed"
-											? translate("event.notifications.confirmed")
-											: event.status === "Finished" && event.chosenOfferId === 0
-												? translate("event.notifications.finished")
-												: event.status === "Finished"
-													? translate("event.notifications.finished-review")
-													: translate("event.notifications.default")
+						? translate("event.notifications.initial")
+						: event.status === "Offering"
+						? event.referredBy > 0
+							? translate("event.notifications.offering-referred")
+							: translate("event.notifications.offering")
+						: event.status === "NoMatches"
+						? translate("event.notifications.no-matches")
+						: event.status === "Accepted"
+						? event.referredBy > 0
+							? translate("event.notifications.accepted-referred")
+							: translate("event.notifications.accepted")
+						: event.status === "Confirmed"
+						? translate("event.notifications.confirmed")
+						: event.status === "Finished" && event.chosenOfferId === 0
+						? translate("event.notifications.finished")
+						: event.status === "Finished"
+						? translate("event.notifications.finished-review")
+						: translate("event.notifications.default")
 			});
 		} else {
 			this.setState({
@@ -114,61 +111,67 @@ class event extends Component {
 	}
 
 	render() {
-		const { translate } = this.props;
+		const { children, loggedIn, profile, match, translate } = this.props;
 
 		function renderLoadingItem() {
 			return <LoadingCard />;
 		}
 
 		return (
-			<div>
-				<EventHeader
-					event={this.props.event}
-					notification={this.state.notification}
-					loggedIn={this.props.loggedIn}
-					permaLink={
-						this.props.loggedIn
-							? this.props.profile.user_metadata.permaLink
-							: ""
-					}
-					loading={this.props.loading}
-					hash={this.props.match.params.hash}
-				/>
+			<Query
+				query={EVENT}
+				variables={{ id: match.params.id, hash: match.params.hash }}
+			>
+				{({ data = {}, error, loading }) => {
+					const { event: theEvent } = data;
+					console.log({ data, error });
+					return (
+						<div>
+							<EventHeader
+								event={theEvent}
+								notification={this.state.notification}
+								loggedIn={loggedIn}
+								permaLink={loggedIn ? profile.user_metadata.permaLink : ""}
+								loading={loading}
+								hash={match.params.hash}
+							/>
 
-				<div className="user-container container">
-					<div className="row">
-						<div style={{ paddingTop: "11px" }} className={"col-xs-12"}>
-							{this.props.loading || !this.props.event ? (
-								<div className="row center">{renderLoadingItem()}</div>
-							) : (
-								this.props.children
-							)}
+							<div className="user-container container">
+								<div className="row">
+									<div style={{ paddingTop: "11px" }} className={"col-xs-12"}>
+										{loading || !theEvent ? (
+											<div className="row center">{renderLoadingItem()}</div>
+										) : (
+											children({
+												theEvent,
+												loading,
+												hashKey: match.params.hash
+											})
+										)}
+									</div>
+								</div>
+							</div>
+
+							<Footer
+								color={this.secondColor}
+								firstTo={translate("routes./how-it-works")}
+								secondTo={translate("routes./")}
+								firstLabel={translate("how-it-works")}
+								secondLabel={translate("arrange-event")}
+								title={translate("Organizing a new event?")}
+								subTitle={translate("See how it works, or arrange an event.")}
+							/>
 						</div>
-					</div>
-				</div>
-
-				<Footer
-					color={this.secondColor}
-					firstTo={translate("routes./how-it-works")}
-					secondTo={translate("routes./")}
-					firstLabel={translate("how-it-works")}
-					secondLabel={translate("arrange-event")}
-					title={translate("Organizing a new event?")}
-					subTitle={translate("See how it works, or arrange an event.")}
-				/>
-			</div>
+					);
+				}}
+			</Query>
 		);
 	}
 }
 
 function mapStateToProps(state, ownProps) {
-	const id = ownProps.match.params.id;
-	const theEvent = state.events.values.find(e => e.id === Number(id));
 	return {
-		event: theEvent,
-		customerId: theEvent ? theEvent.auth0Id : null,
 		profile: state.login.profile,
-		loading: state.events.isWaiting,
 		loggedIn: state.login.status.signedIn,
 		notifications: state.notifications.data
 	};
@@ -176,13 +179,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
 	return {
-		fetchEvent: (id, hash, authId) =>
-			dispatch(actions.fetchEvent(id, hash, authId)),
 		updateEvent: (event, callback) =>
 			dispatch(actions.updateEvent(event, callback)),
-		payEvent: () => {
-			console.log("not implemented");
-		},
 		reviewEvent: (review, callback) =>
 			dispatch(actions.reviewEvent(review, callback)),
 		cancelEvent: (id, callback) => dispatch(actions.cancelEvent(id, callback)),

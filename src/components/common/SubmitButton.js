@@ -14,13 +14,12 @@ export default class SubmitButton extends Component {
 		let loading = this.props.loading
 			? true
 			: this.context.status.loading
-				? this.context.status.loading[this.props.name]
-				: false;
+			? this.context.status.loading[this.props.name]
+			: false;
 
 		return (
 			<Button
 				{...this.props}
-				disabled={!this.props.active}
 				name={this.props.name}
 				className="submit"
 				type="submit"
