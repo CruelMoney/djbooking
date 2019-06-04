@@ -35,7 +35,7 @@ const getStripeData = async ({ country, stripe, name, currency }) => {
 	if (error) {
 		throw new Error(error.message);
 	} else {
-		console.log({token})
+		console.log({ token });
 		return { payoutInfo: token };
 	}
 };
@@ -60,7 +60,7 @@ const PayoutForm = ({ profile, isUpdate, translate, stripe }) => {
 			const data = useXendit
 				? getXenditData(values)
 				: await getStripeData({ ...values, stripe });
-			await mutate({ variables: {...data,id:profile.user_id} });
+			await mutate({ variables: { ...data, id: profile.user_id } });
 			cb();
 		} catch (error) {
 			cb(error.message || "Something went wrong");
@@ -137,7 +137,8 @@ const PayoutForm = ({ profile, isUpdate, translate, stripe }) => {
 };
 
 const MainForm = ({ bankAccount, translate }) => {
-	const [country, setCountry] = useState(bankAccount.countryCode);
+	const bankAccountParsed = bankAccount || {};
+	const [country, setCountry] = useState(bankAccountParsed.countryCode);
 	const [bankName, setBankName] = useState(null);
 
 	const inIndonesia = country === "ID";
@@ -148,7 +149,7 @@ const MainForm = ({ bankAccount, translate }) => {
 				<div className="col-xs-12">
 					<label>{translate("country")}</label>
 					<CountrySelector
-						value={bankAccount.countryCode}
+						value={bankAccountParsed.countryCode}
 						name="country"
 						validate={["required"]}
 						placeholder={translate("country")}
@@ -163,7 +164,7 @@ const MainForm = ({ bankAccount, translate }) => {
 						key={country}
 						name="currency"
 						validate={["required"]}
-						value={inIndonesia ? "IDR" : bankAccount.currency}
+						value={inIndonesia ? "IDR" : bankAccountParsed.currency}
 						disabled={inIndonesia}
 						placeholder={inIndonesia ? undefined : translate("currency")}
 					/>
@@ -173,7 +174,7 @@ const MainForm = ({ bankAccount, translate }) => {
 				<div className="col-xs-12">
 					<label>{translate("payout.account-name")}</label>
 					<Textfield
-						value={bankAccount.accountHolderName}
+						value={bankAccountParsed.accountHolderName}
 						name="name"
 						type="text"
 						validate={["required", "lastName"]}
@@ -199,7 +200,7 @@ const MainForm = ({ bankAccount, translate }) => {
 						<div className="col-xs-12">
 							<label>{translate("Bank")}</label>
 							<ConnectedBankSelector
-								value={bankAccount.bankCode}
+								value={bankAccountParsed.bankCode}
 								name="bankCode"
 								validate={["required"]}
 								placeholder={" "}

@@ -8,6 +8,7 @@ const EVENT = gql`
 			description
 			start
 			end
+			timeZone
 			genres
 			guestsCount
 			status

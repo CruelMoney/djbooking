@@ -95,7 +95,6 @@ class OfferCard extends Component {
 			borderRadius: "50%",
 			marginRight: "20px"
 		};
-
 		const confirmed = gig.status === "CONFIRMED";
 		return (
 			<>
@@ -286,7 +285,6 @@ class OfferCard extends Component {
 
 export const mapStateToProps = state => {
 	return {
-		...state,
 		translate: getTranslate(state.locale)
 	};
 };

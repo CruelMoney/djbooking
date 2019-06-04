@@ -119,8 +119,8 @@ class Event extends Component {
 								<TextField
 									name="date"
 									disabled
-									value={moment
-										.utc(theEvent.start)
+									value={moment(theEvent.start)
+										.tz(theEvent.timeZone)
 										.format("dddd Do, MMMM YYYY")}
 								/>
 							</TextWrapper>
@@ -178,6 +178,7 @@ class Event extends Component {
 									disabled
 									hoursLabel={translate("hours")}
 									startLabel={translate("start")}
+									timeZone={theEvent.timeZone}
 									endLabel={translate("end")}
 									date={moment(theEvent.start)}
 									startTime={theEvent.start}

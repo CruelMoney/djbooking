@@ -5,7 +5,6 @@ import Footer from "../../../components/common/Footer";
 import LoadingPlaceholder, {
 	LoadingCard
 } from "../../../components/common/LoadingPlaceholder";
-import { notificationService } from "../../../utils/NotificationService";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import * as actions from "../../../actions/EventActions";
@@ -23,7 +22,6 @@ class event extends Component {
 	};
 
 	state = {
-		notification: "You have no new notifications",
 		redirected: false
 	};
 
@@ -45,65 +43,6 @@ class event extends Component {
 		}
 	};
 
-	componentDidMount() {
-		notificationService.init(this.props.customerId);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		const { translate } = this.props;
-		const { event, notifications, customerId } = nextProps;
-		notificationService.init(customerId);
-		if (event && !event.emailVerified) {
-			this.setState({
-				notification: translate("event.notifications.verify-email")
-			});
-		} else if (event) {
-			if (
-				event.offers &&
-				event.offers.some(offer => {
-					return notifications.some(noti => {
-						return String(noti.room) === String(offer.gigID);
-					});
-				})
-			) {
-				this.setState({
-					notification: translate("event.notifications.unread-messages")
-				});
-				this.goToOffers();
-				return;
-			}
-
-			this.setState({
-				notification:
-					event.status === "Cancelled"
-						? translate("event.notifications.cancelled")
-						: event.status === "Initial"
-						? translate("event.notifications.initial")
-						: event.status === "Offering"
-						? event.referredBy > 0
-							? translate("event.notifications.offering-referred")
-							: translate("event.notifications.offering")
-						: event.status === "NoMatches"
-						? translate("event.notifications.no-matches")
-						: event.status === "Accepted"
-						? event.referredBy > 0
-							? translate("event.notifications.accepted-referred")
-							: translate("event.notifications.accepted")
-						: event.status === "Confirmed"
-						? translate("event.notifications.confirmed")
-						: event.status === "Finished" && event.chosenOfferId === 0
-						? translate("event.notifications.finished")
-						: event.status === "Finished"
-						? translate("event.notifications.finished-review")
-						: translate("event.notifications.default")
-			});
-		} else {
-			this.setState({
-				notification: translate("event.notifications.default")
-			});
-		}
-	}
-
 	getChildContext() {
 		return {
 			color: this.themeColor
@@ -124,12 +63,11 @@ class event extends Component {
 			>
 				{({ data = {}, error, loading }) => {
 					const { event: theEvent } = data;
-					console.log({ data, error });
+
 					return (
 						<div>
 							<EventHeader
 								event={theEvent}
-								notification={this.state.notification}
 								loggedIn={loggedIn}
 								permaLink={loggedIn ? profile.user_metadata.permaLink : ""}
 								loading={loading}
@@ -172,8 +110,7 @@ class event extends Component {
 function mapStateToProps(state, ownProps) {
 	return {
 		profile: state.login.profile,
-		loggedIn: state.login.status.signedIn,
-		notifications: state.notifications.data
+		loggedIn: state.login.status.signedIn
 	};
 }
 

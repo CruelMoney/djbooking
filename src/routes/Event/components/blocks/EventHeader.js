@@ -4,9 +4,13 @@ import EventNavigation from "./EventNavigation";
 import Notification from "../../../../components/common/Notification";
 import { getTranslate } from "react-localize-redux";
 import { connect } from "react-redux";
+import { notificationService } from "../../../../utils/NotificationService";
+
 class eventHeader extends Component {
+	state = { notification: "You have no new notifications", loadString: "..." };
+
 	setValues = () => {
-		const { height, ...rest } = window.getComputedStyle(this.eventHeader);
+		const { height } = window.getComputedStyle(this.eventHeader);
 		this.headerHeight = Number.parseInt(height);
 		this.disabled = window.innerWidth <= 480;
 		if (!this.disabled) {
@@ -17,6 +21,7 @@ class eventHeader extends Component {
 	componentDidMount() {
 		this.setValues();
 		window.addEventListener("resize", this.setValues);
+		notificationService.init(this.props.customerId);
 	}
 
 	componentWillUnmount() {
@@ -25,7 +30,62 @@ class eventHeader extends Component {
 		clearInterval(this.intervalID);
 	}
 
-	state = { loadString: "..." };
+	componentWillReceiveProps(nextProps) {
+		const { translate } = this.props;
+		const { event, notifications } = nextProps;
+		if (event) {
+			notificationService.init(event.organizer.id);
+			if (!event.emailVerified) {
+				this.setState({
+					notification: translate("event.notifications.verify-email")
+				});
+			} else {
+				if (
+					event.offers &&
+					event.offers.some(offer => {
+						return notifications.some(noti => {
+							return String(noti.room) === String(offer.gigID);
+						});
+					})
+				) {
+					this.setState({
+						notification: translate("event.notifications.unread-messages")
+					});
+					this.goToOffers();
+					return;
+				}
+
+				this.setState({
+					notification:
+						event.status === "Cancelled"
+							? translate("event.notifications.cancelled")
+							: event.status === "Initial"
+							? translate("event.notifications.initial")
+							: event.status === "Offering"
+							? event.referredBy > 0
+								? translate("event.notifications.offering-referred")
+								: translate("event.notifications.offering")
+							: event.status === "NoMatches"
+							? translate("event.notifications.no-matches")
+							: event.status === "Accepted"
+							? event.referredBy > 0
+								? translate("event.notifications.accepted-referred")
+								: translate("event.notifications.accepted")
+							: event.status === "Confirmed"
+							? translate("event.notifications.confirmed")
+							: event.status === "Finished" && event.chosenOfferId === 0
+							? translate("event.notifications.finished")
+							: event.status === "Finished"
+							? translate("event.notifications.finished-review")
+							: translate("event.notifications.default")
+				});
+			}
+		} else {
+			this.setState({
+				notification: translate("event.notifications.default")
+			});
+		}
+	}
 
 	componentDidUpdate() {
 		this.setValues();
@@ -76,8 +136,8 @@ class eventHeader extends Component {
 										{this.props.loading || !this.props.event
 											? "..."
 											: translate("Welcome") +
-												" " +
-												this.props.event.contactName}
+											  " " +
+											  this.props.event.contactName}
 									</h1>
 								</div>
 								<div className="user-location">
@@ -108,10 +168,16 @@ class eventHeader extends Component {
 	}
 }
 
-const mapStateToProps = state => ({ translate: getTranslate(state.locale) });
+const mapStateToProps = state => ({
+	translate: getTranslate(state.locale),
+	notifications: state.notifications.data
+});
 
-const SmartNavigation = connect(mapStateToProps, null, null, { pure: false })(
-	eventHeader
-);
+const SmartNavigation = connect(
+	mapStateToProps,
+	null,
+	null,
+	{ pure: false }
+)(eventHeader);
 
 export default SmartNavigation;
