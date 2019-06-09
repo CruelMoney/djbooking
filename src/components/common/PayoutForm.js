@@ -52,7 +52,7 @@ const getXenditData = ({ country, name, bankCode, bankAccountNumber }) => {
 	};
 };
 
-const PayoutForm = ({ profile, isUpdate, translate, stripe }) => {
+const PayoutForm = ({ user, isUpdate, translate, stripe }) => {
 	const [valid, setValidity] = useState(false);
 	const submit = mutate => async ({ values }, cb) => {
 		try {
@@ -60,7 +60,7 @@ const PayoutForm = ({ profile, isUpdate, translate, stripe }) => {
 			const data = useXendit
 				? getXenditData(values)
 				: await getStripeData({ ...values, stripe });
-			await mutate({ variables: { ...data, id: profile.user_id } });
+			await mutate({ variables: { ...data, id: user.id } });
 			cb();
 		} catch (error) {
 			cb(error.message || "Something went wrong");

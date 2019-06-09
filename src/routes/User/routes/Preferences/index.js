@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import Preferences from "./components/Preferences";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 import { localize } from "react-localize-redux";
 
 class Index extends Component {
 	render() {
-		const { translate } = this.props;
-		const djName = this.props.profile.firstName;
+		const { translate, user = {} } = this.props;
+		const { userMetadata = {} } = user;
+		const djName = userMetadata.firstName;
 		const title = djName + " | " + translate("preferences");
 
 		return (

@@ -41,10 +41,7 @@ class ControlUser extends Component {
 										path={`${baseurl}/profile`}
 										render={props => <Profile {...renderProps} {...props} />}
 									/>
-									{/* <Route
-										path={`${baseurl}/book`}
-										render={props => <Book {...renderProps} {...props} />}
-									/> */}
+
 									<Route
 										path={`${baseurl}/${translate("preferences")}`}
 										render={props => (
@@ -59,10 +56,6 @@ class ControlUser extends Component {
 										path={`${baseurl}/gigs`}
 										render={props => <Gigs {...renderProps} {...props} />}
 									/>
-									{/* <Route
-										path={`${baseurl}/${translate("reviews")}`}
-										render={props => <Reviews {...renderProps} {...props} />}
-									/> */}
 								</Switch>
 							)}
 						</User>

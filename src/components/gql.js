@@ -33,6 +33,9 @@ const ME = gql`
 				bio
 				birthday
 				phone
+				bankAccount {
+					last4
+				}
 			}
 			userSettings {
 				currency

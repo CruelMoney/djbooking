@@ -82,21 +82,6 @@ class Preferences extends Component {
 		});
 	};
 
-	getUserEmailNotifications = () => {
-		// Using the experimental Object.entries
-		// var vals = Object.entries(profile.settings.emailSettings)
-		// using shim from npm instead
-		var vals = entries(this.props.profile.settings.emailSettings)
-			.filter(s => s[1] === true)
-			.map(s => s[0]);
-
-		return vals;
-	};
-
-	getPotentialEmailNotifications = () => {
-		return Object.keys(this.props.profile.settings.emailSettings);
-	};
-
 	getActionButtons = (props = this.props) => {
 		const { translate, deleteProfile, logout } = this.props;
 		const editing = this.context.editing;
@@ -161,12 +146,15 @@ class Preferences extends Component {
 	};
 
 	render() {
-		const { translate, profile } = this.props;
-		const isDJ = profile.isDJ;
-		const hasPayout = profile.stripeID || profile.last4;
+		const { translate, user = {}, loading, isDJ } = this.props;
+		const { userSettings = {}, userMetadata = {} } = user;
+		const hasPayout = userMetadata.bankAccount;
+		const { bankAccount = {} } = userMetadata;
+
+		console.log({ user });
 		return (
 			<div>
-				{this.context.loading ? (
+				{loading ? (
 					<div>
 						<LoadingPlaceholder />
 						<LoadingPlaceholder />
@@ -175,13 +163,13 @@ class Preferences extends Component {
 					</div>
 				) : null}
 
-				{!this.context.loading && profile.user_id ? (
+				{!loading && user.id ? (
 					<div>
 						<Popup
 							showing={this.state.showPopup}
 							onClickOutside={this.hidePopup}
 						>
-							<PayoutForm isUpdate={hasPayout} profile={profile}/>
+							<PayoutForm isUpdate={hasPayout} user={user} />
 						</Popup>
 
 						<div>
@@ -194,7 +182,7 @@ class Preferences extends Component {
 										<div className="user-card-info">
 											<div className="user-card-fact">
 												<p>{translate("user.preferences.card-info")}</p>
-												{"..." + profile.last4}
+												{"..." + bankAccount.last4}
 											</div>
 										</div>
 									) : null}
@@ -219,29 +207,13 @@ class Preferences extends Component {
 									name="currency"
 									glued={true}
 									disabled={!this.context.editing}
-									value={profile.settings.currency}
+									value={userSettings.currency}
 								>
 									{c.Currencies.map(c => (
 										<Button name={c}>{c}</Button>
 									))}
 								</ToggleOptions>
 							</TextWrapper>
-
-							<div>
-								<TextWrapper
-									onDisabledClick={this.showHelp}
-									label={translate("Email notifications")}
-									text={translate("user.preferences.email")}
-								>
-									<ToggleHandler
-										disabled={!this.context.editing}
-										name="emailSettings"
-										potentialValues={this.getPotentialEmailNotifications()}
-										value={this.getUserEmailNotifications()}
-										columns={3}
-									/>
-								</TextWrapper>
-							</div>
 
 							{isDJ ? (
 								<div>
@@ -254,7 +226,7 @@ class Preferences extends Component {
 											disabled={!this.context.editing}
 											name="cancelationDays"
 											glued={true}
-											value={profile.settings.cancelationDays}
+											value={userSettings.cancelationPolicy.days}
 										>
 											<Button name={1}>1 {translate("day")}</Button>
 											<Button name={2}>2 {translate("days")}</Button>
@@ -277,7 +249,7 @@ class Preferences extends Component {
 											range={{ min: 0, max: 100 }}
 											step={1}
 											connect="lower"
-											value={[profile.settings.refundPercentage]}
+											value={[userSettings.cancelationPolicy.percentage]}
 											onChange={values =>
 												this.setState({
 													refundPercentage: values[0]
@@ -299,7 +271,7 @@ class Preferences extends Component {
 											name="standby"
 											glued={true}
 											disabled={!this.context.editing}
-											value={profile.settings.standby ? true : false}
+											value={userSettings.standby ? true : false}
 										>
 											<Button name={true}>{translate("Unavailable")}</Button>
 											<Button name={false}>{translate("Available")}</Button>
@@ -316,8 +288,8 @@ class Preferences extends Component {
 								<p className="permalink-input">
 									www.cueup.io/user/
 									<TextField
-										value={profile.user_metadata.permaLink}
-										name="permaLink"
+										value={user.permalink}
+										name="permalink"
 										disabled={!this.context.editing}
 										type="text"
 										validate={["required"]}
@@ -328,13 +300,19 @@ class Preferences extends Component {
 					</div>
 				) : null}
 
-				{!profile.user_id && !this.context.loadingUser ? (
+				{!user.id && !loading ? (
 					<Popup
+						width={"400px"}
 						showing={this.state.loginPopup}
 						onClickOutside={() => this.setState({ loginPopup: false })}
 					>
 						<p>{translate("user.preferences.login")}</p>
-						<Login redirect={false} />
+						<Login
+							redirect={false}
+							onLogin={async _ => {
+								window.location.reload();
+							}}
+						/>
 					</Popup>
 				) : null}
 			</div>
@@ -342,17 +320,8 @@ class Preferences extends Component {
 	}
 }
 
-function mapStateToProps(state, ownProps) {
-	return {
-		profile: state.login.profile,
-		provider: state.login.profile.provider
-	};
-}
-
 function mapDispatchToProps(dispatch, ownProps) {
 	return {
-		updateSettings: (settings, callback) =>
-			dispatch(actions.updateSettings(settings, callback)),
 		deleteProfile: callback => {
 			dispatch(actions.deleteProfile(callback));
 		},
@@ -368,7 +337,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 }
 
 const SmartPreferences = connect(
-	mapStateToProps,
+	_ => {},
 	mapDispatchToProps,
 	mergeProps,
 	{ pure: false }
