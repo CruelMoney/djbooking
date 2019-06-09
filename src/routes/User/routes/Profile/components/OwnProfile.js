@@ -65,7 +65,7 @@ class OwnProfile extends Component {
 
 	getActionButtons = (props = this.props) => {
 		const { translate, mutate, user } = props;
-		console.log({ context: this.context, props });
+
 		const editing = this.context.editing;
 
 		const submit = async (form, cb) => {

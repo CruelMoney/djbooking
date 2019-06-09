@@ -38,48 +38,6 @@ class User extends Component {
 		updateAction: PropTypes.func
 	};
 
-	updateNotification = props => {
-		const { translate, user = {}, isOwnProfile, notifications } = this.props;
-		const { appMetadata = {}, userSettings = {}, picture } = user;
-		if (appMetadata && isOwnProfile) {
-			if (notifications && notifications.length > 0) {
-				const notification = notifications.sort((a, b) => a > b)[0];
-				this.setState({ notification: notification.content });
-				return;
-			}
-			if (!appMetadata.emailVerified) {
-				this.setState({
-					notification: translate("user.notifications.email")
-				});
-				return;
-			}
-			if (userSettings.standby) {
-				this.setState({
-					notification: translate("user.notifications.standby")
-				});
-				return;
-			}
-			if (!picture) {
-				this.setState({
-					notification: translate("user.notifications.picture")
-				});
-				return;
-			}
-
-			this.setState({
-				notification: translate("user.notifications.empty")
-			});
-		} else {
-			if (userSettings.standby) {
-				this.setState({
-					notification: translate("user.notifications.standby-public")
-				});
-			} else {
-				this.setState({ notification: "" });
-			}
-		}
-	};
-
 	setActions = () => {
 		this.setState({ actions: this.getActions() });
 	};
@@ -146,6 +104,7 @@ class User extends Component {
 
 		return (
 			<Query
+				key={isOwnProfile}
 				query={isOwnProfile ? ME : USER}
 				variables={
 					isOwnProfile
@@ -161,6 +120,7 @@ class User extends Component {
 					if (me.id) {
 						user = me;
 					}
+					user = user || {};
 
 					const { picture, userMetadata = {}, appMetadata = {} } = user;
 					const { firstName, bio } = userMetadata;

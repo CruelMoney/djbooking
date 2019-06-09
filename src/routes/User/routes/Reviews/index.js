@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import Reviews from "./components/Reviews";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 import { localize } from "react-localize-redux";
 
 class Index extends Component {
 	render() {
+		const { user = {} } = this.props;
+
+		let { userMetadata = {} } = user;
 		const { translate } = this.props;
-		const djName = this.props.profile.firstName || "Cueup";
+		const djName = userMetadata.firstName || "Cueup";
 		const title = djName + " | " + translate("reviews");
 
 		return (

@@ -5,16 +5,14 @@ import Gig from "./Gig";
 import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
 import EmptyPage from "../../../../../components/common/EmptyPage";
 import { requestFeatures } from "../../../../../actions/Common";
-import OfferCard from "../../../../Event/routes/Offers/components/OfferCard";
 import Popup from "../../../../../components/common/Popup";
 import Login from "../../../../../components/common/Login";
 import { connect } from "react-redux";
 import * as actions from "../../../../../actions/GigActions";
 import { localize } from "react-localize-redux";
 
-import m from "../../../../../constants/Mocks";
-import { Query } from "react-apollo";
-import { MY_GIGS } from "../../../../../components/gql";
+import { Query, ApolloConsumer } from "react-apollo";
+import { MY_GIGS, ME } from "../../../../../components/gql";
 
 class Gigs extends Component {
 	static contextTypes = {
@@ -39,7 +37,7 @@ class Gigs extends Component {
 	};
 
 	getActionButtons = (props = this.props) => {
-		const { translate, profile } = props;
+		const { translate, isDJ } = props;
 
 		return (
 			<div className="context-actions" key="profile_actions">
@@ -51,7 +49,7 @@ class Gigs extends Component {
 				>
 					{translate("Request features")}
 				</Button>
-				{profile.isDJ ? (
+				{isDJ ? (
 					<Button
 						onClick={() => this.setState({ showPopup: true })}
 						name="public_profile"
@@ -64,8 +62,15 @@ class Gigs extends Component {
 	};
 
 	render() {
-		const { translate, notifications, profile } = this.props;
+		const {
+			translate,
+			notifications,
+			isOwnProfile,
+			loading: loadingUser
+		} = this.props;
 		const { loginPopup } = this.state;
+
+		console.log({ propsssss: this.props });
 
 		const renderGigs = gigs => {
 			if (gigs.length === 0) {
@@ -97,13 +102,6 @@ class Gigs extends Component {
 			}
 		};
 
-		var OfferMock = m.MockOffer;
-		if (profile.settings) {
-			OfferMock.refundPercentage = profile.settings.refundPercentage;
-			OfferMock.cancelationDays = profile.settings.cancelationDays;
-			OfferMock.dj = profile;
-		}
-
 		return (
 			<Query
 				query={MY_GIGS}
@@ -123,13 +121,27 @@ class Gigs extends Component {
 					return (
 						<>
 							<div>{!loading && renderGigs(gigs)}</div>
-							{!profile.user_id && !this.context.loadingUser ? (
+							{!isOwnProfile && !loadingUser ? (
 								<Popup
 									showing={loginPopup}
+									width={"400px"}
 									onClickOutside={() => this.setState({ loginPopup: false })}
 								>
-									<p>{translate("Login to see your gigs")}</p>
-									<Login redirect={false} />
+									<ApolloConsumer>
+										{client => {
+											return (
+												<>
+													<p>{translate("Login to see your gigs")}</p>
+													<Login
+														redirect={false}
+														onLogin={async _ => {
+															window.location.reload();
+														}}
+													/>
+												</>
+											);
+										}}
+									</ApolloConsumer>
 								</Popup>
 							) : null}
 						</>
@@ -142,8 +154,6 @@ class Gigs extends Component {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		profile: state.login.profile,
-		loading: state.gigs.isWaiting,
 		notifications: state.notifications.data
 	};
 }

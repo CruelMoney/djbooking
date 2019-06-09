@@ -68,7 +68,7 @@ class UserNavigation extends Component {
 							</li>
 						) : null}
 
-						{!isOwnProfile && isDJ ? (
+						{/* {!isOwnProfile && isDJ ? (
 							<li>
 								<Navlink
 									userNavigation={true}
@@ -78,9 +78,9 @@ class UserNavigation extends Component {
 									label="Book DJ"
 								/>
 							</li>
-						) : null}
+						) : null} */}
 
-						{isDJ ? (
+						{/* {isDJ ? (
 							<li>
 								<Navlink
 									userNavigation={true}
@@ -90,7 +90,7 @@ class UserNavigation extends Component {
 									label={translate("reviews")}
 								/>
 							</li>
-						) : null}
+						) : null} */}
 
 						{isOwnProfile ? (
 							<li>

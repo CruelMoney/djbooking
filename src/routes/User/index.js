@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import { Switch, Route, Redirect } from "react-router";
+import { Switch, Route } from "react-router";
 import User from "./components/pages/User";
 import FinishSignup from "./components/pages/FinishSignup";
 import Profile from "./routes/Profile";
-import Book from "./routes/Book";
 import Events from "./routes/Events";
 import Gigs from "./routes/Gigs";
 import Preferences from "./routes/Preferences";
-import Reviews from "./routes/Reviews";
 import content from "./content.json";
 import requestformContent from "../../components/common/RequestForm/content.json";
 import { connect } from "react-redux";
@@ -43,10 +41,10 @@ class ControlUser extends Component {
 										path={`${baseurl}/profile`}
 										render={props => <Profile {...renderProps} {...props} />}
 									/>
-									<Route
+									{/* <Route
 										path={`${baseurl}/book`}
 										render={props => <Book {...renderProps} {...props} />}
-									/>
+									/> */}
 									<Route
 										path={`${baseurl}/${translate("preferences")}`}
 										render={props => (
@@ -61,10 +59,10 @@ class ControlUser extends Component {
 										path={`${baseurl}/gigs`}
 										render={props => <Gigs {...renderProps} {...props} />}
 									/>
-									<Route
+									{/* <Route
 										path={`${baseurl}/${translate("reviews")}`}
 										render={props => <Reviews {...renderProps} {...props} />}
-									/>
+									/> */}
 								</Switch>
 							)}
 						</User>
