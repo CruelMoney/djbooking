@@ -95,4 +95,52 @@ const UPDATE_USER = gql`
 	}
 `;
 
-export { USER, UPDATE_USER };
+const UPDATE_USER_SETTINGS = gql`
+	mutation updateUser(
+		$id: ID!
+		$standby: Boolean
+		$cancelationDays: Int
+		$refundPercentage: Int
+		$permalink: String
+	) {
+		updateUser(
+			id: $id
+			standby: $standby
+			cancelationDays: $cancelationDays
+			refundPercentage: $refundPercentage
+			permalink: $permalink
+		) {
+			id
+			auth0Id
+			email
+			permalink
+			genres
+			picture {
+				path
+			}
+			playingLocation {
+				name
+				radius
+				longitude
+				latitude
+			}
+			userMetadata {
+				firstName
+				lastName
+				bio
+				birthday
+				phone
+			}
+			userSettings {
+				currency
+				standby
+				cancelationPolicy {
+					days
+					percentage
+				}
+			}
+		}
+	}
+`;
+
+export { USER, UPDATE_USER, UPDATE_USER_SETTINGS };

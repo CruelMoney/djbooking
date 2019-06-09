@@ -70,7 +70,13 @@ class OwnProfile extends Component {
 
 		const submit = async (form, cb) => {
 			try {
-				await mutate({ variables: { id: user.id, ...form.values } });
+				await mutate({
+					variables: {
+						id: user.id,
+						redirectLink: c.Environment.CALLBACK_DOMAIN,
+						...form.values
+					}
+				});
 				cb();
 			} catch (error) {
 				console.log({ error });

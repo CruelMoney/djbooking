@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ToggleOptions from "../../../../../components/common/ToggleOptions";
-import ToggleHandler from "../../../../../components/common/ToggleButtonHandler";
 import Button from "../../../../../components/common/Button-v2";
 import PayoutForm from "../../../../../components/common/PayoutForm";
 import Popup from "../../../../../components/common/Popup";
@@ -11,27 +10,17 @@ import assign from "lodash.assign";
 import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
 import Slider from "../../../../../components/common/Slider";
 import ErrorMessage from "../../../../../components/common/ErrorMessage";
-import entries from "object.entries";
 import TextField from "../../../../../components/common/Textfield";
 import Login from "../../../../../components/common/Login";
 import { connect } from "react-redux";
 import * as actions from "../../../../../actions/UserActions";
 import { userLogout } from "../../../../../actions/LoginActions";
-import { withRouter } from "react-router-dom";
 import { localize } from "react-localize-redux";
 import c from "../../../../../constants/constants";
+import { graphql } from "react-apollo";
+import { UPDATE_USER_SETTINGS } from "../../../gql";
 
 class Preferences extends Component {
-	static propTypes = {
-		user: PropTypes.object,
-		provider: PropTypes.string,
-		changePassword: PropTypes.func,
-		connectFacebook: PropTypes.func,
-		connectSoundCloud: PropTypes.func,
-		connectDB: PropTypes.func,
-		deleteProfile: PropTypes.func,
-		updateSettings: PropTypes.func
-	};
 	static contextTypes = {
 		loadingUser: PropTypes.bool,
 		reset: PropTypes.func,
@@ -52,28 +41,20 @@ class Preferences extends Component {
 		this.context.registerActions(this.getActionButtons);
 	}
 
-	updateSettings = (form, callback) => {
-		const { profile, updateSettings } = this.props;
-		var eSettings = profile.settings.emailSettings;
+	updateSettings = async (form, cb) => {
+		const { mutate, user } = this.props;
 
-		//setting all settings to false initially
-		for (var s in eSettings) {
-			if (eSettings.hasOwnProperty(s)) {
-				eSettings[s] = false;
-			}
-		}
-
-		//setting the selected to true
-		form.values.emailSettings.forEach(function(s) {
-			eSettings[s] = true;
-		});
-
-		var settings = assign({}, form.values, {
-			emailSettings: eSettings,
+		var variables = {
+			...form.values,
+			id: user.id,
 			refundPercentage: this.state.refundPercentage
-		});
-
-		updateSettings(settings, callback);
+		};
+		try {
+			await mutate({ variables });
+			cb();
+		} catch (error) {
+			cb(error.message);
+		}
 	};
 
 	hidePopup = () => {
@@ -83,7 +64,7 @@ class Preferences extends Component {
 	};
 
 	getActionButtons = (props = this.props) => {
-		const { translate, deleteProfile, logout } = this.props;
+		const { translate, deleteProfile, logout } = props;
 		const editing = this.context.editing;
 
 		return (
@@ -146,12 +127,11 @@ class Preferences extends Component {
 	};
 
 	render() {
-		const { translate, user = {}, loading, isDJ } = this.props;
+		const { translate, user = {}, loading, isDJ, isOwnProfile } = this.props;
 		const { userSettings = {}, userMetadata = {} } = user;
 		const hasPayout = userMetadata.bankAccount;
 		const { bankAccount = {} } = userMetadata;
 
-		console.log({ user });
 		return (
 			<div>
 				{loading ? (
@@ -163,7 +143,7 @@ class Preferences extends Component {
 					</div>
 				) : null}
 
-				{!loading && user.id ? (
+				{!loading && isOwnProfile ? (
 					<div>
 						<Popup
 							showing={this.state.showPopup}
@@ -197,23 +177,6 @@ class Preferences extends Component {
 									</div>
 								</TextWrapper>
 							) : null}
-
-							<TextWrapper
-								onDisabledClick={this.showHelp}
-								label={translate("Currency")}
-								text={translate("user.preferences.currency")}
-							>
-								<ToggleOptions
-									name="currency"
-									glued={true}
-									disabled={!this.context.editing}
-									value={userSettings.currency}
-								>
-									{c.Currencies.map(c => (
-										<Button name={c}>{c}</Button>
-									))}
-								</ToggleOptions>
-							</TextWrapper>
 
 							{isDJ ? (
 								<div>
@@ -300,7 +263,7 @@ class Preferences extends Component {
 					</div>
 				) : null}
 
-				{!user.id && !loading ? (
+				{!isOwnProfile && !loading ? (
 					<Popup
 						width={"400px"}
 						showing={this.state.loginPopup}
@@ -341,6 +304,6 @@ const SmartPreferences = connect(
 	mapDispatchToProps,
 	mergeProps,
 	{ pure: false }
-)(withRouter(Preferences));
+)(graphql(UPDATE_USER_SETTINGS)(Preferences));
 
 export default localize(SmartPreferences, "locale");
