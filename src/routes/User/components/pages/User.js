@@ -162,8 +162,19 @@ class User extends Component {
 						user = me;
 					}
 
-					const { picture, userMetadata = {} } = user;
+					const { picture, userMetadata = {}, appMetadata = {} } = user;
 					const { firstName, bio } = userMetadata;
+					const { roles = [] } = appMetadata;
+					const isDJ = roles.includes("DJ");
+					const isCustomer = roles.includes("CUSTOMER");
+
+					const forwardProps = {
+						...this.props,
+						user,
+						loading,
+						isDJ,
+						isCustomer
+					};
 
 					return (
 						<>
@@ -188,7 +199,8 @@ class User extends Component {
 								}}
 							>
 								<UserHeader
-									{...this.props}
+									{...forwardProps}
+									user={user}
 									hideInfo={!this.state.showUserCard}
 									actions={this.state.actions}
 									notification={this.state.notification}
@@ -202,7 +214,7 @@ class User extends Component {
 											<div className="mobileActions">
 												{isOwnProfile ? this.state.actions : null}
 											</div>
-											{children}
+											{children(forwardProps)}
 										</div>
 									</div>
 								</div>

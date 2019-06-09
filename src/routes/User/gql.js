@@ -26,6 +26,13 @@ const USER = gql`
 				bio
 				birthday
 			}
+			userSettings {
+				standby
+				cancelationPolicy {
+					days
+					percentage
+				}
+			}
 		}
 	}
 `;
@@ -34,24 +41,18 @@ const UPDATE_USER = gql`
 	mutation updateUser(
 		$id: ID!
 		$email: EmailAddress
-		$password: String
 		$firstName: String
 		$lastName: String
+		$phone: String
 		$picture: Upload
 		$playingLocation: Area
 		$genres: [String!]
 		$bio: String
 		$redirectLink: String
-		$birthday: DateTime
-		$standby: Boolean
-		$cancelationDays: Int
-		$refundPercentage: Int
-		$payoutInfo: JSON
 	) {
 		updateUser(
 			id: $id
 			email: $email
-			password: $password
 			redirectLink: $redirectLink
 			firstName: $firstName
 			lastName: $lastName
@@ -59,11 +60,7 @@ const UPDATE_USER = gql`
 			playingLocation: $playingLocation
 			genres: $genres
 			bio: $bio
-			birthday: $birthday
-			standby: $standby
-			refundPercentage: $refundPercentage
-			cancelationDays: $cancelationDays
-			payoutInfo: $payoutInfo
+			phone: $phone
 		) {
 			id
 			auth0Id

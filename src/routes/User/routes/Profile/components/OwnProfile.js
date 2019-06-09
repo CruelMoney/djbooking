@@ -64,16 +64,26 @@ class OwnProfile extends Component {
 	};
 
 	getActionButtons = (props = this.props) => {
-		const { translate } = this.props;
+		const { translate, mutate, user } = props;
+		console.log({ context: this.context, props });
 		const editing = this.context.editing;
-		console.log({ props });
+
+		const submit = async (form, cb) => {
+			try {
+				await mutate({ variables: { id: user.id, ...form.values } });
+				cb();
+			} catch (error) {
+				console.log({ error });
+				cb(error.message);
+			}
+		};
+
 		return (
 			<div className="context-actions" key="profile_actions">
 				{editing ? (
 					<SubmitButton
 						active={this.context.valid}
-						// onClick={submit}
-						// loading={loading}
+						onClick={submit}
 						name="save_edit_profile"
 						onSucces={() => {
 							this.setState({ loading: false });
@@ -133,11 +143,7 @@ class OwnProfile extends Component {
 
 		const { translate, user = {}, isDJ } = this.props;
 
-		let {
-			userMetadata = {},
-			genres = [],
-			playingLocation = {}
-		} = user;
+		let { userMetadata = {}, genres = [], playingLocation = {} } = user;
 
 		genres = [...new Set([...c.GENRES, ...genres])];
 

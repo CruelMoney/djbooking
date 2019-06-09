@@ -24,49 +24,49 @@ class ControlUser extends Component {
 			<Query query={ME} fetchPolicy="cache-only">
 				{({ data = {}, loading }) => {
 					const { me = {} } = data;
-					const { permalink, appMetadata = {} } = me;
-					const { roles = [] } = appMetadata;
+					const { permalink } = me || {};
 
 					const isOwnProfile = permalink === match.params.permalink;
-					const isDJ = roles.includes("DJ");
-					const isCustomer = roles.includes("CUSTOMER");
-					console.log({ roles, me });
+
 					const forward = {
 						...this.props,
-						user: me,
-						isOwnProfile,
-						isDJ,
-						isCustomer
+						loading,
+						user: me || {},
+						isOwnProfile
 					};
 
 					return (
 						<User {...forward}>
-							<Switch>
-								<Route
-									path={`${baseurl}/profile`}
-									render={props => <Profile {...forward} {...props} />}
-								/>
-								<Route
-									path={`${baseurl}/book`}
-									render={props => <Book {...forward} {...props} />}
-								/>
-								<Route
-									path={`${baseurl}/${translate("preferences")}`}
-									render={props => <Preferences {...forward} {...props} />}
-								/>
-								<Route
-									path={`${baseurl}/events`}
-									render={props => <Events {...forward} {...props} />}
-								/>
-								<Route
-									path={`${baseurl}/gigs`}
-									render={props => <Gigs {...forward} {...props} />}
-								/>
-								<Route
-									path={`${baseurl}/${translate("reviews")}`}
-									render={props => <Reviews {...forward} {...props} />}
-								/>
-							</Switch>
+							{renderProps => (
+								<Switch>
+									<Route
+										path={`${baseurl}/profile`}
+										render={props => <Profile {...renderProps} {...props} />}
+									/>
+									<Route
+										path={`${baseurl}/book`}
+										render={props => <Book {...renderProps} {...props} />}
+									/>
+									<Route
+										path={`${baseurl}/${translate("preferences")}`}
+										render={props => (
+											<Preferences {...renderProps} {...props} />
+										)}
+									/>
+									<Route
+										path={`${baseurl}/events`}
+										render={props => <Events {...renderProps} {...props} />}
+									/>
+									<Route
+										path={`${baseurl}/gigs`}
+										render={props => <Gigs {...renderProps} {...props} />}
+									/>
+									<Route
+										path={`${baseurl}/${translate("reviews")}`}
+										render={props => <Reviews {...renderProps} {...props} />}
+									/>
+								</Switch>
+							)}
 						</User>
 					);
 				}}
@@ -78,7 +78,6 @@ class ControlUser extends Component {
 function mapStateToProps(state, ownProps) {
 	console.log({ state });
 	return {
-		loading: state.login.status.isWaiting || state.user.status.isWaiting,
 		notifications: state.notifications.data
 	};
 }

@@ -68,7 +68,7 @@ class userHeader extends Component {
 			isCustomer,
 			isDJ
 		} = this.props;
-		
+
 		const {
 			picture,
 			genres,

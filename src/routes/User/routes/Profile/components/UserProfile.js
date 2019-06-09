@@ -49,74 +49,74 @@ class UserProfile extends Component {
 	};
 
 	render() {
-		const { translate, user = {} } = this.props;
+		const { translate, user = {}, loading, isDJ } = this.props;
+
+		if (loading) {
+			return (
+				<div>
+					<LoadingPlaceholder />
+					<LoadingPlaceholder />
+					<LoadingPlaceholder />
+					<LoadingPlaceholder />
+				</div>
+			);
+		}
+
 		let {
-			appMetadata = {},
 			userMetadata = {},
 			genres,
 			playingLocation = {},
 			userSettings = {}
 		} = user;
-		const { isDJ } = appMetadata;
 		const { cancelationPolicy = {} } = userSettings;
+		console.log({ user });
 		return (
 			<div>
-				{this.context.loadingUser ? (
-					<div>
-						<LoadingPlaceholder />
-						<LoadingPlaceholder />
-						<LoadingPlaceholder />
-						<LoadingPlaceholder />
-					</div>
-				) : (
-					<div>
-						<div className="profile">
-							{isDJ ? (
-								<TextWrapper label={translate("Bio")} text="">
-									<p>{userMetadata.bio}</p>
-								</TextWrapper>
-							) : null}
-							{isDJ ? (
-								<TextWrapper label={translate("Genres")} text="">
-									<Genres
-										name="genres"
-										validate={["required"]}
-										potentialValues={genres}
-										columns={4}
-										value={genres}
-										disabled={!this.context.editing}
-									/>
-								</TextWrapper>
-							) : null}
+				<div className="profile">
+					{isDJ ? (
+						<TextWrapper label={translate("Bio")} text="">
+							<p>{userMetadata.bio}</p>
+						</TextWrapper>
+					) : null}
+					{isDJ ? (
+						<TextWrapper label={translate("Genres")} text="">
+							<Genres
+								name="genres"
+								validate={["required"]}
+								potentialValues={genres}
+								columns={4}
+								value={genres}
+								disabled={!this.context.editing}
+							/>
+						</TextWrapper>
+					) : null}
 
-							{isDJ ? (
-								<TextWrapper
-									label={translate("Location")}
-									text={translate("public-profile.location")}
-								>
-									<Map
-										radius={playingLocation.radius}
-										value={playingLocation}
-										editable={this.context.editing}
-										themeColor={this.context.color}
-										radiusName="playingRadius"
-										locationName="playingLocation"
-									/>
-								</TextWrapper>
-							) : null}
+					{isDJ ? (
+						<TextWrapper
+							label={translate("Location")}
+							text={translate("public-profile.location")}
+						>
+							<Map
+								radius={playingLocation.radius}
+								value={playingLocation}
+								editable={this.context.editing}
+								themeColor={this.context.color}
+								radiusName="playingRadius"
+								locationName="playingLocation"
+							/>
+						</TextWrapper>
+					) : null}
 
-							{isDJ ? (
-								<TextWrapper
-									label={translate("Cancelation policy")}
-									text={translate("public-profile.refund", {
-										days: cancelationPolicy.days,
-										percentage: cancelationPolicy.percentage
-									})}
-								/>
-							) : null}
-						</div>
-					</div>
-				)}
+					{isDJ ? (
+						<TextWrapper
+							label={translate("Cancelation policy")}
+							text={translate("public-profile.refund", {
+								days: cancelationPolicy.days,
+								percentage: cancelationPolicy.percentage
+							})}
+						/>
+					) : null}
+				</div>
 			</div>
 		);
 	}
