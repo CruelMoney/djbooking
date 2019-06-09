@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Navlink from "./common/Navlink";
 import Dropdown from "./common/Dropdown";
@@ -11,92 +11,10 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import BreadCrumbs from "./BreadCrumbs";
 import * as actions from "../actions/LoginActions";
-import * as sessionActions from "../actions/SessionActions";
 import { getTranslate } from "react-localize-redux";
-import Notification from "./common/Notification";
-import { Mutation } from "react-apollo";
-import { VERIFY_EMAIL } from "./gql";
-import ErrorMessageApollo from "./common/ErrorMessageApollo";
-
-const EmailVerifier = ({ onVerified }) => {
-	const [state, setState] = useState({});
-
-	useEffect(() => {
-		const parsedUrl = new URL(window.location.href);
-		const verifyToken = parsedUrl.searchParams.get("token");
-		const isEmailValidation = parsedUrl.searchParams.get("emailVerification");
-
-		setState({ isEmailValidation, verifyToken });
-	});
-
-	const { verifyToken, isEmailValidation } = state;
-
-	if (!verifyToken || !isEmailValidation) return null;
-
-	return (
-		<Mutation
-			mutation={VERIFY_EMAIL}
-			onError={console.log}
-			onCompleted={onVerified}
-		>
-			{(mutate, { loading, error, data }) => (
-				<EmailVerifyIndicator
-					verifyToken={verifyToken}
-					mutate={mutate}
-					loading={loading}
-					data={data}
-					error={error}
-				/>
-			)}
-		</Mutation>
-	);
-};
-
-const EmailVerifyIndicator = ({
-	verifyToken,
-	mutate,
-	loading,
-	data,
-	error
-}) => {
-	const verifyEmail = async () => {
-		await mutate({
-			variables: {
-				verifyToken
-			}
-		});
-	};
-
-	useEffect(
-		() => {
-			verifyEmail();
-		},
-		[verifyToken]
-	);
-
-	const [active, setActive] = useState(true);
-	useEffect(
-		() => {
-			if (loading === false) {
-				// TODO should remove params here
-				const r = setTimeout(_ => setActive(false), 10000);
-				return _ => clearTimeout(r);
-			}
-		},
-		[loading]
-	);
-
-	return (
-		<Notification
-			overlay
-			active={active}
-			loading={loading}
-			message={data ? "Email verified" : "Verifying email"}
-		>
-			{error && <ErrorMessageApollo error={error} />}
-		</Notification>
-	);
-};
+import EmailVerifier from "./EmailVerifier";
+import { Query } from "react-apollo";
+import { ME } from "./gql";
 
 class Menu extends Component {
 	static propTypes = {
@@ -107,38 +25,13 @@ class Menu extends Component {
 
 	state = {
 		loginExpanded: false,
-		fixed: false,
-		didCheckLogin: false
-	};
-
-	getChildContext() {
-		return {
-			profile: this.props.profile,
-			loggedIn: this.props.loggedIn
-		};
-	}
-
-	componentDidMount() {
-		this.props.setGeoSession();
-		this.checkForLogin();
-	}
-
-	checkForLogin = (nextState, replace) => {
-		if (!this.state.didCheckLogin && !this.props.loggedIn) {
-			this.setState(
-				{
-					didCheckLogin: true,
-					checking: true
-				},
-				this.props.checkForLogin()
-			);
-		}
+		fixed: false
 	};
 
 	onLoginButton = () => {
-		this.setState({
-			loginExpanded: !this.state.loginExpanded
-		});
+		this.setState(({ loginExpanded }) => ({
+			loginExpanded: !loginExpanded
+		}));
 	};
 
 	timer = null;
@@ -154,29 +47,13 @@ class Menu extends Component {
 		);
 	};
 
-	componentWillReceiveProps(nextProps) {
-		const { translate } = this.props;
+	redirectToProfile = () => {};
 
-		if (nextProps.isRedirect && !this.state.redirected) {
-			if (
-				nextProps.profile.user_metadata &&
-				nextProps.profile.user_metadata.permaLink
-			) {
-				this.props.history.push(
-					translate(`routes./user/:username/profile`, {
-						username: nextProps.profile.user_metadata.permaLink
-					})
-				);
-			} else {
-				this.props.history.push(translate(`routes./user/signup`));
-			}
-			this.setState({ redirected: true });
-		}
-	}
 	componentDidUpdate(prevProps) {
+		const { location } = this.props;
 		window.addEventListener("scroll", this.handleScroll);
 
-		if (this.props.location.pathname !== prevProps.location.pathname) {
+		if (location.pathname !== prevProps.location.pathname) {
 			window.scrollTo(0, 0);
 		}
 	}
@@ -192,153 +69,170 @@ class Menu extends Component {
 		}
 	};
 
+	handleLoggedIn = ({ me }) => {
+		console.log({ me });
+		this.setState({
+			loggedIn: !!me
+		});
+	};
+
+	logout = () => {
+		const { translate, history } = this.props;
+		history.push(translate(`routes./`));
+		this.setState(
+			{
+				loggedIn: false
+			},
+			this.props.logout
+		);
+	};
+
 	render() {
-		const { translate } = this.props;
-		const isHome =
-			this.props.location.pathname === "/" ||
-			this.props.location.pathname === "/dk";
+		const { translate, location } = this.props;
+		const { showMenu, loginExpanded, loggedIn } = this.state;
+		const isHome = location.pathname === "/" || location.pathname === "/dk";
 
 		return (
-			<div className="menu-wrapper">
-				<EmailVerifier onVerified={this.onLoginButton} />
+			<Query query={ME} onCompleted={this.handleLoggedIn} onError={console.log}>
+				{({ refetch, loading, data = {} }) => {
+					const { me: user } = data;
 
-				<MobileMenu
-					isHome
-					onClosing={() => this.setState({ showMenu: false })}
-					show={this.state.showMenu}
-				/>
-				<div className="container">
-					<div className={"nav-container location_"}>
-						<nav className="navigation">
-							<div className="logo-area">
-								<Navlink to={translate("routes./")}>
-									<Logo />
-								</Navlink>
-								<BreadCrumbs />
+					return (
+						<div className="menu-wrapper">
+							<EmailVerifier onVerified={this.onLoginButton} />
+
+							<MobileMenu
+								isHome
+								onClosing={() => this.setState({ showMenu: false })}
+								show={showMenu}
+							/>
+							<div className="container">
+								<div className={"nav-container location_"}>
+									<nav className="navigation">
+										<div className="logo-area">
+											<Navlink to={translate("routes./")}>
+												<Logo />
+											</Navlink>
+											<BreadCrumbs />
+										</div>
+
+										<div className="" ref={ref => (this.mobileMenu = ref)}>
+											<a
+												className="mobileMenuButton"
+												onClick={() => {
+													this.setState({ showMenu: !showMenu });
+												}}
+											>
+												<h2>Menu</h2>
+											</a>
+										</div>
+										<ul className="main-menu">
+											{!isHome ? (
+												<li>
+													<Navlink
+														buttonLook={true}
+														to={translate("routes./")}
+														label={translate("arrange-event")}
+													/>
+												</li>
+											) : null}
+
+											<li>
+												<Navlink
+													buttonLook={true}
+													to={translate("routes./how-it-works")}
+													label={translate("how-it-works")}
+												/>
+											</li>
+
+											{!loggedIn && !loading ? (
+												<li>
+													<a onClick={this.onLoginButton}>
+														{translate("login")}
+													</a>
+													<Dropdown
+														expanded={loginExpanded}
+														disableOnClickOutside={!loginExpanded}
+														onClickOutside={this.onClickOutside}
+													>
+														<Login
+															closeLogin={this.onClickOutside}
+															onLogin={refetch}
+															user={user}
+														/>
+													</Dropdown>
+												</li>
+											) : null}
+
+											{loggedIn ? null : (
+												<li>
+													<Navlink
+														buttonLook={true}
+														to={translate("routes./signup")}
+														label={translate("apply-to-become-dj")}
+														important={true}
+													/>
+												</li>
+											)}
+											{loggedIn ? (
+												<li>
+													<Navlink
+														buttonLook={true}
+														to={translate("routes./")}
+														onClick={this.logout}
+														label={translate("log-out")}
+													/>
+												</li>
+											) : null}
+
+											{loggedIn ? (
+												<li>
+													<Navlink
+														buttonLook={true}
+														to={translate("routes./user/:username/profile", {
+															username: user.permalink
+														})}
+														important={true}
+													>
+														<UserMenuItem
+															name={user.userMetadata.firstName}
+															picture={user.picture && user.picture.path}
+														/>
+													</Navlink>
+												</li>
+											) : null}
+
+											{loading ? (
+												<li>
+													<Button
+														className="redirect-button"
+														color="#03d1ff"
+														isLoading
+													/>
+												</li>
+											) : null}
+										</ul>
+									</nav>
+								</div>
 							</div>
-
-							<div className="" ref={ref => (this.mobileMenu = ref)}>
-								<a
-									className="mobileMenuButton"
-									onClick={() => {
-										this.setState({ showMenu: !this.state.showMenu });
-									}}
-								>
-									<h2>Menu</h2>
-								</a>
-							</div>
-							<ul className="main-menu">
-								{!isHome ? (
-									<li>
-										<Navlink
-											buttonLook={true}
-											to={translate("routes./")}
-											label={translate("arrange-event")}
-										/>
-									</li>
-								) : null}
-
-								<li>
-									<Navlink
-										buttonLook={true}
-										to={translate("routes./how-it-works")}
-										label={translate("how-it-works")}
-									/>
-								</li>
-
-								{!this.props.loggedIn && !this.props.isWaiting ? (
-									<li>
-										<a onClick={this.onLoginButton}>{translate("login")}</a>
-										<Dropdown
-											expanded={this.state.loginExpanded}
-											disableOnClickOutside={!this.state.loginExpanded}
-											onClickOutside={this.onClickOutside}
-										>
-											<Login
-												closeLogin={this.onClickOutside}
-												profile={this.props.profile}
-											/>
-										</Dropdown>
-									</li>
-								) : null}
-
-								{this.props.loggedIn ? null : (
-									<li>
-										<Navlink
-											buttonLook={true}
-											to={translate("routes./signup")}
-											label={translate("apply-to-become-dj")}
-											important={true}
-										/>
-									</li>
-								)}
-								{this.props.loggedIn ? (
-									<li>
-										<Navlink
-											buttonLook={true}
-											to={translate("routes./")}
-											onClick={this.props.logout}
-											label={translate("log-out")}
-										/>
-									</li>
-								) : null}
-
-								{this.props.loggedIn ? (
-									<li>
-										<Navlink
-											buttonLook={true}
-											to={translate("routes./user/:username/profile", {
-												username: this.props.profile.user_metadata.permaLink
-											})}
-											important={true}
-										>
-											<UserMenuItem
-												name={this.props.profile.name}
-												picture={this.props.profile.picture}
-											/>
-										</Navlink>
-									</li>
-								) : null}
-
-								{this.props.isWaiting ? (
-									<li>
-										<Button
-											className="redirect-button"
-											color="#03d1ff"
-											isLoading
-										/>
-									</li>
-								) : null}
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</div>
+						</div>
+					);
+				}}
+			</Query>
 		);
 	}
 }
 
-Menu.childContextTypes = {
-	profile: PropTypes.object,
-	loggedIn: PropTypes.bool
-};
-
 function mapStateToProps(state, ownprops) {
 	return {
 		...ownprops,
-		loggedIn: state.login.status.signedIn,
-		isRedirect: state.login.status.isRedirect,
-		isWaiting: state.login.status.isWaiting,
-		profile: state.login.profile,
 		translate: getTranslate(state.locale)
 	};
 }
 
 function mapDispatchToProps(dispatch, ownprops) {
 	return {
-		logout: () => dispatch(actions.userLogout()),
-		checkForLogin: route => dispatch(actions.checkForLogin(route)),
-		setGeoSession: () => dispatch(sessionActions.setGeodata())
+		logout: () => dispatch(actions.userLogout())
 	};
 }
 

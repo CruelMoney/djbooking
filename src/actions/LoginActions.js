@@ -19,6 +19,7 @@ const handleCueupFeedBack = (dispatch, callback, redirect) => {
 			);
 			return callback(error.message);
 		}
+
 		var user = converter.user.fromDTO(result);
 		dispatch(
 			(function() {
@@ -71,7 +72,6 @@ export function checkForLogin() {
 				})()
 			);
 			const token = auth.getAccessToken();
-			console.log({ token });
 			handleLoginFeedback(dispatch, (err, res) => {})(null, token);
 		} else {
 			let err = {

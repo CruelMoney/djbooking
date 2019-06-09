@@ -8,7 +8,3 @@ export function changeCurrency(currency) {
 		value: currency
 	};
 }
-
-export function setGeodata(data) {
-	return function(dispatch) {};
-}

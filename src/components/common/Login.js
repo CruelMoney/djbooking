@@ -1,9 +1,8 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import SubmitButton from "./SubmitButton";
 import Textfield from "./Textfield";
 import Form from "./Form-v2";
-import CueupService from "../../utils/CueupService";
 import { connect } from "react-redux";
 import * as actions from "../../actions/LoginActions";
 import { withRouter } from "react-router-dom";
@@ -13,6 +12,7 @@ import { LOGIN, REQUEST_PASSWORD_RESET } from "../gql";
 import Button from "./Button-v2";
 import * as c from "../../constants/constants";
 import ErrorMessageApollo, { getErrorMessage } from "./ErrorMessageApollo";
+import { authService } from "../../utils/AuthService";
 
 class Login extends Component {
 	displayName = "Login";
@@ -94,12 +94,15 @@ class Login extends Component {
 					mutation={LOGIN}
 					variables={this.state}
 					onError={error => {
+						console.log({ error });
 						this.setState({ isLoading: false });
 					}}
-					onCompleted={({ signIn: { token } }) => {
-						onLogin(token, _ => {
-							this.setState({ isLoading: false });
-						});
+					onCompleted={async ({ signIn: { token } }) => {
+						if (token) {
+							authService.setSession(token);
+							await onLogin();
+						}
+						this.setState({ isLoading: false });
 					}}
 				>
 					{(mutate, { error }) => {
@@ -177,17 +180,6 @@ const getPropsFromState = state => {
 	};
 };
 
-function mapDispatchToProps(dispatch, ownprops) {
-	return {
-		onLogin: (token, callback) => dispatch(actions.onLogin(token, callback))
-	};
-}
-
-const SmartLogin = withRouter(
-	connect(
-		getPropsFromState,
-		mapDispatchToProps
-	)(Login)
-);
+const SmartLogin = withRouter(connect(getPropsFromState)(Login));
 
 export default props => <SmartLogin {...props} />;

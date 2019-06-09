@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 import UserHeader from "../blocks/UserHeader";
 import Footer from "../../../../components/common/Footer";
 import Form from "../../../../components/common/Form-v2";
 import { localize } from "react-localize-redux";
 import { connect } from "react-redux";
-import * as actions from "../../../../actions/UserActions";
 import "../../../../css/transitions.css";
+import { Query } from "react-apollo";
+import { USER } from "../../gql";
 
 class User extends Component {
 	themeColor = "#25F4D2";
@@ -35,16 +36,6 @@ class User extends Component {
 		isOwnProfile: PropTypes.bool,
 		updateAction: PropTypes.func
 	};
-
-	componentWillMount() {
-		if (!this.props.profile.user_metadata) {
-			const permaLink = this.props.isOwnProfile
-				? null
-				: this.props.match.params.permalink;
-			this.props.fetchUser(permaLink, (res, err) => {});
-		}
-		this.updateNotification(this.props);
-	}
 
 	updateNotification = props => {
 		const { translate } = this.props;
@@ -96,19 +87,6 @@ class User extends Component {
 		}
 	};
 
-	componentWillReceiveProps(nextProps) {
-		this.updateNotification(nextProps);
-
-		if (
-			nextProps.match.params.permalink !== this.props.match.params.permalink
-		) {
-			const permaLink = nextProps.isOwnProfile
-				? null
-				: nextProps.match.params.permalink;
-			nextProps.fetchUser(permaLink, (res, err) => {});
-		}
-	}
-
 	setActions = () => {
 		this.setState({ actions: this.getActions() });
 	};
@@ -147,10 +125,7 @@ class User extends Component {
 			color: this.themeColor,
 			editing: this.state.editing,
 			valid: this.state.valid,
-			loadingUser: this.props.loading,
-			textColor: this.textColor,
-			profile: this.props.profile,
-			isOwnProfile: this.props.isOwnProfile
+			textColor: this.textColor
 		};
 	}
 
@@ -174,80 +149,82 @@ class User extends Component {
 	};
 
 	render() {
-		const { profile, translate } = this.props;
-		const { firstName, picture, bio } = profile ? profile : {};
+		const { translate, match, isOwnProfile, children } = this.props;
 
 		return (
-			<div>
-				<Helmet>
-					<title>{`${firstName} | Cueup`}</title>
-					<meta property="og:title" content={`${firstName} | Cueup`} />
-					<meta property="og:type" content={"profile"} />
-					<meta name="description" content={bio} />
-					<meta property="og:description" content={bio} />
-					<meta property="og:image" content={picture} />
-				</Helmet>
+			<Query
+				query={USER}
+				variables={{
+					permalink: match.params.permalink
+				}}
+			>
+				{({ loading, data = {} }) => {
+					const { user = {} } = data;
+					const { picture, userMetadata = {} } = user;
+					const { firstName, bio } = userMetadata;
 
-				<Form
-					noError
-					resetStatusOnSucces
-					name="user-form"
-					formValidCallback={() => {
-						this.setState({ valid: true }, this.setActions);
-					}}
-					formInvalidCallback={() => {
-						this.setState({ valid: false }, this.setActions);
-					}}
-				>
-					<UserHeader
-						isOwnProfile={this.props.isOwnProfile}
-						geoLocation={
-							(this.props.geoCity ? this.props.geoCity + ", " : "") +
-							(this.props.geoCountry ? this.props.geoCountry : "")
-						}
-						profile={this.props.profile}
-						hideInfo={!this.state.showUserCard}
-						actions={this.state.actions}
-						notification={this.state.notification}
-						loading={this.props.loading}
-					/>
+					return (
+						<>
+							<Helmet>
+								<title>{`${firstName} | Cueup`}</title>
+								<meta property="og:title" content={`${firstName} | Cueup`} />
+								<meta property="og:type" content={"profile"} />
+								<meta name="description" content={bio} />
+								<meta property="og:description" content={bio} />
+								<meta property="og:image" content={picture && picture.path} />
+							</Helmet>
 
-					<div className="user-container container">
-						<div className="row">
-							<div className={"col-sm-4"} />
-							<div className={"col-sm-8"}>
-								<div className="mobileActions">
-									{this.props.isOwnProfile ? this.state.actions : null}
+							<Form
+								noError
+								resetStatusOnSucces
+								name="user-form"
+								formValidCallback={() => {
+									this.setState({ valid: true }, this.setActions);
+								}}
+								formInvalidCallback={() => {
+									this.setState({ valid: false }, this.setActions);
+								}}
+							>
+								<UserHeader
+									isOwnProfile={isOwnProfile}
+									user={user}
+									hideInfo={!this.state.showUserCard}
+									actions={this.state.actions}
+									notification={this.state.notification}
+									loading={loading}
+								/>
+
+								<div className="user-container container">
+									<div className="row">
+										<div className={"col-sm-4"} />
+										<div className={"col-sm-8"}>
+											<div className="mobileActions">
+												{isOwnProfile ? this.state.actions : null}
+											</div>
+											{children}
+										</div>
+									</div>
 								</div>
-								{this.props.children}
-							</div>
-						</div>
-					</div>
-				</Form>
+							</Form>
 
-				<Footer
-					noSkew
-					color={this.secondColor}
-					firstTo={translate("routes./how-it-works")}
-					secondTo={translate("routes./")}
-					firstLabel={translate("how-it-works")}
-					secondLabel={translate("arrange-event")}
-					title={translate("Wonder how it works?")}
-					subTitle={translate("See how it works, or arrange an event.")}
-				/>
-			</div>
+							<Footer
+								noSkew
+								color={this.secondColor}
+								firstTo={translate("routes./how-it-works")}
+								secondTo={translate("routes./")}
+								firstLabel={translate("how-it-works")}
+								secondLabel={translate("arrange-event")}
+								title={translate("Wonder how it works?")}
+								subTitle={translate("See how it works, or arrange an event.")}
+							/>
+						</>
+					);
+				}}
+			</Query>
 		);
 	}
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-	return {
-		fetchUser: (permaLink, callback) => {
-			dispatch(actions.getUser(permaLink, callback));
-		}
-	};
-}
-
-const SmartUser = connect(state => state, mapDispatchToProps)(User);
+const SmartUser = connect(state => state)(User);
 
 export default localize(SmartUser, "locale");

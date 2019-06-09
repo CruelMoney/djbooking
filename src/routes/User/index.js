@@ -13,65 +13,39 @@ import requestformContent from "../../components/common/RequestForm/content.json
 import { connect } from "react-redux";
 import addTranslate from "../../components/higher-order/addTranslate";
 import "./index.css";
+import { Query } from "react-apollo";
+import { ME } from "../../components/gql";
 class ControlUser extends Component {
 	render() {
 		const { translate, match } = this.props;
 		const baseurl = match.url;
 
 		return (
-			<User {...this.props}>
-				<Switch>
-					{/* <Redirect exact from={`${baseurl}`} to={`${baseurl}/profile`} /> */}
+			<Query query={ME} fetchPolicy="cache-only">
+				{({ data = {}, loading }) => {
+					const { me = {} } = data;
+					const { permalink } = me;
 
-					<Route
-						path={`${baseurl}/profile`}
-						render={props => <Profile {...this.props} {...props} />}
-					/>
-					<Route
-						path={`${baseurl}/book`}
-						render={props => <Book {...this.props} {...props} />}
-					/>
-					<Route
-						path={`${baseurl}/${translate("preferences")}`}
-						render={props => <Preferences {...this.props} {...props} />}
-					/>
-					<Route
-						path={`${baseurl}/events`}
-						render={props => <Events {...this.props} {...props} />}
-					/>
-					<Route
-						path={`${baseurl}/gigs`}
-						render={props => <Gigs {...this.props} {...props} />}
-					/>
-					<Route
-						path={`${baseurl}/${translate("reviews")}`}
-						render={props => <Reviews {...this.props} {...props} />}
-					/>
-				</Switch>
-			</User>
+					const isOwnProfile = permalink === match.params.permalink;
+					console.log({ me, data, match });
+					return (
+						<User {...this.props} isOwnProfile={isOwnProfile}>
+							<Switch>
+								{/* <Redirect exact from={`${baseurl}`} to={`${baseurl}/profile`} /> */}
+							</Switch>
+						</User>
+					);
+				}}
+			</Query>
 		);
 	}
 }
 
 function mapStateToProps(state, ownProps) {
-	const isOwnProfile = state.login.status.publicProfileMode
-		? false
-		: !!state.login.profile.user_metadata &&
-			!!state.login.profile.user_metadata.permaLink
-			? state.login.profile.user_metadata.permaLink.toLowerCase() ===
-				ownProps.match.params.permalink.toLowerCase()
-			: false;
-
+	console.log({ state });
 	return {
-		publicProfileMode: state.login.status.publicProfileMode,
-		profile: isOwnProfile ? state.login.profile : state.user.profile,
-		loading: isOwnProfile
-			? state.login.status.isWaiting
-			: state.user.status.isWaiting,
-		geoCity: state.session.city,
-		geoCountry: state.session.country,
-		notifications: state.notifications.data,
-		isOwnProfile: isOwnProfile
+		loading: state.login.status.isWaiting || state.user.status.isWaiting,
+		notifications: state.notifications.data
 	};
 }
 

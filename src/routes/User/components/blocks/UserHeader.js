@@ -7,13 +7,6 @@ import UserPic from "../../../../assets/default-profile-pic.png";
 import { localize } from "react-localize-redux";
 
 class userHeader extends Component {
-	static propTypes = {
-		profile: PropTypes.object,
-		geoAddress: PropTypes.string,
-		hideInfo: PropTypes.bool,
-		notification: PropTypes.string
-	};
-
 	state = {
 		loadString: "..."
 	};
@@ -63,59 +56,56 @@ class userHeader extends Component {
 	};
 
 	render() {
-		const { translate } = this.props;
+		const {
+			translate,
+			hideCard,
+			hideInfo,
+			loading,
+			isOwnProfile,
+			notification,
+			actions,
+			user = {}
+		} = this.props;
+		const {
+			picture,
+			genres,
+			playingLocation,
+			userMetadata = {},
+			appMetadata = {}
+		} = user;
+		const { bio, firstName } = userMetadata;
+		const { averageRating, experience, earned, roles = [] } = appMetadata;
 
 		return (
 			<Fragment>
-				{this.props.hideCard ? null : (
+				{hideCard ? null : (
 					<div className="sticky-card-container">
 						<div className="container ">
 							<div className="row">
 								<div className="col-sm-4">
 									<div className="user-card-wrapper">
 										<UserCard
-											isOwnProfile={this.props.isOwnProfile}
-											profile={this.props.profile}
+											isOwnProfile={isOwnProfile}
+											isDJ={roles.includes("DJ")}
+											isCustomer={roles.includes("CUSTOMER")}
+											user={user}
 											className="user-card"
-											onlyPicture={this.props.hideInfo}
-											picture={
-												this.props.loading
-													? UserPic
-													: this.props.profile.picture
-											}
-											about={
-												this.props.loading
-													? this.state.loadString
-													: this.props.profile.bio
-											}
-											rating={
-												this.props.loading ? 0 : this.props.profile.avgRating
-											}
-											experience={
-												this.props.loading ? 0 : this.props.profile.gigsCount
-											}
+											onlyPicture={hideInfo}
+											picture={loading || !picture ? UserPic : picture.path}
+											about={loading ? this.state.loadString : bio}
+											rating={loading ? 0 : averageRating}
+											experience={loading ? 0 : experience}
 											earned={
-												this.props.loading ? 0 : this.props.profile.earned
+												loading
+													? 0
+													: isOwnProfile
+													? earned && earned.formatted
+													: null
 											}
-											birthday={
-												this.props.loading ? null : this.props.profile.birthDay
-											}
-											genres={
-												this.props.loading ? ["..."] : this.props.profile.genres
-											}
-											loading={this.props.loading}
-											currency={
-												!this.props.hideInfo && this.props.isOwnProfile
-													? this.props.profile.settings.currency
-													: "DKK"
-											} //Can be set to dkk because not used if not own profile
-											bankCurrency={
-												this.props.isOwnProfile
-													? this.props.profile.app_metadata.bankCurrency
-													: "DKK"
-											} //Can be set to dkk because not used if not own profile
+											genres={loading ? ["..."] : genres}
+											loading={loading}
 										/>
-										{this.props.actions}
+										{actions}
 									</div>
 								</div>
 							</div>
@@ -132,7 +122,7 @@ class userHeader extends Component {
 						<span />
 					</div>
 
-					<Notification message={this.props.notification} />
+					<Notification message={notification} />
 
 					<div className="container">
 						<div className="row">
@@ -142,16 +132,15 @@ class userHeader extends Component {
 								<div className="header-info">
 									<div className="user-name">
 										<h1>
-											{this.props.loading
+											{loading
 												? this.state.loadString
-												: (this.props.isOwnProfile
-														? translate("Welcome") + " "
-														: " ") + this.props.profile.firstName}
+												: (isOwnProfile ? translate("Welcome") + " " : " ") +
+												  firstName}
 										</h1>
 									</div>
 									<div className="user-location">
 										<h2>
-											{this.props.loading ? null : (
+											{loading ? null : (
 												<svg
 													version="1.1"
 													id="Capa_1"
@@ -172,22 +161,21 @@ class userHeader extends Component {
 													</g>
 												</svg>
 											)}
-											{this.props.loading
+											{loading
 												? this.state.loadString
-												: this.props.isOwnProfile
-													? " " + this.props.geoLocation
-													: this.props.profile.city}
+												: playingLocation && playingLocation.name}
 										</h2>
 									</div>
 								</div>
 
-								{this.props.loading || this.props.hideCard ? null : (
+								{loading || hideCard ? null : (
 									<Fragment>
 										<div className="header-divider" />
 										<UserNavigation
-											isOwnProfile={this.props.isOwnProfile}
-											isDJ={this.props.profile.isDJ}
-											isCustomer={this.props.profile.isCustomer}
+											user={user}
+											isOwnProfile={isOwnProfile}
+											isDJ={roles.includes("DJ")}
+											isCustomer={roles.includes("CUSTOMER")}
 										/>
 									</Fragment>
 								)}

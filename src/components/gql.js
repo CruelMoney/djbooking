@@ -23,6 +23,7 @@ const ME = gql`
 				earned {
 					amount
 					currency
+					formatted
 				}
 			}
 			userMetadata {

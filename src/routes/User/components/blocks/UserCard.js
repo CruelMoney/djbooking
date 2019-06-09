@@ -6,10 +6,11 @@ import Logo from "../../../../components/common/Logo";
 import InfoPopup from "../../../../components/common/InfoPopup";
 
 import Button from "../../../../components/common/Button-v2";
-import * as actions from "../../../../actions/UserActions";
-import { connect } from "react-redux";
 import { ImageCompressor } from "../../../../utils/ImageCompressor";
 import { localize } from "react-localize-redux";
+import { Mutation } from "react-apollo";
+import { UPDATE_USER } from "../../gql";
+import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 
 class UserCard extends Component {
 	static propTypes = {
@@ -26,177 +27,143 @@ class UserCard extends Component {
 
 	state = { loading: false, err: null };
 
-	handleFile = async e => {
-		const { translate } = this.props;
-
+	handleFile = mutate => async e => {
 		this.setState({ loading: true });
 		const file = e.target.files[0];
 
-		try {
-			const { imageData: image } = await ImageCompressor(file);
-			this.props.updatePicture(image, (err, res) => {
-				if (err) {
-					this.setState({ err: translate("unknown-error") });
-				} else {
-					this.setState({ err: "", loading: false });
-				}
-			});
-		} catch (error) {
-			console.log({ error });
-
-			this.setState({
-				err: error.message,
-				loading: false
-			});
-		}
+		const { file: compressedFile } = await ImageCompressor(file, true);
+		await mutate({
+			variables: {
+				picture: compressedFile
+			}
+		});
 	};
 
 	render() {
-		const { translate } = this.props;
-
-		var genres = [];
-		const genresCount = this.props.genres.length;
-
-		this.props.genres.forEach(function(genre, i) {
-			if (i + 1 === genresCount) {
-				genres.push(genre);
-			} else {
-				genres.push(genre + ", ");
-			}
-		});
+		const {
+			translate,
+			className,
+			isOwnProfile,
+			picture,
+			onlyPicture,
+			isDJ,
+			experience,
+			rating,
+			user
+		} = this.props;
 
 		return (
-			<div className={"card " + this.props.className}>
-				<div
-					style={{
-						width: "280px",
-						height: "280px",
-						position: "relative"
-					}}
-					className={
-						this.state.loading || this.state.err
-							? "user-card-picture-wrapper loading"
-							: "user-card-picture-wrapper"
-					}
-					htmlFor="fileupload"
-				>
-					<div className="user-card-picture-overlay">
-						<div
-							style={{
-								position: "absolute",
-								left: "-8px",
-								top: "237px",
-								height: "20px"
-							}}
-							className="logo"
-						>
-							<Navlink to="/">
-								<Logo />
-							</Navlink>{" "}
-						</div>
-					</div>
-					<div id="profile-picture-upload">
-						<canvas ref="canvas" style={{ display: "none" }} />
-						{this.props.isOwnProfile ? (
-							<input
-								name="fileupload"
-								id="fileupload"
-								type="file"
-								accept="image/*"
-								onChange={this.handleFile}
-							/>
-						) : null}
-						{this.state.loading ? (
-							<Button isLoading />
-						) : this.state.err ? (
-							<label htmlFor="fileupload">
-								<span>{this.state.err}</span>
-							</label>
-						) : this.props.isOwnProfile ? (
-							<label htmlFor="fileupload">
-								<span>{translate("Change image")}</span>
-							</label>
-						) : null}
-					</div>
-
-					<div
-						className={
-							"user-card-picture " + (this.props.isOwnProfile ? "editable" : "")
-						}
-						style={{ backgroundImage: "url(" + this.props.picture + ")" }}
-					/>
-					{this.props.isOwnProfile ? (
-						<div
-							className="user-card-picture-blurred"
-							style={{ backgroundImage: "url(" + this.props.picture + ")" }}
-						/>
-					) : null}
-				</div>
-
-				<div
-					className={
-						this.props.onlyPicture ? "user-card-text hide" : "user-card-text"
-					}
-				>
-					<div className="user-card-info">
-						{this.props.profile.isDJ ? (
-							<div>
-								<div className="user-card-fact">
-									<span>
-										<p>{translate("experience")}</p>
-										<InfoPopup
-											info={
-												this.props.isOwnProfile
-													? translate("experience-description")
-													: translate("experience-description-public")
-											}
+			<Mutation mutation={UPDATE_USER} variables={{ id: user.id }}>
+				{(mutate, { loading, error }) => {
+					return (
+						<div className={"card " + className}>
+							<div
+								style={{
+									width: "280px",
+									height: "280px",
+									position: "relative"
+								}}
+								className={
+									this.state.loading || this.state.err
+										? "user-card-picture-wrapper loading"
+										: "user-card-picture-wrapper"
+								}
+								htmlFor="fileupload"
+							>
+								<div className="user-card-picture-overlay">
+									<div
+										style={{
+											position: "absolute",
+											left: "-8px",
+											top: "237px",
+											height: "20px"
+										}}
+										className="logo"
+									>
+										<Navlink to="/">
+											<Logo />
+										</Navlink>{" "}
+									</div>
+								</div>
+								<div id="profile-picture-upload">
+									<canvas ref="canvas" style={{ display: "none" }} />
+									{isOwnProfile ? (
+										<input
+											name="fileupload"
+											id="fileupload"
+											type="file"
+											accept="image/*"
+											onChange={this.handleFile(mutate)}
 										/>
-									</span>
-
-									{this.props.experience + " gigs"}
+									) : null}
+									{loading ? (
+										<Button isLoading />
+									) : error ? (
+										<label htmlFor="fileupload">
+											<ErrorMessageApollo error={error} />
+										</label>
+									) : isOwnProfile ? (
+										<label htmlFor="fileupload">
+											<span>{translate("Change image")}</span>
+										</label>
+									) : null}
 								</div>
 
-								<div className="user-card-fact">
-									<p>{translate("rating")}</p>
-									{this.props.rating > 0 ? (
-										<Rating rating={this.props.rating} />
-									) : (
-										translate("no-reviews-yet")
-									)}
+								<div
+									className={
+										"user-card-picture " + (isOwnProfile ? "editable" : "")
+									}
+									style={{ backgroundImage: "url(" + picture + ")" }}
+								/>
+								{isOwnProfile ? (
+									<div
+										className="user-card-picture-blurred"
+										style={{ backgroundImage: "url(" + picture + ")" }}
+									/>
+								) : null}
+							</div>
+
+							<div
+								className={
+									onlyPicture ? "user-card-text hide" : "user-card-text"
+								}
+							>
+								<div className="user-card-info">
+									{isDJ ? (
+										<div>
+											<div className="user-card-fact">
+												<span>
+													<p>{translate("experience")}</p>
+													<InfoPopup
+														info={
+															isOwnProfile
+																? translate("experience-description")
+																: translate("experience-description-public")
+														}
+													/>
+												</span>
+
+												{experience + " gigs"}
+											</div>
+
+											<div className="user-card-fact">
+												<p>{translate("rating")}</p>
+												{rating > 0 ? (
+													<Rating rating={rating} />
+												) : (
+													translate("no-reviews-yet")
+												)}
+											</div>
+										</div>
+									) : null}
 								</div>
 							</div>
-						) : null}
-
-						{this.props.profile.isCustomer ? (
-							<div>
-								<div className="user-card-fact">
-									<p>{translate("upcoming")}</p>
-									{this.props.profile.upcomingEvents + " events"}
-								</div>
-								<div className="user-card-fact">
-									<p>{translate("finished")}</p>
-									{this.props.profile.finishedEvents + " events"}
-								</div>
-							</div>
-						) : null}
-					</div>
-				</div>
-			</div>
+						</div>
+					);
+				}}
+			</Mutation>
 		);
 	}
 }
 
-function mapDispatchToProps(dispatch, ownprops) {
-	return {
-		updatePicture: (img, callback) => {
-			dispatch(actions.SaveProfilePicture(img, ownprops.profile, callback));
-		}
-	};
-}
-
-const SmartUserCard = connect(
-	state => state,
-	mapDispatchToProps
-)(UserCard);
-
-export default localize(SmartUserCard, "locale");
+export default localize(UserCard, "locale");
