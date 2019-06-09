@@ -67,7 +67,6 @@ class ControlUser extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-	console.log({ state });
 	return {
 		notifications: state.notifications.data
 	};

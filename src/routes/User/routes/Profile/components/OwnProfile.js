@@ -69,12 +69,21 @@ class OwnProfile extends Component {
 		const editing = this.context.editing;
 
 		const submit = async (form, cb) => {
+			let { playingRadius, playingLocation, ...variables } = form.values;
+
+			playingLocation = {
+				latitude: playingLocation ? playingLocation.lat : user.playingLocation.latitude,
+				longitude: playingLocation ? playingLocation.lng : user.playingLocation.longitude,
+				radius: playingRadius || user.playingLocation.radius
+			};
+
 			try {
 				await mutate({
 					variables: {
 						id: user.id,
 						redirectLink: c.Environment.CALLBACK_DOMAIN,
-						...form.values
+						playingLocation,
+						...variables
 					}
 				});
 				cb();

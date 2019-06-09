@@ -102,33 +102,37 @@ const PayoutForm = ({ user, isUpdate, translate, stripe }) => {
 									} = data;
 
 									return (
-										<MainForm bankAccount={bankAccount} translate={translate} />
+										<>
+											<MainForm
+												bankAccount={bankAccount}
+												translate={translate}
+											/>
+											<div className="row  center">
+												<div className="col-xs-6">
+													<SubmitButton
+														glow
+														type="submit"
+														active={valid}
+														onClick={submit(mutate)}
+														name="save_payout_info"
+													>
+														{isUpdate ? translate("update") : translate("save")}
+													</SubmitButton>
+												</div>
+											</div>
+
+											<div className="row center">
+												<div className="col-xs-10">
+													<p className="terms_link text-center">
+														{translate("payout.terms")}
+													</p>
+												</div>
+											</div>
+										</>
 									);
 								}}
 							</Query>
 						</TextWrapper>
-
-						<div className="row  center">
-							<div className="col-xs-6">
-								<SubmitButton
-									glow
-									type="submit"
-									active={valid}
-									onClick={submit(mutate)}
-									name="save_payout_info"
-								>
-									{isUpdate ? translate("update") : translate("save")}
-								</SubmitButton>
-							</div>
-						</div>
-
-						<div className="row center">
-							<div className="col-xs-10">
-								<p className="terms_link text-center">
-									{translate("payout.terms")}
-								</p>
-							</div>
-						</div>
 					</Form>
 				)}
 			</Mutation>

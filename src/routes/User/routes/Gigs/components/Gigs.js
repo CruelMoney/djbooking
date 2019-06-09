@@ -70,8 +70,6 @@ class Gigs extends Component {
 		} = this.props;
 		const { loginPopup } = this.state;
 
-		console.log({ propsssss: this.props });
-
 		const renderGigs = gigs => {
 			if (gigs.length === 0) {
 				return (

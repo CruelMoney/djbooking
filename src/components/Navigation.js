@@ -70,7 +70,6 @@ class Menu extends Component {
 	};
 
 	handleLoggedIn = ({ me }) => {
-		console.log({ me });
 		this.setState({
 			loggedIn: !!me
 		});
