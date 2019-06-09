@@ -20,6 +20,8 @@ import {
 } from "../../../../../components/common/Sharing";
 import { Environment } from "../../../../../constants/constants";
 import { localize } from "react-localize-redux";
+import { Mutation, graphql } from "react-apollo";
+import { UPDATE_USER } from "../../../gql";
 
 const Map = connectToForm(SimpleMap);
 
@@ -46,16 +48,14 @@ class OwnProfile extends Component {
 			this.context.registerActions(this.getActionButtons);
 		}
 
+		const { user = {} } = this.props;
+		const { permalink } = user;
+
 		this.bookURL =
-			Environment.API_DOMAIN +
-			"/api/user/" +
-			this.props.profile.user_metadata.permaLink +
-			"/bookme";
+			Environment.API_DOMAIN + "/api/user/" + permalink + "/bookme";
 
 		this.signupURL =
-			Environment.API_DOMAIN +
-			"/api/user/join?referredBy=" +
-			this.props.profile.user_metadata.permaLink;
+			Environment.API_DOMAIN + "/api/user/join?referredBy=" + permalink;
 	}
 
 	state = {
@@ -63,30 +63,17 @@ class OwnProfile extends Component {
 		loading: false
 	};
 
-	submit = (form, callback) => {
-		this.setState({
-			loading: true
-		});
-
-		const profile = {
-			...this.props.profile,
-			...form.values
-		};
-
-		this.props.save(profile, callback);
-	};
-
 	getActionButtons = (props = this.props) => {
 		const { translate } = this.props;
 		const editing = this.context.editing;
-
+		console.log({ props });
 		return (
 			<div className="context-actions" key="profile_actions">
 				{editing ? (
 					<SubmitButton
 						active={this.context.valid}
-						onClick={this.submit}
-						loading={this.state.loading}
+						// onClick={submit}
+						// loading={loading}
 						name="save_edit_profile"
 						onSucces={() => {
 							this.setState({ loading: false });
@@ -108,9 +95,6 @@ class OwnProfile extends Component {
 				<FB link={this.bookURL} generatePreview>
 					{translate("Share profile on facebook")}
 				</FB>
-				<Button onClick={this.props.togglePublicProfile} name="toggle_public">
-					{translate("See public profile")}
-				</Button>
 
 				<ErrorMessage />
 			</div>
@@ -136,171 +120,185 @@ class OwnProfile extends Component {
 	};
 
 	render() {
-		const { translate } = this.props;
-		const isDJ = this.props.profile.isDJ;
+		if (this.context.loadingUser) {
+			return (
+				<div>
+					<LoadingPlaceholder />
+					<LoadingPlaceholder />
+					<LoadingPlaceholder />
+					<LoadingPlaceholder />
+				</div>
+			);
+		}
 
-		let genres = new Set([...c.GENRES, ...this.props.profile.genres]);
+		const { translate, user = {}, isDJ } = this.props;
 
-		genres = [...genres];
+		let {
+			userMetadata = {},
+			genres = [],
+			playingLocation = {}
+		} = user;
+
+		genres = [...new Set([...c.GENRES, ...genres])];
 
 		return (
 			<div>
-				{this.context.loadingUser ? (
-					<div>
-						<LoadingPlaceholder />
-						<LoadingPlaceholder />
-						<LoadingPlaceholder />
-						<LoadingPlaceholder />
-					</div>
-				) : (
-					<div>
-						<div className="profile">
-							<TextWrapper
-								onDisabledClick={this.showHelp}
-								label={translate("Name")}
-								text={translate("profile.name")}
-							>
-								<TextField
-									value={this.props.profile.name}
-									name="name"
-									disabled={!this.context.editing}
-									type="text"
-									validate={["required", "lastName"]}
-								/>
-							</TextWrapper>
-							<TextWrapper
-								onDisabledClick={this.showHelp}
-								label={"Email"}
-								text={translate("profile.email")}
-							>
-								<TextField
-									value={this.props.profile.email}
-									name="email"
-									disabled={!this.context.editing}
-									type="email"
-									validate={["required", "email"]}
-								/>
-							</TextWrapper>
+				<div className="profile">
+					<TextWrapper
+						onDisabledClick={this.showHelp}
+						label={translate("First name")}
+					>
+						<TextField
+							value={userMetadata.firstName}
+							name="firstName"
+							disabled={!this.context.editing}
+							type="text"
+							validate={["required"]}
+						/>
+					</TextWrapper>
+					<TextWrapper
+						onDisabledClick={this.showHelp}
+						label={translate("Last name")}
+					>
+						<TextField
+							value={userMetadata.lastName}
+							name="lastName"
+							disabled={!this.context.editing}
+							type="text"
+							validate={["required"]}
+						/>
+					</TextWrapper>
+					<TextWrapper
+						onDisabledClick={this.showHelp}
+						label={"Email"}
+						text={translate("profile.email")}
+					>
+						<TextField
+							value={user.email}
+							name="email"
+							disabled={!this.context.editing}
+							type="email"
+							validate={["required", "email"]}
+						/>
+					</TextWrapper>
 
-							<TextWrapper
-								onDisabledClick={this.showHelp}
-								label={translate("Phone number")}
-								text={translate("profile.phone")}
-							>
-								<TextField
-									validate={["required"]}
-									name="phone"
-									value={this.props.profile.phone}
-									disabled={!this.context.editing}
-									type="tel"
-								/>
-							</TextWrapper>
+					<TextWrapper
+						onDisabledClick={this.showHelp}
+						label={translate("Phone number")}
+						text={translate("profile.phone")}
+					>
+						<TextField
+							validate={["required"]}
+							name="phone"
+							value={userMetadata.phone}
+							disabled={!this.context.editing}
+							type="tel"
+						/>
+					</TextWrapper>
 
-							{isDJ ? (
-								<TextWrapper
-									onDisabledClick={this.showHelp}
-									label={translate("Genres")}
-									text={translate("profile.genres")}
+					{isDJ ? (
+						<TextWrapper
+							onDisabledClick={this.showHelp}
+							label={translate("Genres")}
+							text={translate("profile.genres")}
+						>
+							<Genres
+								key={user.genres.length}
+								enableAdditions
+								updateBeforeSubmit
+								name="genres"
+								validate={["required"]}
+								potentialValues={genres}
+								columns={4}
+								value={user.genres}
+								disabled={!this.context.editing}
+							/>
+						</TextWrapper>
+					) : null}
+
+					{isDJ ? (
+						<TextWrapper
+							onDisabledClick={this.showHelp}
+							label={translate("Bio")}
+							text={translate("profile.bio")}
+						>
+							<TextBox
+								validate={["required"]}
+								width="100%"
+								height="150px"
+								name="bio"
+								disabled={!this.context.editing}
+								value={userMetadata.bio}
+							/>
+						</TextWrapper>
+					) : null}
+
+					{isDJ ? (
+						<TextWrapper
+							onDisabledClick={this.showHelp}
+							label={translate("Location")}
+							text={translate("profile.location")}
+						>
+							<Map
+								radius={playingLocation.radius}
+								value={playingLocation}
+								editable={this.context.editing}
+								themeColor={this.context.color}
+								radiusName="playingRadius"
+								locationName="playingLocation"
+							/>
+						</TextWrapper>
+					) : null}
+
+					{isDJ ? (
+						<TextWrapper
+							label={translate("Refer organizers")}
+							text={translate("profile.refer-1-description")}
+						>
+							<div className="sharing-buttons">
+								<Tweet generatePreview link={this.bookURL}>
+									Twitter
+								</Tweet>
+								<FB generatePreview link={this.bookURL}>
+									Facebook
+								</FB>
+								<QR generatePreview link={this.bookURL}>
+									QR CODE
+								</QR>
+								<Link generatePreview link={this.bookURL}>
+									{translate("Copy link")}
+								</Link>
+								<Embed
+									embedURL={
+										Environment.API_DOMAIN +
+										"/api/user/" +
+										user.id +
+										"/embedcard"
+									}
 								>
-									<Genres
-										key={this.props.profile.genres.length}
-										enableAdditions
-										updateBeforeSubmit
-										name="genres"
-										validate={["required"]}
-										potentialValues={genres}
-										columns={4}
-										value={this.props.profile.genres}
-										disabled={!this.context.editing}
-									/>
-								</TextWrapper>
-							) : null}
+									Embed code
+								</Embed>
+							</div>
+						</TextWrapper>
+					) : null}
 
-							{isDJ ? (
-								<TextWrapper
-									onDisabledClick={this.showHelp}
-									label={translate("Bio")}
-									text={translate("profile.bio")}
-								>
-									<TextBox
-										validate={["required"]}
-										width="100%"
-										height="150px"
-										name="bio"
-										disabled={!this.context.editing}
-										value={this.props.profile.bio}
-									/>
-								</TextWrapper>
-							) : null}
-
-							{isDJ ? (
-								<TextWrapper
-									onDisabledClick={this.showHelp}
-									label={translate("Location")}
-									text={translate("profile.location")}
-								>
-									<Map
-										radius={this.props.profile.playingRadius}
-										value={this.props.profile.playingLocation}
-										editable={this.context.editing}
-										themeColor={this.context.color}
-										radiusName="playingRadius"
-										locationName="playingLocation"
-									/>
-								</TextWrapper>
-							) : null}
-
-							{isDJ ? (
-								<TextWrapper
-									label={translate("Refer organizers")}
-									text={translate("profile.refer-1-description")}
-								>
-									<div className="sharing-buttons">
-										<Tweet generatePreview link={this.bookURL}>
-											Twitter
-										</Tweet>
-										<FB generatePreview link={this.bookURL}>
-											Facebook
-										</FB>
-										<QR generatePreview link={this.bookURL}>
-											QR CODE
-										</QR>
-										<Link generatePreview link={this.bookURL}>
-											{translate("Copy link")}
-										</Link>
-										<Embed
-											embedURL={
-												Environment.API_DOMAIN +
-												"/api/user/" +
-												this.props.profile.user_id +
-												"/embedcard"
-											}
-										>
-											Embed code
-										</Embed>
-									</div>
-								</TextWrapper>
-							) : null}
-
-							{isDJ ? (
-								<TextWrapper
-									label={translate("Refer DJs")}
-									text={translate("profile.refer-2-description")}
-								>
-									<div className="sharing-buttons">
-										<Tweet link={this.signupURL}>Twitter</Tweet>
-										<FB link={this.signupURL}>Facebook</FB>
-										<QR link={this.signupURL}>QR CODE</QR>
-										<Link link={this.signupURL}>{translate("Copy link")}</Link>
-									</div>
-								</TextWrapper>
-							) : null}
-						</div>
-					</div>
-				)}
+					{isDJ ? (
+						<TextWrapper
+							label={translate("Refer DJs")}
+							text={translate("profile.refer-2-description")}
+						>
+							<div className="sharing-buttons">
+								<Tweet link={this.signupURL}>Twitter</Tweet>
+								<FB link={this.signupURL}>Facebook</FB>
+								<QR link={this.signupURL}>QR CODE</QR>
+								<Link link={this.signupURL}>{translate("Copy link")}</Link>
+							</div>
+						</TextWrapper>
+					) : null}
+				</div>
 			</div>
 		);
 	}
 }
 
-export default localize(OwnProfile, "locale");
+export default localize(graphql(UPDATE_USER)(OwnProfile), "locale");

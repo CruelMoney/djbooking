@@ -64,8 +64,11 @@ class userHeader extends Component {
 			isOwnProfile,
 			notification,
 			actions,
-			user = {}
+			user = {},
+			isCustomer,
+			isDJ
 		} = this.props;
+		
 		const {
 			picture,
 			genres,
@@ -74,7 +77,7 @@ class userHeader extends Component {
 			appMetadata = {}
 		} = user;
 		const { bio, firstName } = userMetadata;
-		const { averageRating, experience, earned, roles = [] } = appMetadata;
+		const { averageRating, experience, earned } = appMetadata;
 
 		return (
 			<Fragment>
@@ -85,10 +88,7 @@ class userHeader extends Component {
 								<div className="col-sm-4">
 									<div className="user-card-wrapper">
 										<UserCard
-											isOwnProfile={isOwnProfile}
-											isDJ={roles.includes("DJ")}
-											isCustomer={roles.includes("CUSTOMER")}
-											user={user}
+											{...this.props}
 											className="user-card"
 											onlyPicture={hideInfo}
 											picture={loading || !picture ? UserPic : picture.path}
@@ -174,8 +174,8 @@ class userHeader extends Component {
 										<UserNavigation
 											user={user}
 											isOwnProfile={isOwnProfile}
-											isDJ={roles.includes("DJ")}
-											isCustomer={roles.includes("CUSTOMER")}
+											isDJ={isDJ}
+											isCustomer={isCustomer}
 										/>
 									</Fragment>
 								)}

@@ -24,14 +24,48 @@ class ControlUser extends Component {
 			<Query query={ME} fetchPolicy="cache-only">
 				{({ data = {}, loading }) => {
 					const { me = {} } = data;
-					const { permalink } = me;
+					const { permalink, appMetadata = {} } = me;
+					const { roles = [] } = appMetadata;
 
 					const isOwnProfile = permalink === match.params.permalink;
-					console.log({ me, data, match });
+					const isDJ = roles.includes("DJ");
+					const isCustomer = roles.includes("CUSTOMER");
+					console.log({ roles, me });
+					const forward = {
+						...this.props,
+						user: me,
+						isOwnProfile,
+						isDJ,
+						isCustomer
+					};
+
 					return (
-						<User {...this.props} isOwnProfile={isOwnProfile}>
+						<User {...forward}>
 							<Switch>
-								{/* <Redirect exact from={`${baseurl}`} to={`${baseurl}/profile`} /> */}
+								<Route
+									path={`${baseurl}/profile`}
+									render={props => <Profile {...forward} {...props} />}
+								/>
+								<Route
+									path={`${baseurl}/book`}
+									render={props => <Book {...forward} {...props} />}
+								/>
+								<Route
+									path={`${baseurl}/${translate("preferences")}`}
+									render={props => <Preferences {...forward} {...props} />}
+								/>
+								<Route
+									path={`${baseurl}/events`}
+									render={props => <Events {...forward} {...props} />}
+								/>
+								<Route
+									path={`${baseurl}/gigs`}
+									render={props => <Gigs {...forward} {...props} />}
+								/>
+								<Route
+									path={`${baseurl}/${translate("reviews")}`}
+									render={props => <Reviews {...forward} {...props} />}
+								/>
 							</Switch>
 						</User>
 					);

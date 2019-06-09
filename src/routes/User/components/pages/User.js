@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import "../../../../css/transitions.css";
 import { Query } from "react-apollo";
 import { USER } from "../../gql";
+import { ME } from "../../../../components/gql";
 
 class User extends Component {
 	themeColor = "#25F4D2";
@@ -38,46 +39,38 @@ class User extends Component {
 	};
 
 	updateNotification = props => {
-		const { translate } = this.props;
-		if (props.profile.app_metadata && props.isOwnProfile) {
-			if (props.notifications && props.notifications.length > 0) {
-				const notification = props.notifications.sort((a, b) => a > b)[0];
+		const { translate, user = {}, isOwnProfile, notifications } = this.props;
+		const { appMetadata = {}, userSettings = {}, picture } = user;
+		if (appMetadata && isOwnProfile) {
+			if (notifications && notifications.length > 0) {
+				const notification = notifications.sort((a, b) => a > b)[0];
 				this.setState({ notification: notification.content });
 				return;
 			}
-			if (!props.profile.app_metadata.emailVerified) {
+			if (!appMetadata.emailVerified) {
 				this.setState({
 					notification: translate("user.notifications.email")
 				});
 				return;
 			}
-			if (props.profile.settings && props.profile.settings.standby) {
+			if (userSettings.standby) {
 				this.setState({
 					notification: translate("user.notifications.standby")
 				});
 				return;
 			}
-			if (
-				props.profile.picture &&
-				props.profile.picture.indexOf("default-profile-pic") !== -1
-			) {
+			if (!picture) {
 				this.setState({
 					notification: translate("user.notifications.picture")
 				});
 				return;
 			}
-			if (props.profile.app_metadata.notification) {
-				const serverNoti = props.profile.app_metadata.notification;
-				let noti = translate(serverNoti);
-				noti = noti.indexOf("Missing translation") === -1 ? noti : serverNoti;
-				this.setState({ notification: noti });
-				return;
-			}
+
 			this.setState({
 				notification: translate("user.notifications.empty")
 			});
 		} else {
-			if (props.profile.settings && props.profile.settings.standby) {
+			if (userSettings.standby) {
 				this.setState({
 					notification: translate("user.notifications.standby-public")
 				});
@@ -153,13 +146,22 @@ class User extends Component {
 
 		return (
 			<Query
-				query={USER}
-				variables={{
-					permalink: match.params.permalink
-				}}
+				query={isOwnProfile ? ME : USER}
+				variables={
+					isOwnProfile
+						? {}
+						: {
+								permalink: match.params.permalink
+						  }
+				}
 			>
 				{({ loading, data = {} }) => {
-					const { user = {} } = data;
+					let { user = {}, me = {} } = data;
+
+					if (me.id) {
+						user = me;
+					}
+
 					const { picture, userMetadata = {} } = user;
 					const { firstName, bio } = userMetadata;
 
@@ -186,8 +188,7 @@ class User extends Component {
 								}}
 							>
 								<UserHeader
-									isOwnProfile={isOwnProfile}
-									user={user}
+									{...this.props}
 									hideInfo={!this.state.showUserCard}
 									actions={this.state.actions}
 									notification={this.state.notification}
@@ -225,6 +226,4 @@ class User extends Component {
 	}
 }
 
-const SmartUser = connect(state => state)(User);
-
-export default localize(SmartUser, "locale");
+export default localize(User, "locale");

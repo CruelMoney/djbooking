@@ -25,6 +25,7 @@ const ME = gql`
 					currency
 					formatted
 				}
+				roles
 			}
 			userMetadata {
 				firstName

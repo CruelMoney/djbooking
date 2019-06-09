@@ -35,12 +35,12 @@ class UserProfile extends Component {
 	}
 
 	getActionButtons = (props = this.props) => {
-		const { translate } = this.props;
+		const { translate, publicProfileMode, togglePublicProfile } = this.props;
 
 		return (
 			<div className="context-actions" key="profile_actions">
-				{this.props.publicProfileMode ? (
-					<Button onClick={this.props.togglePublicProfile} name="toggle_public">
+				{publicProfileMode ? (
+					<Button onClick={togglePublicProfile} name="toggle_public">
 						{translate("Back to profile")}
 					</Button>
 				) : null}
@@ -49,9 +49,16 @@ class UserProfile extends Component {
 	};
 
 	render() {
-		const { translate } = this.props;
-		const isDJ = this.props.profile.isDJ;
-
+		const { translate, user = {} } = this.props;
+		let {
+			appMetadata = {},
+			userMetadata = {},
+			genres,
+			playingLocation = {},
+			userSettings = {}
+		} = user;
+		const { isDJ } = appMetadata;
+		const { cancelationPolicy = {} } = userSettings;
 		return (
 			<div>
 				{this.context.loadingUser ? (
@@ -66,7 +73,7 @@ class UserProfile extends Component {
 						<div className="profile">
 							{isDJ ? (
 								<TextWrapper label={translate("Bio")} text="">
-									<p>{this.props.profile.bio}</p>
+									<p>{userMetadata.bio}</p>
 								</TextWrapper>
 							) : null}
 							{isDJ ? (
@@ -74,9 +81,9 @@ class UserProfile extends Component {
 									<Genres
 										name="genres"
 										validate={["required"]}
-										potentialValues={this.props.profile.genres}
+										potentialValues={genres}
 										columns={4}
-										value={this.props.profile.genres}
+										value={genres}
 										disabled={!this.context.editing}
 									/>
 								</TextWrapper>
@@ -88,8 +95,8 @@ class UserProfile extends Component {
 									text={translate("public-profile.location")}
 								>
 									<Map
-										radius={this.props.profile.playingRadius}
-										value={this.props.profile.playingLocation}
+										radius={playingLocation.radius}
+										value={playingLocation}
 										editable={this.context.editing}
 										themeColor={this.context.color}
 										radiusName="playingRadius"
@@ -102,8 +109,8 @@ class UserProfile extends Component {
 								<TextWrapper
 									label={translate("Cancelation policy")}
 									text={translate("public-profile.refund", {
-										days: this.props.profile.settings.cancelationDays,
-										percentage: this.props.profile.settings.refundPercentage
+										days: cancelationPolicy.days,
+										percentage: cancelationPolicy.percentage
 									})}
 								/>
 							) : null}
