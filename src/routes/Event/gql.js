@@ -123,4 +123,16 @@ const PAYMENT_CONFIRMED = gql`
 	}
 `;
 
-export { EVENT, REQUEST_PAYMENT_INTENT, PAYMENT_CONFIRMED, EVENT_GIGS };
+const DECLINE_DJ = gql`
+	mutation($gigId: ID!) {
+		declineDJ(gigId: $gigId)
+	}
+`;
+
+export {
+	EVENT,
+	REQUEST_PAYMENT_INTENT,
+	PAYMENT_CONFIRMED,
+	EVENT_GIGS,
+	DECLINE_DJ
+};

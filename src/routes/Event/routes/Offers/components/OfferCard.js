@@ -8,13 +8,12 @@ import Chat from "../../../../../components/common/Chat";
 import EmptyPage from "../../../../../components/common/EmptyPage";
 import ReactPixel from "react-facebook-pixel";
 import { getTranslate } from "react-localize-redux";
-import * as actions from "../../../../../actions/EventActions";
 import { connect } from "react-redux";
 import { ReactComponent as PhoneIcon } from "../../../../../assets/phone.svg";
 import { ReactComponent as EmailIcon } from "../../../../../assets/email.svg";
 import { PayUsingCueupOrganizer } from "../../../../../components/common/modals";
 import { Mutation } from "react-apollo";
-import { PAYMENT_CONFIRMED } from "../../../gql";
+import { PAYMENT_CONFIRMED, DECLINE_DJ } from "../../../gql";
 
 class OfferCard extends Component {
 	static propTypes = {
@@ -26,8 +25,7 @@ class OfferCard extends Component {
 	state = {
 		showPopup: false,
 		showChat: false,
-		errors: null,
-		loadingDecline: false
+		errors: null
 	};
 
 	hidePopup = () => {
@@ -44,26 +42,6 @@ class OfferCard extends Component {
 	showPayment = () => {
 		this.setState({ showPopup: true });
 		ReactPixel.track("InitiateCheckout");
-	};
-
-	declineDJ = () => {
-		const { declineDJ } = this.props;
-		this.setState({
-			error: null,
-			loadingDecline: true
-		});
-		declineDJ((err, res) => {
-			if (err) {
-				this.setState({
-					error: err.message,
-					loadingDecline: false
-				});
-			} else {
-				this.setState({
-					loadingDecline: false
-				});
-			}
-		});
 	};
 
 	render() {
@@ -244,18 +222,27 @@ class OfferCard extends Component {
 									marginTop: "15px"
 								}}
 							>
-								{gig.status === "ACCEPTED" ? (
-									<Button
-										warning={translate("decline-warning")}
-										dangerous={true}
-										disabled={disabled}
-										active={false}
-										onClick={this.declineDJ}
-										isLoading={this.state.loadingDecline}
-										name="decline-dj"
+								{gig.status === "ACCEPTED" || gig.status === "REQUESTED" ? (
+									<Mutation
+										mutation={DECLINE_DJ}
+										variables={{ gigId: gig.id }}
+										onCompleted={_ => {
+											window.location.reload();
+										}}
 									>
-										{translate("Decline DJ")}
-									</Button>
+										{(mutate, { loading }) => (
+											<Button
+												warning={translate("decline-warning")}
+												dangerous={true}
+												active={false}
+												onClick={_ => mutate()}
+												isLoading={loading}
+												name="decline-dj"
+											>
+												{translate("Decline DJ")}
+											</Button>
+										)}
+									</Mutation>
 								) : null}
 
 								{gig.status === "CONFIRMED" ||
@@ -289,14 +276,4 @@ export const mapStateToProps = state => {
 	};
 };
 
-export const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		declineDJ: callback =>
-			dispatch(actions.declineDJ(ownProps.event, ownProps.gig.id, callback))
-	};
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(OfferCard);
+export default connect(mapStateToProps)(OfferCard);
