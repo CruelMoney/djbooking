@@ -66,7 +66,8 @@ class Gigs extends Component {
 			translate,
 			notifications,
 			isOwnProfile,
-			loading: loadingUser
+			loading: loadingUser,
+			user
 		} = this.props;
 		const { loginPopup } = this.state;
 
@@ -95,7 +96,14 @@ class Gigs extends Component {
 						const notification = notifications.find(noti => {
 							return String(noti.room) === String(gig.id);
 						});
-						return <Gig notification={notification} key={gig.id} gig={gig} />;
+						return (
+							<Gig
+								notification={notification}
+								key={gig.id}
+								gig={gig}
+								user={user}
+							/>
+						);
 					});
 			}
 		};
@@ -104,7 +112,7 @@ class Gigs extends Component {
 			<Query
 				query={MY_GIGS}
 				variables={{ limit: 100 }}
-				skip={!this.context.isOwnProfile}
+				skip={!isOwnProfile}
 				onCompleted={console.log}
 				onError={console.log}
 			>

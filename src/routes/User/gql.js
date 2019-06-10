@@ -143,4 +143,24 @@ const UPDATE_USER_SETTINGS = gql`
 	}
 `;
 
-export { USER, UPDATE_USER, UPDATE_USER_SETTINGS };
+const DECLINE_GIG = gql`
+	mutation declineGig($id: ID!) {
+		declineGig(id: $id) {
+			id
+			statusHumanized
+			status
+		}
+	}
+`;
+
+const CANCEL_GIG = gql`
+	mutation cancelGig($id: ID!) {
+		cancelGig(id: $id) {
+			id
+			statusHumanized
+			status
+		}
+	}
+`;
+
+export { USER, UPDATE_USER, UPDATE_USER_SETTINGS, DECLINE_GIG, CANCEL_GIG };

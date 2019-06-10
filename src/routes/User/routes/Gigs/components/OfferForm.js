@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import Button from "../../../../../components/common/Button-v2";
 import TextField from "../../../../../components/common/Textfield";
 import MoneyTable, {
@@ -11,6 +11,8 @@ import moment from "moment-timezone";
 import formatter from "../../../../../utils/Formatter";
 import { ConnectedCurrencySelector } from "../../../../../components/common/CountrySelector";
 import debounce from "lodash.debounce";
+import { Mutation } from "react-apollo";
+import { CANCEL_GIG, DECLINE_GIG } from "../../../gql";
 
 const OfferForm = ({
 	gig,
@@ -19,9 +21,7 @@ const OfferForm = ({
 	currentLanguage,
 	payoutInfoValid,
 	event,
-	cancelGig,
 	updateGig,
-	declineGig,
 	showPopup
 }) => {
 	let { offer } = gig;
@@ -41,7 +41,6 @@ const OfferForm = ({
 	const [error, setError] = useState(null);
 	const [currency, setCurrency] = useState(initState.currency);
 	const [loading, setLoading] = useState(false);
-	const [cancelLoading, setCancelLoading] = useState(false);
 	const [submitLoading, setSubmitLoading] = useState(false);
 
 	const updateOffer = () => {
@@ -55,22 +54,6 @@ const OfferForm = ({
 				}
 			);
 		}
-	};
-
-	const cancelOffer = () => {
-		setCancelLoading(true);
-		cancelGig(gig.id, (err, res) => {
-			setError(err && err.message);
-			setCancelLoading(false);
-		});
-	};
-
-	const declineOffer = () => {
-		setCancelLoading(true);
-		declineGig(gig.id, (err, res) => {
-			setError(err && err.message);
-			setCancelLoading(false);
-		});
 	};
 
 	const setCurrencyAndFetch = c => {
@@ -239,31 +222,39 @@ const OfferForm = ({
 					<div className="offer-buttons">
 						<div name={"gig-cancel-" + gig.id}>
 							{gig.status === "REQUESTED" || gig.status === "ACCEPTED" ? (
-								<Button
-									rounded={true}
-									dangerous
-									valid={true}
-									warning={translate("gig.offer.decline-warning")}
-									name="cancel_gig"
-									isLoading={cancelLoading}
-									onClick={declineOffer}
-								>
-									{translate("Decline gig")}
-								</Button>
+								<Mutation mutation={DECLINE_GIG} variables={{ id: gig.id }}>
+									{(decline, { loading }) => (
+										<Button
+											rounded={true}
+											dangerous
+											valid={true}
+											warning={translate("gig.offer.decline-warning")}
+											name="cancel_gig"
+											isLoading={loading}
+											onClick={_ => decline()}
+										>
+											{translate("Decline gig")}
+										</Button>
+									)}
+								</Mutation>
 							) : null}
 
 							{gig.status === "CONFIRMED" ? (
-								<Button
-									rounded={true}
-									dangerous
-									valid={true}
-									warning={translate("gig.offer.cancel-warning")}
-									name="cancel_gig"
-									isLoading={cancelLoading}
-									onClick={cancelOffer}
-								>
-									{translate("Cancel gig")}
-								</Button>
+								<Mutation mutation={CANCEL_GIG} variables={{ id: gig.id }}>
+									{(cancel, { loading }) => (
+										<Button
+											rounded={true}
+											dangerous
+											valid={true}
+											warning={translate("gig.offer.cancel-warning")}
+											name="cancel_gig"
+											isLoading={loading}
+											onClick={_ => cancel()}
+										>
+											{translate("Cancel gig")}
+										</Button>
+									)}
+								</Mutation>
 							) : null}
 						</div>
 
@@ -311,26 +302,14 @@ const OfferForm = ({
 	);
 };
 
-function mapStateToProps(state, ownProps) {
-	const { profile } = state.login;
-	const payoutInfoValid = profile.stripeID || profile.last4;
-
-	return {
-		discountPoints: profile.discountPoints,
-		payoutInfoValid: !!payoutInfoValid
-	};
-}
-
 function mapDispatchToProps(dispatch, ownProps) {
 	return {
-		cancelGig: (id, callback) => dispatch(actions.cancelGig(id, callback)),
-		declineGig: (id, callback) => dispatch(actions.declineGig(id, callback)),
 		updateGig: (offer, callback) => dispatch(actions.makeOffer(offer, callback))
 	};
 }
 
 const SmartGig = connect(
-	mapStateToProps,
+	_ => {},
 	mapDispatchToProps
 )(OfferForm);
 

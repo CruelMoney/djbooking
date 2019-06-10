@@ -38,16 +38,7 @@ class Gig extends Component {
 	}
 
 	render() {
-		const {
-			translate,
-			gig,
-			payoutInfoValid,
-			notification,
-			profileCurrency,
-			profileId,
-			profileName,
-			profilePicture
-		} = this.props;
+		const { translate, gig, payoutInfoValid, notification, user } = this.props;
 		const { event, statusHumanized } = gig;
 		const {
 			organizer,
@@ -58,6 +49,8 @@ class Gig extends Component {
 			end,
 			guestsCount
 		} = event;
+
+		const { userSettings = {}, userMetadata = {}, picture = {} } = user;
 
 		const showContactInfo = status === "CONFIRMED" && payoutInfoValid;
 
@@ -198,9 +191,9 @@ class Gig extends Component {
 												image: organizer.picture.path
 											}}
 											sender={{
-												id: profileId,
-												name: profileName,
-												image: profilePicture
+												id: user.id,
+												name: userMetadata.firstName,
+												image: picture && picture.path
 											}}
 											chatId={gig.id}
 										/>
@@ -212,9 +205,10 @@ class Gig extends Component {
 								<Collapsible name="Offer" label={translate("Offer")}>
 									<OfferForm
 										showPopup={this.showPopup}
-										profileCurrency={profileCurrency}
+										profileCurrency={userSettings.currency}
 										gig={gig}
 										event={event}
+										payoutInfoValid={!!userMetadata.bankAccount}
 									/>
 								</Collapsible>
 							}
@@ -226,26 +220,14 @@ class Gig extends Component {
 	}
 }
 
-function mapStateToProps(state, ownProps) {
-	return {
-		profileId: state.login.profile.auth0Id,
-		profilePicture: state.login.profile.picture,
-		profileName: state.login.profile.censoredName,
-		payoutInfoValid: state.login.profile.stripeID ? true : false,
-		profileCurrency: state.login.profile.settings.currency
-	};
-}
-
 function mapDispatchToProps(dispatch, ownProps) {
 	return {
-		cancelGig: (id, callback) => dispatch(actions.cancelGig(id, callback)),
-		declineGig: (id, callback) => dispatch(actions.declineGig(id, callback)),
 		updateGig: (offer, callback) => dispatch(actions.makeOffer(offer, callback))
 	};
 }
 
 const SmartGig = connect(
-	mapStateToProps,
+	_ => {},
 	mapDispatchToProps
 )(Gig);
 

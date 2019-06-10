@@ -74,7 +74,7 @@ class Star extends Component {
 					</defs>
 					<g
 						stroke="none"
-						stroke-width="1"
+						strokeWidth="1"
 						style={{ strokeWidth: "2px" }}
 						fill="none"
 						fillRule="evenodd"

@@ -125,7 +125,11 @@ const PAYMENT_CONFIRMED = gql`
 
 const DECLINE_DJ = gql`
 	mutation($gigId: ID!) {
-		declineDJ(gigId: $gigId)
+		declineDJ(gigId: $gigId) {
+			id
+			statusHumanized
+			status
+		}
 	}
 `;
 
