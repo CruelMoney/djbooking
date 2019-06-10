@@ -60,7 +60,6 @@ class Event extends Component {
 	render() {
 		const { translate, theEvent } = this.props;
 		const title = theEvent.name + " | Cueup";
-		console.log({ theEvent });
 		return (
 			<div className="row event-information">
 				<Helmet>

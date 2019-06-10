@@ -127,14 +127,14 @@ class form extends Component {
 		}
 
 		return (
-			<div>
+			<>
 				<form>{this.props.children}</form>
 				{err && !this.props.noError ? (
 					<div className="errors">
 						<p>{typeof err === "string" ? err : "There was an error"}</p>
 					</div>
 				) : null}
-			</div>
+			</>
 		);
 	}
 }
