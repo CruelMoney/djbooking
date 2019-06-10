@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import OfferCard from "./OfferCard";
 import { notificationService } from "../../../../../utils/NotificationService";
 import { connect } from "react-redux";
@@ -8,10 +8,10 @@ import { Helmet } from "react-helmet-async";
 
 import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Query } from "react-apollo";
-import { EVENT, EVENT_GIGS } from "../../../gql";
+import { EVENT_GIGS } from "../../../gql";
 import { LoadingCard } from "../../../../../components/common/LoadingPlaceholder";
 
-class EventOffers extends Component {
+class EventOffers extends PureComponent {
 	componentWillMount() {
 		const { theEvent } = this.props;
 
@@ -22,6 +22,8 @@ class EventOffers extends Component {
 			eventFinished: daysUntil < 0,
 			gigMessages: {}
 		});
+
+		console.log("Render will mount gigs");
 	}
 
 	componentDidMount() {
@@ -42,7 +44,8 @@ class EventOffers extends Component {
 			notifications,
 			translate,
 			currentLanguage,
-			hashKey
+			hashKey,
+			loadingNotifications
 		} = this.props;
 		const title = theEvent.name + " | " + translate("Offers");
 
@@ -81,44 +84,19 @@ class EventOffers extends Component {
 							onError={console.log}
 						>
 							{({ data = {}, loading }) => {
-								if (loading) {
+								if (loading || loadingNotifications) {
 									return <LoadingCard />;
 								}
 								const { event = {} } = data;
-								const { gigs = [] } = event;
-								const renderGigs = [];
-
-								gigs.forEach((o, i) => {
-									const notification = notifications.find(
-										n => String(n.room) === String(o.id)
-									);
-									const hasMessages = !!this.state.gigMessages[o.id];
+								let { gigs = [] } = event;
+								gigs = gigs.filter(g => {
+									const hasMessages = !!this.state.gigMessages[g.id];
 									const hasOffer =
-										o.status === "ACCEPTED" || o.status === "CONFIRMED";
-
-									if (hasOffer || hasMessages) {
-										const offer = (
-											<OfferCard
-												key={o.id}
-												onlyChat={!hasOffer && hasMessages}
-												eventId={event.id}
-												notification={notification}
-												profileId={theEvent.organizer.id}
-												profileName={theEvent.contactName}
-												profilePicture={theEvent.organizer.picture.path}
-												paymentPossible={this.state.paymentPossible}
-												eventFinished={this.state.eventFinished}
-												currency={currency}
-												gig={o}
-												event={event}
-											/>
-										);
-
-										renderGigs.push(offer);
-									}
+										g.status === "ACCEPTED" || g.status === "CONFIRMED";
+									return hasMessages || hasOffer;
 								});
 
-								if (renderGigs.length === 0) {
+								if (gigs.length === 0) {
 									return (
 										<EmptyPage
 											message={
@@ -130,7 +108,31 @@ class EventOffers extends Component {
 									);
 								}
 
-								return renderGigs;
+								return gigs.map(g => {
+									const notification = notifications.find(
+										n => String(n.room) === String(g.id)
+									);
+									const hasMessages = !!this.state.gigMessages[g.id];
+									const hasOffer =
+										g.status === "ACCEPTED" || g.status === "CONFIRMED";
+
+									return (
+										<OfferCard
+											key={g.id}
+											onlyChat={!hasOffer && hasMessages}
+											eventId={event.id}
+											notification={notification}
+											profileId={theEvent.organizer.id}
+											profileName={theEvent.contactName}
+											profilePicture={theEvent.organizer.picture.path}
+											paymentPossible={this.state.paymentPossible}
+											eventFinished={this.state.eventFinished}
+											currency={currency}
+											gig={g}
+											event={event}
+										/>
+									);
+								});
 							}}
 						</Query>
 					</div>
@@ -144,9 +146,8 @@ function mapStateToProps(state, ownProps) {
 	return {
 		translate: getTranslate(state.locale),
 		notifications: state.notifications.data,
-		currency: state.login.status.signedIn
-			? state.login.profile.settings.currency
-			: state.session.currency,
+		loadingNotifications: state.notifications.loading,
+		currency: state.session.currency,
 		currentLanguage: getActiveLanguage(state.locale).code
 	};
 }

@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet-async";
 import { Switch, Route } from "react-router-dom";
 import content from "./content.json";
 import requestFormContent from "../../components/common/RequestForm/content.json";
+import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
 import "./index.css";
 
@@ -15,7 +16,7 @@ class Index extends Component {
 	render() {
 		const { translate } = this.props;
 		const baseurl = translate("routes./event/:id/:hash");
-
+		console.log("Render outer route");
 		return (
 			<div>
 				<Helmet>
@@ -78,4 +79,4 @@ class Index extends Component {
 	}
 }
 
-export default addTranslate(Index, [content, requestFormContent]);
+export default addTranslate(Index, [content, requestFormContent, modalContent]);

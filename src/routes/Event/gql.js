@@ -15,6 +15,9 @@ const EVENT = gql`
 			contactName
 			contactPhone
 			contactEmail
+			gigs {
+				id
+			}
 			rider {
 				lights
 				speakers

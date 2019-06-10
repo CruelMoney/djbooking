@@ -8,6 +8,7 @@ import Gigs from "./routes/Gigs";
 import Preferences from "./routes/Preferences";
 import content from "./content.json";
 import requestformContent from "../../components/common/RequestForm/content.json";
+import modalContent from "../../components/common/modals/content.json";
 import { connect } from "react-redux";
 import addTranslate from "../../components/higher-order/addTranslate";
 import "./index.css";
@@ -95,4 +96,4 @@ class Index extends Component {
 	}
 }
 
-export default addTranslate(Index, [content, requestformContent]);
+export default addTranslate(Index, [content, requestformContent, modalContent]);

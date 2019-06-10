@@ -35,51 +35,43 @@ class eventHeader extends Component {
 		const { event, notifications } = nextProps;
 		if (event) {
 			notificationService.init(event.organizer.id);
-			if (!event.emailVerified) {
-				this.setState({
-					notification: translate("event.notifications.verify-email")
-				});
-			} else {
-				if (
-					event.offers &&
-					event.offers.some(offer => {
-						return notifications.some(noti => {
-							return String(noti.room) === String(offer.gigID);
-						});
-					})
-				) {
-					this.setState({
-						notification: translate("event.notifications.unread-messages")
+			console.log({ event, notifications });
+			if (
+				event.gigs &&
+				event.gigs.some(gig => {
+					return notifications.some(noti => {
+						return String(noti.room) === String(gig.id);
 					});
-					this.goToOffers();
-					return;
-				}
-
+				})
+			) {
 				this.setState({
-					notification:
-						event.status === "Cancelled"
-							? translate("event.notifications.cancelled")
-							: event.status === "Initial"
-							? translate("event.notifications.initial")
-							: event.status === "Offering"
-							? event.referredBy > 0
-								? translate("event.notifications.offering-referred")
-								: translate("event.notifications.offering")
-							: event.status === "NoMatches"
-							? translate("event.notifications.no-matches")
-							: event.status === "Accepted"
-							? event.referredBy > 0
-								? translate("event.notifications.accepted-referred")
-								: translate("event.notifications.accepted")
-							: event.status === "Confirmed"
-							? translate("event.notifications.confirmed")
-							: event.status === "Finished" && event.chosenOfferId === 0
-							? translate("event.notifications.finished")
-							: event.status === "Finished"
-							? translate("event.notifications.finished-review")
-							: translate("event.notifications.default")
+					notification: translate("event.notifications.unread-messages")
 				});
+				return;
 			}
+
+			this.setState({
+				notification:
+					event.status === "CANCELLED"
+						? translate("event.notifications.cancelled")
+						: event.status === "INITIAL"
+						? translate("event.notifications.initial")
+						: event.status === "OFFERING"
+						? event.referredBy > 0
+							? translate("event.notifications.offering-referred")
+							: translate("event.notifications.offering")
+						: event.status === "NO_MATCHES"
+						? translate("event.notifications.no-matches")
+						: event.status === "ACCEPTED"
+						? event.referredBy > 0
+							? translate("event.notifications.accepted-referred")
+							: translate("event.notifications.accepted")
+						: event.status === "CONFIRMED"
+						? translate("event.notifications.confirmed")
+						: event.status === "FINISHED"
+						? translate("event.notifications.finished-review")
+						: translate("event.notifications.default")
+			});
 		} else {
 			this.setState({
 				notification: translate("event.notifications.default")
@@ -107,7 +99,7 @@ class eventHeader extends Component {
 					<span />
 				</div>
 
-				<Notification message={this.props.notification} />
+				<Notification message={this.state.notification} />
 
 				<div className="container">
 					<div

@@ -4,7 +4,7 @@ import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { init as analytics } from "./utils/analytics/autotrack";
 import { Environment } from "./constants/constants";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 import Home from "./routes/Home";
 import About from "./routes/About";
@@ -28,7 +28,6 @@ import {
 } from "react-localize-redux";
 import "moment/locale/da";
 import moment from "moment";
-import { authService } from "./utils/AuthService";
 import { getTranslatedURL } from "./utils/HelperFunctions";
 import ReactPixel from "react-facebook-pixel";
 import ResetPassword from "./routes/ResetPassword";
