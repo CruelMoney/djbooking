@@ -72,7 +72,14 @@ class Gigs extends Component {
 		const { loginPopup } = this.state;
 
 		const renderGigs = gigs => {
-			if (gigs.length === 0) {
+			const renderGigs = gigs.filter(
+				({ event, status }) =>
+					event.state !== "FINISHED" &&
+					status !== "DECLINED" &&
+					status !== "CANCELLED"
+			);
+
+			if (renderGigs.length === 0) {
 				return (
 					<EmptyPage
 						message={
@@ -85,26 +92,19 @@ class Gigs extends Component {
 					/>
 				);
 			} else {
-				return gigs
-					.filter(
-						({ event, status }) =>
-							event.state !== "FINISHED" &&
-							status !== "DECLINED" &&
-							status !== "CANCELLED"
-					)
-					.map(gig => {
-						const notification = notifications.find(noti => {
-							return String(noti.room) === String(gig.id);
-						});
-						return (
-							<Gig
-								notification={notification}
-								key={gig.id}
-								gig={gig}
-								user={user}
-							/>
-						);
+				return renderGigs.map(gig => {
+					const notification = notifications.find(noti => {
+						return String(noti.room) === String(gig.id);
 					});
+					return (
+						<Gig
+							notification={notification}
+							key={gig.id}
+							gig={gig}
+							user={user}
+						/>
+					);
+				});
 			}
 		};
 
