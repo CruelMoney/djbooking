@@ -126,7 +126,7 @@ class User extends Component {
 					const { firstName, bio } = userMetadata;
 					const { roles = [] } = appMetadata;
 					const isDJ = roles.includes("DJ");
-					const isCustomer = roles.includes("CUSTOMER");
+					const isCustomer = roles.includes("ORGANIZER");
 
 					const forwardProps = {
 						...this.props,

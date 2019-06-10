@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Events from "./components/Events";
-import { Helmet } from 'react-helmet-async';
-
+import { Helmet } from "react-helmet-async";
 
 export default class Index extends Component {
 	render() {
-		const djName = this.props.profile.firstName;
+		const { user = {} } = this.props;
+
+		let { userMetadata = {} } = user;
+		const djName = userMetadata.firstName;
 		const title = djName + " | Events";
 
 		return (

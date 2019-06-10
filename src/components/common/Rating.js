@@ -77,7 +77,7 @@ class Star extends Component {
 						stroke-width="1"
 						style={{ strokeWidth: "2px" }}
 						fill="none"
-						fill-rule="evenodd"
+						fillRule="evenodd"
 					>
 						<g
 							transform="translate(-442.000000, -500.000000)"
