@@ -105,8 +105,9 @@ textarea:focus {
 	border-color: inherit !important;
 }
 
-#content {
+.header-wrapper {
 	padding-top: 90px;
+	overflow: hidden;
 }
 ul {
 	list-style-type: none;
