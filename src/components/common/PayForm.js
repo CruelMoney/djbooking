@@ -84,22 +84,20 @@ const PayForm = ({
 							</div>
 
 							<div className="right">
-								{!loading &&
-									showCurrencyChange && (
-										<p className="notice">
-											This DJ uses a different currency than {currency}, you
-											might getter a better deal by paying in{" "}
-											{recommendedCurrency}.{" "}
-											<a
-												href="#recommended"
-												onClick={_ => {
-													changeCurrency(recommendedCurrency);
-												}}
-											>
-												Change to {recommendedCurrency}
-											</a>
-										</p>
-									)}
+								{!loading && showCurrencyChange && (
+									<p className="notice">
+										This DJ uses a different currency than {currency}, you might
+										getter a better deal by paying in {recommendedCurrency}.{" "}
+										<a
+											href="#recommended"
+											onClick={_ => {
+												changeCurrency(recommendedCurrency);
+											}}
+										>
+											Change to {recommendedCurrency}
+										</a>
+									</p>
+								)}
 								{loading ? (
 									<LoadingPlaceholder2 />
 								) : (
@@ -139,7 +137,6 @@ const ThankYouContent = ({ translate, style }) => {
 
 function mapStateToProps(state, ownprops) {
 	return {
-		event: state.events.values[0],
 		translate: getTranslate(state.locale),
 		currentLanguage: getActiveLanguage(state.locale).code
 	};

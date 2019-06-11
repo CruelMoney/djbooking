@@ -62,7 +62,8 @@ class OfferCard extends Component {
 			profileName,
 			profilePicture,
 			notification,
-			onlyChat
+			onlyChat,
+			event
 		} = this.props;
 
 		const { offer, dj } = gig;
@@ -93,6 +94,7 @@ class OfferCard extends Component {
 								onPaymentConfirmed={mutate}
 								id={gig.id}
 								offer={offer}
+								event={event}
 								currency={currency}
 							/>
 						)}
