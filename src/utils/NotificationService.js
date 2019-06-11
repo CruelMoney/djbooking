@@ -12,6 +12,8 @@ export default class NotificationService {
 
 	init(userId) {
 		if (!this.socket && userId) {
+			store.dispatch(actions.fetchingNotifications());
+
 			console.log(
 				"connecting to: ",
 				Environment.CHAT_DOMAIN + "?userId=" + userId

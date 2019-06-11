@@ -120,7 +120,7 @@ class EventOffers extends PureComponent {
 										<OfferCard
 											key={g.id}
 											onlyChat={!hasOffer && hasMessages}
-											eventId={event.id}
+											eventId={theEvent.id}
 											notification={notification}
 											profileId={theEvent.organizer.id}
 											profileName={theEvent.contactName}

@@ -35,7 +35,6 @@ class eventHeader extends Component {
 		const { event, notifications } = nextProps;
 		if (event) {
 			notificationService.init(event.organizer.id);
-			console.log({ event, notifications });
 			if (
 				event.gigs &&
 				event.gigs.some(gig => {

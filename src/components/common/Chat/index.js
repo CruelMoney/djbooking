@@ -23,7 +23,6 @@ class Chat extends Component {
 	};
 
 	componentDidMount() {
-		console.log("Remount");
 		this.chat = new ChatService(
 			this.props.chatId,
 			auth.getToken(),
@@ -108,6 +107,8 @@ class Chat extends Component {
 
 	sendMessage = (declineOnContactInfo = true) => {
 		const og_message = this.state.newMessage;
+
+		console.log({ props: this.props });
 
 		const data = {
 			content: og_message,
