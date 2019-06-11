@@ -108,8 +108,6 @@ class Chat extends Component {
 	sendMessage = (declineOnContactInfo = true) => {
 		const og_message = this.state.newMessage;
 
-		console.log({ props: this.props });
-
 		const data = {
 			content: og_message,
 			to: this.props.receiver.id,
