@@ -1296,6 +1296,8 @@ input[type="file"] + label * {
 	max-width: 800px;
 	width: auto;
 	display: flex;
+	border-radius: 6px;
+	overflow: hidden;
 	p.error {
 		font-size: 1em;
 		line-height: 1.5em;

@@ -130,8 +130,8 @@ const REQUEST_PAYMENT_INTENT = gql`
 `;
 
 const PAYMENT_CONFIRMED = gql`
-	mutation($gigId: ID!) {
-		paymentConfirmed(gigId: $gigId) @client
+	mutation($gigId: ID!, $eventId: ID!) {
+		paymentConfirmed(gigId: $gigId, eventId: $eventId) @client
 	}
 `;
 

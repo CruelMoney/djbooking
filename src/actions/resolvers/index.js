@@ -3,14 +3,25 @@ import gql from "graphql-tag";
 const resolvers = {
 	Mutation: {
 		paymentConfirmed: (_root, variables, { cache, getCacheKey }) => {
-			const id = getCacheKey({ __typename: "Gig", id: variables.gigId });
+			const { gigId } = variables;
+			const id = getCacheKey({ __typename: "Event", id: variables.eventId });
 			const fragment = gql`
-				fragment completeTodo on TodoItem {
+				fragment confirmEvent on Event {
 					status
+					gigs {
+						id
+						status
+					}
 				}
 			`;
-			const gig = cache.readFragment({ fragment, id });
-			const data = { ...gig, status: "CONFIRMED" };
+			const event = cache.readFragment({ fragment, id });
+			let { gigs } = event;
+			gigs = gigs.map(g =>
+				g.id === gigId
+					? { ...g, status: "CONFIRMED" }
+					: { ...g, status: "LOST" }
+			);
+			const data = { ...event, gigs, status: "CONFIRMED" };
 			cache.writeData({ id, data });
 			return null;
 		}

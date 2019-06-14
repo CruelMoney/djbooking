@@ -105,7 +105,10 @@ class OfferCard extends Component {
 					onClickOutside={this.hidePopup}
 					noPadding
 				>
-					<Mutation mutation={PAYMENT_CONFIRMED} variables={{ gigId: gig.id }}>
+					<Mutation
+						mutation={PAYMENT_CONFIRMED}
+						variables={{ gigId: gig.id, eventId }}
+					>
 						{mutate => (
 							<PayForm
 								paymentPossible={paymentPossible}
