@@ -218,7 +218,7 @@ const OfferForm = ({
 					<p>{translate("gig.offer.update-payout")}</p>
 				) : null}
 
-				{moment(event.start) > moment() ? (
+				{moment(event.start.localDate) > moment() ? (
 					<div className="offer-buttons">
 						<div name={"gig-cancel-" + gig.id}>
 							{gig.status === "REQUESTED" || gig.status === "ACCEPTED" ? (
