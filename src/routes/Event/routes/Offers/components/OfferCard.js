@@ -14,6 +14,7 @@ import { ReactComponent as EmailIcon } from "../../../../../assets/email.svg";
 import { PayUsingCueupOrganizer } from "../../../../../components/common/modals";
 import { Mutation } from "react-apollo";
 import { PAYMENT_CONFIRMED, DECLINE_DJ } from "../../../gql";
+import NotifyPayment from "../../../../../components/common/NotifyPayment";
 
 class OfferCard extends Component {
 	static propTypes = {
@@ -29,13 +30,15 @@ class OfferCard extends Component {
 
 	state = {
 		showPopup: false,
+		showNotificationPopup: false,
 		showChat: false,
 		errors: null
 	};
 
 	hidePopup = () => {
 		this.setState({
-			showPopup: false
+			showPopup: false,
+			showNotificationPopup: false
 		});
 	};
 	hideChat = () => {
@@ -47,6 +50,10 @@ class OfferCard extends Component {
 	showPayment = () => {
 		this.setState({ showPopup: true });
 		ReactPixel.track("InitiateCheckout");
+	};
+
+	showNotifyPopup = () => {
+		this.setState({ showNotificationPopup: true });
 	};
 
 	render() {
@@ -63,7 +70,9 @@ class OfferCard extends Component {
 			profilePicture,
 			notification,
 			onlyChat,
-			event
+			event,
+			canBePaid,
+			hashKey
 		} = this.props;
 
 		const { offer, dj } = gig;
@@ -82,6 +91,16 @@ class OfferCard extends Component {
 		const confirmed = gig.status === "CONFIRMED";
 		return (
 			<>
+				<Popup
+					showing={this.state.showNotificationPopup}
+					onClickOutside={this.hidePopup}
+				>
+					<NotifyPayment
+						hashKey={hashKey}
+						eventId={eventId}
+						daysUntilPaymentPossible={offer.daysUntilPaymentPossible}
+					/>
+				</Popup>
 				<Popup
 					showing={this.state.showPopup}
 					onClickOutside={this.hidePopup}
@@ -259,7 +278,9 @@ class OfferCard extends Component {
 										glow
 										disabled={disabled}
 										active={true}
-										onClick={this.showPayment}
+										onClick={
+											canBePaid ? this.showPayment : this.showNotifyPopup
+										}
 										name="show-payout-popup"
 									>
 										{translate("Confirm")}

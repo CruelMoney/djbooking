@@ -38,7 +38,7 @@ const PayForm = ({
 		eventConfirmed();
 	};
 
-	if (event.status === "Confirmed") {
+	if (event.status === "CONFIRMED") {
 		return <ThankYouContent style={size} translate={translate} />;
 	}
 
@@ -56,14 +56,9 @@ const PayForm = ({
 			>
 				{({ data = {}, loading, error }) => {
 					const { requestPaymentIntent = {} } = data;
-					const {
-						recommendedCurrency,
-						__typename,
-						offer
-					} = requestPaymentIntent;
+					const { recommendedCurrency, offer } = requestPaymentIntent;
 					const showCurrencyChange = recommendedCurrency !== currency;
 
-					console.log({ error });
 					if (error) return null;
 					return (
 						<>

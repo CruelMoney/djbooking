@@ -52,6 +52,8 @@ const EVENT_GIGS = gql`
 				id
 				status
 				offer {
+					canBePaid
+					daysUntilPaymentPossible
 					totalPayment(currency: $currency) {
 						amount
 						currency

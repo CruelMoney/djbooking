@@ -66,7 +66,7 @@ class EventOffers extends PureComponent {
 									marginBottom: "20px"
 								}}
 							>
-								{theEvent.status === "Confirmed"
+								{theEvent.status === "CONFIRMED"
 									? translate("event.paid-message")
 									: translate("event.contact-dj-message")}
 							</p>
@@ -130,6 +130,7 @@ class EventOffers extends PureComponent {
 											currency={currency}
 											gig={g}
 											event={event}
+											hashKey={hashKey}
 										/>
 									);
 								});

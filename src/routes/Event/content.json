@@ -83,8 +83,12 @@
 				"I tilfældet at DJen aflyser, vil hele beløbet refunderes. Hvis du aflyser vil det beløb der er specificeret i DJens aflysningspolitik blive refunderet."
 			],
 			"pay-later": [
-				"The offer can be confirmed and paid up to 60 days before the event. To get notified by email click notify.",
-				"tilbuddet kan bekræftes og betales op til 60 dage før eventet. For at få en besked når du kan betale, klik GIV BESKED."
+				"The offer can be confirmed and paid up to 80 days before the event, but we can notify when you can come back here and pay.",
+				"tilbuddet kan bekræftes og betales op til 80 dage før eventet, men vi kan give dig besked når du kan komme tilbage her og betale."
+			],
+			"pay-later-2": [
+				"Notify in ${ days } days",
+				"Giv besked om ${ days } dage"
 			],
 			"price": ["The price the DJ has offered.", "Prisen DJen har tilbudt"],
 			"fee": [
