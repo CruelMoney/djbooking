@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import useComponentSize from "@rehooks/component-size";
 import TextWrapper from "./TextElement";
 import Button from "./Button-v2";
@@ -27,6 +27,7 @@ const PayForm = ({
 }) => {
 	const div = useRef();
 	const size = useComponentSize(div);
+	const [isPaid, setIsPaid] = useState(false);
 
 	const paymentConfirmed = () => {
 		tracker.trackEventPaid(offer.totalPayment.amount);
@@ -36,9 +37,10 @@ const PayForm = ({
 		});
 		onPaymentConfirmed();
 		eventConfirmed();
+		setIsPaid(true);
 	};
 
-	if (event.status === "CONFIRMED") {
+	if (isPaid) {
 		return <ThankYouContent style={size} translate={translate} />;
 	}
 

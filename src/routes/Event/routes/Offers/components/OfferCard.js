@@ -71,7 +71,6 @@ class OfferCard extends Component {
 			notification,
 			onlyChat,
 			event,
-			canBePaid,
 			hashKey
 		} = this.props;
 
@@ -279,7 +278,7 @@ class OfferCard extends Component {
 										disabled={disabled}
 										active={true}
 										onClick={
-											canBePaid ? this.showPayment : this.showNotifyPopup
+											offer.canBePaid ? this.showPayment : this.showNotifyPopup
 										}
 										name="show-payout-popup"
 									>
