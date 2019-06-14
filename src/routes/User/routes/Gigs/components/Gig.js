@@ -38,21 +38,12 @@ class Gig extends Component {
 	}
 
 	render() {
-		const { translate, gig, payoutInfoValid, notification, user } = this.props;
+		const { translate, gig, notification, user } = this.props;
 		const { event, statusHumanized } = gig;
-		const {
-			organizer,
-			genres,
-			status,
-			location,
-			start,
-			end,
-			guestsCount
-		} = event;
+		const { organizer, genres, location, start, end, guestsCount } = event;
 
 		const { userSettings = {}, userMetadata = {}, picture = {} } = user;
-		console.log({ start });
-		const showContactInfo = status === "CONFIRMED" && payoutInfoValid;
+		const showContactInfo = gig.status === "CONFIRMED";
 
 		return (
 			<div>
