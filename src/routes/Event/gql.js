@@ -1,13 +1,20 @@
 import gql from "graphql-tag";
 
 const EVENT = gql`
-	query($id: ID!, $hash: String!) {
+	query($id: ID!, $hash: String!, $locale: String) {
 		event(id: $id, hash: $hash) {
 			id
 			name
 			description
-			start
-			end
+			start {
+				localDate
+				formattedTime(locale: $locale)
+				formattedDate(locale: $locale)
+			}
+			end {
+				localDate
+				formattedTime(locale: $locale)
+			}
 			timeZone
 			genres
 			guestsCount

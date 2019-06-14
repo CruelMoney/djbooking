@@ -67,7 +67,8 @@ class Gigs extends Component {
 			notifications,
 			isOwnProfile,
 			loading: loadingUser,
-			user
+			user,
+			currentLanguage
 		} = this.props;
 		const { loginPopup } = this.state;
 
@@ -111,7 +112,7 @@ class Gigs extends Component {
 		return (
 			<Query
 				query={MY_GIGS}
-				variables={{ limit: 100 }}
+				variables={{ limit: 100, locale: currentLanguage }}
 				skip={!isOwnProfile}
 				onCompleted={console.log}
 				onError={console.log}

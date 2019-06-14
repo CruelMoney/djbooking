@@ -119,26 +119,9 @@ export const getLocation = location => {
 
 export function postEvent(event, mutate, callback) {
 	return async dispatch => {
-		let { startTime, endTime } = event;
-		startTime = moment(startTime);
-		endTime = moment(endTime);
-
-		startTime = moment(startTime)
-			.utc(true)
-			.hour(startTime.hour())
-			.minute(startTime.minute())
-			.seconds(0)
-			.toDate();
-		endTime = moment(endTime)
-			.utc(true)
-			.hour(endTime.hour())
-			.minute(endTime.minute())
-			.seconds(0)
-			.toDate();
-
 		try {
 			const { error } = await mutate({
-				variables: { ...event, startTime, endTime }
+				variables: event
 			});
 			callback(error);
 			if (!error) {

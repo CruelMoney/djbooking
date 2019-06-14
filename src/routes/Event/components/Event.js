@@ -50,7 +50,14 @@ class event extends Component {
 	}
 
 	render() {
-		const { children, loggedIn, profile, match, translate } = this.props;
+		const {
+			children,
+			loggedIn,
+			profile,
+			match,
+			translate,
+			currentLanguage
+		} = this.props;
 
 		function renderLoadingItem() {
 			return <LoadingCard />;
@@ -59,7 +66,11 @@ class event extends Component {
 		return (
 			<Query
 				query={EVENT}
-				variables={{ id: match.params.id, hash: match.params.hash }}
+				variables={{
+					id: match.params.id,
+					hash: match.params.hash,
+					locale: currentLanguage
+				}}
 			>
 				{({ data = {}, error, loading }) => {
 					const { event: theEvent } = data;

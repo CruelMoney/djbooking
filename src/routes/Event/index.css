@@ -78,7 +78,7 @@
 @media only screen and (max-width: 990px) {
 	.context-actions-wrapper {
 		position: relative;
-		height: 100%;
+		height: auto;
 		left: 0;
 		top: 0;
 	}

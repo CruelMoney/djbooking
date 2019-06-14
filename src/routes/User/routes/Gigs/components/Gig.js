@@ -51,7 +51,7 @@ class Gig extends Component {
 		} = event;
 
 		const { userSettings = {}, userMetadata = {}, picture = {} } = user;
-
+		console.log({ start });
 		const showContactInfo = status === "CONFIRMED" && payoutInfoValid;
 
 		return (
@@ -86,7 +86,9 @@ class Gig extends Component {
 									{" " + location.name}
 								</div>
 							</div>
-							<div className="gig-from-now">{moment(start).fromNow()}</div>
+							<div className="gig-from-now">
+								{moment(start.localDate).fromNow()}
+							</div>
 							<div className="gig-status">{statusHumanized}</div>
 						</div>
 
@@ -96,7 +98,7 @@ class Gig extends Component {
 									{translate("gig.event.info-description")}
 								</p>
 								<TextWrapper label={translate("date")}>
-									<p>{moment(start).format("dddd, MMMM Do YYYY")}</p>
+									<p>{start.formattedDate}</p>
 								</TextWrapper>
 
 								<TextWrapper label={translate("description")}>
@@ -126,8 +128,8 @@ class Gig extends Component {
 								<TextWrapper label={translate("duration")}>
 									<p>
 										{translate("gig.event.duration-description", {
-											end: moment(end).format("HH:mm"),
-											start: moment(start).format("HH:mm")
+											end: end.formattedTime,
+											start: start.formattedTime
 										})}
 									</p>
 								</TextWrapper>
@@ -137,7 +139,7 @@ class Gig extends Component {
 								</TextWrapper>
 							</Collapsible>
 
-							{gig.status === "LOST" ? null : (
+							{gig.status !== "LOST" && !!organizer ? (
 								<Collapsible
 									lazyLoad
 									name="ContactInfo"
@@ -199,19 +201,19 @@ class Gig extends Component {
 										/>
 									</TextWrapper>
 								</Collapsible>
+							) : (
+								<></>
 							)}
 
-							{
-								<Collapsible name="Offer" label={translate("Offer")}>
-									<OfferForm
-										showPopup={this.showPopup}
-										profileCurrency={userSettings.currency}
-										gig={gig}
-										event={event}
-										payoutInfoValid={!!userMetadata.bankAccount}
-									/>
-								</Collapsible>
-							}
+							<Collapsible name="Offer" label={translate("Offer")}>
+								<OfferForm
+									showPopup={this.showPopup}
+									profileCurrency={userSettings.currency}
+									gig={gig}
+									event={event}
+									payoutInfoValid={!!userMetadata.bankAccount}
+								/>
+							</Collapsible>
 						</CollapsibleContainer>
 					</div>
 				</div>

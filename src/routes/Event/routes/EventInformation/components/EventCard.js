@@ -59,6 +59,7 @@ class Event extends Component {
 
 	render() {
 		const { translate, theEvent } = this.props;
+		console.log({ theEvent });
 		const title = theEvent.name + " | Cueup";
 		return (
 			<div className="row event-information">
@@ -118,9 +119,7 @@ class Event extends Component {
 								<TextField
 									name="date"
 									disabled
-									value={moment(theEvent.start)
-										.tz(theEvent.timeZone)
-										.format("dddd Do, MMMM YYYY")}
+									value={theEvent.start.formattedDate}
 								/>
 							</TextWrapper>
 
@@ -179,9 +178,9 @@ class Event extends Component {
 									startLabel={translate("start")}
 									timeZone={theEvent.timeZone}
 									endLabel={translate("end")}
-									date={moment(theEvent.start)}
-									startTime={theEvent.start}
-									endTime={theEvent.end}
+									date={moment(theEvent.start.localDate)}
+									startTime={theEvent.start.localDate}
+									endTime={theEvent.end.localDate}
 								/>
 							</TextWrapper>
 

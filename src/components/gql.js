@@ -171,7 +171,7 @@ const UPDATE_USER_PAYOUT = gql`
 `;
 
 const MY_GIGS = gql`
-	query($limit: Int, $page: Int, $currency: Currency) {
+	query($limit: Int, $page: Int, $currency: Currency, $locale: String) {
 		myGigs(pagination: { limit: $limit, page: $page }) {
 			__typename
 			edges {
@@ -209,8 +209,15 @@ const MY_GIGS = gql`
 					id
 					name
 					guestsCount
-					start
-					end
+					start {
+						localDate
+						formattedTime(locale: $locale)
+						formattedDate(locale: $locale)
+					}
+					end {
+						localDate
+						formattedTime(locale: $locale)
+					}
 					genres
 					description
 					rider {
