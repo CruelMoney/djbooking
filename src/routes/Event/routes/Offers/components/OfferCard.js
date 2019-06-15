@@ -90,7 +90,7 @@ class OfferCard extends Component {
 		const confirmed = gig.status === "CONFIRMED";
 		return (
 			<>
-				<Popup
+				{offer && <Popup
 					showing={this.state.showNotificationPopup}
 					onClickOutside={this.hidePopup}
 				>
@@ -99,8 +99,8 @@ class OfferCard extends Component {
 						eventId={eventId}
 						daysUntilPaymentPossible={offer.daysUntilPaymentPossible}
 					/>
-				</Popup>
-				<Popup
+				</Popup>}
+				{offer && <Popup
 					showing={this.state.showPopup}
 					onClickOutside={this.hidePopup}
 					noPadding
@@ -120,7 +120,7 @@ class OfferCard extends Component {
 							/>
 						)}
 					</Mutation>
-				</Popup>
+				</Popup>}
 				<Popup
 					hideClose
 					noPadding
