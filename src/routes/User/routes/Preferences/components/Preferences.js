@@ -6,7 +6,6 @@ import PayoutForm from "../../../../../components/common/PayoutForm";
 import Popup from "../../../../../components/common/Popup";
 import SubmitButton from "../../../../../components/common/SubmitButton";
 import TextWrapper from "../../../../../components/common/TextElement";
-import assign from "lodash.assign";
 import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
 import Slider from "../../../../../components/common/Slider";
 import ErrorMessage from "../../../../../components/common/ErrorMessage";
@@ -16,7 +15,6 @@ import { connect } from "react-redux";
 import * as actions from "../../../../../actions/UserActions";
 import { userLogout } from "../../../../../actions/LoginActions";
 import { localize } from "react-localize-redux";
-import c from "../../../../../constants/constants";
 import { graphql } from "react-apollo";
 import { UPDATE_USER_SETTINGS } from "../../../gql";
 

@@ -4,7 +4,6 @@ import Button from "../../../../../components/common/Button-v2";
 import TextField from "../../../../../components/common/Textfield";
 import Form from "../../../../../components/common/Form-v2";
 import TextWrapper from "../../../../../components/common/TextElement";
-import * as actions from "../../../../../actions/UserActions";
 import * as eActions from "../../../../../actions/EventActions";
 import ErrorMessage from "../../../../../components/common/ErrorMessage";
 import { requestFeatures } from "../../../../../actions/Common";

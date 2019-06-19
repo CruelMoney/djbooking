@@ -37,7 +37,7 @@ class Home extends Component {
 		const { translate } = this.props;
 
 		return (
-			<div className="header-wrapper">
+			<div className="header-wrapper pull-up">
 				<header>
 					<div id="stripes" className="v1">
 						<span />

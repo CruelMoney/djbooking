@@ -1,16 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import TextField from "./Textfield";
 import TextWrapper from "./TextElement";
 import Form from "./Form-v2";
 import SubmitButton from "./SubmitButton";
 import { connect } from "react-redux";
-import * as actions from "../../actions/UserActions";
 import InfoPopup from "./InfoPopup";
-import {
-	localize,
-	getTranslate,
-	getActiveLanguage
-} from "react-localize-redux";
+import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Elements, StripeProvider, injectStripe } from "react-stripe-elements";
 import IbanField from "./IbanField";
 import { Environment } from "../../constants/constants";

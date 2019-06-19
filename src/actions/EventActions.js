@@ -5,7 +5,6 @@ import CueupService from "../utils/CueupService";
 import GeoCoder from "../utils/GeoCoder";
 import * as tracker from "../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
-import moment from "moment-timezone";
 
 var ActionTypes = c.ActionTypes;
 const cueup = new CueupService();

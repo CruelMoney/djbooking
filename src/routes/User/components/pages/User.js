@@ -6,7 +6,6 @@ import UserHeader from "../blocks/UserHeader";
 import Footer from "../../../../components/common/Footer";
 import Form from "../../../../components/common/Form-v2";
 import { localize } from "react-localize-redux";
-import { connect } from "react-redux";
 import "../../../../css/transitions.css";
 import { Query } from "react-apollo";
 import { USER } from "../../gql";

@@ -37,7 +37,7 @@ const ErrorMessageApollo = ({ error, center, email }) => {
 
 	if (graphQLErrors && graphQLErrors.length > 0) {
 		msgs = [];
-		graphQLErrors.map((e, idx) => {
+		graphQLErrors.forEach(e => {
 			msgs.push(e.message);
 			if (e.extensions.code === "EMAIL_NOT_VERIFIED") {
 				showResend = true;

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { NavLink as Link, withRouter } from "react-router-dom";
 import ButtonLink from "./ButtonLink";
 import * as c from "../../constants/constants";
@@ -11,7 +10,6 @@ import {
 	getActiveLanguage,
 	setActiveLanguage
 } from "react-localize-redux";
-import { authService } from "../../utils/AuthService";
 import { getTranslatedURL } from "../../utils/HelperFunctions";
 
 class footer extends Component {
@@ -160,14 +158,15 @@ class footer extends Component {
 									<Link to={translate("routes./faq/dj")}>Support</Link>
 								</li>
 								<li>
-									<a
+									<button
+										className="link-look"
 										onClick={
 											/*eslint no-undef: 0*/
 											() => olark("api.box.expand")
 										}
 									>
 										{translate("contact")}
-									</a>
+									</button>
 								</li>
 								<li>
 									<Link to={translate("routes./terms/agreements")}>

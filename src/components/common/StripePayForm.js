@@ -134,35 +134,36 @@ const PaymentRequestButtonWrapper = ({
 	const [canMakePayment, setCanMakePayment] = useState(false);
 	const paymentRequest = useRef();
 
-	const confirmPaymentRequest = async ({ complete, paymentMethod }) => {
-		try {
-			const { token } = paymentIntent;
-			const PAYMENT_INTENT_CLIENT_SECRET = token.token;
-
-			complete("success");
-			const result = await stripe.handleCardPayment(
-				PAYMENT_INTENT_CLIENT_SECRET,
-				{
-					payment_method: paymentMethod.id
-				}
-			);
-			const { error } = result;
-			if (error) {
-				console.log({ error });
-				throw new Error(error.message || "Something went wrong");
-			}
-			onPaymentConfirmed(true);
-		} catch (error) {
-			setTimeout(() => {
-				alert(error.message);
-			}, 1000);
-			console.log({ error });
-			complete("fail");
-		}
-	};
-
 	useEffect(() => {
 		const { offer } = paymentIntent;
+
+		const confirmPaymentRequest = async ({ complete, paymentMethod }) => {
+			try {
+				const { token } = paymentIntent;
+				const PAYMENT_INTENT_CLIENT_SECRET = token.token;
+
+				complete("success");
+				const result = await stripe.handleCardPayment(
+					PAYMENT_INTENT_CLIENT_SECRET,
+					{
+						payment_method: paymentMethod.id
+					}
+				);
+				const { error } = result;
+				if (error) {
+					console.log({ error });
+					throw new Error(error.message || "Something went wrong");
+				}
+				onPaymentConfirmed(true);
+			} catch (error) {
+				setTimeout(() => {
+					alert(error.message);
+				}, 1000);
+				console.log({ error });
+				complete("fail");
+			}
+		};
+
 		// For full documentation of the available paymentRequest options, see:
 		// https://stripe.com/docs/stripe.js#the-payment-request-object
 		paymentRequest.current = stripe.paymentRequest({
@@ -191,7 +192,7 @@ const PaymentRequestButtonWrapper = ({
 		paymentRequest.current.canMakePayment().then(result => {
 			setCanMakePayment(!!result);
 		});
-	}, []);
+	}, [onPaymentConfirmed, paymentIntent, stripe]);
 
 	if (!canMakePayment) return null;
 

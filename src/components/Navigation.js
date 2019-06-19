@@ -116,14 +116,14 @@ class Menu extends Component {
 										</div>
 
 										<div className="" ref={ref => (this.mobileMenu = ref)}>
-											<a
-												className="mobileMenuButton"
+											<button
+												className="mobileMenuButton link-look"
 												onClick={() => {
 													this.setState({ showMenu: !showMenu });
 												}}
 											>
 												<h2>Menu</h2>
-											</a>
+											</button>
 										</div>
 										<ul className="main-menu">
 											{!isHome ? (
@@ -146,9 +146,12 @@ class Menu extends Component {
 
 											{!loggedIn && !loading ? (
 												<li>
-													<a onClick={this.onLoginButton}>
+													<button
+														className="link-look"
+														onClick={this.onLoginButton}
+													>
 														{translate("login")}
-													</a>
+													</button>
 													<Dropdown
 														expanded={loginExpanded}
 														disableOnClickOutside={!loginExpanded}

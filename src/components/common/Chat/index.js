@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ChatService from "../../../utils/ChatService";
 import { authService as auth } from "../../../utils/AuthService";
 import debounce from "lodash.debounce";
-import ContactReminder from "./ContactReminder";
 import Popup from "../Popup";
 import "./index.css";
 import Button from "../Button-v2";
@@ -29,19 +28,21 @@ class Chat extends Component {
 			this.props.sender.id
 		);
 
-		this.chat.init().then(messages => {
-			this.setState(
-				{
-					ready: true,
-					messages: messages,
-					showPopup: messages.some(
-						msg => msg.containsEmail || msg.containsNumber
-					),
-					loading: false
-				},
-				this.scrollToBottom
-			);
-		});
+		this.chat
+			.init({ showPersonalInformation: this.props.showPersonalInformation })
+			.then(messages => {
+				this.setState(
+					{
+						ready: true,
+						messages: messages,
+						showPopup: messages.some(
+							msg => msg.containsEmail || msg.containsNumber
+						),
+						loading: false
+					},
+					this.scrollToBottom
+				);
+			});
 
 		this.startedTyping = debounce(this.chat.startedTyping, 1000, {
 			leading: true,
@@ -209,8 +210,6 @@ class Chat extends Component {
 						)}
 					</div>
 				</Popup>
-
-				<ContactReminder />
 
 				<div
 					ref={ref => {

@@ -90,37 +90,41 @@ class OfferCard extends Component {
 		const confirmed = gig.status === "CONFIRMED";
 		return (
 			<>
-				{offer && <Popup
-					showing={this.state.showNotificationPopup}
-					onClickOutside={this.hidePopup}
-				>
-					<NotifyPayment
-						hashKey={hashKey}
-						eventId={eventId}
-						daysUntilPaymentPossible={offer.daysUntilPaymentPossible}
-					/>
-				</Popup>}
-				{offer && <Popup
-					showing={this.state.showPopup}
-					onClickOutside={this.hidePopup}
-					noPadding
-				>
-					<Mutation
-						mutation={PAYMENT_CONFIRMED}
-						variables={{ gigId: gig.id, eventId }}
+				{offer && (
+					<Popup
+						showing={this.state.showNotificationPopup}
+						onClickOutside={this.hidePopup}
 					>
-						{mutate => (
-							<PayForm
-								paymentPossible={paymentPossible}
-								onPaymentConfirmed={mutate}
-								id={gig.id}
-								offer={offer}
-								event={event}
-								currency={currency}
-							/>
-						)}
-					</Mutation>
-				</Popup>}
+						<NotifyPayment
+							hashKey={hashKey}
+							eventId={eventId}
+							daysUntilPaymentPossible={offer.daysUntilPaymentPossible}
+						/>
+					</Popup>
+				)}
+				{offer && (
+					<Popup
+						showing={this.state.showPopup}
+						onClickOutside={this.hidePopup}
+						noPadding
+					>
+						<Mutation
+							mutation={PAYMENT_CONFIRMED}
+							variables={{ gigId: gig.id, eventId }}
+						>
+							{mutate => (
+								<PayForm
+									paymentPossible={paymentPossible}
+									onPaymentConfirmed={mutate}
+									id={gig.id}
+									offer={offer}
+									event={event}
+									currency={currency}
+								/>
+							)}
+						</Mutation>
+					</Popup>
+				)}
 				<Popup
 					hideClose
 					noPadding
@@ -128,6 +132,7 @@ class OfferCard extends Component {
 					onClickOutside={this.hideChat}
 				>
 					<Chat
+						showPersonalInformation={confirmed}
 						ModalContent={PayUsingCueupOrganizer}
 						eventId={eventId}
 						receiver={{

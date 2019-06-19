@@ -1,7 +1,6 @@
 import { authService as auth } from "../utils/AuthService";
 import CueupService from "../utils/CueupService";
 import Formatter from "../utils/Formatter";
-import * as LoginActions from "./LoginActions";
 import * as tracker from "../utils/analytics/autotrack";
 import { ActionTypes } from "../constants/constants";
 import converter from "../utils/AdapterDTO";

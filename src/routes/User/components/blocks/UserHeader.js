@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
 import UserNavigation from "./UserNavigation";
 import UserCard from "./UserCard";
 import Notification from "../../../../components/common/Notification";

@@ -85,12 +85,6 @@ const CREATE_USER = gql`
 	}
 `;
 
-const EMAIL_IS_TAKEN = gql`
-	query EmailIsUsed($email: String!) {
-		emailIsUsed(email: $email)
-	}
-`;
-
 const REQUEST_EMAIL_VERIFICATION = gql`
 	mutation requestVerifyEmail($email: EmailAddress!, $redirectLink: String!) {
 		requestVerifyEmail(email: $email, redirectLink: $redirectLink)

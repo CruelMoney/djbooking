@@ -45,17 +45,16 @@ const EmailVerifyIndicator = ({
 	data,
 	error
 }) => {
-	const verifyEmail = async () => {
-		await mutate({
-			variables: {
-				verifyToken
-			}
-		});
-	};
-
 	useEffect(() => {
+		const verifyEmail = async () => {
+			await mutate({
+				variables: {
+					verifyToken
+				}
+			});
+		};
 		verifyEmail();
-	}, [verifyEmail, verifyToken]);
+	}, [verifyToken, mutate]);
 
 	const [active, setActive] = useState(true);
 	useEffect(() => {

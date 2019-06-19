@@ -113,9 +113,12 @@ class MobileMenu extends Component {
 			<div>
 				<div className={"mobileMenu" + (this.state.show ? " active" : "")}>
 					<div className="menuArea">
-						<a onClick={() => this.handleClose()} className="popupCloseButton">
+						<button
+							onClick={() => this.handleClose()}
+							className="popupCloseButton link-look"
+						>
 							{translate("close")}
-						</a>
+						</button>
 						{this.props.loggedIn ? (
 							<div className="profileSummary">
 								<div
@@ -338,7 +341,9 @@ class MobileMenu extends Component {
 								)}
 								{this.props.loggedIn ? null : (
 									<li>
-										<a onClick={this.onLoginButton}>{translate("login")}</a>
+										<button className="link-look" onClick={this.onLoginButton}>
+											{translate("login")}
+										</button>
 									</li>
 								)}
 							</ul>

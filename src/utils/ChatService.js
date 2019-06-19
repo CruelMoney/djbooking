@@ -12,15 +12,17 @@ export default class ChatService {
 		this.senderId = senderId;
 	}
 
-	init() {
+	init({ showPersonalInformation }) {
 		return new Promise((resolve, reject) => {
-			this.socket = io(
+			const url =
 				Environment.CHAT_DOMAIN +
-					"?room=" +
-					this.chatId +
-					"&token=" +
-					this.token
-			);
+				"?room=" +
+				this.chatId +
+				"&token=" +
+				this.token +
+				(showPersonalInformation ? "&showPersonalInformation=true" : "");
+
+			this.socket = io(url, {});
 
 			this.socket.on("initialize chat", data => {
 				resolve(data);

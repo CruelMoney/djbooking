@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import ToggleButton from "./ToggleButton";
 import ToggleButtonInput from "./ToggleButtonInput";
 
@@ -16,10 +15,12 @@ class ToggleButtonHandler extends Component {
 	}
 
 	parseValues = vals => {
-		return vals.filter(v => !!v).map(v => {
-			let name = typeof v === "string" ? v : v.name;
-			return name.toLowerCase();
-		});
+		return vals
+			.filter(v => !!v)
+			.map(v => {
+				let name = typeof v === "string" ? v : v.name;
+				return name.toLowerCase();
+			});
 	};
 
 	static defaultProps = {
@@ -176,7 +177,9 @@ class ToggleButtonHandler extends Component {
 				<div className="toggle-button-handler">
 					{this.props.errors.length && this.props.errorAbove ? (
 						<div className="errors">
-							{this.props.errors.map((error, i) => <p key={i}>{error}</p>)}
+							{this.props.errors.map((error, i) => (
+								<p key={i}>{error}</p>
+							))}
 						</div>
 					) : null}
 

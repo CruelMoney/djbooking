@@ -6,7 +6,6 @@ import connectToForm from "../../../../../components/higher-order/connectToForm"
 import { default as SimpleMap } from "../../../../../components/common/Map";
 import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
 import TextWrapper from "../../../../../components/common/TextElement";
-import c from "../../../../../constants/constants";
 import { localize } from "react-localize-redux";
 
 const Map = connectToForm(SimpleMap);

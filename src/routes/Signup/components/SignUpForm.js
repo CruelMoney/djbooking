@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import NumberedList from "../../../components/common/NumberedList";
-import Button from "../../../components/common/Button-v2";
 import SubmitButton from "../../../components/common/SubmitButton";
 import c from "../../../constants/constants";
 import { connect } from "react-redux";
@@ -23,9 +22,7 @@ import SimpleMap from "../../../components/common/Map";
 import { localize } from "react-localize-redux";
 import { Mutation } from "react-apollo";
 import { CREATE_USER } from "../../../components/gql";
-import ErrorMessageApollo, {
-	getErrorMessage
-} from "../../../components/common/ErrorMessageApollo";
+import { getErrorMessage } from "../../../components/common/ErrorMessageApollo";
 import FileInput from "../../../components/common/FileInput";
 const Map = connectToForm(SimpleMap);
 

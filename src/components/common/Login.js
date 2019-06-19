@@ -4,7 +4,6 @@ import SubmitButton from "./SubmitButton";
 import Textfield from "./Textfield";
 import Form from "./Form-v2";
 import { connect } from "react-redux";
-import * as actions from "../../actions/LoginActions";
 import { withRouter } from "react-router-dom";
 import { getTranslate } from "react-localize-redux";
 import { Mutation } from "react-apollo";

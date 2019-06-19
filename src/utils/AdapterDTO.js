@@ -1,5 +1,4 @@
 import Formatter from "./Formatter";
-import assign from "lodash.assign";
 import profilePic from "../assets/default-profile-pic.png";
 import moment from "moment-timezone";
 
@@ -33,17 +32,6 @@ const filterEmailSettings = (settings, isDj, isCustomer) => {
 //   const newDate = date.toDateString() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 //   return newDate;
 // }
-
-const deletedUser = {
-	bio: "",
-	email: "",
-	playingLocation: { name: "deleted" },
-	city: "deleted",
-	avgRating: 0,
-	picture: profilePic,
-	censoredName: "User deleted",
-	phone: ""
-};
 
 var location = {
 	fromDTO(DTO) {

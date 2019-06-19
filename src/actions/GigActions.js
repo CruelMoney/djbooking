@@ -1,6 +1,5 @@
 import c from "../constants/constants";
 import { authService as auth } from "../utils/AuthService";
-import converter from "../utils/AdapterDTO";
 import CueupService from "../utils/CueupService";
 const cueup = new CueupService();
 

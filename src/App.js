@@ -106,11 +106,6 @@ const App = class extends Component {
 			Environment.CALLBACK_DOMAIN +
 			getTranslatedURL(url, translate("code." + activeLanguage), translate);
 
-		const stripDash = base => {
-			return base.charAt(base.length - 1) === "/" ? base.slice(0, -1) : base;
-		};
-		const cleanURL = stripDash(url);
-
 		return (
 			<ApolloProvider>
 				<ErrorHandling>

@@ -5,7 +5,7 @@ import Offers from "./routes/Offers";
 import Review from "./routes/Review";
 import User from "./routes/User";
 import { Helmet } from "react-helmet-async";
-import { Switch, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import content from "./content.json";
 import requestFormContent from "../../components/common/RequestForm/content.json";
 import modalContent from "../../components/common/modals/content.json";
@@ -82,13 +82,3 @@ class Index extends Component {
 }
 
 export default addTranslate(Index, [content, requestFormContent, modalContent]);
-
-class TestIfMounting extends Component {
-	constructor(props) {
-		super(props);
-		console.log("DID MOUNT");
-	}
-	render() {
-		return null;
-	}
-}

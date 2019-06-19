@@ -12,7 +12,7 @@ import * as actions from "../../../../../actions/GigActions";
 import { localize } from "react-localize-redux";
 
 import { Query, ApolloConsumer } from "react-apollo";
-import { MY_GIGS, ME } from "../../../../../components/gql";
+import { MY_GIGS } from "../../../../../components/gql";
 
 class Gigs extends Component {
 	static contextTypes = {

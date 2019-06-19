@@ -20,7 +20,7 @@ import {
 } from "../../../../../components/common/Sharing";
 import { Environment } from "../../../../../constants/constants";
 import { localize } from "react-localize-redux";
-import { Mutation, graphql } from "react-apollo";
+import { graphql } from "react-apollo";
 import { UPDATE_USER } from "../../../gql";
 
 const Map = connectToForm(SimpleMap);
@@ -72,8 +72,12 @@ class OwnProfile extends Component {
 			let { playingRadius, playingLocation, ...variables } = form.values;
 
 			playingLocation = {
-				latitude: playingLocation ? playingLocation.lat : user.playingLocation.latitude,
-				longitude: playingLocation ? playingLocation.lng : user.playingLocation.longitude,
+				latitude: playingLocation
+					? playingLocation.lat
+					: user.playingLocation.latitude,
+				longitude: playingLocation
+					? playingLocation.lng
+					: user.playingLocation.longitude,
 				radius: playingRadius || user.playingLocation.radius
 			};
 

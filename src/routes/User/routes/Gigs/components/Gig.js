@@ -176,6 +176,7 @@ class Gig extends Component {
 									</div>
 									<TextWrapper label="Chat">
 										<Chat
+											showPersonalInformation={showContactInfo}
 											ModalContent={PayUsingCueupDJ}
 											eventId={event.id}
 											receiver={{

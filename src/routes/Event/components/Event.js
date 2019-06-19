@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import EventHeader from "./blocks/EventHeader";
 import Footer from "../../../components/common/Footer";
-import LoadingPlaceholder, {
-	LoadingCard
-} from "../../../components/common/LoadingPlaceholder";
+import { LoadingCard } from "../../../components/common/LoadingPlaceholder";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import * as actions from "../../../actions/EventActions";

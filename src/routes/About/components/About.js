@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Footer from "../../../components/common/Footer";
-import chrisPic from "../../../assets/chris.jpg";
-import martinPic from "../../../assets/martin.jpg";
 
 export default class About extends Component {
 	themeColor = "#25F4D2";
