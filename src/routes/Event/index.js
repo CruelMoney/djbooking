@@ -25,54 +25,56 @@ class Index extends Component {
 					<meta name="twitter:title" content="Event | Cueup" />
 				</Helmet>
 				<Event {...this.props}>
-					{({ theEvent, loading, hashKey }) => (
-						<Switch>
-							<Route
-								path={`${baseurl}/info`}
-								component={props => (
-									<EventInfo
-										{...props}
-										theEvent={theEvent}
-										loading={loading}
-										hashKey={hashKey}
-									/>
-								)}
-							/>
-							<Route
-								path={`${baseurl}/offers`}
-								component={props => (
-									<Offers
-										{...props}
-										theEvent={theEvent}
-										loading={loading}
-										hashKey={hashKey}
-									/>
-								)}
-							/>
-							<Route
-								path={`${baseurl}/review`}
-								component={props => (
-									<Review
-										{...props}
-										theEvent={theEvent}
-										loading={loading}
-										hashKey={hashKey}
-									/>
-								)}
-							/>
-							<Route
-								path={`${baseurl}/user`}
-								component={props => (
-									<User
-										{...props}
-										theEvent={theEvent}
-										loading={loading}
-										hashKey={hashKey}
-									/>
-								)}
-							/>
-						</Switch>
-					)}
+					{({ theEvent, loading, hashKey }) => {
+						return (
+							<div>
+								<Route
+									path={`${baseurl}/info`}
+									component={props => (
+										<EventInfo
+											{...props}
+											theEvent={theEvent}
+											loading={loading}
+											hashKey={hashKey}
+										/>
+									)}
+								/>
+								<Route
+									path={`${baseurl}/offers`}
+									render={props => (
+										<Offers
+											{...props}
+											theEvent={theEvent}
+											loading={loading}
+											hashKey={hashKey}
+										/>
+									)}
+								/>
+								<Route
+									path={`${baseurl}/review`}
+									render={props => (
+										<Review
+											{...props}
+											theEvent={theEvent}
+											loading={loading}
+											hashKey={hashKey}
+										/>
+									)}
+								/>
+								<Route
+									path={`${baseurl}/user`}
+									render={props => (
+										<User
+											{...props}
+											theEvent={theEvent}
+											loading={loading}
+											hashKey={hashKey}
+										/>
+									)}
+								/>
+							</div>
+						);
+					}}
 				</Event>
 			</div>
 		);
@@ -80,3 +82,13 @@ class Index extends Component {
 }
 
 export default addTranslate(Index, [content, requestFormContent, modalContent]);
+
+class TestIfMounting extends Component {
+	constructor(props) {
+		super(props);
+		console.log("DID MOUNT");
+	}
+	render() {
+		return null;
+	}
+}

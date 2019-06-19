@@ -25,7 +25,7 @@ class OfferCard extends Component {
 
 	constructor(props) {
 		super(props);
-		console.log("Test mount");
+		console.log("Mounting offer card");
 	}
 
 	state = {

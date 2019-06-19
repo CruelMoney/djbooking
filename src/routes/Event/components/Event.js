@@ -17,6 +17,11 @@ class event extends Component {
 	themeColor = "#25F4D2";
 	secondColor = "#31DAFF";
 
+	constructor(props) {
+		super(props);
+		console.log("Mounting event wrapper ");
+	}
+
 	static childContextTypes = {
 		color: PropTypes.string
 	};

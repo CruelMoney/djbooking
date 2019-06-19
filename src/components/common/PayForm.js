@@ -113,6 +113,7 @@ const PayForm = ({
 										</TableItem>
 									</MoneyTable>
 								)}
+
 								<p className="terms_link">{translate("event.offer.terms")}</p>
 							</div>
 						</>
