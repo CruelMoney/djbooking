@@ -9,7 +9,7 @@ import routesContent from "./constants/content/routes.json";
 let singletonStore = null;
 const isClient = typeof window !== "undefined";
 const languages = ["en", "da"];
-const missingTranslationMsg = "Missing translation";
+const missingTranslationMsg = "${key}"; // eslint-disable-line no-template-curly-in-string
 
 const getDefaultLanguage = req => {
 	let defaultLanguage = "en";

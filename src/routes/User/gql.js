@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 const USER = gql`
-	query($permalink: String!) {
+	query User($permalink: String!) {
 		user(permalink: $permalink) {
 			id
 			auth0Id

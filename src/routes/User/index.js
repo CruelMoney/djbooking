@@ -20,7 +20,7 @@ class ControlUser extends Component {
 		const baseurl = match.url;
 
 		return (
-			<Query query={ME} fetchPolicy="cache-only">
+			<Query query={ME}>
 				{({ data = {}, loading }) => {
 					const { me = {} } = data;
 					const { permalink } = me || {};

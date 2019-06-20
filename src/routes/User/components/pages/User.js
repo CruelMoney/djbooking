@@ -99,12 +99,19 @@ class User extends Component {
 	};
 
 	render() {
-		const { translate, match, isOwnProfile, children } = this.props;
+		const {
+			translate,
+			match,
+			isOwnProfile,
+			children,
+			loading: loadingMe
+		} = this.props;
 
 		return (
 			<Query
 				key={isOwnProfile}
 				query={isOwnProfile ? ME : USER}
+				skip={loadingMe}
 				variables={
 					isOwnProfile
 						? {}
@@ -130,7 +137,7 @@ class User extends Component {
 					const forwardProps = {
 						...this.props,
 						user,
-						loading,
+						loading: loadingMe || loading,
 						isDJ,
 						isCustomer
 					};

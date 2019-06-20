@@ -471,7 +471,6 @@ footer h4 {
 }
 footer a:hover,
 footer .link-look:hover,
-
 footer .dropdown-selector-wrapper:hover {
 	color: #32325d !important;
 	fill: #32325d !important;
@@ -3424,6 +3423,7 @@ ol.breadcrumbs a {
 	outline: none !important;
 	padding: 0;
 	color: #31daff;
+	height: 2em;
 }
 
 /* SMALL COM BEGIN */

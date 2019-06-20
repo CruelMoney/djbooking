@@ -145,10 +145,17 @@ const DECLINE_DJ = gql`
 	}
 `;
 
+const CANCEL_EVENT = gql`
+	mutation CancelEvent($id: ID!, $hash: String!) {
+		cancelEvent(id: $id, hash: $hash)
+	}
+`;
+
 export {
 	EVENT,
 	REQUEST_PAYMENT_INTENT,
 	PAYMENT_CONFIRMED,
 	EVENT_GIGS,
-	DECLINE_DJ
+	DECLINE_DJ,
+	CANCEL_EVENT
 };

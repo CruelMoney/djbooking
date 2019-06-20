@@ -42,6 +42,7 @@ const OfferForm = ({
 	const [currency, setCurrency] = useState(initState.currency);
 	const [loading, setLoading] = useState(false);
 	const [submitLoading, setSubmitLoading] = useState(false);
+	const [submitted, setSubmitted] = useState(false);
 
 	const updateOffer = () => {
 		if (payoutInfoValid) {
@@ -51,6 +52,7 @@ const OfferForm = ({
 				(err, res) => {
 					setError(err && err.message);
 					setSubmitLoading(false);
+					!err && setSubmitted(true);
 				}
 			);
 		}
@@ -265,6 +267,7 @@ const OfferForm = ({
 								rounded={true}
 								name="send_offer"
 								isLoading={submitLoading}
+								succes={submitted}
 								onClick={updateOffer}
 							>
 								{translate("Send offer")}
@@ -278,6 +281,7 @@ const OfferForm = ({
 								rounded={true}
 								name="update_offer"
 								isLoading={submitLoading}
+								succes={submitted}
 								onClick={updateOffer}
 							>
 								{translate("Update offer")}

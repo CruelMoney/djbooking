@@ -24,6 +24,8 @@ import RiderOptions, {
 } from "../../../../../components/common/RiderOptions";
 import * as actions from "../../../../../actions/EventActions";
 import { getTranslate } from "react-localize-redux";
+import { Mutation } from "react-apollo";
+import { CANCEL_EVENT } from "../../../gql";
 
 class Event extends Component {
 	state = { startTime: 0, endTime: 0, editMode: false, formValid: false };
@@ -53,13 +55,8 @@ class Event extends Component {
 		this.props.reviewEvent(review, callback);
 	};
 
-	cancelEvent = (id, callback) => {
-		this.props.cancelEvent(id, this.props.hashKey, callback);
-	};
-
 	render() {
 		const { translate, theEvent } = this.props;
-		console.log({ theEvent });
 		const title = theEvent.name + " | Cueup";
 		return (
 			<div className="row event-information">
@@ -84,16 +81,11 @@ class Event extends Component {
 							>
 								{translate("Save changes")}
 							</SubmitButton>
-							<SubmitButton
-								dangerous={true}
-								warning={translate("cancel-event-warning")}
-								onClick={(form, callback) =>
-									this.cancelEvent(theEvent.id, callback)
-								}
-								name="cancel_event"
-							>
-								{translate("Cancel event")}
-							</SubmitButton>
+							<CancelEventButton
+								translate={translate}
+								id={theEvent.id}
+								hash={this.props.hashKey}
+							/>
 							<Button onClick={() => requestFeatures()} name="request_features">
 								{translate("Request features")}
 							</Button>
@@ -240,6 +232,33 @@ class Event extends Component {
 	}
 }
 
+const CancelEventButton = ({ id, hash, translate }) => {
+	return (
+		<Mutation
+			mutation={CANCEL_EVENT}
+			variables={{
+				id,
+				hash
+			}}
+			onCompleted={_ => {
+				window.location.reload();
+			}}
+		>
+			{(cancel, { loading }) => (
+				<Button
+					isLoading={loading}
+					dangerous
+					warning={translate("cancel-event-warning")}
+					onClick={_ => cancel()}
+					name="cancel_event"
+				>
+					{translate("Cancel event")}
+				</Button>
+			)}
+		</Mutation>
+	);
+};
+
 function mapStateToProps(state, ownProps) {
 	return {
 		profile: state.login.profile,
@@ -250,9 +269,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
 	return {
 		updateEvent: (event, callback) =>
-			dispatch(actions.updateEvent(event, callback)),
-		cancelEvent: (id, hash, callback) =>
-			dispatch(actions.cancelEvent(id, hash, callback))
+			dispatch(actions.updateEvent(event, callback))
 	};
 }
 

@@ -113,9 +113,7 @@ const PayForm = ({
 										</TableItem>
 									</MoneyTable>
 								)}
-								<button onClick={_ => paymentConfirmed()}>
-									Test payment confirmed
-								</button>
+
 								<p className="terms_link">{translate("event.offer.terms")}</p>
 							</div>
 						</>

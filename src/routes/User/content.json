@@ -268,5 +268,6 @@
 	"Appears after the offer is confirmed by the organizer.": [
 		"Appears after the offer is confirmed by the organizer.",
 		"Bliver synligt efter tilbuddet er godkendt af kunden."
-	]
+	],
+	"offer": ["Offer", "Tilbud"]
 }

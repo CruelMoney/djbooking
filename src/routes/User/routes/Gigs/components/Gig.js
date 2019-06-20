@@ -197,7 +197,7 @@ class Gig extends Component {
 								<></>
 							)}
 
-							<Collapsible name="Offer" label={translate("Offer")}>
+							<Collapsible name="Offer" label={translate("offer")}>
 								<OfferForm
 									showPopup={this.showPopup}
 									profileCurrency={userSettings.currency}

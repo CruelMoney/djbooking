@@ -71,7 +71,7 @@ class Gigs extends Component {
 			currentLanguage
 		} = this.props;
 		const { loginPopup } = this.state;
-
+		console.log({ isOwnProfile, loadingUser, loginPopup });
 		const renderGigs = gigs => {
 			const renderGigs = gigs.filter(
 				({ event, status }) =>
@@ -130,7 +130,7 @@ class Gigs extends Component {
 							<div>{!loading && renderGigs(gigs)}</div>
 							{!isOwnProfile && !loadingUser ? (
 								<Popup
-									showing={loginPopup}
+									showing={loginPopup && !isOwnProfile && !loadingUser}
 									width={"400px"}
 									onClickOutside={() => this.setState({ loginPopup: false })}
 								>
