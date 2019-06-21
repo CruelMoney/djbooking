@@ -135,9 +135,8 @@ const PaymentRequestButtonWrapper = ({
 	const paymentRequest = useRef();
 
 	useEffect(() => {
-		const { offer } = paymentIntent;
-
 		const confirmPaymentRequest = async ({ complete, paymentMethod }) => {
+			console.log("Confirming payment");
 			try {
 				const { token } = paymentIntent;
 				const PAYMENT_INTENT_CLIENT_SECRET = token.token;
@@ -164,6 +163,7 @@ const PaymentRequestButtonWrapper = ({
 			}
 		};
 
+		const { offer } = paymentIntent;
 		// For full documentation of the available paymentRequest options, see:
 		// https://stripe.com/docs/stripe.js#the-payment-request-object
 		paymentRequest.current = stripe.paymentRequest({
@@ -194,7 +194,9 @@ const PaymentRequestButtonWrapper = ({
 		});
 	}, [onPaymentConfirmed, paymentIntent, stripe]);
 
-	if (!canMakePayment) return null;
+	if (!canMakePayment || !paymentRequest.current) {
+		return null;
+	}
 
 	return (
 		<>
