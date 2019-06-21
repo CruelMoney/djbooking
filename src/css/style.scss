@@ -360,15 +360,18 @@ span {
 .logo {
 	fill: #ffffff;
 }
-.location_terms .main-menu a,
-.location_betingelser .main-menu a,
-.location_book-dj .main-menu a,
-.location_faq .main-menu a,
-.location_about .main-menu a,
-.location_om .main-menu a,
-.location_blog .main-menu a,
-.not-found .main-menu a {
-	color: #32325d;
+.location_terms,
+.location_betingelser,
+.location_book-dj,
+.location_faq,
+.location_about,
+.location_om,
+.location_blog,
+.not-found {
+	.main-menu a,
+	.main-menu .link-look {
+		color: #32325d;
+	}
 }
 .location_terms .navigation .logo,
 .location_betingelser .navigation .logo,
@@ -435,6 +438,18 @@ span {
 .location_about nav,
 .location_om nav {
 	border-bottom: 1px solid #f6f9fc;
+}
+
+.location_terms,
+.location_betingelser,
+.location_faq,
+.location_blog,
+.location_about,
+.location_om,
+.not-found {
+	#content {
+		padding-top: 90px;
+	}
 }
 
 .copyright {

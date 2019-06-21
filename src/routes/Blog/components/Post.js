@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { posts } from "../posts.json";
 import Formatter from "../../../utils/Formatter";
 import Sharing from "../../../components/common/Sharing-v2";
-import SignUpForm from "../../Signup/components/SignUpForm";
+import ButtonLink from "../../../components/common/ButtonLink";
 import { Environment } from "../../../constants/constants";
 import NewsletterSignup from "./NewsletterSignup";
 import { Helmet } from "react-helmet-async";
@@ -85,15 +85,23 @@ class Post extends Component {
 						/>
 						<Sharing shareUrl={url} title={post.title} />
 						<div className="signup">
-							<SignUpForm>
-								<h3>Bliv DJ hos Cueup</h3>
-								<p>
-									Opret en gratis bruger og begynd at blive tilbudt spillejobs.
-									Log ind med soundcloud, facebook eller din email. Ved
-									tilmelding accepterer du automatisk vores vilkår og
-									betingelser.
-								</p>
-							</SignUpForm>
+							<h3>Bliv DJ hos Cueup</h3>
+							<p>
+								Opret en gratis bruger og begynd at blive tilbudt spillejobs.
+								Log ind med soundcloud, facebook eller din email. Ved tilmelding
+								accepterer du automatisk vores vilkår og betingelser.
+							</p>
+							<div className="row center" style={{ margin: "3em 0" }}>
+								<ButtonLink
+									active
+									glow
+									color={"rgb(37, 244, 210)"}
+									className="button"
+									to={"/signup"}
+								>
+									APPLY TO BECOME DJ
+								</ButtonLink>
+							</div>
 						</div>
 						<hr />
 						<OnlyClientSide>
