@@ -63,7 +63,7 @@ const App = class extends Component {
 				translate
 			);
 			this.setState({
-				redirect: redirectUrl
+				redirect: redirectUrl + location.search
 			});
 		}
 
