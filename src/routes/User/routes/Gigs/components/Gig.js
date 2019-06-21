@@ -51,7 +51,7 @@ class Gig extends Component {
 					showing={this.state.showPopup}
 					onClickOutside={() => this.setState({ showPopup: false })}
 				>
-					<PayoutForm />
+					<PayoutForm user={user} />
 				</Popup>
 
 				<div className="card gig">
