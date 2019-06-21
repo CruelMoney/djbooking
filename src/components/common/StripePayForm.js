@@ -131,39 +131,40 @@ const PaymentRequestButtonWrapper = ({
 	stripe,
 	onPaymentConfirmed
 }) => {
+	const { offer } = paymentIntent;
+
 	const [canMakePayment, setCanMakePayment] = useState(false);
 	const paymentRequest = useRef();
 
-	useEffect(() => {
-		const confirmPaymentRequest = async ({ complete, paymentMethod }) => {
-			console.log("Confirming payment");
-			try {
-				const { token } = paymentIntent;
-				const PAYMENT_INTENT_CLIENT_SECRET = token.token;
+	const confirmPaymentRequest = async ({ complete, paymentMethod }) => {
+		console.log("Confirming payment");
+		try {
+			const { token } = paymentIntent;
+			const PAYMENT_INTENT_CLIENT_SECRET = token.token;
 
-				complete("success");
-				const result = await stripe.handleCardPayment(
-					PAYMENT_INTENT_CLIENT_SECRET,
-					{
-						payment_method: paymentMethod.id
-					}
-				);
-				const { error } = result;
-				if (error) {
-					console.log({ error });
-					throw new Error(error.message || "Something went wrong");
+			complete("success");
+			const result = await stripe.handleCardPayment(
+				PAYMENT_INTENT_CLIENT_SECRET,
+				{
+					payment_method: paymentMethod.id
 				}
-				onPaymentConfirmed(true);
-			} catch (error) {
-				setTimeout(() => {
-					alert(error.message);
-				}, 1000);
+			);
+			const { error } = result;
+			if (error) {
 				console.log({ error });
-				complete("fail");
+				throw new Error(error.message || "Something went wrong");
 			}
-		};
+			onPaymentConfirmed(true);
+		} catch (error) {
+			setTimeout(() => {
+				alert(error.message);
+			}, 1000);
+			console.log({ error });
+			complete("fail");
+		}
+	};
 
-		const { offer } = paymentIntent;
+	useEffect(() => {
 		// For full documentation of the available paymentRequest options, see:
 		// https://stripe.com/docs/stripe.js#the-payment-request-object
 		paymentRequest.current = stripe.paymentRequest({
@@ -192,7 +193,7 @@ const PaymentRequestButtonWrapper = ({
 		paymentRequest.current.canMakePayment().then(result => {
 			setCanMakePayment(!!result);
 		});
-	}, [onPaymentConfirmed, paymentIntent, stripe]);
+	}, []); // eslint-disable-line
 
 	if (!canMakePayment || !paymentRequest.current) {
 		return null;
