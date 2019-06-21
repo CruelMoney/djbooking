@@ -4,15 +4,15 @@ import TextField from "../../../../../components/common/Textfield";
 import MoneyTable, {
 	TableItem
 } from "../../../../../components/common/MoneyTable";
-import * as actions from "../../../../../actions/GigActions";
-import { connect } from "react-redux";
+
 import { localize } from "react-localize-redux";
 import moment from "moment-timezone";
-import formatter from "../../../../../utils/Formatter";
 import { ConnectedCurrencySelector } from "../../../../../components/common/CountrySelector";
 import debounce from "lodash.debounce";
 import { Mutation } from "react-apollo";
-import { CANCEL_GIG, DECLINE_GIG } from "../../../gql";
+import { CANCEL_GIG, DECLINE_GIG, GET_OFFER, MAKE_OFFER } from "../../../gql";
+import { useMutation } from "react-apollo-hooks";
+import ErrorMessageApollo from "../../../../../components/common/ErrorMessageApollo";
 
 const OfferForm = ({
 	gig,
@@ -24,72 +24,89 @@ const OfferForm = ({
 	updateGig,
 	showPopup
 }) => {
-	let { offer } = gig;
+	const initOffer = gig.offer || {
+		offer: { amount: 0, formatted: 0 },
+		serviceFee: { amount: 0, formatted: 0 },
+		djFee: { amount: 0, formatted: 0 },
+		totalPayment: { amount: 0, formatted: 0 },
+		totalPayout: { amount: 0, formatted: 0 }
+	};
+	const initCurrency = gig.offer
+		? gig.offer.offer.currency
+		: profileCurrency.toUpperCase();
 
-	const initState = offer
-		? {
-				amount: offer.offer.amount,
-				serviceFeeAmount: offer.serviceFee.amount,
-				djFeeAmount: offer.djFee.amount,
-				currency: offer.totalPayment.currency
-		  }
-		: {
-				currency: profileCurrency.toUpperCase()
-		  };
-
-	const [state, setState] = useState(initState);
+	const [offer, setNewOffer] = useState(initOffer);
 	const [error, setError] = useState(null);
-	const [currency, setCurrency] = useState(initState.currency);
+	const [currency, setCurrency] = useState(initCurrency);
 	const [loading, setLoading] = useState(false);
 	const [submitLoading, setSubmitLoading] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
 
-	const updateOffer = () => {
+	const getOffer = useMutation(GET_OFFER);
+	const makeOffer = useMutation(MAKE_OFFER);
+
+	const updateOffer = async () => {
 		if (payoutInfoValid) {
+			setError(null);
 			setSubmitLoading(true);
-			updateGig(
-				{ currency, amount: state.amount, gigId: gig.id },
-				(err, res) => {
-					setError(err && err.message);
-					setSubmitLoading(false);
-					!err && setSubmitted(true);
-				}
-			);
+			try {
+				const {
+					data: { getOffer: newOffer }
+				} = await makeOffer({
+					variables: {
+						currency,
+						amount: offer.offer.amount,
+						gigId: gig.id
+					}
+				});
+				setNewOffer(newOffer);
+				setSubmitted(true);
+			} catch (error) {
+				setError(error);
+			}
+			setSubmitLoading(false);
 		}
 	};
 
-	const setCurrencyAndFetch = c => {
-		setCurrency(c);
-		getFees({ currency: c, amount: state.amount });
-	};
-
 	const getFeesDebounced = debounce(
-		({ amount, newCurrency = currency }) => {
-			actions.getFee(
-				{
-					...state,
-					gigId: gig.id,
-					amount: amount,
-					currency: newCurrency
-				},
-				(err, res) => {
-					setState({ ...state, ...res });
-					setLoading(false);
-				}
-			);
+		async ({ amount, newCurrency = currency }) => {
+			try {
+				const {
+					data: { getOffer: newOffer }
+				} = await getOffer({
+					variables: {
+						gigId: gig.id,
+						amount,
+						currency: newCurrency,
+						locale: currentLanguage
+					}
+				});
+				setNewOffer(newOffer);
+			} catch (error) {
+				setError(error);
+			}
+
+			setLoading(false);
 		},
 		1000,
 		{ trailing: true }
 	);
 
 	const getFees = data => {
+		setError(null);
 		setLoading(true);
 		getFeesDebounced(data);
 	};
 
+	const setCurrencyAndFetch = c => {
+		setCurrency(c);
+		getFees({ newCurrency: c, amount: offer.offer.amount });
+	};
+
 	const canSubmit =
-		(state.amount !== initState.amount || currency !== initState.currency) &&
-		parseInt(state.amount, 10) > 0 &&
+		(offer.offer.amount !== initOffer.offer.amount ||
+			currency !== initOffer.offer.currency) &&
+		parseInt(offer.offer.amount, 10) > 0 &&
 		!loading;
 
 	return (
@@ -121,7 +138,9 @@ const OfferForm = ({
 									type="string"
 									fullWidth={true}
 									onChange={val => getFees({ amount: parseInt(val, 10) * 100 })}
-									initialValue={initState.amount && initState.amount / 100}
+									initialValue={
+										initOffer.offer.amount && initOffer.offer.amount / 100
+									}
 								/>
 							</div>
 							<div className="col-sm-6">
@@ -149,32 +168,16 @@ const OfferForm = ({
 							</h4>
 							<MoneyTable>
 								<TableItem label={translate("Your price")}>
-									{formatter.money.price(
-										state.amount,
-										currency,
-										currentLanguage
-									)}
+									{offer.offer.formatted}
 								</TableItem>
 								<TableItem
 									label={translate("Service fee")}
 									info={<div>{translate("gig.offer.service-fee-info")}</div>}
 								>
-									{loading
-										? "loading..."
-										: formatter.money.price(
-												state.serviceFeeAmount,
-												currency,
-												currentLanguage
-										  )}
+									{loading ? "loading..." : offer.serviceFee.formatted}
 								</TableItem>
 								<TableItem label="Total">
-									{loading
-										? "loading..."
-										: formatter.money.price(
-												state.serviceFeeAmount + state.amount,
-												currency,
-												currentLanguage
-										  )}
+									{loading ? "loading..." : offer.totalPayment.formatted}
 								</TableItem>
 							</MoneyTable>
 						</div>
@@ -182,32 +185,16 @@ const OfferForm = ({
 							<h4 style={{ textAlign: "center" }}>{translate("You earn")}</h4>
 							<MoneyTable>
 								<TableItem label={translate("Your price")}>
-									{formatter.money.price(
-										state.amount,
-										currency,
-										currentLanguage
-									)}
+									{offer.offer.formatted}
 								</TableItem>
 								<TableItem
 									label={translate("DJ fee")}
 									info={<div>{translate("gig.offer.dj-fee-info")}</div>}
 								>
-									{loading
-										? "loading..."
-										: formatter.money.price(
-												-state.djFeeAmount,
-												currency,
-												currentLanguage
-										  )}
+									{loading ? "loading..." : "-" + offer.djFee.formatted}
 								</TableItem>
 								<TableItem label="Total">
-									{loading
-										? "loading..."
-										: formatter.money.price(
-												state.amount - state.djFeeAmount,
-												currency,
-												currentLanguage
-										  )}
+									{loading ? "loading..." : offer.totalPayout.formatted}
 								</TableItem>
 							</MoneyTable>
 						</div>
@@ -300,21 +287,10 @@ const OfferForm = ({
 					</div>
 				) : null}
 
-				{error && <p className="error">{error}</p>}
+				<ErrorMessageApollo error={error} />
 			</div>
 		</div>
 	);
 };
 
-function mapDispatchToProps(dispatch, ownProps) {
-	return {
-		updateGig: (offer, callback) => dispatch(actions.makeOffer(offer, callback))
-	};
-}
-
-const SmartGig = connect(
-	_ => {},
-	mapDispatchToProps
-)(OfferForm);
-
-export default localize(SmartGig, "locale");
+export default localize(OfferForm, "locale");

@@ -169,11 +169,77 @@ const DELETE_USER = gql`
 	}
 `;
 
+const GET_OFFER = gql`
+	mutation GetOffer(
+		$gigId: ID!
+		$amount: Int!
+		$currency: Currency!
+		$locale: String
+	) {
+		getOffer(gigId: $gigId, amount: $amount, currency: $currency) {
+			offer {
+				amount
+				formatted(locale: $locale)
+			}
+			serviceFee {
+				amount
+				formatted(locale: $locale)
+			}
+			djFee {
+				amount
+				formatted(locale: $locale)
+			}
+			totalPayment {
+				amount
+				formatted(locale: $locale)
+			}
+			totalPayout {
+				amount
+				formatted(locale: $locale)
+			}
+		}
+	}
+`;
+
+const MAKE_OFFER = gql`
+	mutation MakeOffer(
+		$gigId: ID!
+		$amount: Int!
+		$currency: Currency!
+		$locale: String
+	) {
+		makeOffer(gigId: $gigId, amount: $amount, currency: $currency) {
+			offer {
+				amount
+				formatted(locale: $locale)
+			}
+			serviceFee {
+				amount
+				formatted(locale: $locale)
+			}
+			djFee {
+				amount
+				formatted(locale: $locale)
+			}
+			totalPayment {
+				amount
+				formatted(locale: $locale)
+			}
+			totalPayout {
+				amount
+				formatted(locale: $locale)
+			}
+		}
+	}
+`;
+
 export {
 	USER,
 	UPDATE_USER,
 	UPDATE_USER_SETTINGS,
 	DECLINE_GIG,
 	CANCEL_GIG,
-	DELETE_USER
+	DELETE_USER,
+	GET_OFFER,
+	MAKE_OFFER
 };

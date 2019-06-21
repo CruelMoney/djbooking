@@ -10,6 +10,7 @@ import { createUploadLink } from "apollo-upload-client";
 import { Environment } from "./constants/constants";
 import resolvers from "./actions/resolvers";
 import { authService } from "./utils/AuthService";
+import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
 
 // custome error handling, only logging errors atm
 const errorLink = onError(
@@ -112,7 +113,11 @@ class APIProvider extends Component {
 
 	render() {
 		return (
-			<ApolloProvider client={client}>{this.props.children}</ApolloProvider>
+			<ApolloProvider client={client}>
+				<ApolloHooksProvider client={client}>
+					{this.props.children}
+				</ApolloHooksProvider>
+			</ApolloProvider>
 		);
 	}
 }
