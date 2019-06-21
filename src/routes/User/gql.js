@@ -163,4 +163,17 @@ const CANCEL_GIG = gql`
 	}
 `;
 
-export { USER, UPDATE_USER, UPDATE_USER_SETTINGS, DECLINE_GIG, CANCEL_GIG };
+const DELETE_USER = gql`
+	mutation DeleteUser($id: ID!) {
+		deleteUser(id: $id)
+	}
+`;
+
+export {
+	USER,
+	UPDATE_USER,
+	UPDATE_USER_SETTINGS,
+	DECLINE_GIG,
+	CANCEL_GIG,
+	DELETE_USER
+};

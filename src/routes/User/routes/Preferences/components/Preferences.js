@@ -11,12 +11,11 @@ import Slider from "../../../../../components/common/Slider";
 import ErrorMessage from "../../../../../components/common/ErrorMessage";
 import TextField from "../../../../../components/common/Textfield";
 import Login from "../../../../../components/common/Login";
-import { connect } from "react-redux";
-import * as actions from "../../../../../actions/UserActions";
-import { userLogout } from "../../../../../actions/LoginActions";
 import { localize } from "react-localize-redux";
-import { graphql } from "react-apollo";
-import { UPDATE_USER_SETTINGS } from "../../../gql";
+import { graphql, Mutation } from "react-apollo";
+import { UPDATE_USER_SETTINGS, DELETE_USER } from "../../../gql";
+import { getErrorMessage } from "../../../../../components/common/ErrorMessageApollo";
+import { reset } from "../../../../../ApolloProvider";
 
 class Preferences extends Component {
 	static contextTypes = {
@@ -62,7 +61,7 @@ class Preferences extends Component {
 	};
 
 	getActionButtons = (props = this.props) => {
-		const { translate, deleteProfile, logout } = props;
+		const { translate, user, history } = props;
 		const editing = this.context.editing;
 
 		return (
@@ -88,19 +87,34 @@ class Preferences extends Component {
 					</div>
 				)}
 
-				<SubmitButton
-					dangerous
-					warning={translate("user.preferences.delete-warning")}
-					onClick={(form, callback) => deleteProfile(callback)}
-					name="Delete_profile"
-					onSucces={() => {
-						setTimeout(() => {
-							logout();
-						}, 1000);
+				<Mutation
+					mutation={DELETE_USER}
+					variables={{
+						id: user.id
+					}}
+					onCompleted={() => {
+						reset();
+						history.push(`/`);
+					}}
+					onError={e => {
+						window.alert(getErrorMessage(e));
 					}}
 				>
-					{translate("Delete profile")}
-				</SubmitButton>
+					{(deleteUser, { loading }) => {
+						return (
+							<Button
+								dangerous
+								isLoading={loading}
+								warning={translate("user.preferences.delete-warning")}
+								onClick={_ => deleteUser()}
+								name="Delete_profile"
+							>
+								{translate("Delete profile")}
+							</Button>
+						);
+					}}
+				</Mutation>
+
 				<ErrorMessage />
 			</div>
 		);
@@ -281,27 +295,6 @@ class Preferences extends Component {
 	}
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-	return {
-		deleteProfile: callback => {
-			dispatch(actions.deleteProfile(callback));
-		},
-		logout: () => {
-			ownProps.history.push(`/`);
-			dispatch(userLogout());
-		}
-	};
-}
-
-function mergeProps(stateProps, dispatchProps, ownProps) {
-	return { ...ownProps, ...stateProps, ...dispatchProps };
-}
-
-const SmartPreferences = connect(
-	_ => {},
-	mapDispatchToProps,
-	mergeProps,
-	{ pure: false }
-)(graphql(UPDATE_USER_SETTINGS)(Preferences));
+const SmartPreferences = graphql(UPDATE_USER_SETTINGS)(Preferences);
 
 export default localize(SmartPreferences, "locale");

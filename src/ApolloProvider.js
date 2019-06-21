@@ -25,7 +25,7 @@ const errorLink = onError(
 				switch (err.extensions.code) {
 					case "UNAUTHENTICATED":
 						// old token might have expired, lets remove it and try again
-						window.localStorage.removeItem("auth_token");
+						authService.logout();
 						const headers = operation.getContext().headers;
 						operation.setContext({
 							headers: {
@@ -100,7 +100,7 @@ const client = new ApolloClient({
 
 const reset = async () => {
 	token = null;
-	window.localStorage.removeItem("auth_token");
+	authService.logout();
 	await client.resetStore();
 };
 

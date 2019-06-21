@@ -1,6 +1,7 @@
 .input {
 	display: flex;
 	margin-top: 10px;
+	padding-bottom: 0.2em;
 }
 .input .StripeElement {
 	width: 100%;
