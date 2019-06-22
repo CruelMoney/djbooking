@@ -9,18 +9,14 @@ import { requestFeatures } from "../../../../../actions/Common";
 import { Helmet } from "react-helmet-async";
 
 import addTranslate from "../../../../../components/higher-order/addTranslate";
+import { UPDATE_EVENT } from "../../../gql";
+import { Mutation } from "react-apollo";
 
 class Profile extends Component {
 	componentWillMount() {}
 
 	state = {
 		formValid: false
-	};
-
-	update = (form, callback) => {
-		const { theEvent, save } = this.props;
-		let event = { ...theEvent, ...form.values };
-		save(event, callback);
 	};
 
 	render() {
@@ -42,13 +38,11 @@ class Profile extends Component {
 				>
 					<div className="context-actions-wrapper">
 						<div className="context-actions" key="profile_actions">
-							<SubmitButton
-								active={this.state.formValid}
-								onClick={this.update}
-								name="update_settings"
-							>
-								{translate("Save changes")}
-							</SubmitButton>
+							<UpdateEventButton
+								translate={translate}
+								id={theEvent.id}
+								hash={this.props.hashKey}
+							/>
 
 							<Button onClick={() => requestFeatures()} name="request_features">
 								{translate("Request features")}
@@ -74,8 +68,8 @@ class Profile extends Component {
 							>
 								<TextField
 									value={theEvent.contactEmail}
-									name="email"
-									type="email"
+									name="contactEmail"
+									type="contactEmail"
 									validate={["required", "email"]}
 									disabled
 								/>
@@ -98,5 +92,35 @@ class Profile extends Component {
 		);
 	}
 }
+
+const UpdateEventButton = ({ translate, id, hash }) => {
+	return (
+		<Mutation mutation={UPDATE_EVENT}>
+			{(update, { loading, data }) => (
+				<SubmitButton
+					isLoading={loading}
+					succes={!!data}
+					name={"update_settings"}
+					onClick={async (form, cb) => {
+						try {
+							await update({
+								variables: {
+									id,
+									hash,
+									...form.values
+								}
+							});
+							cb();
+						} catch (error) {
+							cb(error);
+						}
+					}}
+				>
+					{translate("Save changes")}
+				</SubmitButton>
+			)}
+		</Mutation>
+	);
+};
 
 export default addTranslate(Profile);

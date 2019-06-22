@@ -8,9 +8,7 @@ import Slider from "../../../../../components/common/Slider";
 import Form from "../../../../../components/common/Form-v2";
 import TextWrapper from "../../../../../components/common/TextElement";
 import SubmitButton from "../../../../../components/common/SubmitButton";
-import assign from "lodash.assign";
 import { Helmet } from "react-helmet-async";
-
 import Map from "../../../../../components/common/Map";
 import ToggleButtonHandler from "../../../../../components/common/ToggleButtonHandler";
 import c from "../../../../../constants/constants";
@@ -22,7 +20,7 @@ import RiderOptions, {
 	optionsToEnum as getRiderEnum
 } from "../../../../../components/common/RiderOptions";
 import { Mutation } from "react-apollo";
-import { CANCEL_EVENT } from "../../../gql";
+import { CANCEL_EVENT, UPDATE_EVENT } from "../../../gql";
 import addTranslate from "../../../../../components/higher-order/addTranslate";
 
 class Event extends Component {
@@ -31,27 +29,6 @@ class Event extends Component {
 	componentWillMount() {
 		this.setState({ guests: this.props.theEvent.guestsCount });
 	}
-
-	mergeEventForm = (form, event) => {
-		const updatedEvent = assign(event, form.values, {
-			guestsCount: form.values.guests
-				? form.values.guests[0]
-				: event.guestsCount
-		});
-		return updatedEvent;
-	};
-
-	updateEvent = (form, callback) => {
-		this.props.updateEvent(
-			this.mergeEventForm(form, this.props.theEvent),
-			callback
-		);
-	};
-
-	submitReview = (form, callback) => {
-		const review = assign(form.values, { eventId: this.props.theEvent.id });
-		this.props.reviewEvent(review, callback);
-	};
 
 	render() {
 		const { translate, theEvent } = this.props;
@@ -72,13 +49,11 @@ class Event extends Component {
 				>
 					<div className="context-actions-wrapper">
 						<div className="context-actions">
-							<SubmitButton
-								active={this.state.formValid}
-								onClick={this.updateEvent}
-								name="update_event"
-							>
-								{translate("Save changes")}
-							</SubmitButton>
+							<UpdateEventButton
+								translate={translate}
+								id={theEvent.id}
+								hash={this.props.hashKey}
+							/>
 							<CancelEventButton
 								translate={translate}
 								id={theEvent.id}
@@ -252,6 +227,37 @@ const CancelEventButton = ({ id, hash, translate }) => {
 				>
 					{translate("Cancel event")}
 				</Button>
+			)}
+		</Mutation>
+	);
+};
+
+const UpdateEventButton = ({ translate, id, hash }) => {
+	return (
+		<Mutation mutation={UPDATE_EVENT}>
+			{(update, { loading, data }) => (
+				<SubmitButton
+					isLoading={loading}
+					succes={!!data}
+					name={"update_event"}
+					onClick={async (form, cb) => {
+						try {
+							await update({
+								variables: {
+									id,
+									hash,
+									...form.values,
+									guestsCount: form.values.guests[0]
+								}
+							});
+							cb();
+						} catch (error) {
+							cb(error);
+						}
+					}}
+				>
+					{translate("Save changes")}
+				</SubmitButton>
 			)}
 		</Mutation>
 	);

@@ -151,7 +151,68 @@ const CANCEL_EVENT = gql`
 	}
 `;
 
+const UPDATE_EVENT = gql`
+	mutation UpdateEvent(
+		$id: ID!
+		$hash: String!
+		$name: String
+		$description: String
+		$contactEmail: String
+		$contactName: String
+		$contactPhone: String
+		$speakers: Boolean
+		$lights: Boolean
+		$genres: [String!]
+		$guestsCount: Int
+		$locale: String
+	) {
+		updateEvent(
+			id: $id
+			hash: $hash
+			name: $name
+			description: $description
+			contactEmail: $contactEmail
+			contactName: $contactName
+			contactPhone: $contactPhone
+			speakers: $speakers
+			lights: $lights
+			genres: $genres
+			guestsCount: $guestsCount
+		) {
+			id
+			name
+			description
+			start {
+				localDate
+				formattedTime(locale: $locale)
+				formattedDate(locale: $locale)
+			}
+			end {
+				localDate
+				formattedTime(locale: $locale)
+			}
+			timeZone
+			genres
+			guestsCount
+			status
+			contactName
+			contactPhone
+			contactEmail
+			rider {
+				lights
+				speakers
+			}
+			location {
+				name
+				latitude
+				longitude
+			}
+		}
+	}
+`;
+
 export {
+	UPDATE_EVENT,
 	EVENT,
 	REQUEST_PAYMENT_INTENT,
 	PAYMENT_CONFIRMED,
