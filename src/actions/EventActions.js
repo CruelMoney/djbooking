@@ -104,10 +104,11 @@ export const getLocation = location => {
 				} else {
 					GeoCoder.getTimeZone(geoResult.position)
 						.then(res => {
+							console.log({ res });
 							resolve({ ...geoResult, ...res });
 						})
 						.catch(err => {
-							console.log(err);
+							console.log({ err });
 							reject(err);
 						});
 				}
@@ -128,7 +129,7 @@ export function postEvent(event, mutate, callback) {
 				ReactPixel.track("Lead");
 			}
 		} catch (error) {
-			callback(error.message);
+			callback(error);
 		}
 	};
 }

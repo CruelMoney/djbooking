@@ -6,8 +6,8 @@ import Form from "./Form-v2";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getTranslate } from "react-localize-redux";
-import { Mutation } from "react-apollo";
-import { LOGIN, REQUEST_PASSWORD_RESET } from "../gql";
+import { Mutation, Query } from "react-apollo";
+import { LOGIN, REQUEST_PASSWORD_RESET, ME } from "../gql";
 import Button from "./Button-v2";
 import * as c from "../../constants/constants";
 import ErrorMessageApollo, { getErrorMessage } from "./ErrorMessageApollo";
@@ -88,83 +88,97 @@ class Login extends Component {
 		const { translate, onLogin } = this.props;
 
 		return (
-			<div className="login">
-				<Mutation
-					mutation={LOGIN}
-					variables={this.state}
-					onError={error => {
-						console.log({ error });
-						this.setState({ isLoading: false });
-					}}
-					onCompleted={async ({ signIn: { token } }) => {
-						if (token) {
-							authService.setSession(token);
-							await onLogin();
-						}
-						this.setState({ isLoading: false });
-					}}
-				>
-					{(mutate, { error }) => {
-						return (
-							<form onSubmit={_ => mutate()}>
-								<div>
-									<Textfield
-										name="email"
-										type="email"
-										validate={["required", "email"]}
-										floatingLabelText="Email"
-										onChange={this.onChangeEmail}
-									/>
-								</div>
-								<div>
-									<Textfield
-										name="password"
-										validate={["required"]}
-										type="password"
-										floatingLabelText="Password"
-										onChange={this.onChangePassword}
-									/>
-								</div>
-								<div>
-									<Button
-										glow
-										active={this.isValid()}
-										disabled={!this.isValid()}
-										type={"submit"}
-										isLoading={isLoading}
-										name="email_login"
-										onClick={_ => {
-											this.setState({ isLoading: true });
-											mutate();
-										}}
-									>
-										{translate("login")}
-									</Button>
-								</div>
-								<ErrorMessageApollo email={this.state.email} error={error} />
-							</form>
-						);
-					}}
-				</Mutation>
-				<Mutation mutation={REQUEST_PASSWORD_RESET}>
-					{mutate => {
-						return (
-							<Form name="forgot_password">
-								<SubmitButton
-									name="forgot_password"
-									onClick={this.onRequestChangePassword(mutate)}
-								>
-									{translate("forgot") + "?"}
-								</SubmitButton>
-								{this.state.message ? <p>{this.state.message}</p> : null}
-							</Form>
-						);
-					}}
-				</Mutation>
-				<p style={{ fontSize: "12px", lineHeight: "1.5em", textAlign: "left" }}>
-					{translate("removed-facebook")}
-				</p>
-			</div>
+			<Query query={ME}>
+				{({ refetch }) => (
+					<div className="login">
+						<Mutation
+							mutation={LOGIN}
+							variables={this.state}
+							onError={error => {
+								console.log({ error });
+								this.setState({ isLoading: false });
+							}}
+							onCompleted={async ({ signIn: { token } }) => {
+								if (token) {
+									authService.setSession(token);
+									onLogin && (await onLogin());
+									await refetch();
+								}
+								this.setState({ isLoading: false });
+							}}
+						>
+							{(mutate, { error }) => {
+								return (
+									<form onSubmit={_ => mutate()}>
+										<div>
+											<Textfield
+												name="email"
+												type="email"
+												validate={["required", "email"]}
+												floatingLabelText="Email"
+												onChange={this.onChangeEmail}
+											/>
+										</div>
+										<div>
+											<Textfield
+												name="password"
+												validate={["required"]}
+												type="password"
+												floatingLabelText="Password"
+												onChange={this.onChangePassword}
+											/>
+										</div>
+										<div>
+											<Button
+												glow
+												active={this.isValid()}
+												disabled={!this.isValid()}
+												type={"submit"}
+												isLoading={isLoading}
+												name="email_login"
+												onClick={_ => {
+													this.setState({ isLoading: true });
+													mutate();
+												}}
+											>
+												{translate("login")}
+											</Button>
+										</div>
+										<ErrorMessageApollo
+											email={this.state.email}
+											error={error}
+										/>
+									</form>
+								);
+							}}
+						</Mutation>
+						<Mutation mutation={REQUEST_PASSWORD_RESET}>
+							{mutate => {
+								return (
+									<Form name="forgot_password">
+										<SubmitButton
+											name="forgot_password"
+											onClick={this.onRequestChangePassword(mutate)}
+										>
+											{translate("forgot") + "?"}
+										</SubmitButton>
+										{this.state.message ? <p>{this.state.message}</p> : null}
+									</Form>
+								);
+							}}
+						</Mutation>
+						<p
+							style={{
+								fontSize: "12px",
+								lineHeight: "1.5em",
+								textAlign: "left"
+							}}
+						>
+							{translate("removed-facebook")}
+						</p>
+					</div>
+				)}
+			</Query>
 		);
 	}
 }

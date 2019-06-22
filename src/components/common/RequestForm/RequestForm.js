@@ -18,6 +18,7 @@ import Step4 from "./Step4";
 import { Mutation, Query } from "react-apollo";
 import { CREATE_EVENT } from "./gql";
 import { ME } from "../../gql";
+import ErrorMessageApollo from "../ErrorMessageApollo";
 
 const MainForm = class extends PureComponent {
 	static defaultProps = {
@@ -28,7 +29,8 @@ const MainForm = class extends PureComponent {
 		showPopup: false,
 		emailExists: false,
 		activeStep: 1,
-		date: moment()
+		date: moment(),
+		error: false
 	};
 
 	formToEvent(form) {
@@ -64,26 +66,15 @@ const MainForm = class extends PureComponent {
 		}
 	};
 
-	onSubmit = (mutate, me) => (form, callback) => {
+	onSubmit = mutate => (form, callback) => {
+		this.setState({ error: false });
+
 		let event = this.formToEvent(this.props.form);
 
-		if (me) {
-			this.submitEvent(event, mutate, callback);
-		} else {
-			this.props.checkEmail(event.contactEmail, (err, res) => {
-				if (err) {
-					callback(err, res);
-				} else if (res === true) {
-					//IF email exists
-					this.setState({
-						showPopup: true
-					});
-					callback(" ", null);
-				} else {
-					this.submitEvent(event, mutate, callback);
-				}
-			});
-		}
+		this.submitEvent(event, mutate, (err, res) => {
+			console.log({ err, res });
+			callback(err, res);
+		});
 	};
 
 	hidePopup = () => {
@@ -111,184 +102,181 @@ const MainForm = class extends PureComponent {
 
 	render() {
 		const { translate } = this.props;
-
+		const { error } = this.state;
 		return (
-			<Query query={ME}>
-				{({ data = {}, refetch }) => {
-					const { me } = data;
-
-					return (
-						<Mutation mutation={CREATE_EVENT}>
-							{mutate => (
-								<div className="request-form">
-									<Popup
-										width="380px"
-										showing={this.state.showPopup && !this.props.isLoggedIn}
-										onClickOutside={this.hidePopup}
-									>
-										<div>
-											<p style={{ marginBottom: "20px" }}>
-												{translate("request-form.email-exists-message")}
-											</p>
-											<Login
-												redirect={false}
-												onLogin={async _ => {
-													await refetch();
-													this.hidePopup();
-												}}
-											/>
-										</div>
-									</Popup>
-									<div className="request-columns">
-										<div className="row center">
-											{this.state.msg ? (
-												<div className="col-md-8 thank-you-text">
-													<p
-														className="center"
+			<Mutation
+				mutation={CREATE_EVENT}
+				onError={error => {
+					this.setState({ error });
+				}}
+			>
+				{mutate => (
+					<div className="request-form">
+						<Popup
+							width="380px"
+							showing={this.state.showPopup && !this.props.isLoggedIn}
+							onClickOutside={this.hidePopup}
+						>
+							<div>
+								<p style={{ marginBottom: "20px" }}>
+									{translate("request-form.email-exists-message")}
+								</p>
+								<Login
+									redirect={false}
+									onLogin={async _ => {
+										this.hidePopup();
+									}}
+								/>
+							</div>
+						</Popup>
+						<div className="request-columns">
+							<div className="row center">
+								{this.state.msg ? (
+									<div className="col-md-8 thank-you-text">
+										<p
+											className="center"
+											style={{
+												fontSize: "32px",
+												textAlign: "center",
+												lineHeight: "45px"
+											}}
+										>
+											{this.state.msg}
+										</p>
+									</div>
+								) : (
+									<div className="col-md-6">
+										<Progress
+											setProgress={this.setProgress}
+											currentStep={this.state.activeStep - 1}
+										/>
+										<div className="card">
+											<div
+												className={
+													" " +
+													(this.state.activeStep !== 1 ? "hidden" : "show")
+												}
+											>
+												<Step1
+													translate={translate}
+													form={this.props.form}
+													date={this.state.date}
+													updateDate={this.updateDate}
+													updateLocation={this.updateLocation}
+													next={() => this.setState({ activeStep: 2 })}
+													formValidCheckers={this.formValidCheckers}
+												/>
+											</div>
+											<div
+												className={
+													" " +
+													(this.state.activeStep !== 2 ? "hidden" : "show")
+												}
+											>
+												<Step2
+													translate={translate}
+													form={this.props.form}
+													next={() => this.setState({ activeStep: 3 })}
+													back={() => this.setState({ activeStep: 1 })}
+													formValidCheckers={this.formValidCheckers}
+												/>
+											</div>
+											<div
+												className={
+													" " +
+													(this.state.activeStep !== 3 ? "hidden" : "show")
+												}
+											>
+												<Step3
+													translate={translate}
+													form={this.props.form}
+													date={this.state.date}
+													next={() => this.setState({ activeStep: 4 })}
+													back={() => this.setState({ activeStep: 2 })}
+													formValidCheckers={this.formValidCheckers}
+												/>
+											</div>
+											<div
+												className={
+													" " +
+													(this.state.activeStep !== 4 ? "hidden" : "show")
+												}
+											>
+												<Step4
+													translate={translate}
+													form={this.props.form}
+													isLoggedIn={this.props.isLoggedIn}
+													active={this.state.activeStep === 2}
+													back={() => this.setState({ activeStep: 3 })}
+													submit={this.submit}
+													formValidCheckers={this.formValidCheckers}
+												/>
+												<Form
+													noError
+													customIsFormValid={() => {
+														var result = this.formValidCheckers.reduce(
+															(memo, isValidFunc) => {
+																return isValidFunc(true) && memo;
+															},
+															true
+														);
+														return result;
+													}}
+													name="requestForm"
+												>
+													<div
 														style={{
-															fontSize: "32px",
-															textAlign: "center",
-															lineHeight: "45px"
+															position: "relative",
+															marginTop: "20px",
+															marginBottom: "20px"
 														}}
 													>
-														{this.state.msg}
-													</p>
-												</div>
-											) : (
-												<div className="col-md-6">
-													<Progress
-														setProgress={this.setProgress}
-														currentStep={this.state.activeStep - 1}
-													/>
-													<div className="card">
-														<div
-															className={
-																" " +
-																(this.state.activeStep !== 1
-																	? "hidden"
-																	: "show")
-															}
+														<span
+															className="back-button"
+															onClick={() => this.setState({ activeStep: 3 })}
 														>
-															<Step1
-																translate={translate}
-																form={this.props.form}
-																date={this.state.date}
-																updateDate={this.updateDate}
-																updateLocation={this.updateLocation}
-																next={() => this.setState({ activeStep: 2 })}
-																formValidCheckers={this.formValidCheckers}
-															/>
-														</div>
-														<div
-															className={
-																" " +
-																(this.state.activeStep !== 2
-																	? "hidden"
-																	: "show")
-															}
-														>
-															<Step2
-																translate={translate}
-																form={this.props.form}
-																next={() => this.setState({ activeStep: 3 })}
-																back={() => this.setState({ activeStep: 1 })}
-																formValidCheckers={this.formValidCheckers}
-															/>
-														</div>
-														<div
-															className={
-																" " +
-																(this.state.activeStep !== 3
-																	? "hidden"
-																	: "show")
-															}
-														>
-															<Step3
-																translate={translate}
-																form={this.props.form}
-																date={this.state.date}
-																next={() => this.setState({ activeStep: 4 })}
-																back={() => this.setState({ activeStep: 2 })}
-																formValidCheckers={this.formValidCheckers}
-															/>
-														</div>
-														<div
-															className={
-																" " +
-																(this.state.activeStep !== 4
-																	? "hidden"
-																	: "show")
-															}
-														>
-															<Step4
-																translate={translate}
-																form={this.props.form}
-																isLoggedIn={this.props.isLoggedIn}
-																active={this.state.activeStep === 2}
-																back={() => this.setState({ activeStep: 3 })}
-																submit={this.submit}
-																formValidCheckers={this.formValidCheckers}
-															/>
-															<Form
-																noError
-																customIsFormValid={() => {
-																	var result = this.formValidCheckers.reduce(
-																		(memo, isValidFunc) => {
-																			return isValidFunc(true) && memo;
-																		},
-																		true
-																	);
-																	return result;
-																}}
-																name="requestForm"
-															>
-																<div
-																	style={{
-																		position: "relative",
-																		marginTop: "20px",
-																		marginBottom: "20px"
-																	}}
-																>
-																	<span
-																		className="back-button"
-																		onClick={() =>
-																			this.setState({ activeStep: 3 })
-																		}
-																	>
-																		{translate("back")}
-																	</span>
+															{translate("back")}
+														</span>
 
-																	<SubmitButton
-																		active
-																		name="request_djs_button"
-																		onClick={this.onSubmit(mutate, me)}
-																		glow
-																	>
-																		<div style={{ width: "150px" }}>
-																			{translate("get-offers")}
-																		</div>
-																	</SubmitButton>
-																</div>
-																<ErrorMessage center />
-																<p
-																	style={{ textAlign: "center" }}
-																	className="terms_link"
-																>
-																	{translate("terms-message")}
-																</p>
-															</Form>
-														</div>
+														<SubmitButton
+															active
+															name="request_djs_button"
+															onClick={this.onSubmit(mutate)}
+															glow
+														>
+															<div style={{ width: "150px" }}>
+																{translate("get-offers")}
+															</div>
+														</SubmitButton>
 													</div>
-												</div>
-											)}
+													<ErrorMessageApollo
+														center
+														error={error}
+														onFoundCode={code => {
+															if (code === "UNAUTHENTICATED") {
+																this.setState({
+																	showPopup: true,
+																	error: false
+																});
+															}
+														}}
+													/>
+													<p
+														style={{ textAlign: "center" }}
+														className="terms_link"
+													>
+														{translate("terms-message")}
+													</p>
+												</Form>
+											</div>
 										</div>
 									</div>
-								</div>
-							)}
-						</Mutation>
-					);
-				}}
-			</Query>
+								)}
+							</div>
+						</div>
+					</div>
+				)}
+			</Mutation>
 		);
 	}
 };

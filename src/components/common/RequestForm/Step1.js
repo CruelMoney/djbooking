@@ -51,7 +51,6 @@ class Step1 extends PureComponent {
 							msg: typeof err === "string" ? err : ""
 						});
 					} else {
-						console.log({ res });
 						// DJs available
 						if (res === true) {
 							this.setState({

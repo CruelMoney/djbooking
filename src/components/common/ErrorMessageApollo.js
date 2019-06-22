@@ -24,7 +24,7 @@ export const getErrorMessage = error => {
 	return msgs;
 };
 
-const ErrorMessageApollo = ({ error, center, email }) => {
+const ErrorMessageApollo = ({ error, center, email, onFoundCode }) => {
 	let msgs = ["There was an error"];
 	let showResend = false;
 
@@ -39,6 +39,9 @@ const ErrorMessageApollo = ({ error, center, email }) => {
 		msgs = [];
 		graphQLErrors.forEach(e => {
 			msgs.push(e.message);
+			if (onFoundCode) {
+				onFoundCode(e.extensions.code);
+			}
 			if (e.extensions.code === "EMAIL_NOT_VERIFIED") {
 				showResend = true;
 			}

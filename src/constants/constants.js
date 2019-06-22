@@ -41,7 +41,9 @@ module.exports = {
 			: process.env.REACT_APP_CUEUP_DEV_FB_ID,
 		PIXEL_ID: "1461498583979582",
 		OPENEXCHANGERATE_APP_ID: "e0937d01cc734837bba7f1bfb6887c2a",
-		GOOGLE_API_KEY: "AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ"
+		GOOGLE_API_KEY: production
+			? "AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ"
+			: "AIzaSyDYsMT5dhTnBLMcAetq4NGVWUyijkrVSHs"
 	},
 
 	Currencies: ["DKK", "EUR", "GBP", "NOK", "SEK", "USD", "IDR"],

@@ -159,7 +159,6 @@ class Menu extends Component {
 													>
 														<Login
 															closeLogin={this.onClickOutside}
-															onLogin={refetch}
 															user={user}
 														/>
 													</Dropdown>
