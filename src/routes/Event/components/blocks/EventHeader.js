@@ -146,7 +146,7 @@ class eventHeader extends Component {
 									<EventNavigation
 										paid={this.props.event.chosenOfferId !== 0}
 										hash={this.props.hash}
-										isFinished={this.props.event.status === "Finished"}
+										isFinished={this.props.event.status === "FINISHED"}
 										id={this.props.event.id}
 									/>
 								</Fragment>

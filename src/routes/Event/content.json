@@ -102,8 +102,8 @@
 		},
 		"review": {
 			"rating": [
-				"Click on the stars to rate, and save your review on the button to the left.",
-				"Klik på stjernerne for at rate, og gem din anmeldelse med knappen til venstre."
+				"Click on the stars to rate.",
+				"Klik på stjernerne for at rate."
 			],
 			"description": [
 				"Optionally tell us how the DJ performed.",

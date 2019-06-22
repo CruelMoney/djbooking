@@ -60,7 +60,6 @@ class OfferCard extends Component {
 		const {
 			disabled,
 			translate,
-			eventFinished,
 			paymentPossible,
 			currency,
 			gig,
@@ -75,18 +74,20 @@ class OfferCard extends Component {
 		} = this.props;
 
 		const { offer, dj } = gig;
-
-		const image = {
-			backgroundImage: "url(" + dj.picture.path + ")",
-			backgroundRepeat: "no-repeat",
-			backgroundPosition: "center",
-			backgroundSize: "auto 100%",
-			width: "80px",
-			height: "80px",
-			minWidth: "80px",
-			borderRadius: "50%",
-			marginRight: "20px"
-		};
+		console.log({ gig });
+		const image = dj
+			? {
+					backgroundImage: "url(" + dj.picture.path + ")",
+					backgroundRepeat: "no-repeat",
+					backgroundPosition: "center",
+					backgroundSize: "auto 100%",
+					width: "80px",
+					height: "80px",
+					minWidth: "80px",
+					borderRadius: "50%",
+					marginRight: "20px"
+			  }
+			: null;
 		const confirmed = gig.status === "CONFIRMED";
 		return (
 			<>
@@ -125,104 +126,112 @@ class OfferCard extends Component {
 						</Mutation>
 					</Popup>
 				)}
-				<Popup
-					hideClose
-					noPadding
-					showing={this.state.showChat}
-					onClickOutside={this.hideChat}
-				>
-					<Chat
-						showPersonalInformation={confirmed}
-						ModalContent={PayUsingCueupOrganizer}
-						eventId={eventId}
-						receiver={{
-							id: dj.id,
-							name: dj.userMetadata.firstName,
-							image: dj.picture.path
-						}}
-						sender={{
-							id: profileId,
-							name: profileName,
-							image: profilePicture
-						}}
-						chatId={gig.id}
-						placeholder={
-							<EmptyPage
-								title="  "
-								message={<div>{translate("event.offer.empty-chat")}</div>}
-							/>
-						}
-					/>
-				</Popup>
+				{dj && (
+					<Popup
+						hideClose
+						noPadding
+						showing={this.state.showChat}
+						onClickOutside={this.hideChat}
+					>
+						<Chat
+							showPersonalInformation={confirmed}
+							ModalContent={PayUsingCueupOrganizer}
+							eventId={eventId}
+							receiver={{
+								id: dj.id,
+								name: dj.userMetadata.firstName,
+								image: dj.picture.path
+							}}
+							sender={{
+								id: profileId,
+								name: profileName,
+								image: profilePicture
+							}}
+							chatId={gig.id}
+							placeholder={
+								<EmptyPage
+									title="  "
+									message={<div>{translate("event.offer.empty-chat")}</div>}
+								/>
+							}
+						/>
+					</Popup>
+				)}
 				<div className="card offer-card">
-					<div style={{ display: "flex" }}>
-						<div style={image} />
-						<div className="top">
-							<div>
-								<div style={{ width: "55%" }}>
-									<h4>{dj.userMetadata.firstName}</h4>
+					{dj ? (
+						<>
+							<div style={{ display: "flex" }}>
+								<div style={image} />
+								<div className="top">
+									<div>
+										<div style={{ width: "55%" }}>
+											<h4>{dj.userMetadata.firstName}</h4>
 
-									<div className="dj-location">
-										<svg
-											version="1.1"
-											id="Capa_1"
-											x="0px"
-											y="0px"
-											width="1em"
-											height="1em"
-											viewBox="0 0 466.583 466.582"
-											style={{ enableBackground: "new 0 0 466.583 466.582" }}
-										>
-											<g>
-												<path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
-											</g>
-										</svg>
-										{dj.playingLocation.name}
-									</div>
-									{dj.userMetadata.phone && (
-										<div className="dj-location">
-											<PhoneIcon />
-											{confirmed ? (
-												<a href={"tel:" + dj.userMetadata.phone}>
-													{dj.userMetadata.phone}
-												</a>
-											) : (
-												translate("Phone number visible after confirmation")
+											<div className="dj-location">
+												<svg
+													version="1.1"
+													id="Capa_1"
+													x="0px"
+													y="0px"
+													width="1em"
+													height="1em"
+													viewBox="0 0 466.583 466.582"
+													style={{
+														enableBackground: "new 0 0 466.583 466.582"
+													}}
+												>
+													<g>
+														<path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
+													</g>
+												</svg>
+												{dj.playingLocation.name}
+											</div>
+											{dj.userMetadata.phone && (
+												<div className="dj-location">
+													<PhoneIcon />
+													{confirmed ? (
+														<a href={"tel:" + dj.userMetadata.phone}>
+															{dj.userMetadata.phone}
+														</a>
+													) : (
+														translate("Phone number visible after confirmation")
+													)}
+												</div>
 											)}
+											<div className="dj-location">
+												<EmailIcon />
+												{confirmed ? (
+													<a href={"mailto:" + dj.email}>{dj.email}</a>
+												) : (
+													translate("Email visible after confirmation")
+												)}
+											</div>
 										</div>
-									)}
-									<div className="dj-location">
-										<EmailIcon />
-										{confirmed ? (
-											<a href={"mailto:" + dj.email}>{dj.email}</a>
-										) : (
-											translate("Email visible after confirmation")
+										{dj.averageRating && dj.averageRating > 0 && (
+											<Rating
+												rating={
+													dj.averageRating // </p> // 	{translate("Member for") + " " + memberSince} // > // 	}} // 		lineHeight: "1.2em" // 		margin: "0", // 		textAlign: "right", // 		fontSize: "12px", // 	style={{ // <p
+												}
+											/>
 										)}
 									</div>
+
+									<Button
+										className="send-message-button"
+										onClick={() => this.setState({ showChat: true })}
+										name="show-chat-popup"
+									>
+										{notification ? (
+											<div className="notification-bubble">1</div>
+										) : null}
+										{translate("Message")}
+									</Button>
 								</div>
-								{dj.averageRating && dj.averageRating > 0 && (
-									<Rating
-										rating={
-											dj.averageRating // </p> // 	{translate("Member for") + " " + memberSince} // > // 	}} // 		lineHeight: "1.2em" // 		margin: "0", // 		textAlign: "right", // 		fontSize: "12px", // 	style={{ // <p
-										}
-									/>
-								)}
 							</div>
 
-							<Button
-								className="send-message-button"
-								onClick={() => this.setState({ showChat: true })}
-								name="show-chat-popup"
-							>
-								{notification ? (
-									<div className="notification-bubble">1</div>
-								) : null}
-								{translate("Message")}
-							</Button>
-						</div>
-					</div>
-
-					<div className="user-bio">{dj.userMetadata.bio}</div>
+							<div className="user-bio">{dj.userMetadata.bio}</div>
+						</>
+					) : null}
 
 					<div className="cancelation-policy">
 						{onlyChat
@@ -234,7 +243,7 @@ class OfferCard extends Component {
 					</div>
 
 					<div className="bottom">
-						{gig.status === "CONFIRMED" || gig.status === "ACCEPTED" ? (
+						{["CONFIRMED", "ACCEPTED", "FINISHED"].includes(gig.status) ? (
 							<div
 								className="offer-price"
 								style={{
@@ -242,6 +251,9 @@ class OfferCard extends Component {
 									textAlign: "center"
 								}}
 							>
+								{["CONFIRMED", "FINISHED"].includes(gig.status) ? (
+									<p>Paid</p>
+								) : null}
 								{offer.totalPayment.formatted}
 							</div>
 						) : null}
@@ -255,7 +267,7 @@ class OfferCard extends Component {
 									marginTop: "15px"
 								}}
 							>
-								{gig.status === "ACCEPTED" || gig.status === "REQUESTED" ? (
+								{["ACCEPTED", "REQUESTED"].includes(gig.status) ? (
 									<Mutation
 										mutation={DECLINE_DJ}
 										variables={{ gigId: gig.id }}
@@ -278,9 +290,9 @@ class OfferCard extends Component {
 									</Mutation>
 								) : null}
 
-								{gig.status === "CONFIRMED" ||
-								gig.status === "REQUESTED" ||
-								eventFinished ? null : (
+								{["CONFIRMED", "REQUESTED", "FINISHED"].includes(
+									gig.status
+								) ? null : (
 									<Button
 										glow
 										disabled={disabled}

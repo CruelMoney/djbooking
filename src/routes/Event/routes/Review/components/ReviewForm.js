@@ -9,8 +9,8 @@ import { requestFeatures } from "../../../../../actions/Common";
 
 import { Helmet } from "react-helmet-async";
 
-import { Query } from "react-apollo";
-import { EVENT_GIGS } from "../../../gql";
+import { Query, Mutation } from "react-apollo";
+import { EVENT_GIGS, WRITE_REVIEW } from "../../../gql";
 import { LoadingCard } from "../../../../../components/common/LoadingPlaceholder";
 import addTranslate from "../../../../../components/higher-order/addTranslate";
 
@@ -27,7 +27,7 @@ class Review extends Component {
 		formValid: true
 	};
 
-	submitReview = (form, callback) => {
+	submitReview = mutate => async (form, callback) => {
 		const { theEvent, hashKey, submitReview } = this.props;
 
 		submitReview(theEvent.id, hashKey, form.values, callback);
@@ -67,13 +67,17 @@ class Review extends Component {
 							>
 								<div className="context-actions-wrapper">
 									<div className="context-actions" key="profile_actions">
-										<SubmitButton
-											active={this.state.formValid}
-											name="submit_review"
-											onClick={this.submitReview}
-										>
-											{translate("Submit review")}
-										</SubmitButton>
+										<Mutation mutation={WRITE_REVIEW}>
+											{mutate => (
+												<SubmitButton
+													active={this.state.formValid}
+													name="submit_review"
+													onClick={this.submitReview(mutate)}
+												>
+													{translate("Submit review")}
+												</SubmitButton>
+											)}
+										</Mutation>
 
 										<Button
 											onClick={() => requestFeatures()}

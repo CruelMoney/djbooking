@@ -6,6 +6,7 @@ const EVENT = gql`
 			id
 			name
 			description
+
 			start {
 				localDate
 				formattedTime(locale: $locale)
@@ -211,6 +212,16 @@ const UPDATE_EVENT = gql`
 	}
 `;
 
+const WRITE_REVIEW = gql`
+	mutation WriteReview($id: ID, $gigId: ID!, $content: String, $rating: Float) {
+		writeReview(id: $id, gigId: $gigId, rating: $rating, content: $content) {
+			id
+			rating
+			content
+		}
+	}
+`;
+
 export {
 	UPDATE_EVENT,
 	EVENT,
@@ -218,5 +229,6 @@ export {
 	PAYMENT_CONFIRMED,
 	EVENT_GIGS,
 	DECLINE_DJ,
-	CANCEL_EVENT
+	CANCEL_EVENT,
+	WRITE_REVIEW
 };
