@@ -51,7 +51,7 @@ const OfferForm = ({
 			setSubmitLoading(true);
 			try {
 				const {
-					data: { getOffer: newOffer }
+					data: { makeOffer: newOffer }
 				} = await makeOffer({
 					variables: {
 						currency,
@@ -70,30 +70,33 @@ const OfferForm = ({
 
 	const getFeesDebounced = debounce(
 		async ({ amount, newCurrency = currency }) => {
-			try {
-				const {
-					data: { getOffer: newOffer }
-				} = await getOffer({
-					variables: {
-						gigId: gig.id,
-						amount,
-						currency: newCurrency,
-						locale: currentLanguage
-					}
-				});
-				setNewOffer(newOffer);
-			} catch (error) {
-				setError(error);
-			}
+			if (amount && amount > 0) {
+				setLoading(true);
+				setError(null);
+				try {
+					const {
+						data: { getOffer: newOffer }
+					} = await getOffer({
+						variables: {
+							gigId: gig.id,
+							amount,
+							currency: newCurrency,
+							locale: currentLanguage
+						}
+					});
+					setNewOffer(newOffer);
+				} catch (error) {
+					setError(error);
+				}
 
-			setLoading(false);
+				setLoading(false);
+			}
 		},
 		1000,
 		{ trailing: true }
 	);
 
 	const getFees = data => {
-		setError(null);
 		setLoading(true);
 		getFeesDebounced(data);
 	};
@@ -108,6 +111,8 @@ const OfferForm = ({
 			currency !== initOffer.offer.currency) &&
 		parseInt(offer.offer.amount, 10) > 0 &&
 		!loading;
+
+	console.log({ error });
 
 	return (
 		<div>

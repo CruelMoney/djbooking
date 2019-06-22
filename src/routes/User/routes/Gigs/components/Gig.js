@@ -9,8 +9,6 @@ import PayoutForm from "../../../../../components/common/PayoutForm";
 import Popup from "../../../../../components/common/Popup";
 import Chat from "../../../../../components/common/Chat";
 import moment from "moment-timezone";
-import { connect } from "react-redux";
-import * as actions from "../../../../../actions/GigActions";
 import { localize } from "react-localize-redux";
 import { PayUsingCueupDJ } from "../../../../../components/common/modals";
 class Gig extends Component {
@@ -214,15 +212,4 @@ class Gig extends Component {
 	}
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-	return {
-		updateGig: (offer, callback) => dispatch(actions.makeOffer(offer, callback))
-	};
-}
-
-const SmartGig = connect(
-	_ => {},
-	mapDispatchToProps
-)(Gig);
-
-export default localize(SmartGig, "locale");
+export default localize(Gig, "locale");
