@@ -16,16 +16,14 @@ import ToggleButtonHandler from "../../../../../components/common/ToggleButtonHa
 import c from "../../../../../constants/constants";
 import moment from "moment";
 import LocationSelector from "../../../../../components/common/LocationSelectorSimple";
-import { connect } from "react-redux";
 import ErrorMessage from "../../../../../components/common/ErrorMessage";
 import { requestFeatures } from "../../../../../actions/Common";
 import RiderOptions, {
 	optionsToEnum as getRiderEnum
 } from "../../../../../components/common/RiderOptions";
-import * as actions from "../../../../../actions/EventActions";
-import { getTranslate } from "react-localize-redux";
 import { Mutation } from "react-apollo";
 import { CANCEL_EVENT } from "../../../gql";
+import addTranslate from "../../../../../components/higher-order/addTranslate";
 
 class Event extends Component {
 	state = { startTime: 0, endTime: 0, editMode: false, formValid: false };
@@ -259,21 +257,4 @@ const CancelEventButton = ({ id, hash, translate }) => {
 	);
 };
 
-function mapStateToProps(state, ownProps) {
-	return {
-		profile: state.login.profile,
-		translate: getTranslate(state.locale)
-	};
-}
-
-function mapDispatchToProps(dispatch, ownProps) {
-	return {
-		updateEvent: (event, callback) =>
-			dispatch(actions.updateEvent(event, callback))
-	};
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Event);
+export default addTranslate(Event);

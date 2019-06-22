@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router";
 import User from "./components/pages/User";
-import FinishSignup from "./components/pages/FinishSignup";
 import Profile from "./routes/Profile";
 import Events from "./routes/Events";
 import Gigs from "./routes/Gigs";
@@ -80,11 +79,6 @@ class Index extends Component {
 		const { translate } = this.props;
 		return (
 			<Switch>
-				<Route
-					exact
-					path={translate("routes./user/signup")}
-					component={FinishSignup}
-				/>
 				<Route
 					path={translate("routes./user/:permalink")}
 					render={props => {

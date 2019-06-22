@@ -29,7 +29,6 @@ class Events extends Component {
 		if (this.context.registerActions) {
 			this.context.registerActions(this.getActionButtons);
 		}
-		this.props.fetchEvents();
 	}
 
 	getActionButtons = (props = this.props) => {
@@ -122,24 +121,4 @@ class Events extends Component {
 	}
 }
 
-function mapStateToProps(state, ownProps) {
-	return {
-		events: state.events.values,
-		loading: state.events.isWaiting
-	};
-}
-
-function mapDispatchToProps(dispatch, ownProps) {
-	return {
-		fetchEvents: () => {
-			dispatch(actions.fetchEvents());
-		}
-	};
-}
-
-const SmartEvents = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Events);
-
-export default localize(SmartEvents, "locale");
+export default localize(Events, "locale");

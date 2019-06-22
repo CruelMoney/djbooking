@@ -5,9 +5,7 @@ import Popup from "../Popup";
 import Login from "../Login";
 import moment from "moment-timezone";
 import SubmitButton from "../SubmitButton";
-import ErrorMessage from "../ErrorMessage";
 import * as eventActions from "../../../actions/EventActions";
-import * as userActions from "../../../actions/UserActions";
 import { connect } from "react-redux";
 import content from "./content.json";
 import addTranslate from "../../../components/higher-order/addTranslate";
@@ -15,9 +13,8 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
-import { Mutation, Query } from "react-apollo";
+import { Mutation } from "react-apollo";
 import { CREATE_EVENT } from "./gql";
-import { ME } from "../../gql";
 import ErrorMessageApollo from "../ErrorMessageApollo";
 
 const MainForm = class extends PureComponent {
@@ -305,9 +302,6 @@ function mapDispatchToProps(dispatch, ownProps) {
 	return {
 		onSubmit: (form, mutate, callback) => {
 			dispatch(eventActions.postEvent(form, mutate, callback));
-		},
-		checkEmail: (email, callback) => {
-			dispatch(userActions.checkEmail(email, callback));
 		}
 	};
 }

@@ -7,14 +7,12 @@ import Button from "./common/Button-v2";
 import Login from "./common/Login";
 import Logo from "./common/Logo";
 import MobileMenu from "./MobileMenu";
-import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import BreadCrumbs from "./BreadCrumbs";
-import * as actions from "../actions/LoginActions";
-import { getTranslate } from "react-localize-redux";
 import EmailVerifier from "./EmailVerifier";
 import { Query } from "react-apollo";
 import { ME } from "./gql";
+import addTranslate from "./higher-order/addTranslate";
 
 class Menu extends Component {
 	static propTypes = {
@@ -224,24 +222,6 @@ class Menu extends Component {
 	}
 }
 
-function mapStateToProps(state, ownprops) {
-	return {
-		...ownprops,
-		translate: getTranslate(state.locale)
-	};
-}
+const SmartNavigation = withRouter(addTranslate(Menu));
 
-function mapDispatchToProps(dispatch, ownprops) {
-	return {
-		logout: () => dispatch(actions.userLogout())
-	};
-}
-
-const SmartNavigation = withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(Menu)
-);
-
-export default props => <SmartNavigation {...props} />;
+export default SmartNavigation;

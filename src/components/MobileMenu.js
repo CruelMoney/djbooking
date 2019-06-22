@@ -5,13 +5,12 @@ import Popup from "./common/Popup";
 import Login from "./common/Login";
 import { connect } from "react-redux";
 import Rating from "./common/Rating";
-import * as actions from "../actions/LoginActions";
-import * as UserActions from "../actions/UserActions";
 import InfoPopup from "./common/InfoPopup";
 import entries from "object.entries";
 import Button from "./common/Button-v2";
 import { ImageCompressor } from "../utils/ImageCompressor";
 import { getTranslate } from "react-localize-redux";
+import { reset } from "../ApolloProvider";
 
 class MobileMenu extends Component {
 	themeColor = "#31DAFF";
@@ -43,7 +42,7 @@ class MobileMenu extends Component {
 
 	logout = () => {
 		this.handleClose();
-		this.props.logout();
+		reset();
 	};
 
 	onLoginButton = () => {
@@ -374,26 +373,4 @@ export const mapStateToProps = state => {
 	};
 };
 
-export const mapDispatchToProps = (dispatch, ownprops) => {
-	return {
-		logout: () => dispatch(actions.userLogout()),
-		updatePicture: (img, callback, profile) => {
-			dispatch(UserActions.SaveProfilePicture(img, profile, callback));
-		}
-	};
-};
-
-export const mergeProps = (stateProps, dispatchProps, ownProps) => {
-	return {
-		...ownProps,
-		...stateProps,
-		...dispatchProps,
-		updatePicture: (img, callback) =>
-			dispatchProps.updatePicture(img, callback, stateProps.profile)
-	};
-};
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-	mergeProps
-)(MobileMenu);
+export default connect(mapStateToProps)(MobileMenu);

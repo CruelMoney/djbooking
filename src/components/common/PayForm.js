@@ -20,7 +20,6 @@ const PayForm = ({
 	onPaymentConfirmed,
 	currency,
 	offer,
-	eventConfirmed,
 	changeCurrency,
 	id,
 	currentLanguage
@@ -36,7 +35,6 @@ const PayForm = ({
 			value: offer.totalPayment.amount
 		});
 		onPaymentConfirmed();
-		eventConfirmed();
 		setIsPaid(true);
 	};
 
@@ -142,9 +140,6 @@ function mapStateToProps(state, ownprops) {
 
 function mapDispatchToProps(dispatch, ownprops) {
 	return {
-		notify: (id, hash, callback) =>
-			dispatch(actions.notifyPayment(id, hash, callback)),
-		eventConfirmed: id => dispatch(actions.eventConfirmed(id)),
 		changeCurrency: currency => {
 			dispatch(changeCurrency(currency));
 		}

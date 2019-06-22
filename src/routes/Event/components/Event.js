@@ -130,11 +130,6 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
 	return {
-		updateEvent: (event, callback) =>
-			dispatch(actions.updateEvent(event, callback)),
-		reviewEvent: (review, callback) =>
-			dispatch(actions.reviewEvent(review, callback)),
-		cancelEvent: (id, callback) => dispatch(actions.cancelEvent(id, callback)),
 		registerMenuItem: (name, route) =>
 			dispatch(commonActions.registerMenuItem(name, route)),
 		removeMenuItem: name => dispatch(commonActions.registerMenuItem(name))

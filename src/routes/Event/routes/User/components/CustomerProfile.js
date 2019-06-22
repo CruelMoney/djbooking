@@ -4,13 +4,11 @@ import Button from "../../../../../components/common/Button-v2";
 import TextField from "../../../../../components/common/Textfield";
 import Form from "../../../../../components/common/Form-v2";
 import TextWrapper from "../../../../../components/common/TextElement";
-import * as eActions from "../../../../../actions/EventActions";
 import ErrorMessage from "../../../../../components/common/ErrorMessage";
 import { requestFeatures } from "../../../../../actions/Common";
-import { connect } from "react-redux";
 import { Helmet } from "react-helmet-async";
 
-import { getTranslate } from "react-localize-redux";
+import addTranslate from "../../../../../components/higher-order/addTranslate";
 
 class Profile extends Component {
 	componentWillMount() {}
@@ -101,20 +99,4 @@ class Profile extends Component {
 	}
 }
 
-export const mapStateToProps = state => {
-	return {
-		loggedIn: state.login.status.signedIn,
-		translate: getTranslate(state.locale)
-	};
-};
-
-export const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		save: (event, callback) => dispatch(eActions.updateEvent(event, callback))
-	};
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Profile);
+export default addTranslate(Profile);

@@ -4,7 +4,6 @@ import NumberedList from "../../../components/common/NumberedList";
 import SubmitButton from "../../../components/common/SubmitButton";
 import c from "../../../constants/constants";
 import { connect } from "react-redux";
-import * as actions from "../../../actions/SignupActions";
 
 import Form, {
 	LocationSelectorSimple,
@@ -29,7 +28,6 @@ const Map = connectToForm(SimpleMap);
 class SignupForm extends Component {
 	static propTypes = {
 		isLoggedIn: PropTypes.bool,
-		handleSubmit: PropTypes.func,
 		form: PropTypes.object,
 		isloading: PropTypes.bool
 	};
@@ -294,23 +292,4 @@ class SignupForm extends Component {
 	}
 }
 
-function mapStateToProps(state, ownProps) {
-	return {
-		isLoggedIn: state.login.status.signedIn,
-		geoCity: state.session.city
-	};
-}
-
-function mapDispatchToProps(dispatch, ownprops) {
-	return {
-		handleSubmit: (values, callback) =>
-			dispatch(actions.signup(values, true, callback))
-	};
-}
-
-const SmartSignupForm = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(SignupForm);
-
-export default localize(SmartSignupForm, "locale");
+export default localize(SignupForm, "locale");

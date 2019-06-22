@@ -11,13 +11,7 @@ import LoadingPlaceholder from "../../../../../components/common/LoadingPlacehol
 import TextWrapper from "../../../../../components/common/TextElement";
 import c from "../../../../../constants/constants";
 import ErrorMessage from "../../../../../components/common/ErrorMessage";
-import {
-	FB,
-	Tweet,
-	QR,
-	Embed,
-	Link
-} from "../../../../../components/common/Sharing";
+
 import { Environment } from "../../../../../constants/constants";
 import { localize } from "react-localize-redux";
 import { graphql } from "react-apollo";
@@ -120,10 +114,6 @@ class OwnProfile extends Component {
 						</Button>
 					</div>
 				)}
-
-				<FB link={this.bookURL} generatePreview>
-					{translate("Share profile on facebook")}
-				</FB>
 
 				<ErrorMessage />
 			</div>
@@ -272,52 +262,6 @@ class OwnProfile extends Component {
 								radiusName="playingRadius"
 								locationName="playingLocation"
 							/>
-						</TextWrapper>
-					) : null}
-
-					{isDJ ? (
-						<TextWrapper
-							label={translate("Refer organizers")}
-							text={translate("profile.refer-1-description")}
-						>
-							<div className="sharing-buttons">
-								<Tweet generatePreview link={this.bookURL}>
-									Twitter
-								</Tweet>
-								<FB generatePreview link={this.bookURL}>
-									Facebook
-								</FB>
-								<QR generatePreview link={this.bookURL}>
-									QR CODE
-								</QR>
-								<Link generatePreview link={this.bookURL}>
-									{translate("Copy link")}
-								</Link>
-								<Embed
-									embedURL={
-										Environment.API_DOMAIN +
-										"/api/user/" +
-										user.id +
-										"/embedcard"
-									}
-								>
-									Embed code
-								</Embed>
-							</div>
-						</TextWrapper>
-					) : null}
-
-					{isDJ ? (
-						<TextWrapper
-							label={translate("Refer DJs")}
-							text={translate("profile.refer-2-description")}
-						>
-							<div className="sharing-buttons">
-								<Tweet link={this.signupURL}>Twitter</Tweet>
-								<FB link={this.signupURL}>Facebook</FB>
-								<QR link={this.signupURL}>QR CODE</QR>
-								<Link link={this.signupURL}>{translate("Copy link")}</Link>
-							</div>
 						</TextWrapper>
 					) : null}
 				</div>

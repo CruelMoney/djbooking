@@ -1,47 +1,47 @@
-import React, { Component } from 'react';
-import { addTranslation, getTranslate, getActiveLanguage } from 'react-localize-redux';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import {
+	addTranslation,
+	getTranslate,
+	getActiveLanguage
+} from "react-localize-redux";
+import { connect } from "react-redux";
 
-const addTranslate = (Wrappee, content) => {
-  class Index extends Component{
-    componentWillMount(){
-      this.props.initLocale();
-    }
-  
-    render(){
-      return(
-        <Wrappee 
-         {...this.props}
-        />
-      )
-    }
-  };
+const addTranslate = (Wrappee, content = []) => {
+	class Index extends Component {
+		componentWillMount() {
+			this.props.initLocale();
+		}
 
-  const mapStateToProps = state => {
-    return{
-      translate: getTranslate(state.locale),
-      currentLanguage: getActiveLanguage(state.locale).code
-    }
-  }
+		render() {
+			return <Wrappee {...this.props} />;
+		}
+	}
 
-  const mapDispatchToProps = dispatch => {
-    return{
-      initLocale: () => {
-        if(Array.isArray(content)){
-          content.forEach(data => {
-            dispatch(addTranslation(data))
-          });
-        }else{
-          dispatch(addTranslation(content))
-        }
-      }
-    }
-  }
+	const mapStateToProps = state => {
+		return {
+			translate: getTranslate(state.locale),
+			currentLanguage: getActiveLanguage(state.locale).code
+		};
+	};
 
-  return connect(mapStateToProps, mapDispatchToProps)(Index)
+	const mapDispatchToProps = dispatch => {
+		return {
+			initLocale: () => {
+				if (Array.isArray(content)) {
+					content.forEach(data => {
+						dispatch(addTranslation(data));
+					});
+				} else {
+					dispatch(addTranslation(content));
+				}
+			}
+		};
+	};
 
-
-}
-
+	return connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Index);
+};
 
 export default addTranslate;

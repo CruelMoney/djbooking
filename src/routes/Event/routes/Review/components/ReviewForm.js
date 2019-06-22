@@ -14,6 +14,7 @@ import { getTranslate } from "react-localize-redux";
 import { Query } from "react-apollo";
 import { EVENT_GIGS } from "../../../gql";
 import { LoadingCard } from "../../../../../components/common/LoadingPlaceholder";
+import addTranslate from "../../../../../components/higher-order/addTranslate";
 
 class Review extends Component {
 	componentWillMount() {
@@ -126,20 +127,4 @@ class Review extends Component {
 	}
 }
 
-export const mapStateToProps = (state, ownProps) => {
-	return {
-		translate: getTranslate(state.locale)
-	};
-};
-
-export const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		submitReview: (id, hash, review, callback) =>
-			dispatch(actions.reviewEvent(id, hash, review, callback))
-	};
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Review);
+export default addTranslate(Review);

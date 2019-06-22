@@ -8,7 +8,6 @@ import { requestFeatures } from "../../../../../actions/Common";
 import Popup from "../../../../../components/common/Popup";
 import Login from "../../../../../components/common/Login";
 import { connect } from "react-redux";
-import * as actions from "../../../../../actions/GigActions";
 import { localize } from "react-localize-redux";
 
 import { Query, ApolloConsumer } from "react-apollo";
@@ -165,26 +164,6 @@ function mapStateToProps(state, ownProps) {
 	};
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-	return {
-		declineGig: gigID => {
-			dispatch(actions.declineGig(gigID));
-		}
-	};
-}
-
-function mergeProps(stateProps, dispatchProps, ownProps) {
-	return {
-		...ownProps,
-		...stateProps,
-		...dispatchProps
-	};
-}
-const SmartPreferences = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-	mergeProps,
-	{ pure: false }
-)(Gigs);
+const SmartPreferences = connect(mapStateToProps)(Gigs);
 
 export default localize(SmartPreferences, "locale");
