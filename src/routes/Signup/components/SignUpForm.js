@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import NumberedList from "../../../components/common/NumberedList";
 import SubmitButton from "../../../components/common/SubmitButton";
 import c from "../../../constants/constants";
-import { connect } from "react-redux";
 
 import Form, {
 	LocationSelectorSimple,

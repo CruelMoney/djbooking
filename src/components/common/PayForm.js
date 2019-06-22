@@ -3,7 +3,6 @@ import useComponentSize from "@rehooks/component-size";
 import TextWrapper from "./TextElement";
 import Button from "./Button-v2";
 import { connect } from "react-redux";
-import * as actions from "../../actions/EventActions";
 import MoneyTable, { TableItem } from "./MoneyTable";
 import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Query } from "react-apollo";

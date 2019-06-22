@@ -70,22 +70,22 @@ const formatter = {
 	cueupEvent: {
 		GetStatus: function(statusEnum, translate) {
 			switch (statusEnum) {
-				case "Initial":
+				case "INITIAL":
 					return translate("No relevant DJ could be found");
 
-				case "Cancelled":
+				case "CANCELLED":
 					return translate("The event is cancelled");
 
-				case "Offering":
+				case "OFFERING":
 					return translate("Waiting on DJ's to make offers");
 
-				case "Accepted":
+				case "ACCEPTED":
 					return translate("There's an offer");
 
-				case "Confirmed":
+				case "CONFIRMED":
 					return translate("The event is confirmed and payed");
 
-				case "Finished":
+				case "FINISHED":
 					return translate("The event is finished");
 
 				default:

@@ -5,7 +5,6 @@ import Footer from "../../../components/common/Footer";
 import { LoadingCard } from "../../../components/common/LoadingPlaceholder";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import * as actions from "../../../actions/EventActions";
 import * as commonActions from "../../../actions/Common";
 import "../../../css/transitions.css";
 import { EVENT } from "../gql";

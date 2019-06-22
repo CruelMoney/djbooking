@@ -5,9 +5,9 @@ import Formatter from "../../../../../utils/Formatter";
 import NavLink from "../../../../../components/common/Navlink";
 import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
 import { requestFeatures } from "../../../../../actions/Common";
-import { connect } from "react-redux";
-import * as actions from "../../../../../actions/EventActions";
 import { localize } from "react-localize-redux";
+import { Query } from "react-apollo";
+import { MY_EVENTS } from "../../../gql";
 
 class Events extends Component {
 	static propTypes = {
@@ -52,18 +52,20 @@ class Events extends Component {
 		const { translate } = this.props;
 
 		let renderEvent = (event, i) => {
+			const { id, hash, name, location, start, status } = event;
+
 			return (
-				<div key={event.id}>
+				<div key={id}>
 					<NavLink
 						to={translate("routes./event/:id/:hash/info", {
-							id: event.id,
-							hash: event.hashKey
+							id: id,
+							hash: hash
 						})}
 					>
 						<div style={{ borderColor: this.context.color }}>
 							<div className="event-card" key={i}>
 								<div>
-									<div className="event-name">{event.name}</div>
+									<div className="event-name">{name}</div>
 									<div className="event-location">
 										<svg
 											version="1.1"
@@ -81,15 +83,13 @@ class Events extends Component {
 												<path d="M233.292,0c-85.1,0-154.334,69.234-154.334,154.333c0,34.275,21.887,90.155,66.908,170.834   c31.846,57.063,63.168,104.643,64.484,106.64l22.942,34.775l22.941-34.774c1.317-1.998,32.641-49.577,64.483-106.64   c45.023-80.68,66.908-136.559,66.908-170.834C387.625,69.234,318.391,0,233.292,0z M233.292,233.291c-44.182,0-80-35.817-80-80   s35.818-80,80-80c44.182,0,80,35.817,80,80S277.473,233.291,233.292,233.291z" />
 											</g>
 										</svg>
-										{" " + event.location.name}
+										{" " + location.name}
 									</div>
 								</div>
 								<div className="event-right">
-									<div className="event-date">
-										{Formatter.date.ToEU(event.startTime)}
-									</div>
+									<div className="event-date">{start.formattedDate}</div>
 									<div className="event-status">
-										{Formatter.cueupEvent.GetStatus(event.status, translate)}
+										{Formatter.cueupEvent.GetStatus(status, translate)}
 									</div>
 								</div>
 							</div>
@@ -111,11 +111,15 @@ class Events extends Component {
 
 		return (
 			<div className="events">
-				{this.props.loading
-					? renderLoadingItem()
-					: this.props.events.reverse().map(function(event, i) {
-							return renderEvent(event, i);
-					  })}
+				<Query query={MY_EVENTS}>
+					{({ loading, data }) => {
+						if (loading || !data) {
+							return renderLoadingItem();
+						}
+
+						return data.me.events.edges.map((e, i) => renderEvent(e, i));
+					}}
+				</Query>
 			</div>
 		);
 	}

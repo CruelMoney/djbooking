@@ -233,7 +233,30 @@ const MAKE_OFFER = gql`
 	}
 `;
 
+const MY_EVENTS = gql`
+	query MyEvents {
+		me {
+			id
+			events {
+				edges {
+					id
+					name
+					hash
+					status
+					location {
+						name
+					}
+					start {
+						formattedDate
+					}
+				}
+			}
+		}
+	}
+`;
+
 export {
+	MY_EVENTS,
 	USER,
 	UPDATE_USER,
 	UPDATE_USER_SETTINGS,

@@ -6,11 +6,9 @@ import Button from "../../../../../components/common/Button-v2";
 import Rating from "../../../../../components/common/Rating";
 import Form from "../../../../../components/common/Form-v2";
 import { requestFeatures } from "../../../../../actions/Common";
-import { connect } from "react-redux";
-import * as actions from "../../../../../actions/EventActions";
+
 import { Helmet } from "react-helmet-async";
 
-import { getTranslate } from "react-localize-redux";
 import { Query } from "react-apollo";
 import { EVENT_GIGS } from "../../../gql";
 import { LoadingCard } from "../../../../../components/common/LoadingPlaceholder";
