@@ -98,6 +98,22 @@ const EVENT_GIGS = gql`
 	}
 `;
 
+const EVENT_REVIEW = gql`
+	query($id: ID!, $hash: String!) {
+		event(id: $id, hash: $hash) {
+			id
+			review {
+				id
+				content
+				rating
+			}
+			chosenGig {
+				id
+			}
+		}
+	}
+`;
+
 const REQUEST_PAYMENT_INTENT = gql`
 	query($id: ID!, $currency: Currency!, $locale: String) {
 		requestPaymentIntent(gigId: $id, currency: $currency) {
@@ -213,7 +229,12 @@ const UPDATE_EVENT = gql`
 `;
 
 const WRITE_REVIEW = gql`
-	mutation WriteReview($id: ID, $gigId: ID!, $content: String, $rating: Float) {
+	mutation WriteReview(
+		$id: ID
+		$gigId: ID!
+		$content: String
+		$rating: Float!
+	) {
 		writeReview(id: $id, gigId: $gigId, rating: $rating, content: $content) {
 			id
 			rating
@@ -230,5 +251,6 @@ export {
 	EVENT_GIGS,
 	DECLINE_DJ,
 	CANCEL_EVENT,
-	WRITE_REVIEW
+	WRITE_REVIEW,
+	EVENT_REVIEW
 };
