@@ -13,6 +13,7 @@ import EmailVerifier from "./EmailVerifier";
 import { Query } from "react-apollo";
 import { ME } from "./gql";
 import addTranslate from "./higher-order/addTranslate";
+import { reset } from "../ApolloProvider";
 
 class Menu extends Component {
 	static propTypes = {
@@ -80,7 +81,7 @@ class Menu extends Component {
 			{
 				loggedIn: false
 			},
-			this.props.logout
+			reset
 		);
 	};
 
