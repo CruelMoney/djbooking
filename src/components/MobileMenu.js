@@ -7,10 +7,10 @@ import { connect } from "react-redux";
 import Rating from "./common/Rating";
 import InfoPopup from "./common/InfoPopup";
 import entries from "object.entries";
-import Button from "./common/Button-v2";
-import { ImageCompressor } from "../utils/ImageCompressor";
 import { getTranslate } from "react-localize-redux";
 import { reset } from "../ApolloProvider";
+import { ME } from "./gql";
+import { Query } from "react-apollo";
 
 class MobileMenu extends Component {
 	themeColor = "#31DAFF";
@@ -51,6 +51,13 @@ class MobileMenu extends Component {
 		});
 	};
 
+	handleLoggedIn = ({ me }) => {
+		this.setState({
+			loggedIn: !!me,
+			loginExpanded: false
+		});
+	};
+
 	timer = null;
 
 	onClickOutside = () => {
@@ -81,281 +88,181 @@ class MobileMenu extends Component {
 		return items;
 	};
 
-	handleFile = async e => {
-		const { translate } = this.props;
-
-		this.setState({ loading: true });
-		const file = e.target.files[0];
-
-		try {
-			const { imageData: image } = await ImageCompressor(file);
-			this.props.updatePicture(image, err => {
-				if (err) {
-					this.setState({ err: translate("unknown-error") });
-				} else {
-					this.setState({ err: "", loading: false });
-				}
-			});
-		} catch (error) {
-			console.log({ error });
-			this.setState({
-				err: error.message,
-				loading: false
-			});
-		}
-	};
-
 	render() {
 		const { isHome, translate } = this.props;
+		const { loggedIn } = this.state;
 
 		return (
-			<div>
-				<div className={"mobileMenu" + (this.state.show ? " active" : "")}>
-					<div className="menuArea">
-						<button
-							onClick={() => this.handleClose()}
-							className="popupCloseButton link-look"
-						>
-							{translate("close")}
-						</button>
-						{this.props.loggedIn ? (
-							<div className="profileSummary">
-								<div
-									className={
-										this.state.loading || this.state.err
-											? "profilePicture user-card-picture-wrapper loading"
-											: "profilePicture user-card-picture-wrapper"
-									}
-									htmlFor="fileuploadMobile"
-								>
-									<div id="profile-picture-upload">
-										<canvas ref="canvas" style={{ display: "none" }} />
-										<input
-											name="fileuploadMobile"
-											id="fileuploadMobile"
-											type="file"
-											accept="image/*"
-											onChange={this.handleFile}
-										/>
-										{this.state.loading ? (
-											<Button isLoading />
-										) : this.state.err ? (
-											<label htmlFor="fileuploadMobile">
-												<span>{this.state.err}</span>
-											</label>
-										) : (
-											<label htmlFor="fileuploadMobile">
-												<span>{translate("change-image")}</span>
-											</label>
-										)}
-									</div>
+			<Query query={ME} onCompleted={this.handleLoggedIn} onError={console.log}>
+				{({ refetch, loading, data = {} }) => {
+					const { me: user } = data;
 
-									<div
-										className=" user-card-picture"
-										style={{
-											backgroundImage: "url(" + this.props.profile.picture + ")"
-										}}
-									/>
-									<div
-										className=" user-card-picture-blurred"
-										style={{
-											backgroundImage: "url(" + this.props.profile.picture + ")"
-										}}
-									/>
-								</div>
+					const isDJ = user && user.appMetadata.roles.includes("DJ");
 
-								<div className="profileInfo">
-									<div className="user-card-info">
-										{this.props.profile.isDJ ? (
-											<div>
-												<div className="user-card-fact">
-													<span>
-														<p>{translate("experience")}</p>
-														<InfoPopup
-															info={translate("experience-description")}
-														/>
-													</span>
+					return (
+						<>
+							<div
+								className={"mobileMenu" + (this.state.show ? " active" : "")}
+							>
+								<div className="menuArea">
+									<button
+										onClick={() => this.handleClose()}
+										className="popupCloseButton link-look"
+									>
+										{translate("close")}
+									</button>
+									{loggedIn ? (
+										<div className="profileSummary">
+											<div
+												className={"profilePicture user-card-picture-wrapper"}
+											>
+												<div
+													className=" user-card-picture"
+													style={{
+														backgroundImage: "url(" + user.picture.path + ")"
+													}}
+												/>
+											</div>
 
-													{this.props.profile.gigsCount + " gigs"}
-												</div>
+											<div className="profileInfo">
+												<div className="user-card-info">
+													{isDJ ? (
+														<div>
+															<div className="user-card-fact">
+																<span>
+																	<p>{translate("experience")}</p>
+																	<InfoPopup
+																		info={translate("experience-description")}
+																	/>
+																</span>
 
-												<div className="user-card-fact">
-													<p>{translate("rating")}</p>
-													{this.props.rating > 0 ? (
-														<Rating rating={this.props.rating} />
-													) : (
-														translate("no-reviews-yet")
-													)}
+																{user.appMetadata.experience + " gigs"}
+															</div>
+
+															<div className="user-card-fact">
+																<p>{translate("rating")}</p>
+																{user.appMetadata.rating > 0 ? (
+																	<Rating rating={user.appMetadata.rating} />
+																) : (
+																	translate("no-reviews-yet")
+																)}
+															</div>
+														</div>
+													) : null}
 												</div>
 											</div>
-										) : null}
+										</div>
+									) : null}
+									<div className="menu">
+										<ul>
+											{this.getMenuItems()}
 
-										{this.props.profile.isCustomer ? (
-											<div>
-												<div className="user-card-fact">
-													<p>{translate("upcoming")}</p>
-													{this.props.profile.upcomingEvents + " events"}
-												</div>
-												<div className="user-card-fact">
-													<p>{translate("finished")}}</p>
-													{this.props.profile.finishedEvents + " events"}
-												</div>
-											</div>
-										) : null}
-
-										{this.props.profile.discountPoints > 0 ? (
-											<div className="user-card-fact">
-												<span>
-													{" "}
-													<p>Cueup points</p>{" "}
-													<InfoPopup
-														info={translate("cueup-points-description")}
+											{!isHome ? (
+												<li>
+													<Navlink
+														buttonLook={true}
+														to="/"
+														label={translate("arrange-event")}
 													/>
-												</span>
+												</li>
+											) : null}
 
-												{this.props.profile.discountPoints + " Points"}
-											</div>
-										) : null}
+											{isDJ ? (
+												<li>
+													<Navlink
+														onClick={() => this.handleClose()}
+														userNavigation={true}
+														to={`/user/${user.permalink}/profile`}
+														label={translate("profile")}
+													/>
+												</li>
+											) : null}
+
+											{isDJ ? (
+												<li>
+													<Navlink
+														onClick={() => this.handleClose()}
+														userNavigation={true}
+														to={`/user/${user.permalink}/gigs`}
+														label="Gigs"
+													/>
+												</li>
+											) : null}
+
+											{!loggedIn ? (
+												<li>
+													<Navlink
+														onClick={() => this.handleClose()}
+														userNavigation={true}
+														to="/signup"
+														label={translate("apply-to-become-dj")}
+													/>
+												</li>
+											) : null}
+											{loggedIn ? (
+												<li>
+													<Navlink
+														onClick={() => this.handleClose()}
+														userNavigation={true}
+														to={`/user/${user.permalink}/preferences`}
+														label={translate("preferences")}
+													/>
+												</li>
+											) : null}
+
+											<li>
+												<Navlink
+													onClick={() => this.handleClose()}
+													buttonLook={true}
+													to="/how-it-works"
+													label={translate("how-it-works")}
+												/>
+											</li>
+											{loggedIn ? (
+												<li>
+													<Navlink
+														buttonLook={true}
+														to="/"
+														onClick={this.logout}
+														label={translate("log-out")}
+													/>
+												</li>
+											) : null}
+											{loggedIn ? null : (
+												<li>
+													<Navlink
+														onClick={() => this.handleClose()}
+														buttonLook={true}
+														to="/signup"
+														label={translate("apply-to-become-dj")}
+														important={true}
+													/>
+												</li>
+											)}
+											{loggedIn ? null : (
+												<li>
+													<button
+														className="link-look"
+														onClick={this.onLoginButton}
+													>
+														{translate("login")}
+													</button>
+												</li>
+											)}
+										</ul>
 									</div>
 								</div>
 							</div>
-						) : null}
-						<div className="menu">
-							<ul>
-								{this.getMenuItems()}
-
-								{!isHome ? (
-									<li>
-										<Navlink
-											buttonLook={true}
-											to="/"
-											label={translate("arrange-event")}
-										/>
-									</li>
-								) : null}
-
-								{this.props.profile.isDJ ? (
-									<li>
-										<Navlink
-											onClick={() => this.handleClose()}
-											userNavigation={true}
-											to={`/user/${
-												this.props.profile.user_metadata.permaLink
-											}/profile`}
-											label={translate("profile")}
-										/>
-									</li>
-								) : null}
-
-								{this.props.profile.isCustomer ? (
-									<li>
-										<Navlink
-											onClick={() => this.handleClose()}
-											userNavigation={true}
-											to={`/user/${
-												this.props.profile.user_metadata.permaLink
-											}/events`}
-											label="Events"
-										/>
-									</li>
-								) : null}
-
-								{this.props.profile.isDJ ? (
-									<li>
-										<Navlink
-											onClick={() => this.handleClose()}
-											userNavigation={true}
-											to={`/user/${
-												this.props.profile.user_metadata.permaLink
-											}/gigs`}
-											label="Gigs"
-										/>
-									</li>
-								) : null}
-
-								{this.props.profile.isDJ ? (
-									<li>
-										<Navlink
-											onClick={() => this.handleClose()}
-											userNavigation={true}
-											to={`/user/${
-												this.props.profile.user_metadata.permaLink
-											}/reviews`}
-											label={translate("reviews")}
-										/>
-									</li>
-								) : null}
-
-								{this.props.isCustomer && !this.props.isDJ ? (
-									<li>
-										<Navlink
-											onClick={() => this.handleClose()}
-											userNavigation={true}
-											to="/signup"
-											label={translate("apply-to-become-dj")}
-										/>
-									</li>
-								) : null}
-								{this.props.loggedIn ? (
-									<li>
-										<Navlink
-											onClick={() => this.handleClose()}
-											userNavigation={true}
-											to={`/user/${
-												this.props.profile.user_metadata.permaLink
-											}/preferences`}
-											label={translate("preferences")}
-										/>
-									</li>
-								) : null}
-
-								<li>
-									<Navlink
-										onClick={() => this.handleClose()}
-										buttonLook={true}
-										to="/how-it-works"
-										label={translate("how-it-works")}
-									/>
-								</li>
-								{this.props.loggedIn ? (
-									<li>
-										<Navlink
-											buttonLook={true}
-											to="/"
-											onClick={this.logout}
-											label={translate("log-out")}
-										/>
-									</li>
-								) : null}
-								{this.props.loggedIn ? null : (
-									<li>
-										<Navlink
-											onClick={() => this.handleClose()}
-											buttonLook={true}
-											to="/signup"
-											label={translate("apply-to-become-dj")}
-											important={true}
-										/>
-									</li>
-								)}
-								{this.props.loggedIn ? null : (
-									<li>
-										<button className="link-look" onClick={this.onLoginButton}>
-											{translate("login")}
-										</button>
-									</li>
-								)}
-							</ul>
-						</div>
-					</div>
-				</div>
-				<Popup
-					showing={this.state.loginExpanded}
-					onClickOutside={this.onClickOutside}
-				>
-					<Login />
-				</Popup>
-			</div>
+							<Popup
+								showing={this.state.loginExpanded}
+								onClickOutside={this.onClickOutside}
+							>
+								<Login />
+							</Popup>
+						</>
+					);
+				}}
+			</Query>
 		);
 	}
 }
@@ -366,8 +273,6 @@ MobileMenu.childContextTypes = {
 
 export const mapStateToProps = state => {
 	return {
-		profile: state.login.profile,
-		loggedIn: state.login.status.signedIn,
 		registeredMenuItems: state.menu,
 		translate: getTranslate(state.locale)
 	};

@@ -19,6 +19,7 @@ const ME = gql`
 			}
 			appMetadata {
 				averageRating
+				rating
 				experience
 				earned {
 					amount

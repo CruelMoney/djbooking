@@ -112,8 +112,6 @@ const OfferForm = ({
 		parseInt(offer.offer.amount, 10) > 0 &&
 		!loading;
 
-	console.log({ error });
-
 	return (
 		<div>
 			<div>

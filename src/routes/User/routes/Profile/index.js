@@ -17,6 +17,10 @@ class Index extends Component {
 					<title>{title}</title>
 					<meta property="og:title" content={title} />
 					<meta name="twitter:title" content={title} />
+					<meta
+						name="apple-itunes-app"
+						content="app-id=1458267647, app-argument=userProfile"
+					/>
 				</Helmet>
 				<Profile {...this.props} />
 			</div>

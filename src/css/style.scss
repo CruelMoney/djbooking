@@ -3662,6 +3662,11 @@ ol.breadcrumbs a {
 		height: 125%;
 		top: -22% !important;
 	}
+	.location_user{
+		#stripes {
+			top: 0% !important;
+		}
+	}
 	header {
 		padding-top: 70px;
 		padding-bottom: 90px;
@@ -3944,5 +3949,10 @@ ol.breadcrumbs a {
 	ol.breadcrumbs a {
 		font-size: 14px;
 	}
+
+
+	.location_ .pull-up {
+	margin-top: 0px;
+}
 }
 /* Mobile END */
