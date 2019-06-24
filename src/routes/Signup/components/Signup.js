@@ -6,6 +6,7 @@ import Footer from "../../../components/common/Footer";
 /*animation stuff*/
 import QueueAnim from "rc-queue-anim";
 import { localize } from "react-localize-redux";
+import appStoreBadge from "../../../assets/app-store-badge.svg";
 
 class Signup extends Component {
 	themeColor = "#B031FF";
@@ -45,6 +46,35 @@ class Signup extends Component {
 										{translate("signup.description")}
 									</span>
 								</h1>
+							</div>
+						</div>
+						<div
+							className="row center"
+							style={{
+								marginBottom: "40px",
+								marginTop: "-20px"
+							}}
+						>
+							<div className="col-xs-12 center">
+								<a href="https://play.google.com/store/apps/details?id=io.cueup.gigs&utm_source=website&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+									<img
+										style={{
+											height: "60px"
+										}}
+										alt="Get it on Google Play"
+										src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+									/>
+								</a>
+								<a href="https://apps.apple.com/us/app/cueup-gigs/id1458267647?mt=8">
+									<img
+										style={{
+											marginTop: "9px",
+											marginRight: "18px"
+										}}
+										alt="Get it on App store"
+										src={appStoreBadge}
+									/>
+								</a>
 							</div>
 						</div>
 					</div>
