@@ -23,11 +23,6 @@ class OfferCard extends Component {
 		disabled: PropTypes.bool
 	};
 
-	constructor(props) {
-		super(props);
-		console.log("Mounting offer card");
-	}
-
 	state = {
 		showPopup: false,
 		showNotificationPopup: false,

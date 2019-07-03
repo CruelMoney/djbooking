@@ -22,8 +22,6 @@ class EventOffers extends PureComponent {
 			eventFinished: daysUntil < 0,
 			gigMessages: {}
 		});
-
-		console.log("Render will mount gigs");
 	}
 
 	componentDidMount() {

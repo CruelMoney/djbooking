@@ -16,7 +16,6 @@ class Index extends Component {
 	render() {
 		const { translate } = this.props;
 		const baseurl = translate("routes./event/:id/:hash");
-		console.log("Render outer route");
 		return (
 			<div>
 				<Helmet>
