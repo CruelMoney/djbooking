@@ -74,7 +74,6 @@ class OfferCard extends Component {
 		} = this.props;
 
 		const { offer, dj } = gig;
-		console.log({ gig });
 		const image = dj
 			? {
 					backgroundImage: "url(" + dj.picture.path + ")",

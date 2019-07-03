@@ -81,7 +81,6 @@ const MainForm = class extends PureComponent {
 	};
 
 	updateDate = date => {
-		console.log({ date });
 		this.setState({ date: date });
 	};
 	updateLocation = ({ location, timezone }) => {

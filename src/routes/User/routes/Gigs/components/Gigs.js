@@ -113,7 +113,6 @@ class Gigs extends Component {
 				query={MY_GIGS}
 				variables={{ limit: 100, locale: currentLanguage }}
 				skip={!isOwnProfile}
-				onCompleted={console.log}
 				onError={console.log}
 			>
 				{({ data = {}, loading }) => {

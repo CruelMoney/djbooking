@@ -51,7 +51,6 @@ const PayForm = ({
 					locale: currentLanguage
 				}}
 				onError={console.log}
-				onCompleted={console.log}
 			>
 				{({ data = {}, loading, error }) => {
 					const { requestPaymentIntent = {} } = data;

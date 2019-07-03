@@ -68,7 +68,6 @@ class UserProfile extends Component {
 			userSettings = {}
 		} = user;
 		const { cancelationPolicy = {} } = userSettings;
-		console.log({ user });
 		return (
 			<div>
 				<div className="profile">

@@ -33,7 +33,6 @@ export const getLocation = location => {
 				} else {
 					GeoCoder.getTimeZone(geoResult.position)
 						.then(res => {
-							console.log({ res });
 							resolve({ ...geoResult, ...res });
 						})
 						.catch(err => {

@@ -48,7 +48,6 @@ class EventOffers extends PureComponent {
 			loadingNotifications
 		} = this.props;
 		const title = theEvent.name + " | " + translate("Offers");
-		console.log({ theEvent });
 		return (
 			<div className="offers">
 				<Helmet>

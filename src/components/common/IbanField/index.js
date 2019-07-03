@@ -11,7 +11,6 @@ class IbanField extends Component {
 
 	onChange = event => {
 		const { setErrors, onChange } = this.props;
-		console.log({ event });
 		if (event.error) {
 			setErrors([event.error.message]);
 		} else {
