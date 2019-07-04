@@ -13,6 +13,7 @@
 		"@cra-express/core": "4",
 		"@cra-express/static-loader": "^4.0.0",
 		"@rehooks/component-size": "^1.0.2",
+		"@sentry/browser": "^5.4.3",
 		"@svgr/core": "^3.1.0",
 		"@svgr/webpack": "^3.1.0",
 		"apollo-cache-inmemory": "^1.6.2",
