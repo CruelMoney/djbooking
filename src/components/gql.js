@@ -138,8 +138,8 @@ const USER_BANK_ACCOUNT = gql`
 `;
 
 const UPDATE_USER_PAYOUT = gql`
-	mutation updateUser($id: ID!, $payoutInfo: JSON!) {
-		updateUser(id: $id, payoutInfo: $payoutInfo) {
+	mutation updateUser($id: ID!, $payoutInfo: JSON!, $paymentProvider: PaymentProvider!) {
+		updateUser(id: $id, payoutInfo: $payoutInfo, paymentProvider: $paymentProvider) {
 			id
 			userMetadata {
 				bankAccount {

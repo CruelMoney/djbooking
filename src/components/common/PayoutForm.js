@@ -55,7 +55,13 @@ const PayoutForm = ({ user, isUpdate, translate, stripe }) => {
 			const data = useXendit
 				? getXenditData(values)
 				: await getStripeData({ ...values, stripe });
-			await mutate({ variables: { ...data, id: user.id } });
+			await mutate({
+				variables: {
+					...data,
+					id: user.id,
+					paymentProvider: useXendit ? "XENDIT" : "STRIPE"
+				}
+			});
 			cb();
 		} catch (error) {
 			cb(error.message || "Something went wrong");
