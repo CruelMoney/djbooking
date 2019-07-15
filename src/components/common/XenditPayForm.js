@@ -86,7 +86,9 @@ class XenditForm extends PureComponent {
 					paymentData: {
 						token_id: id,
 						authentication_id,
-						card_cvn: cardData.card_cvn
+						card_cvn: cardData.card_cvn,
+						totalAmount: cardData.amount,
+						token: paymentIntent.token.token
 					}
 				},
 				mutation: PAY_EVENT

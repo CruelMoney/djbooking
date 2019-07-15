@@ -121,6 +121,9 @@ const REQUEST_PAYMENT_INTENT = gql`
 			gigId
 			recommendedCurrency
 			paymentProvider
+			token {
+				token
+			}
 			offer {
 				totalPayment(currency: $currency) {
 					amount
@@ -136,11 +139,6 @@ const REQUEST_PAYMENT_INTENT = gql`
 					amount
 					formatted(locale: $locale)
 					currency
-				}
-			}
-			... on StripePaymentIntent {
-				token {
-					token
 				}
 			}
 		}
