@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import {
+	InMemoryCache,
+	IntrospectionFragmentMatcher
+} from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
@@ -11,6 +14,11 @@ import { Environment } from "./constants/constants";
 import resolvers from "./actions/resolvers";
 import { authService } from "./utils/AuthService";
 import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
+import introspectionQueryResultData from "./fragmentTypes.json";
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+	introspectionQueryResultData
+});
 
 // custome error handling, only logging errors atm
 const errorLink = onError(
@@ -82,7 +90,7 @@ const resetToken = onError(({ networkError }) => {
 
 const authFlowLink = withToken.concat(resetToken);
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({ fragmentMatcher });
 
 const httpLink = new HttpLink({
 	uri: Environment.GQL_DOMAIN

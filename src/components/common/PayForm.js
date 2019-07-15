@@ -8,6 +8,7 @@ import { getTranslate, getActiveLanguage } from "react-localize-redux";
 import { Query } from "react-apollo";
 import { REQUEST_PAYMENT_INTENT } from "../../routes/Event/gql";
 import StripeFormWrapper from "./StripePayForm";
+import XenditPayForm from "./XenditPayForm";
 import * as tracker from "../../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
 import { changeCurrency } from "../../actions/SessionActions";
@@ -53,11 +54,28 @@ const PayForm = ({
 				onError={console.log}
 			>
 				{({ data = {}, loading, error }) => {
+					if (error) return null;
+
 					const { requestPaymentIntent = {} } = data;
 					const { recommendedCurrency, offer } = requestPaymentIntent;
 					const showCurrencyChange = recommendedCurrency !== currency;
+					console.log({ requestPaymentIntent });
 
-					if (error) return null;
+					const PayForms = {
+						STRIPE: (
+							<StripeFormWrapper
+								onPaymentConfirmed={paymentConfirmed}
+								paymentIntent={requestPaymentIntent}
+							/>
+						),
+						XENDIT: (
+							<XenditPayForm
+								onPaymentConfirmed={paymentConfirmed}
+								paymentIntent={requestPaymentIntent}
+							/>
+						)
+					};
+
 					return (
 						<>
 							<div className="left">
@@ -69,10 +87,7 @@ const PayForm = ({
 								{loading ? (
 									<LoadingIndicator label={translate("gettingPayment")} />
 								) : (
-									<StripeFormWrapper
-										onPaymentConfirmed={paymentConfirmed}
-										paymentIntent={requestPaymentIntent}
-									/>
+									PayForms[requestPaymentIntent.paymentProvider]
 								)}
 							</div>
 

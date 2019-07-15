@@ -1,0 +1,6 @@
+schema: https://gql.cueup.io
+overwrite: true
+generates:
+  ./src/fragmentTypes.json:
+    plugins:
+      - fragment-matcher

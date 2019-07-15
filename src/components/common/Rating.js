@@ -261,7 +261,7 @@ export default class Rating extends Component {
 }
 
 Rating.contextTypes = {
-	registerValidation: PropTypes.func.isRequired,
+	registerValidation: PropTypes.func,
 	updateValue: PropTypes.func,
 	isFormValid: PropTypes.func,
 	registerReset: PropTypes.func,

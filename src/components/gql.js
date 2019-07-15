@@ -138,8 +138,16 @@ const USER_BANK_ACCOUNT = gql`
 `;
 
 const UPDATE_USER_PAYOUT = gql`
-	mutation updateUser($id: ID!, $payoutInfo: JSON!, $paymentProvider: PaymentProvider!) {
-		updateUser(id: $id, payoutInfo: $payoutInfo, paymentProvider: $paymentProvider) {
+	mutation updateUser(
+		$id: ID!
+		$payoutInfo: JSON!
+		$paymentProvider: PaymentProvider!
+	) {
+		updateUser(
+			id: $id
+			payoutInfo: $payoutInfo
+			paymentProvider: $paymentProvider
+		) {
 			id
 			userMetadata {
 				bankAccount {
@@ -252,6 +260,23 @@ const MY_GIGS = gql`
 	}
 `;
 
+const PAY_EVENT = gql`
+	mutation PayEvent(
+		$gigId: ID!
+		$paymentData: JSON!
+		$paymentProvider: PaymentProvider!
+	) {
+		payEvent(
+			gigId: $gigId
+			paymentData: $paymentData
+			paymentProvider: $paymentProvider
+		) {
+			id
+			status
+		}
+	}
+`;
+
 export {
 	AVAILABLE_BANKS,
 	LOGIN,
@@ -263,5 +288,6 @@ export {
 	VERIFY_EMAIL,
 	USER_BANK_ACCOUNT,
 	UPDATE_USER_PAYOUT,
-	MY_GIGS
+	MY_GIGS,
+	PAY_EVENT
 };

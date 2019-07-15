@@ -120,6 +120,7 @@ const REQUEST_PAYMENT_INTENT = gql`
 			__typename
 			gigId
 			recommendedCurrency
+			paymentProvider
 			offer {
 				totalPayment(currency: $currency) {
 					amount
