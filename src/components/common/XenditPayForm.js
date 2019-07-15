@@ -43,7 +43,6 @@ class XenditForm extends PureComponent {
 			meta_enabled: true
 		};
 		window.Xendit.card.createToken(cardData, (error, result) => {
-			console.log({ error, result });
 			if (error && error.error_code) {
 				return cb(error.message);
 			}
@@ -185,7 +184,6 @@ const ConnectedCard = connectToForm(({ refForward, onChange }) => {
 
 	useEffect(() => {
 		const { cvc, expiry, number } = card;
-		console.log({ card });
 		if (cvc && expiry && number) {
 			onChange(card);
 		} else {
