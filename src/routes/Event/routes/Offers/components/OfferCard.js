@@ -94,6 +94,7 @@ class OfferCard extends Component {
 							hashKey={hashKey}
 							eventId={eventId}
 							daysUntilPaymentPossible={offer.daysUntilPaymentPossible}
+							translate={translate}
 						/>
 					</Popup>
 				)}
