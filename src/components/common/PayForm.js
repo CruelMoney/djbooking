@@ -42,15 +42,20 @@ const PayForm = ({
 		return <ThankYouContent style={size} translate={translate} />;
 	}
 
+	const variables = {
+		id,
+		locale: currentLanguage
+	};
+
+	if (currency) {
+		variables.currency = currency;
+	}
+
 	return (
 		<div className="pay-form" ref={div}>
 			<Query
 				query={REQUEST_PAYMENT_INTENT}
-				variables={{
-					id,
-					currency,
-					locale: currentLanguage
-				}}
+				variables={variables}
 				onError={console.log}
 			>
 				{({ data = {}, loading, error }) => {
@@ -94,8 +99,8 @@ const PayForm = ({
 							<div className="right">
 								{!loading && showCurrencyChange && (
 									<p className="notice">
-										This DJ uses a different currency than {currency}, you might
-										getter a better deal by paying in {recommendedCurrency}.{" "}
+										This DJ uses a different currency, you might getter a better
+										deal by paying in {recommendedCurrency}.{" "}
 										<a
 											href="#recommended"
 											onClick={_ => {

@@ -236,6 +236,7 @@ class footer extends Component {
 												}
 												value={this.props.currency}
 											>
+												<option value={null}>Currency</option>
 												{c.OrganizerCurrencies.map((c, idx) => (
 													<option key={`currency-option-${idx}`} value={c}>
 														{c}

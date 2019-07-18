@@ -47,7 +47,7 @@ module.exports = {
 	},
 
 	Currencies: ["DKK", "EUR", "GBP", "NOK", "SEK", "USD", "IDR"],
-	OrganizerCurrencies: ["DKK", "EUR", "GBP", "NOK", "SEK", "USD", "IDR"],
+	OrganizerCurrencies: ["USD", "EUR", "GBP", "DKK", "NOK", "SEK", "IDR"],
 
 	ActionTypes: keyMirror({
 		// Session

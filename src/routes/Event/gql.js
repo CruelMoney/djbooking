@@ -115,7 +115,7 @@ const EVENT_REVIEW = gql`
 `;
 
 const REQUEST_PAYMENT_INTENT = gql`
-	query($id: ID!, $currency: Currency!, $locale: String) {
+	query($id: ID!, $currency: Currency, $locale: String) {
 		requestPaymentIntent(gigId: $id, currency: $currency) {
 			__typename
 			gigId

@@ -46,6 +46,16 @@ class EventOffers extends PureComponent {
 			loadingNotifications
 		} = this.props;
 		const title = theEvent.name + " | " + translate("Offers");
+
+		const variables = {
+			id: theEvent.id,
+			hash: hashKey.toString(),
+			locale: currentLanguage
+		};
+		if (currency) {
+			variables.currency = currency;
+		}
+
 		return (
 			<div className="offers">
 				<Helmet>
@@ -72,12 +82,7 @@ class EventOffers extends PureComponent {
 					<div className="row event-information">
 						<Query
 							query={EVENT_GIGS}
-							variables={{
-								id: theEvent.id,
-								hash: hashKey.toString(),
-								currency,
-								locale: currentLanguage
-							}}
+							variables={variables}
 							onError={console.log}
 						>
 							{({ data = {}, loading }) => {
