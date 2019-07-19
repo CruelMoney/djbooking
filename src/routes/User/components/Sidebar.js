@@ -2,17 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { Container } from "./Blocks";
 
-const AbsoluteWrapper = styled.div`
-	width: 100%;
-	top: 0;
-	left: 0;
-	position: absolute;
-`;
-
 const Sticky = styled.div`
 	width: 100%;
 	position: sticky;
 	top: -300px;
+	pointer-events: none;
 `;
 
 export const Spacing = styled.div`
@@ -33,6 +27,7 @@ const Card = styled.div`
 	position: relative;
 	z-index: 1;
 	min-height: 500px;
+	pointer-events: all;
 `;
 
 const Shadow = styled.div`
@@ -46,12 +41,27 @@ const Shadow = styled.div`
 	z-index: 0;
 `;
 
-const Sidebar = () => {
+const ProfileImg = styled.img`
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+`;
+
+const ProfileImage = ({ source }) => {
+	return <ProfileImg src={source} alt="dj profile" />;
+};
+
+const Sidebar = ({ user }) => {
+	const { picture = {} } = user || {};
+
 	return (
 		<Sticky>
 			<Container>
 				<CardWrapper>
-					<Card></Card>
+					<Card>
+						<ProfileImage source={picture.path} />
+						<button>test</button>
+					</Card>
 					<Shadow></Shadow>
 				</CardWrapper>
 			</Container>
