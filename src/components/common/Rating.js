@@ -67,7 +67,7 @@ class Star extends Component {
 							y="0"
 							width="20.9792363"
 							height="19.9524394"
-							fill="white"
+							fill={this.props.emptyColor}
 						>
 							<use xlinkHref={"#path-" + this.props.index} />
 						</mask>
@@ -75,7 +75,7 @@ class Star extends Component {
 					<g
 						stroke="none"
 						strokeWidth="1"
-						style={{ strokeWidth: "2px" }}
+						style={{ strokeWidth: "0px" }}
 						fill="none"
 						fillRule="evenodd"
 					>
@@ -192,6 +192,9 @@ export default class Rating extends Component {
 		const fillPercentage = ((this.state.rating % 1) * 100).toString() + "%";
 		var stars = [];
 
+		const color = this.props.color || this.context.color;
+		const emptyColor = this.props.emptyColor || "#FFF";
+
 		for (var i = 0; i < 5; i++) {
 			if (i < fullStarsCount) {
 				stars.push(
@@ -202,8 +205,8 @@ export default class Rating extends Component {
 						onHover={this.updatePotentialRating}
 						editable={this.props.editable}
 						active={true}
-						color={this.context.color}
-						emptyColor="#FFFFFF"
+						color={color}
+						emptyColor={emptyColor}
 						fillPercentage="100%"
 					/>
 				);
@@ -216,8 +219,8 @@ export default class Rating extends Component {
 						onHover={this.updatePotentialRating}
 						editable={this.props.editable}
 						active={false}
-						color={this.context.color}
-						emptyColor="#FFFFFF"
+						color={color}
+						emptyColor={emptyColor}
 						fillPercentage={fillPercentage}
 					/>
 				);
@@ -230,8 +233,8 @@ export default class Rating extends Component {
 						onHover={this.updatePotentialRating}
 						editable={this.props.editable}
 						active={false}
-						color={this.context.color}
-						emptyColor="#FFFFFF"
+						color={color}
+						emptyColor={emptyColor}
 						fillPercentage="0%"
 					/>
 				);

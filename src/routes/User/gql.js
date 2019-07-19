@@ -7,6 +7,7 @@ const USER = gql`
 			auth0Id
 			permalink
 			genres
+			artistName
 			picture {
 				path
 			}
@@ -17,9 +18,11 @@ const USER = gql`
 				latitude
 			}
 			appMetadata {
-				averageRating
+				rating
 				experience
 				roles
+				identityVerified
+				certified
 			}
 			userMetadata {
 				firstName
@@ -31,6 +34,11 @@ const USER = gql`
 				cancelationPolicy {
 					days
 					percentage
+				}
+			}
+			reviews {
+				pageInfo {
+					totalDocs
 				}
 			}
 		}
