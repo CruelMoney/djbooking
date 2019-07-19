@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 export const MarginBottom = styled.div`
@@ -21,4 +22,9 @@ export const Row = styled.div`
 `;
 export const FullWidthCol = styled(Col)`
 	width: 100%;
+`;
+
+export const Divider = styled.hr`
+	border-top: 1px solid #e9ecf0;
+	margin: 24px 0;
 `;

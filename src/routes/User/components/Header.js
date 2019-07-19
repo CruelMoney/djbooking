@@ -49,11 +49,6 @@ const ReviewsCount = styled.p`
 	margin-bottom: 0;
 `;
 
-const CardSpace = styled(Col)`
-	width: 300px;
-	margin-right: 60px;
-`;
-
 const Header = ({ user, loading }) => {
 	return (
 		<GradientBg>
