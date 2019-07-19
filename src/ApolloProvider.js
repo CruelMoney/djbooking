@@ -92,13 +92,9 @@ const authFlowLink = withToken.concat(resetToken);
 
 const cache = new InMemoryCache({ fragmentMatcher });
 
-const httpLink = new HttpLink({
-	uri: Environment.GQL_DOMAIN
-});
-
 const uploadLink = createUploadLink({ uri: Environment.GQL_DOMAIN });
 
-const link = ApolloLink.from([errorLink, authFlowLink, uploadLink, httpLink]);
+const link = ApolloLink.from([errorLink, authFlowLink, uploadLink]);
 
 const client = new ApolloClient({
 	cache,

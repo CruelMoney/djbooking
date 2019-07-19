@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Container, Row, Divider } from "./Blocks";
+import { Container, Row, Divider, Col } from "./Blocks";
 import { Stat, SmallHeader } from "./Text";
 import GracefullImage from "./GracefullImage";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
@@ -10,6 +10,7 @@ import Pin from "react-ionicons/lib/MdPin";
 import Medal from "react-ionicons/lib/MdMedal";
 import Star from "react-ionicons/lib/MdStar";
 import Tooltip from "./Tooltip";
+import moment from "moment";
 
 const Sticky = styled.div`
 	width: 100%;
@@ -72,8 +73,11 @@ const Sidebar = ({ user, loading }) => {
 						</SidebarContent>
 						<CTA>
 							<CTAButton>
-								BOOK FROM 4.000 DKK{" "}
-								<Arrow color="#fff" style={{ marginLeft: "15px" }}></Arrow>
+								BOOK NOW{" "}
+								<Arrow
+									color="#fff"
+									style={{ position: "absolute", right: "24px" }}
+								></Arrow>
 							</CTAButton>
 						</CTA>
 					</Card>
@@ -95,47 +99,83 @@ const IconRow = styled(Row)`
 `;
 
 const Content = ({ user }) => {
-	const { userMetadata = {} } = user || {};
+	console.log({ user });
+	const { userMetadata, appMetadata, playingLocation, userSettings } =
+		user || {};
+	const {
+		experience,
+		followers,
+		createdAt,
+		certified,
+		identityVerified
+	} = appMetadata;
+
+	const memberSince = moment(createdAt).format("MMMM YYYY");
 
 	return (
 		<>
-			<Row>
-				<Stat
-					label={"followers"}
-					value={"14k"}
-					style={{ marginRight: "24px" }}
-				></Stat>
-				<Stat label={"played gigs"} value={"3"}></Stat>
-			</Row>
-			<Divider></Divider>
+			<Stats experience={experience} followers={followers} />
 			<SmallHeader
 				style={{ marginBottom: "15px" }}
 			>{`Hi I'm ${userMetadata.firstName}`}</SmallHeader>
 
-			<IconRow>
-				<AddCircle color={"#98a4b3"} style={{ marginRight: "15px" }} />
-				Member since july 2018
-			</IconRow>
-			<IconRow>
-				<Pin color={"#98a4b3"} style={{ marginRight: "15px" }} />
-				Canggu, Bali
-			</IconRow>
-			<Tooltip
-				text={
-					"This dj has been certified by Cueup. The Cueup team has personally met and seen this dj play."
-				}
+			<Col
+				style={{
+					alignItems: "flex-start"
+				}}
 			>
-				{({ ref, close, open }) => (
-					<IconRow ref={ref} onMouseEnter={open} onMouseLeave={close}>
-						<Medal color={"#50E3C2"} style={{ marginRight: "15px" }} />
-						Cueup certified
+				<IconRow>
+					<AddCircle color={"#98a4b3"} style={{ marginRight: "15px" }} />
+					Member since {memberSince}
+				</IconRow>
+				{playingLocation && (
+					<IconRow>
+						<Pin color={"#98a4b3"} style={{ marginRight: "15px" }} />
+						{playingLocation.name}
 					</IconRow>
 				)}
-			</Tooltip>
-			<IconRow>
-				<Star color={"#50E3C2"} style={{ marginRight: "15px" }} />
-				Identity verified
-			</IconRow>
+				{certified && (
+					<Tooltip
+						text={
+							"This dj has been certified by Cueup. The Cueup team has personally met and seen this dj play."
+						}
+					>
+						{({ ref, close, open }) => (
+							<IconRow ref={ref} onMouseEnter={open} onMouseLeave={close}>
+								<Medal color={"#50E3C2"} style={{ marginRight: "15px" }} />
+								Cueup certified
+							</IconRow>
+						)}
+					</Tooltip>
+				)}
+				{identityVerified && (
+					<IconRow>
+						<Star color={"#50E3C2"} style={{ marginRight: "15px" }} />
+						Identity verified
+					</IconRow>
+				)}
+			</Col>
+		</>
+	);
+};
+
+const Stats = ({ experience, followers }) => {
+	if (!experience && !followers) {
+		return null;
+	}
+	return (
+		<>
+			<Row>
+				{followers && (
+					<Stat
+						label={"followers"}
+						value={followers}
+						style={{ marginRight: "24px" }}
+					></Stat>
+				)}
+				{experience && <Stat label={"played gigs"} value={experience}></Stat>}
+			</Row>
+			<Divider></Divider>
 		</>
 	);
 };

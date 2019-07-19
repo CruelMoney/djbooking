@@ -21,7 +21,7 @@ const GradientBg = styled.section`
 	display: flex;
 	align-items: flex-end;
 	position: sticky;
-	top: -270px;
+	top: -269px;
 `;
 
 const routes = [
@@ -36,7 +36,7 @@ const Title = styled.h1`
 	color: #fff;
 	display: flex;
 	align-items: center;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.3em;
 `;
 
 const ReviewsCount = styled.p`

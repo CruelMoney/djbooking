@@ -23,6 +23,7 @@ const USER = gql`
 				roles
 				identityVerified
 				certified
+				createdAt
 			}
 			userMetadata {
 				firstName
