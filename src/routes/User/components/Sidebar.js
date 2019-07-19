@@ -17,6 +17,7 @@ const Sticky = styled.div`
 	position: sticky;
 	top: -300px;
 	pointer-events: none;
+	margin-bottom: 42px;
 `;
 
 export const Spacing = styled.div`
@@ -28,6 +29,7 @@ export const Spacing = styled.div`
 
 const CardWrapper = styled(Spacing)`
 	margin-top: -220px;
+	margin-bottom: 30px;
 `;
 
 const Card = styled.div`
@@ -84,6 +86,7 @@ const Sidebar = ({ user, loading }) => {
 					<Shadow></Shadow>
 					<CTAShadow />
 				</CardWrapper>
+				<p>Share on facebook</p>
 			</Container>
 		</Sticky>
 	);
