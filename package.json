@@ -103,7 +103,7 @@
 		"smoothscroll-polyfill": "^0.4.4",
 		"socket.io-client": "^2.1.1",
 		"source-map-explorer": "^1.6.0",
-		"styled-components": "^4.2.0",
+		"styled-components": "^4.3.2",
 		"url-polyfill": "^1.1.5",
 		"wnumb": "^1.0.4"
 	},
@@ -130,6 +130,7 @@
 		"@graphql-codegen/cli": "^1.4.0",
 		"@graphql-codegen/fragment-matcher": "^1.4.0",
 		"babel-plugin-dynamic-import-node": "^2.2.0",
+		"babel-plugin-styled-components": "^1.10.6",
 		"cra-universal": "4.0.0",
 		"nodemon-webpack-plugin": "0.1.5",
 		"null-loader": "^0.1.1",
