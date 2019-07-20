@@ -21,14 +21,27 @@ const GradientBg = styled.section`
 	display: flex;
 	align-items: flex-end;
 	position: sticky;
-	top: -269px;
+	top: -270px;
 `;
 
-const routes = [
-	{ route: "lolbox1", label: "overview", active: true },
-	{ route: "lolbox2", label: "reviews" },
-	{ route: "lolbox3", label: "settings" }
-];
+const getRoutesFromUser = user => {
+	const routes = [{ route: "overview", label: "overview", active: true }];
+
+	if (user) {
+		const roles = user.appMetadata.roles;
+		if (roles.includes("ORGANIZER")) {
+			routes.push({ route: "events", label: "events" });
+		}
+		if (roles.includes("DJ")) {
+			routes.push({ route: "gigs", label: "gigs" });
+			routes.push({ route: "reviews", label: "reviews" });
+		}
+	}
+
+	routes.push({ route: "settings", label: "settings" });
+
+	return routes;
+};
 
 const Title = styled.h1`
 	font-family: "AvenirNext-Bold";
@@ -61,7 +74,7 @@ const Header = ({ user, loading }) => {
 						) : (
 							<UserContent user={user} />
 						)}
-						<Navigation routes={routes}></Navigation>
+						<Navigation routes={getRoutesFromUser(user)}></Navigation>
 					</FullWidthCol>
 				</Row>
 			</Container>

@@ -10,7 +10,7 @@ import Map from "../../components/common/Map";
 import CitySvg from "../../components/graphics/City";
 import { Redirect } from "react-router";
 import FloatingDJs from "./components/FloatingCards";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 import copenhagen from "../../assets/images/cities/copenhagen.png";
 import odense from "../../assets/images/cities/odense.png";
@@ -24,6 +24,7 @@ import content from "./content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
 import { Environment } from "../../constants/constants";
 import "./index.css";
+import ScrollToTop from "../../components/common/ScrollToTop";
 
 const AsyncRequestForm = Loadable({
 	loader: () => import("../../components/common/RequestForm/RequestForm"),
@@ -199,7 +200,7 @@ class Location extends Component {
 					<meta name="geo.placename" content={title} />
 					<meta name="geo.region" content={title} />
 				</Helmet>
-
+				<ScrollToTop />
 				<div className="span-wrapper">
 					<header>
 						<Map

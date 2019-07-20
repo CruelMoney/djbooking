@@ -11,6 +11,7 @@ import requestFormContent from "../../components/common/RequestForm/content.json
 import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
 import "./index.css";
+import ScrollToTop from "../../components/common/ScrollToTop";
 
 class Index extends Component {
 	render() {
@@ -23,6 +24,8 @@ class Index extends Component {
 					<meta property="og:title" content="Event | Cueup" />
 					<meta name="twitter:title" content="Event | Cueup" />
 				</Helmet>
+				<ScrollToTop />
+
 				<Event {...this.props}>
 					{({ theEvent, loading, hashKey }) => {
 						return (

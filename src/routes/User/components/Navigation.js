@@ -1,6 +1,7 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
+import ScrollToTop from "../../../components/common/ScrollToTop";
 const StyledNav = styled.nav`
 	height: 48px;
 	border-top: 2px solid #ebebeb40;
@@ -9,7 +10,7 @@ const StyledNav = styled.nav`
 	position: relative;
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled.div`
 	font-size: 18px;
 	color: #ffffff;
 	letter-spacing: 1.2px;
@@ -64,18 +65,19 @@ const Navigation = ({ routes }) => {
 		<StyledNav ref={navRef} onMouseLeave={resetIndicator}>
 			<ActiveIndicator state={activeIndicatorState} />
 			{routes.map(({ route, label, active }) => (
-				<StyledLink
-					key={route}
-					ref={r => {
-						if (active) {
-							activeRef.current = r;
-						}
-					}}
-					onMouseEnter={({ target }) => setActiveIndicatorFromElement(target)}
-					active={active}
-				>
-					{label}
-				</StyledLink>
+				<Link exact key={route} to={route}>
+					<StyledLink
+						ref={r => {
+							if (active) {
+								activeRef.current = r;
+							}
+						}}
+						onMouseEnter={({ target }) => setActiveIndicatorFromElement(target)}
+						active={active}
+					>
+						{label}
+					</StyledLink>
+				</Link>
 			))}
 		</StyledNav>
 	);

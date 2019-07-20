@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 
 import content from "./content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
+import ScrollToTop from "../../components/common/ScrollToTop";
 
 class Index extends Component {
 	render() {
@@ -20,6 +21,7 @@ class Index extends Component {
 						content="app-id=1458267647, app-argument=userProfile"
 					/>
 				</Helmet>
+				<ScrollToTop />
 				<HowItWorks translate={translate} />
 			</div>
 		);

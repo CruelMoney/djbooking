@@ -49,12 +49,7 @@ class Menu extends Component {
 	redirectToProfile = () => {};
 
 	componentDidUpdate(prevProps) {
-		const { location } = this.props;
 		window.addEventListener("scroll", this.handleScroll);
-
-		if (location.pathname !== prevProps.location.pathname) {
-			window.scrollTo(0, 0);
-		}
 	}
 	componentWillUnmount() {
 		window.removeEventListener("scroll", this.handleScroll);
