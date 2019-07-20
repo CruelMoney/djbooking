@@ -1,7 +1,8 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import ScrollToTop from "../../../components/common/ScrollToTop";
+import { NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+
 const StyledNav = styled.nav`
 	height: 48px;
 	border-top: 2px solid #ebebeb40;
@@ -10,15 +11,19 @@ const StyledNav = styled.nav`
 	position: relative;
 `;
 
-const StyledLink = styled.div`
+const StyledLink = styled(({ indicateActive, ...rest }) => (
+	<NavLink {...rest} />
+))`
 	font-size: 18px;
-	color: #ffffff;
+	color: #ffffff !important;
 	letter-spacing: 1.2px;
 	text-align: left;
 	margin-right: 60px;
 	text-transform: uppercase;
 	font-family: "AvenirNext-Bold";
-	opacity: ${({ active }) => (active ? 1 : 0.6)};
+	opacity: ${({ indicateActive }) => {
+		return indicateActive ? 1 : 0.6;
+	}};
 	&:hover {
 		opacity: 1;
 		color: #ffffff;
@@ -33,26 +38,22 @@ const ActiveIndicator = styled.span`
 	left: 0;
 	width: 1px;
 	transform-origin: left;
-	transform: ${({ state }) =>
-		` translateX(${state.left}px) scaleX(${state.width})`};
 	transition: transform 200ms cubic-bezier(0.075, 0.82, 0.165, 1);
 `;
 
-const Navigation = ({ routes }) => {
-	const [activeIndicatorState, setActiveIndicator] = useState({
-		left: 0,
-		width: 0
-	});
+const Navigation = ({ routes, location }) => {
 	const navRef = useRef();
 	const activeRef = useRef();
+	const indicator = useRef();
 
 	const setActiveIndicatorFromElement = el => {
-		const { left: navLeft } = navRef.current.getBoundingClientRect();
-		const { left, width } = el.getBoundingClientRect();
-		setActiveIndicator({
-			left: left - navLeft,
-			width
-		});
+		if (el) {
+			const { left: navLeft } = navRef.current.getBoundingClientRect();
+			const { left, width } = el.getBoundingClientRect();
+
+			indicator.current.style.transform = `translateX(${left -
+				navLeft}px) scaleX(${width})`;
+		}
 	};
 
 	const resetIndicator = () => {
@@ -63,24 +64,28 @@ const Navigation = ({ routes }) => {
 
 	return (
 		<StyledNav ref={navRef} onMouseLeave={resetIndicator}>
-			<ActiveIndicator state={activeIndicatorState} />
-			{routes.map(({ route, label, active }) => (
-				<Link exact key={route} to={route}>
+			<ActiveIndicator ref={indicator} />
+			{routes.map(({ route, label }) => {
+				const active = location.pathname.includes(route);
+				return (
 					<StyledLink
-						ref={r => {
+						exact
+						key={route}
+						to={route}
+						innerRef={r => {
 							if (active) {
 								activeRef.current = r;
 							}
 						}}
 						onMouseEnter={({ target }) => setActiveIndicatorFromElement(target)}
-						active={active}
+						indicateActive={active}
 					>
 						{label}
 					</StyledLink>
-				</Link>
-			))}
+				);
+			})}
 		</StyledNav>
 	);
 };
 
-export default Navigation;
+export default withRouter(Navigation);
