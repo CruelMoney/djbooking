@@ -45,6 +45,23 @@ const Genre = styled.div`
 	margin-bottom: 24px;
 `;
 
+const Square = styled.div`
+	position: relative;
+	width: 100%;
+	&:after {
+		content: "";
+		padding-top: 100%;
+		display: block;
+	}
+	> * {
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+	}
+`;
+
 const Bio = ({ bio, firstName }) => {
 	return (
 		<LeftItem style={{ paddingTop: 0 }}>
@@ -70,23 +87,23 @@ const Review = ({ bio }) => (
 	</LeftItem>
 );
 const MapArea = ({ playingLocation }) => (
-	<Map
-		height={420}
-		radius={playingLocation.radius}
-		name={"playingLocation"}
-		value={{
-			lat: playingLocation.latitude,
-			lng: playingLocation.longitude
-		}}
-		editable={false}
-		color={"#50E3C2"}
-		mapOptions={{
-			zoomControl: false,
-			fullscreenControl: false
-		}}
-	>
-		Map
-	</Map>
+	<Square>
+		<Map
+			radius={playingLocation.radius}
+			name={"playingLocation"}
+			value={{
+				lat: playingLocation.latitude,
+				lng: playingLocation.longitude
+			}}
+			height={"100%"}
+			editable={false}
+			color={"#50E3C2"}
+			mapOptions={{
+				zoomControl: false,
+				fullscreenControl: false
+			}}
+		/>
+	</Square>
 );
 const Policy = ({ bio }) => (
 	<LeftItem>
