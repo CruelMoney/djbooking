@@ -49,7 +49,7 @@ const ButtonIcon = styled.span`
 	}
 `;
 
-export const ReadMore = ({ children, ...props }) => {
+const ReadMore = ({ children, ...props }) => {
 	return (
 		<TertiaryButton {...props}>
 			{children}
@@ -57,5 +57,19 @@ export const ReadMore = ({ children, ...props }) => {
 				<Arrow fontSize={15} color={"#4d6480"} />
 			</ButtonIcon>
 		</TertiaryButton>
+	);
+};
+
+export const ReadMoreButton = ({ children, onClick }) => {
+	return (
+		<button
+			onClick={onClick}
+			style={{
+				padding: 0,
+				border: "none"
+			}}
+		>
+			<ReadMore>{children}</ReadMore>
+		</button>
 	);
 };

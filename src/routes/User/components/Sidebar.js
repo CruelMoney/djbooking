@@ -11,13 +11,14 @@ import Medal from "react-ionicons/lib/MdMedal";
 import Star from "react-ionicons/lib/MdStar";
 import Tooltip from "./Tooltip";
 import moment from "moment";
+import { SimpleSharing } from "../../../components/common/Sharing-v2";
 
 const Sticky = styled.div`
 	position: sticky;
 	top: -80px;
-	pointer-events: none;
 	margin-bottom: 42px;
 	align-self: flex-start;
+	z-index: 2;
 `;
 
 export const Spacing = styled.div`
@@ -39,7 +40,6 @@ const Card = styled.div`
 	position: relative;
 	z-index: 1;
 	min-height: 500px;
-	pointer-events: all;
 `;
 
 const Shadow = styled.div`
@@ -85,7 +85,9 @@ const Sidebar = ({ user, loading }) => {
 				<Shadow></Shadow>
 				<CTAShadow />
 			</CardWrapper>
-			<p>Share on facebook</p>
+			<SimpleSharing
+				shareUrl={user && `/user/${user.permalink}/overview}]`}
+			></SimpleSharing>
 		</Sticky>
 	);
 };
@@ -100,7 +102,6 @@ const IconRow = styled(Row)`
 `;
 
 const Content = ({ user }) => {
-	console.log({ user });
 	const { userMetadata, appMetadata, playingLocation, userSettings } =
 		user || {};
 	const {

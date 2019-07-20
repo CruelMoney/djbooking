@@ -126,6 +126,11 @@ pre {
 span {
 	position: relative;
 }
+button {
+	border: none;
+	outline: none;
+	padding: 0;
+}
 .row {
 	display: flex;
 	position: relative;
@@ -1973,7 +1978,8 @@ button {
 	outline: none;
 	line-height: 0px !important;
 	box-shadow: none;
-	border: 2px solid #bbbbbb;
+	border: none;
+	padding: 0;
 	color: #bbbbbb;
 	transition: all 0.1s ease-in-out;
 	line-height: 1px;
@@ -3440,6 +3446,15 @@ ol.breadcrumbs a {
 	height: 2em;
 }
 
+#tooltip-portal {
+	z-index: 99;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	border: 0;
+}
+
 /* SMALL COM BEGIN */
 @media only screen and (max-width: 992px) {
 	.request-columns .row {
@@ -3661,7 +3676,7 @@ ol.breadcrumbs a {
 		height: 125%;
 		top: -22% !important;
 	}
-	.location_user{
+	.location_user {
 		#stripes {
 			top: 0% !important;
 		}
@@ -3949,9 +3964,8 @@ ol.breadcrumbs a {
 		font-size: 14px;
 	}
 
-
 	.location_ .pull-up {
-	margin-top: 0px;
-}
+		margin-top: 0px;
+	}
 }
 /* Mobile END */

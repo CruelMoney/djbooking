@@ -22,6 +22,7 @@ const GradientBg = styled.section`
 	align-items: flex-end;
 	position: sticky;
 	top: -270px;
+	z-index: 1;
 `;
 
 const getRoutesFromUser = user => {
@@ -30,10 +31,10 @@ const getRoutesFromUser = user => {
 	if (user) {
 		const roles = user.appMetadata.roles;
 		if (roles.includes("ORGANIZER")) {
-			routes.push({ route: "events", label: "events" });
+			// routes.push({ route: "events", label: "events" });
 		}
 		if (roles.includes("DJ")) {
-			routes.push({ route: "gigs", label: "gigs" });
+			// routes.push({ route: "gigs", label: "gigs" });
 			routes.push({ route: "reviews", label: "reviews" });
 		}
 	}

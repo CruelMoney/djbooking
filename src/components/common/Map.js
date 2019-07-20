@@ -68,6 +68,7 @@ class SimpleMap extends Component {
 	}
 
 	render() {
+		const { mapOptions } = this.props;
 		return (
 			<GoogleMap
 				key={this.props.key}
@@ -78,6 +79,7 @@ class SimpleMap extends Component {
 					scrollwheel: false,
 					streetViewControl: false,
 					mapTypeControl: false,
+
 					styles: [
 						{
 							stylers: [{ visibility: "off" }]
@@ -135,14 +137,15 @@ class SimpleMap extends Component {
 							elementType: "labels.text.stroke",
 							stylers: [{ color: "#32325D" }, { visibility: "on" }]
 						}
-					]
+					],
+					...mapOptions
 				}}
 			>
 				{!!this.props.noCircle ? null : (
 					<Circle
 						ref={c => (this.circle = c)}
 						defaultOptions={{
-							fillColor: this.context.color,
+							fillColor: this.props.color || this.context.color,
 							strokeWeight: 0,
 							suppressUndo: true
 						}}
