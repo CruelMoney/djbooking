@@ -32,3 +32,28 @@ export const SmallHeader = styled.h6`
 	font-size: 15px;
 	color: #122b48;
 `;
+
+export const Title = styled.h3`
+	font-family: "AvenirNext-Bold";
+	font-size: 18px;
+	color: #122b48;
+	text-align: left;
+	position: relative;
+	margin-bottom: 24px;
+	&:after {
+		content: "";
+		width: 60px;
+		border-bottom: 3px solid #50e3c2;
+		position: absolute;
+		bottom: -15px;
+		left: 0;
+	}
+`;
+
+export const Body = styled.p`
+	font-family: "AvenirNext-Regular";
+	font-size: 18px;
+	color: #4d6480;
+	line-height: 27px;
+	letter-spacing: 0;
+`;

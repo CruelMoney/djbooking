@@ -11,7 +11,7 @@ import Header from "./components/Header.js";
 import { USER } from "./gql.js";
 import Sidebar, { Spacing } from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
-import { Overview } from "./routes";
+import { Overview, Settings } from "./routes";
 import { Container, Row, Col } from "./components/Blocks.js";
 
 const Content = ({ match, user, loading }) => {
@@ -19,9 +19,16 @@ const Content = ({ match, user, loading }) => {
 		<Container>
 			<Row>
 				<Sidebar user={user} loading={loading} />
-				<Col>
+
+				<Col style={{ marginTop: "42px", width: "100%", marginBottom: "60px" }}>
 					<Switch>
-						<Route path={match.path + "/overview"} component={Overview} />
+						<Route
+							path={match.path + "/overview"}
+							component={props => (
+								<Overview {...props} user={user} loading={loading} />
+							)}
+						/>
+						<Route path={match.path + "/settings"} component={Settings} />
 					</Switch>
 				</Col>
 			</Row>

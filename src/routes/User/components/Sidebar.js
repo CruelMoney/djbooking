@@ -14,9 +14,10 @@ import moment from "moment";
 
 const Sticky = styled.div`
 	position: sticky;
-	top: -300px;
+	top: -80px;
 	pointer-events: none;
 	margin-bottom: 42px;
+	align-self: flex-start;
 `;
 
 export const Spacing = styled.div`
