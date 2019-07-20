@@ -9,13 +9,25 @@ import { Query } from "react-apollo";
 import { ME } from "../../components/gql";
 import Header from "./components/Header.js";
 import { USER } from "./gql.js";
-import Sidebar from "./components/Sidebar.js";
-import styled from "styled-components";
+import Sidebar, { Spacing } from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
+import { Overview } from "./routes";
+import { Container, Row, Col } from "./components/Blocks.js";
 
-const Content = styled.div`
-	height: 200vh;
-`;
+const Content = ({ match, user, loading }) => {
+	return (
+		<Container>
+			<Row>
+				<Sidebar user={user} loading={loading} />
+				<Col>
+					<Switch>
+						<Route path={match.path + "/overview"} component={Overview} />
+					</Switch>
+				</Col>
+			</Row>
+		</Container>
+	);
+};
 
 const Index = ({ translate, match }) => {
 	return (
@@ -24,8 +36,8 @@ const Index = ({ translate, match }) => {
 				<div>
 					<div>
 						<Header user={user} loading={loading} />
-						<Sidebar user={user} loading={loading} />
-						<Content />
+
+						<Content match={match} user={user} loading={loading} />
 					</div>
 					<Footer
 						noSkew

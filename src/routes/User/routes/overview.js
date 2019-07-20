@@ -1,7 +1,8 @@
 import React from "react";
+import { Spacing } from "../components/Sidebar";
 
-const overview = () => {
+const Overview = () => {
 	return <div>Overview</div>;
 };
 
-export default overview;
+export default Overview;

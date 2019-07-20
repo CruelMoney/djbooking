@@ -13,7 +13,6 @@ import Tooltip from "./Tooltip";
 import moment from "moment";
 
 const Sticky = styled.div`
-	width: 100%;
 	position: sticky;
 	top: -300px;
 	pointer-events: none;
@@ -66,28 +65,26 @@ const SidebarContent = styled.div`
 const Sidebar = ({ user, loading }) => {
 	return (
 		<Sticky>
-			<Container>
-				<CardWrapper>
-					<Card>
-						<ProfileImg src={user ? user.picture.path : null} />
-						<SidebarContent>
-							{loading ? <LoadingPlaceholder2 /> : <Content user={user} />}
-						</SidebarContent>
-						<CTA>
-							<CTAButton>
-								BOOK NOW{" "}
-								<Arrow
-									color="#fff"
-									style={{ position: "absolute", right: "24px" }}
-								></Arrow>
-							</CTAButton>
-						</CTA>
-					</Card>
-					<Shadow></Shadow>
-					<CTAShadow />
-				</CardWrapper>
-				<p>Share on facebook</p>
-			</Container>
+			<CardWrapper>
+				<Card>
+					<ProfileImg src={user ? user.picture.path : null} />
+					<SidebarContent>
+						{loading ? <LoadingPlaceholder2 /> : <Content user={user} />}
+					</SidebarContent>
+					<CTA>
+						<CTAButton>
+							BOOK NOW{" "}
+							<Arrow
+								color="#fff"
+								style={{ position: "absolute", right: "24px" }}
+							></Arrow>
+						</CTAButton>
+					</CTA>
+				</Card>
+				<Shadow></Shadow>
+				<CTAShadow />
+			</CardWrapper>
+			<p>Share on facebook</p>
 		</Sticky>
 	);
 };
