@@ -82,6 +82,7 @@ export const Cite = styled.cite`
 	text-align: right;
 	padding: 0;
 	margin: 0;
+	margin-top: 9px;
 	border: none;
 	&:before {
 		content: "-";

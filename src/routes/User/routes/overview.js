@@ -9,7 +9,7 @@ import {
 	Cite
 } from "../components/Text";
 import ReadMoreExpander from "../components/ReadMoreExpander";
-import { Col, Row, Avatar, ReadMoreButton } from "../components/Blocks";
+import { Col, Row, Avatar, ReadMoreButton, Show } from "../components/Blocks";
 import Map from "../../../components/common/Map";
 import ArrowIcon from "react-ionicons/lib/MdArrowRoundForward";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
@@ -20,7 +20,21 @@ const ColumnLayout = styled.section`
 `;
 
 const HalfCol = styled(Col)`
-	width: 50%;
+	flex: 1;
+	width: 100%;
+`;
+
+const HalfColLeft = styled(HalfCol)`
+	border-right: 1px solid #e9ecf0;
+	@media only screen and (max-width: 990px) {
+		border: none;
+	}
+`;
+
+const HalfColRight = styled(HalfCol)`
+	@media only screen and (max-width: 990px) {
+		display: none;
+	}
 `;
 
 const Item = styled.div`
@@ -34,7 +48,9 @@ const LeftItem = styled(Item)`
 
 const GenresLayout = styled(Item)`
 	padding: 0 0px 18px 18px;
-	break-inside: avoid-column;
+	@media only screen and (max-width: 990px) {
+		padding: 42px 0px 18px 0px;
+	}
 `;
 
 const Genre = styled.div`
@@ -52,6 +68,10 @@ const Genre = styled.div`
 	display: inline-block;
 	margin-left: 24px;
 	margin-bottom: 24px;
+	@media only screen and (max-width: 990px) {
+		margin-left: 0px;
+		margin-right: 24px;
+	}
 `;
 
 const Square = styled.div`
@@ -172,22 +192,22 @@ const Overview = ({ user, loading }) => {
 	return (
 		<ColumnLayout>
 			<Row>
-				<HalfCol
-					style={{
-						borderRight: "1px solid #e9ecf0"
-					}}
-				>
+				<HalfColLeft>
 					<Bio firstName={firstName} bio={bio} />
-
+					<Show maxWidth="990px">
+						<Genres genres={genres} />
+					</Show>
 					<Review reviewsCount={reviews.pageInfo.totalDocs} />
-
+					<Show maxWidth="990px">
+						<MapArea playingLocation={playingLocation} />
+					</Show>
 					<Policy cancelationPolicy={cancelationPolicy} />
-				</HalfCol>
-				<HalfCol>
+				</HalfColLeft>
+				<HalfColRight>
 					<Genres genres={genres} />
 
 					<MapArea playingLocation={playingLocation} />
-				</HalfCol>
+				</HalfColRight>
 			</Row>
 		</ColumnLayout>
 	);

@@ -14,8 +14,11 @@ export const Container = styled.div`
 `;
 
 export const Col = styled.div`
-	display: flex;
+	display: ${({ mobileOnly }) => (mobileOnly ? "none" : "flex")};
 	flex-direction: column;
+	@media only screen and (max-width: 768px) {
+		display: ${({ mobileHide }) => (mobileHide ? "none" : "flex")};
+	}
 `;
 export const Row = styled.div`
 	display: flex;
@@ -90,4 +93,17 @@ export const Avatar = styled.img`
 	min-height: ${({ size }) => avatarSizes[size] || "30px"};
 	height: ${({ size }) => avatarSizes[size] || "30px"};
 	object-fit: cover;
+`;
+
+export const Hide = styled.div`
+	@media only screen and (max-width: ${({ maxWidth }) => maxWidth}) {
+		display: none;
+	}
+`;
+
+export const Show = styled.div`
+	display: none;
+	@media only screen and (max-width: ${({ maxWidth }) => maxWidth}) {
+		display: block;
+	}
 `;
