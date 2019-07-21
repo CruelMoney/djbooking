@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Col } from "./Blocks";
 
-const StatUnit = styled.p`
+export const StatUnit = styled.p`
 	font-family: "AvenirNext-DemiBold";
 	font-size: 15px;
 	color: #98a4b3;
@@ -56,4 +56,39 @@ export const Body = styled.p`
 	color: #4d6480;
 	line-height: 27px;
 	letter-spacing: 0;
+`;
+
+export const BodySmall = styled.p`
+	font-family: "AvenirNext-Regular";
+	font-size: 15px;
+	color: #4d6480;
+	line-height: 22.5px;
+`;
+
+export const Citation = styled.blockquote`
+	font-family: "AvenirNext-Regular";
+	font-size: 18px;
+	color: #98a4b3;
+	padding: 0;
+	margin: 0;
+	border: none;
+`;
+
+export const Cite = styled.cite`
+	font-family: "AvenirNext-Bold";
+	font-style: normal;
+	font-size: 12px;
+	color: #4d6480;
+	text-align: right;
+	padding: 0;
+	margin: 0;
+	border: none;
+	&:before {
+		content: "-";
+		position: relative;
+		color: #50e3c2;
+		margin-right: 6px;
+		font-size: 18px;
+		line-height: 12px;
+	}
 `;

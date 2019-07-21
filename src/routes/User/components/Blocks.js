@@ -20,6 +20,8 @@ export const Col = styled.div`
 export const Row = styled.div`
 	display: flex;
 	flex-direction: row;
+	justify-content: ${({ center }) => (center ? "center" : "flex-start")};
+	align-items: ${({ middle }) => (middle ? "center" : "flex-start")};
 `;
 export const FullWidthCol = styled(Col)`
 	width: 100%;
@@ -60,16 +62,32 @@ const ReadMore = ({ children, ...props }) => {
 	);
 };
 
-export const ReadMoreButton = ({ children, onClick }) => {
+export const ReadMoreButton = ({ children, onClick, style }) => {
 	return (
 		<button
 			onClick={onClick}
 			style={{
 				padding: 0,
-				border: "none"
+				border: "none",
+				...style
 			}}
 		>
 			<ReadMore>{children}</ReadMore>
 		</button>
 	);
 };
+
+const avatarSizes = {
+	large: "60px",
+	small: "30px"
+};
+
+export const Avatar = styled.img`
+	box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+	border-radius: 50%;
+	width: ${({ size }) => avatarSizes[size] || "30px"};
+	min-width: ${({ size }) => avatarSizes[size] || "30px"};
+	min-height: ${({ size }) => avatarSizes[size] || "30px"};
+	height: ${({ size }) => avatarSizes[size] || "30px"};
+	object-fit: cover;
+`;

@@ -1,9 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { Title } from "../components/Text";
+import {
+	Title,
+	Stat,
+	StatUnit,
+	BodySmall,
+	Citation,
+	Cite
+} from "../components/Text";
 import ReadMoreExpander from "../components/ReadMoreExpander";
-import { Col, Row } from "../components/Blocks";
+import { Col, Row, Avatar, ReadMoreButton } from "../components/Blocks";
 import Map from "../../../components/common/Map";
+import ArrowIcon from "react-ionicons/lib/MdArrowRoundForward";
+import QuotationMarkIcon from "../../../components/graphics/Quotes";
 
 const ColumnLayout = styled.section`
 	width: 100%;
@@ -81,9 +90,31 @@ const Genres = ({ genres }) => (
 		))}
 	</GenresLayout>
 );
-const Review = ({ bio }) => (
+
+const Review = ({ reviewsCount }) => (
 	<LeftItem>
 		<Title>Highlighted Review</Title>
+
+		<Row middle style={{ marginTop: "36px" }}>
+			<Avatar
+				size="large"
+				src={"https://source.unsplash.com/random/120x120 /"}
+				style={{
+					marginRight: "24px"
+				}}
+			/>
+			<Col>
+				<QuotationMarkIcon style={{ marginBottom: "9px" }}></QuotationMarkIcon>
+				<Citation>
+					He is a charismatic and soulful person, which sure does transpire in
+					his rhythms
+				</Citation>
+				<Cite>Christopher Dengsø</Cite>
+			</Col>
+		</Row>
+		<ReadMoreButton style={{ marginTop: "24px" }}>
+			{reviewsCount} REVIEWS MORE
+		</ReadMoreButton>
 	</LeftItem>
 );
 const MapArea = ({ playingLocation }) => (
@@ -105,9 +136,29 @@ const MapArea = ({ playingLocation }) => (
 		/>
 	</Square>
 );
-const Policy = ({ bio }) => (
+const Policy = ({ cancelationPolicy }) => (
 	<LeftItem>
 		<Title>Cancelation Policy</Title>
+		<Row
+			style={{
+				width: "100%",
+				justifyContent: "space-between",
+				alignItems: "flex-end",
+				marginTop: "42px",
+				marginBottom: "30px"
+			}}
+		>
+			<Stat label={"MIN. NOTICE"} value={cancelationPolicy.days + " days"} />
+			<ArrowIcon color={"#98a4b3"} fontSize={18} />
+			<StatUnit>OR ELSE</StatUnit>
+			<ArrowIcon color={"#98a4b3"} fontSize={18} />
+
+			<Stat label={"REFUNDED"} value={cancelationPolicy.percentage + "%"} />
+		</Row>
+		<BodySmall style={{ marginBottom: 0 }}>
+			Cancel any time before {cancelationPolicy.days} days, and get a 100%
+			refund, minus the service fee.
+		</BodySmall>
 	</LeftItem>
 );
 
@@ -115,8 +166,9 @@ const Overview = ({ user, loading }) => {
 	if (loading) {
 		return null;
 	}
-	const { userMetadata, genres, playingLocation } = user;
+	const { userMetadata, genres, playingLocation, userSettings, reviews } = user;
 	const { firstName, bio } = userMetadata;
+	const { cancelationPolicy } = userSettings;
 	return (
 		<ColumnLayout>
 			<Row>
@@ -127,9 +179,9 @@ const Overview = ({ user, loading }) => {
 				>
 					<Bio firstName={firstName} bio={bio} />
 
-					<Review />
+					<Review reviewsCount={reviews.pageInfo.totalDocs} />
 
-					<Policy />
+					<Policy cancelationPolicy={cancelationPolicy} />
 				</HalfCol>
 				<HalfCol>
 					<Genres genres={genres} />
