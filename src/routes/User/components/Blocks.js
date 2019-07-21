@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
+import GracefullImage from "./GracefullImage";
 
 export const MarginBottom = styled.div`
 	margin-bottom: 48px;
@@ -59,7 +60,7 @@ const ReadMore = ({ children, ...props }) => {
 		<TertiaryButton {...props}>
 			{children}
 			<ButtonIcon>
-				<Arrow fontSize={15} color={"#4d6480"} />
+				<Arrow fontSize={"15px"} color={"#4d6480"} />
 			</ButtonIcon>
 		</TertiaryButton>
 	);
@@ -85,15 +86,36 @@ const avatarSizes = {
 	small: "30px"
 };
 
-export const Avatar = styled.img`
+const AvatarWrapper = styled.div`
 	box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
 	border-radius: 50%;
 	width: ${({ size }) => avatarSizes[size] || "30px"};
 	min-width: ${({ size }) => avatarSizes[size] || "30px"};
 	min-height: ${({ size }) => avatarSizes[size] || "30px"};
 	height: ${({ size }) => avatarSizes[size] || "30px"};
-	object-fit: cover;
+	overflow: hidden;
 `;
+
+export const Avatar = ({ size, style, ...props }) => (
+	<AvatarWrapper
+		size={size}
+		style={{
+			objectFit: "cover",
+			...style
+		}}
+	>
+		<GracefullImage
+			{...props}
+			style={{
+				objectFit: "cover",
+				height: avatarSizes[size] || "30px",
+				width: avatarSizes[size] || "30px",
+				minHeight: avatarSizes[size] || "30px",
+				minWidth: avatarSizes[size] || "30px"
+			}}
+		/>
+	</AvatarWrapper>
+);
 
 export const Hide = styled.div`
 	@media only screen and (max-width: ${({ maxWidth }) => maxWidth}) {

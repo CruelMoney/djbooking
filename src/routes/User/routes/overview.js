@@ -169,9 +169,9 @@ const Policy = ({ cancelationPolicy }) => (
 			}}
 		>
 			<Stat label={"MIN. NOTICE"} value={cancelationPolicy.days + " days"} />
-			<ArrowIcon color={"#98a4b3"} fontSize={18} />
+			<ArrowIcon color={"#98a4b3"} fontSize={"18px"} />
 			<StatUnit>OR ELSE</StatUnit>
-			<ArrowIcon color={"#98a4b3"} fontSize={18} />
+			<ArrowIcon color={"#98a4b3"} fontSize={"18px"} />
 
 			<Stat label={"REFUNDED"} value={cancelationPolicy.percentage + "%"} />
 		</Row>

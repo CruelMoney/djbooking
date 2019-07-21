@@ -20,7 +20,15 @@ const Content = ({ match, user, loading }) => {
 			<Row>
 				<Sidebar user={user} loading={loading} />
 
-				<Col style={{ marginTop: "42px", width: "100%", marginBottom: "60px" }}>
+				<Col
+					style={{
+						marginTop: "42px",
+						width: "100%",
+						marginBottom: "60px",
+						zIndex: 0,
+						position: "relative"
+					}}
+				>
 					<Switch>
 						<Route
 							path={match.path + "/overview"}
