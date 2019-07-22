@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import without from "lodash.without";
 import assign from "lodash.assign";
 import { connect } from "react-redux";
 import * as actions from "../../actions/FormActions";
 
-class form extends Component {
+class form extends PureComponent {
 	displayNamen = "Form";
 
 	componentWillMount() {

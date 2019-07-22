@@ -97,6 +97,7 @@ const MainForm = class extends PureComponent {
 	};
 
 	render() {
+		debugger;
 		const { translate } = this.props;
 		const { error } = this.state;
 		return (

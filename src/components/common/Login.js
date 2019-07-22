@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import SubmitButton from "./SubmitButton";
 import Textfield from "./Textfield";
@@ -13,7 +13,7 @@ import * as c from "../../constants/constants";
 import ErrorMessageApollo, { getErrorMessage } from "./ErrorMessageApollo";
 import { authService } from "../../utils/AuthService";
 
-class Login extends Component {
+class Login extends PureComponent {
 	displayName = "Login";
 	color = "#31DAFF";
 

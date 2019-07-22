@@ -6,38 +6,36 @@ import "react-datepicker/dist/react-datepicker.min.css";
 
 import "../../css/calendar.css";
 
-export default class MyDatePicker extends Component {
-	state = {
-		startDate: moment()
-	};
-
-	componentWillMount() {
-		if (this.props.initialDate) {
-			this.setState({
-				startDate: this.props.initialDate
-			});
-		}
+class MyDatePicker extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			startDate: props.initialDate ? props.initialDate.toDate() : new Date()
+		};
 	}
 
 	handleChange = date => {
-		this.props.handleChange(date);
+		this.props.handleChange(moment(date));
 		this.setState({
 			startDate: date
 		});
 	};
 
 	render() {
+		const { minDate, dark, initialDate, ...rest } = this.props;
+		console.log("redner");
 		return (
 			<div
 				style={{ color: "#32325d" }}
-				className={"calendar-container" + (this.props.dark ? " dark" : "")}
+				className={"calendar-container" + (dark ? " dark" : "")}
 			>
 				<DatePicker
-					fixedHeight
 					inline
-					minDate={moment()}
+					minDate={minDate !== undefined ? minDate : new Date()}
 					selected={this.state.startDate}
 					onChange={this.handleChange}
+					peekNextMonth
+					{...rest}
 				/>
 			</div>
 		);
@@ -47,3 +45,5 @@ export default class MyDatePicker extends Component {
 MyDatePicker.contextTypes = {
 	color: PropTypes.string
 };
+
+export default MyDatePicker;

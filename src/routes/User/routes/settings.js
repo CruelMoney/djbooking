@@ -19,6 +19,7 @@ import {
 import emailValidator from "email-validator";
 import Popup from "../../../components/common/Popup";
 import Button from "../../../components/common/Button-v2";
+import DatePicker from "../../../components/common/Datepicker";
 
 const TableRow = styled(Row)`
 	height: 42px;
@@ -152,15 +153,7 @@ const Settings = ({ user, loading, updateUser }) => {
 				/>
 				<PasswordChanger saveData={saveData}></PasswordChanger>
 
-				<Input
-					half
-					button
-					label="Birthday"
-					attention={!birthday}
-					children={
-						birthday ? moment(birthday).format("DD/MM/YYYY") : "Update birthday"
-					}
-				/>
+				<BirthdayPicker saveData={saveData} />
 				<Input half button label="Profile picture" children="change picture" />
 
 				<Input
@@ -252,6 +245,50 @@ const Settings = ({ user, loading, updateUser }) => {
 					}
 				/>
 			</SettingsSection>
+		</>
+	);
+};
+
+// half
+// button
+// label="Birthday"
+// attention={!birthday}
+// children={
+// 	birthday ? moment(birthday).format("DD/MM/YYYY") : "Update birthday"
+// }
+
+const BirthdayPicker = ({ birthday }) => {
+	const [showing, setShowing] = useState(false);
+	const initialDate = birthday ? moment(birthday) : null;
+
+	return (
+		<>
+			<Input
+				half
+				button
+				onClick={s => setShowing(true)}
+				label="Birthday"
+				children={
+					birthday ? moment(birthday).format("DD/MM/YYYY") : "Update birthday"
+				}
+			/>
+			<Popup
+				width="380px"
+				showing={showing}
+				onClickOutside={() => setShowing(false)}
+			>
+				<DatePicker
+					dark
+					initialDate={initialDate}
+					minDate={null}
+					maxDate={new Date()}
+					handleChange={console.log}
+
+					showMonthDropdown
+					showYearDropdown
+					dropdownMode="select"
+				/>
+			</Popup>
 		</>
 	);
 };
