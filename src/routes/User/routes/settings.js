@@ -20,6 +20,7 @@ import emailValidator from "email-validator";
 import Popup from "../../../components/common/Popup";
 import DatePicker from "../../../components/common/Datepicker";
 import constants from "../../../constants/constants";
+import ImageUploader from "../components/ImageInput";
 
 const TableRow = styled(Row)`
 	height: 42px;
@@ -158,11 +159,11 @@ const Settings = ({ user, loading, updateUser }) => {
 				<PasswordChanger saveData={saveData}></PasswordChanger>
 
 				<BirthdayPicker saveData={saveData} birthday={birthday} />
-				<Input half button label="Profile picture" children="change picture" />
+				<ImageUploader half label="Profile picture" children="change picture" />
 
 				<Input
 					half
-					button
+					type="button"
 					attention
 					label="Verify identity"
 					children="upload documents"
@@ -183,25 +184,30 @@ const Settings = ({ user, loading, updateUser }) => {
 					type="text"
 				/>
 				<Input label="URL" placeholder="https://cueup.io/" type="text" />
-				<Input half button label="Location" children={playingLocation.name} />
 				<Input
 					half
-					button
+					type="button"
+					label="Location"
+					children={playingLocation.name}
+				/>
+				<Input
+					half
+					type="button"
 					label="Genres"
 					children={<ButtonText>{genres.join(", ")}</ButtonText>}
 				/>
 				<Input
 					half
-					button
+					type="button"
 					label="Cancelation policy"
 					children={`${cancelationPolicy.days} days, ${cancelationPolicy.percentage}%`}
 				/>
-				<Input half button label="Bio" children={"edit"} />
+				<Input half type="button" label="Bio" children={"edit"} />
 
-				<Input half button label="Cover photo" children="Change photo" />
+				<Input half type="button" label="Cover photo" children="Change photo" />
 				<Input
 					half
-					button
+					type="button"
 					attention={userSettings.standby}
 					label="Standby"
 					children={userSettings.standby ? "unavailable" : "available"}
@@ -216,7 +222,7 @@ const Settings = ({ user, loading, updateUser }) => {
 			>
 				<Input
 					half
-					button
+					type="button"
 					attention={!bankAccount}
 					label="Payout information"
 					children={"update"}
@@ -224,7 +230,7 @@ const Settings = ({ user, loading, updateUser }) => {
 
 				<Input
 					half
-					button
+					type="button"
 					label="Preferred currency"
 					children={currency ? currency : "update"}
 				/>
@@ -238,10 +244,16 @@ const Settings = ({ user, loading, updateUser }) => {
 					"If you delete your user, all data will be deleted and unrecoverable. If you have any unfinished gigs, they will all be declined and cancelled."
 				}
 			>
-				<Input half button label="Delete user" warning children="delete" />
 				<Input
 					half
-					button
+					type="button"
+					label="Delete user"
+					warning
+					children="delete"
+				/>
+				<Input
+					half
+					type="button"
 					label="Export all data"
 					children="export"
 					onClick={_ =>
@@ -266,7 +278,7 @@ const BirthdayPicker = ({ birthday, saveData }) => {
 		<>
 			<Input
 				half
-				button
+				type="button"
 				onClick={s => setShowing(true)}
 				label="Birthday"
 				children={
@@ -325,7 +337,7 @@ const PasswordChanger = ({ saveData }) => {
 		<>
 			<Input
 				half
-				button
+				type="button"
 				onClick={s => setShowing(true)}
 				label="Password"
 				children="change password"

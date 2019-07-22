@@ -69,7 +69,7 @@ const SettingsSection = ({ title, description, children }) => {
 	);
 };
 
-const inputStyle = css`
+export const inputStyle = css`
 	background: #f6f8f9;
 	border-radius: 4px;
 	border: none;
@@ -83,6 +83,7 @@ const inputStyle = css`
 	width: 100%;
 	display: block;
 	margin-top: 6px;
+	font-weight: 300;
 	box-shadow: ${({ attention, error }) => {
 		const show = attention || error;
 		const color = error ? "#D0021B" : "#FFC800";
@@ -105,11 +106,12 @@ const TextInput = styled.input`
 	}
 `;
 
-const ButtonInput = styled.button`
+const buttonStyle = css`
 	${inputStyle}
 	text-align: center;
 	line-height: 40px !important;
 	transition: all 200ms ease;
+	cursor: pointer;
 	:hover {
 		${({ warning }) =>
 			warning
@@ -121,7 +123,53 @@ const ButtonInput = styled.button`
 	}
 `;
 
-const Input = ({ half, label, button, onSave, validation, ...props }) => {
+const ButtonInput = styled.button`
+	${buttonStyle}
+`;
+
+const FileInputWrapper = styled.label`
+	${buttonStyle}
+`;
+
+const FileInput = styled.input.attrs({ type: "file" })`
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+`;
+
+const InputType = ({ type, error, save, ...props }) => {
+	switch (type) {
+		case "button":
+			return <ButtonInput {...props} error={!!error} />;
+		case "file":
+			return (
+				<FileInputWrapper {...props} error={!!error} onChange={save}>
+					{props.children}
+					<FileInput />
+				</FileInputWrapper>
+			);
+
+		default:
+			return (
+				<TextInput
+					{...props}
+					type={type}
+					error={!!error}
+					onBlur={save}
+					onKeyDown={e => {
+						if (e.key === "Enter") {
+							e.target.blur();
+						}
+					}}
+				/>
+			);
+	}
+};
+
+const Input = ({ half, label, type, onSave, validation, ...props }) => {
 	const [error, setError] = useState(null);
 	const LabelComponent = half ? LabelHalf : InputLabel;
 
@@ -142,20 +190,7 @@ const Input = ({ half, label, button, onSave, validation, ...props }) => {
 	return (
 		<LabelComponent>
 			{label}
-			{button ? (
-				<ButtonInput {...props} />
-			) : (
-				<TextInput
-					{...props}
-					error={!!error}
-					onBlur={save}
-					onKeyDown={e => {
-						if (e.key === "Enter") {
-							e.target.blur();
-						}
-					}}
-				/>
-			)}
+			<InputType type={type} save={save} error={error} {...props} />
 			{error && <p className="error">{error}</p>}
 		</LabelComponent>
 	);
