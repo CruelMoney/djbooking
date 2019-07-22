@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { ImageCompressor } from "../../../utils/ImageCompressor";
-import { FileInput, Input } from "./FormComponents";
+import { Input } from "./FormComponents";
 
-const ImageUploader = ({ onChange, ...props }) => {
+const ImageUploader = ({ saveData, ...props }) => {
 	const [error, setError] = useState(null);
 
-	const handleFile = async e => {
+	const handleFile = async (_, e) => {
 		const file = e.target.files[0];
 
 		try {
@@ -14,7 +14,7 @@ const ImageUploader = ({ onChange, ...props }) => {
 				true
 			);
 
-			onChange(image);
+			saveData(image);
 		} catch (error) {
 			setError(error.message);
 		}

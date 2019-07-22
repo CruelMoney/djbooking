@@ -140,15 +140,15 @@ const FileInput = styled.input.attrs({ type: "file" })`
 	z-index: -1;
 `;
 
-const InputType = ({ type, error, save, ...props }) => {
+const InputType = ({ type, error, save, children, ...props }) => {
 	switch (type) {
 		case "button":
-			return <ButtonInput {...props} error={!!error} />;
+			return <ButtonInput {...props} children={children} error={!!error} />;
 		case "file":
 			return (
-				<FileInputWrapper {...props} error={!!error} onChange={save}>
-					{props.children}
-					<FileInput />
+				<FileInputWrapper {...props} error={!!error}>
+					{children}
+					<FileInput {...props} onChange={save} />
 				</FileInputWrapper>
 			);
 
@@ -184,7 +184,7 @@ const Input = ({ half, label, type, onSave, validation, ...props }) => {
 				setError(null);
 			}
 		}
-		onSave && onSave(value);
+		onSave && onSave(value, e);
 	};
 
 	return (

@@ -98,6 +98,15 @@ const Settings = ({ user, loading, updateUser }) => {
 		await saveData(data);
 	};
 
+	const savePicture = async file => {
+		await updateUser({
+			variables: {
+				id: user.id,
+				picture: file
+			}
+		});
+	};
+
 	if (loading) {
 		return null;
 	}
@@ -107,7 +116,8 @@ const Settings = ({ user, loading, updateUser }) => {
 		playingLocation,
 		userSettings,
 		email,
-		artistName
+		artistName,
+		picture
 	} = user;
 	const { firstName, lastName, phone, birthday, bankAccount } = userMetadata;
 	const { cancelationPolicy, currency } = userSettings;
@@ -159,7 +169,13 @@ const Settings = ({ user, loading, updateUser }) => {
 				<PasswordChanger saveData={saveData}></PasswordChanger>
 
 				<BirthdayPicker saveData={saveData} birthday={birthday} />
-				<ImageUploader half label="Profile picture" children="change picture" />
+				<ImageUploader
+					half
+					label="Profile picture"
+					children="change picture"
+					attention={!picture}
+					saveData={savePicture}
+				/>
 
 				<Input
 					half
