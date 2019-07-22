@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { Row, Col } from "./Blocks";
 import { Title, Body } from "./Text";
 import Checkbox from "./Checkbox";
+
+const Label = styled.label`
+	font-family: "AvenirNext-Regular";
+	font-size: 18px;
+	color: #4d6480;
+	font-weight: 300;
+	.error {
+		margin-bottom: 0;
+	}
+`;
+
+const InputLabel = styled(Label)`
+	margin-bottom: 30px;
+	min-width: 100%;
+	flex: 2;
+`;
+
+const LabelHalf = styled(InputLabel)`
+	flex: 1;
+`;
 
 const SectionRow = styled(Row)`
 	padding-bottom: 30px;
@@ -26,6 +46,15 @@ const RightCol = styled(Row)`
 	min-width: 400px;
 	flex-wrap: wrap;
 	margin-right: -36px;
+	${InputLabel} {
+		min-width: calc(100% - 36px);
+		margin-right: 36px;
+	}
+	${LabelHalf} {
+		margin-right: 36px;
+		min-width: calc(50% - 36px);
+		width: calc(50% - 36px);
+	}
 `;
 
 const SettingsSection = ({ title, description, children }) => {
@@ -54,8 +83,11 @@ const inputStyle = css`
 	width: 100%;
 	display: block;
 	margin-top: 6px;
-	box-shadow: ${({ attention }) =>
-		attention ? "inset 0 0 0 2px #FFC800" : "none"};
+	box-shadow: ${({ attention, error }) => {
+		const show = attention || error;
+		const color = error ? "#D0021B" : "#FFC800";
+		return show ? `inset 0 0 0 2px ${color}` : "none";
+	}};
 `;
 
 const TextInput = styled.input`
@@ -89,28 +121,24 @@ const ButtonInput = styled.button`
 	}
 `;
 
-const Label = styled.label`
-	font-family: "AvenirNext-Regular";
-	font-size: 18px;
-	color: #4d6480;
-	font-weight: 300;
-`;
-
-const InputLabel = styled(Label)`
-	margin-bottom: 30px;
-	flex: 2;
-	min-width: calc(100% - 36px);
-	margin-right: 36px;
-`;
-
-const LabelHalf = styled(InputLabel)`
-	flex: 1;
-	min-width: calc(50% - 36px);
-	width: calc(50% - 36px);
-`;
-
-const Input = ({ half, label, button, ...props }) => {
+const Input = ({ half, label, button, onSave, validation, ...props }) => {
+	const [error, setError] = useState(null);
 	const LabelComponent = half ? LabelHalf : InputLabel;
+
+	const save = e => {
+		const value = e.target.value;
+		if (validation) {
+			const validationError = validation(value);
+			if (validationError) {
+				setError(validationError);
+				return;
+			} else {
+				setError(null);
+			}
+		}
+		onSave && onSave(value);
+	};
+
 	return (
 		<LabelComponent>
 			{label}
@@ -119,6 +147,8 @@ const Input = ({ half, label, button, ...props }) => {
 			) : (
 				<TextInput
 					{...props}
+					error={!!error}
+					onBlur={save}
 					onKeyDown={e => {
 						if (e.key === "Enter") {
 							e.target.blur();
@@ -126,6 +156,7 @@ const Input = ({ half, label, button, ...props }) => {
 					}}
 				/>
 			)}
+			{error && <p className="error">{error}</p>}
 		</LabelComponent>
 	);
 };

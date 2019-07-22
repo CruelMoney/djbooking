@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
 import GracefullImage from "./GracefullImage";
 
@@ -29,7 +29,8 @@ export const Col = styled.div`
 export const Row = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: ${({ center }) => (center ? "center" : "flex-start")};
+	justify-content: ${({ center, right }) =>
+		center ? "center" : right ? "flex-end" : "flex-start"};
 	align-items: ${({ middle }) => (middle ? "center" : "flex-start")};
 `;
 export const FullWidthCol = styled(Col)`
@@ -41,13 +42,17 @@ export const Divider = styled.hr`
 	margin: 24px 0;
 `;
 
-const TertiaryButton = styled.span`
+const tertiaryStyle = css`
 	font-family: "AvenirNext-DemiBold";
 	font-size: 12px;
 	color: #4d6480;
 	letter-spacing: 1.04px;
+`;
+
+const ReadMoreText = styled.span`
+	${tertiaryStyle}
+	text-transform:	 uppercase;
 	text-align: left;
-	text-transform: uppercase;
 `;
 
 const ButtonIcon = styled.span`
@@ -55,19 +60,19 @@ const ButtonIcon = styled.span`
 	top: 3px;
 	display: inline-block;
 	transition: transform 200ms ease;
-	${TertiaryButton}:hover & {
+	${ReadMoreText}:hover & {
 		transform: translateX(3px);
 	}
 `;
 
 export const ReadMore = ({ children, ...props }) => {
 	return (
-		<TertiaryButton {...props}>
+		<ReadMoreText {...props}>
 			{children}
 			<ButtonIcon>
 				<Arrow fontSize={"15px"} color={"#4d6480"} />
 			</ButtonIcon>
-		</TertiaryButton>
+		</ReadMoreText>
 	);
 };
 
@@ -132,5 +137,37 @@ export const Show = styled.div`
 	display: none;
 	@media only screen and (max-width: ${({ maxWidth }) => maxWidth}) {
 		display: block;
+	}
+`;
+
+const ButtonTextStyle = css`
+	font-family: "AvenirNext-DemiBold";
+	font-size: 15px;
+	color: #4d6480;
+	text-align: center;
+	line-height: 20px;
+	background: transparent;
+	border-radius: 4px;
+	min-width: 150px;
+	height: 40px;
+`;
+
+export const TeritaryButton = styled.button`
+	${ButtonTextStyle}
+`;
+
+export const SecondaryButton = styled.button`
+	${ButtonTextStyle}
+	background: #E9ECF0;
+	color: #ffffff;
+`;
+
+export const PrimaryButton = styled.button`
+	${ButtonTextStyle}
+	color: #FFFFFF;
+	background: #31daff;
+	:hover {
+		color: #ffffff;
+		background-color: #00d1ff;
 	}
 `;

@@ -2566,6 +2566,11 @@ header .info-boxes {
 	pointer-events: none;
 	transition: transform 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
+.notification-overlay.bottom {
+	bottom: 3px;
+	top: unset;
+	transform: translateY(100%);
+}
 .notification-overlay.active {
 	transform: translateY(0%);
 }
@@ -2576,7 +2581,7 @@ header .info-boxes {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: rgba(0, 0, 0, 0.4);
+	background-color: rgba(64, 64, 64, 0.95);
 	border-radius: 20px;
 	min-width: 200px;
 	position: "relative";

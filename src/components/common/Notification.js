@@ -7,13 +7,14 @@ const Notification = ({
 	loading,
 	children,
 	active,
+	bottom,
 	message = "You have no new notifications"
 }) => {
 	return (
 		<div
 			className={`center ${overlay ? "notification-overlay" : ""} ${
 				active ? "active" : ""
-			}`}
+			} ${bottom ? "bottom" : ""}`}
 		>
 			<div className="notification">
 				<div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import {
 	SettingsSection,
@@ -9,9 +9,16 @@ import {
 	Checkbox
 } from "../components/FormComponents";
 import moment from "moment-timezone";
-import { Row, Col, Hr } from "../components/Blocks";
-import { useMutation } from "react-apollo-hooks";
-import { UPDATE_USER } from "../gql";
+import {
+	Row,
+	Col,
+	Hr,
+	TeritaryButton,
+	PrimaryButton
+} from "../components/Blocks";
+import emailValidator from "email-validator";
+import Popup from "../../../components/common/Popup";
+import Button from "../../../components/common/Button-v2";
 
 const TableRow = styled(Row)`
 	height: 42px;
@@ -59,28 +66,30 @@ const NotificationPreferences = () => {
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
-
 	return keys.some(key => o2[key] !== o1[key]);
 };
 
 const Settings = ({ user, loading, updateUser }) => {
-	console.log({ user });
-
 	const saveData = async data => {
-		await updateUser({
-			variables: { id: user.id, ...data }
-		});
+		const flatUser = {
+			...user,
+			...user.userMetadata
+		};
+		if (hasChanges(data, flatUser)) {
+			await updateUser({
+				variables: { id: user.id, ...data }
+			});
+		}
 	};
 
-	const saveFullName = async ({ target }) => {
-		const [firstName, ...lastName] = target.value.split(" ");
+	const saveFullName = async value => {
+		const [firstName, ...lastName] = value.split(" ");
 		const data = {
 			firstName,
 			lastName: lastName.join(" ")
 		};
-		if (hasChanges(data, user.userMetadata)) {
-			await saveData(data);
-		}
+
+		await saveData(data);
 	};
 
 	if (loading) {
@@ -96,7 +105,6 @@ const Settings = ({ user, loading, updateUser }) => {
 	} = user;
 	const { firstName, lastName, phone, birthday, bankAccount } = userMetadata;
 	const { cancelationPolicy, currency } = userSettings;
-
 	return (
 		<>
 			<SettingsSection
@@ -110,13 +118,27 @@ const Settings = ({ user, loading, updateUser }) => {
 					defaultValue={`${firstName} ${lastName}`}
 					placeholder="First Last"
 					type="text"
-					onBlur={saveFullName}
+					autocomplete="name"
+					name="name"
+					onSave={saveFullName}
+					validation={v => {
+						const [firstName, ...lastName] = v.split(" ");
+						if (!firstName || !lastName.some(s => !!s.trim())) {
+							return "Please enter both first and last name";
+						}
+					}}
 				/>
 				<Input
 					label="Email"
 					defaultValue={email}
 					placeholder="mail@email.com"
 					type="email"
+					autocomplete="email"
+					name="email"
+					onSave={email => saveData({ email: email.trim() })}
+					validation={v =>
+						emailValidator.validate(v) ? null : "Not a valid email"
+					}
 				/>
 				<Input
 					label="Phone"
@@ -124,9 +146,12 @@ const Settings = ({ user, loading, updateUser }) => {
 					defaultValue={phone}
 					placeholder="+123456789"
 					type="tel"
+					autocomplete="tel"
+					name="phone"
+					onSave={phone => saveData({ phone: phone.trim() })}
 				/>
+				<PasswordChanger></PasswordChanger>
 
-				<Input half button label="Password" children="change password" />
 				<Input
 					half
 					button
@@ -227,6 +252,39 @@ const Settings = ({ user, loading, updateUser }) => {
 					}
 				/>
 			</SettingsSection>
+		</>
+	);
+};
+
+const PasswordChanger = () => {
+	const [showing, setShowing] = useState(false);
+
+	return (
+		<>
+			<Input
+				half
+				button
+				onClick={s => setShowing(true)}
+				label="Password"
+				children="change password"
+			/>
+			<Popup
+				showing={showing}
+				onClickOutside={_ => setShowing(false)}
+				style={{ width: "300px" }}
+			>
+				<form>
+					<Input label="New password" placeholder={"Min. 6 characters"} />
+					<Input label="Repeat password" placeholder={"Min. 6 characters"} />
+
+					<Row right>
+						<TeritaryButton onClick={_ => setShowing(false)}>
+							Cancel
+						</TeritaryButton>
+						<PrimaryButton>Save</PrimaryButton>
+					</Row>
+				</form>
+			</Popup>
 		</>
 	);
 };

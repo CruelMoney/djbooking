@@ -89,15 +89,21 @@ const SavingIndicator = ({ loading, error }) => {
 
 	useEffect(() => {
 		if (loading === false) {
-			const r = setTimeout(_ => setActive(false), 1000);
+			const r = setTimeout(_ => setActive(false), error ? 10000 : 1000);
 			return _ => clearTimeout(r);
 		} else {
 			setActive(true);
 		}
-	}, [loading]);
+	}, [error, loading]);
 
 	return (
-		<Notification overlay active={active} loading={true} message={"Saving"}>
+		<Notification
+			overlay
+			bottom
+			active={active}
+			loading={loading}
+			message={"Saving"}
+		>
 			{error && <ErrorMessageApollo error={error} />}
 		</Notification>
 	);
