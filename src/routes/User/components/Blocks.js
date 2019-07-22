@@ -55,7 +55,7 @@ const ButtonIcon = styled.span`
 	}
 `;
 
-const ReadMore = ({ children, ...props }) => {
+export const ReadMore = ({ children, ...props }) => {
 	return (
 		<TertiaryButton {...props}>
 			{children}

@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Switch, Route } from "react-router";
+import { Switch, Route, Redirect } from "react-router";
 
 import content from "./content.json";
 import requestformContent from "../../components/common/RequestForm/content.json";
@@ -30,13 +30,22 @@ const Content = ({ match, user, loading }) => {
 					}}
 				>
 					<Switch>
+						<Redirect
+							from={match.path + "/profile"}
+							to={match.path + "/overview"}
+						/>
 						<Route
 							path={match.path + "/overview"}
 							component={props => (
 								<Overview {...props} user={user} loading={loading} />
 							)}
 						/>
-						<Route path={match.path + "/settings"} component={Settings} />
+						<Route
+							path={match.path + "/settings"}
+							component={props => (
+								<Settings {...props} user={user} loading={loading} />
+							)}
+						/>
 					</Switch>
 				</Col>
 			</Row>
@@ -51,7 +60,6 @@ const Index = ({ translate, match }) => {
 				<div>
 					<div>
 						<Header user={user} loading={loading} />
-
 						<Content match={match} user={user} loading={loading} />
 					</div>
 					<Footer

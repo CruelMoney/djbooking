@@ -9,10 +9,11 @@ import {
 	Cite
 } from "../components/Text";
 import ReadMoreExpander from "../components/ReadMoreExpander";
-import { Col, Row, Avatar, ReadMoreButton, Show } from "../components/Blocks";
+import { Col, Row, Avatar, ReadMore, Show } from "../components/Blocks";
 import Map from "../../../components/common/Map";
 import ArrowIcon from "react-ionicons/lib/MdArrowRoundForward";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
+import { Link } from "react-router-dom";
 
 const ColumnLayout = styled.section`
 	width: 100%;
@@ -132,9 +133,11 @@ const Review = ({ reviewsCount }) => (
 				<Cite>Christopher Dengsø</Cite>
 			</Col>
 		</Row>
-		<ReadMoreButton style={{ marginTop: "24px" }}>
-			{reviewsCount} REVIEWS MORE
-		</ReadMoreButton>
+		<Link to={"reviews"}>
+			<ReadMore style={{ marginTop: "24px" }}>
+				{reviewsCount} REVIEWS MORE
+			</ReadMore>
+		</Link>
 	</LeftItem>
 );
 const MapArea = ({ playingLocation }) => (

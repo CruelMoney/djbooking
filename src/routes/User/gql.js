@@ -8,6 +8,7 @@ const USER = gql`
 			permalink
 			genres
 			artistName
+			email
 			picture {
 				path
 			}
@@ -27,8 +28,13 @@ const USER = gql`
 			}
 			userMetadata {
 				firstName
+				lastName
 				bio
 				birthday
+				phone
+				bankAccount {
+					status
+				}
 			}
 			userSettings {
 				standby
