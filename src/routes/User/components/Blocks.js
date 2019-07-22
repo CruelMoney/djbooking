@@ -3,6 +3,11 @@ import styled from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
 import GracefullImage from "./GracefullImage";
 
+export const Hr = styled.hr`
+	border-bottom: 1px solid #e9ecf0;
+	margin: 0;
+`;
+
 export const MarginBottom = styled.div`
 	margin-bottom: 48px;
 `;

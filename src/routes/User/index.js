@@ -8,17 +8,18 @@ import addTranslate from "../../components/higher-order/addTranslate";
 import { Query } from "react-apollo";
 import { ME } from "../../components/gql";
 import Header from "./components/Header.js";
-import { USER } from "./gql.js";
+import { USER, UPDATE_USER } from "./gql.js";
 import Sidebar, { Spacing } from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
 import { Overview, Settings } from "./routes";
 import { Container, Row, Col } from "./components/Blocks.js";
+import { useMutation } from "react-apollo-hooks";
 
-const Content = ({ match, user, loading }) => {
+const Content = React.memo(({ match, ...userProps }) => {
 	return (
 		<Container>
 			<Row>
-				<Sidebar user={user} loading={loading} />
+				<Sidebar {...userProps} />
 
 				<Col
 					style={{
@@ -36,31 +37,34 @@ const Content = ({ match, user, loading }) => {
 						/>
 						<Route
 							path={match.path + "/overview"}
-							component={props => (
-								<Overview {...props} user={user} loading={loading} />
-							)}
+							component={props => <Overview {...props} {...userProps} />}
 						/>
 						<Route
 							path={match.path + "/settings"}
-							component={props => (
-								<Settings {...props} user={user} loading={loading} />
-							)}
+							component={props => <Settings {...props} {...userProps} />}
 						/>
 					</Switch>
 				</Col>
 			</Row>
 		</Container>
 	);
-};
+});
 
 const Index = ({ translate, match }) => {
+	const [updateUser] = useMutation(UPDATE_USER);
+
 	return (
 		<Query query={USER} variables={{ permalink: match.params.permalink }}>
 			{({ data: { user }, loading }) => (
 				<div>
 					<div>
 						<Header user={user} loading={loading} />
-						<Content match={match} user={user} loading={loading} />
+						<Content
+							match={match}
+							user={user}
+							loading={loading}
+							updateUser={updateUser}
+						/>
 					</div>
 					<Footer
 						noSkew
