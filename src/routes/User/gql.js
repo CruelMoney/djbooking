@@ -64,6 +64,8 @@ const UPDATE_USER = gql`
 		$genres: [String!]
 		$bio: String
 		$redirectLink: String
+		$birthday: DateTime
+		$password: String
 	) {
 		updateUser(
 			id: $id
@@ -76,6 +78,8 @@ const UPDATE_USER = gql`
 			genres: $genres
 			bio: $bio
 			phone: $phone
+			birthday: $birthday
+			password: $password
 		) {
 			id
 			auth0Id

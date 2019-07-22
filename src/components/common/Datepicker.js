@@ -34,7 +34,6 @@ class MyDatePicker extends Component {
 					minDate={minDate !== undefined ? minDate : new Date()}
 					selected={this.state.startDate}
 					onChange={this.handleChange}
-					peekNextMonth
 					{...rest}
 				/>
 			</div>

@@ -18,8 +18,8 @@ import {
 } from "../components/Blocks";
 import emailValidator from "email-validator";
 import Popup from "../../../components/common/Popup";
-import Button from "../../../components/common/Button-v2";
 import DatePicker from "../../../components/common/Datepicker";
+import constants from "../../../constants/constants";
 
 const TableRow = styled(Row)`
 	height: 42px;
@@ -78,7 +78,11 @@ const Settings = ({ user, loading, updateUser }) => {
 		};
 		if (hasChanges(data, flatUser)) {
 			await updateUser({
-				variables: { id: user.id, ...data }
+				variables: {
+					id: user.id,
+					redirectLink: constants.Environment.CALLBACK_DOMAIN,
+					...data
+				}
 			});
 		}
 	};
@@ -153,7 +157,7 @@ const Settings = ({ user, loading, updateUser }) => {
 				/>
 				<PasswordChanger saveData={saveData}></PasswordChanger>
 
-				<BirthdayPicker saveData={saveData} />
+				<BirthdayPicker saveData={saveData} birthday={birthday} />
 				<Input half button label="Profile picture" children="change picture" />
 
 				<Input
@@ -249,17 +253,14 @@ const Settings = ({ user, loading, updateUser }) => {
 	);
 };
 
-// half
-// button
-// label="Birthday"
-// attention={!birthday}
-// children={
-// 	birthday ? moment(birthday).format("DD/MM/YYYY") : "Update birthday"
-// }
-
-const BirthdayPicker = ({ birthday }) => {
+const BirthdayPicker = ({ birthday, saveData }) => {
 	const [showing, setShowing] = useState(false);
 	const initialDate = birthday ? moment(birthday) : null;
+
+	const save = moment => {
+		setShowing(false);
+		saveData({ birthday: moment.toDate() });
+	};
 
 	return (
 		<>
@@ -282,8 +283,7 @@ const BirthdayPicker = ({ birthday }) => {
 					initialDate={initialDate}
 					minDate={null}
 					maxDate={new Date()}
-					handleChange={console.log}
-
+					handleChange={save}
 					showMonthDropdown
 					showYearDropdown
 					dropdownMode="select"
