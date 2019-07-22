@@ -33,17 +33,24 @@ class Popup extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showing: props.showing
+			showing: props.showing,
+			showingChildren: props.showing
 		};
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({
-			showing: nextProps.showing
+			showing: nextProps.showing,
+			showingChildren: true
 		});
 		if (!nextProps.showing) {
 			//  document.getElementById("root").style.webkitFilter = "blur(0px)"
 			removeClass("popup-open", document.body);
+			setTimeout(() => {
+				this.setState({
+					showingChildren: false
+				});
+			}, 500);
 		} else {
 			this.applyBlur();
 			addClass("popup-open", document.body);
@@ -56,7 +63,6 @@ class Popup extends Component {
 
 	handleClickOutside = evt => {
 		const { onClickOutside } = this.props;
-
 		onClickOutside();
 	};
 
@@ -66,7 +72,7 @@ class Popup extends Component {
 
 	render() {
 		const { noPadding, width, hideClose, noBackground, children } = this.props;
-
+		const { showingChildren } = this.state;
 		const style = {
 			overlay: {
 				position: "fixed",
@@ -151,7 +157,7 @@ class Popup extends Component {
 								</span>
 							</div>
 						) : null}
-						{this.state.showing ? <div>{children}</div> : null}
+						{showingChildren ? <div>{children}</div> : null}
 					</div>
 				</div>
 			</Modal>

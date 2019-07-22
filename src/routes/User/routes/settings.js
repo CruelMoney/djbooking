@@ -150,7 +150,7 @@ const Settings = ({ user, loading, updateUser }) => {
 					name="phone"
 					onSave={phone => saveData({ phone: phone.trim() })}
 				/>
-				<PasswordChanger></PasswordChanger>
+				<PasswordChanger saveData={saveData}></PasswordChanger>
 
 				<Input
 					half
@@ -256,8 +256,33 @@ const Settings = ({ user, loading, updateUser }) => {
 	);
 };
 
-const PasswordChanger = () => {
+const PasswordChanger = ({ saveData }) => {
 	const [showing, setShowing] = useState(false);
+	const [password, setPassword] = useState(null);
+	const [rPassword, setRPassword] = useState(null);
+
+	const validateLength = val => {
+		if (!val || val.length < 6) {
+			return "Password must be at least 6 characters";
+		}
+	};
+
+	const validateEqual = val => {
+		if (password !== val) {
+			return "Passwords are not the same";
+		}
+	};
+
+	const validate = () => {
+		return [validateEqual(rPassword), validateLength(password)].some(v => !v);
+	};
+
+	const save = () => {
+		if (validate()) {
+			saveData({ password });
+			setShowing(false);
+		}
+	};
 
 	return (
 		<>
@@ -271,17 +296,36 @@ const PasswordChanger = () => {
 			<Popup
 				showing={showing}
 				onClickOutside={_ => setShowing(false)}
-				style={{ width: "300px" }}
+				width={"520px"}
 			>
-				<form>
-					<Input label="New password" placeholder={"Min. 6 characters"} />
-					<Input label="Repeat password" placeholder={"Min. 6 characters"} />
+				<form
+					onSubmit={e => {
+						e.preventDefault();
+						save();
+					}}
+				>
+					<Input
+						label="New password"
+						placeholder={"Min. 6 characters"}
+						type="password"
+						autoComplete="new-password"
+						onSave={setPassword}
+						validation={validateLength}
+					/>
+					<Input
+						label="Repeat password"
+						placeholder={"Min. 6 characters"}
+						type="password"
+						autoComplete="new-password"
+						onSave={setRPassword}
+						validation={validateEqual}
+					/>
 
 					<Row right>
-						<TeritaryButton onClick={_ => setShowing(false)}>
+						<TeritaryButton type="button" onClick={_ => setShowing(false)}>
 							Cancel
 						</TeritaryButton>
-						<PrimaryButton>Save</PrimaryButton>
+						<PrimaryButton type="submit">Save</PrimaryButton>
 					</Row>
 				</form>
 			</Popup>
