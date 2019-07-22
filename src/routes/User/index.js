@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router";
 
 import content from "./content.json";
@@ -14,6 +14,8 @@ import Footer from "../../components/common/Footer.js";
 import { Overview, Settings } from "./routes";
 import { Container, Row, Col } from "./components/Blocks.js";
 import { useMutation } from "react-apollo-hooks";
+import Notification from "../../components/common/Notification.js";
+import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
 
 const Content = React.memo(({ match, ...userProps }) => {
 	return (
@@ -51,12 +53,13 @@ const Content = React.memo(({ match, ...userProps }) => {
 });
 
 const Index = ({ translate, match }) => {
-	const [updateUser] = useMutation(UPDATE_USER);
+	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);
 
 	return (
 		<Query query={USER} variables={{ permalink: match.params.permalink }}>
 			{({ data: { user }, loading }) => (
 				<div>
+					<SavingIndicator loading={isSaving} error={error} />
 					<div>
 						<Header user={user} loading={loading} />
 						<Content
@@ -78,6 +81,25 @@ const Index = ({ translate, match }) => {
 				</div>
 			)}
 		</Query>
+	);
+};
+
+const SavingIndicator = ({ loading, error }) => {
+	const [active, setActive] = useState(false);
+
+	useEffect(() => {
+		if (loading === false) {
+			const r = setTimeout(_ => setActive(false), 1000);
+			return _ => clearTimeout(r);
+		} else {
+			setActive(true);
+		}
+	}, [loading]);
+
+	return (
+		<Notification overlay active={active} loading={true} message={"Saving"}>
+			{error && <ErrorMessageApollo error={error} />}
+		</Notification>
 	);
 };
 

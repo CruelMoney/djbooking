@@ -2559,12 +2559,12 @@ header .info-boxes {
 	width: 100%;
 	display: flex;
 	align-items: center;
-	transform: translateY(-200%);
+	transform: translateY(-100%);
 	top: 3px;
 	color: white;
 	z-index: 200;
 	pointer-events: none;
-	transition: transform 1s ease;
+	transition: transform 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .notification-overlay.active {
 	transform: translateY(0%);

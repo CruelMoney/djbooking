@@ -114,7 +114,18 @@ const Input = ({ half, label, button, ...props }) => {
 	return (
 		<LabelComponent>
 			{label}
-			{button ? <ButtonInput {...props} /> : <TextInput {...props} />}
+			{button ? (
+				<ButtonInput {...props} />
+			) : (
+				<TextInput
+					{...props}
+					onKeyDown={e => {
+						if (e.key === "Enter") {
+							e.target.blur();
+						}
+					}}
+				/>
+			)}
 		</LabelComponent>
 	);
 };
