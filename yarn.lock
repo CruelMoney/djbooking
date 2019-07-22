@@ -1716,6 +1716,13 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
+"@viewstools/use-masked-input@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@viewstools/use-masked-input/-/use-masked-input-1.0.3.tgz#799e1e0b6f4dccd7d54a8d9dc31da8224d063608"
+  integrity sha512-lMCZO23nhvXGTPD900/reTe/GireO/kHOSjYkfOBUJfpgnIh+1I2zTi7tS7is3XuV3xVNi7X/C2aseCGBm4Ofw==
+  dependencies:
+    text-mask-core "^5.1.2"
+
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.8.5.tgz#51b1c5fe6576a34953bf4b253df9f0d490d9e359"
@@ -13850,6 +13857,11 @@ test-exclude@^5.2.3:
     minimatch "^3.0.4"
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
+
+text-mask-core@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/text-mask-core/-/text-mask-core-5.1.2.tgz#80dd5ebe04825757e46619e691407a9f8b3c1b6f"
+  integrity sha1-gN1evgSCV1fkZhnmkUB6n4s8G28=
 
 text-table@0.2.0, text-table@^0.2.0:
   version "0.2.0"

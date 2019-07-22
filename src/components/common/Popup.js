@@ -39,7 +39,6 @@ const Popup = ({
 	const [showingChildren, setShowingChildren] = useState({ showing });
 
 	useEffect(() => {
-		setShowingChildren(true);
 		if (!showing) {
 			//  document.getElementById("root").style.webkitFilter = "blur(0px)"
 			removeClass("popup-open", document.body);
@@ -50,6 +49,7 @@ const Popup = ({
 				clearTimeout(to);
 			};
 		} else {
+			setShowingChildren(true);
 			addClass("popup-open", document.body);
 		}
 	}, [showing]);

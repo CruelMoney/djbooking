@@ -51,7 +51,7 @@ const Checkbox = ({ className, defaultValue, ...props }) => {
 	const [checked, setChecked] = useState(defaultValue);
 	return (
 		<CheckboxContainer className={className} onClick={_ => setChecked(v => !v)}>
-			<HiddenCheckbox checked={checked} {...props} />
+			<HiddenCheckbox checked={checked} onChange={console.log} {...props} />
 			<StyledCheckbox checked={checked}>
 				<Icon viewBox="0 0 24 24">
 					<path

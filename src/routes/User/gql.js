@@ -12,6 +12,9 @@ const USER = gql`
 			picture {
 				path
 			}
+			coverPhoto {
+				path
+			}
 			playingLocation {
 				name
 				radius
@@ -66,6 +69,8 @@ const UPDATE_USER = gql`
 		$redirectLink: String
 		$birthday: DateTime
 		$password: String
+		$artistName: String
+		$permalink: String
 	) {
 		updateUser(
 			id: $id
@@ -80,13 +85,19 @@ const UPDATE_USER = gql`
 			phone: $phone
 			birthday: $birthday
 			password: $password
+			artistName: $artistName
+			permalink: $permalink
 		) {
 			id
 			auth0Id
 			email
 			permalink
+			artistName
 			genres
 			picture {
+				path
+			}
+			coverPhoto {
 				path
 			}
 			playingLocation {

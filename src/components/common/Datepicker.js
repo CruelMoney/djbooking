@@ -23,7 +23,6 @@ class MyDatePicker extends Component {
 
 	render() {
 		const { minDate, dark, initialDate, ...rest } = this.props;
-		console.log("redner");
 		return (
 			<div
 				style={{ color: "#32325d" }}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { Row, Col } from "./Blocks";
 import { Title, Body } from "./Text";
@@ -106,6 +106,14 @@ const TextInput = styled.input`
 	}
 `;
 
+const PrefixWrapper = styled.div`
+	${inputStyle}
+	display: flex;
+	${TextInput} {
+		display: inline-block;
+	}
+`;
+
 const buttonStyle = css`
 	${inputStyle}
 	text-align: center;
@@ -140,6 +148,32 @@ const FileInput = styled.input.attrs({ type: "file" })`
 	z-index: -1;
 `;
 
+const FormattedText = ({ defaultValue, save, ...props }) => {
+	const prefix = "https://cueup.io/user/";
+
+	const [value, setValue] = useState(defaultValue);
+
+	const updateVal = val => {
+		if (val.indexOf(prefix) === -1) {
+			setValue("");
+			return;
+		}
+		val = val.replace(prefix, "");
+		val = val.replace(/[^\w-:]|_/, "");
+		setValue(val.toLowerCase());
+	};
+
+	return (
+		<TextInput
+			{...props}
+			type="text"
+			onChange={e => updateVal(e.target.value)}
+			onBlur={e => save(value)}
+			value={prefix + value}
+		/>
+	);
+};
+
 const InputType = ({ type, error, save, children, ...props }) => {
 	switch (type) {
 		case "button":
@@ -152,6 +186,20 @@ const InputType = ({ type, error, save, children, ...props }) => {
 				</FileInputWrapper>
 			);
 
+		case "formatted-text":
+			return (
+				<FormattedText
+					{...props}
+					type={type}
+					error={!!error}
+					save={save}
+					onKeyDown={e => {
+						if (e.key === "Enter") {
+							e.target.blur();
+						}
+					}}
+				/>
+			);
 		default:
 			return (
 				<TextInput
@@ -174,7 +222,7 @@ const Input = ({ half, label, type, onSave, validation, ...props }) => {
 	const LabelComponent = half ? LabelHalf : InputLabel;
 
 	const save = e => {
-		const value = e.target.value;
+		const value = e.target ? e.target.value : e;
 		if (validation) {
 			const validationError = validation(value);
 			if (validationError) {

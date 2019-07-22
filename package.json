@@ -16,6 +16,7 @@
 		"@sentry/browser": "^5.4.3",
 		"@svgr/core": "^3.1.0",
 		"@svgr/webpack": "^3.1.0",
+		"@viewstools/use-masked-input": "^1.0.3",
 		"apollo-cache-inmemory": "^1.6.2",
 		"apollo-client": "^2.6.3",
 		"apollo-link": "^1.2.12",

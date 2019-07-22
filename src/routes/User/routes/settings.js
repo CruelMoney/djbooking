@@ -98,11 +98,11 @@ const Settings = ({ user, loading, updateUser }) => {
 		await saveData(data);
 	};
 
-	const savePicture = async file => {
+	const saveFile = key => async file => {
 		await updateUser({
 			variables: {
 				id: user.id,
-				picture: file
+				[key]: file
 			}
 		});
 	};
@@ -117,7 +117,8 @@ const Settings = ({ user, loading, updateUser }) => {
 		userSettings,
 		email,
 		artistName,
-		picture
+		picture,
+		permalink
 	} = user;
 	const { firstName, lastName, phone, birthday, bankAccount } = userMetadata;
 	const { cancelationPolicy, currency } = userSettings;
@@ -134,7 +135,7 @@ const Settings = ({ user, loading, updateUser }) => {
 					defaultValue={`${firstName} ${lastName}`}
 					placeholder="First Last"
 					type="text"
-					autocomplete="name"
+					autoComplete="name"
 					name="name"
 					onSave={saveFullName}
 					validation={v => {
@@ -149,7 +150,7 @@ const Settings = ({ user, loading, updateUser }) => {
 					defaultValue={email}
 					placeholder="mail@email.com"
 					type="email"
-					autocomplete="email"
+					autoComplete="email"
 					name="email"
 					onSave={email => saveData({ email: email.trim() })}
 					validation={v =>
@@ -162,19 +163,19 @@ const Settings = ({ user, loading, updateUser }) => {
 					defaultValue={phone}
 					placeholder="+123456789"
 					type="tel"
-					autocomplete="tel"
+					autoComplete="tel"
 					name="phone"
 					onSave={phone => saveData({ phone: phone.trim() })}
 				/>
-				<PasswordChanger saveData={saveData}></PasswordChanger>
+				<PasswordChanger onSave={saveData}></PasswordChanger>
 
-				<BirthdayPicker saveData={saveData} birthday={birthday} />
+				<BirthdayPicker onSave={saveData} birthday={birthday} />
 				<ImageUploader
 					half
 					label="Profile picture"
 					children="change picture"
 					attention={!picture}
-					saveData={savePicture}
+					onSave={saveFile("picture")}
 				/>
 
 				<Input
@@ -198,8 +199,19 @@ const Settings = ({ user, loading, updateUser }) => {
 					defaultValue={artistName}
 					placeholder="Dj Khaled"
 					type="text"
+					onSave={artistName => saveData({ artistName: artistName.trim() })}
 				/>
-				<Input label="URL" placeholder="https://cueup.io/" type="text" />
+				<Input
+					label="URL"
+					placeholder="https://cueup.io/"
+					type="formatted-text"
+					defaultValue={permalink}
+					onSave={async permalink => {
+						try {
+							await saveData({ permalink: permalink.trim() });
+						} catch (error) {}
+					}}
+				/>
 				<Input
 					half
 					type="button"
@@ -220,7 +232,13 @@ const Settings = ({ user, loading, updateUser }) => {
 				/>
 				<Input half type="button" label="Bio" children={"edit"} />
 
-				<Input half type="button" label="Cover photo" children="Change photo" />
+				<ImageUploader
+					half
+					label="Cover photo"
+					children="change photo"
+					onSave={saveFile("coverPhoto")}
+				/>
+
 				<Input
 					half
 					type="button"
@@ -281,13 +299,13 @@ const Settings = ({ user, loading, updateUser }) => {
 	);
 };
 
-const BirthdayPicker = ({ birthday, saveData }) => {
+const BirthdayPicker = ({ birthday, onSave }) => {
 	const [showing, setShowing] = useState(false);
 	const initialDate = birthday ? moment(birthday) : null;
 
 	const save = moment => {
 		setShowing(false);
-		saveData({ birthday: moment.toDate() });
+		onSave({ birthday: moment.toDate() });
 	};
 
 	return (
@@ -321,7 +339,7 @@ const BirthdayPicker = ({ birthday, saveData }) => {
 	);
 };
 
-const PasswordChanger = ({ saveData }) => {
+const PasswordChanger = ({ onSave }) => {
 	const [showing, setShowing] = useState(false);
 	const [password, setPassword] = useState(null);
 	const [rPassword, setRPassword] = useState(null);
@@ -344,7 +362,7 @@ const PasswordChanger = ({ saveData }) => {
 
 	const save = () => {
 		if (validate()) {
-			saveData({ password });
+			onSave({ password });
 			setShowing(false);
 		}
 	};
