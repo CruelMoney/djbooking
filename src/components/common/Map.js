@@ -50,14 +50,27 @@ class SimpleMap extends Component {
 	}
 
 	handleRadiusChange = circle => {
-		this.context.updateValue(this.props.radiusName, circle.getRadius());
+		const radius = circle.getRadius();
+		if (this.context.updateValue) {
+			this.context.updateValue(this.props.radiusName, radius);
+		}
+		if (this.props.onRadiusChange) {
+			this.props.onRadiusChange(radius);
+		}
 	};
 
 	handleLocationChange = circle => {
-		this.context.updateValue(this.props.locationName, {
+		const data = {
 			lat: circle.getCenter().lat(),
 			lng: circle.getCenter().lng()
-		});
+		};
+
+		if (this.context.updateValue) {
+			this.context.updateValue(this.props.locationName, data);
+		}
+		if (this.props.onCoordinatesChange) {
+			this.props.onCoordinatesChange(data);
+		}
 	};
 
 	getZoomLevel(radius) {
