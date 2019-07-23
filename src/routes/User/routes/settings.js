@@ -25,7 +25,7 @@ const hasChanges = (o1, o2) => {
 	return keys.some(key => o2[key] !== o1[key]);
 };
 
-const Settings = ({ user, loading, updateUser, translate }) => {
+const Settings = ({ user, loading, updateUser, translate, history }) => {
 	const saveData = async data => {
 		const flatUser = {
 			...user,
@@ -288,15 +288,28 @@ const Settings = ({ user, loading, updateUser, translate }) => {
 						history.push(`/`);
 					}}
 				>
-					{(deleteUser, { loading }) => (
-						<Input
-							half
-							type="button"
-							label="Delete user"
-							warning={translate("user.preferences.delete-warning")}
-							buttonText="delete"
-						/>
-					)}
+					{deleteUser => {
+						const doMutate = () => {
+							const confirmed = window.confirm(
+								translate("user.preferences.delete-warning")
+							);
+							if (!confirmed) {
+								return;
+							}
+							deleteUser();
+						};
+
+						return (
+							<Input
+								half
+								type="button"
+								label="Delete user"
+								warning={true}
+								onClick={() => doMutate()}
+								buttonText="delete"
+							/>
+						);
+					}}
 				</Mutation>
 				<Input
 					half

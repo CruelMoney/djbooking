@@ -251,6 +251,7 @@ const Input = ({
 	error: propsError,
 	half,
 	label,
+	warning,
 	type,
 	onSave,
 	validation,
@@ -261,6 +262,14 @@ const Input = ({
 
 	const save = e => {
 		const value = e.target ? e.target.value : e;
+
+		if (warning) {
+			const confirmed = window.confirm(warning);
+			if (!confirmed) {
+				return;
+			}
+		}
+
 		if (validation) {
 			const validationError = validation(value);
 			if (validationError) {
@@ -270,13 +279,20 @@ const Input = ({
 				setError(null);
 			}
 		}
+
 		onSave && onSave(value, e);
 	};
 
 	return (
 		<LabelComponent>
 			{label}
-			<InputType type={type} save={save} error={error} {...props} />
+			<InputType
+				type={type}
+				save={save}
+				error={error}
+				warning={warning}
+				{...props}
+			/>
 			{error && <p className="error">{error}</p>}
 			{propsError && <p className="error">{propsError}</p>}
 		</LabelComponent>
