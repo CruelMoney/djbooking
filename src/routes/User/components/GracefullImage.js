@@ -14,7 +14,7 @@ function useImageLoaded({ src }) {
 	return loaded;
 }
 
-const GracefullImage = ({ src, style, ...props }) => {
+const GracefullImage = ({ src, style, alt, ...props }) => {
 	const loaded = useImageLoaded({
 		src
 	});
@@ -31,7 +31,7 @@ const GracefullImage = ({ src, style, ...props }) => {
 		);
 	}
 
-	return <img src={src} style={style} {...props} />;
+	return <img src={src} style={style} alt={alt} {...props} />;
 };
 
 export default GracefullImage;

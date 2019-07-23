@@ -5,7 +5,7 @@ import Rating from "../../../components/common/Rating";
 import VerifiedBadge from "../../../components/graphics/VerifiedBadge";
 import Tooltip from "./Tooltip";
 import { LoadingIndicator } from "../../../components/common/LoadingPlaceholder";
-import { Col, Container, FullWidthCol, Row, MarginBottom } from "./Blocks";
+import { Container, FullWidthCol, Row, MarginBottom } from "./Blocks";
 import { Spacing } from "./Sidebar";
 
 const GradientBg = styled.section`

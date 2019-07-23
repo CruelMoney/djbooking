@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { Row, Col } from "./Blocks";
 import { Title, Body } from "./Text";

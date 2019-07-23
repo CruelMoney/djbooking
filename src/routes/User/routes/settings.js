@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
 	SettingsSection,
 	Input,
-	ButtonText,
 	DeleteFileButton
 } from "../components/FormComponents";
 import emailValidator from "email-validator";
@@ -247,7 +246,6 @@ const Settings = ({ user, loading, updateUser, translate }) => {
 					label="Preferred currency"
 					buttonText={currency ? currency : "update"}
 				/>
-
 				<NotificationPreferences />
 			</SettingsSection>
 

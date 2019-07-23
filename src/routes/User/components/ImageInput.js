@@ -9,11 +9,7 @@ const ImageUploader = ({ onSave, options, ...props }) => {
 		const file = e.target.files[0];
 
 		try {
-			const { file: image, imageData: base64 } = await ImageCompressor(
-				file,
-				true,
-				options
-			);
+			const { file: image } = await ImageCompressor(file, true, options);
 
 			onSave(image);
 		} catch (error) {

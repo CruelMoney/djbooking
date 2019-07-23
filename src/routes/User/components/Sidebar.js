@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Container, Row, Divider, Col } from "./Blocks";
+import { Row, Divider, Col } from "./Blocks";
 import { Stat, SmallHeader } from "./Text";
 import GracefullImage from "./GracefullImage";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
@@ -102,8 +102,7 @@ const IconRow = styled(Row)`
 `;
 
 const Content = ({ user }) => {
-	const { userMetadata, appMetadata, playingLocation, userSettings } =
-		user || {};
+	const { userMetadata, appMetadata, playingLocation } = user || {};
 	const {
 		experience,
 		followers,

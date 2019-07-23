@@ -94,9 +94,6 @@ const Bio = ({ bio, firstName }) => {
 	);
 };
 
-const Sound = ({ bio }) => <Item>Sound</Item>;
-const Images = ({ bio }) => <Item>Images</Item>;
-
 const Genres = ({ genres }) => (
 	<GenresLayout>
 		{genres.map(g => (

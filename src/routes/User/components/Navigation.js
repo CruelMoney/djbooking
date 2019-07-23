@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router-dom";

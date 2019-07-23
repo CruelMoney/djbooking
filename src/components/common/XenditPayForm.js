@@ -165,7 +165,7 @@ class XenditForm extends PureComponent {
 }
 
 const ConnectedCard = connectToForm(({ refForward, onChange }) => {
-	const [loaded, error] = useScript("https://js.xendit.co/v1/xendit.min.js");
+	const [loaded] = useScript("https://js.xendit.co/v1/xendit.min.js");
 
 	if (loaded) {
 		window.Xendit.setPublishableKey(process.env.REACT_APP_XENDIT_PUB_KEY);

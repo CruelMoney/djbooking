@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import { Input, ButtonText, Label, TextArea } from "./FormComponents";
+import { Input, TextArea } from "./FormComponents";
 import { Row, TeritaryButton, PrimaryButton } from "./Blocks";
 import Popup from "../../../components/common/Popup";
-import Button from "../../../components/common/Button-v2";
-import { ToggleOptions } from "../../../components/common/Form-v2";
-import Slider from "../../../components/common/Slider";
-import { Stat, StatUnit, BodySmall } from "./Text";
-import ArrowIcon from "react-ionicons/lib/MdArrowRoundForward";
+import { BodySmall } from "./Text";
 
 const BioPopup = ({ initialValue, save, translate }) => {
 	const [bio, setBio] = useState(initialValue);

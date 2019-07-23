@@ -6,10 +6,9 @@ import requestformContent from "../../components/common/RequestForm/content.json
 import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
 import { Query } from "react-apollo";
-import { ME } from "../../components/gql";
 import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
-import Sidebar, { Spacing } from "./components/Sidebar.js";
+import Sidebar from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
 import { Overview, Settings } from "./routes";
 import { Container, Row, Col } from "./components/Blocks.js";
