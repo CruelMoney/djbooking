@@ -12,7 +12,9 @@ const ReadMoreExpander = ({ content }) => {
 
 	return (
 		<>
-			<Body>{expanded ? content : truncated}</Body>
+			<Body style={{ whiteSpace: "pre-wrap" }}>
+				{expanded ? content : truncated}
+			</Body>
 			{shouldTruncate ? (
 				<ReadMoreButton onClick={_ => setExpanded(s => !s)}>
 					{expanded ? "Read less" : "Read more"}

@@ -176,8 +176,31 @@ const FormattedText = ({ defaultValue, save, ...props }) => {
 	);
 };
 
+const Select = styled.select`
+	${inputStyle}
+	text-align: center;
+	line-height: 40px !important;
+	transition: all 200ms ease;
+	cursor: pointer;
+	:hover {
+		${({ warning }) =>
+			warning
+				? `background: #D0021B;
+      color: white;
+    `
+				: `background: #e9ecf0;
+    `};
+	}
+`;
+
 const InputType = ({ buttonText, type, error, save, children, ...props }) => {
 	switch (type) {
+		case "select":
+			return (
+				<Select {...props} error={!!error} onChange={save}>
+					{children}
+				</Select>
+			);
 		case "button":
 			return (
 				<ButtonInput {...props} error={!!error}>
@@ -274,6 +297,7 @@ const Value = styled.p`
 `;
 
 const TextArea = styled.textarea`
+	${inputStyle}
 	resize: none;
 	text-indent: 0;
 	padding: 0.5em;
@@ -297,5 +321,6 @@ export {
 	Value,
 	Checkbox,
 	DeleteFileButton,
-	TextArea
+	TextArea,
+	Select
 };

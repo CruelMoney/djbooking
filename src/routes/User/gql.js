@@ -40,6 +40,7 @@ const USER = gql`
 				}
 			}
 			userSettings {
+				currency
 				standby
 				cancelationPolicy {
 					days
@@ -75,6 +76,7 @@ const UPDATE_USER = gql`
 		$standby: Boolean
 		$cancelationDays: Int
 		$refundPercentage: Int
+		$currency: Currency
 	) {
 		updateUser(
 			id: $id
@@ -95,6 +97,7 @@ const UPDATE_USER = gql`
 			standby: $standby
 			cancelationDays: $cancelationDays
 			refundPercentage: $refundPercentage
+			currency: $currency
 		) {
 			id
 			auth0Id

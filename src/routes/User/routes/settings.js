@@ -242,10 +242,24 @@ const Settings = ({ user, loading, updateUser, translate }) => {
 
 				<Input
 					half
-					type="button"
+					type="select"
 					label="Preferred currency"
-					buttonText={currency ? currency : "update"}
-				/>
+					defaultValue={currency || ""}
+					onSave={currency => saveData({ currency })}
+				>
+					<option disabled value="">
+						update
+					</option>
+
+					{constants.Currencies.map(c => ({
+						label: c,
+						value: c
+					})).map(({ label, value }, idx) => (
+						<option key={`option-${idx}`} value={value}>
+							{label}
+						</option>
+					))}
+				</Input>
 				<NotificationPreferences />
 			</SettingsSection>
 
