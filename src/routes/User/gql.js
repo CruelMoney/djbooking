@@ -63,6 +63,7 @@ const UPDATE_USER = gql`
 		$lastName: String
 		$phone: String
 		$picture: Upload
+		$coverPhoto: Upload
 		$playingLocation: Area
 		$genres: [String!]
 		$bio: String
@@ -79,6 +80,7 @@ const UPDATE_USER = gql`
 			firstName: $firstName
 			lastName: $lastName
 			picture: $picture
+			coverPhoto: $coverPhoto
 			playingLocation: $playingLocation
 			genres: $genres
 			bio: $bio

@@ -1,14 +1,20 @@
-
-export const ImageCompressor = (file, asFile) => {
+export const ImageCompressor = (
+	file,
+	asFile,
+	options = {
+		maxWidth: 500,
+		maxHeight: 500
+	}
+) => {
 	return new Promise(async (resolve, reject) => {
 		const loadJS = require("load-js");
 		await loadJS(["/load-image.all.min.js"]);
 		const reader = new FileReader();
 		reader.onload = upload => {
-			if (file.size / 1024 > 5000) {
-				reject("Image cannot be larger than 5 Mb", null);
-				return;
-			}
+			// if (file.size / 1024 > 5000) {
+			// 	reject("Image cannot be larger than 5 Mb", null);
+			// 	return;
+			// }
 			var loadingImage = window.loadImage(
 				file,
 				async img => {
@@ -31,8 +37,8 @@ export const ImageCompressor = (file, asFile) => {
 					}
 				},
 				{
-					maxWidth: 500,
-					maxHeight: 500,
+					maxWidth: options.maxWidth,
+					maxHeight: options.maxHeight,
 					cover: true,
 					orientation: true,
 					crop: true

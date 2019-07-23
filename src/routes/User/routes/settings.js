@@ -207,9 +207,7 @@ const Settings = ({ user, loading, updateUser }) => {
 					type="formatted-text"
 					defaultValue={permalink}
 					onSave={async permalink => {
-						try {
-							await saveData({ permalink: permalink.trim() });
-						} catch (error) {}
+						saveData({ permalink: permalink.trim() });
 					}}
 				/>
 				<Input
@@ -237,6 +235,7 @@ const Settings = ({ user, loading, updateUser }) => {
 					label="Cover photo"
 					children="change photo"
 					onSave={saveFile("coverPhoto")}
+					options={{ maxWidth: 1440, maxHeight: 400 }}
 				/>
 
 				<Input

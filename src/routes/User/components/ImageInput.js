@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { Input } from "./FormComponents";
 
-const ImageUploader = ({ onSave, ...props }) => {
+const ImageUploader = ({ onSave, options, ...props }) => {
 	const [error, setError] = useState(null);
 
 	const handleFile = async (_, e) => {
@@ -11,12 +11,14 @@ const ImageUploader = ({ onSave, ...props }) => {
 		try {
 			const { file: image, imageData: base64 } = await ImageCompressor(
 				file,
-				true
+				true,
+				options
 			);
 
 			onSave(image);
 		} catch (error) {
-			setError(error.message);
+			console.log({ error });
+			setError(error.message || error);
 		}
 	};
 
@@ -27,6 +29,7 @@ const ImageUploader = ({ onSave, ...props }) => {
 			accept="image/*"
 			onSave={handleFile}
 			{...props}
+			error={error}
 		/>
 	);
 };

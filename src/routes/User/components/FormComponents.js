@@ -217,7 +217,15 @@ const InputType = ({ type, error, save, children, ...props }) => {
 	}
 };
 
-const Input = ({ half, label, type, onSave, validation, ...props }) => {
+const Input = ({
+	error: propsError,
+	half,
+	label,
+	type,
+	onSave,
+	validation,
+	...props
+}) => {
 	const [error, setError] = useState(null);
 	const LabelComponent = half ? LabelHalf : InputLabel;
 
@@ -240,6 +248,7 @@ const Input = ({ half, label, type, onSave, validation, ...props }) => {
 			{label}
 			<InputType type={type} save={save} error={error} {...props} />
 			{error && <p className="error">{error}</p>}
+			{propsError && <p className="error">{propsError}</p>}
 		</LabelComponent>
 	);
 };

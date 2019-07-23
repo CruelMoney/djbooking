@@ -10,13 +10,20 @@ import { Spacing } from "./Sidebar";
 
 const GradientBg = styled.section`
 	height: 318px;
-	background-image: linear-gradient(
+	background: linear-gradient(
 			-180deg,
 			rgba(0, 0, 0, 0) 0%,
 			rgba(0, 0, 0, 0.5) 100%
 		),
-		linear-gradient(-56deg, #31fff5 0%, #31ffc5 11%, #00d1ff 80%, #32daff 87%);
-
+		${({ coverPhoto }) =>
+				coverPhoto
+					? `url(${coverPhoto.path})`
+					: "linear-gradient(-56deg, #31fff5 0%, #31ffc5 11%, #00d1ff 80%, #32daff 87%)"}
+			no-repeat center center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 	flex: 1;
 	display: flex;
 	align-items: flex-end;
@@ -65,7 +72,7 @@ const ReviewsCount = styled.p`
 
 const Header = ({ user, loading }) => {
 	return (
-		<GradientBg>
+		<GradientBg coverPhoto={user && user.coverPhoto}>
 			<Container>
 				<Row className="wrapper">
 					<Spacing />
