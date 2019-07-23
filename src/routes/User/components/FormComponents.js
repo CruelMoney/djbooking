@@ -106,14 +106,6 @@ const TextInput = styled.input`
 	}
 `;
 
-const PrefixWrapper = styled.div`
-	${inputStyle}
-	display: flex;
-	${TextInput} {
-		display: inline-block;
-	}
-`;
-
 const buttonStyle = css`
 	${inputStyle}
 	text-align: center;
@@ -281,6 +273,22 @@ const Value = styled.p`
 	color: #122b48;
 `;
 
+const TextArea = styled.textarea`
+	resize: none;
+	text-indent: 0;
+	padding: 0.5em;
+	::placeholder,
+	::-webkit-input-placeholder {
+		color: #98a4b3;
+	}
+	:-ms-input-placeholder {
+		color: #98a4b3;
+	}
+	:focus {
+		background: #e9ecf0;
+	}
+`;
+
 export {
 	ButtonText,
 	Input,
@@ -288,5 +296,6 @@ export {
 	SettingsSection,
 	Value,
 	Checkbox,
-	DeleteFileButton
+	DeleteFileButton,
+	TextArea
 };

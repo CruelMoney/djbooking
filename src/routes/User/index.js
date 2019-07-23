@@ -18,7 +18,6 @@ import Notification from "../../components/common/Notification.js";
 import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
 
 const Content = React.memo(({ match, ...userProps }) => {
-	console.log({ userProps });
 	return (
 		<Container>
 			<Row>
@@ -68,6 +67,7 @@ const Index = ({ translate, match }) => {
 							user={user}
 							loading={loading}
 							updateUser={updateUser}
+							translate={translate}
 						/>
 					</div>
 					<Footer

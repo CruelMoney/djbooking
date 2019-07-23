@@ -72,6 +72,9 @@ const UPDATE_USER = gql`
 		$password: String
 		$artistName: String
 		$permalink: String
+		$standby: Boolean
+		$cancelationDays: Int
+		$refundPercentage: Int
 	) {
 		updateUser(
 			id: $id
@@ -89,6 +92,9 @@ const UPDATE_USER = gql`
 			password: $password
 			artistName: $artistName
 			permalink: $permalink
+			standby: $standby
+			cancelationDays: $cancelationDays
+			refundPercentage: $refundPercentage
 		) {
 			id
 			auth0Id
@@ -100,54 +106,6 @@ const UPDATE_USER = gql`
 				path
 			}
 			coverPhoto {
-				path
-			}
-			playingLocation {
-				name
-				radius
-				longitude
-				latitude
-			}
-			userMetadata {
-				firstName
-				lastName
-				bio
-				birthday
-				phone
-			}
-			userSettings {
-				currency
-				standby
-				cancelationPolicy {
-					days
-					percentage
-				}
-			}
-		}
-	}
-`;
-
-const UPDATE_USER_SETTINGS = gql`
-	mutation updateUser(
-		$id: ID!
-		$standby: Boolean
-		$cancelationDays: Int
-		$refundPercentage: Int
-		$permalink: String
-	) {
-		updateUser(
-			id: $id
-			standby: $standby
-			cancelationDays: $cancelationDays
-			refundPercentage: $refundPercentage
-			permalink: $permalink
-		) {
-			id
-			auth0Id
-			email
-			permalink
-			genres
-			picture {
 				path
 			}
 			playingLocation {
@@ -291,7 +249,6 @@ export {
 	MY_EVENTS,
 	USER,
 	UPDATE_USER,
-	UPDATE_USER_SETTINGS,
 	DECLINE_GIG,
 	CANCEL_GIG,
 	DELETE_USER,

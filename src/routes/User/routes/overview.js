@@ -1,19 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import {
-	Title,
-	Stat,
-	StatUnit,
-	BodySmall,
-	Citation,
-	Cite
-} from "../components/Text";
+import { Title, Citation, Cite } from "../components/Text";
 import ReadMoreExpander from "../components/ReadMoreExpander";
 import { Col, Row, Avatar, ReadMore, Show } from "../components/Blocks";
 import Map from "../../../components/common/Map";
-import ArrowIcon from "react-ionicons/lib/MdArrowRoundForward";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
 import { Link } from "react-router-dom";
+import { PolicyDisplayer } from "../components/CancelationPolicyPopup";
 
 const ColumnLayout = styled.section`
 	width: 100%;
@@ -159,31 +152,6 @@ const MapArea = ({ playingLocation }) => (
 		/>
 	</Square>
 );
-const Policy = ({ cancelationPolicy }) => (
-	<LeftItem>
-		<Title>Cancelation Policy</Title>
-		<Row
-			style={{
-				width: "100%",
-				justifyContent: "space-between",
-				alignItems: "flex-end",
-				marginTop: "42px",
-				marginBottom: "30px"
-			}}
-		>
-			<Stat label={"MIN. NOTICE"} value={cancelationPolicy.days + " days"} />
-			<ArrowIcon color={"#98a4b3"} fontSize={"18px"} />
-			<StatUnit>OR ELSE</StatUnit>
-			<ArrowIcon color={"#98a4b3"} fontSize={"18px"} />
-
-			<Stat label={"REFUNDED"} value={cancelationPolicy.percentage + "%"} />
-		</Row>
-		<BodySmall style={{ marginBottom: 0 }}>
-			Cancel any time before {cancelationPolicy.days} days, and get a 100%
-			refund, minus the service fee.
-		</BodySmall>
-	</LeftItem>
-);
 
 const Overview = ({ user, loading }) => {
 	if (loading) {
@@ -204,7 +172,10 @@ const Overview = ({ user, loading }) => {
 					<Show maxWidth="990px">
 						<MapArea playingLocation={playingLocation} />
 					</Show>
-					<Policy cancelationPolicy={cancelationPolicy} />
+					<LeftItem>
+						<Title>Cancelation Policy</Title>
+						<PolicyDisplayer cancelationPolicy={cancelationPolicy} />
+					</LeftItem>
 				</HalfColLeft>
 				<HalfColRight>
 					<Genres genres={genres} />

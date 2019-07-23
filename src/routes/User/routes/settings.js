@@ -13,14 +13,15 @@ import DatePickerPopup from "../components/DatePicker";
 import LocationPicker from "../components/LocationPicker";
 import NotificationPreferences from "../components/NotificationPreferences";
 import GenreSelector from "../components/GenreSelector";
-import CancelationPolicyPopup from "../components/CancelationPolicy";
+import CancelationPolicyPopup from "../components/CancelationPolicyPopup";
+import BioPopup from "../components/BioPopup";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
 	return keys.some(key => o2[key] !== o1[key]);
 };
 
-const Settings = ({ user, loading, updateUser }) => {
+const Settings = ({ user, loading, updateUser, translate }) => {
 	const saveData = async data => {
 		const flatUser = {
 			...user,
@@ -56,6 +57,18 @@ const Settings = ({ user, loading, updateUser }) => {
 		});
 	};
 
+	const toggleAvailability = () => {
+		if (!userSettings.standby) {
+			var r = window.confirm(
+				"You will not receive any gigs while being on standby. Are you sure?"
+			);
+			if (r !== true) {
+				return;
+			}
+		}
+		updateKey("standby")(!userSettings.standby);
+	};
+
 	if (loading) {
 		return null;
 	}
@@ -69,7 +82,14 @@ const Settings = ({ user, loading, updateUser }) => {
 		picture,
 		permalink
 	} = user;
-	const { firstName, lastName, phone, birthday, bankAccount } = userMetadata;
+	const {
+		firstName,
+		lastName,
+		phone,
+		birthday,
+		bankAccount,
+		bio
+	} = userMetadata;
 	const { cancelationPolicy, currency } = userSettings;
 	return (
 		<>
@@ -168,8 +188,24 @@ const Settings = ({ user, loading, updateUser }) => {
 					initialGenres={genres}
 					save={genres => saveData({ genres })}
 				/>
-				<CancelationPolicyPopup initialValue={cancelationPolicy} save={} />
-				<Input half type="button" label="Bio" buttonText={"edit"} />
+				<CancelationPolicyPopup
+					initialValue={cancelationPolicy}
+					save={p =>
+						saveData({
+							refundPercentage: p.percentage,
+							cancelationDays: p.days
+						})
+					}
+					translate={translate}
+				/>
+				<BioPopup
+					initialValue={bio}
+					save={bio =>
+						saveData({
+							bio
+						})
+					}
+				/>
 
 				<ImageUploader
 					half
@@ -190,6 +226,7 @@ const Settings = ({ user, loading, updateUser }) => {
 					type="button"
 					attention={userSettings.standby}
 					label="Standby"
+					onClick={toggleAvailability}
 					buttonText={userSettings.standby ? "unavailable" : "available"}
 				/>
 			</SettingsSection>
