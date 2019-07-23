@@ -137,6 +137,7 @@ const ButtonInput = styled.button`
 
 const FileInputWrapper = styled.label`
 	${buttonStyle}
+	position: relative;
 `;
 
 const FileInput = styled.input.attrs({ type: "file" })`
@@ -146,6 +147,15 @@ const FileInput = styled.input.attrs({ type: "file" })`
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
+`;
+
+const DeleteFileButton = styled.button`
+	width: 40px;
+	right: 0;
+	position: absolute;
+	height: 40px;
+	font-size: 1em;
+	font-weight: 600;
 `;
 
 const FormattedText = ({ defaultValue, save, ...props }) => {
@@ -174,15 +184,20 @@ const FormattedText = ({ defaultValue, save, ...props }) => {
 	);
 };
 
-const InputType = ({ type, error, save, children, ...props }) => {
+const InputType = ({ buttonText, type, error, save, children, ...props }) => {
 	switch (type) {
 		case "button":
-			return <ButtonInput {...props} children={children} error={!!error} />;
+			return (
+				<ButtonInput {...props} error={!!error}>
+					{buttonText}
+				</ButtonInput>
+			);
 		case "file":
 			return (
 				<FileInputWrapper {...props} error={!!error}>
+					{buttonText}
+					<FileInput {...props} onChange={save}></FileInput>
 					{children}
-					<FileInput {...props} onChange={save} />
 				</FileInputWrapper>
 			);
 
@@ -266,4 +281,12 @@ const Value = styled.p`
 	color: #122b48;
 `;
 
-export { ButtonText, Input, Label, SettingsSection, Value, Checkbox };
+export {
+	ButtonText,
+	Input,
+	Label,
+	SettingsSection,
+	Value,
+	Checkbox,
+	DeleteFileButton
+};

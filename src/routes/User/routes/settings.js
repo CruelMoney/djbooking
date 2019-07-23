@@ -6,7 +6,8 @@ import {
 	ButtonText,
 	Label,
 	Value,
-	Checkbox
+	Checkbox,
+	DeleteFileButton
 } from "../components/FormComponents";
 import moment from "moment-timezone";
 import {
@@ -98,11 +99,11 @@ const Settings = ({ user, loading, updateUser }) => {
 		await saveData(data);
 	};
 
-	const saveFile = key => async file => {
+	const updateKey = key => async value => {
 		await updateUser({
 			variables: {
 				id: user.id,
-				[key]: file
+				[key]: value
 			}
 		});
 	};
@@ -173,9 +174,9 @@ const Settings = ({ user, loading, updateUser }) => {
 				<ImageUploader
 					half
 					label="Profile picture"
-					children="change picture"
+					buttonText="change picture"
 					attention={!picture}
-					onSave={saveFile("picture")}
+					onSave={updateKey("picture")}
 				/>
 
 				<Input
@@ -183,7 +184,7 @@ const Settings = ({ user, loading, updateUser }) => {
 					type="button"
 					attention
 					label="Verify identity"
-					children="upload documents"
+					buttonText="upload documents"
 				/>
 			</SettingsSection>
 
@@ -214,36 +215,42 @@ const Settings = ({ user, loading, updateUser }) => {
 					half
 					type="button"
 					label="Location"
-					children={playingLocation.name}
+					buttonText={playingLocation.name}
 				/>
 				<Input
 					half
 					type="button"
 					label="Genres"
-					children={<ButtonText>{genres.join(", ")}</ButtonText>}
+					buttonText={<ButtonText>{genres.join(", ")}</ButtonText>}
 				/>
 				<Input
 					half
 					type="button"
 					label="Cancelation policy"
-					children={`${cancelationPolicy.days} days, ${cancelationPolicy.percentage}%`}
+					buttonText={`${cancelationPolicy.days} days, ${cancelationPolicy.percentage}%`}
 				/>
-				<Input half type="button" label="Bio" children={"edit"} />
+				<Input half type="button" label="Bio" buttonText={"edit"} />
 
 				<ImageUploader
 					half
 					label="Cover photo"
-					children="change photo"
-					onSave={saveFile("coverPhoto")}
+					buttonText="change photo"
+					onSave={updateKey("coverPhoto")}
 					options={{ maxWidth: 1440, maxHeight: 400 }}
-				/>
+				>
+					{user.coverPhoto && (
+						<DeleteFileButton onClick={_ => updateKey("coverPhoto")(null)}>
+							x
+						</DeleteFileButton>
+					)}
+				</ImageUploader>
 
 				<Input
 					half
 					type="button"
 					attention={userSettings.standby}
 					label="Standby"
-					children={userSettings.standby ? "unavailable" : "available"}
+					buttonText={userSettings.standby ? "unavailable" : "available"}
 				/>
 			</SettingsSection>
 
@@ -258,14 +265,14 @@ const Settings = ({ user, loading, updateUser }) => {
 					type="button"
 					attention={!bankAccount}
 					label="Payout information"
-					children={"update"}
+					buttonText={"update"}
 				/>
 
 				<Input
 					half
 					type="button"
 					label="Preferred currency"
-					children={currency ? currency : "update"}
+					buttonText={currency ? currency : "update"}
 				/>
 
 				<NotificationPreferences />
@@ -282,13 +289,13 @@ const Settings = ({ user, loading, updateUser }) => {
 					type="button"
 					label="Delete user"
 					warning
-					children="delete"
+					buttonText="delete"
 				/>
 				<Input
 					half
 					type="button"
 					label="Export all data"
-					children="export"
+					buttonText="export"
 					onClick={_ =>
 						window.alert("We'll send you an email when your data is ready.")
 					}
@@ -314,7 +321,7 @@ const BirthdayPicker = ({ birthday, onSave }) => {
 				type="button"
 				onClick={s => setShowing(true)}
 				label="Birthday"
-				children={
+				buttonText={
 					birthday ? moment(birthday).format("DD/MM/YYYY") : "Update birthday"
 				}
 			/>
@@ -373,7 +380,7 @@ const PasswordChanger = ({ onSave }) => {
 				type="button"
 				onClick={s => setShowing(true)}
 				label="Password"
-				children="change password"
+				buttonText="change password"
 			/>
 			<Popup
 				showing={showing}
