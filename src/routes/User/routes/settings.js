@@ -16,6 +16,9 @@ import CancelationPolicyPopup from "../components/CancelationPolicyPopup";
 import BioPopup from "../components/BioPopup";
 import PayoutForm from "../../../components/common/PayoutForm";
 import Popup from "../../../components/common/Popup";
+import { reset } from "../../../ApolloProvider";
+import { DELETE_USER } from "../gql";
+import { Mutation } from "react-apollo";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
@@ -275,13 +278,26 @@ const Settings = ({ user, loading, updateUser, translate }) => {
 					"If you delete your user, all data will be deleted and unrecoverable. If you have any unfinished gigs, they will all be declined and cancelled."
 				}
 			>
-				<Input
-					half
-					type="button"
-					label="Delete user"
-					warning
-					buttonText="delete"
-				/>
+				<Mutation
+					mutation={DELETE_USER}
+					variables={{
+						id: user.id
+					}}
+					onCompleted={() => {
+						reset();
+						history.push(`/`);
+					}}
+				>
+					{(deleteUser, { loading }) => (
+						<Input
+							half
+							type="button"
+							label="Delete user"
+							warning={translate("user.preferences.delete-warning")}
+							buttonText="delete"
+						/>
+					)}
+				</Mutation>
 				<Input
 					half
 					type="button"
