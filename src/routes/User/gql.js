@@ -42,6 +42,7 @@ const USER = gql`
 			userSettings {
 				currency
 				standby
+				notifications
 				cancelationPolicy {
 					days
 					percentage
@@ -77,6 +78,7 @@ const UPDATE_USER = gql`
 		$cancelationDays: Int
 		$refundPercentage: Int
 		$currency: Currency
+		$notificationSettings: JSON
 	) {
 		updateUser(
 			id: $id
@@ -98,6 +100,7 @@ const UPDATE_USER = gql`
 			cancelationDays: $cancelationDays
 			refundPercentage: $refundPercentage
 			currency: $currency
+			notificationSettings: $notificationSettings
 		) {
 			id
 			auth0Id
@@ -127,6 +130,7 @@ const UPDATE_USER = gql`
 			userSettings {
 				currency
 				standby
+				notifications
 				cancelationPolicy {
 					days
 					percentage

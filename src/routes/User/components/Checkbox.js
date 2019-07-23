@@ -47,11 +47,20 @@ const CheckboxContainer = styled.div`
 	vertical-align: middle;
 `;
 
-const Checkbox = ({ className, defaultValue, ...props }) => {
+const Checkbox = ({ className, defaultValue, onChange, ...props }) => {
 	const [checked, setChecked] = useState(defaultValue);
+
+	const updateVal = newVal => {
+		setChecked(newVal);
+		onChange(newVal);
+	};
+
 	return (
-		<CheckboxContainer className={className} onClick={_ => setChecked(v => !v)}>
-			<HiddenCheckbox checked={checked} onChange={console.log} {...props} />
+		<CheckboxContainer
+			className={className}
+			onClick={() => updateVal(!checked)}
+		>
+			<HiddenCheckbox checked={checked} {...props} />
 			<StyledCheckbox checked={checked}>
 				<Icon viewBox="0 0 24 24">
 					<path

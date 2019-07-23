@@ -75,6 +75,7 @@ const Settings = ({ user, loading, updateUser, translate }) => {
 	}
 	const {
 		userMetadata,
+		appMetadata,
 		genres,
 		playingLocation,
 		userSettings,
@@ -91,7 +92,8 @@ const Settings = ({ user, loading, updateUser, translate }) => {
 		bankAccount,
 		bio
 	} = userMetadata;
-	const { cancelationPolicy, currency } = userSettings;
+	const { cancelationPolicy, currency, notifications } = userSettings;
+	const { roles } = appMetadata;
 	return (
 		<>
 			<SettingsSection
@@ -260,7 +262,11 @@ const Settings = ({ user, loading, updateUser, translate }) => {
 						</option>
 					))}
 				</Input>
-				<NotificationPreferences />
+				<NotificationPreferences
+					notifications={notifications}
+					onSave={notificationSettings => saveData({ notificationSettings })}
+					roles={roles}
+				/>
 			</SettingsSection>
 
 			<SettingsSection

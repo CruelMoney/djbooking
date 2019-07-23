@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Label, Value, Checkbox } from "./FormComponents";
 import { Row, Col, Hr } from "./Blocks";
@@ -19,17 +19,45 @@ const TableRow = styled(Row)`
 	}
 `;
 
-const CheckBoxRow = ({ label }) => {
+const DJ_NOTIFICATION_TYPES = Object.freeze([
+	"NEW_REQUEST",
+	"OFFER_ACCEPTED",
+	"EVENT_CANCELLED",
+	"EVENT_UPDATED",
+	"NEW_REVIEW",
+	"NEW_MESSAGE"
+]);
+const ORGANIZER_NOTIFICATION_TYPES = Object.freeze([
+	"NEW_OFFER",
+	"DJ_CANCELLED",
+	"NEW_MESSAGE"
+]);
+
+const CheckBoxRow = ({ label, email, push, onChange }) => {
 	return (
 		<TableRow>
 			<Value>{label}</Value>
-			<Checkbox defaultValue={true} />
-			<Checkbox defaultValue={true} />
+			<Checkbox defaultValue={push} onChange={val => onChange("push")(val)} />
+			<Checkbox defaultValue={email} onChange={val => onChange("email")(val)} />
 		</TableRow>
 	);
 };
 
-const NotificationPreferences = () => {
+const NotificationPreferences = ({ notifications, onSave, roles }) => {
+	const [internal, setInternal] = useState(notifications);
+
+	const onChange = key => type => val => {
+		const newNotifications = {
+			...internal,
+			[key]: {
+				...internal[key],
+				[type]: val
+			}
+		};
+		setInternal(newNotifications);
+		onSave(newNotifications);
+	};
+
 	return (
 		<Col style={{ width: "100%", marginRight: "36px" }}>
 			<TableRow>
@@ -38,11 +66,30 @@ const NotificationPreferences = () => {
 				<Label>Email</Label>
 			</TableRow>
 			<Hr />
-			<CheckBoxRow label={"New message"} />
-			<CheckBoxRow label={"New gig"} />
-			<CheckBoxRow label={"Event cancelled"} />
-			<CheckBoxRow label={"News and updates"} />
-			<CheckBoxRow label={"Dj cancelled"} />
+
+			{Object.entries(notifications)
+				.filter(([key]) => {
+					let filter = [];
+					if (roles.includes("DJ")) {
+						filter = [...filter, ...DJ_NOTIFICATION_TYPES];
+					}
+					if (roles.includes("ORGANIZER")) {
+						filter = [...filter, ...ORGANIZER_NOTIFICATION_TYPES];
+					}
+
+					return filter.includes(key);
+				})
+				.map(([key, { label, email, push }]) => {
+					return (
+						<CheckBoxRow
+							key={key}
+							label={label}
+							email={email}
+							push={push}
+							onChange={onChange(key)}
+						/>
+					);
+				})}
 		</Col>
 	);
 };
