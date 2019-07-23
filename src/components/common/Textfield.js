@@ -33,6 +33,8 @@ class MyTextField extends Component {
 				borderColor: this.context.textColor
 					? this.context.textColor
 					: this.context.color
+					? this.context.color
+					: "#31daff"
 			},
 			hint: {
 				bottom: "23px",
@@ -60,7 +62,7 @@ class MyTextField extends Component {
 				letterSpacing: this.props.type === "password" ? "4px" : 0
 			},
 			underlineStyle: {
-				borderColor: this.context.color,
+				borderColor: this.context.color || "#31daff",
 				bottom: "0"
 			},
 			underlineNormalStyle: {

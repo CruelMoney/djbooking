@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	SettingsSection,
 	Input,
@@ -15,6 +15,8 @@ import NotificationPreferences from "../components/NotificationPreferences";
 import GenreSelector from "../components/GenreSelector";
 import CancelationPolicyPopup from "../components/CancelationPolicyPopup";
 import BioPopup from "../components/BioPopup";
+import PayoutForm from "../../../components/common/PayoutForm";
+import Popup from "../../../components/common/Popup";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
@@ -237,13 +239,7 @@ const Settings = ({ user, loading, updateUser, translate }) => {
 					"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 				}
 			>
-				<Input
-					half
-					type="button"
-					attention={!bankAccount}
-					label="Payout information"
-					buttonText={"update"}
-				/>
+				<PayoutPopup user={user} hasPayout={bankAccount} />
 
 				<Input
 					half
@@ -278,6 +274,30 @@ const Settings = ({ user, loading, updateUser, translate }) => {
 					}
 				/>
 			</SettingsSection>
+		</>
+	);
+};
+
+const PayoutPopup = ({ user, hasPayout }) => {
+	const [showing, setShowing] = useState(false);
+
+	return (
+		<>
+			<Input
+				half
+				type="button"
+				attention={!hasPayout}
+				onClick={s => setShowing(true)}
+				label="Payout information"
+				buttonText={"update"}
+			/>
+			<Popup
+				showing={showing}
+				onClickOutside={_ => setShowing(false)}
+				width={"450px"}
+			>
+				<PayoutForm color={"#31daff"} isUpdate={hasPayout} user={user} />
+			</Popup>
 		</>
 	);
 };
