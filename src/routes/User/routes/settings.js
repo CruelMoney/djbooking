@@ -12,6 +12,8 @@ import PasswordChanger from "../components/PasswordChanger";
 import DatePickerPopup from "../components/DatePicker";
 import LocationPicker from "../components/LocationPicker";
 import NotificationPreferences from "../components/NotificationPreferences";
+import GenreSelector from "../components/GenreSelector";
+import CancelationPolicyPopup from "../components/CancelationPolicy";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
@@ -162,18 +164,11 @@ const Settings = ({ user, loading, updateUser }) => {
 					save={playingLocation => saveData({ playingLocation })}
 				/>
 
-				<Input
-					half
-					type="button"
-					label="Genres"
-					buttonText={<ButtonText>{genres.join(", ")}</ButtonText>}
+				<GenreSelector
+					initialGenres={genres}
+					save={genres => saveData({ genres })}
 				/>
-				<Input
-					half
-					type="button"
-					label="Cancelation policy"
-					buttonText={`${cancelationPolicy.days} days, ${cancelationPolicy.percentage}%`}
-				/>
+				<CancelationPolicyPopup initialValue={cancelationPolicy} save={} />
 				<Input half type="button" label="Bio" buttonText={"edit"} />
 
 				<ImageUploader

@@ -104,6 +104,7 @@ class ToggleButtonHandler extends Component {
 				return (
 					<td key={genre} data-key={genre}>
 						<ToggleButton
+							color={this.props.color}
 							rounded={this.props.rounded}
 							label={"Add new +"}
 							active={false}
@@ -116,6 +117,7 @@ class ToggleButtonHandler extends Component {
 				return (
 					<td key={"edit-genre-" + idx} data-key={"edit-genre-" + idx}>
 						<ToggleButtonInput
+							color={this.props.color}
 							onChange={value => this.inputUpdate(value, idx)}
 							active={true}
 							rounded={this.props.rounded}
@@ -126,6 +128,7 @@ class ToggleButtonHandler extends Component {
 				return (
 					<td key={genre} data-key={genre}>
 						<ToggleButton
+							color={this.props.color}
 							rounded={this.props.rounded}
 							label={name}
 							active={this.state.selectedValues.indexOf(name) !== -1}
@@ -202,3 +205,5 @@ class ToggleButtonHandler extends Component {
 }
 
 export default connectToForm(ToggleButtonHandler);
+
+export { ToggleButtonHandler };
