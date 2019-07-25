@@ -193,111 +193,120 @@ const Select = styled.select`
 	}
 `;
 
-const InputType = ({ buttonText, type, error, save, children, ...props }) => {
-	switch (type) {
-		case "select":
-			return (
-				<Select {...props} error={!!error} onChange={save}>
-					{children}
-				</Select>
-			);
-		case "button":
-			return (
-				<ButtonInput {...props} error={!!error}>
-					{buttonText}
-				</ButtonInput>
-			);
-		case "file":
-			return (
-				<FileInputWrapper {...props} error={!!error}>
-					{buttonText}
-					<FileInput {...props} onChange={save}></FileInput>
-					{children}
-				</FileInputWrapper>
-			);
+const InputType = React.forwardRef(
+	({ buttonText, type, error, save, children, ...props }, ref) => {
+		switch (type) {
+			case "select":
+				return (
+					<Select {...props} error={!!error} onChange={save} ref={ref}>
+						{children}
+					</Select>
+				);
+			case "button":
+				return (
+					<ButtonInput {...props} error={!!error}>
+						{buttonText}
+					</ButtonInput>
+				);
+			case "file":
+				return (
+					<FileInputWrapper {...props} error={!!error}>
+						{buttonText}
+						<FileInput {...props} onChange={save}></FileInput>
+						{children}
+					</FileInputWrapper>
+				);
 
-		case "formatted-text":
-			return (
-				<FormattedText
-					{...props}
-					type={type}
-					error={!!error}
-					save={save}
-					onKeyDown={e => {
-						if (e.key === "Enter") {
-							e.target.blur();
-						}
-					}}
-				/>
-			);
-		default:
-			return (
-				<TextInput
-					{...props}
-					type={type}
-					error={!!error}
-					onBlur={save}
-					onKeyDown={e => {
-						if (e.key === "Enter") {
-							e.target.blur();
-						}
-					}}
-				/>
-			);
+			case "formatted-text":
+				return (
+					<FormattedText
+						{...props}
+						type={type}
+						error={!!error}
+						save={save}
+						onKeyDown={e => {
+							if (e.key === "Enter") {
+								e.target.blur();
+							}
+						}}
+					/>
+				);
+			default:
+				return (
+					<TextInput
+						{...props}
+						ref={ref}
+						type={type}
+						error={!!error}
+						onBlur={save}
+						onKeyDown={e => {
+							if (e.key === "Enter") {
+								e.target.blur();
+							}
+						}}
+					/>
+				);
+		}
 	}
-};
+);
 
-const Input = ({
-	error: propsError,
-	half,
-	label,
-	warning,
-	type,
-	onSave,
-	validation,
-	...props
-}) => {
-	const [error, setError] = useState(null);
-	const LabelComponent = half ? LabelHalf : InputLabel;
+const Input = React.forwardRef(
+	(
+		{
+			error: propsError,
+			half,
+			label,
+			warning,
+			type,
+			onSave,
+			validation,
+			...props
+		},
+		ref
+	) => {
+		const [error, setError] = useState(null);
+		const LabelComponent = half ? LabelHalf : InputLabel;
 
-	const save = e => {
-		const value = e.target ? e.target.value : e;
+		const save = e => {
+			const value = e.target ? e.target.value : e;
 
-		if (warning) {
-			const confirmed = window.confirm(warning);
-			if (!confirmed) {
-				return;
+			if (warning) {
+				const confirmed = window.confirm(warning);
+				if (!confirmed) {
+					return;
+				}
 			}
-		}
 
-		if (validation) {
-			const validationError = validation(value);
-			if (validationError) {
-				setError(validationError);
-				return;
-			} else {
-				setError(null);
+			if (validation) {
+				const validationError = validation(value);
+				if (validationError) {
+					setError(validationError);
+					return;
+				} else {
+					setError(null);
+				}
 			}
-		}
 
-		onSave && onSave(value, e);
-	};
+			onSave && onSave(value, e);
+		};
 
-	return (
-		<LabelComponent>
-			{label}
-			<InputType
-				type={type}
-				save={save}
-				error={error}
-				warning={warning}
-				{...props}
-			/>
-			{error && <p className="error">{error}</p>}
-			{propsError && <p className="error">{propsError}</p>}
-		</LabelComponent>
-	);
-};
+		return (
+			<LabelComponent>
+				{label}
+				<InputType
+					type={type}
+					save={save}
+					error={error}
+					warning={warning}
+					ref={ref}
+					{...props}
+				/>
+				{error && <p className="error">{error}</p>}
+				{propsError && <p className="error">{propsError}</p>}
+			</LabelComponent>
+		);
+	}
+);
 
 const ButtonText = styled.span`
 	overflow: hidden;

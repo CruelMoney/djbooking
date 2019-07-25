@@ -112,6 +112,7 @@ const UPDATE_USER = gql`
 		$refundPercentage: Int
 		$currency: Currency
 		$notificationSettings: JSON
+		$playedVenues: [String!]
 	) {
 		updateUser(
 			id: $id
@@ -134,6 +135,7 @@ const UPDATE_USER = gql`
 			refundPercentage: $refundPercentage
 			currency: $currency
 			notificationSettings: $notificationSettings
+			playedVenues: $playedVenues
 		) {
 			id
 			auth0Id
@@ -141,6 +143,7 @@ const UPDATE_USER = gql`
 			permalink
 			artistName
 			genres
+			playedVenues
 			picture {
 				path
 			}

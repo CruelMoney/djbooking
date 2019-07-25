@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Title, Body } from "../components/Text";
 import ReadMoreExpander from "../components/ReadMoreExpander";
@@ -21,6 +21,7 @@ import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlacehold
 import Rating from "../../../components/common/Rating";
 import moment from "moment";
 import EmptyPage from "../../../components/common/EmptyPage";
+import { Input } from "../components/FormComponents";
 
 const ReviewsCol = styled(Col)`
 	flex: 1;
@@ -97,7 +98,7 @@ const Review = ({
 		</Row>
 	</ReviewWrapper>
 );
-const Reviews = ({ user, loading: loadingUser }) => {
+const Reviews = ({ user, loading: loadingUser, updateUser }) => {
 	if (loadingUser) {
 		return <LoadingPlaceholder2 />;
 	}
@@ -117,7 +118,13 @@ const Reviews = ({ user, loading: loadingUser }) => {
 					}
 				} = data;
 				return (
-					<Content playedVenues={playedVenues} reviews={[]} isOwn={isOwn} />
+					<Content
+						userId={user.id}
+						playedVenues={playedVenues}
+						reviews={[]}
+						isOwn={isOwn}
+						updateUser={updateUser}
+					/>
 				);
 			}}
 		</Query>
@@ -129,6 +136,8 @@ const VenueLabel = styled.p`
 	font-size: 18px;
 	color: #4d6480;
 	text-align: left;
+	text-transform: capitalize;
+	margin-bottom: 0;
 `;
 
 const AddButton = styled(TeritaryButton)`
@@ -141,6 +150,23 @@ const AddButton = styled(TeritaryButton)`
 	height: 18px;
 `;
 
+const RemoveVenueButton = styled(TeritaryButton)`
+	display: none;
+	position: absolute;
+	min-width: 0;
+	height: 18px;
+	top: 4px;
+	right: -50px;
+`;
+
+const VenueListItem = styled.li`
+	margin-bottom: 15px;
+	position: relative;
+	:hover ${RemoveVenueButton} {
+		display: inline-block;
+	}
+`;
+
 const CTA = ({ onClick }) => (
 	<>
 		<Body style={{ maxWidth: 300 }}>
@@ -150,7 +176,41 @@ const CTA = ({ onClick }) => (
 	</>
 );
 
-const Content = ({ playedVenues, reviews, isOwn }) => {
+const InlineInput = ({ onSave }) => {
+	const input = useRef();
+
+	useEffect(() => {
+		input.current.focus();
+	}, []);
+
+	return <Input ref={input} type="text" placeholder="venue" onSave={onSave} />;
+};
+
+const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
+	const [isAddingVenue, setIsAddingVenue] = useState(false);
+
+	const saveVenue = venue => {
+		venue = venue.trim();
+		if (venue) {
+			updateUser({
+				variables: {
+					id: userId,
+					playedVenues: [...playedVenues, venue]
+				}
+			});
+		}
+		setIsAddingVenue(false);
+	};
+
+	const deleteVenue = venue => {
+		updateUser({
+			variables: {
+				id: userId,
+				playedVenues: playedVenues.filter(v => v !== venue)
+			}
+		});
+	};
+
 	return (
 		<Row>
 			<ReviewsCol>
@@ -169,15 +229,23 @@ const Content = ({ playedVenues, reviews, isOwn }) => {
 				)}
 			</ReviewsCol>
 			<VenuesCol>
-				<Title>Past venues</Title>
-				<ol>
+				<Title style={{ marginBottom: "36px" }}>Past venues</Title>
+				<ul>
 					{playedVenues.map((v, idx) => (
-						<li key={idx}>
+						<VenueListItem key={idx}>
 							<VenueLabel>{v}</VenueLabel>
-						</li>
+							<RemoveVenueButton onClick={() => deleteVenue(v)}>
+								remove
+							</RemoveVenueButton>
+						</VenueListItem>
 					))}
-				</ol>
-				{isOwn && <AddButton>+ Add venue</AddButton>}
+				</ul>
+				{isAddingVenue && <InlineInput onSave={saveVenue} />}
+				{isOwn && (
+					<AddButton onClick={() => setIsAddingVenue(true)}>
+						+ Add venue
+					</AddButton>
+				)}
 			</VenuesCol>
 		</Row>
 	);
