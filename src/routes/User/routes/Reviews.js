@@ -234,9 +234,11 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 					{playedVenues.map((v, idx) => (
 						<VenueListItem key={idx}>
 							<VenueLabel>{v}</VenueLabel>
-							<RemoveVenueButton onClick={() => deleteVenue(v)}>
-								remove
-							</RemoveVenueButton>
+							{isOwn && (
+								<RemoveVenueButton onClick={() => deleteVenue(v)}>
+									remove
+								</RemoveVenueButton>
+							)}
 						</VenueListItem>
 					))}
 				</ul>
