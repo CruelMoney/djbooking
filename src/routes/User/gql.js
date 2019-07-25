@@ -4,6 +4,7 @@ const USER = gql`
 	query User($permalink: String!) {
 		user(permalink: $permalink) {
 			id
+			isOwn @client
 			auth0Id
 			permalink
 			genres
@@ -49,6 +50,38 @@ const USER = gql`
 				}
 			}
 			reviews {
+				pageInfo {
+					totalDocs
+				}
+			}
+		}
+	}
+`;
+
+const REVIEWS = gql`
+	query User($id: ID!) {
+		user(id: $id) {
+			id
+			playedVenues
+			isOwn @client
+			reviews {
+				edges {
+					id
+					rating
+					title
+					content
+					isTestimonial
+					citation
+					createdAt
+					author {
+						picture {
+							path
+						}
+						userMetadata {
+							firstName
+						}
+					}
+				}
 				pageInfo {
 					totalDocs
 				}
@@ -260,5 +293,6 @@ export {
 	CANCEL_GIG,
 	DELETE_USER,
 	GET_OFFER,
-	MAKE_OFFER
+	MAKE_OFFER,
+	REVIEWS
 };

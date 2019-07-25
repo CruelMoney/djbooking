@@ -1,4 +1,5 @@
-import Overview from "./overview";
-import Settings from "./settings";
+import Overview from "./Overview";
+import Settings from "./Settings";
+import Reviews from "./Reviews";
 
-export { Overview, Settings };
+export { Overview, Settings, Reviews };

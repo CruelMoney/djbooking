@@ -83,6 +83,8 @@ export const ReadMoreButton = ({ children, onClick, style }) => {
 			style={{
 				padding: 0,
 				border: "none",
+				display: "inline-block",
+				marginRight: "auto",
 				...style
 			}}
 		>

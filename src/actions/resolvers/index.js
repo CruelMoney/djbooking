@@ -1,6 +1,16 @@
 import gql from "graphql-tag";
+import { ME } from "../../components/gql";
 
 const resolvers = {
+	User: {
+		isOwn: async (user, variables, { client }) => {
+			const { data: { me } = {} } = await client.query({ query: ME });
+			if (me && me.id === user.id) {
+				return true;
+			}
+			return false;
+		}
+	},
 	Mutation: {
 		paymentConfirmed: (_root, variables, { cache, getCacheKey }) => {
 			const { gigId } = variables;

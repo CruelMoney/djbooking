@@ -55,7 +55,6 @@ h1 {
 h2 {
 	font-family: "SourceSansPro-Semibold", sans-serif;
 	font-size: 22px;
-	letter-spacing: 2px;
 	line-height: 30px;
 }
 
@@ -2786,14 +2785,10 @@ header .info-boxes {
 .empty-page-message {
 	min-height: 400px;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	text-align: center;
-	color: #8998aa;
-}
-.empty-page-message img {
-	margin: 40px;
+	text-align: left;
 }
 
 .payout-form button,

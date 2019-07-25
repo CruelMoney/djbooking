@@ -10,11 +10,12 @@ import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
 import Sidebar from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
-import { Overview, Settings } from "./routes";
+import { Overview, Settings, Reviews } from "./routes";
 import { Container, Row, Col } from "./components/Blocks.js";
 import { useMutation } from "react-apollo-hooks";
 import Notification from "../../components/common/Notification.js";
 import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
+import { ME } from "../../components/gql.js";
 
 const Content = React.memo(({ match, ...userProps }) => {
 	return (
@@ -41,6 +42,10 @@ const Content = React.memo(({ match, ...userProps }) => {
 							render={props => <Overview {...props} {...userProps} />}
 						/>
 						<Route
+							path={match.path + "/reviews"}
+							render={props => <Reviews {...props} {...userProps} />}
+						/>
+						<Route
 							path={match.path + "/settings"}
 							render={props => <Settings {...props} {...userProps} />}
 						/>
@@ -55,7 +60,11 @@ const Index = ({ translate, match }) => {
 	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);
 
 	return (
-		<Query query={USER} variables={{ permalink: match.params.permalink }}>
+		<Query
+			query={USER}
+			variables={{ permalink: match.params.permalink }}
+			onError={console.warn}
+		>
 			{({ data: { user }, loading }) => (
 				<div>
 					<SavingIndicator loading={isSaving} error={error} />
