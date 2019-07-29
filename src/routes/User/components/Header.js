@@ -44,9 +44,10 @@ const getRoutesFromUser = user => {
 			// routes.push({ route: "gigs", label: "gigs" });
 			routes.push({ route: "reviews", label: "reviews" });
 		}
+		if (user.isOwn) {
+			routes.push({ route: "settings", label: "settings" });
+		}
 	}
-
-	routes.push({ route: "settings", label: "settings" });
 
 	return routes;
 };

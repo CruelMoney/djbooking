@@ -15,10 +15,10 @@ import { Container, Row, Col } from "./components/Blocks.js";
 import { useMutation } from "react-apollo-hooks";
 import Notification from "../../components/common/Notification.js";
 import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
-import { ME } from "../../components/gql.js";
 import ScrollToTop from "../../components/common/ScrollToTop";
 
 const Content = React.memo(({ match, ...userProps }) => {
+	const { user } = userProps;
 	return (
 		<Container>
 			<Row>
@@ -46,10 +46,12 @@ const Content = React.memo(({ match, ...userProps }) => {
 							path={match.path + "/reviews"}
 							render={props => <Reviews {...props} {...userProps} />}
 						/>
-						<Route
-							path={match.path + "/settings"}
-							render={props => <Settings {...props} {...userProps} />}
-						/>
+						{user && user.isOwn ? (
+							<Route
+								path={match.path + "/settings"}
+								render={props => <Settings {...props} {...userProps} />}
+							/>
+						) : null}
 					</Switch>
 				</Col>
 			</Row>

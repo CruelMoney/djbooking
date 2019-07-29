@@ -121,7 +121,7 @@ const Review = ({
 						<ReadMoreText>TESTIMONIAL</ReadMoreText>
 					</Row>
 				)}
-				<ReadMoreExpander content={content} />
+				<ReadMoreExpander onTextSelected={console.log} content={content} />
 				<Citation author={author} citation={citation} createdAt={createdAt} />
 			</Col>
 		</Row>
@@ -236,7 +236,7 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 	const [writeTestimonial, { loading }] = useMutation(WRITE_TESTIMONIAL, {
 		variables: newTestimonial,
 		refetchQueries: [{ query: REVIEWS, variables: { id: userId } }],
-		awaitRefetchQueries: true,
+		awaitRefetchQueries: true
 	});
 
 	const [removeTestimonial] = useMutation(REMOVE_TESTIMONIAL, {
@@ -333,7 +333,10 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 					<PrimaryButton
 						type="button"
 						loading={loading}
-						onClick={() => {writeTestimonial(); setIsAddingTestimonial(false);}}
+						onClick={() => {
+							writeTestimonial();
+							setIsAddingTestimonial(false);
+						}}
 					>
 						Save
 					</PrimaryButton>
