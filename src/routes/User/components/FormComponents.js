@@ -196,6 +196,16 @@ const Select = styled.select`
 const InputType = React.forwardRef(
 	({ buttonText, type, error, save, children, ...props }, ref) => {
 		switch (type) {
+			case "text-area":
+				return (
+					<TextArea
+						{...props}
+						ref={ref}
+						type={type}
+						error={!!error}
+						onBlur={save}
+					/>
+				);
 			case "select":
 				return (
 					<Select {...props} error={!!error} onChange={save} ref={ref}>
@@ -260,6 +270,7 @@ const Input = React.forwardRef(
 			type,
 			onSave,
 			validation,
+			onChange,
 			...props
 		},
 		ref
@@ -290,6 +301,8 @@ const Input = React.forwardRef(
 			onSave && onSave(value, e);
 		};
 
+		const change = e => onChange(e.target.value);
+
 		return (
 			<LabelComponent>
 				{label}
@@ -298,6 +311,7 @@ const Input = React.forwardRef(
 					save={save}
 					error={error}
 					warning={warning}
+					onChange={change}
 					ref={ref}
 					{...props}
 				/>

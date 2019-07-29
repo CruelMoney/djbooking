@@ -78,7 +78,7 @@ const Header = ({ user, loading }) => {
 					<Spacing />
 					<FullWidthCol>
 						{loading ? (
-							<LoadingIndicator></LoadingIndicator>
+							<LoadingIndicator color={"#fff"} />
 						) : (
 							<UserContent user={user} />
 						)}

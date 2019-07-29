@@ -66,7 +66,7 @@ class LoadingCard extends Component {
 	}
 }
 
-const LoadingIndicator = ({ label }) => (
+const LoadingIndicator = ({ label, color }) => (
 	<div
 		style={{
 			height: "200px",
@@ -77,7 +77,7 @@ const LoadingIndicator = ({ label }) => (
 			flexDirection: "column"
 		}}
 	>
-		<Button rounded glow active disabled isLoading />
+		<Button rounded glow active disabled isLoading color={color} />
 		<p style={{ marginTop: "1em" }}>{label}</p>
 	</div>
 );

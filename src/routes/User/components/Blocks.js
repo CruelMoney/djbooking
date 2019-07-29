@@ -49,7 +49,7 @@ const tertiaryStyle = css`
 	letter-spacing: 1.04px;
 `;
 
-const ReadMoreText = styled.span`
+export const ReadMoreText = styled.span`
 	${tertiaryStyle}
 	text-transform:	 uppercase;
 	text-align: left;
@@ -164,10 +164,14 @@ export const SecondaryButton = styled.button`
 	color: #ffffff;
 `;
 
-export const PrimaryButton = styled.button`
+export const PrimaryButton = styled.button.attrs(
+	({ loading, ...props }) => props
+)`
 	${ButtonTextStyle}
 	color: #FFFFFF;
 	background: #31daff;
+	opacity: ${({ loading }) => (loading ? 0.5 : 1)};
+	pointer-events: ${({ loading }) => (loading ? "none" : "auto")};
 	:hover {
 		color: #ffffff;
 		background-color: #00d1ff;

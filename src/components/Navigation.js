@@ -201,7 +201,7 @@ class Menu extends Component {
 												<li>
 													<Button
 														className="redirect-button"
-														color="#03d1ff"
+														color="#fff"
 														isLoading
 													/>
 												</li>

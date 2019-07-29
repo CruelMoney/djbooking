@@ -288,6 +288,29 @@ const MY_EVENTS = gql`
 	}
 `;
 
+const WRITE_TESTIMONIAL = gql`
+	mutation WriteTestimonial(
+		$content: String!
+		$testifier: String!
+		$title: String!
+	) {
+		writeReview(
+			content: $content
+			isTestimonial: true
+			citation: $testifier
+			title: $title
+		) {
+			content
+		}
+	}
+`;
+
+const REMOVE_TESTIMONIAL = gql`
+	mutation RemoveTestimonial($id: ID!) {
+		removeReview(id: $id)
+	}
+`;
+
 export {
 	MY_EVENTS,
 	USER,
@@ -297,5 +320,7 @@ export {
 	DELETE_USER,
 	GET_OFFER,
 	MAKE_OFFER,
-	REVIEWS
+	REVIEWS,
+	WRITE_TESTIMONIAL,
+	REMOVE_TESTIMONIAL
 };

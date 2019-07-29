@@ -34,7 +34,8 @@ const Popup = ({
 	width,
 	hideClose,
 	noBackground,
-	children
+	children,
+	lazy = true
 }) => {
 	const [showingChildren, setShowingChildren] = useState({ showing });
 
@@ -136,7 +137,7 @@ const Popup = ({
 							</span>
 						</div>
 					) : null}
-					{showingChildren ? <div>{children}</div> : null}
+					{!lazy || showingChildren ? <div>{children}</div> : null}
 				</div>
 			</div>
 		</Modal>

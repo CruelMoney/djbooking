@@ -6,7 +6,7 @@ import {
 	Col,
 	Row,
 	Avatar,
-	ReadMore,
+	ReadMoreText,
 	Show,
 	TeritaryButton,
 	PrimaryButton
@@ -16,12 +16,14 @@ import QuotationMarkIcon from "../../../components/graphics/Quotes";
 import { Link } from "react-router-dom";
 import { PolicyDisplayer } from "../components/CancelationPolicyPopup";
 import { Query } from "react-apollo";
-import { REVIEWS } from "../gql";
+import { REVIEWS, WRITE_TESTIMONIAL, REMOVE_TESTIMONIAL } from "../gql";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
 import Rating from "../../../components/common/Rating";
 import moment from "moment";
 import EmptyPage from "../../../components/common/EmptyPage";
-import { Input } from "../components/FormComponents";
+import { Input, TextArea } from "../components/FormComponents";
+import Popup from "../../../components/common/Popup";
+import { useMutation } from "react-apollo-hooks";
 
 const ReviewsCol = styled(Col)`
 	flex: 1;
@@ -34,11 +36,27 @@ const VenuesCol = styled(Col)`
 	margin-left: 24px;
 `;
 
+const RemoveButton = styled(TeritaryButton)`
+	display: none;
+	position: absolute;
+	min-width: 0;
+	height: 18px;
+	top: 4px;
+	right: -50px;
+`;
+
 const ReviewWrapper = styled.div`
 	border-bottom: 1px solid #e9ecf0;
 	margin-bottom: 60px;
 	padding-bottom: 30px;
 	margin-right: 24px;
+	position: relative;
+	${RemoveButton} {
+		right: 0;
+	}
+	:hover ${RemoveButton} {
+		display: block;
+	}
 `;
 
 const AuthorName = styled.cite`
@@ -54,7 +72,6 @@ const CreatedAtLabel = styled.p`
 
 const Citation = ({ author, citation, createdAt }) => {
 	const name = author ? author.userMetadata.firstName : citation;
-	debugger;
 	return (
 		<Row right>
 			{author && author.picure ? (
@@ -71,26 +88,38 @@ const Citation = ({ author, citation, createdAt }) => {
 };
 
 const Review = ({
+	id,
 	title,
 	rating,
 	content,
 	isTestimonial,
 	author,
 	citation,
-	createdAt
+	createdAt,
+	removeTestimonial,
+	isOwn
 }) => (
 	<ReviewWrapper>
 		<Title>{title}</Title>
-
+		{isOwn && isTestimonial && (
+			<RemoveButton onClick={() => removeTestimonial({ variables: { id } })}>
+				remove
+			</RemoveButton>
+		)}
 		<Row middle style={{ marginTop: "36px" }}>
-			<Col>
+			<Col style={{ width: "100%" }}>
 				{rating && (
 					<Rating rating={rating} color="#50E3C2" emptyColor={"#50E3C299"} />
 				)}
 				{isTestimonial && (
-					<QuotationMarkIcon
-						style={{ marginBottom: "9px" }}
-					></QuotationMarkIcon>
+					<Row middle style={{ marginBottom: "9px", marginTop: "2px" }}>
+						<QuotationMarkIcon
+							width={32}
+							height={24}
+							style={{ marginRight: "12px" }}
+						></QuotationMarkIcon>
+						<ReadMoreText>TESTIMONIAL</ReadMoreText>
+					</Row>
 				)}
 				<ReadMoreExpander content={content} />
 				<Citation author={author} citation={citation} createdAt={createdAt} />
@@ -121,7 +150,7 @@ const Reviews = ({ user, loading: loadingUser, updateUser }) => {
 					<Content
 						userId={user.id}
 						playedVenues={playedVenues}
-						reviews={[]}
+						reviews={edges}
 						isOwn={isOwn}
 						updateUser={updateUser}
 					/>
@@ -150,19 +179,10 @@ const AddButton = styled(TeritaryButton)`
 	height: 18px;
 `;
 
-const RemoveVenueButton = styled(TeritaryButton)`
-	display: none;
-	position: absolute;
-	min-width: 0;
-	height: 18px;
-	top: 4px;
-	right: -50px;
-`;
-
 const VenueListItem = styled.li`
 	margin-bottom: 15px;
 	position: relative;
-	:hover ${RemoveVenueButton} {
+	:hover ${RemoveButton} {
 		display: inline-block;
 	}
 `;
@@ -176,7 +196,7 @@ const CTA = ({ onClick }) => (
 	</>
 );
 
-const InlineInput = ({ onSave }) => {
+const AutoFocusInput = ({ onSave }) => {
 	const input = useRef();
 
 	useEffect(() => {
@@ -188,6 +208,8 @@ const InlineInput = ({ onSave }) => {
 
 const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 	const [isAddingVenue, setIsAddingVenue] = useState(false);
+	const [isAddingTestimonial, setIsAddingTestimonial] = useState(false);
+	const [newTestimonial, setNewTestimonial] = useState({});
 
 	const saveVenue = venue => {
 		venue = venue.trim();
@@ -211,45 +233,113 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 		});
 	};
 
-	return (
-		<Row>
-			<ReviewsCol>
-				{reviews.length === 0 ? (
-					<EmptyPage
-						title="No reviews yet"
-						message={isOwn ? <CTA /> : ""}
-					></EmptyPage>
-				) : null}
+	const [writeTestimonial, { loading }] = useMutation(WRITE_TESTIMONIAL, {
+		variables: newTestimonial,
+		refetchQueries: [{ query: REVIEWS, variables: { id: userId } }],
+		awaitRefetchQueries: true,
+	});
 
-				{reviews.map(r => (
-					<Review key={r.id} {...r} />
-				))}
-				{isOwn && reviews.length > 0 && (
-					<AddButton>+ Add testimonial</AddButton>
-				)}
-			</ReviewsCol>
-			<VenuesCol>
-				<Title style={{ marginBottom: "36px" }}>Past venues</Title>
-				<ul>
-					{playedVenues.map((v, idx) => (
-						<VenueListItem key={idx}>
-							<VenueLabel>{v}</VenueLabel>
-							{isOwn && (
-								<RemoveVenueButton onClick={() => deleteVenue(v)}>
-									remove
-								</RemoveVenueButton>
-							)}
-						</VenueListItem>
+	const [removeTestimonial] = useMutation(REMOVE_TESTIMONIAL, {
+		refetchQueries: [{ query: REVIEWS, variables: { id: userId } }],
+		awaitRefetchQueries: true
+	});
+
+	return (
+		<>
+			<Row>
+				<ReviewsCol>
+					{reviews.length === 0 ? (
+						<EmptyPage
+							title="No reviews yet"
+							message={
+								isOwn ? (
+									<CTA onClick={() => setIsAddingTestimonial(true)} />
+								) : (
+									""
+								)
+							}
+						></EmptyPage>
+					) : null}
+
+					{reviews.map(r => (
+						<Review
+							key={r.id}
+							{...r}
+							isOwn={isOwn}
+							removeTestimonial={removeTestimonial}
+						/>
 					))}
-				</ul>
-				{isAddingVenue && <InlineInput onSave={saveVenue} />}
-				{isOwn && (
-					<AddButton onClick={() => setIsAddingVenue(true)}>
-						+ Add venue
-					</AddButton>
-				)}
-			</VenuesCol>
-		</Row>
+					{isOwn && reviews.length > 0 && (
+						<AddButton onClick={() => setIsAddingTestimonial(true)}>
+							+ Add testimonial
+						</AddButton>
+					)}
+				</ReviewsCol>
+				<VenuesCol>
+					<Title style={{ marginBottom: "36px" }}>Past venues</Title>
+					<ul>
+						{playedVenues.map((v, idx) => (
+							<VenueListItem key={idx}>
+								<VenueLabel>{v}</VenueLabel>
+								{isOwn && (
+									<RemoveButton onClick={() => deleteVenue(v)}>
+										remove
+									</RemoveButton>
+								)}
+							</VenueListItem>
+						))}
+					</ul>
+					{isAddingVenue && <AutoFocusInput onSave={saveVenue} />}
+					{isOwn && (
+						<AddButton onClick={() => setIsAddingVenue(true)}>
+							+ Add venue
+						</AddButton>
+					)}
+				</VenuesCol>
+			</Row>
+			<Popup
+				lazy={false}
+				width={450}
+				showing={isAddingTestimonial}
+				onClickOutside={() => setIsAddingTestimonial(false)}
+			>
+				<Input
+					type="text"
+					placeholder="Wedding"
+					label="Title"
+					onChange={title => setNewTestimonial(t => ({ ...t, title }))}
+				/>
+				<Input
+					type="text"
+					placeholder="Barack Obama"
+					label="Testifier"
+					onChange={testifier => setNewTestimonial(t => ({ ...t, testifier }))}
+				/>
+				<Input
+					style={{
+						height: "250px"
+					}}
+					type="text-area"
+					placeholder="Testimonial"
+					onChange={content => setNewTestimonial(t => ({ ...t, content }))}
+				/>
+				<Row style={{ marginTop: "15px" }} right>
+					<TeritaryButton
+						type="button"
+						onClick={_ => setIsAddingTestimonial(false)}
+					>
+						Cancel
+					</TeritaryButton>
+					<PrimaryButton
+						type="button"
+						loading={loading}
+						onClick={() => {writeTestimonial(); setIsAddingTestimonial(false);}}
+					>
+						Save
+					</PrimaryButton>
+				</Row>
+			</Popup>
+		</>
 	);
 };
 
