@@ -107,13 +107,6 @@ const Review = ({ reviewsCount }) => (
 		<Title>Highlighted Review</Title>
 
 		<Row middle style={{ marginTop: "36px" }}>
-			<Avatar
-				size="large"
-				src={"https://source.unsplash.com/random/120x120 /"}
-				style={{
-					marginRight: "24px"
-				}}
-			/>
 			<Col>
 				<QuotationMarkIcon style={{ marginBottom: "9px" }}></QuotationMarkIcon>
 				<Citation>

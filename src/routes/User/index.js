@@ -16,6 +16,7 @@ import { useMutation } from "react-apollo-hooks";
 import Notification from "../../components/common/Notification.js";
 import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
 import { ME } from "../../components/gql.js";
+import ScrollToTop from "../../components/common/ScrollToTop";
 
 const Content = React.memo(({ match, ...userProps }) => {
 	return (
@@ -68,6 +69,7 @@ const Index = ({ translate, match }) => {
 			{({ data: { user }, loading }) => (
 				<div>
 					<SavingIndicator loading={isSaving} error={error} />
+					<ScrollToTop animate top={280} />
 					<div>
 						<Header user={user} loading={loading} />
 						<Content
