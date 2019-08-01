@@ -8,7 +8,7 @@ export default class Agreement extends Component{
     return (
       <div className="">
       <h1>Terms of Service</h1>
-      <p className="subtitle">Last updated: 23/10/2017</p>
+      <p className="subtitle">Last updated: 02/08/2019</p>
       
 
 <p></p><p>PLEASE READ THESE TERMS OF SERVICE CAREFULLY AS THEY CONTAIN IMPORTANT INFORMATION REGARDING YOUR LEGAL RIGHTS, REMEDIES AND OBLIGATIONS. THESE INCLUDE VARIOUS LIMITATIONS AND EXCLUSIONS, A CLAUSE THAT GOVERNS THE JURISDICTION AND VENUE OF DISPUTES, AND OBLIGATIONS TO COMPLY WITH APPLICABLE LAWS AND REGULATIONS.
@@ -168,12 +168,12 @@ You understand and agree that the selection of you to make an offer for an Event
 
 <p></p><p>“<strong>Service Fees</strong>” means the fee that Cueup charges an organizer for the use of the Services, which is calculated as a percentage of the applicable DJ Price. The Service Fees will be displayed to the Organizer when the Organizer is asked confirm a Booking of a DJ service. It will also be showed to the DJ when making an offer.</p><p></p>
 
-<p></p><p>“<strong>DJ Fees</strong>” means the fee that Cueup charges a DJ for the use of the Services, which is calculated as a percentage of the applicable DJ Price. The DJ Fees will be displayed to the DJ when the DJ is asked to make an offer.</p><p></p>
+<p></p><p>“<strong>Cueup Fees</strong>” means the fee that Cueup charges a DJ for the use of the Services, which is calculated as a percentage of the applicable DJ Price. The Cueup Fees will be displayed to the DJ when the DJ is asked to make an offer.</p><p></p>
 
 <p></p><p>“<strong>Payment Method</strong>” means a payment method that you are using to pay or have added to your Cueup Account, such as a credit card, debit card or PayPal.</p><p></p>
 
 
-<p></p><p>“<strong>Total Fees</strong>” means collectively the DJ Fee and the Service Fees plus any Taxes.</p></li>
+<p></p><p>“<strong>Total Fees</strong>” means collectively the Cueup Fee and the Service Fees plus any Taxes.</p></li>
 <br/><li><p><em>Bookings and Financial Terms for DJs</em>
 </p><p></p>
 
