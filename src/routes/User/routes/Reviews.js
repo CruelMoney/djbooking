@@ -153,10 +153,14 @@ const Review = ({
 						</Row>
 					)}
 					<ReadMoreExpander
-						onTextSelected={(rect, text) => {
-							setVirtualReferenceElement(rect);
-							setSelection(text);
-						}}
+						onTextSelected={
+							isOwn
+								? (rect, text) => {
+										setVirtualReferenceElement(rect);
+										setSelection(text);
+								  }
+								: null
+						}
 						content={content}
 					/>
 					<Citation author={author} citation={citation} createdAt={createdAt} />
