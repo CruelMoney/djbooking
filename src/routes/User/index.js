@@ -5,7 +5,7 @@ import content from "./content.json";
 import requestformContent from "../../components/common/RequestForm/content.json";
 import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
-import { Query, ApolloConsumer } from "react-apollo";
+import { Query } from "react-apollo";
 import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
 import Sidebar from "./components/Sidebar.js";

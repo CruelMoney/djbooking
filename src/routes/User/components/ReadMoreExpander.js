@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { ReadMoreButton, TeritaryButton } from "./Blocks";
+import { ReadMoreButton } from "./Blocks";
 import { Body } from "./Text";
 
 const Wrapper = styled.div`

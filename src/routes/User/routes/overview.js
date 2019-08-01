@@ -1,22 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import {
-	Title,
-	Citation,
-	Cite,
-	Body,
-	SmallHeader,
-	TitleClean
-} from "../components/Text";
+import { Title, Citation, Cite, Body } from "../components/Text";
 import ReadMoreExpander from "../components/ReadMoreExpander";
-import {
-	Col,
-	Row,
-	Avatar,
-	ReadMore,
-	Show,
-	ReadMoreText
-} from "../components/Blocks";
+import { Col, Row, ReadMore, Show } from "../components/Blocks";
 import Map from "../../../components/common/Map";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
 import { Link } from "react-router-dom";
