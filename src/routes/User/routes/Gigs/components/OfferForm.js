@@ -42,8 +42,8 @@ const OfferForm = ({
 	const [submitLoading, setSubmitLoading] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
 
-	const getOffer = useMutation(GET_OFFER);
-	const makeOffer = useMutation(MAKE_OFFER);
+	const [getOffer] = useMutation(GET_OFFER);
+	const [makeOffer] = useMutation(MAKE_OFFER);
 
 	const updateOffer = async () => {
 		if (payoutInfoValid) {
@@ -86,6 +86,7 @@ const OfferForm = ({
 					});
 					setNewOffer(newOffer);
 				} catch (error) {
+					console.log({ error });
 					setError(error);
 				}
 
