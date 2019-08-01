@@ -1,16 +1,13 @@
-import React, { Component } from "react";
-import Button from "../../../../../components/common/Button-v2";
+import React, { PureComponent } from "react";
 import Gig from "./Gig";
 import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
 import EmptyPage from "../../../../../components/common/EmptyPage";
-import Popup from "../../../../../components/common/Popup";
-import Login from "../../../../../components/common/Login";
 import { connect } from "react-redux";
 import { localize } from "react-localize-redux";
-import { Query, ApolloConsumer } from "react-apollo";
+import { Query } from "react-apollo";
 import { MY_GIGS } from "../../../../../components/gql";
 
-class Gigs extends Component {
+class Gigs extends PureComponent {
 	state = {
 		showPopup: false,
 		loginPopup: true
@@ -23,15 +20,8 @@ class Gigs extends Component {
 	};
 
 	render() {
-		const {
-			translate,
-			notifications,
+		const { translate, notifications, user, currentLanguage } = this.props;
 
-			loading: loadingUser,
-			user,
-			currentLanguage
-		} = this.props;
-		const { loginPopup } = this.state;
 		const renderGigs = gigs => {
 			const renderGigs = gigs.filter(
 				({ event, status }) =>

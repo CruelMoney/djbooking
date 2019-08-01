@@ -10,7 +10,7 @@ import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
 import Sidebar from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
-import { Overview, Settings, Reviews, Gigs } from "./routes";
+import { Overview, Settings, Reviews, Gigs, Events } from "./routes";
 import { Container, Row, Col } from "./components/Blocks.js";
 import { useMutation } from "react-apollo-hooks";
 import Notification from "../../components/common/Notification.js";
@@ -64,6 +64,13 @@ const Content = React.memo(({ match, ...userProps }) => {
 							<Route
 								path={match.path + "/gigs"}
 								render={props => <LoginPopup {...props} {...userProps} />}
+							/>
+						) : null}
+
+						{user && user.isOwn ? (
+							<Route
+								path={match.path + "/events"}
+								render={props => <Events {...props} {...userProps} />}
 							/>
 						) : null}
 					</Switch>
