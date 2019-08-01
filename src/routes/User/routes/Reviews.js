@@ -7,32 +7,27 @@ import {
 	Row,
 	Avatar,
 	ReadMoreText,
-	Show,
 	TeritaryButton,
 	PrimaryButton
 } from "../components/Blocks";
-import Map from "../../../components/common/Map";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
-import { Link } from "react-router-dom";
-import { PolicyDisplayer } from "../components/CancelationPolicyPopup";
+
 import { Query } from "react-apollo";
 import {
 	REVIEWS,
 	WRITE_TESTIMONIAL,
 	REMOVE_TESTIMONIAL,
-	HIGHLIGHT_REVIEW,
-	USER
+	HIGHLIGHT_REVIEW
 } from "../gql";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
 import Rating from "../../../components/common/Rating";
 import moment from "moment";
 import EmptyPage from "../../../components/common/EmptyPage";
-import { Input, TextArea } from "../components/FormComponents";
+import { Input } from "../components/FormComponents";
 import Popup from "../../../components/common/Popup";
 import { useMutation } from "react-apollo-hooks";
 import ReactDOM from "react-dom";
 import { Popper } from "react-popper";
-import { setTimeout } from "optimism";
 
 const ReviewsCol = styled(Col)`
 	flex: 1;

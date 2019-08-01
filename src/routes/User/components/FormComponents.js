@@ -301,7 +301,7 @@ const Input = React.forwardRef(
 			onSave && onSave(value, e);
 		};
 
-		const change = e => onChange(e.target.value);
+		const change = e => onChange && onChange(e.target.value);
 
 		return (
 			<LabelComponent>
