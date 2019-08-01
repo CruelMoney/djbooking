@@ -5,11 +5,9 @@ const USER = gql`
 		user(permalink: $permalink) {
 			id
 			isOwn @client
-			auth0Id
 			permalink
 			genres
 			artistName
-			email
 			picture {
 				path
 			}
@@ -36,14 +34,9 @@ const USER = gql`
 				bio
 				birthday
 				phone
-				bankAccount {
-					status
-				}
 			}
 			userSettings {
-				currency
 				standby
-				notifications
 				cancelationPolicy {
 					days
 					percentage

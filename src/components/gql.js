@@ -4,11 +4,14 @@ const ME = gql`
 	query Me {
 		me {
 			id
-			auth0Id
 			email
 			permalink
 			genres
+			artistName
 			picture {
+				path
+			}
+			coverPhoto {
 				path
 			}
 			playingLocation {
@@ -40,6 +43,7 @@ const ME = gql`
 			}
 			userSettings {
 				currency
+				notifications
 				standby
 				cancelationPolicy {
 					days

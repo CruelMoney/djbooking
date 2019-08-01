@@ -5,7 +5,7 @@ import content from "./content.json";
 import requestformContent from "../../components/common/RequestForm/content.json";
 import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
-import { Query } from "react-apollo";
+import { Query, ApolloConsumer } from "react-apollo";
 import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
 import Sidebar from "./components/Sidebar.js";
@@ -16,6 +16,8 @@ import { useMutation } from "react-apollo-hooks";
 import Notification from "../../components/common/Notification.js";
 import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
 import ScrollToTop from "../../components/common/ScrollToTop";
+import Popup from "../../components/common/Popup.js";
+import Login from "../../components/common/Login.js";
 
 const Content = React.memo(({ match, ...userProps }) => {
 	const { user } = userProps;
@@ -58,6 +60,11 @@ const Content = React.memo(({ match, ...userProps }) => {
 								path={match.path + "/gigs"}
 								render={props => <Gigs {...props} {...userProps} />}
 							/>
+						) : !userProps.loading ? (
+							<Route
+								path={match.path + "/gigs"}
+								render={props => <LoginPopup {...props} {...userProps} />}
+							/>
 						) : null}
 					</Switch>
 				</Col>
@@ -65,6 +72,28 @@ const Content = React.memo(({ match, ...userProps }) => {
 		</Container>
 	);
 });
+
+const LoginPopup = ({ translate }) => {
+	const [shwowing, setShwowing] = useState(true);
+
+	return (
+		<Popup
+			showing={shwowing}
+			width={"400px"}
+			onClickOutside={() => setShwowing(false)}
+		>
+			<>
+				<p>{translate("Login to see your gigs")}</p>
+				<Login
+					redirect={false}
+					onLogin={async _ => {
+						window.location.reload();
+					}}
+				/>
+			</>
+		</Popup>
+	);
+};
 
 const Index = ({ translate, match }) => {
 	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);

@@ -83,34 +83,7 @@ class Gigs extends Component {
 					const { myGigs = {} } = data;
 					const { edges: gigs = [] } = myGigs;
 
-					return (
-						<>
-							<div>{gigs && renderGigs(gigs)}</div>
-							{/* {!loadingUser ? (
-								<Popup
-									showing={loginPopup && !loadingUser}
-									width={"400px"}
-									onClickOutside={() => this.setState({ loginPopup: false })}
-								>
-									<ApolloConsumer>
-										{client => {
-											return (
-												<>
-													<p>{translate("Login to see your gigs")}</p>
-													<Login
-														redirect={false}
-														onLogin={async _ => {
-															window.location.reload();
-														}}
-													/>
-												</>
-											);
-										}}
-									</ApolloConsumer>
-								</Popup>
-							) : null} */}
-						</>
-					);
+					return <div>{gigs && renderGigs(gigs)}</div>;
 				}}
 			</Query>
 		);

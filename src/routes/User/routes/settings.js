@@ -18,7 +18,8 @@ import PayoutForm from "../../../components/common/PayoutForm";
 import Popup from "../../../components/common/Popup";
 import { reset } from "../../../ApolloProvider";
 import { DELETE_USER } from "../gql";
-import { Mutation } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
+import { ME } from "../../../components/gql";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
@@ -349,4 +350,12 @@ const PayoutPopup = ({ user, hasPayout }) => {
 	);
 };
 
-export default Settings;
+const Wrapper = props => (
+	<Query query={ME}>
+		{({ loading, data }) =>
+			loading || !data ? null : <Settings {...props} user={data.me} />
+		}
+	</Query>
+);
+
+export default Wrapper;

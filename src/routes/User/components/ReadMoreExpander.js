@@ -7,7 +7,7 @@ const Wrapper = styled.div`
 	position: relative;
 `;
 
-const ReadMoreExpander = ({ id, content, onTextSelected }) => {
+const ReadMoreExpander = ({ content, onTextSelected }) => {
 	const [expanded, setExpanded] = useState(false);
 
 	const shouldTruncate = content.length > 350;
