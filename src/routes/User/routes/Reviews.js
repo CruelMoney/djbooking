@@ -16,7 +16,13 @@ import QuotationMarkIcon from "../../../components/graphics/Quotes";
 import { Link } from "react-router-dom";
 import { PolicyDisplayer } from "../components/CancelationPolicyPopup";
 import { Query } from "react-apollo";
-import { REVIEWS, WRITE_TESTIMONIAL, REMOVE_TESTIMONIAL } from "../gql";
+import {
+	REVIEWS,
+	WRITE_TESTIMONIAL,
+	REMOVE_TESTIMONIAL,
+	HIGHLIGHT_REVIEW,
+	USER
+} from "../gql";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
 import Rating from "../../../components/common/Rating";
 import moment from "moment";
@@ -24,6 +30,9 @@ import EmptyPage from "../../../components/common/EmptyPage";
 import { Input, TextArea } from "../components/FormComponents";
 import Popup from "../../../components/common/Popup";
 import { useMutation } from "react-apollo-hooks";
+import ReactDOM from "react-dom";
+import { Popper } from "react-popper";
+import { setTimeout } from "optimism";
 
 const ReviewsCol = styled(Col)`
 	flex: 1;
@@ -70,6 +79,11 @@ const CreatedAtLabel = styled.p`
 	color: #98a4b3;
 `;
 
+const HighlightTooltip = styled.div`
+	background: rgba(0, 0, 0, 0.84);
+	border-radius: 4px;
+`;
+
 const Citation = ({ author, citation, createdAt }) => {
 	const name = author ? author.userMetadata.firstName : citation;
 	return (
@@ -98,35 +112,88 @@ const Review = ({
 	createdAt,
 	removeTestimonial,
 	isOwn
-}) => (
-	<ReviewWrapper>
-		<Title>{title}</Title>
-		{isOwn && isTestimonial && (
-			<RemoveButton onClick={() => removeTestimonial({ variables: { id } })}>
-				remove
-			</RemoveButton>
-		)}
-		<Row middle style={{ marginTop: "36px" }}>
-			<Col style={{ width: "100%" }}>
-				{rating && (
-					<Rating rating={rating} color="#50E3C2" emptyColor={"#50E3C299"} />
-				)}
-				{isTestimonial && (
-					<Row middle style={{ marginBottom: "9px", marginTop: "2px" }}>
-						<QuotationMarkIcon
-							width={32}
-							height={24}
-							style={{ marginRight: "12px" }}
-						></QuotationMarkIcon>
-						<ReadMoreText>TESTIMONIAL</ReadMoreText>
-					</Row>
-				)}
-				<ReadMoreExpander onTextSelected={console.log} content={content} />
-				<Citation author={author} citation={citation} createdAt={createdAt} />
-			</Col>
-		</Row>
-	</ReviewWrapper>
-);
+}) => {
+	const [virtualReferenceElement, setVirtualReferenceElement] = useState(null);
+	const [selection, setSelection] = useState(null);
+
+	const [addHighlight, { loading, data: hasAdded }] = useMutation(
+		HIGHLIGHT_REVIEW,
+		{
+			update: () => {
+				setTimeout(() => setVirtualReferenceElement(null), 3000);
+			},
+			variables: {
+				id,
+				selection
+			}
+		}
+	);
+
+	return (
+		<ReviewWrapper>
+			<Title>{title}</Title>
+			{isOwn && isTestimonial && (
+				<RemoveButton onClick={() => removeTestimonial({ variables: { id } })}>
+					remove
+				</RemoveButton>
+			)}
+			<Row middle style={{ marginTop: "36px" }}>
+				<Col style={{ width: "100%" }}>
+					{rating && (
+						<Rating rating={rating} color="#50E3C2" emptyColor={"#50E3C299"} />
+					)}
+					{isTestimonial && (
+						<Row middle style={{ marginBottom: "9px", marginTop: "2px" }}>
+							<QuotationMarkIcon
+								width={32}
+								height={24}
+								style={{ marginRight: "12px" }}
+							></QuotationMarkIcon>
+							<ReadMoreText>TESTIMONIAL</ReadMoreText>
+						</Row>
+					)}
+					<ReadMoreExpander
+						onTextSelected={(rect, text) => {
+							setVirtualReferenceElement(rect);
+							setSelection(text);
+						}}
+						content={content}
+					/>
+					<Citation author={author} citation={citation} createdAt={createdAt} />
+				</Col>
+			</Row>
+			{virtualReferenceElement
+				? ReactDOM.createPortal(
+						<Popper
+							referenceElement={virtualReferenceElement}
+							eventsEnabled={false}
+						>
+							{({ ref, style, placement, arrowProps }) => (
+								<div ref={ref} style={style} data-placement={placement}>
+									<HighlightTooltip>
+										<TeritaryButton
+											disabled={loading || hasAdded}
+											style={{ color: "#fff" }}
+											onClick={() => {
+												addHighlight();
+											}}
+										>
+											{loading
+												? "Adding..."
+												: hasAdded
+												? "Added"
+												: "Highlight on profile"}
+										</TeritaryButton>
+									</HighlightTooltip>
+								</div>
+							)}
+						</Popper>,
+						document.querySelector("#tooltip-portal")
+				  )
+				: null}
+		</ReviewWrapper>
+	);
+};
 const Reviews = ({ user, loading: loadingUser, updateUser }) => {
 	if (loadingUser) {
 		return <LoadingPlaceholder2 />;

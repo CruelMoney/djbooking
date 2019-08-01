@@ -50,6 +50,14 @@ export const Title = styled.h3`
 	}
 `;
 
+export const TitleClean = styled.h3`
+	font-family: "AvenirNext-Bold";
+	font-size: 18px;
+	color: #122b48;
+	text-align: left;
+	margin-bottom: 24px;
+`;
+
 export const Body = styled.p`
 	font-family: "AvenirNext-Regular";
 	font-size: 18px;

@@ -1,12 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-import { Title, Citation, Cite } from "../components/Text";
+import {
+	Title,
+	Citation,
+	Cite,
+	Body,
+	SmallHeader,
+	TitleClean
+} from "../components/Text";
 import ReadMoreExpander from "../components/ReadMoreExpander";
-import { Col, Row, Avatar, ReadMore, Show } from "../components/Blocks";
+import {
+	Col,
+	Row,
+	Avatar,
+	ReadMore,
+	Show,
+	ReadMoreText
+} from "../components/Blocks";
 import Map from "../../../components/common/Map";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
 import { Link } from "react-router-dom";
 import { PolicyDisplayer } from "../components/CancelationPolicyPopup";
+import AddCircle from "react-ionicons/lib/MdAddCircle";
 
 const ColumnLayout = styled.section`
 	width: 100%;
@@ -102,27 +117,36 @@ const Genres = ({ genres }) => (
 	</GenresLayout>
 );
 
-const Review = ({ reviewsCount }) => (
-	<LeftItem>
-		<Title>Highlighted Review</Title>
+const Review = ({ reviewsCount, highlightedReview }) => {
+	const { content, author, citation } = highlightedReview;
 
-		<Row middle style={{ marginTop: "36px" }}>
-			<Col>
-				<QuotationMarkIcon style={{ marginBottom: "9px" }}></QuotationMarkIcon>
-				<Citation>
-					He is a charismatic and soulful person, which sure does transpire in
-					his rhythms
-				</Citation>
-				<Cite>Christopher Dengsø</Cite>
-			</Col>
-		</Row>
+	if (!content) {
+		return null;
+	}
+	return (
 		<Link to={"reviews"}>
-			<ReadMore style={{ marginTop: "24px" }}>
-				{reviewsCount} REVIEWS MORE
-			</ReadMore>
+			<LeftItem>
+				<Title>Highlighted Review</Title>
+
+				<Row middle style={{ marginTop: "36px" }}>
+					<Col style={{ width: "100%" }}>
+						<QuotationMarkIcon
+							style={{ marginBottom: "9px" }}
+						></QuotationMarkIcon>
+						<Citation>
+							{content.length > 130 ? content.slice(0, 127) + "..." : content}
+						</Citation>
+						<Cite>{author ? author.userMetadata.firstName : citation}</Cite>
+					</Col>
+				</Row>
+
+				<ReadMore style={{ marginTop: "24px" }}>
+					{reviewsCount} REVIEWS MORE
+				</ReadMore>
+			</LeftItem>
 		</Link>
-	</LeftItem>
-);
+	);
+};
 const MapArea = ({ playingLocation }) => (
 	<Square>
 		<Map
@@ -143,11 +167,30 @@ const MapArea = ({ playingLocation }) => (
 	</Square>
 );
 
+const AddBlockPlaceholder = ({ label, directions, to }) => {
+	return (
+		<Link to={to}>
+			<LeftItem>
+				<Title>{label}</Title>
+				<Body>{directions}</Body>
+				<AddCircle color={"#50e3c2"} fontSize={"30px"} />
+			</LeftItem>
+		</Link>
+	);
+};
+
 const Overview = ({ user, loading }) => {
 	if (loading) {
 		return null;
 	}
-	const { userMetadata, genres, playingLocation, userSettings, reviews } = user;
+	const {
+		userMetadata,
+		genres,
+		playingLocation,
+		userSettings,
+		reviews,
+		highlightedReview
+	} = user;
 	const { firstName, bio } = userMetadata;
 	const { cancelationPolicy } = userSettings;
 	return (
@@ -158,7 +201,18 @@ const Overview = ({ user, loading }) => {
 					<Show maxWidth="990px">
 						<Genres genres={genres} />
 					</Show>
-					<Review reviewsCount={reviews.pageInfo.totalDocs} />
+					{highlightedReview ? (
+						<Review
+							reviewsCount={reviews.pageInfo.totalDocs}
+							highlightedReview={highlightedReview}
+						/>
+					) : user.isOwn ? (
+						<AddBlockPlaceholder
+							to="reviews"
+							label="Add Highlight"
+							directions="Select text with the cursor from a review or testimonial to highlight it here."
+						/>
+					) : null}
 					<Show maxWidth="990px">
 						<MapArea playingLocation={playingLocation} />
 					</Show>

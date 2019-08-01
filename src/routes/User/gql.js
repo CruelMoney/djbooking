@@ -54,6 +54,19 @@ const USER = gql`
 					totalDocs
 				}
 			}
+			highlightedReview {
+				title
+				citation
+				content
+				author {
+					picture {
+						path
+					}
+					userMetadata {
+						firstName
+					}
+				}
+			}
 		}
 	}
 `;
@@ -311,6 +324,27 @@ const REMOVE_TESTIMONIAL = gql`
 	}
 `;
 
+const HIGHLIGHT_REVIEW = gql`
+	mutation HighlightReview($id: ID!, $selection: String!) {
+		highlightReview(id: $id, selection: $selection) {
+			id
+			highlightedReview {
+				title
+				citation
+				content
+				author {
+					picture {
+						path
+					}
+					userMetadata {
+						firstName
+					}
+				}
+			}
+		}
+	}
+`;
+
 export {
 	MY_EVENTS,
 	USER,
@@ -322,5 +356,6 @@ export {
 	MAKE_OFFER,
 	REVIEWS,
 	WRITE_TESTIMONIAL,
-	REMOVE_TESTIMONIAL
+	REMOVE_TESTIMONIAL,
+	HIGHLIGHT_REVIEW
 };
