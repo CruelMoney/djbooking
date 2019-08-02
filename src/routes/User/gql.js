@@ -5,6 +5,7 @@ const USER = gql`
 		user(permalink: $permalink) {
 			id
 			isOwn @client
+			isDj @client
 			permalink
 			genres
 			artistName

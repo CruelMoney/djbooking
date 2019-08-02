@@ -72,18 +72,10 @@ const Sidebar = ({ user, loading }) => {
 					<SidebarContent>
 						{loading ? <LoadingPlaceholder2 /> : <Content user={user} />}
 					</SidebarContent>
-					<CTA>
-						<CTAButton>
-							BOOK NOW{" "}
-							<Arrow
-								color="#fff"
-								style={{ position: "absolute", right: "24px" }}
-							></Arrow>
-						</CTAButton>
-					</CTA>
+					{user && user.isDj && <BookingButton />}
 				</Card>
 				<Shadow></Shadow>
-				<CTAShadow />
+				{user && user.isDj && <CTAShadow />}
 			</CardWrapper>
 			<SimpleSharing
 				shareUrl={user && `/user/${user.permalink}/overview}]`}
@@ -213,5 +205,17 @@ const CTAShadow = styled.div`
 const CTA = styled.div`
 	position: relative;
 `;
+
+const BookingButton = () => (
+	<CTA>
+		<CTAButton>
+			BOOK NOW{" "}
+			<Arrow
+				color="#fff"
+				style={{ position: "absolute", right: "24px" }}
+			></Arrow>
+		</CTAButton>
+	</CTA>
+);
 
 export default Sidebar;

@@ -9,6 +9,18 @@ const resolvers = {
 				return true;
 			}
 			return false;
+		},
+		isDj: user => {
+			if (user && user.appMetadata && user.appMetadata.roles) {
+				return user.appMetadata.roles.includes("DJ");
+			}
+			return false;
+		},
+		isOrganizer: user => {
+			if (user && user.appMetadata && user.appMetadata.roles) {
+				return user.appMetadata.roles.includes("ORGANIZER");
+			}
+			return false;
 		}
 	},
 	Mutation: {
