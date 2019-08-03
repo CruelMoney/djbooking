@@ -36,7 +36,7 @@ const LeftCol = styled(Col)`
 	flex: 1;
 	margin-right: 42px;
 	position: sticky;
-	top: 90px;
+	top: ${({ stickyTop }) => stickyTop};
 	@media only screen and (max-width: 990px) {
 		position: initial;
 	}
@@ -57,10 +57,15 @@ const RightCol = styled(Row)`
 	}
 `;
 
-const SettingsSection = ({ title, description, children }) => {
+const SettingsSection = ({
+	title,
+	description,
+	children,
+	stickyTop = "90px"
+}) => {
 	return (
 		<SectionRow>
-			<LeftCol>
+			<LeftCol stickyTop={stickyTop}>
 				<Title>{title}</Title>
 				<Body style={{ marginBottom: "24px" }}>{description}</Body>
 			</LeftCol>

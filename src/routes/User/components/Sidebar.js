@@ -12,6 +12,7 @@ import Star from "react-ionicons/lib/MdStar";
 import Tooltip from "./Tooltip";
 import moment from "moment";
 import { SimpleSharing } from "../../../components/common/Sharing-v2";
+import { NavLink } from "react-router-dom";
 
 const Sticky = styled.div`
 	position: sticky;
@@ -72,7 +73,7 @@ const Sidebar = ({ user, loading }) => {
 					<SidebarContent>
 						{loading ? <LoadingPlaceholder2 /> : <Content user={user} />}
 					</SidebarContent>
-					{user && user.isDj && <BookingButton />}
+					{user && user.isDj && <BookingButton user={user} />}
 				</Card>
 				<Shadow></Shadow>
 				{user && user.isDj && <CTAShadow />}
@@ -202,20 +203,18 @@ const CTAShadow = styled.div`
 	bottom: 0;
 `;
 
-const CTA = styled.div`
-	position: relative;
-`;
-
-const BookingButton = () => (
-	<CTA>
-		<CTAButton>
-			BOOK NOW{" "}
-			<Arrow
-				color="#fff"
-				style={{ position: "absolute", right: "24px" }}
-			></Arrow>
-		</CTAButton>
-	</CTA>
-);
+const BookingButton = () => {
+	return (
+		<NavLink to="booking">
+			<CTAButton>
+				REQUEST BOOKING{" "}
+				<Arrow
+					color="#fff"
+					style={{ position: "absolute", right: "24px" }}
+				></Arrow>
+			</CTAButton>
+		</NavLink>
+	);
+};
 
 export default Sidebar;

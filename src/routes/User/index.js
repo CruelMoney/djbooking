@@ -10,7 +10,7 @@ import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
 import Sidebar from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
-import { Overview, Settings, Reviews, Gigs, Events } from "./routes";
+import { Overview, Settings, Reviews, Gigs, Events, Booking } from "./routes";
 import { Container, Row, Col } from "./components/Blocks.js";
 import { useMutation } from "react-apollo-hooks";
 import Notification from "../../components/common/Notification.js";
@@ -20,63 +20,69 @@ import Popup from "../../components/common/Popup.js";
 import Login from "../../components/common/Login.js";
 
 const Content = React.memo(({ match, ...userProps }) => {
-	const { user } = userProps;
+	const { user, loading } = userProps;
 	return (
-		<Container>
-			<Row>
-				<Sidebar {...userProps} />
+		<div>
+			<ScrollToTop animate top={280} />
 
-				<Col
-					style={{
-						marginTop: "42px",
-						width: "100%",
-						marginBottom: "60px",
-						zIndex: 0,
-						position: "relative"
-					}}
-				>
-					<Switch>
-						<Redirect
-							from={match.path + "/profile"}
-							to={match.path + "/overview"}
-						/>
-						<Route
-							path={match.path + "/overview"}
-							render={props => <Overview {...props} {...userProps} />}
-						/>
-						<Route
-							path={match.path + "/reviews"}
-							render={props => <Reviews {...props} {...userProps} />}
-						/>
-						{user && user.isOwn ? (
-							<Route
-								path={match.path + "/settings"}
-								render={props => <Settings {...props} {...userProps} />}
-							/>
-						) : null}
+			<Header user={user} loading={loading} />
 
-						{user && user.isOwn ? (
-							<Route
-								path={match.path + "/gigs"}
-								render={props => <Gigs {...props} {...userProps} />}
-							/>
-						) : !userProps.loading ? (
-							<Route
-								path={match.path + "/gigs"}
-								render={props => <LoginPopup {...props} {...userProps} />}
-							/>
-						) : null}
+			<Container>
+				<Row>
+					<Sidebar {...userProps} />
 
-						{user && user.isOwn ? (
-							<Route
-								path={match.path + "/events"}
-								render={props => <Events {...props} {...userProps} />}
+					<Col
+						style={{
+							marginTop: "42px",
+							width: "100%",
+							marginBottom: "60px",
+							zIndex: 0,
+							position: "relative"
+						}}
+					>
+						<Switch>
+							<Redirect
+								from={match.path + "/profile"}
+								to={match.path + "/overview"}
 							/>
-						) : null}
-					</Switch>
-				</Col>
-			</Row>
-		</Container>
+							<Route
+								path={match.path + "/overview"}
+								render={props => <Overview {...props} {...userProps} />}
+							/>
+							<Route
+								path={match.path + "/reviews"}
+								render={props => <Reviews {...props} {...userProps} />}
+							/>
+							{user && user.isOwn ? (
+								<Route
+									path={match.path + "/settings"}
+									render={props => <Settings {...props} {...userProps} />}
+								/>
+							) : null}
+
+							{user && user.isOwn ? (
+								<Route
+									path={match.path + "/gigs"}
+									render={props => <Gigs {...props} {...userProps} />}
+								/>
+							) : !userProps.loading ? (
+								<Route
+									path={match.path + "/gigs"}
+									render={props => <LoginPopup {...props} {...userProps} />}
+								/>
+							) : null}
+
+							{user && user.isOwn ? (
+								<Route
+									path={match.path + "/events"}
+									render={props => <Events {...props} {...userProps} />}
+								/>
+							) : null}
+						</Switch>
+					</Col>
+				</Row>
+			</Container>
+		</div>
 	);
 });
 
@@ -114,17 +120,34 @@ const Index = ({ translate, match }) => {
 			{({ data: { user }, loading }) => (
 				<div>
 					<SavingIndicator loading={isSaving} error={error} />
-					<ScrollToTop animate top={280} />
-					<div>
-						<Header user={user} loading={loading} />
-						<Content
-							match={match}
-							user={user}
-							loading={loading}
-							updateUser={updateUser}
-							translate={translate}
+
+					<Switch>
+						{user && user.isDj ? (
+							<Route
+								path={match.path + "/booking"}
+								render={props => (
+									<Booking
+										{...props}
+										user={user}
+										loading={loading}
+										translate={translate}
+									/>
+								)}
+							/>
+						) : null}
+						<Route
+							render={() => (
+								<Content
+									match={match}
+									user={user}
+									loading={loading}
+									translate={translate}
+									updateUser={updateUser}
+								/>
+							)}
 						/>
-					</div>
+					</Switch>
+
 					<Footer
 						noSkew
 						firstTo={translate("routes./how-it-works")}

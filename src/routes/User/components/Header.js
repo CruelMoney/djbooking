@@ -8,7 +8,7 @@ import { LoadingIndicator } from "../../../components/common/LoadingPlaceholder"
 import { Container, FullWidthCol, Row, MarginBottom } from "./Blocks";
 import { Spacing } from "./Sidebar";
 
-const GradientBg = styled.section`
+export const GradientBg = styled.section`
 	height: 318px;
 	background: linear-gradient(
 			-180deg,
