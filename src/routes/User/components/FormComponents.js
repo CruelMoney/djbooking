@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { Row, Col } from "./Blocks";
 import { Title, Body } from "./Text";
@@ -117,6 +117,11 @@ const buttonStyle = css`
 	line-height: 40px !important;
 	transition: all 200ms ease;
 	cursor: pointer;
+	box-shadow: ${({ attention, error }) => {
+		const show = attention || error;
+		const color = error ? "#D0021B" : "#FFC800";
+		return show ? `inset 0 0 0 2px ${color}` : "none";
+	}};
 	:hover {
 		${({ warning }) =>
 			warning
@@ -265,6 +270,39 @@ const InputType = React.forwardRef(
 	}
 );
 
+export const useValidation = ({
+	validation,
+	registerValidation,
+	unregisterValidation
+}) => {
+	const [error, setError] = useState(null);
+	const runValidation = useCallback(
+		value => {
+			if (validation) {
+				const validationError = validation(value);
+				if (validationError) {
+					setError(validationError);
+				} else {
+					setError(null);
+				}
+				return validationError;
+			}
+		},
+		[validation]
+	);
+
+	useEffect(() => {
+		if (registerValidation) {
+			registerValidation(runValidation);
+		}
+		return () => unregisterValidation(runValidation);
+	}, [validation, registerValidation, unregisterValidation, runValidation]);
+	return {
+		runValidation,
+		error
+	};
+};
+
 const Input = React.forwardRef(
 	(
 		{
@@ -276,12 +314,19 @@ const Input = React.forwardRef(
 			onSave,
 			validation,
 			onChange,
+			registerValidation,
+			unregisterValidation = () => {},
 			...props
 		},
 		ref
 	) => {
-		const [error, setError] = useState(null);
 		const LabelComponent = half ? LabelHalf : InputLabel;
+
+		const { runValidation, error } = useValidation({
+			registerValidation,
+			unregisterValidation,
+			validation
+		});
 
 		const save = e => {
 			const value = e.target ? e.target.value : e;
@@ -292,18 +337,9 @@ const Input = React.forwardRef(
 					return;
 				}
 			}
-
-			if (validation) {
-				const validationError = validation(value);
-				if (validationError) {
-					setError(validationError);
-					return;
-				} else {
-					setError(null);
-				}
+			if (!runValidation(value)) {
+				onSave && onSave(value, e);
 			}
-
-			onSave && onSave(value, e);
 		};
 
 		const change = e => onChange && onChange(e.target.value);
@@ -314,7 +350,7 @@ const Input = React.forwardRef(
 				<InputType
 					type={type}
 					save={save}
-					error={error}
+					error={error || propsError}
 					warning={warning}
 					onChange={change}
 					ref={ref}

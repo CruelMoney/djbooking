@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { SettingsSection, Input, Label } from "../components/FormComponents";
 import emailValidator from "email-validator";
-
 import DatePickerPopup from "../components/DatePicker";
-
 import styled from "styled-components";
 import { Row, Container, Col } from "../components/Blocks";
 import { GradientBg } from "../components/Header";
@@ -17,10 +15,39 @@ import RiderOptions from "../components/RiderOptions";
 import TimeSlider from "../../../components/common/TimeSlider";
 import Slider from "../../../components/common/Slider";
 import wNumb from "wnumb";
+import { Mutation } from "react-apollo";
+import { CREATE_EVENT } from "../../../components/common/RequestForm/gql";
+
+const useForm = form => {
+	const validations = useRef({});
+
+	const registerValidation = key => fun => {
+		validations.current = {
+			...validations.current,
+			[key]: fun
+		};
+	};
+
+	const unregisterValidation = key => fun => {
+		delete validations.current[key];
+	};
+
+	const runValidations = () => {
+		return Object.entries(validations.current).reduce(
+			(errors, [key, fun]) => [...errors, fun(form[key])],
+			[]
+		);
+	};
+
+	return {
+		registerValidation,
+		unregisterValidation,
+		runValidations
+	};
+};
 
 const Booking = ({ user, loading, updateUser, translate, history }) => {
 	const [form, setForm] = useState({
-		date: new Date(),
 		guests: 80,
 		rider: {
 			speakers: false,
@@ -32,7 +59,15 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 		}
 	});
 
+	const { registerValidation, unregisterValidation, runValidations } = useForm(
+		form
+	);
+
 	const setValue = key => val => setForm(f => ({ ...f, [key]: val }));
+
+	const requestBooking = () => {
+		runValidations();
+	};
 
 	return (
 		<div>
@@ -65,15 +100,20 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 								placeholder="Add a short, clear name"
 								onSave={setValue("eventName")}
 								validation={v => (!!v ? null : "Please enter a name")}
+								registerValidation={registerValidation("eventName")}
+								unregisterValidation={unregisterValidation("eventName")}
 							/>
 							<DatePickerPopup
 								half
-								initialDate={moment(form.date)}
 								label={"Date"}
+								initialDate={form.date ? moment(form.date) : null}
 								showMonthDropdown={false}
 								showYearDropdown={false}
 								maxDate={false}
 								onSave={setValue("date")}
+								validation={v => (!!v ? null : "Please select a date")}
+								registerValidation={registerValidation("date")}
+								unregisterValidation={unregisterValidation("date")}
 							/>
 							<Label
 								style={{
@@ -191,14 +231,19 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 							/>
 						</SettingsSection>
 					</Col>
-					<BookingSidebar loading={loading} user={user} values={form} />
+					<BookingSidebar
+						loading={loading}
+						user={user}
+						values={form}
+						requestBooking={requestBooking}
+					/>
 				</Row>
 			</Container>
 		</div>
 	);
 };
 
-const BookingSidebar = ({ loading, ...props }) => {
+const BookingSidebar = ({ loading, values, requestBooking, ...props }) => {
 	return (
 		<Sidebar
 			showCTAShadow
@@ -207,15 +252,23 @@ const BookingSidebar = ({ loading, ...props }) => {
 			style={{ marginLeft: "60px", marginTop: "42px" }}
 		>
 			<SidebarContent>
-				{loading ? <LoadingPlaceholder2 /> : <Content {...props} />}
+				{loading ? (
+					<LoadingPlaceholder2 />
+				) : (
+					<Content values={values} {...props} />
+				)}
 			</SidebarContent>
-			<CTAButton>
-				REQUEST BOOKING
-				<Arrow
-					color="#fff"
-					style={{ position: "absolute", right: "24px" }}
-				></Arrow>
-			</CTAButton>
+			<Mutation mutation={CREATE_EVENT} variables={values}>
+				{mutate => (
+					<CTAButton onClick={requestBooking}>
+						REQUEST BOOKING
+						<Arrow
+							color="#fff"
+							style={{ position: "absolute", right: "24px" }}
+						></Arrow>
+					</CTAButton>
+				)}
+			</Mutation>
 		</Sidebar>
 	);
 };
@@ -249,7 +302,6 @@ const Content = ({ user, values }) => {
 
 	const { guests, date, rider, duration, eventName } = values;
 
-	debugger;
 	return (
 		<>
 			<SmallHeader style={{ marginBottom: "15px" }}>{`Booking of ${artistName ||

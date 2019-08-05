@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Input } from "../components/FormComponents";
+import React, { useState, useCallback } from "react";
+import { Input, useValidation } from "../components/FormComponents";
 import moment from "moment-timezone";
 
 import Popup from "../../../components/common/Popup";
@@ -12,30 +12,51 @@ const DatePickerPopup = ({
 	half,
 	showMonthDropdown = true,
 	showYearDropdown = true,
-	maxDate = new Date()
+	maxDate = new Date(),
+	validation,
+	registerValidation,
+	unregisterValidation
 }) => {
 	const [showing, setShowing] = useState(false);
+	const [selectedDate, setDate] = useState(
+		initialDate ? moment(initialDate) : null
+	);
+
+	const { error, runValidation } = useValidation({
+		validation,
+		registerValidation,
+		unregisterValidation
+	});
 
 	const save = moment => {
 		setShowing(false);
-		onSave(moment.toDate());
+		if (!runValidation(moment)) {
+			setDate(moment);
+			onSave(moment.toDate());
+		}
 	};
 
 	return (
 		<>
 			<Input
+				error={error}
 				half={half}
 				type="button"
-				onClick={s => setShowing(true)}
+				onClick={() => {
+					setShowing(true);
+				}}
 				label={label}
 				buttonText={
-					initialDate ? moment(initialDate).format("DD/MM/YYYY") : "Select"
+					selectedDate ? moment(selectedDate).format("DD/MM/YYYY") : "Select"
 				}
 			/>
 			<Popup
 				width="380px"
 				showing={showing}
-				onClickOutside={() => setShowing(false)}
+				onClickOutside={() => {
+					setShowing(false);
+					runValidation(selectedDate);
+				}}
 			>
 				<DatePicker
 					dark
