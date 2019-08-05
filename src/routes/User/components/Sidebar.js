@@ -68,7 +68,7 @@ const CTA = styled.button`
 	outline: none;
 	font-family: "AvenirNext-Bold";
 	font-size: 15px;
-	color: #ffffff;
+	color: #ffffff !important;
 	letter-spacing: 1.2px;
 	text-align: left;
 	padding-left: 24px;
@@ -76,7 +76,7 @@ const CTA = styled.button`
 	align-items: center;
 	transition: all 250ms ease;
 	&:hover {
-		color: #ffffff;
+		color: #ffffff !important;
 		background-color: #00d1ff;
 	}
 `;

@@ -12,7 +12,6 @@ import { Row, Container, Col } from "../components/Blocks";
 import { GradientBg } from "../components/Header";
 import Sidebar, { SidebarContent, CTAButton } from "../components/Sidebar";
 import ScrollToTop from "../../../components/common/ScrollToTop";
-import Arrow from "react-ionicons/lib/MdArrowRoundForward";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
 import { SmallHeader } from "../components/Text";
 import moment from "moment-timezone";
@@ -29,14 +28,18 @@ import ErrorMessageApollo, {
 } from "../../../components/common/ErrorMessageApollo";
 import GeoCoder from "../../../utils/GeoCoder";
 import * as Sentry from "@sentry/browser";
+import * as tracker from "../../../utils/analytics/autotrack";
+import ReactPixel from "react-facebook-pixel";
 
-const Booking = ({ user, loading, updateUser, translate, history }) => {
+const Booking = ({ user, loading, translate }) => {
+	const [eventCreated, setEventCreated] = useState(false);
+
 	const [form, setForm] = useState({
 		guestsCount: 80,
 		speakers: false,
 		lights: false,
-		start: null,
-		end: null
+		startTime: null,
+		endTime: null
 	});
 	const [loginPopup, setloginPopup] = useState(false);
 
@@ -55,7 +58,6 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 			});
 			return;
 		}
-		debugger;
 		try {
 			const { timeZoneId } = await GeoCoder.getTimeZone({
 				lat: user.playingLocation.latitude,
@@ -68,12 +70,19 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 					timeZoneId,
 					djId: user.id,
 					genres: user.genres,
-					location: user.playingLocation
+					location: {
+						latitude: user.playingLocation.latitude,
+						longitude: user.playingLocation.longitude,
+						name: user.playingLocation.name
+					}
 				}
 			});
+			setEventCreated(true);
+			tracker.trackEventPosted();
+			ReactPixel.track("Lead");
 		} catch (error) {
+			debugger;
 			Sentry.captureException(error);
-			window.alert(getErrorMessage(error));
 		}
 	};
 
@@ -102,194 +111,225 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 			</Popup>
 
 			<Container>
-				<Row>
-					<Col
-						style={{
-							marginTop: "42px",
-							width: "100%",
-							marginBottom: "60px",
-							zIndex: 0,
-							position: "relative"
-						}}
-					>
-						<SettingsSection
-							stickyTop={"24px"}
-							title={"Event Details"}
-							description={
-								"Tell us about your event to help the dj decide on a fair price."
-							}
-						>
-							<Input
-								half
-								type="text"
-								label="Event Name"
-								placeholder="Add a short, clear name"
-								onSave={setValue("name")}
-								validation={v => (!!v ? null : "Please enter a name")}
-								registerValidation={registerValidation("name")}
-								unregisterValidation={unregisterValidation("name")}
-							/>
-							<DatePickerPopup
-								half
-								label={"Date"}
-								minDate={new Date()}
-								initialDate={form.date ? moment(form.date) : null}
-								showMonthDropdown={false}
-								showYearDropdown={false}
-								maxDate={false}
-								onSave={setValue("date")}
-								validation={v => (!!v ? null : "Please select a date")}
-								registerValidation={registerValidation("date")}
-								unregisterValidation={unregisterValidation("date")}
-							/>
-							<Label
-								style={{
-									width: "100%",
-									marginRight: "36px",
-									marginBottom: "30px"
-								}}
-							>
-								<span style={{ marginBottom: "12px", display: "block" }}>
-									Duration
-								</span>
-								<TimeSlider
-									color={"#50e3c2"}
-									hoursLabel={translate("hours")}
-									startLabel={translate("start")}
-									endLabel={translate("end")}
-									date={moment(form.date)}
-									onChange={([start, end]) => {
-										setValue("start")(
-											moment(form.date)
-												.startOf("day")
-												.add(start, "minutes")
-												.toDate()
-										);
-										setValue("end")(
-											moment(form.date)
-												.startOf("day")
-												.add(end, "minutes")
-												.toDate()
-										);
-									}}
-								/>
-							</Label>
-
-							<Label
-								style={{
-									width: "100%",
-									marginRight: "36px",
-									marginBottom: "30px"
-								}}
-							>
-								<span style={{ marginBottom: "12px", display: "block" }}>
-									Guests
-								</span>
-
-								<Slider
-									color={"#50e3c2"}
-									name="guestsCount"
-									range={{
-										min: 1,
-										"50%": 100,
-										"80%": 500,
-										max: 1000
-									}}
-									step={1}
-									connect="lower"
-									value={[80]}
-									onChange={values => {
-										setValue("guestsCount")(values[0]);
-									}}
-									format={wNumb({
-										decimals: 0
-									})}
-								/>
-								<span
-									style={{ marginTop: "15px", display: "block" }}
-								>{`${form.guestsCount} people`}</span>
-							</Label>
-							<RiderOptions
-								onSave={({ speakers, lights }) => {
-									setValue("speakers")(speakers);
-									setValue("lights")(lights);
-								}}
-							/>
-
-							<Input
-								type="text-area"
-								label={"Description"}
-								placeholder={translate(
-									"request-form.step-3.event-description-description"
-								)}
-								style={{
-									height: "200px"
-								}}
-								onSave={setValue("description")}
-								validation={v => (!!v ? null : "Please enter a description")}
-								registerValidation={registerValidation("description")}
-								unregisterValidation={unregisterValidation("description")}
-							/>
-						</SettingsSection>
-
-						<SettingsSection
-							stickyTop={"24px"}
-							title={"Contact Details"}
-							description={
-								"How should we get back to you with updates from the dj? Your information is only shared with the dj."
-							}
-						>
-							<Input
-								type="text"
-								label="Contact Name"
-								placeholder="First Last"
-								validation={v => {
-									if (!v) {
-										return "Please enter name";
-									}
-									const [firstName, ...lastName] = v.split(" ");
-									if (!firstName || !lastName.some(s => !!s.trim())) {
-										return "Please enter both first and last name";
-									}
-								}}
-								onSave={setValue("contactName")}
-								registerValidation={registerValidation("contactName")}
-								unregisterValidation={unregisterValidation("contactName")}
-							/>
-
-							<Input
-								placeholder="mail@email.com"
-								type="email"
-								autoComplete="email"
-								label="Contact Email"
-								validation={v =>
-									emailValidator.validate(v) ? null : "Not a valid email"
-								}
-								onSave={setValue("contactEmail")}
-								registerValidation={registerValidation("contactEmail")}
-								unregisterValidation={unregisterValidation("contactEmail")}
-							/>
-							<Input
-								label="Contact Phone"
-								placeholder="+123456789"
-								type="tel"
-								autoComplete="tel"
-								onSave={setValue("contactPhone")}
-							/>
-						</SettingsSection>
-					</Col>
-					<BookingSidebar
-						loading={loading}
+				{eventCreated ? (
+					<SuccessMessage translate={translate} />
+				) : (
+					<EventForm
+						setValue={setValue}
+						registerValidation={registerValidation}
+						unregisterValidation={unregisterValidation}
+						form={form}
+						translate={translate}
 						user={user}
-						values={form}
+						loading={loading}
 						requestBooking={requestBooking}
-						showLogin={() => setloginPopup(true)}
+						setloginPopup={setloginPopup}
+						loginPopup={loginPopup}
 					/>
-				</Row>
+				)}
 			</Container>
 		</div>
 	);
 };
+
+const EventForm = ({
+	setValue,
+	registerValidation,
+	unregisterValidation,
+	form,
+	translate,
+	user,
+	loading,
+	requestBooking,
+	setloginPopup,
+	loginPopup
+}) => (
+	<Row>
+		<Col
+			style={{
+				marginTop: "42px",
+				width: "100%",
+				marginBottom: "60px",
+				zIndex: 0,
+				position: "relative"
+			}}
+		>
+			<SettingsSection
+				stickyTop={"24px"}
+				title={"Event Details"}
+				description={
+					"Tell us about your event to help the dj decide on a fair price."
+				}
+			>
+				<Input
+					half
+					type="text"
+					label="Event Name"
+					placeholder="Add a short, clear name"
+					onSave={setValue("name")}
+					validation={v => (!!v ? null : "Please enter a name")}
+					registerValidation={registerValidation("name")}
+					unregisterValidation={unregisterValidation("name")}
+				/>
+				<DatePickerPopup
+					half
+					label={"Date"}
+					minDate={new Date()}
+					initialDate={form.date ? moment(form.date) : null}
+					showMonthDropdown={false}
+					showYearDropdown={false}
+					maxDate={false}
+					onSave={setValue("date")}
+					validation={v => (!!v ? null : "Please select a date")}
+					registerValidation={registerValidation("date")}
+					unregisterValidation={unregisterValidation("date")}
+				/>
+				<Label
+					style={{
+						width: "100%",
+						marginRight: "36px",
+						marginBottom: "30px"
+					}}
+				>
+					<span style={{ marginBottom: "12px", display: "block" }}>
+						Duration
+					</span>
+					<TimeSlider
+						color={"#50e3c2"}
+						hoursLabel={translate("hours")}
+						startLabel={translate("start")}
+						endLabel={translate("end")}
+						date={moment(form.date)}
+						onChange={([start, end]) => {
+							setValue("startTime")(
+								moment(form.date)
+									.startOf("day")
+									.add(start, "minutes")
+									.toDate()
+							);
+							setValue("endTime")(
+								moment(form.date)
+									.startOf("day")
+									.add(end, "minutes")
+									.toDate()
+							);
+						}}
+					/>
+				</Label>
+
+				<Label
+					style={{
+						width: "100%",
+						marginRight: "36px",
+						marginBottom: "30px"
+					}}
+				>
+					<span style={{ marginBottom: "12px", display: "block" }}>Guests</span>
+
+					<Slider
+						color={"#50e3c2"}
+						name="guestsCount"
+						range={{
+							min: 1,
+							"50%": 100,
+							"80%": 500,
+							max: 1000
+						}}
+						step={1}
+						connect="lower"
+						value={[80]}
+						onChange={values => {
+							setValue("guestsCount")(values[0]);
+						}}
+						format={wNumb({
+							decimals: 0
+						})}
+					/>
+					<span
+						style={{ marginTop: "15px", display: "block" }}
+					>{`${form.guestsCount} people`}</span>
+				</Label>
+				<RiderOptions
+					onSave={({ speakers, lights }) => {
+						setValue("speakers")(speakers);
+						setValue("lights")(lights);
+					}}
+				/>
+
+				<Input
+					type="text-area"
+					label={"Description"}
+					placeholder={translate(
+						"request-form.step-3.event-description-description"
+					)}
+					style={{
+						height: "200px"
+					}}
+					onSave={setValue("description")}
+					validation={v => (!!v ? null : "Please enter a description")}
+					registerValidation={registerValidation("description")}
+					unregisterValidation={unregisterValidation("description")}
+				/>
+			</SettingsSection>
+
+			<SettingsSection
+				stickyTop={"24px"}
+				title={"Contact Details"}
+				description={
+					"How should we get back to you with updates from the dj? Your information is only shared with the dj."
+				}
+			>
+				<Input
+					type="text"
+					label="Contact Name"
+					autoComplete="name"
+					placeholder="First Last"
+					validation={v => {
+						if (!v) {
+							return "Please enter name";
+						}
+						const [firstName, ...lastName] = v.split(" ");
+						if (!firstName || !lastName.some(s => !!s.trim())) {
+							return "Please enter both first and last name";
+						}
+					}}
+					required
+					onSave={setValue("contactName")}
+					registerValidation={registerValidation("contactName")}
+					unregisterValidation={unregisterValidation("contactName")}
+				/>
+
+				<Input
+					placeholder="mail@email.com"
+					type="email"
+					autoComplete="email"
+					label="Contact Email"
+					validation={v =>
+						emailValidator.validate(v) ? null : "Not a valid email"
+					}
+					onSave={setValue("contactEmail")}
+					registerValidation={registerValidation("contactEmail")}
+					unregisterValidation={unregisterValidation("contactEmail")}
+				/>
+				<Input
+					label="Contact Phone"
+					placeholder="+123456789"
+					type="tel"
+					autoComplete="tel"
+					onSave={setValue("contactPhone")}
+				/>
+			</SettingsSection>
+		</Col>
+		<BookingSidebar
+			key={loginPopup}
+			loading={loading}
+			user={user}
+			values={form}
+			requestBooking={requestBooking}
+			showLogin={() => setloginPopup(true)}
+		/>
+	</Row>
+);
 
 const BookingSidebar = ({
 	loading,
@@ -328,7 +368,7 @@ const BookingSidebar = ({
 
 					<CTAButton
 						disabled={createLoading}
-						loading={loading}
+						loading={createLoading}
 						onClick={requestBooking(mutate)}
 					>
 						REQUEST BOOKING
@@ -366,7 +406,15 @@ const Content = ({ user, values }) => {
 	const { artistName, userMetadata } = user;
 	const { firstName } = userMetadata;
 
-	const { guestsCount, date, speakers, lights, start, end, name } = values;
+	const {
+		guestsCount,
+		date,
+		speakers,
+		lights,
+		startTime,
+		endTime,
+		name
+	} = values;
 
 	return (
 		<>
@@ -375,7 +423,8 @@ const Content = ({ user, values }) => {
 			{name && <SidebarRow>{name}</SidebarRow>}
 			<SidebarRow>{moment(date).format("dddd Do MMMM, YYYY")}</SidebarRow>
 			<SidebarRow>
-				From {moment(start).format("HH:mm")} to {moment(end).format("HH:mm")}
+				From {moment(startTime).format("HH:mm")} to{" "}
+				{moment(endTime).format("HH:mm")}
 			</SidebarRow>
 			<SidebarRow>{guestsCount} guests</SidebarRow>
 			{speakers && <SidebarRow>Including speakers</SidebarRow>}
@@ -397,5 +446,22 @@ const Content = ({ user, values }) => {
 		</>
 	);
 };
+
+const SuccessMessage = ({ translate }) => (
+	<Row middle center>
+		<div className="col-md-8 thank-you-text">
+			<p
+				className="center"
+				style={{
+					fontSize: "32px",
+					textAlign: "center",
+					lineHeight: "45px"
+				}}
+			>
+				{translate("request-form.succes-message")}
+			</p>
+		</div>
+	</Row>
+);
 
 export default Booking;
