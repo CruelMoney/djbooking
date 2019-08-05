@@ -64,7 +64,6 @@ const PayForm = ({
 					const { requestPaymentIntent = {} } = data;
 					const { recommendedCurrency, offer } = requestPaymentIntent;
 					const showCurrencyChange = recommendedCurrency !== currency;
-					console.log({ requestPaymentIntent });
 
 					const PayForms = {
 						STRIPE: (

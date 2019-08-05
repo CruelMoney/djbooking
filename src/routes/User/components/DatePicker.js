@@ -5,13 +5,19 @@ import moment from "moment-timezone";
 import Popup from "../../../components/common/Popup";
 import DatePicker from "../../../components/common/Datepicker";
 
-const DatePickerPopup = ({ birthday, onSave }) => {
+const DatePickerPopup = ({
+	initialDate,
+	onSave,
+	label,
+	showMonthDropdown = true,
+	showYearDropdown = true,
+	maxDate = new Date()
+}) => {
 	const [showing, setShowing] = useState(false);
-	const initialDate = birthday ? moment(birthday) : null;
 
 	const save = moment => {
 		setShowing(false);
-		onSave({ birthday: moment.toDate() });
+		onSave(moment.toDate());
 	};
 
 	return (
@@ -20,9 +26,9 @@ const DatePickerPopup = ({ birthday, onSave }) => {
 				half
 				type="button"
 				onClick={s => setShowing(true)}
-				label="Birthday"
+				label={label}
 				buttonText={
-					birthday ? moment(birthday).format("DD/MM/YYYY") : "Update birthday"
+					initialDate ? moment(initialDate).format("DD/MM/YYYY") : "Select"
 				}
 			/>
 			<Popup
@@ -34,10 +40,10 @@ const DatePickerPopup = ({ birthday, onSave }) => {
 					dark
 					initialDate={initialDate}
 					minDate={null}
-					maxDate={new Date()}
+					maxDate={maxDate}
 					handleChange={save}
-					showMonthDropdown
-					showYearDropdown
+					showMonthDropdown={showMonthDropdown}
+					showYearDropdown={showYearDropdown}
 					dropdownMode="select"
 				/>
 			</Popup>

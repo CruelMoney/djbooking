@@ -29,7 +29,14 @@ const Content = React.memo(({ match, ...userProps }) => {
 
 			<Container>
 				<Row>
-					<Sidebar {...userProps} />
+					<Sidebar
+						style={{
+							marginTop: "-220px",
+							marginBottom: "30px",
+							marginRight: "60px"
+						}}
+						{...userProps}
+					/>
 
 					<Col
 						style={{
@@ -122,19 +129,17 @@ const Index = ({ translate, match }) => {
 					<SavingIndicator loading={isSaving} error={error} />
 
 					<Switch>
-						{user && user.isDj ? (
-							<Route
-								path={match.path + "/booking"}
-								render={props => (
-									<Booking
-										{...props}
-										user={user}
-										loading={loading}
-										translate={translate}
-									/>
-								)}
-							/>
-						) : null}
+						<Route
+							path={match.path + "/booking"}
+							render={props => (
+								<Booking
+									{...props}
+									user={user}
+									loading={loading}
+									translate={translate}
+								/>
+							)}
+						/>
 						<Route
 							render={() => (
 								<Content

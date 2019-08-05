@@ -30,6 +30,7 @@ export const Stat = ({ label, value, style }) => (
 export const SmallHeader = styled.h6`
 	font-family: "AvenirNext-DemiBold";
 	font-size: 15px;
+	line-height: 1.5em;
 	color: #122b48;
 `;
 

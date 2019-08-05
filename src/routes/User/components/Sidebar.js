@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 
 const Sticky = styled.div`
 	position: sticky;
-	top: -80px;
+	top: ${({ stickyTop }) => stickyTop};
 	margin-bottom: 42px;
 	align-self: flex-start;
 	z-index: 2;
@@ -26,13 +26,9 @@ export const Spacing = styled.div`
 	min-width: 300px;
 	width: 300px;
 	position: relative;
-	margin-right: 60px;
 `;
 
-const CardWrapper = styled(Spacing)`
-	margin-top: -220px;
-	margin-bottom: 30px;
-`;
+const CardWrapper = styled(Spacing)``;
 
 const Card = styled.div`
 	background-color: #fff;
@@ -40,7 +36,6 @@ const Card = styled.div`
 	height: 100%;
 	position: relative;
 	z-index: 1;
-	min-height: 500px;
 `;
 
 const Shadow = styled.div`
@@ -60,27 +55,44 @@ const ProfileImg = styled(GracefullImage)`
 	object-fit: cover;
 `;
 
-const SidebarContent = styled.div`
+export const SidebarContent = styled.div`
 	padding: 24px;
 `;
 
-const Sidebar = ({ user, loading }) => {
+const Sidebar = ({
+	user,
+	loading,
+	children,
+	enableSharing = true,
+	style,
+	stickyTop = "-80px",
+	showCTAShadow
+}) => {
+	const showShadow = showCTAShadow || (user && user.isDj);
 	return (
-		<Sticky>
-			<CardWrapper>
+		<Sticky stickyTop={stickyTop}>
+			<CardWrapper style={style}>
 				<Card>
-					<ProfileImg src={user ? user.picture.path : null} />
-					<SidebarContent>
-						{loading ? <LoadingPlaceholder2 /> : <Content user={user} />}
-					</SidebarContent>
-					{user && user.isDj && <BookingButton user={user} />}
+					{children ? (
+						children
+					) : (
+						<>
+							<ProfileImg src={user ? user.picture.path : null} />
+							<SidebarContent>
+								{loading ? <LoadingPlaceholder2 /> : <Content user={user} />}
+							</SidebarContent>
+							{user && user.isDj && <BookingButton user={user} />}
+						</>
+					)}
 				</Card>
 				<Shadow></Shadow>
-				{user && user.isDj && <CTAShadow />}
+				{showShadow ? <CTAShadow /> : null}
 			</CardWrapper>
-			<SimpleSharing
-				shareUrl={user && `/user/${user.permalink}/overview}]`}
-			></SimpleSharing>
+			{enableSharing && (
+				<SimpleSharing
+					shareUrl={user && `/user/${user.permalink}/overview}]`}
+				></SimpleSharing>
+			)}
 		</Sticky>
 	);
 };
@@ -174,7 +186,7 @@ const Stats = ({ experience, followers }) => {
 	);
 };
 
-const CTAButton = styled.button`
+export const CTAButton = styled.button`
 	width: 100%;
 	height: 60px;
 	background-color: #31daff;
@@ -195,7 +207,7 @@ const CTAButton = styled.button`
 	}
 `;
 
-const CTAShadow = styled.div`
+export const CTAShadow = styled.div`
 	box-shadow: 0px -20px 50px 20px #26deff;
 	position: absolute;
 	width: 100%;

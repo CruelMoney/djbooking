@@ -145,7 +145,11 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 				/>
 				<PasswordChanger onSave={saveData}></PasswordChanger>
 
-				<DatePickerPopup onSave={saveData} birthday={birthday} />
+				<DatePickerPopup
+					label={"Birthday"}
+					onSave={date => saveData({ birthday: date })}
+					birthday={birthday}
+				/>
 				<ImageUploader
 					half
 					label="Profile picture"

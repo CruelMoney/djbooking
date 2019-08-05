@@ -82,7 +82,7 @@ const Header = ({ user, loading }) => {
 		<GradientBg coverPhoto={user && user.coverPhoto}>
 			<Container>
 				<Row className="wrapper">
-					<Spacing />
+					<Spacing style={{ marginRight: "60px" }} />
 					<FullWidthCol>
 						{loading ? (
 							<LoadingIndicator color={"#fff"} />
