@@ -1,18 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Row, Divider, Col } from "./Blocks";
-import { Stat, SmallHeader } from "./Text";
-import GracefullImage from "./GracefullImage";
-import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
-import Arrow from "react-ionicons/lib/MdArrowRoundForward";
-import AddCircle from "react-ionicons/lib/MdAddCircle";
-import Pin from "react-ionicons/lib/MdPin";
-import Medal from "react-ionicons/lib/MdMedal";
-import Star from "react-ionicons/lib/MdStar";
-import Tooltip from "./Tooltip";
-import moment from "moment";
-import { SimpleSharing } from "../../../components/common/Sharing-v2";
-import { NavLink } from "react-router-dom";
 
 const Sticky = styled.div`
 	position: sticky;
@@ -49,137 +36,26 @@ const Shadow = styled.div`
 	z-index: 0;
 `;
 
-const ProfileImg = styled(GracefullImage)`
-	width: 300px;
-	height: 300px;
-	object-fit: cover;
-`;
-
 export const SidebarContent = styled.div`
 	padding: 24px;
 `;
 
 const Sidebar = ({
-	user,
-	loading,
 	children,
 	style,
-	stickyTop = "-300px", // height of image
+	stickyTop,
 	showCTAShadow,
 	childrenBelow
 }) => {
-	const showShadow = showCTAShadow || (user && user.isDj);
 	return (
 		<Sticky stickyTop={stickyTop} style={style}>
 			<CardWrapper>
-				<Card>
-					{children ? (
-						children
-					) : (
-						<>
-							<ProfileImg src={user ? user.picture.path : null} />
-							<SidebarContent>
-								{loading ? <LoadingPlaceholder2 /> : <Content user={user} />}
-							</SidebarContent>
-							{user && user.isDj && <BookingButton user={user} />}
-						</>
-					)}
-				</Card>
+				<Card>{children}</Card>
 				<Shadow></Shadow>
-				{showShadow ? <CTAShadow /> : null}
+				{showCTAShadow ? <CTAShadow /> : null}
 			</CardWrapper>
-
 			{childrenBelow}
 		</Sticky>
-	);
-};
-
-const IconRow = styled(Row)`
-	font-family: "AvenirNext-DemiBold";
-	font-size: 15px;
-	color: #98a4b3;
-	align-items: center;
-	margin-bottom: 12px;
-	display: inline-flex;
-`;
-
-const Content = ({ user }) => {
-	const { userMetadata, appMetadata, playingLocation } = user || {};
-	const {
-		experience,
-		followers,
-		createdAt,
-		certified,
-		identityVerified
-	} = appMetadata;
-
-	const memberSince = moment(createdAt).format("MMMM YYYY");
-
-	return (
-		<>
-			<Stats experience={experience} followers={followers} />
-			<SmallHeader
-				style={{ marginBottom: "15px" }}
-			>{`Hi I'm ${userMetadata.firstName}`}</SmallHeader>
-
-			<Col
-				style={{
-					alignItems: "flex-start"
-				}}
-			>
-				<IconRow>
-					<AddCircle color={"#98a4b3"} style={{ marginRight: "15px" }} />
-					Member since {memberSince}
-				</IconRow>
-				{playingLocation && (
-					<IconRow>
-						<Pin color={"#98a4b3"} style={{ marginRight: "15px" }} />
-						{playingLocation.name}
-					</IconRow>
-				)}
-				{certified && (
-					<Tooltip
-						text={
-							"This dj has been certified by Cueup. The Cueup team has personally met and seen this dj play."
-						}
-					>
-						{({ ref, close, open }) => (
-							<IconRow ref={ref} onMouseEnter={open} onMouseLeave={close}>
-								<Medal color={"#50E3C2"} style={{ marginRight: "15px" }} />
-								Cueup certified
-							</IconRow>
-						)}
-					</Tooltip>
-				)}
-				{identityVerified && (
-					<IconRow>
-						<Star color={"#50E3C2"} style={{ marginRight: "15px" }} />
-						Identity verified
-					</IconRow>
-				)}
-			</Col>
-		</>
-	);
-};
-
-const Stats = ({ experience, followers }) => {
-	if (!experience && !followers) {
-		return null;
-	}
-	return (
-		<>
-			<Row>
-				{followers && (
-					<Stat
-						label={"followers"}
-						value={followers}
-						style={{ marginRight: "24px" }}
-					></Stat>
-				)}
-				{experience && <Stat label={"played gigs"} value={experience}></Stat>}
-			</Row>
-			<Divider></Divider>
-		</>
 	);
 };
 
@@ -211,19 +87,5 @@ export const CTAShadow = styled.div`
 	height: 0%;
 	bottom: 0;
 `;
-
-const BookingButton = () => {
-	return (
-		<NavLink to="booking">
-			<CTAButton>
-				REQUEST BOOKING{" "}
-				<Arrow
-					color="#fff"
-					style={{ position: "absolute", right: "24px" }}
-				></Arrow>
-			</CTAButton>
-		</NavLink>
-	);
-};
 
 export default Sidebar;

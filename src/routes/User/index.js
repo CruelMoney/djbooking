@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router";
-
+import styled from "styled-components";
 import content from "./content.json";
 import requestformContent from "../../components/common/RequestForm/content.json";
 import modalContent from "../../components/common/modals/content.json";
@@ -8,10 +8,10 @@ import addTranslate from "../../components/higher-order/addTranslate";
 import { Query } from "react-apollo";
 import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
-import Sidebar from "./components/Sidebar.js";
+import Sidebar, { CTAButton, SidebarContent } from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
 import { Overview, Settings, Reviews, Gigs, Events, Booking } from "./routes";
-import { Container, Row, Col } from "./components/Blocks.js";
+import { Container, Row, Col, Divider } from "./components/Blocks.js";
 import { useMutation } from "react-apollo-hooks";
 import Notification from "../../components/common/Notification.js";
 import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
@@ -19,6 +19,17 @@ import ScrollToTop from "../../components/common/ScrollToTop";
 import Popup from "../../components/common/Popup.js";
 import Login from "../../components/common/Login.js";
 import { SimpleSharing } from "../../components/common/Sharing-v2.js";
+import { LoadingPlaceholder2 } from "../../components/common/LoadingPlaceholder";
+import Arrow from "react-ionicons/lib/MdArrowRoundForward";
+import Pin from "react-ionicons/lib/MdPin";
+import Medal from "react-ionicons/lib/MdMedal";
+import Star from "react-ionicons/lib/MdStar";
+import Tooltip from "./components/Tooltip";
+import moment from "moment";
+import { NavLink } from "react-router-dom";
+import GracefullImage from "./components/GracefullImage";
+import { SmallHeader, Stat } from "./components/Text.js";
+import AddCircle from "react-ionicons/lib/MdAddCircle";
 
 const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading } = userProps;
@@ -30,20 +41,7 @@ const Content = React.memo(({ match, ...userProps }) => {
 
 			<Container>
 				<Row>
-					<Sidebar
-						style={{
-							marginTop: "-220px",
-							marginBottom: "30px",
-							marginRight: "60px"
-						}}
-						childrenBelow={
-							<SimpleSharing
-								style={{ marginTop: "30px" }}
-								shareUrl={user && `/user/${user.permalink}/overview}]`}
-							></SimpleSharing>
-						}
-						{...userProps}
-					/>
+					<UserSidebar {...userProps} />
 
 					<Col
 						style={{
@@ -197,6 +195,139 @@ const SavingIndicator = ({ loading, error }) => {
 		>
 			{error && <ErrorMessageApollo error={error} />}
 		</Notification>
+	);
+};
+
+const IconRow = styled(Row)`
+	font-family: "AvenirNext-DemiBold";
+	font-size: 15px;
+	color: #98a4b3;
+	align-items: center;
+	margin-bottom: 12px;
+	display: inline-flex;
+`;
+
+const UserSidebar = ({ user, loading }) => {
+	const { userMetadata = {}, appMetadata = {}, playingLocation } = user || {};
+	const {
+		experience,
+		followers,
+		createdAt,
+		certified,
+		identityVerified
+	} = appMetadata;
+
+	const memberSince = moment(createdAt).format("MMMM YYYY");
+
+	return (
+		<Sidebar
+			showCTAShadow={user && user.isDj}
+			stickyTop={"-300px"} // height of image
+			style={{
+				marginTop: "-220px",
+				marginBottom: "30px",
+				marginRight: "60px"
+			}}
+			childrenBelow={
+				<SimpleSharing
+					style={{ marginTop: "30px" }}
+					shareUrl={user && `/user/${user.permalink}/overview}]`}
+				></SimpleSharing>
+			}
+		>
+			<ProfileImg src={user ? user.picture.path : null} />
+
+			{loading || !user ? (
+				<SidebarContent>
+					<LoadingPlaceholder2 />
+				</SidebarContent>
+			) : (
+				<SidebarContent>
+					<Stats experience={experience} followers={followers} />
+					<SmallHeader
+						style={{ marginBottom: "15px" }}
+					>{`Hi I'm ${userMetadata.firstName}`}</SmallHeader>
+
+					<Col
+						style={{
+							alignItems: "flex-start"
+						}}
+					>
+						<IconRow>
+							<AddCircle color={"#98a4b3"} style={{ marginRight: "15px" }} />
+							Member since {memberSince}
+						</IconRow>
+						{playingLocation && (
+							<IconRow>
+								<Pin color={"#98a4b3"} style={{ marginRight: "15px" }} />
+								{playingLocation.name}
+							</IconRow>
+						)}
+						{certified && (
+							<Tooltip
+								text={
+									"This dj has been certified by Cueup. The Cueup team has personally met and seen this dj play."
+								}
+							>
+								{({ ref, close, open }) => (
+									<IconRow ref={ref} onMouseEnter={open} onMouseLeave={close}>
+										<Medal color={"#50E3C2"} style={{ marginRight: "15px" }} />
+										Cueup certified
+									</IconRow>
+								)}
+							</Tooltip>
+						)}
+						{identityVerified && (
+							<IconRow>
+								<Star color={"#50E3C2"} style={{ marginRight: "15px" }} />
+								Identity verified
+							</IconRow>
+						)}
+					</Col>
+				</SidebarContent>
+			)}
+			{user && user.isDj && <BookingButton user={user} />}
+		</Sidebar>
+	);
+};
+const ProfileImg = styled(GracefullImage)`
+	width: 300px;
+	height: 300px;
+	object-fit: cover;
+`;
+
+const Stats = ({ experience, followers }) => {
+	if (!experience && !followers) {
+		return null;
+	}
+	return (
+		<>
+			<Row>
+				{followers && (
+					<Stat
+						label={"followers"}
+						value={followers}
+						style={{ marginRight: "24px" }}
+					></Stat>
+				)}
+				{experience && <Stat label={"played gigs"} value={experience}></Stat>}
+			</Row>
+			<Divider></Divider>
+		</>
+	);
+};
+
+const BookingButton = () => {
+	return (
+		<NavLink to="booking">
+			<CTAButton>
+				REQUEST BOOKING{" "}
+				<Arrow
+					color="#fff"
+					style={{ position: "absolute", right: "24px" }}
+				></Arrow>
+			</CTAButton>
+		</NavLink>
 	);
 };
 
