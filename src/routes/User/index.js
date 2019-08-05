@@ -317,16 +317,10 @@ const Stats = ({ experience, followers }) => {
 	);
 };
 
-const BookingButton = () => {
+const BookingButton = ({ loading }) => {
 	return (
 		<NavLink to="booking">
-			<CTAButton>
-				REQUEST BOOKING{" "}
-				<Arrow
-					color="#fff"
-					style={{ position: "absolute", right: "24px" }}
-				></Arrow>
-			</CTAButton>
+			<CTAButton loading={loading}>REQUEST BOOKING</CTAButton>
 		</NavLink>
 	);
 };

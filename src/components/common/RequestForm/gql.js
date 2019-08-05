@@ -21,6 +21,7 @@ const CREATE_EVENT = gql`
 		$guestsCount: Int!
 		$location: Area!
 		$timeZone: String
+		$djId: ID
 	) {
 		createEvent(
 			name: $name
@@ -36,6 +37,7 @@ const CREATE_EVENT = gql`
 			genres: $genres
 			guestsCount: $guestsCount
 			location: $location
+			djId: $djId
 		)
 	}
 `;

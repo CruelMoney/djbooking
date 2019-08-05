@@ -1,5 +1,6 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import Arrow from "react-ionicons/lib/MdArrowRoundForward";
 
 const Sticky = styled.div`
 	position: sticky;
@@ -59,7 +60,7 @@ const Sidebar = ({
 	);
 };
 
-export const CTAButton = styled.button`
+const CTA = styled.button`
 	width: 100%;
 	height: 60px;
 	background-color: #31daff;
@@ -79,6 +80,35 @@ export const CTAButton = styled.button`
 		background-color: #00d1ff;
 	}
 `;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const LoadingIndicator = styled.span`
+	height: 24px;
+	width: 24px;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	animation: ${rotate} 1s linear infinite;
+	display: block;
+	border-color: currentColor currentColor currentColor transparent;
+`;
+
+export const CTAButton = ({ children, loading, ...props }) => (
+	<CTA {...props}>
+		{children}{" "}
+		<div style={{ position: "absolute", right: "24px" }}>
+			{loading ? <LoadingIndicator /> : <Arrow color="#fff" />}
+		</div>
+	</CTA>
+);
 
 export const CTAShadow = styled.div`
 	box-shadow: 0px -20px 50px 20px #26deff;

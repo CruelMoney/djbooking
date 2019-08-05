@@ -24,22 +24,19 @@ import { Mutation } from "react-apollo";
 import { CREATE_EVENT } from "../../../components/common/RequestForm/gql";
 import Popup from "../../../components/common/Popup";
 import Login from "../../../components/common/Login";
-import ErrorMessageApollo from "../../../components/common/ErrorMessageApollo";
+import ErrorMessageApollo, {
+	getErrorMessage
+} from "../../../components/common/ErrorMessageApollo";
 import GeoCoder from "../../../utils/GeoCoder";
+import * as Sentry from "@sentry/browser";
 
 const Booking = ({ user, loading, updateUser, translate, history }) => {
 	const [form, setForm] = useState({
-		guests: 80,
-		rider: {
-			speakers: false,
-			lights: false
-		},
-		duration: {
-			start: moment(),
-			end: moment()
-		},
-		genres: user.genres,
-		location: user.location
+		guestsCount: 80,
+		speakers: false,
+		lights: false,
+		start: null,
+		end: null
 	});
 	const [loginPopup, setloginPopup] = useState(false);
 
@@ -56,14 +53,28 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 				behavior: "smooth",
 				top: refs[0].current.offsetTop
 			});
+			return;
 		}
+		debugger;
+		try {
+			const { timeZoneId } = await GeoCoder.getTimeZone({
+				lat: user.playingLocation.latitude,
+				lng: user.playingLocation.longitude
+			});
 
-		const { timeZoneId } = await GeoCoder.getTimeZone({
-			lat: form.location.latitude,
-			lng: form.location.longitude
-		});
-
-		await mutate({ variables: { ...form, timeZoneId, djId: user.id } });
+			await mutate({
+				variables: {
+					...form,
+					timeZoneId,
+					djId: user.id,
+					genres: user.genres,
+					location: user.playingLocation
+				}
+			});
+		} catch (error) {
+			Sentry.captureException(error);
+			window.alert(getErrorMessage(error));
+		}
 	};
 
 	return (
@@ -148,14 +159,18 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 									endLabel={translate("end")}
 									date={moment(form.date)}
 									onChange={([start, end]) => {
-										setValue("duration")({
-											start: moment(form.date)
+										setValue("start")(
+											moment(form.date)
 												.startOf("day")
-												.add(start, "minutes"),
-											end: moment(form.date)
+												.add(start, "minutes")
+												.toDate()
+										);
+										setValue("end")(
+											moment(form.date)
 												.startOf("day")
 												.add(end, "minutes")
-										});
+												.toDate()
+										);
 									}}
 								/>
 							</Label>
@@ -173,7 +188,7 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 
 								<Slider
 									color={"#50e3c2"}
-									name="guests"
+									name="guestsCount"
 									range={{
 										min: 1,
 										"50%": 100,
@@ -184,7 +199,7 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 									connect="lower"
 									value={[80]}
 									onChange={values => {
-										setValue("guests")(values[0]);
+										setValue("guestsCount")(values[0]);
 									}}
 									format={wNumb({
 										decimals: 0
@@ -192,9 +207,14 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 								/>
 								<span
 									style={{ marginTop: "15px", display: "block" }}
-								>{`${form.guests} people`}</span>
+								>{`${form.guestsCount} people`}</span>
 							</Label>
-							<RiderOptions onSave={setValue("rider")} />
+							<RiderOptions
+								onSave={({ speakers, lights }) => {
+									setValue("speakers")(speakers);
+									setValue("lights")(lights);
+								}}
+							/>
 
 							<Input
 								type="text-area"
@@ -312,10 +332,6 @@ const BookingSidebar = ({
 						onClick={requestBooking(mutate)}
 					>
 						REQUEST BOOKING
-						<Arrow
-							color="#fff"
-							style={{ position: "absolute", right: "24px" }}
-						></Arrow>
 					</CTAButton>
 				</Sidebar>
 			)}
@@ -350,7 +366,7 @@ const Content = ({ user, values }) => {
 	const { artistName, userMetadata } = user;
 	const { firstName } = userMetadata;
 
-	const { guests, date, rider, duration, name } = values;
+	const { guestsCount, date, speakers, lights, start, end, name } = values;
 
 	return (
 		<>
@@ -359,11 +375,11 @@ const Content = ({ user, values }) => {
 			{name && <SidebarRow>{name}</SidebarRow>}
 			<SidebarRow>{moment(date).format("dddd Do MMMM, YYYY")}</SidebarRow>
 			<SidebarRow>
-				From {duration.start.format("HH:mm")} to {duration.end.format("HH:mm")}
+				From {moment(start).format("HH:mm")} to {moment(end).format("HH:mm")}
 			</SidebarRow>
-			<SidebarRow>{guests} guests</SidebarRow>
-			{rider.speakers && <SidebarRow>Including speakers</SidebarRow>}
-			{rider.lights && <SidebarRow>Including lights</SidebarRow>}
+			<SidebarRow>{guestsCount} guests</SidebarRow>
+			{speakers && <SidebarRow>Including speakers</SidebarRow>}
+			{lights && <SidebarRow>Including lights</SidebarRow>}
 			<div>
 				<SimpleTableItem>
 					<span>Dj price</span>
