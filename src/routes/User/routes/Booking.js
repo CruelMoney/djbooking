@@ -25,6 +25,7 @@ import { CREATE_EVENT } from "../../../components/common/RequestForm/gql";
 import Popup from "../../../components/common/Popup";
 import Login from "../../../components/common/Login";
 import ErrorMessageApollo from "../../../components/common/ErrorMessageApollo";
+import GeoCoder from "../../../utils/GeoCoder";
 
 const Booking = ({ user, loading, updateUser, translate, history }) => {
 	const [form, setForm] = useState({
@@ -36,7 +37,9 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 		duration: {
 			start: moment(),
 			end: moment()
-		}
+		},
+		genres: user.genres,
+		location: user.location
 	});
 	const [loginPopup, setloginPopup] = useState(false);
 
@@ -46,15 +49,21 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 
 	const setValue = key => val => setForm(f => ({ ...f, [key]: val }));
 
-	const requestBooking = () => {
+	const requestBooking = mutate => async () => {
 		const refs = runValidations();
-
 		if (refs[0] && refs[0].current) {
 			window.scrollTo({
 				behavior: "smooth",
 				top: refs[0].current.offsetTop
 			});
 		}
+
+		const { timeZoneId } = await GeoCoder.getTimeZone({
+			lat: form.location.latitude,
+			lng: form.location.longitude
+		});
+
+		await mutate({ variables: { ...form, timeZoneId, djId: user.id } });
 	};
 
 	return (
@@ -270,8 +279,8 @@ const BookingSidebar = ({
 	...props
 }) => {
 	return (
-		<Mutation mutation={CREATE_EVENT} variables={values}>
-			{(mutate, { error }) => (
+		<Mutation mutation={CREATE_EVENT}>
+			{(mutate, { error, loading: createLoading }) => (
 				<Sidebar
 					showCTAShadow
 					stickyTop={"0px"}
@@ -297,7 +306,11 @@ const BookingSidebar = ({
 						)}
 					</SidebarContent>
 
-					<CTAButton onClick={requestBooking}>
+					<CTAButton
+						disabled={createLoading}
+						loading={loading}
+						onClick={requestBooking(mutate)}
+					>
 						REQUEST BOOKING
 						<Arrow
 							color="#fff"

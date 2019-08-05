@@ -286,7 +286,9 @@ const UserSidebar = ({ user, loading }) => {
 					</Col>
 				</SidebarContent>
 			)}
-			{user && user.isDj && <BookingButton user={user} />}
+			{user && user.isDj && !user.userSettings.standby && (
+				<BookingButton user={user} />
+			)}
 		</Sidebar>
 	);
 };
