@@ -218,10 +218,10 @@ const UserSidebar = ({ user, loading }) => {
 	} = appMetadata;
 
 	const memberSince = moment(createdAt).format("MMMM YYYY");
-
+	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
 	return (
 		<Sidebar
-			showCTAShadow={user && user.isDj}
+			showCTAShadow={bookingEnabled}
 			stickyTop={"-300px"} // height of image
 			style={{
 				marginTop: "-220px",
@@ -286,9 +286,7 @@ const UserSidebar = ({ user, loading }) => {
 					</Col>
 				</SidebarContent>
 			)}
-			{user && user.isDj && !user.userSettings.standby && (
-				<BookingButton user={user} />
-			)}
+			{bookingEnabled && <BookingButton user={user} />}
 		</Sidebar>
 	);
 };

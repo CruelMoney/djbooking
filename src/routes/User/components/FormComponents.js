@@ -406,7 +406,9 @@ export const useValidation = ({
 		if (registerValidation) {
 			registerValidation(val => runValidation(val, true));
 		}
-		return () => unregisterValidation(runValidation);
+		if (unregisterValidation) {
+			return () => unregisterValidation(runValidation);
+		}
 	}, [validation, registerValidation, unregisterValidation, runValidation]);
 	return {
 		runValidation,
