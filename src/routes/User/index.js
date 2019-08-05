@@ -18,6 +18,7 @@ import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Popup from "../../components/common/Popup.js";
 import Login from "../../components/common/Login.js";
+import { SimpleSharing } from "../../components/common/Sharing-v2.js";
 
 const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading } = userProps;
@@ -35,6 +36,12 @@ const Content = React.memo(({ match, ...userProps }) => {
 							marginBottom: "30px",
 							marginRight: "60px"
 						}}
+						childrenBelow={
+							<SimpleSharing
+								style={{ marginTop: "30px" }}
+								shareUrl={user && `/user/${user.permalink}/overview}]`}
+							></SimpleSharing>
+						}
 						{...userProps}
 					/>
 

@@ -63,7 +63,6 @@ const Sidebar = ({
 	user,
 	loading,
 	children,
-	enableSharing = true,
 	style,
 	stickyTop = "-300px", // height of image
 	showCTAShadow,
@@ -89,11 +88,7 @@ const Sidebar = ({
 				<Shadow></Shadow>
 				{showShadow ? <CTAShadow /> : null}
 			</CardWrapper>
-			{enableSharing && (
-				<SimpleSharing
-					shareUrl={user && `/user/${user.permalink}/overview}]`}
-				></SimpleSharing>
-			)}
+
 			{childrenBelow}
 		</Sticky>
 	);

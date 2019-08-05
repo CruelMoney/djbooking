@@ -61,7 +61,7 @@ class Sharing extends Component {
 
 export default Sharing;
 
-const SimpleSharing = ({ shareUrl, title }) => {
+const SimpleSharing = ({ shareUrl, title, style }) => {
 	const url = String(Environment.CALLBACK_DOMAIN) + String(shareUrl);
 	const share = () => {
 		if (navigator.share) {
@@ -79,7 +79,8 @@ const SimpleSharing = ({ shareUrl, title }) => {
 		<div
 			style={{
 				display: "flex",
-				alignItems: "center"
+				alignItems: "center",
+				...style
 			}}
 		>
 			<p
