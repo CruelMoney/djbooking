@@ -1,24 +1,6 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { Label, Value, Checkbox } from "./FormComponents";
-import { Row, Col, Hr } from "./Blocks";
-
-const TableRow = styled(Row)`
-	height: 42px;
-	align-items: center;
-	text-align: left;
-	p {
-		margin-bottom: 0;
-	}
-	> *:first-child {
-		flex: 1;
-	}
-	> *:nth-child(2),
-	> *:nth-child(3) {
-		min-width: 100px;
-		text-align: center;
-	}
-`;
+import { Checkbox } from "./FormComponents";
+import { Col } from "./Blocks";
 
 const CheckBoxRow = ({ label, onChange }) => {
 	return (
