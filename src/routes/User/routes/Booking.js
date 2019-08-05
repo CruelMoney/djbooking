@@ -25,6 +25,10 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 		rider: {
 			speakers: false,
 			lights: false
+		},
+		duration: {
+			start: moment(),
+			end: moment()
 		}
 	});
 
@@ -51,7 +55,7 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 							stickyTop={"24px"}
 							title={"Event Details"}
 							description={
-								"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+								"Tell us about your event to help the dj decide on a fair price."
 							}
 						>
 							<Input
@@ -120,7 +124,7 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 										"80%": 500,
 										max: 1000
 									}}
-									step={5}
+									step={1}
 									connect="lower"
 									value={[80]}
 									onChange={values => {
@@ -153,7 +157,7 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 							stickyTop={"24px"}
 							title={"Contact Details"}
 							description={
-								"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+								"How should we get back to you with updates from the dj? Your information is only shared with the dj."
 							}
 						>
 							<Input
