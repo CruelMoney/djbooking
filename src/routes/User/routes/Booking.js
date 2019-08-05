@@ -66,8 +66,8 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 
 	const requestBooking = () => {
 		const refs = runValidations();
-		debugger;
-		if (refs[0]) {
+
+		if (refs[0] && refs[0].current) {
 			window.scrollTo({
 				behavior: "smooth",
 				top: refs[0].current.offsetTop
