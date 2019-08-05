@@ -73,11 +73,14 @@ class TimeSlider extends Component {
 	};
 
 	updateContext = (date = this.props.date) => {
+		const { updateValue } = this.context || {};
 		const day = moment(date).startOf("day");
 		const startMoment = moment(day).add(this.state.values[0], "minutes");
 		const endMoment = moment(day).add(this.state.values[1], "minutes");
-		this.context.updateValue("startTime", startMoment.format());
-		this.context.updateValue("endTime", endMoment.format());
+		if (updateValue) {
+			updateValue("startTime", startMoment.format());
+			updateValue("endTime", endMoment.format());
+		}
 	};
 
 	render() {
@@ -93,6 +96,7 @@ class TimeSlider extends Component {
 							min: 7 * 60,
 							max: 32 * 60
 						}}
+						color={this.props.color}
 						step={30} //Steps of half hour
 						value={this.state.values}
 						onChange={this.handleChange}

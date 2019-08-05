@@ -65,8 +65,8 @@
 			],
 			"event-description": ["Description", "Beskrivelse"],
 			"event-description-description": [
-				"Please tell about the event. \nWhat is the budget? \nWhat is the age of the guests? \nWhat kind of venue is it? \nDo you have any special requirements? \n",
-				"Fortæl os om begivenheden. \nHvor stort er budgettet? \nHvad er alderen på gæsterne? \nHvilken slags lokation er det? \nHar du nogle specielle krav? \n"
+				"What is the budget? \nWhat is the age of the guests? \nWhat kind of venue is it? \nDo you have any special requirements? \n",
+				"Hvor stort er budgettet? \nHvad er alderen på gæsterne? \nHvilken slags lokation er det? \nHar du nogle specielle krav? \n"
 			]
 		},
 		"step-4": {

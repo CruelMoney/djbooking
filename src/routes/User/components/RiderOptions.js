@@ -29,24 +29,21 @@ const CheckBoxRow = ({ label, onChange }) => {
 };
 
 const rows = {
-	SPEAKERS: {
+	speakers: {
 		label: "Yes, the dj has to bring speakers"
 	},
-	LIGHTS: {
+	lights: {
 		label: "Yes, the dj has to bring lights"
 	}
 };
 
-const RiderOptions = ({ onSave, roles }) => {
-	const [internal, setInternal] = useState(rows);
+const RiderOptions = ({ onSave }) => {
+	const [internal, setInternal] = useState({});
 
-	const onChange = key => type => val => {
+	const onChange = key => val => {
 		const newRows = {
 			...internal,
-			[key]: {
-				...internal[key],
-				[type]: val
-			}
+			[key]: val
 		};
 		setInternal(newRows);
 		onSave(newRows);

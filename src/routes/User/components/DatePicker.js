@@ -9,6 +9,7 @@ const DatePickerPopup = ({
 	initialDate,
 	onSave,
 	label,
+	half,
 	showMonthDropdown = true,
 	showYearDropdown = true,
 	maxDate = new Date()
@@ -23,7 +24,7 @@ const DatePickerPopup = ({
 	return (
 		<>
 			<Input
-				half
+				half={half}
 				type="button"
 				onClick={s => setShowing(true)}
 				label={label}

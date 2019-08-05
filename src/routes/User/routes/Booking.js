@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SettingsSection, Input } from "../components/FormComponents";
+import { SettingsSection, Input, Label } from "../components/FormComponents";
 import emailValidator from "email-validator";
 
 import DatePickerPopup from "../components/DatePicker";
@@ -14,8 +14,22 @@ import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlacehold
 import { SmallHeader } from "../components/Text";
 import moment from "moment-timezone";
 import RiderOptions from "../components/RiderOptions";
+import TimeSlider from "../../../components/common/TimeSlider";
+import Slider from "../../../components/common/Slider";
+import wNumb from "wnumb";
 
 const Booking = ({ user, loading, updateUser, translate, history }) => {
+	const [form, setForm] = useState({
+		date: new Date(),
+		guests: 80,
+		rider: {
+			speakers: false,
+			lights: false
+		}
+	});
+
+	const setValue = key => val => setForm(f => ({ ...f, [key]: val }));
+
 	return (
 		<div>
 			<ScrollToTop top={0} />
@@ -41,19 +55,86 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 							}
 						>
 							<Input
+								half
 								type="text"
 								label="Event Name"
 								placeholder="Add a short, clear name"
+								onSave={setValue("eventName")}
+								validation={v => (!!v ? null : "Please enter a name")}
 							/>
 							<DatePickerPopup
 								half
+								initialDate={moment(form.date)}
 								label={"Date"}
 								showMonthDropdown={false}
 								showYearDropdown={false}
 								maxDate={false}
+								onSave={setValue("date")}
 							/>
+							<Label
+								style={{
+									width: "100%",
+									marginRight: "36px",
+									marginBottom: "30px"
+								}}
+							>
+								<span style={{ marginBottom: "12px", display: "block" }}>
+									Duration
+								</span>
+								<TimeSlider
+									color={"#50e3c2"}
+									hoursLabel={translate("hours")}
+									startLabel={translate("start")}
+									endLabel={translate("end")}
+									date={moment(form.date)}
+									onChange={([start, end]) => {
+										setValue("duration")({
+											start: moment(form.date)
+												.startOf("day")
+												.add(start, "minutes"),
+											end: moment(form.date)
+												.startOf("day")
+												.add(end, "minutes")
+										});
+									}}
+								/>
+							</Label>
 
-							<RiderOptions />
+							<Label
+								style={{
+									width: "100%",
+									marginRight: "36px",
+									marginBottom: "30px"
+								}}
+							>
+								<span style={{ marginBottom: "12px", display: "block" }}>
+									Guests
+								</span>
+
+								<Slider
+									color={"#50e3c2"}
+									name="guests"
+									range={{
+										min: 1,
+										"50%": 100,
+										"80%": 500,
+										max: 1000
+									}}
+									step={5}
+									connect="lower"
+									value={[80]}
+									onChange={values => {
+										setValue("guests")(values[0]);
+									}}
+									format={wNumb({
+										decimals: 0
+									})}
+								/>
+								<span
+									style={{ marginTop: "15px", display: "block" }}
+								>{`${form.guests} people`}</span>
+							</Label>
+							<RiderOptions onSave={setValue("rider")} />
 
 							<Input
 								type="text-area"
@@ -64,6 +145,7 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 								style={{
 									height: "200px"
 								}}
+								validation={v => (!!v ? null : "Please enter a description")}
 							/>
 						</SettingsSection>
 
@@ -105,14 +187,14 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 							/>
 						</SettingsSection>
 					</Col>
-					<BookingSidebar loading={loading} user={user} />
+					<BookingSidebar loading={loading} user={user} values={form} />
 				</Row>
 			</Container>
 		</div>
 	);
 };
 
-const BookingSidebar = ({ loading, user }) => {
+const BookingSidebar = ({ loading, ...props }) => {
 	return (
 		<Sidebar
 			showCTAShadow
@@ -121,7 +203,7 @@ const BookingSidebar = ({ loading, user }) => {
 			style={{ marginLeft: "60px", marginTop: "42px" }}
 		>
 			<SidebarContent>
-				{loading ? <LoadingPlaceholder2 /> : <Content user={user} />}
+				{loading ? <LoadingPlaceholder2 /> : <Content {...props} />}
 			</SidebarContent>
 			<CTAButton>
 				REQUEST BOOKING
@@ -157,17 +239,25 @@ const SimpleTableItem = styled(SidebarRow)`
 	}
 `;
 
-const Content = ({ user }) => {
+const Content = ({ user, values }) => {
 	const { artistName, userMetadata } = user;
 	const { firstName } = userMetadata;
+
+	const { guests, date, rider, duration, eventName } = values;
+
+	debugger;
 	return (
 		<>
 			<SmallHeader style={{ marginBottom: "15px" }}>{`Booking of ${artistName ||
 				firstName}`}</SmallHeader>
-			<SidebarRow>From 18:00 to 03:00</SidebarRow>
-			<SidebarRow>Friday 28th of July</SidebarRow>
-			<SidebarRow>100 guests</SidebarRow>
-
+			{eventName && <SidebarRow>{eventName}</SidebarRow>}
+			<SidebarRow>{moment(date).format("dddd Do MMMM, YYYY")}</SidebarRow>
+			<SidebarRow>
+				From {duration.start.format("HH:mm")} to {duration.end.format("HH:mm")}
+			</SidebarRow>
+			<SidebarRow>{guests} guests</SidebarRow>
+			{rider.speakers && <SidebarRow>Including speakers</SidebarRow>}
+			{rider.lights && <SidebarRow>Including lights</SidebarRow>}
 			<div>
 				<SimpleTableItem>
 					<span>Dj price</span>
