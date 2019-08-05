@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled, { css } from "styled-components";
 import { Row, Col } from "./Blocks";
 import { Title, Body } from "./Text";
@@ -273,27 +273,29 @@ const InputType = React.forwardRef(
 export const useValidation = ({
 	validation,
 	registerValidation,
-	unregisterValidation
+	unregisterValidation,
+	ref
 }) => {
 	const [error, setError] = useState(null);
 	const runValidation = useCallback(
-		value => {
+		(value, returnRef) => {
 			if (validation) {
 				const validationError = validation(value);
 				if (validationError) {
 					setError(validationError);
+					return returnRef ? ref : validationError;
 				} else {
 					setError(null);
+					return null;
 				}
-				return validationError;
 			}
 		},
-		[validation]
+		[validation, ref]
 	);
 
 	useEffect(() => {
 		if (registerValidation) {
-			registerValidation(runValidation);
+			registerValidation(val => runValidation(val, true));
 		}
 		return () => unregisterValidation(runValidation);
 	}, [validation, registerValidation, unregisterValidation, runValidation]);
@@ -318,14 +320,18 @@ const Input = React.forwardRef(
 			unregisterValidation = () => {},
 			...props
 		},
-		ref
+		fRef
 	) => {
+		const ref = useRef(fRef);
 		const LabelComponent = half ? LabelHalf : InputLabel;
+
+		const saveIfInvalid = !!registerValidation;
 
 		const { runValidation, error } = useValidation({
 			registerValidation,
 			unregisterValidation,
-			validation
+			validation,
+			ref
 		});
 
 		const save = e => {
@@ -337,7 +343,8 @@ const Input = React.forwardRef(
 					return;
 				}
 			}
-			if (!runValidation(value)) {
+			const err = runValidation(value);
+			if (!err || saveIfInvalid) {
 				onSave && onSave(value, e);
 			}
 		};

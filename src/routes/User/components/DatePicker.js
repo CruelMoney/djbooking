@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useRef } from "react";
 import { Input, useValidation } from "../components/FormComponents";
 import moment from "moment-timezone";
 
@@ -18,6 +18,7 @@ const DatePickerPopup = ({
 	registerValidation,
 	unregisterValidation
 }) => {
+	const ref = useRef();
 	const [showing, setShowing] = useState(false);
 	const [selectedDate, setDate] = useState(
 		initialDate ? moment(initialDate) : null
@@ -26,7 +27,8 @@ const DatePickerPopup = ({
 	const { error, runValidation } = useValidation({
 		validation,
 		registerValidation,
-		unregisterValidation
+		unregisterValidation,
+		ref
 	});
 
 	const save = moment => {
@@ -50,6 +52,7 @@ const DatePickerPopup = ({
 				buttonText={
 					selectedDate ? moment(selectedDate).format("DD/MM/YYYY") : "Select"
 				}
+				ref={ref}
 			/>
 			<Popup
 				width="380px"

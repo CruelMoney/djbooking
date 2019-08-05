@@ -34,7 +34,7 @@ const useForm = form => {
 
 	const runValidations = () => {
 		return Object.entries(validations.current).reduce(
-			(errors, [key, fun]) => [...errors, fun(form[key])],
+			(refs, [key, fun]) => [...refs, fun(form[key])],
 			[]
 		);
 	};
@@ -66,7 +66,14 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 	const setValue = key => val => setForm(f => ({ ...f, [key]: val }));
 
 	const requestBooking = () => {
-		runValidations();
+		const refs = runValidations();
+		debugger;
+		if (refs[0]) {
+			window.scrollTo({
+				behavior: "smooth",
+				top: refs[0].current.offsetTop
+			});
+		}
 	};
 
 	return (
@@ -208,7 +215,6 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 								type="text"
 								label="Contact Name"
 								placeholder="First Last"
-								type="text"
 								validation={v => {
 									if (!v) {
 										return "Please enter name";
@@ -224,7 +230,6 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 							/>
 
 							<Input
-								type="text"
 								placeholder="mail@email.com"
 								type="email"
 								autoComplete="email"
