@@ -224,13 +224,13 @@ const InputType = React.forwardRef(
 				);
 			case "button":
 				return (
-					<ButtonInput {...props} error={!!error}>
+					<ButtonInput {...props} error={!!error} ref={ref}>
 						{buttonText}
 					</ButtonInput>
 				);
 			case "file":
 				return (
-					<FileInputWrapper {...props} error={!!error}>
+					<FileInputWrapper {...props} error={!!error} ref={ref}>
 						{buttonText}
 						<FileInput {...props} onChange={save}></FileInput>
 						{children}
@@ -241,6 +241,7 @@ const InputType = React.forwardRef(
 				return (
 					<FormattedText
 						{...props}
+						ref={ref}
 						type={type}
 						error={!!error}
 						save={save}
@@ -322,7 +323,7 @@ const Input = React.forwardRef(
 		},
 		fRef
 	) => {
-		const ref = useRef(fRef);
+		const ref = fRef || useRef();
 		const LabelComponent = half ? LabelHalf : InputLabel;
 
 		const saveIfInvalid = !!registerValidation;

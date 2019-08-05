@@ -33,10 +33,9 @@ const useForm = form => {
 	};
 
 	const runValidations = () => {
-		return Object.entries(validations.current).reduce(
-			(refs, [key, fun]) => [...refs, fun(form[key])],
-			[]
-		);
+		return Object.entries(validations.current)
+			.reduce((refs, [key, fun]) => [...refs, fun(form[key])], [])
+			.filter(r => !!r);
 	};
 
 	return {
