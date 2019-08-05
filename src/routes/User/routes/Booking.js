@@ -1,5 +1,10 @@
-import React, { useState, useRef } from "react";
-import { SettingsSection, Input, Label } from "../components/FormComponents";
+import React, { useState } from "react";
+import {
+	SettingsSection,
+	Input,
+	Label,
+	useForm
+} from "../components/FormComponents";
 import emailValidator from "email-validator";
 import DatePickerPopup from "../components/DatePicker";
 import styled from "styled-components";
@@ -17,33 +22,9 @@ import Slider from "../../../components/common/Slider";
 import wNumb from "wnumb";
 import { Mutation } from "react-apollo";
 import { CREATE_EVENT } from "../../../components/common/RequestForm/gql";
-
-const useForm = form => {
-	const validations = useRef({});
-
-	const registerValidation = key => fun => {
-		validations.current = {
-			...validations.current,
-			[key]: fun
-		};
-	};
-
-	const unregisterValidation = key => fun => {
-		delete validations.current[key];
-	};
-
-	const runValidations = () => {
-		return Object.entries(validations.current)
-			.reduce((refs, [key, fun]) => [...refs, fun(form[key])], [])
-			.filter(r => !!r);
-	};
-
-	return {
-		registerValidation,
-		unregisterValidation,
-		runValidations
-	};
-};
+import Popup from "../../../components/common/Popup";
+import Login from "../../../components/common/Login";
+import ErrorMessageApollo from "../../../components/common/ErrorMessageApollo";
 
 const Booking = ({ user, loading, updateUser, translate, history }) => {
 	const [form, setForm] = useState({
@@ -57,6 +38,7 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 			end: moment()
 		}
 	});
+	const [loginPopup, setloginPopup] = useState(false);
 
 	const { registerValidation, unregisterValidation, runValidations } = useForm(
 		form
@@ -80,6 +62,24 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 			<ScrollToTop top={0} />
 
 			<GradientBg style={{ height: "80px" }} />
+
+			<Popup
+				width="380px"
+				showing={loginPopup}
+				onClickOutside={() => setloginPopup(false)}
+			>
+				<div>
+					<p style={{ marginBottom: "20px" }}>
+						{translate("request-form.email-exists-message")}
+					</p>
+					<Login
+						redirect={false}
+						onLogin={() => {
+							setloginPopup(false);
+						}}
+					/>
+				</div>
+			</Popup>
 
 			<Container>
 				<Row>
@@ -254,6 +254,7 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 						user={user}
 						values={form}
 						requestBooking={requestBooking}
+						showLogin={() => setloginPopup(true)}
 					/>
 				</Row>
 			</Container>
@@ -261,23 +262,41 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 	);
 };
 
-const BookingSidebar = ({ loading, values, requestBooking, ...props }) => {
+const BookingSidebar = ({
+	loading,
+	values,
+	requestBooking,
+	showLogin,
+	...props
+}) => {
 	return (
-		<Sidebar
-			showCTAShadow
-			stickyTop={"-42px"}
-			enableSharing={false}
-			style={{ marginLeft: "60px", marginTop: "42px" }}
-		>
-			<SidebarContent>
-				{loading ? (
-					<LoadingPlaceholder2 />
-				) : (
-					<Content values={values} {...props} />
-				)}
-			</SidebarContent>
-			<Mutation mutation={CREATE_EVENT} variables={values}>
-				{mutate => (
+		<Mutation mutation={CREATE_EVENT} variables={values}>
+			{(mutate, { error }) => (
+				<Sidebar
+					showCTAShadow
+					stickyTop={"0px"}
+					enableSharing={false}
+					style={{ marginLeft: "60px", marginTop: "42px" }}
+					childrenBelow={
+						<ErrorMessageApollo
+							error={error}
+							style={{ marginTop: "30px" }}
+							onFoundCode={code => {
+								if (code === "UNAUTHENTICATED") {
+									showLogin();
+								}
+							}}
+						/>
+					}
+				>
+					<SidebarContent>
+						{loading ? (
+							<LoadingPlaceholder2 />
+						) : (
+							<Content values={values} {...props} />
+						)}
+					</SidebarContent>
+
 					<CTAButton onClick={requestBooking}>
 						REQUEST BOOKING
 						<Arrow
@@ -285,9 +304,9 @@ const BookingSidebar = ({ loading, values, requestBooking, ...props }) => {
 							style={{ position: "absolute", right: "24px" }}
 						></Arrow>
 					</CTAButton>
-				)}
-			</Mutation>
-		</Sidebar>
+				</Sidebar>
+			)}
+		</Mutation>
 	);
 };
 
@@ -318,13 +337,13 @@ const Content = ({ user, values }) => {
 	const { artistName, userMetadata } = user;
 	const { firstName } = userMetadata;
 
-	const { guests, date, rider, duration, eventName } = values;
+	const { guests, date, rider, duration, name } = values;
 
 	return (
 		<>
 			<SmallHeader style={{ marginBottom: "15px" }}>{`Booking of ${artistName ||
 				firstName}`}</SmallHeader>
-			{eventName && <SidebarRow>{eventName}</SidebarRow>}
+			{name && <SidebarRow>{name}</SidebarRow>}
 			<SidebarRow>{moment(date).format("dddd Do MMMM, YYYY")}</SidebarRow>
 			<SidebarRow>
 				From {duration.start.format("HH:mm")} to {duration.end.format("HH:mm")}

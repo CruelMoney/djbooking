@@ -24,7 +24,7 @@ export const getErrorMessage = error => {
 	return msgs;
 };
 
-const ErrorMessageApollo = ({ error, center, email, onFoundCode }) => {
+const ErrorMessageApollo = ({ style, error, center, email, onFoundCode }) => {
 	let msgs = ["There was an error"];
 	let showResend = false;
 
@@ -49,7 +49,7 @@ const ErrorMessageApollo = ({ error, center, email, onFoundCode }) => {
 	}
 
 	return (
-		<div className={"errors" + (center ? " center " : "")}>
+		<div className={"errors" + (center ? " center " : "")} style={style}>
 			{msgs.map((m, idx) => {
 				return <p key={idx}>{m}</p>;
 			})}

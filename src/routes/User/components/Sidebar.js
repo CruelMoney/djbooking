@@ -65,13 +65,14 @@ const Sidebar = ({
 	children,
 	enableSharing = true,
 	style,
-	stickyTop = "-80px",
-	showCTAShadow
+	stickyTop = "-300px", // height of image
+	showCTAShadow,
+	childrenBelow
 }) => {
 	const showShadow = showCTAShadow || (user && user.isDj);
 	return (
-		<Sticky stickyTop={stickyTop}>
-			<CardWrapper style={style}>
+		<Sticky stickyTop={stickyTop} style={style}>
+			<CardWrapper>
 				<Card>
 					{children ? (
 						children
@@ -93,6 +94,7 @@ const Sidebar = ({
 					shareUrl={user && `/user/${user.permalink}/overview}]`}
 				></SimpleSharing>
 			)}
+			{childrenBelow}
 		</Sticky>
 	);
 };
