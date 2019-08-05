@@ -13,6 +13,7 @@ const DatePickerPopup = ({
 	showMonthDropdown = true,
 	showYearDropdown = true,
 	maxDate = new Date(),
+	minDate,
 	validation,
 	registerValidation,
 	unregisterValidation
@@ -61,7 +62,7 @@ const DatePickerPopup = ({
 				<DatePicker
 					dark
 					initialDate={initialDate}
-					minDate={null}
+					minDate={minDate}
 					maxDate={maxDate}
 					handleChange={save}
 					showMonthDropdown={showMonthDropdown}

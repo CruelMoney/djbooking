@@ -98,14 +98,15 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 								type="text"
 								label="Event Name"
 								placeholder="Add a short, clear name"
-								onSave={setValue("eventName")}
+								onSave={setValue("name")}
 								validation={v => (!!v ? null : "Please enter a name")}
-								registerValidation={registerValidation("eventName")}
-								unregisterValidation={unregisterValidation("eventName")}
+								registerValidation={registerValidation("name")}
+								unregisterValidation={unregisterValidation("name")}
 							/>
 							<DatePickerPopup
 								half
 								label={"Date"}
+								minDate={new Date()}
 								initialDate={form.date ? moment(form.date) : null}
 								showMonthDropdown={false}
 								showYearDropdown={false}
@@ -189,7 +190,10 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 								style={{
 									height: "200px"
 								}}
+								onSave={setValue("description")}
 								validation={v => (!!v ? null : "Please enter a description")}
+								registerValidation={registerValidation("description")}
+								unregisterValidation={unregisterValidation("description")}
 							/>
 						</SettingsSection>
 
@@ -206,11 +210,17 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 								placeholder="First Last"
 								type="text"
 								validation={v => {
+									if (!v) {
+										return "Please enter name";
+									}
 									const [firstName, ...lastName] = v.split(" ");
 									if (!firstName || !lastName.some(s => !!s.trim())) {
 										return "Please enter both first and last name";
 									}
 								}}
+								onSave={setValue("contactName")}
+								registerValidation={registerValidation("contactName")}
+								unregisterValidation={unregisterValidation("contactName")}
 							/>
 
 							<Input
@@ -222,12 +232,16 @@ const Booking = ({ user, loading, updateUser, translate, history }) => {
 								validation={v =>
 									emailValidator.validate(v) ? null : "Not a valid email"
 								}
+								onSave={setValue("contactEmail")}
+								registerValidation={registerValidation("contactEmail")}
+								unregisterValidation={unregisterValidation("contactEmail")}
 							/>
 							<Input
 								label="Contact Phone"
 								placeholder="+123456789"
 								type="tel"
 								autoComplete="tel"
+								onSave={setValue("contactPhone")}
 							/>
 						</SettingsSection>
 					</Col>
