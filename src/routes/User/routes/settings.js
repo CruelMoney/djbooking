@@ -100,6 +100,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 	return (
 		<>
 			<SettingsSection
+				id="basics"
 				title={"Basics"}
 				description={
 					"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -167,6 +168,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 			</SettingsSection>
 
 			<SettingsSection
+				id="profile"
 				title={"Profile"}
 				description={
 					"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -242,6 +244,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 			</SettingsSection>
 
 			<SettingsSection
+				id="preferences"
 				title={"Preferences"}
 				description={
 					"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -277,6 +280,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 			</SettingsSection>
 
 			<SettingsSection
+				id="system"
 				title={"System"}
 				description={
 					"If you delete your user, all data will be deleted and unrecoverable. If you have any unfinished gigs, they will all be declined and cancelled."

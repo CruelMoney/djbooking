@@ -11,12 +11,12 @@ const checks = [
 	{
 		label: "Add profile picture",
 		check: u => !!u.picture && !u.picture.path.includes("default-profile-pic"),
-		linkTo: "settings"
+		linkTo: "settings#profile"
 	},
 	{
 		label: "Add artist name",
 		check: u => !!u.artistName,
-		linkTo: "settings"
+		linkTo: "settings#profile"
 	},
 	{
 		label: "Highlight a testimonial",
@@ -26,12 +26,12 @@ const checks = [
 	{
 		label: "Add payout information",
 		check: u => !!u.userMetadata.bankAccount,
-		linkTo: "settings"
+		linkTo: "settings#preferences"
 	},
 	{
 		label: "Verify identity",
 		check: u => !!u.appMetadata.identityVerified,
-		linkTo: "settings"
+		linkTo: "settings#preferences"
 	}
 ];
 

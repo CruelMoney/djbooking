@@ -61,10 +61,11 @@ const SettingsSection = ({
 	title,
 	description,
 	children,
-	stickyTop = "90px"
+	stickyTop = "90px",
+	...props
 }) => {
 	return (
-		<SectionRow>
+		<SectionRow {...props}>
 			<LeftCol stickyTop={stickyTop}>
 				<Title>{title}</Title>
 				<Body style={{ marginBottom: "24px" }}>{description}</Body>
