@@ -31,6 +31,7 @@ import GracefullImage from "./components/GracefullImage";
 import { SmallHeader, Stat } from "./components/Text.js";
 import AddCircle from "react-ionicons/lib/MdAddCircle";
 import ProfileProgress from "./components/ProfileProgress.js";
+import { ME } from "../../components/gql.js";
 
 const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading } = userProps;
@@ -125,50 +126,63 @@ const Index = ({ translate, match }) => {
 	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);
 
 	return (
-		<Query
-			query={USER}
-			variables={{ permalink: match.params.permalink }}
-			onError={console.warn}
-		>
-			{({ data: { user }, loading }) => (
-				<div>
-					<SavingIndicator loading={isSaving} error={error} />
+		<Query query={ME} onError={console.warn}>
+			{({ data, loading: loadingMe }) => (
+				<Query
+					query={USER}
+					variables={{ permalink: match.params.permalink }}
+					onError={console.warn}
+				>
+					{({ data: { user: profileUser }, loading: loadingUser }) => {
+						const loading = loadingMe || loadingUser;
 
-					<Switch>
-						<Route
-							path={match.path + "/booking"}
-							render={props => (
-								<Booking
-									{...props}
-									user={user}
-									loading={loading}
-									translate={translate}
-								/>
-							)}
-						/>
-						<Route
-							render={() => (
-								<Content
-									match={match}
-									user={user}
-									loading={loading}
-									translate={translate}
-									updateUser={updateUser}
-								/>
-							)}
-						/>
-					</Switch>
+						const user =
+							data && data.me
+								? mergeObjects(profileUser, data.me)
+								: profileUser;
 
-					<Footer
-						noSkew
-						firstTo={translate("routes./how-it-works")}
-						secondTo={translate("routes./")}
-						firstLabel={translate("how-it-works")}
-						secondLabel={translate("arrange-event")}
-						title={translate("Wonder how it works?")}
-						subTitle={translate("See how it works, or arrange an event.")}
-					/>
-				</div>
+						return (
+							<div>
+								<SavingIndicator loading={isSaving} error={error} />
+
+								<Switch>
+									<Route
+										path={match.path + "/booking"}
+										render={props => (
+											<Booking
+												{...props}
+												user={user}
+												loading={loading}
+												translate={translate}
+											/>
+										)}
+									/>
+									<Route
+										render={() => (
+											<Content
+												match={match}
+												user={user}
+												loading={loading}
+												translate={translate}
+												updateUser={updateUser}
+											/>
+										)}
+									/>
+								</Switch>
+
+								<Footer
+									noSkew
+									firstTo={translate("routes./how-it-works")}
+									secondTo={translate("routes./")}
+									firstLabel={translate("how-it-works")}
+									secondLabel={translate("arrange-event")}
+									title={translate("Wonder how it works?")}
+									subTitle={translate("See how it works, or arrange an event.")}
+								/>
+							</div>
+						);
+					}}
+				</Query>
 			)}
 		</Query>
 	);
@@ -230,12 +244,13 @@ const UserSidebar = ({ user, loading }) => {
 				marginRight: "60px"
 			}}
 			childrenBelow={
-				<>
-					{user && user.isOwn && <ProfileProgress user={user} />}
+				user && user.isOwn ? (
+					<ProfileProgress user={user} />
+				) : (
 					<SimpleSharing
 						shareUrl={user && `/user/${user.permalink}/overview}]`}
 					/>
-				</>
+				)
 			}
 		>
 			<ProfileImg src={user ? user.picture.path : null} />
@@ -337,6 +352,35 @@ const BookingButton = ({ loading, user }) => {
 			<CTAButton>REQUEST BOOKING</CTAButton>
 		</NavLink>
 	);
+};
+
+const isObject = o => Object.prototype.toString.call(o) === "[object Object]";
+
+/**
+ * Object merger where o2 takes precedence when value is not an object
+ * @param  {} o1
+ * @param  {} o2
+ */
+const mergeObjects = (o1, o2) => {
+	if (isObject(o1) && isObject(o2)) {
+		const keys = [...new Set([...Object.keys(o1), ...Object.keys(o2)])];
+
+		// iterate over keys
+		return keys.reduce((merged, key) => {
+			const v1 = o1[key];
+			const v2 = o2[key];
+
+			return {
+				...merged,
+				[key]: mergeObjects(v1, v2)
+			};
+		}, {});
+	}
+	if (!o2) {
+		return o1;
+	}
+
+	return o2;
 };
 
 export default addTranslate(Index, [content, requestformContent, modalContent]);

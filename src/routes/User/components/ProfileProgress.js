@@ -5,21 +5,17 @@ import styled from "styled-components";
 import CheckCircle from "react-ionicons/lib/MdAddCircle";
 import CheckCircleDone from "react-ionicons/lib/MdCheckmarkCircle";
 import { NavLink } from "react-router-dom";
+import { SimpleSharing } from "../../../components/common/Sharing-v2";
 
 const checks = [
 	{
 		label: "Add profile picture",
-		check: u => !!u.picture,
+		check: u => !!u.picture && !u.picture.path.includes("default-profile-pic"),
 		linkTo: "settings"
 	},
 	{
 		label: "Add artist name",
 		check: u => !!u.artistName,
-		linkTo: "settings"
-	},
-	{
-		label: "Write your bio",
-		check: u => !!u.userMetadata.bio,
 		linkTo: "settings"
 	},
 	{
@@ -30,6 +26,11 @@ const checks = [
 	{
 		label: "Add payout information",
 		check: u => !!u.userMetadata.bankAccount,
+		linkTo: "settings"
+	},
+	{
+		label: "Verify identity",
+		check: u => !!u.appMetadata.identityVerified,
 		linkTo: "settings"
 	}
 ];
@@ -63,12 +64,16 @@ const ProgressItem = ({ label, done, linkTo }) => {
 };
 
 const ProfileProgress = ({ user }) => {
-	const items = checks.map(c => ({ ...c, done: c.check(user) }));
+	const items = checks
+		.map(c => ({ ...c, done: c.check(user) }))
+		.sort((a, b) => b.done - a.done);
 
 	const progress = items.filter(c => c.done).length / items.length;
 
 	if (progress === 1) {
-		return null;
+		return (
+			<SimpleSharing shareUrl={user && `/user/${user.permalink}/overview}]`} />
+		);
 	}
 
 	return (

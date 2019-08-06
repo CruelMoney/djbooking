@@ -94,12 +94,4 @@ function mapStateToProps(state, ownProps) {
 
 const SmartGigs = connect(mapStateToProps)(Gigs);
 
-const Wrapper = props => (
-	<Query query={ME}>
-		{({ loading, data }) => (
-			<SmartGigs {...props} user={data.me} loading={props.loading || loading} />
-		)}
-	</Query>
-);
-
-export default localize(Wrapper, "locale");
+export default localize(SmartGigs, "locale");
