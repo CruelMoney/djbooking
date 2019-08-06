@@ -84,11 +84,7 @@ const Header = ({ user, loading }) => {
 				<Row className="wrapper">
 					<Spacing style={{ marginRight: "60px" }} />
 					<FullWidthCol>
-						{loading ? (
-							<LoadingIndicator color={"#fff"} />
-						) : (
-							<UserContent user={user} />
-						)}
+						{loading ? null : <UserContent user={user} />}
 						<Navigation routes={getRoutesFromUser(user)}></Navigation>
 					</FullWidthCol>
 				</Row>

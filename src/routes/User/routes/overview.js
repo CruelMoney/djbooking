@@ -8,6 +8,7 @@ import QuotationMarkIcon from "../../../components/graphics/Quotes";
 import { Link } from "react-router-dom";
 import { PolicyDisplayer } from "../components/CancelationPolicyPopup";
 import AddCircle from "react-ionicons/lib/MdAddCircle";
+import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
 
 const ColumnLayout = styled.section`
 	width: 100%;
@@ -167,7 +168,7 @@ const AddBlockPlaceholder = ({ label, directions, to }) => {
 
 const Overview = ({ user, loading }) => {
 	if (loading) {
-		return null;
+		return <LoadingPlaceholder2 />;
 	}
 	const {
 		userMetadata,

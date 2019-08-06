@@ -33,6 +33,7 @@ import AddCircle from "react-ionicons/lib/MdAddCircle";
 
 const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading } = userProps;
+	const showPrivate = loading || (user && user.isOwn);
 	return (
 		<div>
 			<ScrollToTop animate top={280} />
@@ -53,10 +54,6 @@ const Content = React.memo(({ match, ...userProps }) => {
 						}}
 					>
 						<Switch>
-							<Redirect
-								from={match.path + "/profile"}
-								to={match.path + "/overview"}
-							/>
 							<Route
 								path={match.path + "/overview"}
 								render={props => <Overview {...props} {...userProps} />}
@@ -65,14 +62,14 @@ const Content = React.memo(({ match, ...userProps }) => {
 								path={match.path + "/reviews"}
 								render={props => <Reviews {...props} {...userProps} />}
 							/>
-							{user && user.isOwn ? (
+							{showPrivate ? (
 								<Route
 									path={match.path + "/settings"}
 									render={props => <Settings {...props} {...userProps} />}
 								/>
 							) : null}
 
-							{user && user.isOwn ? (
+							{showPrivate ? (
 								<Route
 									path={match.path + "/gigs"}
 									render={props => <Gigs {...props} {...userProps} />}
@@ -84,12 +81,14 @@ const Content = React.memo(({ match, ...userProps }) => {
 								/>
 							) : null}
 
-							{user && user.isOwn ? (
+							{showPrivate ? (
 								<Route
 									path={match.path + "/events"}
 									render={props => <Events {...props} {...userProps} />}
 								/>
 							) : null}
+
+							<Redirect to={match.path + "/overview"} />
 						</Switch>
 					</Col>
 				</Row>
@@ -317,10 +316,20 @@ const Stats = ({ experience, followers }) => {
 	);
 };
 
-const BookingButton = ({ loading }) => {
+const BookingButton = ({ loading, user }) => {
+	if (user.isOwn) {
+		return (
+			<CTAButton
+				onClick={() => window.alert("Are you trying to book yourself? 🧐")}
+			>
+				REQUEST BOOKING
+			</CTAButton>
+		);
+	}
+
 	return (
 		<NavLink to="booking">
-			<CTAButton loading={loading}>REQUEST BOOKING</CTAButton>
+			<CTAButton>REQUEST BOOKING</CTAButton>
 		</NavLink>
 	);
 };

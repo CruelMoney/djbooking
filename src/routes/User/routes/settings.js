@@ -20,6 +20,7 @@ import { reset } from "../../../ApolloProvider";
 import { DELETE_USER } from "../gql";
 import { Mutation, Query } from "react-apollo";
 import { ME } from "../../../components/gql";
+import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
@@ -357,7 +358,11 @@ const PayoutPopup = ({ user, hasPayout }) => {
 const Wrapper = props => (
 	<Query query={ME}>
 		{({ loading, data }) =>
-			loading || !data ? null : <Settings {...props} user={data.me} />
+			loading || !data ? (
+				<LoadingPlaceholder2 />
+			) : (
+				<Settings {...props} user={data.me} />
+			)
 		}
 	</Query>
 );
