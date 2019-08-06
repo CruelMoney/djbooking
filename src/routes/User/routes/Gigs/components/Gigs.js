@@ -5,7 +5,7 @@ import EmptyPage from "../../../../../components/common/EmptyPage";
 import { connect } from "react-redux";
 import { localize } from "react-localize-redux";
 import { Query } from "react-apollo";
-import { MY_GIGS } from "../../../../../components/gql";
+import { MY_GIGS, ME } from "../../../../../components/gql";
 
 class Gigs extends PureComponent {
 	state = {
@@ -20,7 +20,13 @@ class Gigs extends PureComponent {
 	};
 
 	render() {
-		const { translate, notifications, user, currentLanguage } = this.props;
+		const {
+			translate,
+			notifications,
+			user,
+			currentLanguage,
+			loading: loadingUser
+		} = this.props;
 
 		const renderGigs = gigs => {
 			const renderGigs = gigs.filter(
@@ -66,7 +72,7 @@ class Gigs extends PureComponent {
 				onError={console.log}
 			>
 				{({ data = {}, loading }) => {
-					if (loading) {
+					if (loading || loadingUser) {
 						return <LoadingPlaceholder />;
 					}
 
@@ -86,6 +92,14 @@ function mapStateToProps(state, ownProps) {
 	};
 }
 
-const SmartPreferences = connect(mapStateToProps)(Gigs);
+const SmartGigs = connect(mapStateToProps)(Gigs);
 
-export default localize(SmartPreferences, "locale");
+const Wrapper = props => (
+	<Query query={ME}>
+		{({ loading, data }) => (
+			<SmartGigs {...props} user={data.me} loading={props.loading || loading} />
+		)}
+	</Query>
+);
+
+export default localize(Wrapper, "locale");

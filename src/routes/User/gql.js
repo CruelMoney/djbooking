@@ -38,6 +38,7 @@ const USER = gql`
 			}
 			userSettings {
 				standby
+				currency
 				cancelationPolicy {
 					days
 					percentage
