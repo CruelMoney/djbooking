@@ -55,7 +55,7 @@ const Sidebar = ({
 				<Shadow></Shadow>
 				{showCTAShadow ? <CTAShadow /> : null}
 			</CardWrapper>
-			{childrenBelow}
+			<div style={{ marginTop: "30px" }}>{childrenBelow}</div>
 		</Sticky>
 	);
 };

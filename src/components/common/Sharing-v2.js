@@ -91,7 +91,7 @@ const SimpleSharing = ({ shareUrl, title, style }) => {
 					marginBottom: 0
 				}}
 			>
-				Share
+				Share profile
 			</p>
 			<TwitterShareButton
 				style={{ background: "transparent", width: 24 }}

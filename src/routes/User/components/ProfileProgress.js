@@ -1,0 +1,123 @@
+import React from "react";
+import { Col, Row } from "./Blocks";
+import { Body, SmallBold, SmallHeader } from "./Text";
+import styled from "styled-components";
+import CheckCircle from "react-ionicons/lib/MdAddCircle";
+import CheckCircleDone from "react-ionicons/lib/MdCheckmarkCircle";
+import { NavLink } from "react-router-dom";
+
+const checks = [
+	{
+		label: "Add profile picture",
+		check: u => !!u.picture,
+		linkTo: "settings"
+	},
+	{
+		label: "Add artist name",
+		check: u => !!u.artistName,
+		linkTo: "settings"
+	},
+	{
+		label: "Write your bio",
+		check: u => !!u.userMetadata.bio,
+		linkTo: "settings"
+	},
+	{
+		label: "Highlight a testimonial",
+		check: u => !!u.highlightedReview,
+		linkTo: "reviews"
+	},
+	{
+		label: "Add payout information",
+		check: u => !!u.userMetadata.bankAccount,
+		linkTo: "settings"
+	}
+];
+
+const ProgressItemText = styled(SmallHeader)`
+	font-size: 15px;
+	color: ${({ done }) => (done ? "#98A4B3" : "#4D6480")};
+	text-decoration: ${({ done }) => (done ? "line-through" : "none")};
+	line-height: 15px;
+	margin-bottom: 0;
+	margin-left: 6px;
+`;
+
+const ProgressItem = ({ label, done, linkTo }) => {
+	const Content = (
+		<Row style={{ marginBottom: "15px" }} middle>
+			{done ? (
+				<CheckCircleDone color={"#50E3C2"} fontSize={"20px"} />
+			) : (
+				<CheckCircle color={"#4D6480"} fontSize={"20px"} />
+			)}
+			<ProgressItemText done={done}>{label}</ProgressItemText>
+		</Row>
+	);
+
+	if (done) {
+		return Content;
+	}
+
+	return <NavLink to={linkTo}>{Content}</NavLink>;
+};
+
+const ProfileProgress = ({ user }) => {
+	const items = checks.map(c => ({ ...c, done: c.check(user) }));
+
+	const progress = items.filter(c => c.done).length / items.length;
+
+	if (progress === 1) {
+		return null;
+	}
+
+	return (
+		<Col
+			style={{
+				alignItems: "flex-start",
+				marginBottom: "30px"
+			}}
+		>
+			<Body>Complete your profile</Body>
+			<ProgressBar progress={progress} />
+
+			{items.map(c => (
+				<ProgressItem key={c.label} {...c} />
+			))}
+		</Col>
+	);
+};
+
+const BarTrack = styled.div`
+	background-color: #d3f8f0;
+	height: 12px;
+	width: 100%;
+	border-radius: 6px;
+`;
+
+const BarFill = styled.div`
+	height: 12px;
+	background: #50e3c2;
+	box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 8px 0 #00ffc6;
+	border-radius: 6px;
+`;
+
+const ProgressBar = ({ progress }) => {
+	return (
+		<Row middle style={{ marginBottom: "15px", width: "100%" }}>
+			<BarTrack>
+				<BarFill style={{ width: progress * 100 + "%" }} />
+			</BarTrack>
+			<SmallBold
+				style={{
+					marginBottom: 0,
+					marginLeft: "6px"
+				}}
+			>
+				{Math.round(progress * 100)}%
+			</SmallBold>
+		</Row>
+	);
+};
+
+export default ProfileProgress;

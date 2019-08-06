@@ -30,6 +30,7 @@ import { NavLink } from "react-router-dom";
 import GracefullImage from "./components/GracefullImage";
 import { SmallHeader, Stat } from "./components/Text.js";
 import AddCircle from "react-ionicons/lib/MdAddCircle";
+import ProfileProgress from "./components/ProfileProgress.js";
 
 const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading } = userProps;
@@ -41,9 +42,10 @@ const Content = React.memo(({ match, ...userProps }) => {
 			<Header user={user} loading={loading} />
 
 			<Container>
-				<Row>
-					<UserSidebar {...userProps} />
-
+				<Row style={{ alignItems: "stretch" }}>
+					<Col>
+						<UserSidebar {...userProps} />
+					</Col>
 					<Col
 						style={{
 							marginTop: "42px",
@@ -228,10 +230,12 @@ const UserSidebar = ({ user, loading }) => {
 				marginRight: "60px"
 			}}
 			childrenBelow={
-				<SimpleSharing
-					style={{ marginTop: "30px" }}
-					shareUrl={user && `/user/${user.permalink}/overview}]`}
-				></SimpleSharing>
+				<>
+					{user && user.isOwn && <ProfileProgress user={user} />}
+					<SimpleSharing
+						shareUrl={user && `/user/${user.permalink}/overview}]`}
+					/>
+				</>
 			}
 		>
 			<ProfileImg src={user ? user.picture.path : null} />
@@ -289,6 +293,7 @@ const UserSidebar = ({ user, loading }) => {
 		</Sidebar>
 	);
 };
+
 const ProfileImg = styled(GracefullImage)`
 	width: 300px;
 	height: 300px;

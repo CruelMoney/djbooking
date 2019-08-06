@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Col } from "./Blocks";
 
 export const StatUnit = styled.p`
@@ -83,11 +83,19 @@ export const Citation = styled.blockquote`
 	border: none;
 `;
 
-export const Cite = styled.cite`
+const smallBoldStyle = css`
 	font-family: "AvenirNext-Bold";
 	font-style: normal;
 	font-size: 12px;
 	color: #4d6480;
+`;
+
+export const SmallBold = styled.p`
+	${smallBoldStyle}
+`;
+
+export const Cite = styled.cite`
+	${smallBoldStyle}
 	text-align: right;
 	padding: 0;
 	margin: 0;
