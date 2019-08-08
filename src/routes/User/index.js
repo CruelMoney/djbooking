@@ -8,10 +8,20 @@ import addTranslate from "../../components/higher-order/addTranslate";
 import { Query } from "react-apollo";
 import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
-import Sidebar, { CTAButton, SidebarContent } from "./components/Sidebar.js";
+import Sidebar, {
+	CTAButton,
+	SidebarContent,
+	CTAShadow
+} from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
 import { Overview, Settings, Reviews, Gigs, Events, Booking } from "./routes";
-import { Container, Row, Col, Divider } from "./components/Blocks.js";
+import {
+	Container,
+	Row,
+	Col,
+	Divider,
+	ShowBelow
+} from "./components/Blocks.js";
 import { useMutation } from "react-apollo-hooks";
 import Notification from "../../components/common/Notification.js";
 import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
@@ -36,6 +46,8 @@ import { ME } from "../../components/gql.js";
 const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading } = userProps;
 	const showPrivate = loading || (user && user.isOwn);
+	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
+
 	return (
 		<div>
 			<ScrollToTop animate top={280} />
@@ -45,7 +57,8 @@ const Content = React.memo(({ match, ...userProps }) => {
 			<Container>
 				<Row style={{ alignItems: "stretch" }}>
 					<Col>
-						<UserSidebar {...userProps} />
+						<UserSidebar {...userProps} bookingEnabled={bookingEnabled} />
+						{bookingEnabled && <MobileBookingButton {...userProps} />}
 					</Col>
 					<Col
 						style={{
@@ -225,7 +238,7 @@ const IconRow = styled(Row)`
 	}
 `;
 
-const UserSidebar = ({ user, loading }) => {
+const UserSidebar = ({ user, loading, bookingEnabled }) => {
 	const { userMetadata = {}, appMetadata = {}, playingLocation } = user || {};
 	const {
 		experience,
@@ -236,7 +249,6 @@ const UserSidebar = ({ user, loading }) => {
 	} = appMetadata;
 
 	const memberSince = moment(createdAt).format("MMMM YYYY");
-	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
 	return (
 		<Sidebar
 			showCTAShadow={bookingEnabled}
@@ -357,6 +369,9 @@ export const Stats = ({ experience, followers, white, marginRight }) => {
 };
 
 const BookingButton = ({ loading, user }) => {
+	if (!user) {
+		return null;
+	}
 	if (user.isOwn) {
 		return (
 			<CTAButton
@@ -373,6 +388,30 @@ const BookingButton = ({ loading, user }) => {
 		</NavLink>
 	);
 };
+
+const StickyBookingButtonWrapper = styled.div`
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 15px;
+	z-index: 99;
+	> div,
+	button {
+		position: relative;
+	}
+`;
+
+export const MobileBookingButton = ({ children, ...props }) => (
+	<ShowBelow>
+		<StickyBookingButtonWrapper>
+			<div>
+				<CTAShadow />
+				{children || <BookingButton {...props}></BookingButton>}
+			</div>
+		</StickyBookingButtonWrapper>
+	</ShowBelow>
+);
 
 const isObject = o => Object.prototype.toString.call(o) === "[object Object]";
 

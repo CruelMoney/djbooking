@@ -30,6 +30,7 @@ import GeoCoder from "../../../utils/GeoCoder";
 import * as Sentry from "@sentry/browser";
 import * as tracker from "../../../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
+import { MobileBookingButton } from "..";
 
 const Booking = ({ user, loading, translate }) => {
 	const [eventCreated, setEventCreated] = useState(false);
@@ -90,7 +91,7 @@ const Booking = ({ user, loading, translate }) => {
 		<div>
 			<ScrollToTop top={0} />
 
-			<GradientBg style={{ height: "80px" }} />
+			<GradientBg style={{ height: "80px", minHeight: "80px" }} />
 
 			<Popup
 				width="380px"
@@ -341,39 +342,51 @@ const BookingSidebar = ({
 	return (
 		<Mutation mutation={CREATE_EVENT}>
 			{(mutate, { error, loading: createLoading }) => (
-				<Sidebar
-					showCTAShadow
-					stickyTop={"0px"}
-					enableSharing={false}
-					style={{ marginLeft: "60px", marginTop: "42px" }}
-					childrenBelow={
-						<ErrorMessageApollo
-							error={error}
-							style={{ marginTop: "30px" }}
-							onFoundCode={code => {
-								if (code === "UNAUTHENTICATED") {
-									showLogin();
-								}
-							}}
-						/>
-					}
-				>
-					<SidebarContent>
-						{loading ? (
-							<LoadingPlaceholder2 />
-						) : (
-							<Content values={values} {...props} />
-						)}
-					</SidebarContent>
-
-					<CTAButton
-						disabled={createLoading}
-						loading={createLoading}
-						onClick={requestBooking(mutate)}
+				<>
+					<Sidebar
+						showCTAShadow
+						stickyTop={"0px"}
+						enableSharing={false}
+						style={{ marginLeft: "60px", marginTop: "42px" }}
+						childrenBelow={
+							<ErrorMessageApollo
+								error={error}
+								style={{ marginTop: "30px" }}
+								onFoundCode={code => {
+									if (code === "UNAUTHENTICATED") {
+										showLogin();
+									}
+								}}
+							/>
+						}
 					>
-						REQUEST BOOKING
-					</CTAButton>
-				</Sidebar>
+						<SidebarContent>
+							{loading ? (
+								<LoadingPlaceholder2 />
+							) : (
+								<Content values={values} {...props} />
+							)}
+						</SidebarContent>
+
+						<CTAButton
+							disabled={createLoading}
+							loading={createLoading}
+							onClick={requestBooking(mutate)}
+						>
+							REQUEST BOOKING
+						</CTAButton>
+					</Sidebar>
+
+					<MobileBookingButton>
+						<CTAButton
+							disabled={createLoading}
+							loading={createLoading}
+							onClick={requestBooking(mutate)}
+						>
+							REQUEST BOOKING
+						</CTAButton>
+					</MobileBookingButton>
+				</>
 			)}
 		</Mutation>
 	);

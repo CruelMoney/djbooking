@@ -101,8 +101,8 @@ class Login extends PureComponent {
 							onCompleted={async ({ signIn: { token } }) => {
 								if (token) {
 									authService.setSession(token);
-									onLogin && (await onLogin());
 									await refetch();
+									onLogin && (await onLogin());
 								}
 								this.setState({ isLoading: false });
 							}}

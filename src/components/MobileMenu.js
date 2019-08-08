@@ -19,12 +19,8 @@ const MobileMenu = ({ isHome, translate }) => {
 		reset();
 	};
 
-	const handleLoggedIn = ({ me }) => {
-		setLoginExpanded(!me);
-	};
-
 	return (
-		<Query query={ME} onCompleted={handleLoggedIn} onError={console.log}>
+		<Query query={ME} onError={console.log}>
 			{({ refetch, loading, data = {} }) => {
 				const { me: user } = data;
 
@@ -59,7 +55,7 @@ const MobileMenu = ({ isHome, translate }) => {
 							showing={loginExpanded}
 							onClickOutside={() => setLoginExpanded(false)}
 						>
-							<Login />
+							<Login onLogin={() => setLoginExpanded(false)} />
 						</Popup>
 					</>
 				);
