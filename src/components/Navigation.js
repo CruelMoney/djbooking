@@ -48,21 +48,6 @@ class Menu extends Component {
 
 	redirectToProfile = () => {};
 
-	componentDidUpdate(prevProps) {
-		window.addEventListener("scroll", this.handleScroll);
-	}
-	componentWillUnmount() {
-		window.removeEventListener("scroll", this.handleScroll);
-	}
-	handleScroll = event => {
-		let scrollTop = event.srcElement.body.scrollTop;
-		if (scrollTop > 150) {
-			this.mobileMenu.className = "buttonFixed";
-		} else {
-			this.mobileMenu.className = "";
-		}
-	};
-
 	handleLoggedIn = ({ me }) => {
 		this.setState({
 			loggedIn: !!me
@@ -82,7 +67,7 @@ class Menu extends Component {
 
 	render() {
 		const { translate, location } = this.props;
-		const { showMenu, loginExpanded, loggedIn } = this.state;
+		const { loginExpanded, loggedIn } = this.state;
 		const isHome = location.pathname === "/" || location.pathname === "/dk";
 
 		return (
@@ -94,11 +79,6 @@ class Menu extends Component {
 						<div className="menu-wrapper">
 							<EmailVerifier onVerified={this.onLoginButton} />
 
-							<MobileMenu
-								isHome
-								onClosing={() => this.setState({ showMenu: false })}
-								show={showMenu}
-							/>
 							<div className="container">
 								<div className={"nav-container location_"}>
 									<nav className="navigation">
@@ -109,16 +89,7 @@ class Menu extends Component {
 											<BreadCrumbs />
 										</div>
 
-										<div className="" ref={ref => (this.mobileMenu = ref)}>
-											<button
-												className="mobileMenuButton link-look"
-												onClick={() => {
-													this.setState({ showMenu: !showMenu });
-												}}
-											>
-												<h2>Menu</h2>
-											</button>
-										</div>
+										<MobileMenu />
 										<ul className="main-menu">
 											{!isHome ? (
 												<li>

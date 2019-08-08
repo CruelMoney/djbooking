@@ -144,7 +144,7 @@ button {
 }
 
 .navigation {
-	z-index: 100;
+	z-index: 10;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -167,15 +167,7 @@ button {
 	bottom: -60px;
 	left: 15px;
 }
-.buttonFixed .mobileMenuButton {
-	z-index: 100;
-	background: #31daff;
-	border-radius: 50%;
-	box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.25) !important;
-	transform: translateY(-70px);
-	transition: transform 0.25s ease;
-	backface-visibility: hidden;
-}
+
 .mobileMenu {
 	position: fixed;
 	width: 100vw;
@@ -199,25 +191,11 @@ button {
 	will-change: transform, opacity, height;
 	transition-property: transform, opacity, height;
 	transition-duration: 0.35s;
-	border-radius: 6px;
+	border-radius: 25px;
 	box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1),
 		0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-.mobileMenu .profilePicture {
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: auto 100%;
-	width: 200px;
-	height: 200px;
-	margin-right: 20px;
-	border-radius: 50%;
-	display: inline-block;
-	margin-bottom: 20px;
-	position: relative;
-}
-.mobileMenu .profilePicture label {
-	color: white;
-}
+
 .mobileMenu.active {
 	pointer-events: all;
 }
@@ -248,7 +226,15 @@ button {
 	cursor: pointer;
 	width: 50px;
 	height: 50px;
-	position: relative;
+	min-width: 50px;
+	min-height: 50px;
+	position: fixed;
+	background: #fff;
+	border-radius: 25px;
+	box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.25) !important;
+	backface-visibility: hidden;
+	top: 15px;
+	right: 15px;
 }
 .mobileMenuButton:hover {
 	color: hsla(0, 0%, 100%, 0.5);
@@ -260,7 +246,7 @@ button {
 	width: 24px;
 	height: 3px;
 	border-radius: 1px;
-	background: white;
+	background: #31daff;
 	transform: translate3d(0, 0, 0);
 }
 .mobileMenuButton h2 {
@@ -304,19 +290,6 @@ button {
 }
 .popupCloseButton:after {
 	transform: rotate(-45deg);
-}
-.mobileMenu .profileSummary {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-}
-
-.mobileMenu .profileInfo {
-	width: 100%;
-	flex: 1;
-	padding-bottom: 0px;
-	min-width: 200px;
 }
 
 .mobileMenu .menu ul {
@@ -3447,10 +3420,10 @@ ol.breadcrumbs a {
 	outline: none !important;
 	padding: 0;
 	color: #31daff;
-	height: 2em;
 }
 
-#tooltip-portal {
+#tooltip-portal,
+#mobile-menu-portal {
 	z-index: 99;
 	position: absolute;
 	top: 0;

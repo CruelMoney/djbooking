@@ -4,6 +4,7 @@ const ME = gql`
 	query Me {
 		me {
 			id
+			isDj @client
 			email
 			permalink
 			genres
