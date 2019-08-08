@@ -49,6 +49,13 @@ export const Row = styled.div`
 		center ? "center" : right ? "flex-end" : "flex-start"};
 	align-items: ${({ middle }) => (middle ? "center" : "flex-start")};
 `;
+
+export const RowMobileCol = styled(Row)`
+	@media only screen and (max-width: 425px) {
+		flex-direction: column;
+	}
+`;
+
 export const FullWidthCol = styled(Col)`
 	width: 100%;
 `;

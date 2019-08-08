@@ -123,11 +123,11 @@ const RatingWrapper = styled.div`
 	@media only screen and (max-width: 425px) {
 		margin-bottom: 24px;
 		.ratingStar {
-			padding-left: 1px;
-			padding-right: 1px;
+			padding-left: 2px;
+			padding-right: 2px;
 			svg {
-				width: 11px;
-				height: 11px;
+				width: 13px;
+				height: 13px;
 			}
 		}
 	}
@@ -152,7 +152,13 @@ const Header = ({ user, loading }) => {
 const UserContent = ({ user }) => {
 	const { artistName, userMetadata, appMetadata, reviews } = user;
 	const { firstName } = userMetadata;
-	const { certified, rating, identityVerified } = appMetadata;
+	const {
+		certified,
+		rating,
+		identityVerified,
+		experience,
+		followers
+	} = appMetadata;
 
 	return (
 		<>
@@ -190,24 +196,28 @@ const UserContent = ({ user }) => {
 						</div>
 					)}
 
-					<ShowBelow width={425} style={{ marginBottom: "24px" }}>
-						<Stats
-							experience={11}
-							followers={"11k"}
-							white
-							marginRight={"15px"}
-						></Stats>
-					</ShowBelow>
+					{(experience || followers) && (
+						<ShowBelow width={425} style={{ marginBottom: "24px" }}>
+							<Stats
+								white
+								experience={11}
+								followers={"11k"}
+								marginRight={"15px"}
+							/>
+						</ShowBelow>
+					)}
 				</Col>
-				<Col>
-					<Avatar size="extraLarge" src={user.picture.path} />
-				</Col>
+				<ShowBelow width={425}>
+					<Col>
+						<Avatar size="extraLarge" src={user.picture.path} />
+					</Col>
+				</ShowBelow>
 			</Row>
 			<ShowBelow width={425} style={{ marginBottom: "24px" }}>
 				<Row>
 					<CertifiedVerified
 						certified={certified}
-						identityVerified={true}
+						identityVerified={identityVerified}
 					></CertifiedVerified>
 				</Row>
 			</ShowBelow>

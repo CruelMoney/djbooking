@@ -55,6 +55,19 @@ const RightCol = styled(Row)`
 		min-width: calc(50% - 36px);
 		width: calc(50% - 36px);
 	}
+	@media only screen and (max-width: 425px) {
+		min-width: 100%;
+		margin-right: -15px;
+		${InputLabel} {
+			min-width: calc(100% - 15px);
+			margin-right: 15px;
+		}
+		${LabelHalf} {
+			margin-right: 15px;
+			min-width: calc(50% - 15px);
+			width: calc(50% - 15px);
+		}
+	}
 `;
 
 const SettingsSection = ({

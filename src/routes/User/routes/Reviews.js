@@ -8,7 +8,8 @@ import {
 	Avatar,
 	ReadMoreText,
 	TeritaryButton,
-	PrimaryButton
+	PrimaryButton,
+	RowMobileCol
 } from "../components/Blocks";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
 
@@ -33,11 +34,18 @@ const ReviewsCol = styled(Col)`
 	flex: 1;
 	width: 100%;
 	border-right: 1px solid #e9ecf0;
+	@media only screen and (max-width: 425px) {
+		border-right: none;
+	}
 `;
 
 const VenuesCol = styled(Col)`
 	width: 190px;
 	margin-left: 24px;
+	@media only screen and (max-width: 425px) {
+		width: auto;
+		margin-left: 0;
+	}
 `;
 
 const RemoveButton = styled(TeritaryButton)`
@@ -312,7 +320,7 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 
 	return (
 		<>
-			<Row>
+			<RowMobileCol>
 				<ReviewsCol>
 					{reviews.length === 0 ? (
 						<EmptyPage
@@ -362,7 +370,7 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 						</AddButton>
 					)}
 				</VenuesCol>
-			</Row>
+			</RowMobileCol>
 			<Popup
 				lazy={false}
 				width={450}
