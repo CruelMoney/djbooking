@@ -47,7 +47,7 @@ const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading } = userProps;
 	const showPrivate = loading || (user && user.isOwn);
 	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
-
+	debugger;
 	return (
 		<div>
 			<ScrollToTop animate top={280} />
@@ -153,6 +153,12 @@ const Index = ({ translate, match }) => {
 							data && data.me
 								? mergeObjects(profileUser, data.me)
 								: profileUser;
+
+						if (user) {
+							user.isOwn =
+								user.isOwn ||
+								(data && data.me && data.me.id === profileUser.id);
+						}
 
 						return (
 							<div>
