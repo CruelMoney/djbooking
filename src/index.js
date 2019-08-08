@@ -1,5 +1,5 @@
 import React from "react";
-import { hydrate, render } from "react-dom";
+import { hydrate } from "react-dom";
 import Router from "./BrowserRouter";
 import "./css/style.scss";
 import * as Sentry from "@sentry/browser";
@@ -17,10 +17,6 @@ if (production) {
 // import registerServiceWorker from "./utils/ServiceWorker";
 
 const rootElement = document.getElementById("root");
-if (rootElement.hasChildNodes()) {
-	hydrate(<Router />, rootElement);
-} else {
-	render(<Router />, rootElement);
-}
+hydrate(<Router />, rootElement);
 
 // registerServiceWorker();

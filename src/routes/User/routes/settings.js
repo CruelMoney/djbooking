@@ -16,7 +16,6 @@ import CancelationPolicyPopup from "../components/CancelationPolicyPopup";
 import BioPopup from "../components/BioPopup";
 import PayoutForm from "../../../components/common/PayoutForm";
 import Popup from "../../../components/common/Popup";
-import { reset } from "../../../ApolloProvider";
 import { DELETE_USER } from "../gql";
 import { Mutation } from "react-apollo";
 
@@ -295,7 +294,6 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 						id: user.id
 					}}
 					onCompleted={() => {
-						reset();
 						history.push(`/`);
 					}}
 				>

@@ -8,6 +8,7 @@ import App from "./App";
 import store from "./store";
 import { HelmetProvider } from "react-helmet-async";
 import ReactModal from "react-modal";
+import ApolloProvider from "./ApolloProvider";
 import "./polyfills";
 
 const theme = getMuiTheme();
@@ -17,13 +18,15 @@ ReactModal.setAppElement("#root");
 class MyRouter extends Component {
 	render() {
 		return (
-			<Router>
-				<MuiThemeProvider muiTheme={theme}>
-					<HelmetProvider>
-						<App />
-					</HelmetProvider>
-				</MuiThemeProvider>
-			</Router>
+			<ApolloProvider>
+				<Router>
+					<MuiThemeProvider muiTheme={theme}>
+						<HelmetProvider>
+							<App />
+						</HelmetProvider>
+					</MuiThemeProvider>
+				</Router>
+			</ApolloProvider>
 		);
 	}
 }

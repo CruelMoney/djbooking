@@ -4,6 +4,7 @@
 	"plugins": [
 		"@babel/plugin-proposal-class-properties",
 		"@babel/plugin-transform-runtime",
-		"dynamic-import-node"
+		"dynamic-import-node",
+		"babel-plugin-styled-components"
 	]
 }

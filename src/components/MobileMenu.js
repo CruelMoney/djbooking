@@ -6,7 +6,6 @@ import Login from "./common/Login";
 import { connect } from "react-redux";
 
 import { getTranslate } from "react-localize-redux";
-import { reset } from "../ApolloProvider";
 import { ME } from "./gql";
 import { Query } from "react-apollo";
 
@@ -16,7 +15,6 @@ const MobileMenu = ({ isHome, translate }) => {
 
 	const logout = () => {
 		setShow(false);
-		reset();
 	};
 
 	return (
@@ -37,20 +35,21 @@ const MobileMenu = ({ isHome, translate }) => {
 						>
 							<h2>Menu</h2>
 						</button>
-						{ReactDOM.createPortal(
-							<Content
-								show={show}
-								logout={logout}
-								loggedIn={loggedIn}
-								user={user}
-								isDJ={isDJ}
-								isHome={isHome}
-								translate={translate}
-								setShow={setShow}
-								setLoginExpanded={setLoginExpanded}
-							/>,
-							document.querySelector("#mobile-menu-portal")
-						)}
+						{typeof document !== "undefined" &&
+							ReactDOM.createPortal(
+								<Content
+									show={show}
+									logout={logout}
+									loggedIn={loggedIn}
+									user={user}
+									isDJ={isDJ}
+									isHome={isHome}
+									translate={translate}
+									setShow={setShow}
+									setLoginExpanded={setLoginExpanded}
+								/>,
+								document.querySelector("#mobile-menu-portal")
+							)}
 						<Popup
 							showing={loginExpanded}
 							onClickOutside={() => setLoginExpanded(false)}

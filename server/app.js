@@ -1,11 +1,20 @@
 import { createReactAppExpress } from "@cra-express/core";
+import { getDataFromTree } from "@apollo/react-ssr";
+import { ApolloProvider } from "react-apollo";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloClient } from "apollo-client";
+import { createHttpLink } from "apollo-link-http";
 import { HelmetProvider } from "react-helmet-async";
+import App from "../src/App";
+import resolvers from "../src/actions/resolvers";
+import { ServerStyleSheet, StyleSheetManager } from "styled-components";
+
+require("dotenv");
 const path = require("path");
 const { renderToString } = require("react-dom/server");
 const React = require("react");
 const { Provider } = require("react-redux");
 const { StaticRouter } = require("react-router");
-const { default: App } = require("../src/App");
 const { configureStore } = require("../src/store");
 const getMuiTheme = require("material-ui/styles/getMuiTheme").default;
 const MuiThemeProvider = require("material-ui/styles/MuiThemeProvider").default;
@@ -13,40 +22,66 @@ const MuiThemeProvider = require("material-ui/styles/MuiThemeProvider").default;
 const clientBuildPath = path.resolve(__dirname, "../client");
 let tag = "";
 
-const getReactApp = (req, res) => {
-	const store = res.locals.store;
+const getReactApp = async (req, res) => {
+	const { store, sheet } = res.locals;
 	const context = { store };
 
 	const theme = getMuiTheme({
 		userAgent: req.headers["user-agent"]
 	});
 
-	return (
-		<Provider store={store}>
-			<StaticRouter location={req.url} context={context}>
-				<MuiThemeProvider muiTheme={theme}>
-					<HelmetProvider context={res.locals.helmetContext}>
-						<App />
-					</HelmetProvider>
-				</MuiThemeProvider>
-			</StaticRouter>
-		</Provider>
+	const client = new ApolloClient({
+		ssrMode: true,
+		link: createHttpLink({
+			uri: process.env.REACT_APP_CUEUP_GQL_DOMAIN,
+			credentials: "same-origin",
+			headers: {
+				cookie: req.header("Cookie")
+			}
+		}),
+		cache: new InMemoryCache(),
+		resolvers
+	});
+
+	const Content = (
+		<ApolloProvider client={client}>
+			<StyleSheetManager sheet={sheet.instance}>
+				<Provider store={store}>
+					<StaticRouter location={req.url} context={context}>
+						<MuiThemeProvider muiTheme={theme}>
+							<HelmetProvider context={res.locals.helmetContext}>
+								<App />
+							</HelmetProvider>
+						</MuiThemeProvider>
+					</StaticRouter>
+				</Provider>
+			</StyleSheetManager>
+		</ApolloProvider>
 	);
+
+	await getDataFromTree(Content);
+
+	res.locals.apolloState = client.extract();
+
+	return Content;
 };
 
 const handleUniversalRender = async (req, res) => {
 	try {
 		const store = configureStore({}, req);
+		const sheet = new ServerStyleSheet();
+
 		res.locals.store = store;
 		res.locals.helmetContext = {};
+		res.locals.sheet = sheet;
 
-		const app = getReactApp(req, res);
+		const app = await getReactApp(req, res);
 		renderToString(app);
 
 		return app;
 	} catch (error) {
 		console.log(error);
-		return res.error("Something fucked up");
+		return res.json("Something fucked up");
 	}
 };
 
@@ -54,17 +89,25 @@ const app = createReactAppExpress({
 	clientBuildPath,
 	universalRender: handleUniversalRender,
 	onFinish(req, res, html) {
-		const state = res.locals.store.getState();
-		const { helmet } = res.locals.helmetContext;
+		const { apolloState, store, helmetContext, sheet } = res.locals;
+		const state = store.getState();
+		const { helmet } = helmetContext;
 		const helmetTitle = helmet.title.toString();
 		const helmetMeta = helmet.meta.toString();
+		const styleTags = sheet.getStyleTags();
+		sheet.seal();
 
 		const newHtml = html
 			.replace("</head>", helmetTitle + "</head>")
 			.replace("</head>", helmetMeta + "</head>")
+			.replace("</head>", styleTags + "</head>")
 			.replace(
-				"%PRELOADED_STATE%",
+				'"%PRELOADED_STATE%"',
 				JSON.stringify(state).replace(/</g, "\\u003c")
+			)
+			.replace(
+				'"%PRELOADED_APOLLO_STATE%"',
+				JSON.stringify(apolloState).replace(/</g, "\\u003c")
 			);
 
 		res.send(newHtml);

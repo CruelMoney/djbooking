@@ -22,7 +22,7 @@ import {
 	Divider,
 	ShowBelow
 } from "./components/Blocks.js";
-import { useMutation } from "react-apollo-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import Notification from "../../components/common/Notification.js";
 import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
 import ScrollToTop from "../../components/common/ScrollToTop";
@@ -41,12 +41,15 @@ import { SmallHeader, Stat } from "./components/Text.js";
 import AddCircle from "react-ionicons/lib/MdAddCircle";
 import ProfileProgress from "./components/ProfileProgress.js";
 import { ME } from "../../components/gql.js";
+import { Helmet } from "react-helmet-async";
 
 const Content = React.memo(({ match, ...userProps }) => {
+	console.log("Rendering user content")
+
 	const { user, loading } = userProps;
 	const showPrivate = loading || (user && user.isOwn);
 	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
-	debugger;
+
 	return (
 		<div>
 			<ScrollToTop animate top={280} />
@@ -135,6 +138,8 @@ const LoginPopup = ({ translate }) => {
 };
 
 const Index = ({ translate, match }) => {
+	console.log("Rendering user index")
+
 	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);
 
 	return (
@@ -159,8 +164,28 @@ const Index = ({ translate, match }) => {
 								(data && data.me && data.me.id === profileUser.id);
 						}
 
+						const title = user
+							? user.artistName || user.userMetadata.firstName
+							: null;
+						const thumb = user ? user.picture.path : null;
 						return (
 							<div>
+								{user && (
+									<Helmet>
+										<title>{title}</title>
+										<meta property="og:title" content={title} />
+										<meta name="twitter:title" content={title} />
+
+										<meta property="og:image" content={thumb} />
+										<meta name="twitter:image" content={thumb} />
+										{user.isOwn && (
+											<meta
+												name="apple-itunes-app"
+												content="app-id=1458267647, app-argument=userProfile"
+											/>
+										)}
+									</Helmet>
+								)}
 								<SavingIndicator loading={isSaving} error={error} />
 
 								<Switch>

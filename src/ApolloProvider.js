@@ -12,7 +12,6 @@ import { createUploadLink } from "apollo-upload-client";
 import { Environment } from "./constants/constants";
 import resolvers from "./actions/resolvers";
 import { authService } from "./utils/AuthService";
-import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
 import introspectionQueryResultData from "./fragmentTypes.json";
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
@@ -89,7 +88,9 @@ const resetToken = onError(({ networkError }) => {
 
 const authFlowLink = withToken.concat(resetToken);
 
-const cache = new InMemoryCache({ fragmentMatcher });
+const cache = new InMemoryCache({ fragmentMatcher }).restore(
+	window.__APOLLO_STATE__
+);
 
 const uploadLink = createUploadLink({ uri: Environment.GQL_DOMAIN });
 
@@ -116,11 +117,7 @@ class APIProvider extends Component {
 
 	render() {
 		return (
-			<ApolloProvider client={client}>
-				<ApolloHooksProvider client={client}>
-					{this.props.children}
-				</ApolloHooksProvider>
-			</ApolloProvider>
+			<ApolloProvider client={client}>{this.props.children}</ApolloProvider>
 		);
 	}
 }

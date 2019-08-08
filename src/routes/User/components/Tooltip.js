@@ -22,21 +22,22 @@ const Tooltip = ({ children, text }) => {
 	return (
 		<Manager>
 			<Reference>{({ ref }) => children({ ref, close, open })}</Reference>
-			{ReactDOM.createPortal(
-				<Popper placement="auto">
-					{({ ref, style, placement }) => (
-						<ToolTipBox
-							ref={ref}
-							style={style}
-							data-placement={placement}
-							showing={showing}
-						>
-							<p style={{ marginBottom: 0 }}>{text}</p>
-						</ToolTipBox>
-					)}
-				</Popper>,
-				document.querySelector("#tooltip-portal")
-			)}
+			{typeof document !== "undefined" &&
+				ReactDOM.createPortal(
+					<Popper placement="auto">
+						{({ ref, style, placement }) => (
+							<ToolTipBox
+								ref={ref}
+								style={style}
+								data-placement={placement}
+								showing={showing}
+							>
+								<p style={{ marginBottom: 0 }}>{text}</p>
+							</ToolTipBox>
+						)}
+					</Popper>,
+					document.querySelector("#tooltip-portal")
+				)}
 		</Manager>
 	);
 };

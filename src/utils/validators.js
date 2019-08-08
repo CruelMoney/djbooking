@@ -1,29 +1,27 @@
-import emailValidator from 'email-validator'
-//import dateValidator from 'is-my-date-valid'
-import StripeService from './StripeService'
-//import cpr from 'danish-ssn'
+import emailValidator from "email-validator";
+import StripeService from "./StripeService";
 var stripe = new StripeService();
 
-
 export function required(value, errorMsg) {
-  if (Array.isArray(value)) {
-    return !value.length ? ["At least 1 option should be selected"] : []
-  }else{
-    return (!value && value !== 0) ? ['This field cannot be empty'] : []
-  }
+	if (Array.isArray(value)) {
+		return !value.length ? ["At least 1 option should be selected"] : [];
+	} else {
+		return !value && value !== 0 ? ["This field cannot be empty"] : [];
+	}
 }
 
 export function lastName(value) {
-  
-  return value && !value.split(' ')[1] ? ['Please enter your last name'] : []
+	return value && !value.split(" ")[1] ? ["Please enter your last name"] : [];
 }
 
 export function minLength(str) {
-  return str && str.length < 6 ? ["Password must be 6 or more characters"] : []
+	return str && str.length < 6 ? ["Password must be 6 or more characters"] : [];
 }
 
 export function email(value) {
-  return value && !emailValidator.validate(value) ? ['This email address is invalid']: []
+	return value && !emailValidator.validate(value)
+		? ["This email address is invalid"]
+		: [];
 }
 
 // export function date(value) {
@@ -48,32 +46,42 @@ export function email(value) {
 //   }
 // }
 
-export function validateCardNumber(number){
-   return number && !stripe.validateCardNumber(number.replace(/\s/g,'')) ? ['The card number is not valid'] : []
+export function validateCardNumber(number) {
+	return number && !stripe.validateCardNumber(number.replace(/\s/g, ""))
+		? ["The card number is not valid"]
+		: [];
 }
 
-export function validateCardExpiry(date){
-  if(!date) return ['The expiry date is not valid']
-  const dateArr = date.split('/');
-  const month = dateArr[0]
-  const year = dateArr[1]
-  return !stripe.validateCardExpiry(month, year) ? ['The expiry date is not valid'] : []
+export function validateCardExpiry(date) {
+	if (!date) return ["The expiry date is not valid"];
+	const dateArr = date.split("/");
+	const month = dateArr[0];
+	const year = dateArr[1];
+	return !stripe.validateCardExpiry(month, year)
+		? ["The expiry date is not valid"]
+		: [];
 }
 
-export function validateCardCVC(cvc){
-  return cvc && !stripe.validateCardCVC(cvc) ? ['The security code is not valid'] : []
+export function validateCardCVC(cvc) {
+	return cvc && !stripe.validateCardCVC(cvc)
+		? ["The security code is not valid"]
+		: [];
 }
 
-export function getCardType(cardNumber){
-  return cardNumber && stripe.cardType(cardNumber)
+export function getCardType(cardNumber) {
+	return cardNumber && stripe.cardType(cardNumber);
 }
 
-export function validateRoutingNumberDKK(num){
-return num && !stripe.validateRoutingNumberDKK(num) ? ['The routing number is not valid'] : []
+export function validateRoutingNumberDKK(num) {
+	return num && !stripe.validateRoutingNumberDKK(num)
+		? ["The routing number is not valid"]
+		: [];
 }
 
-export function validateAccountNumberDKK(num){
-  return num && !stripe.validateAccountNumberDKK(num) ? ['The account number is not valid'] : []
+export function validateAccountNumberDKK(num) {
+	return num && !stripe.validateAccountNumberDKK(num)
+		? ["The account number is not valid"]
+		: [];
 }
 
 // export function validateDKSSN(num){
@@ -82,6 +90,6 @@ export function validateAccountNumberDKK(num){
 //     var ssn = cpr(num)
 //     return ssn.valid ? [] : ["The CPR is invalid"]
 //   } catch (error) {
-//     return [error.message] 
-//   }  
+//     return [error.message]
+//   }
 // }

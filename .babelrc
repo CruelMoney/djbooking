@@ -1,13 +1,7 @@
 {
 	"env": {
 		"production": {
-			"plugins": [
-				"transform-remove-console",
-				"babel-plugin-styled-components",
-				{
-					"ssr": false
-				}
-			]
+			"plugins": ["transform-remove-console", "babel-plugin-styled-components"]
 		}
 	}
 }

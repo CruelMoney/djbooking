@@ -26,7 +26,8 @@ import moment from "moment";
 import EmptyPage from "../../../components/common/EmptyPage";
 import { Input } from "../components/FormComponents";
 import Popup from "../../../components/common/Popup";
-import { useMutation } from "react-apollo-hooks";
+import { useMutation } from "@apollo/react-hooks";
+
 import ReactDOM from "react-dom";
 import { Popper } from "react-popper";
 
@@ -169,7 +170,7 @@ const Review = ({
 					<Citation author={author} citation={citation} createdAt={createdAt} />
 				</Col>
 			</Row>
-			{virtualReferenceElement
+			{typeof document !== "undefined" && virtualReferenceElement
 				? ReactDOM.createPortal(
 						<Popper
 							referenceElement={virtualReferenceElement}

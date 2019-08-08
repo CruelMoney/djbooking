@@ -26,6 +26,10 @@ class Index extends Component {
 
 					<meta property="og:image" content={thumb} />
 					<meta name="twitter:image" content={thumb} />
+					<meta
+						name="apple-itunes-app"
+						content="app-id=1458267647, app-argument=userProfile"
+					/>
 				</Helmet>
 				<ScrollToTop />
 				<Signup translate={translate} />

@@ -176,6 +176,7 @@ const AddBlockPlaceholder = ({ label, directions, to }) => {
 };
 
 const Overview = ({ user, loading }) => {
+	console.log("Rendering overview");
 	if (loading) {
 		return <LoadingPlaceholder2 />;
 	}

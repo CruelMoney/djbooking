@@ -132,7 +132,9 @@ const Header = ({ user, loading }) => {
 					<Spacing style={{ marginRight: "60px" }} />
 					<FullWidthCol>
 						{loading ? null : <UserContent user={user} />}
-						<Navigation routes={getRoutesFromUser(user)}></Navigation>
+						{typeof document !== "undefined" && (
+							<Navigation routes={getRoutesFromUser(user)}></Navigation>
+						)}
 					</FullWidthCol>
 				</Row>
 			</Container>

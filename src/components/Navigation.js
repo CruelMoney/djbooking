@@ -13,7 +13,6 @@ import EmailVerifier from "./EmailVerifier";
 import { Query } from "react-apollo";
 import { ME } from "./gql";
 import addTranslate from "./higher-order/addTranslate";
-import { reset } from "../ApolloProvider";
 
 class Menu extends Component {
 	static propTypes = {
@@ -57,12 +56,9 @@ class Menu extends Component {
 	logout = () => {
 		const { translate, history } = this.props;
 		history.push(translate(`routes./`));
-		this.setState(
-			{
-				loggedIn: false
-			},
-			reset
-		);
+		this.setState({
+			loggedIn: false
+		});
 	};
 
 	render() {

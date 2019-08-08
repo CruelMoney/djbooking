@@ -11,7 +11,7 @@ import { ConnectedCurrencySelector } from "../../../../../components/common/Coun
 import debounce from "lodash.debounce";
 import { Mutation } from "react-apollo";
 import { CANCEL_GIG, DECLINE_GIG, GET_OFFER, MAKE_OFFER } from "../../../gql";
-import { useMutation } from "react-apollo-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import ErrorMessageApollo from "../../../../../components/common/ErrorMessageApollo";
 
 const OfferForm = ({
