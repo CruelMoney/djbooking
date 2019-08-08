@@ -30,9 +30,9 @@ const checks = [
 	},
 	{
 		label: "Download the app",
-		check: u => !!u.appMetadata.hasApp,
+		check: u => !!u.appMetadata.hasInstalledApp,
 		linkTo: "/signup"
-	},
+	}
 	// {
 	// 	label: "Verify identity",
 	// 	check: u => !!u.appMetadata.identityVerified,

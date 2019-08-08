@@ -25,6 +25,7 @@ const ME = gql`
 				averageRating
 				rating
 				experience
+				hasInstalledApp
 				earned {
 					amount
 					currency

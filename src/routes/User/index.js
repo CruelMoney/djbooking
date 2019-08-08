@@ -153,7 +153,7 @@ const Index = ({ translate, match }) => {
 								? mergeObjects(profileUser, data.me)
 								: profileUser;
 
-						if (user) {
+						if (user && profileUser) {
 							user.isOwn =
 								user.isOwn ||
 								(data && data.me && data.me.id === profileUser.id);
