@@ -23,9 +23,7 @@ import { Mutation } from "react-apollo";
 import { CREATE_EVENT } from "../../../components/common/RequestForm/gql";
 import Popup from "../../../components/common/Popup";
 import Login from "../../../components/common/Login";
-import ErrorMessageApollo, {
-	getErrorMessage
-} from "../../../components/common/ErrorMessageApollo";
+import ErrorMessageApollo from "../../../components/common/ErrorMessageApollo";
 import GeoCoder from "../../../utils/GeoCoder";
 import * as Sentry from "@sentry/browser";
 import * as tracker from "../../../utils/analytics/autotrack";

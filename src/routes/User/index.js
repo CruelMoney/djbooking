@@ -30,7 +30,6 @@ import Popup from "../../components/common/Popup.js";
 import Login from "../../components/common/Login.js";
 import { SimpleSharing } from "../../components/common/Sharing-v2.js";
 import { LoadingPlaceholder2 } from "../../components/common/LoadingPlaceholder";
-import Arrow from "react-ionicons/lib/MdArrowRoundForward";
 import Pin from "react-ionicons/lib/MdPin";
 import Medal from "react-ionicons/lib/MdMedal";
 import Star from "react-ionicons/lib/MdStar";

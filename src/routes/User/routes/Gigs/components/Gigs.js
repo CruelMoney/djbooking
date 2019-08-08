@@ -5,7 +5,7 @@ import EmptyPage from "../../../../../components/common/EmptyPage";
 import { connect } from "react-redux";
 import { localize } from "react-localize-redux";
 import { Query } from "react-apollo";
-import { MY_GIGS, ME } from "../../../../../components/gql";
+import { MY_GIGS } from "../../../../../components/gql";
 
 class Gigs extends PureComponent {
 	state = {

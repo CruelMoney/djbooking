@@ -4,16 +4,7 @@ import Navigation from "./Navigation";
 import Rating from "../../../components/common/Rating";
 import VerifiedBadge from "../../../components/graphics/VerifiedBadge";
 import Tooltip from "./Tooltip";
-import { LoadingIndicator } from "../../../components/common/LoadingPlaceholder";
-import {
-	Container,
-	FullWidthCol,
-	Row,
-	MarginBottom,
-	ShowBelow,
-	Col,
-	Avatar
-} from "./Blocks";
+import { Container, FullWidthCol, Row, ShowBelow, Col, Avatar } from "./Blocks";
 import { Spacing } from "./Sidebar";
 import { Stats, CertifiedVerified } from "..";
 
