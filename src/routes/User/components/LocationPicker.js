@@ -69,7 +69,6 @@ const LocationPicker = ({ initialLocation, save }) => {
 	return (
 		<>
 			<Input
-				half
 				type="button"
 				onClick={s => setShowing(true)}
 				label="Location"

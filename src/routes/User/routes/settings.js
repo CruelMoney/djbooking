@@ -122,6 +122,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 					}}
 				/>
 				<Input
+					half
 					label="Email"
 					defaultValue={email}
 					placeholder="mail@email.com"
@@ -134,6 +135,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 					}
 				/>
 				<Input
+					half
 					label="Phone"
 					attention={!phone}
 					defaultValue={phone}
@@ -143,9 +145,10 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 					name="phone"
 					onSave={phone => saveData({ phone: phone.trim() })}
 				/>
-				<PasswordChanger onSave={saveData}></PasswordChanger>
+				<PasswordChanger half onSave={saveData}></PasswordChanger>
 
 				<DatePickerPopup
+					half
 					label={"Birthday"}
 					onSave={date => saveData({ birthday: date })}
 					birthday={birthday}
@@ -158,13 +161,13 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 					onSave={updateKey("picture")}
 				/>
 
-				<Input
+				{/* <Input
 					half
 					type="button"
 					attention
 					label="Verify identity"
 					buttonText="upload documents"
-				/>
+				/> */}
 			</SettingsSection>
 
 			<SettingsSection

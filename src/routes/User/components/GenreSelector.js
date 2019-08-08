@@ -12,7 +12,6 @@ const GenreSelector = ({ initialGenres = [], save }) => {
 	return (
 		<>
 			<Input
-				half
 				type="button"
 				onClick={s => setShowing(true)}
 				label="Genres"

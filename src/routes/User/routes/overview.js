@@ -44,6 +44,10 @@ const LeftItem = styled(Item)`
 
 const GenresLayout = styled(Item)`
 	padding: 0 0px 18px 18px;
+	height: 275px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 	@media only screen and (max-width: 990px) {
 		padding: 42px 0px 18px 0px;
 	}
@@ -52,7 +56,7 @@ const GenresLayout = styled(Item)`
 const Genre = styled.div`
 	background-image: linear-gradient(0deg, #ebebeb 0%, #ebebeb 100%);
 	border-radius: 1em;
-	height: 8em;
+	max-height: 8em;
 	width: 8em;
 	padding: 1em;
 	font-family: "AvenirNext-Bold";
@@ -60,7 +64,6 @@ const Genre = styled.div`
 	color: #4d6480;
 	text-align: center;
 	text-transform: capitalize;
-	line-height: 10em;
 	display: inline-block;
 	margin-left: 24px;
 	margin-bottom: 24px;

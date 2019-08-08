@@ -29,10 +29,15 @@ const checks = [
 		linkTo: "settings#preferences"
 	},
 	{
-		label: "Verify identity",
-		check: u => !!u.appMetadata.identityVerified,
-		linkTo: "settings#preferences"
-	}
+		label: "Download the app",
+		check: u => !!u.appMetadata.hasApp,
+		linkTo: "/signup"
+	},
+	// {
+	// 	label: "Verify identity",
+	// 	check: u => !!u.appMetadata.identityVerified,
+	// 	linkTo: "settings#preferences"
+	// }
 ];
 
 const ProgressItemText = styled(SmallHeader)`
