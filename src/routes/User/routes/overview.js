@@ -40,6 +40,9 @@ const Item = styled.div`
 
 const LeftItem = styled(Item)`
 	padding: 42px 42px 42px 0;
+	@media only screen and (max-width: 425px) {
+		padding: 42px 0px 42px 0px;
+	}
 `;
 
 const GenresLayout = styled(Item)`
@@ -49,6 +52,9 @@ const GenresLayout = styled(Item)`
 	flex-direction: row;
 	flex-wrap: wrap;
 	@media only screen and (max-width: 990px) {
+		padding: 42px 0px 18px 0px;
+	}
+	@media only screen and (max-width: 425px) {
 		padding: 42px 0px 18px 0px;
 	}
 `;

@@ -8,12 +8,21 @@ const Sticky = styled.div`
 	margin-bottom: 42px;
 	align-self: flex-start;
 	z-index: 2;
+	@media only screen and (max-width: 990px) {
+		padding: 42px 0px 18px 0px;
+	}
+	@media only screen and (max-width: 425px) {
+		display: none;
+	}
 `;
 
 export const Spacing = styled.div`
 	min-width: 300px;
 	width: 300px;
 	position: relative;
+	@media only screen and (max-width: 425px) {
+		display: none;
+	}
 `;
 
 const CardWrapper = styled(Spacing)``;

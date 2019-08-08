@@ -8,8 +8,14 @@ const VerifiedBadge = React.forwardRef(({ style, ...props }, ref) => (
 			background: "#fff",
 			width: "19px",
 			height: "19px",
+			minWidth: "19px",
+			minHeight: "19px",
+			lineHeight: "40px",
 			borderRadius: "50%",
 			boxShadow: "0 0 6px 1px #50E3C2",
+			position: "absolute",
+			right: "-36px",
+			top: "14px",
 			...style
 		}}
 	>

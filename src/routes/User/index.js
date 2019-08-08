@@ -220,6 +220,9 @@ const IconRow = styled(Row)`
 	align-items: center;
 	margin-bottom: 12px;
 	display: inline-flex;
+	svg {
+		margin-right: 15px;
+	}
 `;
 
 const UserSidebar = ({ user, loading }) => {
@@ -261,7 +264,13 @@ const UserSidebar = ({ user, loading }) => {
 				</SidebarContent>
 			) : (
 				<SidebarContent>
-					<Stats experience={experience} followers={followers} />
+					{experience || followers ? (
+						<>
+							<Stats experience={experience} followers={followers} />
+							<Divider />
+						</>
+					) : null}
+
 					<SmallHeader
 						style={{ marginBottom: "15px" }}
 					>{`Hi I'm ${userMetadata.firstName}`}</SmallHeader>
@@ -271,7 +280,7 @@ const UserSidebar = ({ user, loading }) => {
 							alignItems: "flex-start"
 						}}
 					>
-						<IconRow>
+						<IconRow className="iconRow">
 							<AddCircle color={"#98a4b3"} style={{ marginRight: "15px" }} />
 							Member since {memberSince}
 						</IconRow>
@@ -281,26 +290,10 @@ const UserSidebar = ({ user, loading }) => {
 								{playingLocation.name}
 							</IconRow>
 						)}
-						{certified && (
-							<Tooltip
-								text={
-									"This dj has been certified by Cueup. The Cueup team has personally met and seen this dj play."
-								}
-							>
-								{({ ref, close, open }) => (
-									<IconRow ref={ref} onMouseEnter={open} onMouseLeave={close}>
-										<Medal color={"#50E3C2"} style={{ marginRight: "15px" }} />
-										Cueup certified
-									</IconRow>
-								)}
-							</Tooltip>
-						)}
-						{identityVerified && (
-							<IconRow>
-								<Star color={"#50E3C2"} style={{ marginRight: "15px" }} />
-								Identity verified
-							</IconRow>
-						)}
+						<CertifiedVerified
+							certified={certified}
+							identityVerified={identityVerified}
+						/>
 					</Col>
 				</SidebarContent>
 			)}
@@ -309,30 +302,57 @@ const UserSidebar = ({ user, loading }) => {
 	);
 };
 
+export const CertifiedVerified = ({ certified, identityVerified }) => (
+	<>
+		{certified && (
+			<Tooltip
+				text={
+					"This dj has been certified by Cueup. The Cueup team has personally met and seen this dj play."
+				}
+			>
+				{({ ref, close, open }) => (
+					<IconRow
+						ref={ref}
+						onMouseEnter={open}
+						onMouseLeave={close}
+						className="iconRow"
+					>
+						<Medal color={"#50E3C2"} />
+						Cueup certified
+					</IconRow>
+				)}
+			</Tooltip>
+		)}
+		{identityVerified && (
+			<IconRow className="iconRow">
+				<Star color={"#50E3C2"} />
+				Identity verified
+			</IconRow>
+		)}
+	</>
+);
+
 const ProfileImg = styled(GracefullImage)`
 	width: 300px;
 	height: 300px;
 	object-fit: cover;
 `;
 
-const Stats = ({ experience, followers }) => {
-	if (!experience && !followers) {
-		return null;
-	}
+export const Stats = ({ experience, followers, white, marginRight }) => {
 	return (
-		<>
-			<Row>
-				{followers && (
-					<Stat
-						label={"followers"}
-						value={followers}
-						style={{ marginRight: "24px" }}
-					></Stat>
-				)}
-				{experience && <Stat label={"played gigs"} value={experience}></Stat>}
-			</Row>
-			<Divider></Divider>
-		</>
+		<Row>
+			{followers && (
+				<Stat
+					label={"followers"}
+					value={followers}
+					style={{ marginRight: marginRight || "24px" }}
+					white={white}
+				></Stat>
+			)}
+			{experience && (
+				<Stat white={white} label={"played gigs"} value={experience}></Stat>
+			)}
+		</Row>
 	);
 };
 

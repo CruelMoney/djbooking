@@ -5,7 +5,7 @@ import { Col } from "./Blocks";
 export const StatUnit = styled.p`
 	font-family: "AvenirNext-DemiBold";
 	font-size: 15px;
-	color: #98a4b3;
+	color: ${({ white }) => (white ? "rgba(255,255,255,0.6)" : "#98a4b3")};
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	margin-bottom: 0px;
@@ -14,16 +14,16 @@ export const StatUnit = styled.p`
 const StatValue = styled.p`
 	font-family: "AvenirNext-DemiBold";
 	font-size: 15px;
-	color: #4d6480;
+	color: ${({ white }) => (white ? "#fff" : "#4d6480")};
 	letter-spacing: 1px;
 	margin-bottom: 0px;
 	line-height: 1.2em;
 `;
 
-export const Stat = ({ label, value, style }) => (
+export const Stat = ({ label, value, style, ...props }) => (
 	<Col style={style}>
-		<StatValue>{value}</StatValue>
-		<StatUnit>{label}</StatUnit>
+		<StatValue {...props}>{value}</StatValue>
+		<StatUnit {...props}>{label}</StatUnit>
 	</Col>
 );
 

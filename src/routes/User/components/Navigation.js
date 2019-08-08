@@ -9,6 +9,9 @@ const StyledNav = styled.nav`
 	display: flex;
 	align-items: center;
 	position: relative;
+	@media only screen and (max-width: 425px) {
+		display: none;
+	}
 `;
 
 const StyledLink = styled(({ indicateActive, ...rest }) => (

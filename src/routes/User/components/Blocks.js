@@ -17,15 +17,31 @@ export const Container = styled.div`
 	width: 100%;
 	margin: 0 auto;
 	padding: 0 30px;
+	@media only screen and (max-width: 425px) {
+		padding: 0 15px;
+	}
 `;
 
 export const Col = styled.div`
-	display: ${({ mobileOnly }) => (mobileOnly ? "none" : "flex")};
+	display: ${({ tabletDown }) => (tabletDown ? "none" : "flex")};
 	flex-direction: column;
 	@media only screen and (max-width: 768px) {
 		display: ${({ mobileHide }) => (mobileHide ? "none" : "flex")};
 	}
 `;
+export const HideBelow = styled.div`
+	display: block;
+	@media only screen and (max-width: ${({ width }) => width || 425}px) {
+		display: none;
+	}
+`;
+export const ShowBelow = styled.div`
+	display: none;
+	@media only screen and (max-width: ${({ width }) => width || 425}px) {
+		display: block;
+	}
+`;
+
 export const Row = styled.div`
 	display: flex;
 	flex-direction: row;
@@ -94,6 +110,7 @@ export const ReadMoreButton = ({ children, onClick, style }) => {
 };
 
 const avatarSizes = {
+	extraLarge: "114px",
 	large: "60px",
 	small: "30px"
 };
