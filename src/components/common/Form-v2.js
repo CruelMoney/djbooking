@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, createContext } from "react";
 import PropTypes from "prop-types";
 import without from "lodash.without";
 import assign from "lodash.assign";
@@ -128,14 +128,14 @@ class form extends PureComponent {
 		}
 
 		return (
-			<>
+			<FormContext.Provider value={this.getChildContext()}>
 				<form>{this.props.children}</form>
 				{err && !this.props.noError ? (
 					<div className="errors">
 						<p>{typeof err === "string" ? err : "There was an error"}</p>
 					</div>
 				) : null}
-			</>
+			</FormContext.Provider>
 		);
 	}
 }
@@ -210,6 +210,21 @@ form.childContextTypes = {
 	registerReset: PropTypes.func,
 	errorMessage: PropTypes.string
 };
+
+export const FormContext = createContext({
+	reset: () => {},
+	status: {},
+	registerValidation: () => {},
+	registerBeforeSubmit: () => {},
+	isFormValid: () => {},
+	updateFilters: () => {},
+	activeFilters: {},
+	updateValue: () => {},
+	isValid: false,
+	onSubmit: () => {},
+	registerReset: () => {},
+	errorMessage: null
+});
 
 const SmartForm = connect(
 	mapStateToProps,

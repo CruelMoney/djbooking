@@ -47,11 +47,15 @@ const Popup = ({
 				setShowingChildren(false);
 			}, 500);
 			return () => {
+				removeClass("popup-open", document.body);
 				clearTimeout(to);
 			};
 		} else {
 			setShowingChildren(true);
 			addClass("popup-open", document.body);
+			return () => {
+				removeClass("popup-open", document.body);
+			};
 		}
 	}, [showing]);
 

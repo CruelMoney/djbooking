@@ -1,10 +1,14 @@
 import { EventEmitter } from "events";
+import moment from "moment";
 
 class AuthService extends EventEmitter {
 	setSession(token) {
 		// Set the time that the access token will expire at
 		localStorage.setItem("token", token);
-		document.cookie = `x-token=${token}; expires = Thu, 01 Jan 2090 00:00:00 GMT`;
+		const expire = moment()
+			.add(2, "weeks")
+			.utc();
+		document.cookie = `x-token=${token}; expires = ${expire}`;
 	}
 
 	logout() {

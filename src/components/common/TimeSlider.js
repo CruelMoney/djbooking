@@ -1,44 +1,75 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, {
+	useState,
+	useEffect,
+	useContext,
+
+} from "react";
 import Slider from "./Slider";
 import wNumb from "wnumb";
 import moment from "moment-timezone";
+import { FormContext } from "./Form-v2";
 
-class TimeSlider extends Component {
-	startValues = [21 * 60, 27 * 60];
+const TimeSlider = ({
+	date,
+	onChange,
+	startTime,
+	endTime,
+	timeZone,
+	hoursLabel,
+	startLabel,
+	endLabel,
+	color,
+	disabled
+}) => {
+	const [values, setValues] = useState([21 * 60, 27 * 60]);
+	const [theDate, setTheDate] = useState(moment().startOf("day"));
 
-	constructor(props) {
-		super(props);
-		let { startTime, endTime, timeZone } = props;
+	const { updateValue } = useContext(FormContext);
+
+	useEffect(() => {
+		setTheDate(moment(date).startOf("day"));
+	}, [date, setTheDate]);
+
+	useEffect(() => {
 		if (startTime && endTime) {
 			// parse and keep utc offset to get original hour and minute
-			startTime = moment(startTime).tz(timeZone);
-			endTime = moment(endTime).tz(timeZone);
-			const day = moment(startTime).startOf("day");
-
-			this.startValues = [
-				startTime.diff(day, "minutes"),
-				endTime.diff(day, "minutes")
-			];
-
-			this.state = {
-				...this.getValues(this.startValues),
-				values: this.startValues
-			};
+			const newStartTime = moment(startTime);
+			const newEndTime = moment(endTime);
+			if (timeZone) {
+				newStartTime.tz(timeZone);
+				newEndTime.tz(timeZone);
+			}
+			setValues([
+				newStartTime.diff(theDate, "minutes"),
+				newEndTime.diff(theDate, "minutes")
+			]);
 		}
-	}
+	}, [startTime, endTime, timeZone, theDate]);
 
-	UNSAFE_componentWillReceiveProps(nextprops) {
-		if (nextprops.date.format() !== this.props.date.format()) {
-			this.updateContext(nextprops.date);
+	const handleChange = values => {
+		setValues(values);
+		if (onChange) {
+			onChange(values);
 		}
-	}
-
-	formatNumber = num => {
-		return num < 10 ? "0" + num : "" + num;
 	};
 
-	getValues = values => {
+	useEffect(() => {
+		if (updateValue) {
+			const startMoment = moment(theDate)
+				.add(values[0], "minutes")
+				.format();
+			const endMoment = moment(theDate)
+				.add(values[1], "minutes")
+				.format();
+
+			if (startTime !== startMoment || endTime !== endMoment) {
+				updateValue("startTime", startMoment);
+				updateValue("endTime", endMoment);
+			}
+		}
+	}, [theDate, values, updateValue, startTime, endTime]);
+
+	const getValues = values => {
 		return {
 			startHour: Math.floor((values[0] / 60) % 24),
 			endHour: Math.floor((values[1] / 60) % 24),
@@ -47,92 +78,50 @@ class TimeSlider extends Component {
 			difHours: (values[1] - values[0]) / 60
 		};
 	};
-
-	state = {
-		...this.getValues(this.startValues),
-		values: this.startValues
+	const { startHour, startMinute, difHours, endHour, endMinute } = getValues(
+		values
+	);
+	const formatNumber = num => {
+		return num < 10 ? "0" + num : "" + num;
 	};
-
-	timer = null;
-
-	handleChange = values => {
-		this.setState({
-			...this.getValues(values),
-			values
-		});
-		if (this.props.onChange) {
-			this.props.onChange(values);
-		}
-
-		clearTimeout(this.timer);
-		this.timer = setTimeout(() => {
-			if (this.context.updateValue) {
-				this.updateContext();
-			}
-		}, 500);
-	};
-
-	updateContext = (date = this.props.date) => {
-		const { updateValue } = this.context || {};
-		const day = moment(date).startOf("day");
-		const startMoment = moment(day).add(this.state.values[0], "minutes");
-		const endMoment = moment(day).add(this.state.values[1], "minutes");
-		if (updateValue) {
-			updateValue("startTime", startMoment.format());
-			updateValue("endTime", endMoment.format());
-		}
-	};
-
-	render() {
-		const { hoursLabel, startLabel, endLabel } = this.props;
-
-		return (
+	return (
+		<div>
 			<div>
-				<div>
-					<Slider
-						disabled={this.props.disabled}
-						name="time"
-						range={{
-							min: 7 * 60,
-							max: 32 * 60
-						}}
-						color={this.props.color}
-						step={30} //Steps of half hour
-						value={this.state.values}
-						onChange={this.handleChange}
-						format={wNumb({
-							decimals: 0
-						})}
-					/>
-				</div>
-				<div
-					style={{
-						display: "flex",
-						justifyContent: "space-between",
-						marginTop: "10px"
+				<Slider
+					disabled={disabled}
+					name="time"
+					range={{
+						min: 7 * 60,
+						max: 32 * 60
 					}}
-				>
-					<p>{`${startLabel}: ${this.formatNumber(
-						this.state.startHour
-					)}:${this.formatNumber(this.state.startMinute)}`}</p>
-					<p>
-						<span>{`${this.state.difHours} ${hoursLabel}`}</span>
-					</p>
-					<p>{`${endLabel}: ${this.formatNumber(
-						this.state.endHour
-					)}:${this.formatNumber(this.state.endMinute)}`}</p>
-				</div>
+					color={color}
+					step={30} //Steps of half hour
+					value={values}
+					onChange={handleChange}
+					format={wNumb({
+						decimals: 0
+					})}
+				/>
 			</div>
-		);
-	}
-}
-
-TimeSlider.contextTypes = {
-	resetting: PropTypes.bool,
-	isFormValid: PropTypes.func,
-	registerValidation: PropTypes.func.isRequired,
-	updateValue: PropTypes.func,
-	registerReset: PropTypes.func
+			<div
+				style={{
+					display: "flex",
+					justifyContent: "space-between",
+					marginTop: "10px"
+				}}
+			>
+				<p>{`${startLabel}: ${formatNumber(startHour)}:${formatNumber(
+					startMinute
+				)}`}</p>
+				<p>
+					<span>{`${difHours} ${hoursLabel}`}</span>
+				</p>
+				<p>{`${endLabel}: ${formatNumber(endHour)}:${formatNumber(
+					endMinute
+				)}`}</p>
+			</div>
+		</div>
+	);
 };
 
 export default TimeSlider;
