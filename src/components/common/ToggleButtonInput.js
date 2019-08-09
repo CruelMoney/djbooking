@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import Button from "./Button-v2";
 
 class ToggleButton extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.selfRef = React.createRef();
 		this.state = {
-			toggled: false,
+			toggled: props.active,
 			value: ""
 		};
 	}
@@ -15,12 +15,6 @@ class ToggleButton extends Component {
 		rounded: false,
 		label: "ToggleButton"
 	};
-
-	componentWillMount() {
-		this.setState({
-			toggled: this.props.active
-		});
-	}
 
 	componentDidMount() {
 		this.selfRef.current.focus();

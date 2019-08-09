@@ -12,16 +12,17 @@ import { EVENT_GIGS } from "../../../gql";
 import { LoadingCard } from "../../../../../components/common/LoadingPlaceholder";
 
 class EventOffers extends PureComponent {
-	componentWillMount() {
-		const { theEvent } = this.props;
+	constructor(props) {
+		super(props);
+		const { theEvent } = props;
 
 		var daysUntil = moment(theEvent.start).diff(moment(), "days");
 
-		this.setState({
+		this.state = {
 			paymentPossible: daysUntil <= 80,
 			eventFinished: daysUntil < 0,
 			gigMessages: {}
-		});
+		};
 	}
 
 	componentDidMount() {

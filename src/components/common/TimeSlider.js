@@ -7,9 +7,9 @@ import moment from "moment-timezone";
 class TimeSlider extends Component {
 	startValues = [21 * 60, 27 * 60];
 
-	// from today at 21 to 03
-	componentWillMount() {
-		let { startTime, endTime, timeZone } = this.props;
+	constructor(props) {
+		super(props);
+		let { startTime, endTime, timeZone } = props;
 		if (startTime && endTime) {
 			// parse and keep utc offset to get original hour and minute
 			startTime = moment(startTime).tz(timeZone);
@@ -21,10 +21,10 @@ class TimeSlider extends Component {
 				endTime.diff(day, "minutes")
 			];
 
-			this.setState({
+			this.state = {
 				...this.getValues(this.startValues),
 				values: this.startValues
-			});
+			};
 		}
 	}
 

@@ -7,22 +7,17 @@ class Button extends Component {
 		rounded: true
 	};
 
-	constructor(props) {
-		super(props);
+	constructor(props, context) {
+		super(props, context);
 		this.state = {
 			succes: !!props.succes
 		};
-	}
-
-	color = "";
-
-	componentWillMount() {
-		this.color = this.props.color
-			? this.props.color
-			: this.props.dangerous
+		this.color = props.color
+			? props.color
+			: props.dangerous
 			? "#F44336"
-			: this.context.color
-			? this.context.color
+			: context.color
+			? context.color
 			: "#31daff";
 	}
 

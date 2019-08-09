@@ -24,10 +24,15 @@ import { CANCEL_EVENT, UPDATE_EVENT } from "../../../gql";
 import addTranslate from "../../../../../components/higher-order/addTranslate";
 
 class Event extends Component {
-	state = { startTime: 0, endTime: 0, editMode: false, formValid: false };
-
-	componentWillMount() {
-		this.setState({ guests: this.props.theEvent.guestsCount });
+	constructor(props) {
+		super(props);
+		this.state = {
+			startTime: 0,
+			endTime: 0,
+			editMode: false,
+			formValid: false,
+			guests: props.theEvent.guestsCount
+		};
 	}
 
 	render() {

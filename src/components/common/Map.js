@@ -22,7 +22,8 @@ class SimpleMap extends Component {
 		defaultAnimation: 2
 	};
 
-	componentWillMount() {
+	constructor(props) {
+		super(props);
 		const short = !!this.props.value.lat;
 
 		const position = short
@@ -36,7 +37,7 @@ class SimpleMap extends Component {
 
 		this.marker = {
 			position,
-			radius: this.props.radius,
+			radius: props.radius,
 			key: Date.now(),
 			defaultAnimation: 2
 		};

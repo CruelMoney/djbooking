@@ -34,9 +34,11 @@ class RiderOptions extends React.Component {
 		}
 		this.setState(state);
 	};
-	componentWillMount() {
-		if (this.props.value) {
-			this.enumToOptions(this.props.value);
+
+	constructor(props) {
+		super(props);
+		if (props.value) {
+			this.enumToOptions(props.value);
 		}
 	}
 

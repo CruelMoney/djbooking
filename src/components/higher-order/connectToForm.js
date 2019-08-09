@@ -11,6 +11,31 @@ function connectToForm(WrappedComponent) {
 			registerBeforeSubmit: PropTypes.func
 		};
 
+		constructor(props, context) {
+			super(props, context);
+			const { dontUpdateOnMount, value } = props;
+			if (
+				typeof value !== "undefined" &&
+				value !== null &&
+				!dontUpdateOnMount
+			) {
+				this.onChange(value);
+			}
+			if (context.registerValidation) {
+				this.removeValidationFromContext = context.registerValidation(show =>
+					this.isValid(show)
+				);
+			}
+			if (context.registerReset) {
+				this.removeReset = context.registerReset(() =>
+					this.setState({ value: props.value })
+				);
+			}
+			if (context.registerBeforeSubmit) {
+				context.registerBeforeSubmit(this.beforeSubmit);
+			}
+		}
+
 		//errors needs to exist
 		state = {
 			errors: []
@@ -50,30 +75,6 @@ function connectToForm(WrappedComponent) {
 				return this.updateValue(this.state.value);
 			}
 		};
-
-		componentWillMount() {
-			const { dontUpdateOnMount, value } = this.props;
-			if (
-				typeof value !== "undefined" &&
-				value !== null &&
-				!dontUpdateOnMount
-			) {
-				this.onChange(value);
-			}
-			if (this.context.registerValidation) {
-				this.removeValidationFromContext = this.context.registerValidation(
-					show => this.isValid(show)
-				);
-			}
-			if (this.context.registerReset) {
-				this.removeReset = this.context.registerReset(() =>
-					this.setState({ value: this.props.value })
-				);
-			}
-			if (this.context.registerBeforeSubmit) {
-				this.context.registerBeforeSubmit(this.beforeSubmit);
-			}
-		}
 
 		componentWillUnmount() {
 			if (this.removeValidationFromContext) {

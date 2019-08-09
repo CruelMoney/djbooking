@@ -61,7 +61,7 @@
 		"lodash.shuffle": "^4.2.0",
 		"lodash.throttle": "^4.1.1",
 		"lodash.without": "^4.4.0",
-		"material-ui": "^0.19.4",
+		"material-ui": "^0.20.2",
 		"moment-timezone": "^0.5.21",
 		"node-sass": "^4.12.0",
 		"object.entries": "^1.0.4",

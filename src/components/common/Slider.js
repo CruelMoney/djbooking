@@ -22,12 +22,13 @@ class Slider extends Component {
 	nonLinear = false;
 	parsedRange = [];
 
-	componentWillMount() {
+	constructor(props) {
+		super(props);
 		// Range should be an object consisting of at least min & max
 		// May consist of percentage values in what case it is a nonlinear scale
-		if (Object.keys(this.props.range).length > 2) {
+		if (Object.keys(props.range).length > 2) {
 			//nonlinear
-			this.parsedRange = this.parseRange(this.props.range);
+			this.parsedRange = this.parseRange(props.range);
 			this.nonLinear = true;
 		}
 	}

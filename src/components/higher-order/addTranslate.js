@@ -8,8 +8,9 @@ import { connect } from "react-redux";
 
 const addTranslate = (Wrappee, content = []) => {
 	class Index extends Component {
-		componentWillMount() {
-			this.props.initLocale();
+		constructor(props) {
+			super(props);
+			props.initLocale();
 		}
 
 		render() {

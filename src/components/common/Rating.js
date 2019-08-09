@@ -97,34 +97,34 @@ class Star extends Component {
 }
 
 export default class Rating extends Component {
-	state = {
-		errors: []
-	};
+	constructor(props, context) {
+		super(props, context);
 
-	componentWillMount() {
-		this.setState({
-			origRating: this.props.rating || 0,
-			rating: this.props.rating || 0
-		});
 
-		if (this.props.editable) {
-			this.removeValidationFromContext = this.context.registerValidation(show =>
+		if (props.editable) {
+			this.removeValidationFromContext = context.registerValidation(show =>
 				this.isValid(show)
 			);
 
-			if (this.context.updateValue) {
-				this.context.updateValue(this.props.name, this.props.rating);
+			if (context.updateValue) {
+				context.updateValue(props.name, props.rating);
 			}
 
-			if (this.context.registerReset) {
-				this.removeReset = this.context.registerReset(() =>
+			if (context.registerReset) {
+				this.removeReset = context.registerReset(() =>
 					this.setState({
-						origRating: this.props.rating || 0,
-						rating: this.props.rating || 0
+						origRating: props.rating || 0,
+						rating: props.rating || 0
 					})
 				);
 			}
 		}
+
+		this.state = {
+			origRating: props.rating || 0,
+			rating: props.rating || 0,
+			errors: []
+		};
 	}
 
 	componentWillUnmount() {

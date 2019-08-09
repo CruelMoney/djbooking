@@ -1,97 +1,73 @@
-import {DJs} from '../../../../constants/constants';
-import shuffle from 'lodash.shuffle'
-import DJCard from '../../../../components/common/DJCard';
-import React, { Component } from 'react';
-import './index.css';
+import { DJs } from "../../../../constants/constants";
+import shuffle from "lodash.shuffle";
+import DJCard from "../../../../components/common/DJCard";
+import React, { useState, useRef, useEffect } from "react";
+import "./index.css";
 
-class FloatingCards extends Component {
-  state={
-    djs : [],
-    scrollAnimate : false
-  }
+const FloatingCards = ({ location, ...props }) => {
+	const [scrollAnimate, setScrollAnimate] = useState(false);
+	const wrapperRef = useRef();
 
-  filterDjs = (location) => {    
-    location = !!location ? location : 'notfound';
-    location = location.toLowerCase() === "københavn" ? "copenhagen" : location;
+	const filterDjs = location => {
+		location = !!location ? location : "notfound";
+		location = location.toLowerCase() === "københavn" ? "copenhagen" : location;
 
-    let renderDJS = 
-    shuffle(
-      DJs
-      .filter(dj => dj.location.city.toLowerCase().indexOf(location.toLowerCase()) !== -1)
-    );
+		let renderDJS = shuffle(
+			DJs.filter(
+				dj =>
+					dj.location.city.toLowerCase().indexOf(location.toLowerCase()) !== -1
+			)
+		);
 
-    renderDJS = renderDJS.length > 2 ? renderDJS : [];
-    
-    this.setState({
-      djs: renderDJS,
-      scrollAnimate: false
-    });
-  }
+		renderDJS = renderDJS.length > 2 ? renderDJS : [];
 
-  componentWillMount(){
-    let { location } = this.props;
-    this.filterDjs(location);
-  }
+		return renderDJS;
+	};
 
-  componentWillReceiveProps(nextProps){
-    let { location } = this.props;
+	const djs = filterDjs(location);
 
-    if(location !== nextProps.location){
-      this.filterDjs(nextProps.location);
-    }
-  }
+	useEffect(() => {
+		if (!!wrapperRef.current) {
+			const cardsWidth = parseInt(
+				window.getComputedStyle(wrapperRef.current).width,
+				10
+			);
 
-  startScroll = (count) => {
-    const animationTime = count * 5;
-    this.setState({
-      scrollAnimate: animationTime
-    });
-   }
+			if (cardsWidth >= window.innerWidth) {
+				startScroll(djs.length);
+			}
+		}
+	}, [djs]);
 
-  render() {
-    const { djs, scrollAnimate } = this.state;
-    const count = djs.length;
-    const renderDJs = scrollAnimate ? [...djs, ...djs] : djs;
+	const startScroll = count => {
+		const animationTime = count * 5;
+		setScrollAnimate(animationTime);
+	};
 
-    return (
-      <div className="floating-cards-wrapper">
-        <div
-        ref={r=>{
-            if(!!r && !scrollAnimate && typeof window !== 'undefined'){
+	const count = djs.length;
+	const renderDJs = scrollAnimate ? [...djs, ...djs] : djs;
 
-              const cardsWidth = parseInt((window.getComputedStyle(r).width), 10);
-
-              if(cardsWidth >= window.innerWidth){
-                this.startScroll(count, cardsWidth);
-              }
-            }
-          }}
-        style={{
-          animationName: !!scrollAnimate ? 'marquee' : null,
-          animationDuration: scrollAnimate + 's',
-        }}
-        className="floating-cards"
-        data-count={count}
-        >
-        {
-          renderDJs.map((dj, idx) => {
-          return(
-            <div 
-              key={`dj-card-${idx}`}
-              className="card-wrapper"
-              >
-              <DJCard 
-               { ...this.props }
-              dj={dj} />
-            </div>
-            )
-          })}
-        </div>
-
-      </div>
-
-    );
-  }
-}
+	return (
+		<div className="floating-cards-wrapper">
+			<div
+				ref={wrapperRef}
+				style={{
+					animationName: !!scrollAnimate ? "marquee" : null,
+					animationDuration: scrollAnimate + "s"
+				}}
+				className="floating-cards"
+				data-count={count}
+			>
+				{renderDJs.map((dj, idx) => {
+					return (
+						<div key={`dj-card-${idx}`} className="card-wrapper">
+							<DJCard {...props} dj={dj} />
+						</div>
+					);
+				})}
+			</div>
+		</div>
+	);
+};
 
 export default FloatingCards;

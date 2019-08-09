@@ -8,9 +8,10 @@ import * as actions from "../../actions/FormActions";
 class form extends PureComponent {
 	displayNamen = "Form";
 
-	componentWillMount() {
-		if (this.props.registerCheckForm) {
-			this.props.registerCheckForm(this.isFormValid);
+	constructor(props) {
+		super(props);
+		if (props.registerCheckForm) {
+			props.registerCheckForm(this.isFormValid);
 		}
 	}
 

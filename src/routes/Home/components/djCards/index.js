@@ -18,11 +18,12 @@ export default class DJCards extends Component {
 		this.animation && clearInterval(this.animation);
 	}
 
-	componentWillMount() {
+	constructor(props) {
+		super(props);
 		this.cards = shuffle(
 			DJs.map((dj, idx) => (
 				<DJCard
-					{...this.props}
+					{...props}
 					onLoad={() => this.cardsLoaded++}
 					key={`dj-card-${idx}`}
 					dj={dj}

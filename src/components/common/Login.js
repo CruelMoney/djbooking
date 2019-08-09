@@ -34,11 +34,12 @@ class Login extends PureComponent {
 		isLoading: false
 	};
 
-	componentWillMount() {
-		this.setState({
-			error: this.props.error,
+	constructor(props) {
+		super(props);
+		this.state = {
+			error: props.error,
 			message: ""
-		});
+		};
 	}
 
 	onRequestChangePassword = mutate => async (form, callback) => {

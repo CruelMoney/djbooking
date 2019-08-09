@@ -13,8 +13,6 @@ import { UPDATE_EVENT } from "../../../gql";
 import { Mutation } from "react-apollo";
 
 class Profile extends Component {
-	componentWillMount() {}
-
 	state = {
 		formValid: false
 	};
