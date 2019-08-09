@@ -43,7 +43,7 @@ class MyTextField extends Component {
 				fontFamily: "AvenirNext-Regular"
 			},
 			error: {
-				fontFamily: "SourceSansPro-Regular"
+				fontFamily: "AvenirNext-Regular"
 			}
 		};
 		var stylesNormal = {

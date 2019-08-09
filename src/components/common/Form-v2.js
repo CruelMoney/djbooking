@@ -224,7 +224,7 @@ export { default as TextBox } from "./TextBox";
 export { default as LocationSelector } from "./LocationSelector";
 export { default as LocationSelectorSimple } from "./LocationSelectorSimple";
 export { default as ToggleButton } from "./ToggleButton";
-export { default as Button } from "./Button";
+export { default as Button } from "./Button-v2";
 export { default as ToggleButtonHandler } from "./ToggleButtonHandler";
 export { default as RegistrationElement } from "./RegistrationElement";
 export { default as ToggleOptions } from "./ToggleOptions";
