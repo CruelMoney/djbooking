@@ -8,14 +8,15 @@ import { connect } from "react-redux";
 import { getTranslate } from "react-localize-redux";
 import { ME } from "./gql";
 import { Query } from "react-apollo";
+import { useLogout } from "../utils/Hooks";
 
 const MobileMenu = ({ isHome, translate }) => {
 	const [show, setShow] = useState(false);
 	const [loginExpanded, setLoginExpanded] = useState(false);
-
-	const logout = () => {
+	const logout = useLogout();
+	const doLogout = () => {
+		logout();
 		setShow(false);
-		document.cookie = "x-token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
 	};
 
 	return (
@@ -40,7 +41,7 @@ const MobileMenu = ({ isHome, translate }) => {
 							ReactDOM.createPortal(
 								<Content
 									show={show}
-									logout={logout}
+									logout={doLogout}
 									loggedIn={loggedIn}
 									user={user}
 									isDJ={isDJ}

@@ -1,7 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { useState } from "react";
 import Navlink from "./common/Navlink";
-import Dropdown from "./common/Dropdown";
 import UserMenuItem from "./common/UserMenuItem";
 import Button from "./common/Button-v2";
 import Login from "./common/Login";
@@ -13,179 +11,139 @@ import EmailVerifier from "./EmailVerifier";
 import { Query } from "react-apollo";
 import { ME } from "./gql";
 import addTranslate from "./higher-order/addTranslate";
+import { useLogout } from "../utils/Hooks";
+import Popup from "./common/Popup";
 
-class Menu extends Component {
-	static propTypes = {
-		loggedIn: PropTypes.bool,
-		logout: PropTypes.func.isRequired,
-		profile: PropTypes.object
-	};
+const Menu = ({ translate, history, location }) => {
+	const [loginExpanded, setLoginExpanded] = useState(false);
+	const logout = useLogout();
 
-	state = {
-		loginExpanded: false,
-		fixed: false
-	};
-
-	onLoginButton = () => {
-		this.setState(({ loginExpanded }) => ({
-			loginExpanded: !loginExpanded
-		}));
-	};
-
-	timer = null;
-
-	onClickOutside = () => {
-		clearTimeout(this.timer);
-		this.timer = setTimeout(
-			() =>
-				this.setState({
-					loginExpanded: false
-				}),
-			10
-		);
-	};
-
-	redirectToProfile = () => {};
-
-	handleLoggedIn = ({ me }) => {
-		this.setState({
-			loggedIn: !!me
-		});
-	};
-
-	logout = () => {
-		const { translate, history } = this.props;
-		document.cookie = "x-token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
-
+	const doLogout = () => {
 		history.push(translate(`routes./`));
-		this.setState({
-			loggedIn: false
-		});
+		logout();
 	};
 
-	render() {
-		const { translate, location } = this.props;
-		const { loginExpanded, loggedIn } = this.state;
-		const isHome = location.pathname === "/" || location.pathname === "/dk";
+	const isHome = location.pathname === "/" || location.pathname === "/dk";
 
-		return (
-			<Query query={ME} onCompleted={this.handleLoggedIn} onError={console.log}>
-				{({ refetch, loading, data = {} }) => {
-					const { me: user } = data;
+	return (
+		<Query query={ME} onError={console.log}>
+			{({ refetch, loading, data = {} }) => {
+				const { me: user } = data;
 
-					return (
-						<div className="menu-wrapper">
-							<EmailVerifier onVerified={this.onLoginButton} />
+				const loggedIn = !!user;
 
-							<div className="container">
-								<div className={"nav-container location_"}>
-									<nav className="navigation">
-										<div className="logo-area">
-											<Navlink to={translate("routes./")}>
-												<Logo />
-											</Navlink>
-											<BreadCrumbs />
-										</div>
+				return (
+					<div className="menu-wrapper">
+						<EmailVerifier onVerified={() => setLoginExpanded(true)} />
 
-										<MobileMenu />
-										<ul className="main-menu">
-											{!isHome ? (
-												<li>
-													<Navlink
-														buttonLook={true}
-														to={translate("routes./")}
-														label={translate("arrange-event")}
-													/>
-												</li>
-											) : null}
+						<div className="container">
+							<div className={"nav-container location_"}>
+								<nav className="navigation">
+									<div className="logo-area">
+										<Navlink to={translate("routes./")}>
+											<Logo />
+										</Navlink>
+										<BreadCrumbs />
+									</div>
 
+									<MobileMenu />
+									<ul className="main-menu">
+										{!isHome ? (
 											<li>
 												<Navlink
 													buttonLook={true}
-													to={translate("routes./how-it-works")}
-													label={translate("how-it-works")}
+													to={translate("routes./")}
+													label={translate("arrange-event")}
 												/>
 											</li>
+										) : null}
 
-											{!loggedIn && !loading ? (
-												<li>
-													<button
-														className="link-look"
-														onClick={this.onLoginButton}
-													>
-														{translate("login")}
-													</button>
-													<Dropdown
-														expanded={loginExpanded}
-														disableOnClickOutside={!loginExpanded}
-														onClickOutside={this.onClickOutside}
-													>
-														<Login
-															closeLogin={this.onClickOutside}
-															user={user}
-														/>
-													</Dropdown>
-												</li>
-											) : null}
+										<li>
+											<Navlink
+												buttonLook={true}
+												to={translate("routes./how-it-works")}
+												label={translate("how-it-works")}
+											/>
+										</li>
 
-											{loggedIn ? null : (
-												<li>
-													<Navlink
-														buttonLook={true}
-														to={translate("routes./signup")}
-														label={translate("apply-to-become-dj")}
-														important={true}
+										{!loggedIn && !loading ? (
+											<li>
+												<button
+													className="link-look"
+													onClick={() => setLoginExpanded(s => !s)}
+												>
+													{translate("login")}
+												</button>
+												<Popup
+													width={320}
+													showing={loginExpanded}
+													onClickOutside={() => setLoginExpanded(false)}
+												>
+													<Login
+														onLogin={() => setLoginExpanded(false)}
+														user={user}
 													/>
-												</li>
-											)}
-											{loggedIn ? (
-												<li>
-													<Navlink
-														buttonLook={true}
-														to={translate("routes./")}
-														onClick={this.logout}
-														label={translate("log-out")}
-													/>
-												</li>
-											) : null}
+												</Popup>
+											</li>
+										) : null}
 
-											{loggedIn ? (
-												<li>
-													<Navlink
-														buttonLook={true}
-														to={translate("routes./user/:username/profile", {
-															username: user.permalink
-														})}
-														important={true}
-													>
-														<UserMenuItem
-															name={user.userMetadata.firstName}
-															picture={user.picture && user.picture.path}
-														/>
-													</Navlink>
-												</li>
-											) : null}
+										{loggedIn ? null : (
+											<li>
+												<Navlink
+													buttonLook={true}
+													to={translate("routes./signup")}
+													label={translate("apply-to-become-dj")}
+													important={true}
+												/>
+											</li>
+										)}
+										{loggedIn ? (
+											<li>
+												<Navlink
+													buttonLook={true}
+													to={translate("routes./")}
+													onClick={doLogout}
+													label={translate("log-out")}
+												/>
+											</li>
+										) : null}
 
-											{loading ? (
-												<li>
-													<Button
-														className="redirect-button"
-														color="#fff"
-														isLoading
+										{loggedIn ? (
+											<li>
+												<Navlink
+													buttonLook={true}
+													to={translate("routes./user/:username/profile", {
+														username: user.permalink
+													})}
+													important={true}
+												>
+													<UserMenuItem
+														name={user.userMetadata.firstName}
+														picture={user.picture && user.picture.path}
 													/>
-												</li>
-											) : null}
-										</ul>
-									</nav>
-								</div>
+												</Navlink>
+											</li>
+										) : null}
+
+										{loading ? (
+											<li>
+												<Button
+													className="redirect-button"
+													color="#fff"
+													isLoading
+												/>
+											</li>
+										) : null}
+									</ul>
+								</nav>
 							</div>
 						</div>
-					);
-				}}
-			</Query>
-		);
-	}
-}
+					</div>
+				);
+			}}
+		</Query>
+	);
+};
 
 const SmartNavigation = withRouter(addTranslate(Menu));
 

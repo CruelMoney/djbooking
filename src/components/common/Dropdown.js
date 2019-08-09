@@ -14,10 +14,6 @@ class Dropdown extends Component {
 		});
 	}
 
-	handleClickOutside = evt => {
-		this.props.onClickOutside();
-	};
-
 	render() {
 		return (
 			<div>
