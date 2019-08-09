@@ -102,7 +102,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 				id="basics"
 				title={"Basics"}
 				description={
-					"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+					"Edit your basic information. We might require some of this information for verification purposes."
 				}
 			>
 				<Input
@@ -173,7 +173,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 				id="profile"
 				title={"Profile"}
 				description={
-					"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+					"Edit your profile to make it look good and get more bookings. Make the organizers feel good about booking you!"
 				}
 			>
 				<Input
@@ -249,7 +249,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 				id="preferences"
 				title={"Preferences"}
 				description={
-					"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+					"Change your preferences for getting paid and notifications."
 				}
 			>
 				<PayoutPopup user={user} hasPayout={bankAccount} />
