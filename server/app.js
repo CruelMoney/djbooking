@@ -4,12 +4,13 @@ import { ApolloProvider } from "react-apollo";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
+import { onError } from "apollo-link-error";
 import { HelmetProvider } from "react-helmet-async";
 import App from "../src/App";
 import resolvers from "../src/actions/resolvers";
 import { ServerStyleSheet, StyleSheetManager } from "styled-components";
 import cookieParser from "cookie-parser";
-import express from "express";
+import { ApolloLink } from "apollo-link";
 
 require("dotenv");
 const path = require("path");
@@ -24,6 +25,13 @@ const MuiThemeProvider = require("material-ui/styles/MuiThemeProvider").default;
 const clientBuildPath = path.resolve(__dirname, "../client");
 let tag = "";
 
+// Ignore errors
+const errorLink = onError(
+	({ graphQLErrors, networkError, response, operation, forward }) => {
+		return forward(operation);
+	}
+);
+
 const getReactApp = async (req, res) => {
 	const { store, sheet } = res.locals;
 	const context = { store };
@@ -32,16 +40,20 @@ const getReactApp = async (req, res) => {
 		userAgent: req.headers["user-agent"]
 	});
 
+	const httpLink = createHttpLink({
+		uri: process.env.REACT_APP_CUEUP_GQL_DOMAIN,
+		credentials: "include",
+		headers: {
+			"x-token": req.cookies["x-token"], // forward token
+			origin: process.env.WEBSITE_URL
+		}
+	});
+
+	const link = ApolloLink.from([errorLink, httpLink]);
+
 	const client = new ApolloClient({
 		ssrMode: true,
-		link: createHttpLink({
-			uri: process.env.REACT_APP_CUEUP_GQL_DOMAIN,
-			credentials: "include",
-			headers: {
-				"x-token": req.cookies["x-token"], // forward token
-				origin: process.env.WEBSITE_URL
-			}
-		}),
+		link,
 		cache: new InMemoryCache(),
 		resolvers
 	});
@@ -62,9 +74,12 @@ const getReactApp = async (req, res) => {
 		</ApolloProvider>
 	);
 
-	await getDataFromTree(Content);
-
-	res.locals.apolloState = client.extract();
+	try {
+		await getDataFromTree(Content);
+		res.locals.apolloState = client.extract();
+	} catch (error) {
+		console.log(error);
+	}
 
 	return Content;
 };
