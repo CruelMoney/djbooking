@@ -1,9 +1,10 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import SubmitButton from "./SubmitButton";
-import Textfield from "./Textfield";
 import Form from "./Form-v2";
 import { connect } from "react-redux";
+import emailValidator from "email-validator";
+
 import { withRouter } from "react-router-dom";
 import { getTranslate } from "react-localize-redux";
 import { Mutation, Query } from "react-apollo";
@@ -12,6 +13,7 @@ import Button from "./Button-v2";
 import * as c from "../../constants/constants";
 import ErrorMessageApollo, { getErrorMessage } from "./ErrorMessageApollo";
 import { authService } from "../../utils/AuthService";
+import { Input } from "../../routes/User/components/FormComponents";
 
 class Login extends PureComponent {
 	displayName = "Login";
@@ -112,21 +114,33 @@ class Login extends PureComponent {
 								return (
 									<form onSubmit={_ => mutate()}>
 										<div>
-											<Textfield
-												name="email"
+											<Input
+												label="Email"
+												placeholder="mail@email.com"
 												type="email"
-												validate={["required", "email"]}
-												floatingLabelText="Email"
-												onChange={this.onChangeEmail}
+												autoComplete="email"
+												name="email"
+												onSave={email => this.onChangeEmail(email.trim())}
+												validation={v =>
+													emailValidator.validate(v)
+														? null
+														: "Not a valid email"
+												}
 											/>
 										</div>
 										<div>
-											<Textfield
-												name="password"
-												validate={["required"]}
+											<Input
+												label="Password"
+												placeholder="min. 6 characters"
 												type="password"
-												floatingLabelText="Password"
-												onChange={this.onChangePassword}
+												autoComplete="password"
+												name="password"
+												onSave={password => this.onChangePassword(password)}
+												validation={v => {
+													if (!v) {
+														return "Please enter password";
+													}
+												}}
 											/>
 										</div>
 										<div>
