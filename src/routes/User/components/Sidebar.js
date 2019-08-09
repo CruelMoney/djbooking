@@ -75,7 +75,7 @@ const CTA = styled.button`
 	background-color: #31daff;
 	border: none;
 	outline: none;
-	font-family: "AvenirNext-Bold";
+	font-family: "AvenirNext-Bold, Arial, Helvetica, sans-serif";
 	font-size: 15px;
 	color: #ffffff !important;
 	letter-spacing: 1.2px;

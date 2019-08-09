@@ -264,7 +264,7 @@ const SavingIndicator = ({ loading, error }) => {
 };
 
 const IconRow = styled(Row)`
-	font-family: "AvenirNext-DemiBold";
+	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";;
 	font-size: 15px;
 	color: #98a4b3;
 	align-items: center;

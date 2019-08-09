@@ -65,7 +65,7 @@ const Genre = styled.div`
 	max-height: 8em;
 	width: 8em;
 	padding: 1em;
-	font-family: "AvenirNext-Bold";
+	font-family: "AvenirNext-Bold, Arial, Helvetica, sans-serif";
 	font-size: 13px;
 	color: #4d6480;
 	text-align: center;
