@@ -35,23 +35,16 @@ import ResetPassword from "./routes/ResetPassword";
 let redirected = false;
 
 const App = class extends Component {
-	state = {
-		pageLocation: "",
-		redirect: false
-	};
-
-	componentWillMount() {
-		const {
-			location,
-			translate,
-			activeLanguage,
-			setActiveLanguage
-		} = this.props;
+	constructor(props) {
+		super(props);
+		const { location, translate, activeLanguage, setActiveLanguage } = props;
 		const savedLanguage =
 			typeof localStorage !== "undefined" ? localStorage.language : false;
 		const url = location.pathname;
 		const urlLocale = url.split("/")[1] === "dk" ? "da" : "en";
 		let language = !!savedLanguage ? savedLanguage : urlLocale;
+
+		let redirect = false;
 
 		// Update language and url if user has different language saved
 		if (!!savedLanguage && savedLanguage !== urlLocale) {
@@ -61,10 +54,14 @@ const App = class extends Component {
 				translate("code." + activeLanguage),
 				translate
 			);
-			this.setState({
-				redirect: redirectUrl + location.search
-			});
+
+			redirect = redirectUrl + location.search;
 		}
+
+		this.state = {
+			pageLocation: "",
+			redirect
+		};
 
 		moment.locale(language);
 	}

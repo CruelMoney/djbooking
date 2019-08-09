@@ -92,7 +92,10 @@ const cache = new InMemoryCache({ fragmentMatcher }).restore(
 	window.__APOLLO_STATE__
 );
 
-const uploadLink = createUploadLink({ uri: Environment.GQL_DOMAIN });
+const uploadLink = createUploadLink({
+	uri: Environment.GQL_DOMAIN,
+	credentials: "include"
+});
 
 const link = ApolloLink.from([errorLink, authFlowLink, uploadLink]);
 

@@ -32,15 +32,13 @@ const getReactApp = async (req, res) => {
 		userAgent: req.headers["user-agent"]
 	});
 
-	console.log("Cookies: ", req.cookies);
-
 	const client = new ApolloClient({
 		ssrMode: true,
 		link: createHttpLink({
 			uri: process.env.REACT_APP_CUEUP_GQL_DOMAIN,
-			credentials: "same-origin",
+			credentials: "include",
 			headers: {
-				cookie: req.header("x-token")
+				"x-token": req.cookies["x-token"] // forward token
 			}
 		}),
 		cache: new InMemoryCache(),
@@ -98,7 +96,7 @@ const handleUniversalRender = async (req, res) => {
 		return app;
 	} catch (error) {
 		console.log(error);
-		return res.json("Something fucked up");
+		return res.json("Something went wrong");
 	}
 };
 
