@@ -104,7 +104,6 @@ class MyTextField extends Component {
 				}}
 			>
 				<TextField
-					id={this.props.name}
 					placeholder=""
 					value={this.props.value || undefined}
 					name={this.props.name}
