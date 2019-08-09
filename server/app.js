@@ -38,7 +38,8 @@ const getReactApp = async (req, res) => {
 			uri: process.env.REACT_APP_CUEUP_GQL_DOMAIN,
 			credentials: "include",
 			headers: {
-				"x-token": req.cookies["x-token"] // forward token
+				"x-token": req.cookies["x-token"], // forward token
+				origin: process.env.WEBSITE_URL
 			}
 		}),
 		cache: new InMemoryCache(),
