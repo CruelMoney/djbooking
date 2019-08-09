@@ -85,7 +85,7 @@ function connectToForm(WrappedComponent) {
 			}
 		}
 
-		componentWillReceiveProps(nextprops) {
+		UNSAFE_componentWillReceiveProps(nextprops) {
 			if (!!nextprops.errors) {
 				setTimeout(() => {
 					this.isValid(true);

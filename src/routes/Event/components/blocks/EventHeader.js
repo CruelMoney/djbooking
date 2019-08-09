@@ -30,7 +30,7 @@ class eventHeader extends Component {
 		clearInterval(this.intervalID);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const { translate } = this.props;
 		const { event, notifications } = nextProps;
 		if (event) {

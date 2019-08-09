@@ -8,7 +8,7 @@ class Dropdown extends Component {
 		expanded: false
 	};
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this.setState({
 			expanded: nextProps.expanded
 		});

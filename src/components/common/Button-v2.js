@@ -21,7 +21,7 @@ class Button extends Component {
 			: "#31daff";
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this.setState({
 			succes: nextProps.succes
 		});

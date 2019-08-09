@@ -30,7 +30,7 @@ class ToggleButton extends Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps, nextContext) {
+	UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
 		if (nextProps.active !== undefined) {
 			this.setState({
 				toggled: nextProps.active

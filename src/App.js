@@ -73,7 +73,7 @@ const App = class extends Component {
 		ReactPixel.pageView();
 	}
 
-	componentWillReceiveProps(nextprops) {
+	UNSAFE_componentWillReceiveProps(nextprops) {
 		const { activeLanguage } = this.props;
 		if (activeLanguage !== nextprops.activeLanguage) {
 			moment.locale(nextprops.activeLanguage);

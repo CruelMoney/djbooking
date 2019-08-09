@@ -28,7 +28,7 @@ class TimeSlider extends Component {
 		}
 	}
 
-	componentWillReceiveProps(nextprops) {
+	UNSAFE_componentWillReceiveProps(nextprops) {
 		if (nextprops.date.format() !== this.props.date.format()) {
 			this.updateContext(nextprops.date);
 		}
