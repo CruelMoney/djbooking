@@ -5,7 +5,7 @@ export const useLogout = () => {
 
 	return async () => {
 		authService.logout();
-		document.cookie = `x-token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT`;
+		document.cookie = `x-token= ; path=/; expires = Thu, 01 Jan 1970 00:00:00 GMT`;
 		client.writeData({ data: { me: null } });
 	};
 };
