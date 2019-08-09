@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "./Textfield";
 import TextWrapper from "./TextElement";
 import Form from "./Form-v2";
@@ -244,8 +244,14 @@ const MainForm = ({ bankAccount, translate }) => {
 const Injected = injectStripe(PayoutForm);
 
 const StripeWrapper = props => {
+	const [stripe, setStripe] = useState(null);
+
+	useEffect(() => {
+		setStripe(window.Stripe(Environment.STRIPE_PUBLIC_KEY));
+	}, []);
+
 	return (
-		<StripeProvider apiKey={Environment.STRIPE_PUBLIC_KEY}>
+		<StripeProvider stripe={stripe}>
 			<Elements>
 				<Injected {...props} />
 			</Elements>
