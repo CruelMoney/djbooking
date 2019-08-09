@@ -55,6 +55,8 @@ class Menu extends Component {
 
 	logout = () => {
 		const { translate, history } = this.props;
+		document.cookie = "x-token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT;";
+
 		history.push(translate(`routes./`));
 		this.setState({
 			loggedIn: false

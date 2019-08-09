@@ -44,7 +44,7 @@ import { ME } from "../../components/gql.js";
 import { Helmet } from "react-helmet-async";
 
 const Content = React.memo(({ match, ...userProps }) => {
-	console.log("Rendering user content")
+	console.log("Rendering user content");
 
 	const { user, loading } = userProps;
 	const showPrivate = loading || (user && user.isOwn);
@@ -138,7 +138,7 @@ const LoginPopup = ({ translate }) => {
 };
 
 const Index = ({ translate, match }) => {
-	console.log("Rendering user index")
+	console.log("Rendering user index");
 
 	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);
 
@@ -168,6 +168,8 @@ const Index = ({ translate, match }) => {
 							? user.artistName || user.userMetadata.firstName
 							: null;
 						const thumb = user ? user.picture.path : null;
+						const description = user ? user.userMetadata.bio : null;
+
 						return (
 							<div>
 								{user && (
@@ -178,6 +180,11 @@ const Index = ({ translate, match }) => {
 
 										<meta property="og:image" content={thumb} />
 										<meta name="twitter:image" content={thumb} />
+
+										<meta name="description" content={description} />
+										<meta name="twitter:description" content={description} />
+										<meta property="og:description" content={description} />
+
 										{user.isOwn && (
 											<meta
 												name="apple-itunes-app"
