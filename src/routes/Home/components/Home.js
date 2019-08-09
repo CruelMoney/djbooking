@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Footer from "../../../components/common/Footer";
-import MediaQuery from "react-responsive";
-//import scrollIntoView from 'smoothscroll-polyfill'
 import Button from "../../../components/common/Button-v2";
 import padlock from "../../../assets/padlock.svg";
 import note from "../../../assets/note.svg";
@@ -60,11 +58,9 @@ class Home extends Component {
 									</Button>
 								</div>
 							</div>
-							<MediaQuery query="(min-width: 992px)">
-								<div className=" col-md-8">
-									<DJCards {...translate(["copenhagen", "denmark"])} />
-								</div>
-							</MediaQuery>
+							<div className="col-md-8 dj-cards-wrapper">
+								<DJCards {...translate(["copenhagen", "denmark"])} />
+							</div>
 						</div>
 					</div>
 				</header>
