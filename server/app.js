@@ -8,6 +8,8 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "../src/App";
 import resolvers from "../src/actions/resolvers";
 import { ServerStyleSheet, StyleSheetManager } from "styled-components";
+import cookieParser from "cookie-parser";
+import express from "express";
 
 require("dotenv");
 const path = require("path");
@@ -30,13 +32,15 @@ const getReactApp = async (req, res) => {
 		userAgent: req.headers["user-agent"]
 	});
 
+	console.log("Cookies: ", req.cookies);
+
 	const client = new ApolloClient({
 		ssrMode: true,
 		link: createHttpLink({
 			uri: process.env.REACT_APP_CUEUP_GQL_DOMAIN,
 			credentials: "same-origin",
 			headers: {
-				cookie: req.header("Cookie")
+				cookie: req.header("x-token")
 			}
 		}),
 		cache: new InMemoryCache(),
@@ -66,8 +70,21 @@ const getReactApp = async (req, res) => {
 	return Content;
 };
 
+const parseCookies = async (req, res) => {
+	return new Promise((resolve, reject) => {
+		cookieParser()(req, res, error => {
+			if (error) {
+				return reject(error);
+			}
+			return resolve();
+		});
+	});
+};
+
 const handleUniversalRender = async (req, res) => {
 	try {
+		await parseCookies(req, res);
+
 		const store = configureStore({}, req);
 		const sheet = new ServerStyleSheet();
 
