@@ -8,13 +8,13 @@ class AuthService extends EventEmitter {
 		const expire = moment()
 			.add(2, "weeks")
 			.utc();
-		document.cookie = `x-token=${token}; expires = ${expire}`;
+		document.cookie = `x-token=${token}; path=/; expires = ${expire}`;
 	}
 
 	logout() {
 		// Clear access token and ID token from local storage
 		localStorage.removeItem("token");
-		document.cookie = `x-token=; expires = Thu, 01 Jan 1970 00:00:00 GMT`;
+		document.cookie = `x-token=; path=/; expires = Thu, 01 Jan 1970 00:00:00 GMT`;
 	}
 
 	loggedIn() {

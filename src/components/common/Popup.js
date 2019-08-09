@@ -37,7 +37,7 @@ const Popup = ({
 	children,
 	lazy = true
 }) => {
-	const [showingChildren, setShowingChildren] = useState({ showing });
+	const [showingChildren, setShowingChildren] = useState(showing);
 
 	useEffect(() => {
 		if (!showing) {
@@ -81,7 +81,6 @@ const Popup = ({
 			pointerEvents: "none"
 		}
 	};
-
 	return (
 		<Modal style={style} isOpen={true} contentLabel="popup">
 			<div

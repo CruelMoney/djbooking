@@ -86,7 +86,7 @@ const PayoutForm = ({ user, isUpdate, translate, stripe }) => {
 							showLock={true}
 							text={translate("payout.description")}
 						>
-							<Query query={USER_BANK_ACCOUNT}>
+							<Query query={USER_BANK_ACCOUNT} ssr={false}>
 								{({ data, loading }) => {
 									if (loading) {
 										return (
@@ -94,6 +94,10 @@ const PayoutForm = ({ user, isUpdate, translate, stripe }) => {
 												<LoadingIndicator label={"Loading bank information"} />
 											</div>
 										);
+									}
+
+									if (!data || !data.me) {
+										return null;
 									}
 
 									const {
@@ -247,7 +251,10 @@ const StripeWrapper = props => {
 	const [stripe, setStripe] = useState(null);
 
 	useEffect(() => {
-		setStripe(window.Stripe(Environment.STRIPE_PUBLIC_KEY));
+		console.log("Payout form")
+		if (window.Stripe) {
+			setStripe(window.Stripe(Environment.STRIPE_PUBLIC_KEY));
+		}
 	}, []);
 
 	return (

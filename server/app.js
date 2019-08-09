@@ -79,6 +79,7 @@ const getReactApp = async (req, res) => {
 		res.locals.apolloState = client.extract();
 	} catch (error) {
 		console.log(error);
+		res.locals.apolloState = {};
 	}
 
 	return Content;
