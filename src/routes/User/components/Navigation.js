@@ -23,7 +23,7 @@ const StyledLink = styled(({ indicateActive, ...rest }) => (
 	text-align: left;
 	margin-right: 60px;
 	text-transform: uppercase;
-	font-family: "AvenirNext-Bold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
 	opacity: ${({ indicateActive }) => {
 		return indicateActive ? 1 : 0.6;
 	}};

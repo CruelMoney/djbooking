@@ -26,7 +26,7 @@
 }
 
 @font-face {
-	font-family: "AvenirNext-Regular, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Regular", Arial, Helvetica, sans-serif;
 	font-weight: 400;
 	src: url("../assets/fonts/AvenirNext-Regular.ttf");
 	src: url("../assets/fonts/AvenirNext-regular.woff") format("woff"),
@@ -41,13 +41,13 @@
 }
 
 @font-face {
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-weight: 600;
 	src: url("../assets/fonts/AvenirNext-DemiBold.ttf");
 }
 
 @font-face {
-	font-family: "AvenirNext-Bold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
 	font-weight: 700;
 	src: url("../assets/fonts/AvenirNext-Bold.ttf");
 }

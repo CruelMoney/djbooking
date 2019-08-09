@@ -73,12 +73,12 @@ const ReviewWrapper = styled.div`
 `;
 
 const AuthorName = styled.cite`
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
 	font-size: 14px;
 	color: #4d6480;
 `;
 const CreatedAtLabel = styled.p`
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
 	font-size: 14px;
 	color: #98a4b3;
 `;
@@ -236,7 +236,7 @@ const Reviews = ({ user, loading: loadingUser, updateUser }) => {
 };
 
 const VenueLabel = styled.p`
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
 	font-size: 18px;
 	color: #4d6480;
 	text-align: left;

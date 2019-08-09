@@ -66,7 +66,7 @@ export const Divider = styled.hr`
 `;
 
 const tertiaryStyle = css`
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	color: #4d6480;
 	letter-spacing: 1.04px;
@@ -167,7 +167,7 @@ export const Show = styled.div`
 `;
 
 const ButtonTextStyle = css`
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
 	font-size: 15px;
 	color: #4d6480;
 	text-align: center;

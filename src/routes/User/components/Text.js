@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { Col } from "./Blocks";
 
 export const StatUnit = styled.p`
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	color: ${({ white }) => (white ? "rgba(255,255,255,0.6)" : "#98a4b3")};
 	letter-spacing: 1px;
@@ -12,7 +12,7 @@ export const StatUnit = styled.p`
 	line-height: 1.2em;
 `;
 const StatValue = styled.p`
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	color: ${({ white }) => (white ? "#fff" : "#4d6480")};
 	letter-spacing: 1px;
@@ -28,14 +28,14 @@ export const Stat = ({ label, value, style, ...props }) => (
 );
 
 export const SmallHeader = styled.h6`
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	line-height: 1.5em;
 	color: #122b48;
 `;
 
 export const Title = styled.h3`
-	font-family: "AvenirNext-Bold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
 	font-size: 18px;
 	color: #122b48;
 	text-align: left;
@@ -52,7 +52,7 @@ export const Title = styled.h3`
 `;
 
 export const TitleClean = styled.h3`
-	font-family: "AvenirNext-Bold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
 	font-size: 18px;
 	color: #122b48;
 	text-align: left;
@@ -60,7 +60,7 @@ export const TitleClean = styled.h3`
 `;
 
 export const Body = styled.p`
-	font-family: "AvenirNext-Regular, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Regular", Arial, Helvetica, sans-serif;
 	font-size: 18px;
 	color: #4d6480;
 	line-height: 27px;
@@ -68,14 +68,14 @@ export const Body = styled.p`
 `;
 
 export const BodySmall = styled.p`
-	font-family: "AvenirNext-Regular, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Regular", Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	color: #4d6480;
 	line-height: 22.5px;
 `;
 
 export const Citation = styled.blockquote`
-	font-family: "AvenirNext-Regular, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Regular", Arial, Helvetica, sans-serif;
 	font-size: 18px;
 	color: #98a4b3;
 	padding: 0;
@@ -84,7 +84,7 @@ export const Citation = styled.blockquote`
 `;
 
 const smallBoldStyle = css`
-	font-family: "AvenirNext-Bold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
 	font-style: normal;
 	font-size: 12px;
 	color: #4d6480;

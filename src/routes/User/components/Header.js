@@ -77,7 +77,7 @@ const getRoutesFromUser = user => {
 };
 
 const Title = styled.h1`
-	font-family: "AvenirNext-Bold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
 	font-size: 36px;
 	color: #fff;
 	margin-bottom: 0.3em;
@@ -96,7 +96,7 @@ const Title = styled.h1`
 
 const ReviewsCount = styled.p`
 	opacity: 0.6;
-	font-family: "AvenirNext-DemiBold, Arial, Helvetica, sans-serif";
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	color: #ffffff;
 	display: inline-block;
