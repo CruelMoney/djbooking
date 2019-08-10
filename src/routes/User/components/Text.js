@@ -45,6 +45,7 @@ export const Title = styled.h3`
 		content: "";
 		width: 60px;
 		border-bottom: 3px solid #50e3c2;
+		color: #50e3c2;
 		position: absolute;
 		bottom: -15px;
 		left: 0;

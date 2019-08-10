@@ -73,6 +73,14 @@ const Sidebar = ({
 	);
 };
 
+const CTAIcon = styled.div`
+	position: absolute;
+	right: 24px;
+	top: 50%;
+	transform: translateY(-50%);
+	transition: transform 250ms ease;
+`;
+
 const CTA = styled.button`
 	width: 100%;
 	height: 60px;
@@ -88,9 +96,13 @@ const CTA = styled.button`
 	display: flex;
 	align-items: center;
 	transition: all 250ms ease;
+	position: relative;
 	&:hover {
 		color: #ffffff !important;
 		background-color: #00d1ff;
+		${CTAIcon} {
+			transform: translate(3px, -50%);
+		}
 	}
 `;
 
@@ -117,9 +129,7 @@ const LoadingIndicator = styled.span`
 export const CTAButton = ({ children, loading, ...props }) => (
 	<CTA {...props}>
 		{children}{" "}
-		<div style={{ position: "absolute", right: "24px" }}>
-			{loading ? <LoadingIndicator /> : <Arrow color="#fff" />}
-		</div>
+		<CTAIcon>{loading ? <LoadingIndicator /> : <Arrow color="#fff" />}</CTAIcon>
 	</CTA>
 );
 
