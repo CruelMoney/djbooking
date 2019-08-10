@@ -318,10 +318,13 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 		}
 	);
 
-	const [removeTestimonial, {loading:loadingRemove}] = useMutation(REMOVE_TESTIMONIAL, {
-		refetchQueries: [{ query: REVIEWS, variables: { id: userId } }],
-		awaitRefetchQueries: true
-	});
+	const [removeTestimonial, { loading: loadingRemove }] = useMutation(
+		REMOVE_TESTIMONIAL,
+		{
+			refetchQueries: [{ query: REVIEWS, variables: { id: userId } }],
+			awaitRefetchQueries: true
+		}
+	);
 
 	return (
 		<>
@@ -356,8 +359,8 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 							</AddButton>
 
 							<BodySmall style={{ maxWidth: "300px" }}>
-								Hightlight a review or testimonial by selecting the text with
-								the mouse.
+								Highlight a review or testimonial by selecting the text with the
+								mouse.
 							</BodySmall>
 						</Row>
 					)}
