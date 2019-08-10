@@ -102,7 +102,7 @@ const Content = ({
 							<Navlink
 								onClick={() => setShow(false)}
 								userNavigation={true}
-								to={`/user/${user.permalink}/profile`}
+								to={`${translate("routes./user")}/${user.permalink}/profile`}
 								label={translate("profile")}
 							/>
 						</li>
@@ -113,7 +113,7 @@ const Content = ({
 							<Navlink
 								onClick={() => setShow(false)}
 								userNavigation={true}
-								to={`/user/${user.permalink}/gigs`}
+								to={`${translate("routes./user")}/${user.permalink}/gigs`}
 								label="Gigs"
 							/>
 						</li>
@@ -134,7 +134,7 @@ const Content = ({
 							<Navlink
 								onClick={() => setShow(false)}
 								userNavigation={true}
-								to={`/user/${user.permalink}/settings`}
+								to={`${translate("routes./user")}/${user.permalink}/settings`}
 								label={translate("preferences")}
 							/>
 						</li>

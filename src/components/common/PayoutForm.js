@@ -111,6 +111,7 @@ const PayoutForm = ({ user, isUpdate, translate, stripe }) => {
 											<MainForm
 												bankAccount={bankAccount}
 												translate={translate}
+												user={user}
 											/>
 											<div className="row  center">
 												<div className="col-xs-6">
@@ -145,7 +146,7 @@ const PayoutForm = ({ user, isUpdate, translate, stripe }) => {
 	);
 };
 
-const MainForm = ({ bankAccount, translate }) => {
+const MainForm = ({ user, bankAccount, translate }) => {
 	const bankAccountParsed = bankAccount || {};
 	const [country, setCountry] = useState(bankAccountParsed.countryCode);
 	const [bankName, setBankName] = useState(null);
@@ -155,7 +156,7 @@ const MainForm = ({ bankAccount, translate }) => {
 	return (
 		<>
 			<div className="row">
-				<div className="col-xs-12">
+				<div className="col-xs-6">
 					<label>{translate("country")}</label>
 					<CountrySelector
 						value={bankAccountParsed.countryCode}
@@ -165,9 +166,7 @@ const MainForm = ({ bankAccount, translate }) => {
 						onChange={setCountry}
 					/>
 				</div>
-			</div>
-			<div className="row">
-				<div className="col-xs-12">
+				<div className="col-xs-6">
 					<label>{translate("currency")}</label>
 					<ConnectedCurrencySelector
 						key={country}
@@ -179,8 +178,9 @@ const MainForm = ({ bankAccount, translate }) => {
 					/>
 				</div>
 			</div>
+
 			<div className="row">
-				<div className="col-xs-12">
+				<div className="col-xs-6">
 					<label>{translate("payout.account-name")}</label>
 					<Textfield
 						value={bankAccountParsed.accountHolderName}
@@ -190,7 +190,18 @@ const MainForm = ({ bankAccount, translate }) => {
 						placeholder={translate("Full name")}
 					/>
 				</div>
+				<div className="col-xs-6">
+					<label>{translate("payout.account-phone")}</label>
+					<Textfield
+						value={user.phone}
+						name="phone"
+						type="tel"
+						validate={["required"]}
+						placeholder={translate("Phone")}
+					/>
+				</div>
 			</div>
+
 			{inIndonesia ? (
 				<>
 					<div className="row">
@@ -251,7 +262,6 @@ const StripeWrapper = props => {
 	const [stripe, setStripe] = useState(null);
 
 	useEffect(() => {
-		console.log("Payout form")
 		if (window.Stripe) {
 			setStripe(window.Stripe(Environment.STRIPE_PUBLIC_KEY));
 		}

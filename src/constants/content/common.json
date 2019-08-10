@@ -169,7 +169,8 @@
 			"Ved at trykke gem, accepterer du vores <a target='_blank' rel='noopener noreferrer' href='/dk/betingelser/aftale'>betingelser</a>, og stripes <a target='_blank' rel='noopener noreferrer' href='https://stripe.com/dk/connect-account/legal'>connect account agreement.</a>"
 		],
 		"location": ["Location", "Område"],
-		"account-name": ["Account holder name", "Kontoindehaverens navn"]
+		"account-name": ["Account holder name", "Kontoindehaverens navn"],
+		"phone": ["Account holder phone", "Kontoindehaverens telefonnummer"]
 	},
 	"other": ["Other", "Andet"],
 	"europe": ["Europe", "Europa"],
