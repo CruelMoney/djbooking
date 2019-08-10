@@ -239,15 +239,14 @@ const Index = ({ translate, match }) => {
 							return <Redirect to={translate("routes./not-found")} />;
 						}
 
-						const user =
-							data && data.me
-								? mergeObjects(profileUser, data.me)
-								: profileUser;
+						let user = profileUser;
 
-						if (user && profileUser) {
-							user.isOwn =
-								user.isOwn ||
-								(data && data.me && data.me.id === profileUser.id);
+						if (user && data && data.me) {
+							user.isOwn = user.isOwn || data.me.id === user.id;
+						}
+
+						if (user && user.isOwn && data && data.me) {
+							user = mergeObjects(user, data.me);
 						}
 
 						const title = user
