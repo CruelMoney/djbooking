@@ -26,33 +26,33 @@
 			"/dk/book-dj/danmark/odense"
 		],
 		"/how-it-works": ["/how-it-works", "/dk/saadan-virker-det"],
-		"/user": ["/user", "/dk/user"],
+		"/user": ["/user", "/user"],
 		"/user/signup": ["/user/signup", "/dk/user/tilmeld"],
-		"/user/:permalink": ["/user/:permalink", "/dk/user/:permalink"],
-		"/user/:username": ["/user/${ username }", "/dk/user/${ username }"],
+		"/user/:permalink": ["/user/:permalink", "/user/:permalink"],
+		"/user/:username": ["/user/${ username }", "/user/${ username }"],
 		"/user/:username/profile": [
 			"/user/${ username }/profile",
-			"/dk/user/${ username }/profile"
+			"/user/${ username }/profile"
 		],
 		"/user/:username/reviews": [
 			"/user/${ username }/reviews",
-			"/dk/user/${ username }/anmeldelser"
+			"/user/${ username }/anmeldelser"
 		],
 		"/user/:username/gigs": [
 			"/user/${ username }/gigs",
-			"/dk/user/${ username }/gigs"
+			"/user/${ username }/gigs"
 		],
 		"/user/:username/book": [
 			"/user/${ username }/book",
-			"/dk/user/${ username }/book"
+			"/user/${ username }/book"
 		],
 		"/user/:username/events": [
 			"/user/${ username }/events",
-			"/dk/user/${ username }/events"
+			"/user/${ username }/events"
 		],
 		"/user/:username/preferences": [
 			"/user/${ username }/preferences",
-			"/dk/user/${ username }/indstillinger"
+			"/user/${ username }/indstillinger"
 		],
 		"/event/:id/:hash": ["/event/:id/:hash", "/dk/event/:id/:hash"],
 		"/event/:id/:hash/info": [
