@@ -1,9 +1,7 @@
 var frank = require("../assets/images/frank-hansen.png");
-var martinE = require("../assets/images/martin-edvardsen.png");
 var martin = require("../assets/images/martin.jpg");
 var simon = require("../assets/images/simon.jpg");
 var oliver = require("../assets/images/oliver.jpg");
-var mads = require("../assets/images/mads.jpg");
 var emma = require("../assets/images/emma.jpg");
 var mussa = require("../assets/images/musa.jpg");
 var jan = require("../assets/images/jan.png");
@@ -196,24 +194,7 @@ module.exports = {
 			genres: ["Top 40", "80s", "90s", "00s"],
 			img: frank
 		},
-		{
-			name: "Martin",
-			location: {
-				city: "Copenhagen",
-				country: "Denmark"
-			},
-			genres: ["Hip Hop", "Top 40", "Remixes"],
-			img: martinE
-		},
-		{
-			name: "Simon",
-			location: {
-				city: "Copenhagen",
-				country: "Denmark"
-			},
-			genres: ["90s", "00s", "RnB", "Top 40"],
-			img: simon
-		},
+
 		{
 			name: "Emma",
 			location: {
@@ -269,16 +250,7 @@ module.exports = {
 			genres: ["Reggae", "Hip Hop", "Rock"],
 			img: peter
 		},
-		{
-			name: "Andrew",
-			location: {
-				city: "London",
-				country: "UK"
-			},
-			genres: ["R&B", "90's", "UKG", "House"],
-			img:
-				"https://api.cueup.io/uploads/images/profilePicture/Andrew-Roberts.png"
-		},
+
 		{
 			name: "Oliver",
 			location: {
@@ -328,16 +300,6 @@ module.exports = {
 			img:
 				"https://cueup.azurewebsites.net/images/profilePicture/Christian-Lindquist-Hansen.png"
 		},
-		{
-			name: "Calvert",
-			location: {
-				city: "Copenhagen",
-				country: "Denmark"
-			},
-			genres: ["Remixes", "House", "Techno", "Trap"],
-			img:
-				"https://cueup.azurewebsites.net/images/profilePicture/mathias-koelle.png"
-		},
 
 		// {
 		//     name:"Martin",
@@ -357,13 +319,75 @@ module.exports = {
 		},
 
 		{
-			name: "Mads",
+			name: "Casey",
 			location: {
-				city: "Århus",
-				country: "Denmark"
+				city: "Bali",
+				country: "Indonesia"
 			},
-			genres: ["Top 40", "Hip Hop", "R&B"],
-			img: mads
+			genres: ["Techno", "House"],
+			img:
+				"https://d1i5zrp3ng76nh.cloudfront.net/user_uploads/images/f5173bd0-a79f-11e9-a31f-2db200fe697d.jpg"
+		},
+		{
+			name: "Megan",
+			location: {
+				city: "London",
+				country: "UK"
+			},
+			genres: ["Techno", "House", "Remixes"],
+			img:
+				"https://d1i5zrp3ng76nh.cloudfront.net/user_uploads/images/df9aaa40-a0b9-11e9-b0d7-c9ee46b3b658.jpg"
+		},
+		{
+			name: "Aim",
+			location: {
+				city: "Bali",
+				country: "Indonesia"
+			},
+			genres: ["House", "Disco", "Lounge"],
+			img:
+				"https://d1i5zrp3ng76nh.cloudfront.net/user_uploads/images/581b7a60-9e32-11e9-8aec-29be44561459.jpg"
+		},
+
+		{
+			name: "Styline",
+			location: {
+				city: "Bali",
+				country: "Indonesia"
+			},
+			genres: ["House", "Techno"],
+			img:
+				"https://d1i5zrp3ng76nh.cloudfront.net/user_uploads/images/070b0e30-9be2-11e9-af61-25d53a33ab8c.jpg"
+		},
+		{
+			name: "Roman",
+			location: {
+				city: "Bali",
+				country: "Indonesia"
+			},
+			genres: ["Downtempo", "Vinyl", "Techno"],
+			img:
+				"https://d1i5zrp3ng76nh.cloudfront.net/user_uploads/images/a7b03680-9bb5-11e9-af61-25d53a33ab8c.jpg"
+		},
+		{
+			name: "Paul",
+			location: {
+				city: "Bali",
+				country: "Indonesia"
+			},
+			genres: ["Disco", "Minimal house"],
+			img:
+				"https://d1i5zrp3ng76nh.cloudfront.net/user_uploads/images/58211a70-9a26-11e9-98fd-4b2bce00c097.jpg"
+		},
+		{
+			name: "Aaron",
+			location: {
+				city: "Bali",
+				country: "Indonesia"
+			},
+			genres: ["Disco", "Techno"],
+			img:
+				"https://d1i5zrp3ng76nh.cloudfront.net/user_uploads/images/6dc09cf0-996f-11e9-8bc4-1ddf38c1cf35.jpg"
 		}
 	]
 };
