@@ -18,6 +18,7 @@ import PayoutForm from "../../../components/common/PayoutForm";
 import Popup from "../../../components/common/Popup";
 import { DELETE_USER } from "../gql";
 import { Mutation } from "react-apollo";
+import { PhoneInputNew } from "../../../components/common/PhoneInput";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
@@ -133,7 +134,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 						emailValidator.validate(v) ? null : "Not a valid email"
 					}
 				/>
-				<Input
+				<PhoneInputNew
 					half
 					label="Phone"
 					attention={!phone}

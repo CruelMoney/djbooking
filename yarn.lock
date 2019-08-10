@@ -2566,6 +2566,11 @@ autotrack@^2.0.1:
     rollup-plugin-node-resolve "^3.0.0"
     source-map "^0.5.6"
 
+awesome-phonenumber@^2.15.0:
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-2.15.0.tgz#2a7d049ec900f46e20a6485f01e453308084e17b"
+  integrity sha512-uITV2+GYT7jAQvi9cSyelbrtRWMOZm63A0+oIdTbYdIx/ipJrjVazLXSQu51uuJjhQFrHn/TW8/G5+iXAc58BA==
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"

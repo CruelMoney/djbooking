@@ -14,6 +14,12 @@ function connectToForm(WrappedComponent) {
 		constructor(props, context) {
 			super(props, context);
 			const { dontUpdateOnMount, value } = props;
+			//errors needs to exist
+			this.state = {
+				errors: [],
+				value
+			};
+
 			if (
 				typeof value !== "undefined" &&
 				value !== null &&
@@ -36,11 +42,6 @@ function connectToForm(WrappedComponent) {
 			}
 		}
 
-		//errors needs to exist
-		state = {
-			errors: []
-		};
-
 		setErrors = errors => {
 			this.setState(state => ({
 				errors
@@ -52,7 +53,13 @@ function connectToForm(WrappedComponent) {
 
 			if (this.props.validate) {
 				const newErrors = this.props.validate.reduce(
-					(memo, currentName) => memo.concat(validators[currentName](value)),
+					(memo, validator) => {
+						
+						if(typeof validator === "function"){
+							return memo.concat(validator(value))
+						}
+						return memo.concat(validators[validator](value))
+					},
 					this.props.errors || []
 				);
 

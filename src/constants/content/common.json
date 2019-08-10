@@ -170,7 +170,7 @@
 		],
 		"location": ["Location", "Område"],
 		"account-name": ["Account holder name", "Kontoindehaverens navn"],
-		"phone": ["Account holder phone", "Kontoindehaverens telefonnummer"]
+		"account-phone": ["Account holder phone", "Telefonnummer"]
 	},
 	"other": ["Other", "Andet"],
 	"europe": ["Europe", "Europa"],

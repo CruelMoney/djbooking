@@ -150,14 +150,17 @@ const UPDATE_USER_PAYOUT = gql`
 		$id: ID!
 		$payoutInfo: JSON!
 		$paymentProvider: PaymentProvider!
+		$phone: String
 	) {
 		updateUser(
 			id: $id
 			payoutInfo: $payoutInfo
 			paymentProvider: $paymentProvider
+			phone: $phone
 		) {
 			id
 			userMetadata {
+				phone
 				bankAccount {
 					last4
 					currency

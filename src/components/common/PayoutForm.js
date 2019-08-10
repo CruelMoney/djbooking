@@ -17,6 +17,8 @@ import Textfield from "./Textfield";
 import { USER_BANK_ACCOUNT, UPDATE_USER_PAYOUT } from "../gql";
 import { LoadingIndicator } from "./LoadingPlaceholder";
 import { Query, Mutation } from "react-apollo";
+import { getErrorMessage } from "./ErrorMessageApollo";
+import PhoneInput from "./PhoneInput";
 
 const getStripeData = async ({ country, stripe, name, currency }) => {
 	let tokenData = {
@@ -58,13 +60,15 @@ const PayoutForm = ({ user, isUpdate, translate, stripe }) => {
 			await mutate({
 				variables: {
 					...data,
+					phone: values.phone,
 					id: user.id,
 					paymentProvider: useXendit ? "XENDIT" : "STRIPE"
 				}
 			});
 			cb();
 		} catch (error) {
-			cb(error.message || "Something went wrong");
+			const message = getErrorMessage(error);
+			cb(message || "Something went wrong");
 		}
 	};
 
@@ -147,6 +151,10 @@ const PayoutForm = ({ user, isUpdate, translate, stripe }) => {
 };
 
 const MainForm = ({ user, bankAccount, translate }) => {
+	const {
+		userMetadata: { phone, firstName, lastName }
+	} = user;
+	const initialName = `${firstName} ${lastName}`;
 	const bankAccountParsed = bankAccount || {};
 	const [country, setCountry] = useState(bankAccountParsed.countryCode);
 	const [bankName, setBankName] = useState(null);
@@ -155,6 +163,27 @@ const MainForm = ({ user, bankAccount, translate }) => {
 
 	return (
 		<>
+			<div className="row">
+				<div className="col-xs-6">
+					<label>{translate("payout.account-name")}</label>
+					<Textfield
+						value={bankAccountParsed.accountHolderName || initialName}
+						name="name"
+						type="text"
+						validate={["required", "lastName"]}
+						placeholder={translate("Full name")}
+					/>
+				</div>
+				<div className="col-xs-6">
+					<label>{translate("payout.account-phone")}</label>
+					<PhoneInput
+						value={phone}
+						name="phone"
+						validate={["required"]}
+						placeholder={translate("Phone")}
+					/>
+				</div>
+			</div>
 			<div className="row">
 				<div className="col-xs-6">
 					<label>{translate("country")}</label>
@@ -175,29 +204,6 @@ const MainForm = ({ user, bankAccount, translate }) => {
 						value={inIndonesia ? "IDR" : bankAccountParsed.currency}
 						disabled={inIndonesia}
 						placeholder={inIndonesia ? undefined : translate("currency")}
-					/>
-				</div>
-			</div>
-
-			<div className="row">
-				<div className="col-xs-6">
-					<label>{translate("payout.account-name")}</label>
-					<Textfield
-						value={bankAccountParsed.accountHolderName}
-						name="name"
-						type="text"
-						validate={["required", "lastName"]}
-						placeholder={translate("Full name")}
-					/>
-				</div>
-				<div className="col-xs-6">
-					<label>{translate("payout.account-phone")}</label>
-					<Textfield
-						value={user.phone}
-						name="phone"
-						type="tel"
-						validate={["required"]}
-						placeholder={translate("Phone")}
 					/>
 				</div>
 			</div>
