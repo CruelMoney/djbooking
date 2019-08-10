@@ -35,6 +35,17 @@
 		padding: 2em;
 	}
 }
+.offer-card.card > a {
+	color: #32325d;
+	padding: 2em;
+	display: block;
+	background: rgb(246, 249, 252);
+	flex: 1;
+}
+
+.offer-card.card .offer-details {
+	padding: 2em;
+}
 
 .offer-card .top {
 	width: 100%;
