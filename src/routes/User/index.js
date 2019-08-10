@@ -5,7 +5,7 @@ import content from "./content.json";
 import requestformContent from "../../components/common/RequestForm/content.json";
 import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
 import Sidebar, {
@@ -42,8 +42,10 @@ import AddCircle from "react-ionicons/lib/MdAddCircle";
 import ProfileProgress from "./components/ProfileProgress.js";
 import { ME } from "../../components/gql.js";
 import { Helmet } from "react-helmet-async";
+import { PAYMENT_CONFIRMED } from "../Event/gql.js";
+import PayForm from "../../components/common/PayForm.js";
 
-const UserSidebar = ({ user, loading, bookingEnabled }) => {
+const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
 	const { userMetadata = {}, appMetadata = {}, playingLocation } = user || {};
 	const {
 		experience,
@@ -109,7 +111,7 @@ const UserSidebar = ({ user, loading, bookingEnabled }) => {
 					</Col>
 				</SidebarContent>
 			)}
-			{bookingEnabled && <BookingButton user={user} />}
+			{bookingEnabled && <BookingButton user={user} location={location} />}
 		</Sidebar>
 	);
 };
@@ -219,9 +221,8 @@ const LoginPopup = ({ translate }) => {
 	);
 };
 
-const Index = ({ translate, match }) => {
+const Index = ({ translate, match, location }) => {
 	console.log("Rendering user index");
-
 	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);
 
 	return (
@@ -300,6 +301,7 @@ const Index = ({ translate, match }) => {
 												loading={loading}
 												translate={translate}
 												updateUser={updateUser}
+												location={location}
 											/>
 										)}
 									/>
@@ -418,7 +420,10 @@ export const Stats = ({ experience, followers, white, marginRight }) => {
 	);
 };
 
-const BookingButton = ({ loading, user }) => {
+const BookingButton = ({ loading, user, location }) => {
+	const [locationState] = useState(location && location.state);
+	const [showPopup, setShowPopup] = useState(false);
+
 	if (!user) {
 		return null;
 	}
@@ -429,6 +434,38 @@ const BookingButton = ({ loading, user }) => {
 			>
 				REQUEST BOOKING
 			</CTAButton>
+		);
+	}
+
+	const offer = locationState && locationState.offer;
+
+	if (offer) {
+		const { gig, event } = locationState;
+		return (
+			<>
+				<CTAButton onClick={() => setShowPopup(true)}>
+					BOOK {offer.totalPayment.formatted}
+				</CTAButton>
+				<Popup
+					showing={showPopup}
+					onClickOutside={() => setShowPopup(false)}
+					noPadding
+				>
+					<Mutation
+						mutation={PAYMENT_CONFIRMED}
+						variables={{ gigId: gig.id, eventId: event.id }}
+					>
+						{mutate => (
+							<PayForm
+								onPaymentConfirmed={mutate}
+								id={gig.id}
+								offer={offer}
+								event={event}
+							/>
+						)}
+					</Mutation>
+				</Popup>
+			</>
 		);
 	}
 

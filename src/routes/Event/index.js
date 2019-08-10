@@ -10,7 +10,7 @@ import content from "./content.json";
 import requestFormContent from "../../components/common/RequestForm/content.json";
 import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
-import "./index.css";
+import "./index.scss";
 import ScrollToTop from "../../components/common/ScrollToTop";
 
 class Index extends Component {

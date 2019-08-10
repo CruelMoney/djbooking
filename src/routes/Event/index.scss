@@ -23,6 +23,17 @@
 	width: 500px;
 	max-width: 90vw;
 	margin: 10px;
+	padding: 0;
+	a {
+		color: #32325d;
+		padding: 2em;
+		display: block;
+		background: rgb(246, 249, 252);
+		flex: 1;
+	}
+	.offer-details {
+		padding: 2em;
+	}
 }
 
 .offer-card .top {

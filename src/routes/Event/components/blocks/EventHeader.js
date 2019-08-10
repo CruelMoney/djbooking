@@ -98,7 +98,7 @@ class eventHeader extends Component {
 					<span />
 				</div>
 
-				<Notification message={this.state.notification} />
+				<Notification message={this.state.notification} active overlay bottom />
 
 				<div className="container">
 					<div

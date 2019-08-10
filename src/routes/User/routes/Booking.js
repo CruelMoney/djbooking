@@ -131,17 +131,16 @@ const Booking = ({ user, loading, translate }) => {
 	);
 };
 
-
 const EventFormWrapper = styled(Row)`
-	.sidebar{
+	.sidebar {
 		margin-left: 60px;
 		margin-top: 42px;
 		@media only screen and (max-width: 768px) {
 			margin-left: 30px;
 			margin-top: 0px;
+		}
 	}
-	}
-`
+`;
 
 const EventForm = ({
 	setValue,
@@ -382,7 +381,7 @@ const BookingSidebar = ({
 							loading={createLoading}
 							onClick={requestBooking(mutate)}
 						>
-							REQUEST BOOKING
+							BOOK NOW
 						</CTAButton>
 					</Sidebar>
 
@@ -392,7 +391,7 @@ const BookingSidebar = ({
 							loading={createLoading}
 							onClick={requestBooking(mutate)}
 						>
-							REQUEST BOOKING
+							BOOK NOW
 						</CTAButton>
 					</MobileBookingButton>
 				</>
@@ -402,7 +401,7 @@ const BookingSidebar = ({
 };
 
 const SidebarRow = styled(Row)`
-	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	color: #98a4b3;
 	align-items: center;

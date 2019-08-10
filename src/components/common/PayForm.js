@@ -13,6 +13,10 @@ import * as tracker from "../../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
 import { changeCurrency } from "../../actions/SessionActions";
 import { LoadingPlaceholder2, LoadingIndicator } from "./LoadingPlaceholder";
+import addTranslate from "../higher-order/addTranslate";
+import requestFormContent from "./RequestForm/content.json";
+import modalContent from "./modals/content.json";
+import content from "../../routes/Event/content.json";
 
 const PayForm = ({
 	translate,
@@ -63,7 +67,8 @@ const PayForm = ({
 
 					const { requestPaymentIntent = {} } = data;
 					const { recommendedCurrency, offer } = requestPaymentIntent;
-					const showCurrencyChange = recommendedCurrency !== currency;
+					const showCurrencyChange =
+						currency && recommendedCurrency !== currency;
 
 					const PayForms = {
 						STRIPE: (
@@ -168,4 +173,8 @@ const SmartPay = connect(
 	mapDispatchToProps
 )(PayForm);
 
-export default props => <SmartPay {...props} />;
+export default addTranslate(SmartPay, [
+	content,
+	requestFormContent,
+	modalContent
+]);

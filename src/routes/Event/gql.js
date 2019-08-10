@@ -77,6 +77,7 @@ const EVENT_GIGS = gql`
 				}
 				dj {
 					id
+					permalink
 					picture {
 						path
 					}

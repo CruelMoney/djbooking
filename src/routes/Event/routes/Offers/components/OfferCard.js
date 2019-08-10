@@ -15,6 +15,8 @@ import { PayUsingCueupOrganizer } from "../../../../../components/common/modals"
 import { Mutation } from "react-apollo";
 import { PAYMENT_CONFIRMED, DECLINE_DJ } from "../../../gql";
 import NotifyPayment from "../../../../../components/common/NotifyPayment";
+import { NavLink } from "react-router-dom";
+import OpenIcon from "react-ionicons/lib/MdOpen";
 
 class OfferCard extends Component {
 	static propTypes = {
@@ -154,8 +156,17 @@ class OfferCard extends Component {
 				)}
 				<div className="card offer-card">
 					{dj ? (
-						<>
-							<div style={{ display: "flex" }}>
+						<NavLink
+							to={{
+								pathname: `${translate("routes./user")}/${
+									dj.permalink
+								}/overview`,
+								state: { offer, gig, event }
+							}}
+						>
+							<div style={{ display: "flex", position: "relative" }}>
+								<OpenIcon style={{ position: "absolute", right: 0, top: 0 }} />
+
 								<div style={image} />
 								<div className="top">
 									<div>
@@ -223,85 +234,87 @@ class OfferCard extends Component {
 									</Button>
 								</div>
 							</div>
-
-							<div className="user-bio">{dj.userMetadata.bio}</div>
-						</>
+						</NavLink>
 					) : null}
 
-					<div className="cancelation-policy">
-						{onlyChat
-							? null
-							: translate("event.offer.refund", {
-									days: offer.cancelationPolicy.days,
-									percentage: offer.cancelationPolicy.percentage
-							  })}
-					</div>
+					<div className="offer-details">
+						<div className="cancelation-policy">
+							{onlyChat
+								? null
+								: translate("event.offer.refund", {
+										days: offer.cancelationPolicy.days,
+										percentage: offer.cancelationPolicy.percentage
+								  })}
+						</div>
 
-					<div className="bottom">
-						{["CONFIRMED", "ACCEPTED", "FINISHED"].includes(gig.status) ? (
-							<div
-								className="offer-price"
-								style={{
-									width: "100%",
-									textAlign: "center"
-								}}
-							>
-								{["CONFIRMED", "FINISHED"].includes(gig.status) ? (
-									<p>Paid</p>
-								) : null}
-								{offer.totalPayment.formatted}
-							</div>
-						) : null}
+						<div className="bottom">
+							{["CONFIRMED", "ACCEPTED", "FINISHED"].includes(gig.status) ? (
+								<div
+									className="offer-price"
+									style={{
+										width: "100%",
+										textAlign: "center"
+									}}
+								>
+									{["CONFIRMED", "FINISHED"].includes(gig.status) ? (
+										<p>Paid</p>
+									) : null}
+									{offer.totalPayment.formatted}
+								</div>
+							) : null}
 
-						{disabled ? null : (
-							<div
-								style={{
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center",
-									marginTop: "15px"
-								}}
-							>
-								{["ACCEPTED", "REQUESTED"].includes(gig.status) ? (
-									<Mutation
-										mutation={DECLINE_DJ}
-										variables={{ gigId: gig.id }}
-										onCompleted={_ => {
-											window.location.reload();
-										}}
-									>
-										{(mutate, { loading }) => (
-											<Button
-												warning={translate("decline-warning")}
-												dangerous={true}
-												active={false}
-												onClick={_ => mutate()}
-												isLoading={loading}
-												name="decline-dj"
-											>
-												{translate("Decline DJ")}
-											</Button>
-										)}
-									</Mutation>
-								) : null}
+							{disabled ? null : (
+								<div
+									style={{
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center",
+										marginTop: "15px"
+									}}
+								>
+									{["ACCEPTED", "REQUESTED"].includes(gig.status) ? (
+										<Mutation
+											mutation={DECLINE_DJ}
+											variables={{ gigId: gig.id }}
+											onCompleted={_ => {
+												window.location.reload();
+											}}
+										>
+											{(mutate, { loading }) => (
+												<Button
+													warning={translate("decline-warning")}
+													dangerous={true}
+													active={false}
+													onClick={_ => mutate()}
+													isLoading={loading}
+													name="decline-dj"
+												>
+													{translate("Decline DJ")}
+												</Button>
+											)}
+										</Mutation>
+									) : null}
 
-								{["CONFIRMED", "REQUESTED", "FINISHED"].includes(
-									gig.status
-								) ? null : (
-									<Button
-										glow
-										disabled={disabled}
-										active={true}
-										onClick={
-											offer.canBePaid ? this.showPayment : this.showNotifyPopup
-										}
-										name="show-payout-popup"
-									>
-										{translate("Confirm")}
-									</Button>
-								)}
-							</div>
-						)}
+									{["CONFIRMED", "REQUESTED", "FINISHED"].includes(
+										gig.status
+									) ? null : (
+										<Button
+											glow
+											disabled={disabled}
+											active={true}
+											onClick={
+												offer.canBePaid
+													? this.showPayment
+													: this.showNotifyPopup
+											}
+											name="show-payout-popup"
+										>
+											{translate("Confirm")}
+										</Button>
+									)}
+								</div>
+							)}
+						</div>
 						<div className="errors">
 							<p className="error">{this.state.error}</p>
 						</div>
