@@ -148,9 +148,11 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 
 				<DatePickerPopup
 					half
+					maxDate={new Date()}
+					minDate={false}
 					label={"Birthday"}
 					onSave={date => saveData({ birthday: date })}
-					birthday={birthday}
+					initialDate={birthday}
 				/>
 				<ImageUploader
 					half

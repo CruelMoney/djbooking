@@ -158,15 +158,9 @@ class footer extends Component {
 									<Link to={translate("routes./faq/dj")}>Support</Link>
 								</li>
 								<li>
-									<button
-										className="link-look"
-										onClick={
-											/*eslint no-undef: 0*/
-											() => olark("api.box.expand")
-										}
-									>
+									<a className="link-look" href={"mailto:chris@cueup.io"}>
 										{translate("contact")}
-									</button>
+									</a>
 								</li>
 								<li>
 									<Link to={translate("routes./terms/agreements")}>

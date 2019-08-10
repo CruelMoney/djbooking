@@ -235,6 +235,10 @@ const Index = ({ translate, match }) => {
 					{({ data: { user: profileUser }, loading: loadingUser }) => {
 						const loading = loadingMe || loadingUser;
 
+						if(!loadingUser && !profileUser){
+							return <Redirect to={translate("routes./not-found")} />;
+						}
+
 						const user =
 							data && data.me
 								? mergeObjects(profileUser, data.me)
@@ -443,6 +447,7 @@ const StickyBookingButtonWrapper = styled.div`
 	bottom: 0;
 	padding: 15px;
 	z-index: 99;
+	margin-bottom: env(safe-area-inset-bottom);
 	> div,
 	button {
 		position: relative;

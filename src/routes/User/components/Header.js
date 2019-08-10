@@ -65,8 +65,8 @@ const getRoutesFromUser = user => {
 			if (user.isOwn) {
 				routes.push({ route: "gigs", label: "gigs" });
 			}
-			routes.push({ route: "sounds", label: "sounds" });
-			routes.push({ route: "photos", label: "photos" });
+			// routes.push({ route: "sounds", label: "sounds" });
+			// routes.push({ route: "photos", label: "photos" });
 			routes.push({ route: "reviews", label: "reviews" });
 		}
 
@@ -165,7 +165,7 @@ const UserContent = ({ user }) => {
 	return (
 		<>
 			<Row>
-				<Col>
+				<Col style={{ flex: 1, alignItems: "flex-start" }}>
 					<Title>
 						{artistName || firstName}
 						{certified && (
