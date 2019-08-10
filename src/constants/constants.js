@@ -1,6 +1,5 @@
 var frank = require("../assets/images/frank-hansen.png");
 var martin = require("../assets/images/martin.jpg");
-var simon = require("../assets/images/simon.jpg");
 var oliver = require("../assets/images/oliver.jpg");
 var emma = require("../assets/images/emma.jpg");
 var mussa = require("../assets/images/musa.jpg");
