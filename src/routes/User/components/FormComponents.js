@@ -37,7 +37,7 @@ const LeftCol = styled(Col)`
 	margin-right: 42px;
 	position: sticky;
 	top: ${({ stickyTop }) => stickyTop};
-	@media only screen and (max-width: 990px) {
+	@media only screen and (max-width: 1024px) {
 		position: initial;
 	}
 `;
@@ -218,7 +218,10 @@ const Select = styled.select`
 `;
 
 const InputType = React.forwardRef(
-	({ buttonText, type, error, save, children, ...props }, ref) => {
+	(
+		{ buttonText, type, error, save, children, blurOnEnter = true, ...props },
+		ref
+	) => {
 		switch (type) {
 			case "text-area":
 				return (
@@ -260,7 +263,7 @@ const InputType = React.forwardRef(
 						error={!!error}
 						save={save}
 						onKeyDown={e => {
-							if (e.key === "Enter") {
+							if (e.key === "Enter" && blurOnEnter) {
 								e.target.blur();
 							}
 						}}
@@ -275,7 +278,7 @@ const InputType = React.forwardRef(
 						error={!!error}
 						onBlur={save}
 						onKeyDown={e => {
-							if (e.key === "Enter") {
+							if (e.key === "Enter" && blurOnEnter) {
 								e.target.blur();
 							}
 						}}

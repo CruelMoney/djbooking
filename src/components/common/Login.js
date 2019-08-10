@@ -115,12 +115,13 @@ class Login extends PureComponent {
 									<form onSubmit={_ => mutate()}>
 										<div>
 											<Input
+												blurOnEnter={false}
 												label="Email"
 												placeholder="mail@email.com"
 												type="email"
 												autoComplete="email"
 												name="email"
-												onSave={email => this.onChangeEmail(email.trim())}
+												onChange={email => this.onChangeEmail(email.trim())}
 												validation={v =>
 													emailValidator.validate(v)
 														? null
@@ -130,12 +131,13 @@ class Login extends PureComponent {
 										</div>
 										<div>
 											<Input
+												blurOnEnter={false}
 												label="Password"
 												placeholder="min. 6 characters"
 												type="password"
 												autoComplete="password"
 												name="password"
-												onSave={password => this.onChangePassword(password)}
+												onChange={password => this.onChangePassword(password)}
 												validation={v => {
 													if (!v) {
 														return "Please enter password";

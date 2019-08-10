@@ -20,6 +20,10 @@ export const Spacing = styled.div`
 	min-width: 300px;
 	width: 300px;
 	position: relative;
+	@media only screen and (max-width: 768px) {
+		min-width: 250px;
+		width: 250px;
+	}
 	@media only screen and (max-width: 425px) {
 		display: none;
 	}
@@ -58,7 +62,7 @@ const Sidebar = ({
 	childrenBelow
 }) => {
 	return (
-		<Sticky stickyTop={stickyTop} style={style}>
+		<Sticky stickyTop={stickyTop} style={style} className={"sidebar"}>
 			<CardWrapper>
 				<Card>{children}</Card>
 				<Shadow></Shadow>

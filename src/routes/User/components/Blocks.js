@@ -17,7 +17,7 @@ export const Container = styled.div`
 	width: 100%;
 	margin: 0 auto;
 	padding: 0 30px;
-	@media only screen and (max-width: 425px) {
+	@media only screen and (max-width: 768px) {
 		padding: 0 15px;
 	}
 `;
@@ -167,7 +167,7 @@ export const Show = styled.div`
 `;
 
 const ButtonTextStyle = css`
-	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	color: #4d6480;
 	text-align: center;

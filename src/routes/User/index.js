@@ -43,6 +43,88 @@ import ProfileProgress from "./components/ProfileProgress.js";
 import { ME } from "../../components/gql.js";
 import { Helmet } from "react-helmet-async";
 
+const UserSidebar = ({ user, loading, bookingEnabled }) => {
+	const { userMetadata = {}, appMetadata = {}, playingLocation } = user || {};
+	const {
+		experience,
+		followers,
+		createdAt,
+		certified,
+		identityVerified
+	} = appMetadata;
+
+	const memberSince = moment(createdAt).format("MMMM YYYY");
+	return (
+		<Sidebar
+			showCTAShadow={bookingEnabled}
+			stickyTop={"-300px"} // height of image
+			childrenBelow={
+				user && user.isOwn ? (
+					<ProfileProgress user={user} />
+				) : (
+					<SimpleSharing
+						shareUrl={user && `/user/${user.permalink}/overview}]`}
+					/>
+				)
+			}
+		>
+			<ProfileImg src={user ? user.picture.path : null} />
+
+			{loading || !user ? (
+				<SidebarContent>
+					<LoadingPlaceholder2 />
+				</SidebarContent>
+			) : (
+				<SidebarContent>
+					{experience || followers ? (
+						<>
+							<Stats experience={experience} followers={followers} />
+							<Divider />
+						</>
+					) : null}
+
+					<SmallHeader
+						style={{ marginBottom: "15px" }}
+					>{`Hi I'm ${userMetadata.firstName}`}</SmallHeader>
+
+					<Col
+						style={{
+							alignItems: "flex-start"
+						}}
+					>
+						<IconRow className="iconRow">
+							<AddCircle color={"#98a4b3"} style={{ marginRight: "15px" }} />
+							Member since {memberSince}
+						</IconRow>
+						{playingLocation && (
+							<IconRow>
+								<Pin color={"#98a4b3"} style={{ marginRight: "15px" }} />
+								{playingLocation.name}
+							</IconRow>
+						)}
+						<CertifiedVerified
+							certified={certified}
+							identityVerified={identityVerified}
+						/>
+					</Col>
+				</SidebarContent>
+			)}
+			{bookingEnabled && <BookingButton user={user} />}
+		</Sidebar>
+	);
+};
+
+const UserContainer = styled(Container)`
+	.sidebar {
+		margin-top: -220px;
+		margin-bottom: 30px;
+		margin-right: 60px;
+		@media only screen and (max-width: 768px) {
+			margin-right: 30px;
+		}
+	}
+`;
+
 const Content = React.memo(({ match, ...userProps }) => {
 	console.log("Rendering user content");
 
@@ -56,7 +138,7 @@ const Content = React.memo(({ match, ...userProps }) => {
 
 			<Header user={user} loading={loading} />
 
-			<Container>
+			<UserContainer>
 				<Row style={{ alignItems: "stretch" }}>
 					<Col>
 						<UserSidebar {...userProps} bookingEnabled={bookingEnabled} />
@@ -110,7 +192,7 @@ const Content = React.memo(({ match, ...userProps }) => {
 						</Switch>
 					</Col>
 				</Row>
-			</Container>
+			</UserContainer>
 		</div>
 	);
 });
@@ -264,7 +346,7 @@ const SavingIndicator = ({ loading, error }) => {
 };
 
 const IconRow = styled(Row)`
-	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	color: #98a4b3;
 	align-items: center;
@@ -274,82 +356,6 @@ const IconRow = styled(Row)`
 		margin-right: 15px;
 	}
 `;
-
-const UserSidebar = ({ user, loading, bookingEnabled }) => {
-	const { userMetadata = {}, appMetadata = {}, playingLocation } = user || {};
-	const {
-		experience,
-		followers,
-		createdAt,
-		certified,
-		identityVerified
-	} = appMetadata;
-
-	const memberSince = moment(createdAt).format("MMMM YYYY");
-	return (
-		<Sidebar
-			showCTAShadow={bookingEnabled}
-			stickyTop={"-300px"} // height of image
-			style={{
-				marginTop: "-220px",
-				marginBottom: "30px",
-				marginRight: "60px"
-			}}
-			childrenBelow={
-				user && user.isOwn ? (
-					<ProfileProgress user={user} />
-				) : (
-					<SimpleSharing
-						shareUrl={user && `/user/${user.permalink}/overview}]`}
-					/>
-				)
-			}
-		>
-			<ProfileImg src={user ? user.picture.path : null} />
-
-			{loading || !user ? (
-				<SidebarContent>
-					<LoadingPlaceholder2 />
-				</SidebarContent>
-			) : (
-				<SidebarContent>
-					{experience || followers ? (
-						<>
-							<Stats experience={experience} followers={followers} />
-							<Divider />
-						</>
-					) : null}
-
-					<SmallHeader
-						style={{ marginBottom: "15px" }}
-					>{`Hi I'm ${userMetadata.firstName}`}</SmallHeader>
-
-					<Col
-						style={{
-							alignItems: "flex-start"
-						}}
-					>
-						<IconRow className="iconRow">
-							<AddCircle color={"#98a4b3"} style={{ marginRight: "15px" }} />
-							Member since {memberSince}
-						</IconRow>
-						{playingLocation && (
-							<IconRow>
-								<Pin color={"#98a4b3"} style={{ marginRight: "15px" }} />
-								{playingLocation.name}
-							</IconRow>
-						)}
-						<CertifiedVerified
-							certified={certified}
-							identityVerified={identityVerified}
-						/>
-					</Col>
-				</SidebarContent>
-			)}
-			{bookingEnabled && <BookingButton user={user} />}
-		</Sidebar>
-	);
-};
 
 export const CertifiedVerified = ({ certified, identityVerified }) => (
 	<>
@@ -385,6 +391,10 @@ const ProfileImg = styled(GracefullImage)`
 	width: 300px;
 	height: 300px;
 	object-fit: cover;
+	@media only screen and (max-width: 768px) {
+		width: 250px;
+		height: 250px;
+	}
 `;
 
 export const Stats = ({ experience, followers, white, marginRight }) => {

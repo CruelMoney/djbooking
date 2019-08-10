@@ -3582,17 +3582,14 @@ ol.breadcrumbs a {
 	.offer-table > div:first-child {
 		border-right: none;
 	}
-	.mobileMenuButton {
-		display: inline-block;
-	}
-	.main-menu {
-		display: none !important;
-	}
 }
 /* TABLET END*/
 
 /* Mobile */
 @media only screen and (max-width: 480px) {
+	.main-menu {
+		display: none !important;
+	}
 	.mobileMenuButton {
 		display: inline-block;
 	}

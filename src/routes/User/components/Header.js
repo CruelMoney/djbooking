@@ -65,6 +65,8 @@ const getRoutesFromUser = user => {
 			if (user.isOwn) {
 				routes.push({ route: "gigs", label: "gigs" });
 			}
+			routes.push({ route: "sounds", label: "sounds" });
+			routes.push({ route: "photos", label: "photos" });
 			routes.push({ route: "reviews", label: "reviews" });
 		}
 
@@ -124,12 +126,19 @@ const RatingWrapper = styled.div`
 	}
 `;
 
+const HeaderSpacing = styled(Spacing)`
+	margin-right: 60px;
+	@media only screen and (max-width: 768px) {
+		margin-right: 30px;
+	}
+`;
+
 const Header = ({ user, loading }) => {
 	return (
 		<GradientBg coverPhoto={user && user.coverPhoto}>
 			<Container>
 				<Row className="wrapper">
-					<Spacing style={{ marginRight: "60px" }} />
+					<HeaderSpacing />
 					<FullWidthCol>
 						{loading ? null : <UserContent user={user} />}
 						{typeof document !== "undefined" && (

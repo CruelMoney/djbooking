@@ -131,6 +131,18 @@ const Booking = ({ user, loading, translate }) => {
 	);
 };
 
+
+const EventFormWrapper = styled(Row)`
+	.sidebar{
+		margin-left: 60px;
+		margin-top: 42px;
+		@media only screen and (max-width: 768px) {
+			margin-left: 30px;
+			margin-top: 0px;
+	}
+	}
+`
+
 const EventForm = ({
 	setValue,
 	registerValidation,
@@ -143,7 +155,7 @@ const EventForm = ({
 	setloginPopup,
 	loginPopup
 }) => (
-	<Row>
+	<EventFormWrapper>
 		<Col
 			style={{
 				marginTop: "42px",
@@ -327,7 +339,7 @@ const EventForm = ({
 			requestBooking={requestBooking}
 			showLogin={() => setloginPopup(true)}
 		/>
-	</Row>
+	</EventFormWrapper>
 );
 
 const BookingSidebar = ({
@@ -345,7 +357,6 @@ const BookingSidebar = ({
 						showCTAShadow
 						stickyTop={"0px"}
 						enableSharing={false}
-						style={{ marginLeft: "60px", marginTop: "42px" }}
 						childrenBelow={
 							<ErrorMessageApollo
 								error={error}

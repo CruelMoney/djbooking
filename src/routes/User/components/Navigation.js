@@ -9,6 +9,7 @@ const StyledNav = styled.nav`
 	display: flex;
 	align-items: center;
 	position: relative;
+	justify-content: space-between;
 	@media only screen and (max-width: 425px) {
 		display: none;
 	}
@@ -21,7 +22,6 @@ const StyledLink = styled(({ indicateActive, ...rest }) => (
 	color: #ffffff !important;
 	letter-spacing: 1.2px;
 	text-align: left;
-	margin-right: 60px;
 	text-transform: uppercase;
 	font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
 	opacity: ${({ indicateActive }) => {
@@ -65,6 +65,8 @@ const Navigation = ({ routes, location }) => {
 
 	useLayoutEffect(resetIndicator, [routes]);
 
+	let fillers = new Array(7 - routes.length).fill(1);
+
 	return (
 		<StyledNav ref={navRef} onMouseLeave={resetIndicator}>
 			<ActiveIndicator ref={indicator} />
@@ -87,6 +89,9 @@ const Navigation = ({ routes, location }) => {
 					</StyledLink>
 				);
 			})}
+			{fillers.map((v, idx) => (
+				<span key={idx}></span>
+			))}
 		</StyledNav>
 	);
 };
