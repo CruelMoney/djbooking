@@ -38,15 +38,7 @@ class Gigs extends PureComponent {
 
 			if (renderGigs.length === 0) {
 				return (
-					<EmptyPage
-						message={
-							<div>
-								{translate("No gigs")}
-								<br />
-								{translate("no-gigs-description")}
-							</div>
-						}
-					/>
+					<EmptyPage message={<div>{translate("no-gigs-description")}</div>} />
 				);
 			} else {
 				return renderGigs.map(gig => {

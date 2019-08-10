@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "./Blocks";
 import { Body, SmallBold, SmallHeader } from "./Text";
 import styled from "styled-components";
@@ -110,13 +110,20 @@ const BarFill = styled.div`
 	background: #50e3c2;
 	box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 8px 0 #00ffc6;
 	border-radius: 6px;
+	transition: all 500ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
 `;
 
 const ProgressBar = ({ progress }) => {
+	const [renderProgress, setRenderProgress] = useState(0);
+
+	useEffect(() => {
+		setRenderProgress(progress);
+	}, [progress]);
+
 	return (
 		<Row middle style={{ marginBottom: "15px", width: "100%" }}>
 			<BarTrack>
-				<BarFill style={{ width: progress * 100 + "%" }} />
+				<BarFill style={{ width: renderProgress * 100 + "%" }} />
 			</BarTrack>
 			<SmallBold
 				style={{
