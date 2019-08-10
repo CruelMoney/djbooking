@@ -85,7 +85,8 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 		email,
 		artistName,
 		picture,
-		permalink
+		permalink,
+		isDj
 	} = user;
 	const {
 		firstName,
@@ -172,81 +173,83 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 				/> */}
 			</SettingsSection>
 
-			<SettingsSection
-				id="profile"
-				title={"Profile"}
-				description={
-					"Edit your profile to make it look good and get more bookings. Make the organizers feel good about booking you!"
-				}
-			>
-				<Input
-					label="Artist name"
-					attention={!artistName}
-					defaultValue={artistName}
-					placeholder="Dj Khaled"
-					type="text"
-					onSave={artistName => saveData({ artistName: artistName.trim() })}
-				/>
-				<Input
-					label="URL"
-					placeholder="https://cueup.io/"
-					type="formatted-text"
-					defaultValue={permalink}
-					onSave={async permalink => {
-						saveData({ permalink: permalink.trim() });
-					}}
-				/>
-				<LocationPicker
-					initialLocation={playingLocation}
-					save={playingLocation => saveData({ playingLocation })}
-				/>
-
-				<GenreSelector
-					initialGenres={genres}
-					save={genres => saveData({ genres })}
-				/>
-				<CancelationPolicyPopup
-					initialValue={cancelationPolicy}
-					save={p =>
-						saveData({
-							refundPercentage: p.percentage,
-							cancelationDays: p.days
-						})
+			{isDj && (
+				<SettingsSection
+					id="profile"
+					title={"Profile"}
+					description={
+						"Edit your profile to make it look good and get more bookings. Make the organizers feel good about booking you!"
 					}
-					translate={translate}
-				/>
-				<BioPopup
-					initialValue={bio}
-					save={bio =>
-						saveData({
-							bio
-						})
-					}
-				/>
-
-				<ImageUploader
-					half
-					label="Cover photo"
-					buttonText="change photo"
-					onSave={updateKey("coverPhoto")}
-					options={{ maxWidth: 1440, maxHeight: 400 }}
 				>
-					{user.coverPhoto && (
-						<DeleteFileButton onClick={_ => updateKey("coverPhoto")(null)}>
-							x
-						</DeleteFileButton>
-					)}
-				</ImageUploader>
+					<Input
+						label="Artist name"
+						attention={!artistName}
+						defaultValue={artistName}
+						placeholder="Dj Khaled"
+						type="text"
+						onSave={artistName => saveData({ artistName: artistName.trim() })}
+					/>
+					<Input
+						label="URL"
+						placeholder="https://cueup.io/"
+						type="formatted-text"
+						defaultValue={permalink}
+						onSave={async permalink => {
+							saveData({ permalink: permalink.trim() });
+						}}
+					/>
+					<LocationPicker
+						initialLocation={playingLocation}
+						save={playingLocation => saveData({ playingLocation })}
+					/>
 
-				<Input
-					half
-					type="button"
-					attention={userSettings.standby}
-					label="Standby"
-					onClick={toggleAvailability}
-					buttonText={userSettings.standby ? "unavailable" : "available"}
-				/>
-			</SettingsSection>
+					<GenreSelector
+						initialGenres={genres}
+						save={genres => saveData({ genres })}
+					/>
+					<CancelationPolicyPopup
+						initialValue={cancelationPolicy}
+						save={p =>
+							saveData({
+								refundPercentage: p.percentage,
+								cancelationDays: p.days
+							})
+						}
+						translate={translate}
+					/>
+					<BioPopup
+						initialValue={bio || ""}
+						save={bio =>
+							saveData({
+								bio
+							})
+						}
+					/>
+
+					<ImageUploader
+						half
+						label="Cover photo"
+						buttonText="change photo"
+						onSave={updateKey("coverPhoto")}
+						options={{ maxWidth: 1440, maxHeight: 400 }}
+					>
+						{user.coverPhoto && (
+							<DeleteFileButton onClick={_ => updateKey("coverPhoto")(null)}>
+								x
+							</DeleteFileButton>
+						)}
+					</ImageUploader>
+
+					<Input
+						half
+						type="button"
+						attention={userSettings.standby}
+						label="Standby"
+						onClick={toggleAvailability}
+						buttonText={userSettings.standby ? "unavailable" : "available"}
+					/>
+				</SettingsSection>
+			)}
 
 			<SettingsSection
 				id="preferences"
@@ -255,7 +258,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 					"Change your preferences for getting paid and notifications."
 				}
 			>
-				<PayoutPopup user={user} hasPayout={bankAccount} />
+				{isDj && <PayoutPopup user={user} hasPayout={bankAccount} />}
 
 				<Input
 					half

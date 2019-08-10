@@ -100,7 +100,7 @@ const Bio = ({ bio, firstName }) => {
 	return (
 		<LeftItem style={{ paddingTop: 0 }}>
 			<Title>About {firstName}</Title>
-			<ReadMoreExpander content={bio} />
+			<ReadMoreExpander content={bio || "Nothing here yet"} />
 		</LeftItem>
 	);
 };
@@ -143,25 +143,30 @@ const Review = ({ reviewsCount, highlightedReview }) => {
 		</Link>
 	);
 };
-const MapArea = ({ playingLocation }) => (
-	<Square>
-		<Map
-			radius={playingLocation.radius}
-			name={"playingLocation"}
-			value={{
-				lat: playingLocation.latitude,
-				lng: playingLocation.longitude
-			}}
-			height={"100%"}
-			editable={false}
-			color={"#50E3C2"}
-			mapOptions={{
-				zoomControl: false,
-				fullscreenControl: false
-			}}
-		/>
-	</Square>
-);
+const MapArea = ({ playingLocation }) => {
+	if (!playingLocation) {
+		return null;
+	}
+	return (
+		<Square>
+			<Map
+				radius={playingLocation.radius}
+				name={"playingLocation"}
+				value={{
+					lat: playingLocation.latitude,
+					lng: playingLocation.longitude
+				}}
+				height={"100%"}
+				editable={false}
+				color={"#50E3C2"}
+				mapOptions={{
+					zoomControl: false,
+					fullscreenControl: false
+				}}
+			/>
+		</Square>
+	);
+};
 
 const AddBlockPlaceholder = ({ label, directions, to }) => {
 	return (
@@ -203,20 +208,24 @@ const Overview = ({ user, loading }) => {
 							reviewsCount={reviews.pageInfo.totalDocs}
 							highlightedReview={highlightedReview}
 						/>
-					) : user.isOwn ? (
+					) : user.isOwn && user.isDj ? (
 						<AddBlockPlaceholder
 							to="reviews"
 							label="Add Highlight"
 							directions="Select text with the cursor from a review or testimonial to highlight it here."
 						/>
 					) : null}
-					<Show maxWidth="990px">
-						<MapArea playingLocation={playingLocation} />
-					</Show>
-					<LeftItem>
-						<Title>Cancelation Policy</Title>
-						<PolicyDisplayer cancelationPolicy={cancelationPolicy} />
-					</LeftItem>
+					{user.isDj && (
+						<Show maxWidth="990px">
+							<MapArea playingLocation={playingLocation} />
+						</Show>
+					)}
+					{user.isDj && (
+						<LeftItem>
+							<Title>Cancelation Policy</Title>
+							<PolicyDisplayer cancelationPolicy={cancelationPolicy} />
+						</LeftItem>
+					)}
 				</HalfColLeft>
 				<HalfColRight>
 					<Genres genres={genres} />
