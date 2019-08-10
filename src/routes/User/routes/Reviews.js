@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
-import { Title, Body } from "../components/Text";
+import { Title, Body, BodySmall } from "../components/Text";
 import ReadMoreExpander from "../components/ReadMoreExpander";
 import {
 	Col,
@@ -30,6 +30,7 @@ import { useMutation } from "@apollo/react-hooks";
 
 import ReactDOM from "react-dom";
 import { Popper } from "react-popper";
+import { SavingIndicator } from "..";
 
 const ReviewsCol = styled(Col)`
 	flex: 1;
@@ -73,12 +74,12 @@ const ReviewWrapper = styled.div`
 `;
 
 const AuthorName = styled.cite`
-	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	color: #4d6480;
 `;
 const CreatedAtLabel = styled.p`
-	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	color: #98a4b3;
 `;
@@ -236,7 +237,7 @@ const Reviews = ({ user, loading: loadingUser, updateUser }) => {
 };
 
 const VenueLabel = styled.p`
-	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;;
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 18px;
 	color: #4d6480;
 	text-align: left;
@@ -308,19 +309,23 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 		});
 	};
 
-	const [writeTestimonial, { loading }] = useMutation(WRITE_TESTIMONIAL, {
-		variables: newTestimonial,
-		refetchQueries: [{ query: REVIEWS, variables: { id: userId } }],
-		awaitRefetchQueries: true
-	});
+	const [writeTestimonial, { loading, error }] = useMutation(
+		WRITE_TESTIMONIAL,
+		{
+			variables: newTestimonial,
+			refetchQueries: [{ query: REVIEWS, variables: { id: userId } }],
+			awaitRefetchQueries: true
+		}
+	);
 
-	const [removeTestimonial] = useMutation(REMOVE_TESTIMONIAL, {
+	const [removeTestimonial, {loading:loadingRemove}] = useMutation(REMOVE_TESTIMONIAL, {
 		refetchQueries: [{ query: REVIEWS, variables: { id: userId } }],
 		awaitRefetchQueries: true
 	});
 
 	return (
 		<>
+			<SavingIndicator error={error} loading={loading || loadingRemove} />
 			<RowMobileCol>
 				<ReviewsCol>
 					{reviews.length === 0 ? (
@@ -345,32 +350,42 @@ const Content = ({ playedVenues, reviews, isOwn, userId, updateUser }) => {
 						/>
 					))}
 					{isOwn && reviews.length > 0 && (
-						<AddButton onClick={() => setIsAddingTestimonial(true)}>
-							+ Add testimonial
-						</AddButton>
+						<Row>
+							<AddButton onClick={() => setIsAddingTestimonial(true)}>
+								+ Add testimonial
+							</AddButton>
+
+							<BodySmall style={{ maxWidth: "300px" }}>
+								Hightlight a review or testimonial by selecting the text with
+								the mouse.
+							</BodySmall>
+						</Row>
 					)}
 				</ReviewsCol>
-				<VenuesCol>
-					<Title style={{ marginBottom: "36px" }}>Past venues</Title>
-					<ul>
-						{playedVenues.map((v, idx) => (
-							<VenueListItem key={idx}>
-								<VenueLabel>{v}</VenueLabel>
-								{isOwn && (
-									<RemoveButton onClick={() => deleteVenue(v)}>
-										remove
-									</RemoveButton>
-								)}
-							</VenueListItem>
-						))}
-					</ul>
-					{isAddingVenue && <AutoFocusInput onSave={saveVenue} />}
-					{isOwn && (
-						<AddButton onClick={() => setIsAddingVenue(true)}>
-							+ Add venue
-						</AddButton>
-					)}
-				</VenuesCol>
+				{(playedVenues.length > 0 || isOwn) && (
+					<VenuesCol>
+						<Title style={{ marginBottom: "36px" }}>Past venues</Title>
+						<ul>
+							{playedVenues.map((v, idx) => (
+								<VenueListItem key={idx}>
+									<VenueLabel>{v}</VenueLabel>
+									{isOwn && (
+										<RemoveButton onClick={() => deleteVenue(v)}>
+											remove
+										</RemoveButton>
+									)}
+								</VenueListItem>
+							))}
+						</ul>
+						{isAddingVenue && <AutoFocusInput onSave={saveVenue} />}
+
+						{isOwn && (
+							<AddButton onClick={() => setIsAddingVenue(true)}>
+								+ Add venue
+							</AddButton>
+						)}
+					</VenuesCol>
+				)}
 			</RowMobileCol>
 			<Popup
 				lazy={false}

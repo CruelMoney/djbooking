@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Spinner } from "react-activity";
 import "react-activity/lib/Spinner/Spinner.css";
 
@@ -10,7 +11,17 @@ const Notification = ({
 	bottom,
 	message = "You have no new notifications"
 }) => {
-	return (
+	const [show, setShow] = useState(false);
+
+	useEffect(() => {
+		setShow(true);
+	}, []);
+
+	if (!show) {
+		return null;
+	}
+
+	return createPortal(
 		<div
 			className={`center ${overlay ? "notification-overlay" : ""} ${
 				active ? "active" : ""
@@ -22,7 +33,8 @@ const Notification = ({
 					{children || <p style={{ marginLeft: "8px" }}>{message}</p>}
 				</div>
 			</div>
-		</div>
+		</div>,
+		document.querySelector("#notification-portal")
 	);
 };
 

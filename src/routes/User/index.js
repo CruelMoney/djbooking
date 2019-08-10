@@ -235,7 +235,7 @@ const Index = ({ translate, match }) => {
 					{({ data: { user: profileUser }, loading: loadingUser }) => {
 						const loading = loadingMe || loadingUser;
 
-						if(!loadingUser && !profileUser){
+						if (!loadingUser && !profileUser) {
 							return <Redirect to={translate("routes./not-found")} />;
 						}
 
@@ -324,7 +324,7 @@ const Index = ({ translate, match }) => {
 	);
 };
 
-const SavingIndicator = ({ loading, error }) => {
+export const SavingIndicator = ({ loading, error }) => {
 	const [active, setActive] = useState(false);
 
 	useEffect(() => {
