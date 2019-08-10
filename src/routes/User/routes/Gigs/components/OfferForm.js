@@ -13,6 +13,7 @@ import { Mutation } from "react-apollo";
 import { CANCEL_GIG, DECLINE_GIG, GET_OFFER, MAKE_OFFER } from "../../../gql";
 import { useMutation } from "@apollo/react-hooks";
 import ErrorMessageApollo from "../../../../../components/common/ErrorMessageApollo";
+import { MY_GIGS } from "../../../../../components/gql";
 
 const OfferForm = ({
 	gig,
@@ -43,7 +44,15 @@ const OfferForm = ({
 	const [submitted, setSubmitted] = useState(false);
 
 	const [getOffer] = useMutation(GET_OFFER);
-	const [makeOffer] = useMutation(MAKE_OFFER);
+	const [makeOffer] = useMutation(MAKE_OFFER, {
+		refetchQueries: [
+			{
+				query: MY_GIGS,
+
+				variables: { limit: 100, locale: currentLanguage }
+			}
+		]
+	});
 
 	const updateOffer = async () => {
 		if (payoutInfoValid) {
