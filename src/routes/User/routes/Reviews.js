@@ -9,7 +9,8 @@ import {
 	ReadMoreText,
 	TeritaryButton,
 	PrimaryButton,
-	RowMobileCol
+	RowMobileCol,
+	AddButton
 } from "../components/Blocks";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
 
@@ -243,16 +244,6 @@ const VenueLabel = styled.p`
 	text-align: left;
 	text-transform: capitalize;
 	margin-bottom: 0;
-`;
-
-const AddButton = styled(TeritaryButton)`
-	padding: 0;
-	min-width: 0;
-	/* width: auto; */
-	text-align: left;
-	display: inline-block;
-	margin-right: auto;
-	height: 18px;
 `;
 
 const VenueListItem = styled.li`

@@ -7,9 +7,9 @@ class EmptyPage extends Component {
 		const { translate } = this.props;
 		return (
 			<div className="empty-page-message">
-				<Svg404 style={{ marginRight: "42px" }} />
+				<Svg404 style={{ marginRight: "42px", maxWidth: "50%" }} />
 				<div>
-					<h2>
+					<h2 style={{ maxWidth: "220px" }}>
 						{this.props.title
 							? this.props.title
 							: translate("empty-page-message")}

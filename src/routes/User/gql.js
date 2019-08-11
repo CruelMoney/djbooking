@@ -98,6 +98,28 @@ const REVIEWS = gql`
 	}
 `;
 
+const USER_PHOTOS = gql`
+	query User($id: ID!, $pagination: Pagination) {
+		user(id: $id) {
+			id
+			isOwn @client
+			media(pagination: $pagination) {
+				edges {
+					id
+					path
+					type
+				}
+				pageInfo {
+					page
+					nextPage
+					hasNextPage
+					totalDocs
+				}
+			}
+		}
+	}
+`;
+
 const UPDATE_USER = gql`
 	mutation updateUser(
 		$id: ID!
@@ -181,6 +203,22 @@ const UPDATE_USER = gql`
 				}
 			}
 		}
+	}
+`;
+
+const UPLOAD_FILE = gql`
+	mutation UploadFile($file: Upload!) {
+		singleUpload(file: $file) {
+			id
+			path
+			type
+		}
+	}
+`;
+
+const DELETE_FILE = gql`
+	mutation DeleteFile($id: ID!) {
+		deleteFile(id: $id)
 	}
 `;
 
@@ -352,5 +390,8 @@ export {
 	REVIEWS,
 	WRITE_TESTIMONIAL,
 	REMOVE_TESTIMONIAL,
-	HIGHLIGHT_REVIEW
+	HIGHLIGHT_REVIEW,
+	USER_PHOTOS,
+	UPLOAD_FILE,
+	DELETE_FILE
 };

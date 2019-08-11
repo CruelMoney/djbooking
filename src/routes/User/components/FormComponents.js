@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled, { css } from "styled-components";
-import { Row, Col } from "./Blocks";
+import { Row, Col, secondaryButtonStyle, SecondaryButton } from "./Blocks";
 import { Title, Body } from "./Text";
 import Checkbox from "./Checkbox";
 
@@ -89,7 +89,12 @@ const SettingsSection = ({
 };
 
 export const inputStyle = css`
-	background: #f6f8f9;
+	background: ${({ primary }) => {
+		if (primary) {
+			return;
+		}
+		return "#f6f8f9";
+	}};
 	border-radius: 4px;
 	border: none;
 	outline: none;
@@ -125,7 +130,7 @@ const TextInput = styled.input`
 	}
 `;
 
-const buttonStyle = css`
+const inputButtonStyle = css`
 	${inputStyle}
 	text-align: center;
 	line-height: 40px !important;
@@ -148,11 +153,11 @@ const buttonStyle = css`
 `;
 
 const ButtonInput = styled.button`
-	${buttonStyle}
+	${inputButtonStyle}
 `;
 
 const FileInputWrapper = styled.label`
-	${buttonStyle}
+	${inputButtonStyle}
 	position: relative;
 `;
 
@@ -351,6 +356,22 @@ const Input = React.forwardRef(
 			</LabelComponent>
 		);
 	}
+);
+
+const ButtonFileLabel = styled.label`
+	${secondaryButtonStyle};
+	position: relative;
+	text-align: center;
+	line-height: 40px !important;
+	transition: all 200ms ease;
+	cursor: pointer;
+`;
+
+export const ButtonFileInput = ({ children, ...props }) => (
+	<ButtonFileLabel>
+		{children}
+		<FileInput {...props} />
+	</ButtonFileLabel>
 );
 
 const ButtonText = styled.span`

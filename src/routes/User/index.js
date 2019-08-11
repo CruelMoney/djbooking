@@ -14,7 +14,15 @@ import Sidebar, {
 	CTAShadow
 } from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
-import { Overview, Settings, Reviews, Gigs, Events, Booking, Photos } from "./routes";
+import {
+	Overview,
+	Settings,
+	Reviews,
+	Gigs,
+	Events,
+	Booking,
+	Photos
+} from "./routes";
 import {
 	Container,
 	Row,
@@ -329,7 +337,7 @@ const Index = ({ translate, match, location }) => {
 	);
 };
 
-export const SavingIndicator = ({ loading, error }) => {
+export const SavingIndicator = ({ loading, error, message }) => {
 	const [active, setActive] = useState(false);
 
 	useEffect(() => {
@@ -347,7 +355,7 @@ export const SavingIndicator = ({ loading, error }) => {
 			bottom
 			active={active}
 			loading={loading}
-			message={"Saving"}
+			message={message || "Saving"}
 		>
 			{error && <ErrorMessageApollo error={error} />}
 		</Notification>

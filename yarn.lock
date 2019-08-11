@@ -11772,6 +11772,13 @@ react-app-polyfill@^1.0.1:
     regenerator-runtime "0.13.2"
     whatwg-fetch "3.0.0"
 
+react-bottom-scroll-listener@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-bottom-scroll-listener/-/react-bottom-scroll-listener-3.0.0.tgz#46668ccb0d78d2a3ba808d82aba1b50b5423c88e"
+  integrity sha512-psnQvL7wS8LjOEK3SvPmK4aI6CT+OaLn3+WT6wkaf39nCLY4h64zdCIHPLUgxjz531Rr88ePykqqRIWD839Jog==
+  dependencies:
+    lodash.debounce "^4.0.8"
+
 react-credit-card-input@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/react-credit-card-input/-/react-credit-card-input-1.1.5.tgz#6aa83fc881b57c958c9b00b50e698f76f211214f"
@@ -11907,6 +11914,14 @@ react-inlinesvg@^0.7.0:
   dependencies:
     httpplease "^0.16.4"
     once "^1.4.0"
+
+react-intersection-observer@^8.24.1:
+  version "8.24.1"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.24.1.tgz#f98ec6807a039c7f1456d457e4fe2f434a28d12e"
+  integrity sha512-4ugly0PWrYpGIgZeMD/aqjBzSlA5+W8k89+1FBC7T8w9Q0k1aOXFyQrcKQOoGfxSUnCPItqmWLsg7j50WsfVnw==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    invariant "^2.2.4"
 
 react-ionicons@^3.0.1:
   version "3.0.1"

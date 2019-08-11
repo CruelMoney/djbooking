@@ -15,12 +15,17 @@ const StyledImg = styled.img`
 function useImageLoaded({ src }) {
 	const [loaded, setLoaded] = useState(false);
 	React.useEffect(() => {
-		const mainImage = new Image();
-		mainImage.onload = () => {
-			setLoaded(true);
-		};
+		if (src) {
+			const mainImage = new Image();
+			mainImage.onload = () => {
+				setLoaded(true);
+			};
 
-		mainImage.src = src;
+			mainImage.src = src;
+			return () => {
+				mainImage.onload = () => {};
+			};
+		}
 	}, [src]);
 
 	return loaded;

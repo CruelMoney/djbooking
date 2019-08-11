@@ -182,10 +182,14 @@ export const TeritaryButton = styled.button`
 	${ButtonTextStyle}
 `;
 
-export const SecondaryButton = styled.button`
+export const secondaryButtonStyle = css`
 	${ButtonTextStyle}
 	background: #E9ECF0;
-	color: #ffffff;
+	margin-bottom: 0;
+`;
+
+export const SecondaryButton = styled.button`
+	${secondaryButtonStyle}
 `;
 
 export const PrimaryButton = styled.button.attrs(
@@ -200,4 +204,14 @@ export const PrimaryButton = styled.button.attrs(
 		color: #ffffff;
 		background-color: #00d1ff;
 	}
+`;
+
+export const AddButton = styled(TeritaryButton)`
+	padding: 0;
+	min-width: 0;
+	/* width: auto; */
+	text-align: left;
+	display: inline-block;
+	margin-right: auto;
+	height: 18px;
 `;
