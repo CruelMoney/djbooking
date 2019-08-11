@@ -66,7 +66,7 @@ const getRoutesFromUser = user => {
 				routes.push({ route: "gigs", label: "gigs" });
 			}
 			// routes.push({ route: "sounds", label: "sounds" });
-			// routes.push({ route: "photos", label: "photos" });
+			routes.push({ route: "photos", label: "photos" });
 			routes.push({ route: "reviews", label: "reviews" });
 		}
 

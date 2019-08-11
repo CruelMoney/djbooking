@@ -141,7 +141,7 @@ const App = class extends Component {
 							<Route exact path={translate("routes./")} component={Home} />
 							<Route path={translate("routes./about")} component={About} />
 							<Route
-								path={translate("routes./user/:permalink")}
+								path={[translate("routes./user/:permalink")]}
 								component={User}
 							/>
 							<Route

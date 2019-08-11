@@ -4,5 +4,6 @@ import Reviews from "./Reviews";
 import Gigs from "./Gigs";
 import Events from "./Events";
 import Booking from "./Booking";
+import Photos from "./Photos";
 
-export { Booking, Overview, Settings, Reviews, Gigs, Events };
+export { Photos, Booking, Overview, Settings, Reviews, Gigs, Events };

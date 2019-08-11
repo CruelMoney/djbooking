@@ -14,7 +14,7 @@ import Sidebar, {
 	CTAShadow
 } from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
-import { Overview, Settings, Reviews, Gigs, Events, Booking } from "./routes";
+import { Overview, Settings, Reviews, Gigs, Events, Booking, Photos } from "./routes";
 import {
 	Container,
 	Row,
@@ -163,6 +163,10 @@ const Content = React.memo(({ match, ...userProps }) => {
 							<Route
 								path={match.path + "/reviews"}
 								render={props => <Reviews {...props} {...userProps} />}
+							/>
+							<Route
+								path={match.path + "/photos"}
+								render={props => <Photos {...props} {...userProps} />}
 							/>
 							{showPrivate ? (
 								<Route
