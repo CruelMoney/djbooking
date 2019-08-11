@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import GracefullImage from "../components/GracefullImage";
 import { USER_PHOTOS, UPLOAD_FILE, DELETE_FILE } from "../gql";
@@ -11,8 +11,9 @@ import { SavingIndicator } from "..";
 import RemoveButton from "react-ionicons/lib/MdRemoveCircle";
 import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
+import GracefullVideo from "../components/GracefullVideo";
 
-const LIMIT = 6;
+const LIMIT = 3;
 
 const RemoveImageWrapper = styled.div`
 	opacity: 0;
@@ -30,7 +31,7 @@ const ImageGrid = styled.section`
 `;
 
 const Cell = styled.div`
-	background: #ebebeb;
+	background: #eff2f5;
 	position: relative;
 	${({ css }) => css}
 	> * {
@@ -79,12 +80,9 @@ const getCellStyle = idx => {
 };
 
 const imgPlaceholders = [
-	{ path: null },
-	{ path: null },
-	{ path: null },
-	{ path: null },
-	{ path: null },
-	{ path: null }
+	{ path: null, type: "IMAGE" },
+	{ path: null, type: "IMAGE" },
+	{ path: null, type: "IMAGE" }
 ];
 
 const Photos = ({ user, loading }) => {
@@ -92,7 +90,8 @@ const Photos = ({ user, loading }) => {
 	const [saving, setSaving] = useState([]);
 	const [saveMutation] = useMutation(UPLOAD_FILE);
 	const [deleteMutation] = useMutation(DELETE_FILE);
-	const [ref, inView] = useInView({ rootMargin: "0px" });
+	const [ref, inView] = useInView({ rootMargin: "200px" });
+	const [lastFetchedPage, setLastFetchedPage] = useState(1);
 
 	const {
 		data,
@@ -112,7 +111,7 @@ const Photos = ({ user, loading }) => {
 
 	const error = uploadError || photosError;
 
-	const images =
+	const media =
 		loading || loadingPhotos ? imgPlaceholders : data.user.media.edges;
 
 	const hasNextPage =
@@ -124,21 +123,24 @@ const Photos = ({ user, loading }) => {
 	const userId = user && user.id;
 
 	const loadMore = useCallback(
-		() =>
+		(page, userId) => {
+			console.log("Fetching ", page);
+
 			fetchMore({
 				variables: {
 					id: userId,
 					pagination: {
 						limit: LIMIT,
-						page: nextPage
+						page
 					}
 				},
 
 				updateQuery: (prev, { fetchMoreResult }) => {
 					console.log(!fetchMoreResult ? "returning prev" : "return niew");
-					console.log({ prev, fetchMoreResult, nextPage });
+					console.log({ prev, fetchMoreResult, page });
 
 					if (!fetchMoreResult) return prev;
+
 					return {
 						...prev,
 						user: {
@@ -153,15 +155,17 @@ const Photos = ({ user, loading }) => {
 						}
 					};
 				}
-			}),
-		[nextPage, fetchMore, userId]
+			});
+		},
+		[fetchMore]
 	);
 
 	useEffect(() => {
-		if (inView && hasNextPage) {
-			loadMore();
+		if (inView && hasNextPage && lastFetchedPage !== nextPage) {
+			setLastFetchedPage(nextPage);
+			loadMore(nextPage, userId);
 		}
-	}, [inView, hasNextPage, loadMore, nextPage]);
+	}, [inView, hasNextPage, loadMore, nextPage, userId, lastFetchedPage]);
 
 	if (error) {
 		return <EmptyPage title={"Error"} message={getErrorMessage(error)} />;
@@ -171,30 +175,38 @@ const Photos = ({ user, loading }) => {
 		try {
 			setSaving(ff => [...ff, file]);
 
-			const { imageData: base64, file: compressedFile } = await ImageCompressor(
-				file,
-				true,
-				{
+			let fileToSave = file;
+			let previewPath = null;
+			let type = file["type"].split("/")[0].toUpperCase();
+
+			if (type === "IMAGE") {
+				const {
+					imageData: base64,
+					file: compressedFile
+				} = await ImageCompressor(file, true, {
 					maxWidth: 1000,
 					maxHeight: 1000
-				}
-			);
+				});
+				fileToSave = compressedFile;
+				previewPath = base64;
+			} else {
+				previewPath = URL.createObjectURL(file);
+			}
 
 			await saveMutation({
 				variables: {
-					file: compressedFile
+					file: fileToSave
 				},
 				optimisticResponse: {
 					__typename: "Mutation",
 					singleUpload: {
 						__typename: "Media",
 						id: idGuess,
-						path: base64,
-						type: "IMAGE"
+						path: previewPath,
+						type
 					}
 				},
 				update: (proxy, { data: { singleUpload, ...rest } }) => {
-					debugger;
 					const data = proxy.readQuery({
 						query: USER_PHOTOS,
 						variables: {
@@ -285,13 +297,17 @@ const Photos = ({ user, loading }) => {
 
 	const uploadFiles = async files => {
 		await Promise.all(
-			[...files].map((file, idx) => saveFile(file, images.length + idx + 1))
+			[...files].map((file, idx) => saveFile(file, media.length + idx + 1))
 		);
 	};
 
 	const { isOwn } = user || {};
 
-	if (images.length === 0) {
+	const renderMedia = media.filter(img =>
+		["IMAGE", "VIDEO"].includes(img.type)
+	);
+
+	if (renderMedia.length === 0) {
 		return (
 			<>
 				<EmptyPage
@@ -305,22 +321,31 @@ const Photos = ({ user, loading }) => {
 		);
 	}
 
-	debugger;
-
 	return (
 		<>
 			<ImageGrid>
-				{images.map((img, idx) => (
+				{renderMedia.map((file, idx) => (
 					<Cell key={idx} css={getCellStyle(idx)}>
-						<GracefullImage src={img.path} animate />
-						{isOwn && img.id && (
-							<RemoveImageButton deleteImage={() => deleteFile(img.id)} />
+						{file.type === "IMAGE" ? (
+							<GracefullImage src={file.path} animate />
+						) : (
+							<GracefullVideo
+								src={file.path}
+								animate
+								loop
+								autoPlay
+								muted
+								playsInline
+							/>
+						)}
+						{isOwn && file.id && (
+							<RemoveImageButton deleteImage={() => deleteFile(file.id)} />
 						)}
 					</Cell>
 				))}
 				{hasNextPage && (
-					<Cell css={getCellStyle(images.length)} ref={ref}>
-						<LoadMoreButtonWrapper onClick={loadMore}>
+					<Cell css={getCellStyle(renderMedia.length)} ref={ref}>
+						<LoadMoreButtonWrapper onClick={() => loadMore(nextPage, userId)}>
 							<TeritaryButton>Load more</TeritaryButton>
 						</LoadMoreButtonWrapper>
 					</Cell>
@@ -330,7 +355,7 @@ const Photos = ({ user, loading }) => {
 			{isOwn && (
 				<Col style={{ marginTop: "30px", width: "250px" }}>
 					<ButtonFileInput
-						accept="image/*"
+						accept="image/*,video/*"
 						onChange={e => uploadFiles(e.target.files)}
 						multiple
 					>
@@ -373,7 +398,7 @@ const EmptyCTA = ({ uploadFiles, onClick }) => {
 				}}
 			>
 				<ButtonFileInput
-					accept="image/*"
+					accept="image/*,video/*"
 					onChange={e => uploadFiles(e.target.files)}
 					multiple
 				>
