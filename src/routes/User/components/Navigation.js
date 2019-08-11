@@ -19,6 +19,8 @@ const StyledLink = styled(({ indicateActive, ...rest }) => (
 	<NavLink {...rest} />
 ))`
 	font-size: 18px;
+	height: 48px;
+	line-height: 48px;
 	color: #ffffff !important;
 	letter-spacing: 1.2px;
 	text-align: left;
