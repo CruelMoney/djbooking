@@ -135,6 +135,14 @@ const Review = ({
 		}
 	);
 
+	useEffect(() => {
+		window.document.body.style.userSelect = "none";
+
+		return () => {
+			window.document.body.style.userSelect = "auto";
+		};
+	}, []);
+
 	return (
 		<ReviewWrapper>
 			<Title>{title}</Title>

@@ -7,6 +7,14 @@ const Wrapper = styled.div`
 	position: relative;
 `;
 
+const ReadMoreBody = styled(Body)`
+	-moz-user-select: text;
+	-khtml-user-select: text;
+	-webkit-user-select: text;
+	user-select: text;
+	white-space: pre-wrap;
+`;
+
 const ReadMoreExpander = ({ content, onTextSelected }) => {
 	const [expanded, setExpanded] = useState(false);
 
@@ -45,9 +53,9 @@ const ReadMoreExpander = ({ content, onTextSelected }) => {
 
 	return (
 		<Wrapper>
-			<Body style={{ whiteSpace: "pre-wrap" }} onMouseUp={handleSelection}>
+			<ReadMoreBody onMouseUp={handleSelection}>
 				{expanded ? content : truncated}
-			</Body>
+			</ReadMoreBody>
 			{shouldTruncate ? (
 				<ReadMoreButton onClick={_ => setExpanded(s => !s)}>
 					{expanded ? "Read less" : "Read more"}
