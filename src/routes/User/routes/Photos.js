@@ -12,6 +12,7 @@ import RemoveButton from "react-ionicons/lib/MdRemoveCircle";
 import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../components/GracefullVideo";
+import ReorderGrid from "../components/ReorderGrid";
 
 const LIMIT = 3;
 
@@ -24,10 +25,11 @@ const RemoveImageWrapper = styled.div`
 	padding: 1em;
 `;
 
-const ImageGrid = styled.section`
+const ImageGrid = styled.ul`
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 3px;
+	grid-gap: 15px;
+	list-style: none;
 `;
 
 const Cell = styled.div`
@@ -323,26 +325,32 @@ const Photos = ({ user, loading }) => {
 
 	return (
 		<>
-			<ImageGrid>
-				{renderMedia.map((file, idx) => (
-					<Cell key={idx} css={getCellStyle(idx)}>
-						{file.type === "IMAGE" ? (
-							<GracefullImage src={file.path} animate />
-						) : (
-							<GracefullVideo
-								src={file.path}
-								animate
-								loop
-								autoPlay
-								muted
-								playsInline
-							/>
-						)}
-						{isOwn && file.id && (
-							<RemoveImageButton deleteImage={() => deleteFile(file.id)} />
-						)}
-					</Cell>
-				))}
+			<ReorderGrid
+				key={renderMedia.length}
+				Wrapper={ImageGrid}
+				data={renderMedia.map((file, idx) => ({
+					id: idx,
+					content: (
+						<Cell>
+							{file.type === "IMAGE" ? (
+								<GracefullImage src={file.path} animate />
+							) : (
+								<GracefullVideo
+									src={file.path}
+									animate
+									loop
+									autoPlay
+									muted
+									playsInline
+								/>
+							)}
+							{isOwn && file.id && (
+								<RemoveImageButton deleteImage={() => deleteFile(file.id)} />
+							)}
+						</Cell>
+					)
+				}))}
+			>
 				{hasNextPage && (
 					<Cell css={getCellStyle(renderMedia.length)} ref={ref}>
 						<LoadMoreButtonWrapper onClick={() => loadMore(nextPage, userId)}>
@@ -350,8 +358,9 @@ const Photos = ({ user, loading }) => {
 						</LoadMoreButtonWrapper>
 					</Cell>
 				)}
-				<SavingIndicator loading={saving.length > 0} message={"Uploading"} />
-			</ImageGrid>
+			</ReorderGrid>
+
+			<SavingIndicator loading={saving.length > 0} message={"Uploading"} />
 			{isOwn && (
 				<Col style={{ marginTop: "30px", width: "250px" }}>
 					<ButtonFileInput
