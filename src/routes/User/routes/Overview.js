@@ -48,7 +48,7 @@ const LeftItem = styled(Item)`
 
 const GenresLayout = styled(Item)`
 	padding: 0 0px 18px 18px;
-	height: 275px;
+	min-height: 275px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -57,6 +57,7 @@ const GenresLayout = styled(Item)`
 	}
 	@media only screen and (max-width: 425px) {
 		padding: 42px 0px 18px 0px;
+		margin-right: -15px;
 	}
 `;
 
@@ -77,6 +78,9 @@ const Genre = styled.div`
 	@media only screen and (max-width: 990px) {
 		margin-left: 0px;
 		margin-right: 24px;
+	}
+	@media only screen and (max-width: 425px) {
+		margin-right: 15px;
 	}
 `;
 
@@ -185,6 +189,10 @@ const PhotoGridWrapper = styled.section`
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+	@media only screen and (max-width: 425px) {
+		margin-left: -15px;
+		margin-right: -15px;
 	}
 `;
 
@@ -300,6 +308,11 @@ const AddBlockPlaceholder = ({ label, directions, to }) => {
 	);
 };
 
+const MobileExpandWidth = styled.div`
+	margin-left: -15px;
+	margin-right: -15px;
+`;
+
 const Overview = ({ user, loading }) => {
 	if (loading) {
 		return <LoadingPlaceholder2 />;
@@ -336,9 +349,11 @@ const Overview = ({ user, loading }) => {
 						/>
 					) : null}
 					{user.isDj && (
-						<Show maxWidth="990px">
-							<MapArea playingLocation={playingLocation} />
-						</Show>
+						<MobileExpandWidth>
+							<Show maxWidth="990px">
+								<MapArea playingLocation={playingLocation} />
+							</Show>
+						</MobileExpandWidth>
 					)}
 					{user.isDj && (
 						<LeftItem>

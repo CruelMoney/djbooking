@@ -64,7 +64,6 @@ const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
 	} = appMetadata;
 
 	const memberSince = moment(createdAt).format("MMMM YYYY");
-	debugger;
 	return (
 		<Sidebar
 			showCTAShadow={bookingEnabled}
@@ -140,7 +139,6 @@ const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading } = userProps;
 	const showPrivateRoutes = loading || (user && user.isOwn);
 	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
-	debugger;
 
 	return (
 		<div>
@@ -267,7 +265,6 @@ const Index = ({ translate, match, location }) => {
 							: null;
 						const thumb = user ? user.picture.path : null;
 						const description = user ? user.userMetadata.bio : null;
-						debugger;
 
 						return (
 							<div>

@@ -4,9 +4,9 @@ import { DraggableItemsProps } from "./props";
 const IS_MOBILE = checkIsMobile();
 const eventListeners = IS_MOBILE
 	? {
-			onDown: "onTouchStart",
-			onMove: "onTouchMove",
-			onEnd: "onTouchEnd"
+			onDown: "",
+			onMove: "",
+			onEnd: ""
 	  }
 	: {
 			onDown: "onMouseDown",

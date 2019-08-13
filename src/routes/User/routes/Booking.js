@@ -80,7 +80,6 @@ const Booking = ({ user, loading, translate }) => {
 			tracker.trackEventPosted();
 			ReactPixel.track("Lead");
 		} catch (error) {
-			debugger;
 			Sentry.captureException(error);
 		}
 	};

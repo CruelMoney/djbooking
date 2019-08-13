@@ -79,7 +79,6 @@ const ProfileProgress = ({ user }) => {
 		.sort((a, b) => b.done - a.done);
 
 	const progress = items.filter(c => c.done).length / items.length;
-	debugger;
 
 	if (progress === 1) {
 		return (
