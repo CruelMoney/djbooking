@@ -395,6 +395,31 @@ const RemoveImageButton = ({ deleteImage }) => {
 	);
 };
 
+const getCellStyle = idx => {
+	const pos = idx % 12;
+	const currentRepeat = Math.floor(idx / 12);
+	let currentRow = pos < 4 ? 1 : 4;
+
+	currentRow += currentRepeat * 6;
+
+	// large left
+	if (pos === 0) {
+		return {
+			gridColumn: "1 / span 2",
+			gridRow: `${currentRow} / span 2`
+		};
+	}
+	// large right
+	if (pos === 8) {
+		return {
+			gridColumn: "2 / span 2",
+			gridRow: `${currentRow} / span 2`
+		};
+	}
+
+	return {};
+};
+
 const Images = ({
 	renderMedia,
 	isOwn,
@@ -407,7 +432,7 @@ const Images = ({
 		.map((file, idx) => ({
 			id: file.id || idx,
 			content: (
-				<Cell>
+				<Cell style={getCellStyle(idx)}>
 					{file.type === "IMAGE" ? (
 						<GracefullImage src={file.path} animate={!isOwn} />
 					) : (
