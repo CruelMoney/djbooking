@@ -4,6 +4,11 @@ import useDraggableItems from "../../../utils/useDraggableItems";
 
 const GridItem = styled.button`
 	cursor: grab;
+	:active {
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
+	}
 `;
 
 const ReorderGrid = (props: ReorderGridProps) => {
@@ -22,7 +27,7 @@ const ReorderGrid = (props: ReorderGridProps) => {
 		if (onOrderChanged && hasBeenChanged) {
 			lastOrder.current = items;
 			onOrderChanged(
-				items.map((item: any, idx: number) => ({ ...item, orderBy: idx }))
+				items.map((item: any, idx: number) => ({ ...item, orderBy: idx + 1 }))
 			);
 		}
 	}, [data, items, onOrderChanged]);

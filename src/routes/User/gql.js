@@ -213,6 +213,7 @@ const UPLOAD_FILE = gql`
 			id
 			path
 			type
+			orderBy
 		}
 	}
 `;
@@ -229,7 +230,10 @@ const UPDATE_FILE = gql`
 
 const UPDATE_PHOTOS_ORDER = gql`
 	mutation UpdatePhotosOrder($updates: JSON!) {
-		updatePhotosOrder(updates: $updates)
+		updatePhotosOrder(updates: $updates) {
+			id
+			orderBy
+		}
 	}
 `;
 

@@ -20,7 +20,7 @@ import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
 
-const LIMIT = 3;
+const LIMIT = 6;
 
 const RemoveImageWrapper = styled.div`
 	opacity: 0;
@@ -90,6 +90,9 @@ const getCellStyle = idx => {
 const imgPlaceholders = [
 	{ path: null, type: "IMAGE" },
 	{ path: null, type: "IMAGE" },
+	{ path: null, type: "IMAGE" },
+	{ path: null, type: "IMAGE" },
+	{ path: null, type: "IMAGE" },
 	{ path: null, type: "IMAGE" }
 ];
 
@@ -99,7 +102,7 @@ const Photos = ({ user, loading }) => {
 	const [saveMutation] = useMutation(UPLOAD_FILE);
 	const [updateMutation] = useMutation(UPDATE_PHOTOS_ORDER);
 	const [deleteMutation] = useMutation(DELETE_FILE);
-	const [ref, inView] = useInView({ rootMargin: "200px" });
+	const [ref, inView] = useInView({ rootMargin: "0px" });
 	const [lastFetchedPage, setLastFetchedPage] = useState(1);
 
 	const {
@@ -209,7 +212,8 @@ const Photos = ({ user, loading }) => {
 						__typename: "Media",
 						id: idGuess,
 						path: previewPath,
-						type
+						type,
+						orderBy: null
 					}
 				},
 				update: (proxy, { data: { singleUpload, ...rest } }) => {
