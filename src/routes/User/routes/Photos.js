@@ -6,8 +6,7 @@ import {
 	UPLOAD_FILE,
 	DELETE_FILE,
 	UPDATE_PHOTOS_ORDER,
-	USER,
-	CONNECT_INSTAGRAM
+	USER
 } from "../gql";
 import { useQuery, useMutation } from "react-apollo";
 import EmptyPage from "../../../components/common/EmptyPage";
@@ -25,7 +24,6 @@ import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
-import constants from "../../../constants/constants";
 import { useConnectInstagram } from "../../../utils/Hooks";
 
 const LIMIT = 6;

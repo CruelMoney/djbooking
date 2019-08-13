@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
 import { LoadingIndicator } from "./Blocks";
 
