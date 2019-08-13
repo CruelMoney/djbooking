@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import GracefullImage from "../components/GracefullImage";
 import {
 	USER_PHOTOS,
 	UPLOAD_FILE,
 	DELETE_FILE,
-	UPDATE_FILE,
 	UPDATE_PHOTOS_ORDER,
 	USER
 } from "../gql";
@@ -63,31 +62,6 @@ const Cell = styled.div`
 		opacity: 1;
 	}
 `;
-
-const getCellStyle = idx => {
-	const pos = idx % 12;
-	const currentRepeat = Math.floor(idx / 12);
-	let currentRow = pos < 4 ? 1 : 4;
-
-	currentRow += currentRepeat * 6;
-
-	// large left
-	if (pos === 0) {
-		return `
-      grid-column: 1 / span 2;
-      grid-row: ${currentRow} / span 2;
-    `;
-	}
-	// large right
-	if (pos === 8) {
-		return `
-      grid-column: 2 / span 2;
-      grid-row: ${currentRow} / span 2;
-    `;
-	}
-
-	return "";
-};
 
 const imgPlaceholders = [
 	{ path: null, type: "IMAGE" },
@@ -465,7 +439,10 @@ const Images = ({
 
 	return (
 		<ReorderGrid
-			key={imgData.map(d => d.id).toString()}
+			key={imgData
+				.map(d => d.id)
+				.sort()
+				.toString()}
 			onOrderChanged={updateFilesOrder}
 			Wrapper={ImageGrid}
 			data={imgData}

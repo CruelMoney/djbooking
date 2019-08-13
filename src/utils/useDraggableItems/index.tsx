@@ -54,21 +54,6 @@ export default function useDraggableItems({
 }: DraggableItemsProps) {
 	const [items, dispatch] = React.useReducer(reducer, initialItems);
 
-	// Setup
-	// =====
-	// Return an array of the items along with their DOM node,
-	// the original item, and a flag, isInOriginalPosition that
-	// we use to determine how to transform the element later.
-	//
-	// This runs every time we dispatch a new update to the list.
-	React.useEffect(() => {
-		elements = items.map((item: any) => ({
-			node: document.querySelector(`[data-moveable-id="${item.id}"]`),
-			item,
-			isInOriginalPosition: true
-		}));
-	}, [items]);
-
 	const animate = debounce((coords: Coords) => {
 		if (!isAnimating) {
 			isAnimating = true;
@@ -146,6 +131,72 @@ export default function useDraggableItems({
 		}
 	}, debounceMs);
 
+	// We pull onMove into its own function because the way we call the function
+	// is different depending on whether it is touch or mouse events.
+	const onMove = React.useCallback(
+		(e: any) => {
+			if (IS_MOBILE) {
+				e.persist();
+			}
+
+			const { clientX, clientY } = IS_MOBILE ? e.changedTouches[0] : e;
+
+			const translate = {
+				x: clientX - pointerOffset.x,
+				y: clientY - pointerOffset.y
+			};
+			currentTarget.node.style.transform = `translate3d(${translate.x}px, ${translate.y}px, 0)`;
+			currentTarget.node.style.transition = `none`;
+			currentTarget.node.style.zIndex = `1`;
+
+			animate({
+				x: clientX,
+				y: clientY
+			});
+		},
+		[animate]
+	);
+
+	// Setup
+	// =====
+	// Return an array of the items along with their DOM node,
+	// the original item, and a flag, isInOriginalPosition that
+	// we use to determine how to transform the element later.
+	//
+	// This runs every time we dispatch a new update to the list.
+	React.useEffect(() => {
+		elements = items.map((item: any, index: number) => {
+			const node = document.querySelector(
+				`[data-moveable-id="${item.id}"]`
+			) as any;
+
+			const { gridRow, gridColumn } = getCellStyle(index);
+
+			if (node) {
+				node.style.transition = "none";
+				node.style.transform = "none";
+				node.style.zIndex = `initial`;
+				if (gridColumn && gridRow) {
+					node.style.gridRow = gridRow;
+					node.style.gridColumn = gridColumn;
+				} else {
+					node.style.gridRow = "";
+					node.style.gridColumn = "";
+				}
+			}
+
+			return {
+				node,
+				item,
+				isInOriginalPosition: true
+			};
+		});
+
+		return () => {
+			window.removeEventListener("mousemove", onMove);
+		};
+	}, [items, onMove]);
+
 	const calculateNewPositions = (
 		elementsToMove: any[],
 		direction: "back" | "forward"
@@ -161,7 +212,15 @@ export default function useDraggableItems({
 			const currentElementPosition = element.node.getBoundingClientRect();
 
 			let nextPosition: any;
+			const pos = elements.findIndex((e: any) => e === element) % 12;
+			let isGettingBig = false;
+			let isGettingSmall =
+				(pos === 0 || pos === 8) &&
+				!element.node.style.transform.includes("scale(2)");
 			if (direction === "back" && element.isInOriginalPosition) {
+				const newPos = pos - 1;
+				isGettingBig = newPos === 0 || newPos === 8;
+
 				nextPosition = elementsToMove[index - 1]
 					? elementsToMove[index - 1].node.getBoundingClientRect()
 					: currentOpenIndexPosition;
@@ -172,6 +231,9 @@ export default function useDraggableItems({
 				element.isInOriginalPosition = false;
 			}
 			if (direction === "forward" && element.isInOriginalPosition) {
+				const newPos = pos + 1;
+				isGettingBig = newPos === 0 || newPos === 8;
+
 				nextPosition = elementsToMove[index + 1]
 					? elementsToMove[index + 1].node.getBoundingClientRect()
 					: currentOpenIndexPosition;
@@ -182,34 +244,16 @@ export default function useDraggableItems({
 				element.isInOriginalPosition = false;
 			}
 
-			element.node.style.transform = `translate3d(${translate.x}px, ${translate.y}px, 0px)`;
+			element.node.style.transform = `translate3d(${translate.x}px, ${
+				translate.y
+			}px, 0px)  ${isGettingBig ? "scale(2)" : ""} ${
+				isGettingSmall ? "scale(0.5)" : ""
+			}`;
 			element.node.style.transition = `transform ${delay}ms ${easeFunction}`;
 
 			if (translate.x === 0 && translate.y === 0) {
 				element.isInOriginalPosition = true;
 			}
-		});
-	};
-
-	// We pull onMove into its own function because the way we call the function
-	// is different depending on whether it is touch or mouse events.
-	const onMove = (e: any) => {
-		if (IS_MOBILE) {
-			e.persist();
-		}
-		const { clientX, clientY } = IS_MOBILE ? e.changedTouches[0] : e;
-
-		const translate = {
-			x: clientX - pointerOffset.x,
-			y: clientY - pointerOffset.y
-		};
-		currentTarget.node.style.transform = `translate3d(${translate.x}px, ${translate.y}px, 0)`;
-		currentTarget.node.style.transition = `none`;
-		currentTarget.node.style.zIndex = `1`;
-
-		animate({
-			x: clientX,
-			y: clientY
 		});
 	};
 
@@ -317,16 +361,6 @@ function checkIsMobile() {
 	return false;
 }
 
-function clone(arr: any[]) {
-	const copy = arr.slice();
-	const clonedCopy = copy.map((f: any) => {
-		let o: any = {};
-		for (let i in f) o[i] = f[i];
-		return o;
-	});
-	return clonedCopy;
-}
-
 function debounce(
 	func: (args: any) => void,
 	wait: number,
@@ -346,3 +380,28 @@ function debounce(
 		if (callNow) func.apply(context, args);
 	};
 }
+
+const getCellStyle = (idx: number): any => {
+	const pos = idx % 12;
+	const currentRepeat = Math.floor(idx / 12);
+	let currentRow = pos < 4 ? 1 : 4;
+
+	currentRow += currentRepeat * 6;
+
+	// large left
+	if (pos === 0) {
+		return {
+			gridColumn: "1 / span 2",
+			gridRow: `${currentRow} / span 2`
+		};
+	}
+	// large right
+	if (pos === 8) {
+		return {
+			gridColumn: "2 / span 2",
+			gridRow: `${currentRow} / span 2`
+		};
+	}
+
+	return {};
+};

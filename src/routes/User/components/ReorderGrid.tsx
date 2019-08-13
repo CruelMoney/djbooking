@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import useDraggableItems from "../../../utils/useDraggableItems";
 
 const GridItem = styled.button`
 	cursor: grab;
+	transform-origin: top left;
 	:active {
 		cursor: grabbing;
 		cursor: -moz-grabbing;
@@ -35,7 +36,7 @@ const ReorderGrid = (props: ReorderGridProps) => {
 		<Wrapper>
 			{items.map((item: any) => {
 				return (
-					<GridItem key={item.id} {...getItemProps(item.id)}>
+					<GridItem key={item.id} style={item.style} {...getItemProps(item.id)}>
 						{item.content}
 					</GridItem>
 				);
