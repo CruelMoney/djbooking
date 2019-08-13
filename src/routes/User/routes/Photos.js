@@ -6,12 +6,18 @@ import {
 	UPLOAD_FILE,
 	DELETE_FILE,
 	UPDATE_PHOTOS_ORDER,
-	USER
+	USER,
+	CONNECT_INSTAGRAM
 } from "../gql";
 import { useQuery, useMutation } from "react-apollo";
 import EmptyPage from "../../../components/common/EmptyPage";
 import { getErrorMessage } from "../../../components/common/ErrorMessageApollo";
-import { SecondaryButton, Col, TeritaryButton } from "../components/Blocks";
+import {
+	SecondaryButton,
+	Col,
+	TeritaryButton,
+	LoadingIndicator
+} from "../components/Blocks";
 import { ButtonFileInput } from "../components/FormComponents";
 import { SavingIndicator } from "..";
 import RemoveButton from "react-ionicons/lib/MdRemoveCircle";
@@ -19,6 +25,8 @@ import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
+import constants from "../../../constants/constants";
+import { useConnectInstagram } from "../../../utils/Hooks";
 
 const LIMIT = 6;
 
@@ -168,8 +176,8 @@ const Photos = ({ user, loading }) => {
 					imageData: base64,
 					file: compressedFile
 				} = await ImageCompressor(file, true, {
-					maxWidth: 1000,
-					maxHeight: 1000
+					maxWidth: 612,
+					maxHeight: 612
 				});
 				fileToSave = compressedFile;
 				previewPath = base64;
@@ -476,13 +484,13 @@ const Images = ({
 	);
 };
 
-const EmptyCTA = ({ uploadFiles, onClick }) => {
+const EmptyCTA = ({ uploadFiles }) => {
 	return (
 		<>
 			<Col
 				style={{
 					marginTop: "30px",
-					height: "150px",
+					height: "100px",
 					justifyContent: "space-between"
 				}}
 			>
@@ -493,10 +501,20 @@ const EmptyCTA = ({ uploadFiles, onClick }) => {
 				>
 					Add photos or videos
 				</ButtonFileInput>
-				<SecondaryButton onClick={onClick}>Connect Instagram</SecondaryButton>
-				<SecondaryButton onClick={onClick}>Connect Youtube</SecondaryButton>
+				<ConnectInstaButton />
 			</Col>
 		</>
+	);
+};
+
+const ConnectInstaButton = () => {
+	const [connect, { loading }] = useConnectInstagram();
+
+	return (
+		<SecondaryButton disabled={loading} onClick={connect}>
+			Connect Instagram
+			{loading && <LoadingIndicator style={{ marginLeft: "5px" }} />}
+		</SecondaryButton>
 	);
 };
 

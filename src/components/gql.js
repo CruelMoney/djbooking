@@ -26,6 +26,7 @@ const ME = gql`
 				rating
 				experience
 				hasInstalledApp
+				instagramConnected
 				earned {
 					amount
 					currency

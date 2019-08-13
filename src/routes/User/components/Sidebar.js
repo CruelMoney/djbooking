@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
+import { LoadingIndicator } from "./Blocks";
 
 const Sticky = styled.div`
 	position: sticky;
@@ -104,26 +105,6 @@ const CTA = styled.button`
 			transform: translate(3px, -50%);
 		}
 	}
-`;
-
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const LoadingIndicator = styled.span`
-	height: 24px;
-	width: 24px;
-	border: 3px solid #fff;
-	border-radius: 50%;
-	animation: ${rotate} 1s linear infinite;
-	display: block;
-	border-color: currentColor currentColor currentColor transparent;
 `;
 
 export const CTAButton = ({ children, loading, ...props }) => (

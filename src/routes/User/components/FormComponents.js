@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled, { css } from "styled-components";
-import { Row, Col, secondaryButtonStyle } from "./Blocks";
+import { Row, Col, secondaryButtonStyle, LoadingIndicator } from "./Blocks";
 import { Title, Body } from "./Text";
 import Checkbox from "./Checkbox";
 
@@ -14,13 +14,13 @@ const Label = styled.label`
 	}
 `;
 
-const InputLabel = styled(Label)`
+export const InputLabel = styled(Label)`
 	margin-bottom: 30px;
 	min-width: 100%;
 	flex: 2;
 `;
 
-const LabelHalf = styled(InputLabel)`
+export const LabelHalf = styled(InputLabel)`
 	flex: 1;
 `;
 
@@ -136,6 +136,9 @@ const inputButtonStyle = css`
 	line-height: 40px !important;
 	transition: all 200ms ease;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	box-shadow: ${({ attention, error }) => {
 		const show = attention || error;
 		const color = error ? "#D0021B" : "#FFC800";
@@ -224,7 +227,16 @@ const Select = styled.select`
 
 const InputType = React.forwardRef(
 	(
-		{ buttonText, type, error, save, children, blurOnEnter = true, ...props },
+		{
+			buttonText,
+			type,
+			error,
+			save,
+			children,
+			loading,
+			blurOnEnter = true,
+			...props
+		},
 		ref
 	) => {
 		switch (type) {
@@ -248,6 +260,7 @@ const InputType = React.forwardRef(
 				return (
 					<ButtonInput {...props} error={!!error} ref={ref}>
 						{buttonText}
+						{loading && <LoadingIndicator style={{ marginLeft: "6px" }} />}
 					</ButtonInput>
 				);
 			case "file":

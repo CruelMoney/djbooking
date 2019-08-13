@@ -257,6 +257,23 @@ const DELETE_FILE = gql`
 	}
 `;
 
+const CONNECT_INSTAGRAM = gql`
+	mutation ConnectInstagram($redirectLink: String, $code: String) {
+		connectInstagram(redirectLink: $redirectLink, code: $code)
+	}
+`;
+
+const DISCONNECT_INSTAGRAM = gql`
+	mutation DisconnectInstagram {
+		disconnectInstagram {
+			id
+			appMetadata {
+				instagramConnected
+			}
+		}
+	}
+`;
+
 const DECLINE_GIG = gql`
 	mutation declineGig($id: ID!) {
 		declineGig(id: $id) {
@@ -430,5 +447,7 @@ export {
 	UPLOAD_FILE,
 	DELETE_FILE,
 	UPDATE_FILE,
-	UPDATE_PHOTOS_ORDER
+	UPDATE_PHOTOS_ORDER,
+	CONNECT_INSTAGRAM,
+	DISCONNECT_INSTAGRAM
 };

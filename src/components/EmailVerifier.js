@@ -60,7 +60,7 @@ const EmailVerifyIndicator = ({
 	useEffect(() => {
 		if (loading === false) {
 			// TODO should remove params here
-			const r = setTimeout(_ => setActive(false), 10000);
+			const r = setTimeout(_ => setActive(false), 3000);
 			return _ => clearTimeout(r);
 		}
 	}, [loading]);
