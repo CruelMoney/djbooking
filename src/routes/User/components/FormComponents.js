@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled, { css } from "styled-components";
-import { Row, Col, secondaryButtonStyle, SecondaryButton } from "./Blocks";
+import { Row, Col, secondaryButtonStyle } from "./Blocks";
 import { Title, Body } from "./Text";
 import Checkbox from "./Checkbox";
 

@@ -19,7 +19,6 @@ import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
-import { ME } from "../../../components/gql";
 
 const LIMIT = 6;
 

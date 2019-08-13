@@ -207,6 +207,11 @@ const PhotoGrid = styled.ul`
 	> li {
 		background: #eff2f5;
 		position: relative;
+		:after {
+			content: "";
+			padding-top: 100%;
+			display: block;
+		}
 		&:first-child {
 			grid-column: 1 / span 2;
 			grid-row: 1 / span 2;

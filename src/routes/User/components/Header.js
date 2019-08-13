@@ -7,7 +7,6 @@ import Tooltip from "./Tooltip";
 import { Container, FullWidthCol, Row, ShowBelow, Col, Avatar } from "./Blocks";
 import { Spacing } from "./Sidebar";
 import { Stats, CertifiedVerified } from "..";
-import { Link } from "react-router-dom";
 
 export const GradientBg = styled.section`
 	height: 318px;
