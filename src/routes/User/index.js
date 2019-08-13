@@ -136,10 +136,8 @@ const UserContainer = styled(Container)`
 `;
 
 const Content = React.memo(({ match, ...userProps }) => {
-	console.log("Rendering user content");
-
 	const { user, loading } = userProps;
-	const showPrivate = loading || (user && user.isOwn);
+	const showPrivateRoutes = loading || (user && user.isOwn);
 	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
 
 	return (
@@ -176,14 +174,14 @@ const Content = React.memo(({ match, ...userProps }) => {
 								path={match.path + "/photos"}
 								render={props => <Photos {...props} {...userProps} />}
 							/>
-							{showPrivate ? (
+							{showPrivateRoutes ? (
 								<Route
 									path={match.path + "/settings"}
 									render={props => <Settings {...props} {...userProps} />}
 								/>
 							) : null}
 
-							{showPrivate ? (
+							{showPrivateRoutes ? (
 								<Route
 									path={match.path + "/gigs"}
 									render={props => <Gigs {...props} {...userProps} />}
@@ -195,7 +193,7 @@ const Content = React.memo(({ match, ...userProps }) => {
 								/>
 							) : null}
 
-							{showPrivate ? (
+							{showPrivateRoutes ? (
 								<Route
 									path={match.path + "/events"}
 									render={props => <Events {...props} {...userProps} />}

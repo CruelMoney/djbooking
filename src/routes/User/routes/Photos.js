@@ -1,22 +1,36 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import GracefullImage from "../components/GracefullImage";
-import { USER_PHOTOS, UPLOAD_FILE, DELETE_FILE } from "../gql";
+import {
+	USER_PHOTOS,
+	UPLOAD_FILE,
+	DELETE_FILE,
+	UPDATE_PHOTOS_ORDER,
+	USER
+} from "../gql";
 import { useQuery, useMutation } from "react-apollo";
 import EmptyPage from "../../../components/common/EmptyPage";
 import { getErrorMessage } from "../../../components/common/ErrorMessageApollo";
-import { SecondaryButton, Col, TeritaryButton } from "../components/Blocks";
+import {
+	SecondaryButton,
+	Col,
+	TeritaryButton,
+	LoadingIndicator
+} from "../components/Blocks";
 import { ButtonFileInput } from "../components/FormComponents";
 import { SavingIndicator } from "..";
 import RemoveButton from "react-ionicons/lib/MdRemoveCircle";
 import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../components/GracefullVideo";
+import ReorderGrid from "../components/ReorderGrid";
+import { useConnectInstagram } from "../../../utils/Hooks";
 
-const LIMIT = 3;
+const LIMIT = 6;
 
 const RemoveImageWrapper = styled.div`
 	opacity: 0;
+	z-index: 2;
 	background: rgba(0, 0, 0, 0.8);
 	display: flex;
 	justify-content: flex-end;
@@ -24,10 +38,11 @@ const RemoveImageWrapper = styled.div`
 	padding: 1em;
 `;
 
-const ImageGrid = styled.section`
+const ImageGrid = styled.ul`
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-gap: 3px;
+	list-style: none;
 `;
 
 const Cell = styled.div`
@@ -54,32 +69,10 @@ const Cell = styled.div`
 	}
 `;
 
-const getCellStyle = idx => {
-	const pos = idx % 12;
-	const currentRepeat = Math.floor(idx / 12);
-	let currentRow = pos < 4 ? 1 : 4;
-
-	currentRow += currentRepeat * 6;
-
-	// large left
-	if (pos === 0) {
-		return `
-      grid-column: 1 / span 2;
-      grid-row: ${currentRow} / span 2;
-    `;
-	}
-	// large right
-	if (pos === 8) {
-		return `
-      grid-column: 2 / span 2;
-      grid-row: ${currentRow} / span 2;
-    `;
-	}
-
-	return "";
-};
-
 const imgPlaceholders = [
+	{ path: null, type: "IMAGE" },
+	{ path: null, type: "IMAGE" },
+	{ path: null, type: "IMAGE" },
 	{ path: null, type: "IMAGE" },
 	{ path: null, type: "IMAGE" },
 	{ path: null, type: "IMAGE" }
@@ -89,8 +82,9 @@ const Photos = ({ user, loading }) => {
 	const [uploadError, setUploadError] = useState();
 	const [saving, setSaving] = useState([]);
 	const [saveMutation] = useMutation(UPLOAD_FILE);
+	const [updateMutation] = useMutation(UPDATE_PHOTOS_ORDER);
 	const [deleteMutation] = useMutation(DELETE_FILE);
-	const [ref, inView] = useInView({ rootMargin: "200px" });
+	const [ref, inView] = useInView({ rootMargin: "0px" });
 	const [lastFetchedPage, setLastFetchedPage] = useState(1);
 
 	const {
@@ -104,7 +98,8 @@ const Photos = ({ user, loading }) => {
 			id: user && user.id,
 			pagination: {
 				limit: LIMIT,
-				page: 1
+				page: 1,
+				orderBy: "ORDER_KEY"
 			}
 		}
 	});
@@ -124,21 +119,17 @@ const Photos = ({ user, loading }) => {
 
 	const loadMore = useCallback(
 		(page, userId) => {
-			console.log("Fetching ", page);
-
 			fetchMore({
 				variables: {
 					id: userId,
 					pagination: {
 						limit: LIMIT,
-						page
+						page,
+						orderBy: "ORDER_KEY"
 					}
 				},
 
 				updateQuery: (prev, { fetchMoreResult }) => {
-					console.log(!fetchMoreResult ? "returning prev" : "return niew");
-					console.log({ prev, fetchMoreResult, page });
-
 					if (!fetchMoreResult) return prev;
 
 					return {
@@ -182,12 +173,11 @@ const Photos = ({ user, loading }) => {
 			if (type === "IMAGE") {
 				const {
 					imageData: base64,
-					file: compressedFile
 				} = await ImageCompressor(file, true, {
-					maxWidth: 1000,
-					maxHeight: 1000
+					maxWidth: 612,
+					maxHeight: 612
 				});
-				fileToSave = compressedFile;
+				fileToSave = file;
 				previewPath = base64;
 			} else {
 				previewPath = URL.createObjectURL(file);
@@ -203,27 +193,31 @@ const Photos = ({ user, loading }) => {
 						__typename: "Media",
 						id: idGuess,
 						path: previewPath,
-						type
+						type,
+						orderBy: null
 					}
 				},
-				update: (proxy, { data: { singleUpload, ...rest } }) => {
+				update: (proxy, { data: { singleUpload } }) => {
 					const data = proxy.readQuery({
 						query: USER_PHOTOS,
 						variables: {
 							id: userId,
 							pagination: {
 								limit: LIMIT,
-								page: 1
+								page: 1,
+								orderBy: "ORDER_KEY"
 							}
 						}
 					});
+
 					proxy.writeQuery({
 						query: USER_PHOTOS,
 						variables: {
 							id: userId,
 							pagination: {
 								limit: LIMIT,
-								page: 1
+								page: 1,
+								orderBy: "ORDER_KEY"
 							}
 						},
 						data: {
@@ -231,7 +225,33 @@ const Photos = ({ user, loading }) => {
 								...data.user,
 								media: {
 									...data.user.media,
-									edges: [...data.user.media.edges, singleUpload]
+									edges: [singleUpload, ...data.user.media.edges]
+								}
+							}
+						}
+					});
+					const userData = proxy.readQuery({
+						query: USER,
+						variables: {
+							permalink: user.permalink
+						}
+					});
+
+					proxy.writeQuery({
+						query: USER,
+						variables: {
+							permalink: user.permalink
+						},
+
+						data: {
+							user: {
+								...userData.user,
+								media: {
+									...userData.user.media,
+									edges: [singleUpload, ...userData.user.media.edges].slice(
+										0,
+										5
+									)
 								}
 							}
 						}
@@ -263,7 +283,8 @@ const Photos = ({ user, loading }) => {
 							id: userId,
 							pagination: {
 								limit: LIMIT,
-								page: 1
+								page: 1,
+								orderBy: "ORDER_KEY"
 							}
 						}
 					});
@@ -273,7 +294,8 @@ const Photos = ({ user, loading }) => {
 							id: userId,
 							pagination: {
 								limit: LIMIT,
-								page: 1
+								page: 1,
+								orderBy: "ORDER_KEY"
 							}
 						},
 						data: {
@@ -321,37 +343,29 @@ const Photos = ({ user, loading }) => {
 		);
 	}
 
+	const updateFilesOrder = async items => {
+		const updates = items.map(i => ({ id: i.id, orderBy: i.orderBy }));
+		await updateMutation({ variables: { updates } });
+	};
+
 	return (
 		<>
-			<ImageGrid>
-				{renderMedia.map((file, idx) => (
-					<Cell key={idx} css={getCellStyle(idx)}>
-						{file.type === "IMAGE" ? (
-							<GracefullImage src={file.path} animate />
-						) : (
-							<GracefullVideo
-								src={file.path}
-								animate
-								loop
-								autoPlay
-								muted
-								playsInline
-							/>
-						)}
-						{isOwn && file.id && (
-							<RemoveImageButton deleteImage={() => deleteFile(file.id)} />
-						)}
-					</Cell>
-				))}
+			<Images
+				renderMedia={renderMedia}
+				isOwn={isOwn}
+				deleteFile={deleteFile}
+				updateFilesOrder={updateFilesOrder}
+			>
 				{hasNextPage && (
-					<Cell css={getCellStyle(renderMedia.length)} ref={ref}>
+					<Cell ref={ref}>
 						<LoadMoreButtonWrapper onClick={() => loadMore(nextPage, userId)}>
 							<TeritaryButton>Load more</TeritaryButton>
 						</LoadMoreButtonWrapper>
 					</Cell>
 				)}
-				<SavingIndicator loading={saving.length > 0} message={"Uploading"} />
-			</ImageGrid>
+			</Images>
+
+			<SavingIndicator loading={saving.length > 0} message={"Uploading"} />
 			{isOwn && (
 				<Col style={{ marginTop: "30px", width: "250px" }}>
 					<ButtonFileInput
@@ -387,13 +401,94 @@ const RemoveImageButton = ({ deleteImage }) => {
 	);
 };
 
-const EmptyCTA = ({ uploadFiles, onClick }) => {
+const getCellStyle = idx => {
+	const pos = idx % 12;
+	const currentRepeat = Math.floor(idx / 12);
+	let currentRow = pos < 4 ? 1 : 4;
+
+	currentRow += currentRepeat * 6;
+
+	// large left
+	if (pos === 0) {
+		return {
+			gridColumn: "1 / span 2",
+			gridRow: `${currentRow} / span 2`
+		};
+	}
+	// large right
+	if (pos === 8) {
+		return {
+			gridColumn: "2 / span 2",
+			gridRow: `${currentRow} / span 2`
+		};
+	}
+
+	return {};
+};
+
+const Images = ({
+	renderMedia,
+	isOwn,
+	deleteFile,
+	updateFilesOrder,
+	children
+}) => {
+	const imgData = renderMedia
+		.sort((a, b) => a.orderBy - b.orderBy)
+		.map((file, idx) => ({
+			id: file.id || idx,
+			content: (
+				<Cell style={getCellStyle(idx)}>
+					{file.type === "IMAGE" ? (
+						<GracefullImage src={file.path} animate={!isOwn} />
+					) : (
+						<GracefullVideo
+							src={file.path}
+							animate={!isOwn}
+							loop
+							autoPlay
+							muted
+							playsInline
+						/>
+					)}
+					{isOwn && file.id && (
+						<RemoveImageButton deleteImage={() => deleteFile(file.id)} />
+					)}
+				</Cell>
+			)
+		}));
+
+	if (!isOwn) {
+		return (
+			<ImageGrid>
+				{imgData.map(item => item.content)}
+				{children}
+			</ImageGrid>
+		);
+	}
+
+	return (
+		<ReorderGrid
+			key={imgData
+				.map(d => d.id)
+				.sort()
+				.toString()}
+			onOrderChanged={updateFilesOrder}
+			Wrapper={ImageGrid}
+			data={imgData}
+		>
+			{children}
+		</ReorderGrid>
+	);
+};
+
+const EmptyCTA = ({ uploadFiles }) => {
 	return (
 		<>
 			<Col
 				style={{
 					marginTop: "30px",
-					height: "150px",
+					height: "100px",
 					justifyContent: "space-between"
 				}}
 			>
@@ -404,10 +499,20 @@ const EmptyCTA = ({ uploadFiles, onClick }) => {
 				>
 					Add photos or videos
 				</ButtonFileInput>
-				<SecondaryButton onClick={onClick}>Connect Instagram</SecondaryButton>
-				<SecondaryButton onClick={onClick}>Connect Youtube</SecondaryButton>
+				<ConnectInstaButton />
 			</Col>
 		</>
+	);
+};
+
+const ConnectInstaButton = () => {
+	const [connect, { loading }] = useConnectInstagram();
+
+	return (
+		<SecondaryButton disabled={loading} onClick={connect}>
+			Connect Instagram
+			{loading && <LoadingIndicator style={{ marginLeft: "5px" }} />}
+		</SecondaryButton>
 	);
 };
 

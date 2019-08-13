@@ -1,31 +1,37 @@
 import React, { useState, useRef } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
+import { LoadingIndicator } from "./Blocks";
 
-const StyledVideo = styled.video``;
+const Wrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
 
-function useVideoLoaded({ ref }) {
+const StyledVideo = styled.video`
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	object-fit: cover;
+	pointer-events: none;
+`;
+
+const GracefullVideo = ({ src, ...props }) => {
 	const [loaded, setLoaded] = useState(false);
-	React.useEffect(() => {
-		if (ref) {
-			ref.oncanplay = () => {
-				setLoaded(true);
-			};
-			return () => {
-				ref.oncanplay = () => {};
-			};
-		}
-	}, [ref]);
 
-	return loaded;
-}
-
-const GracefullVideo = ({ ...props }) => {
-	const ref = useRef();
-	const loaded = useVideoLoaded({
-		ref: ref.current
-	});
-
-	return <StyledVideo {...props} />;
+	return (
+		<Wrapper>
+			<StyledVideo onCanPlay={() => setLoaded(true)} {...props}>
+				<source src={src} />
+			</StyledVideo>
+			{!loaded && <LoadingIndicator />}
+		</Wrapper>
+	);
 };
 
 export default GracefullVideo;

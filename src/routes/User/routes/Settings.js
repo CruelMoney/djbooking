@@ -19,6 +19,7 @@ import Popup from "../../../components/common/Popup";
 import { DELETE_USER } from "../gql";
 import { Mutation } from "react-apollo";
 import { PhoneInputNew } from "../../../components/common/PhoneInput";
+import { useConnectInstagram } from "../../../utils/Hooks";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
@@ -26,6 +27,11 @@ const hasChanges = (o1, o2) => {
 };
 
 const Settings = ({ user, loading, updateUser, translate, history }) => {
+	const [
+		connectInstagram,
+		{ loading: instaLoading, disconnect }
+	] = useConnectInstagram();
+
 	const saveData = async data => {
 		const flatUser = {
 			...user,
@@ -97,7 +103,8 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 		bio
 	} = userMetadata;
 	const { cancelationPolicy, currency, notifications } = userSettings;
-	const { roles } = appMetadata;
+	const { roles, instagramConnected } = appMetadata;
+
 	return (
 		<>
 			<SettingsSection
@@ -334,6 +341,18 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 					onClick={_ =>
 						window.alert("We'll send you an email when your data is ready.")
 					}
+				/>
+
+				<Input
+					half
+					loading={instaLoading}
+					type="button"
+					warning={instagramConnected ? "Are you sure?" : false}
+					label={"Connect Instagram"}
+					onClick={() =>
+						instagramConnected ? disconnect() : connectInstagram()
+					}
+					buttonText={instagramConnected ? "disconnect" : "connect"}
 				/>
 			</SettingsSection>
 		</>

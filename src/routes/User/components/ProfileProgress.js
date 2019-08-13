@@ -32,6 +32,11 @@ const checks = [
 		label: "Download the app",
 		check: u => !!u.appMetadata.hasInstalledApp,
 		linkTo: "/signup"
+	},
+	{
+		label: "Add photos or connect instagram",
+		check: u => u.media.edges.length > 0,
+		linkTo: "photos"
 	}
 	// {
 	// 	label: "Verify identity",
@@ -80,7 +85,6 @@ const ProfileProgress = ({ user }) => {
 			<SimpleSharing shareUrl={user && `/user/${user.permalink}/overview}]`} />
 		);
 	}
-
 	return (
 		<Col
 			style={{

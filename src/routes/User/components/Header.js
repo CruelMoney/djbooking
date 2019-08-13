@@ -112,9 +112,8 @@ const ReviewsCount = styled.p`
 
 const RatingWrapper = styled.div`
 	display: inline-block;
-	margin-bottom: 48px;
+
 	@media only screen and (max-width: 425px) {
-		margin-bottom: 24px;
 		.ratingStar {
 			padding-left: 2px;
 			padding-right: 2px;
@@ -151,6 +150,22 @@ const Header = ({ user, loading }) => {
 	);
 };
 
+const StatsWrapper = styled.div`
+	margin-top: 48px;
+
+	@media only screen and (max-width: 425px) {
+		margin-top: 24px;
+	}
+`;
+
+const HeaderWrapper = styled.div`
+	padding-bottom: 48px;
+
+	@media only screen and (max-width: 425px) {
+		padding-bottom: 24px;
+	}
+`;
+
 const UserContent = ({ user }) => {
 	const { artistName, userMetadata, appMetadata, reviews } = user;
 	const { firstName } = userMetadata;
@@ -163,8 +178,8 @@ const UserContent = ({ user }) => {
 	} = appMetadata;
 
 	return (
-		<>
-			<Row>
+		<HeaderWrapper>
+			<Row middle>
 				<Col style={{ flex: 1, alignItems: "flex-start" }}>
 					<Title>
 						{artistName || firstName}
@@ -199,13 +214,15 @@ const UserContent = ({ user }) => {
 					)}
 
 					{(experience || followers) && (
-						<ShowBelow width={425} style={{ marginBottom: "24px" }}>
-							<Stats
-								white
-								experience={11}
-								followers={"11k"}
-								marginRight={"15px"}
-							/>
+						<ShowBelow width={425}>
+							<StatsWrapper>
+								<Stats
+									white
+									experience={experience}
+									followers={followers}
+									marginRight={"15px"}
+								/>
+							</StatsWrapper>
 						</ShowBelow>
 					)}
 				</Col>
@@ -215,7 +232,7 @@ const UserContent = ({ user }) => {
 					</Col>
 				</ShowBelow>
 			</Row>
-			<ShowBelow width={425} style={{ marginBottom: "24px" }}>
+			<ShowBelow width={425} style={{ marginTop: "24px" }}>
 				<Row>
 					<CertifiedVerified
 						certified={certified}
@@ -223,7 +240,7 @@ const UserContent = ({ user }) => {
 					></CertifiedVerified>
 				</Row>
 			</ShowBelow>
-		</>
+		</HeaderWrapper>
 	);
 };
 

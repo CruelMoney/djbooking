@@ -13,6 +13,7 @@ import { ME } from "./gql";
 import addTranslate from "./higher-order/addTranslate";
 import { useLogout } from "../utils/Hooks";
 import Popup from "./common/Popup";
+import InstagramConnect from "./InstagramConnect";
 
 const Menu = ({ translate, history, location }) => {
 	const [loginExpanded, setLoginExpanded] = useState(false);
@@ -35,6 +36,7 @@ const Menu = ({ translate, history, location }) => {
 				return (
 					<div className="menu-wrapper">
 						<EmailVerifier onVerified={() => setLoginExpanded(true)} />
+						<InstagramConnect />
 
 						<div className="container">
 							<div className={"nav-container location_"}>

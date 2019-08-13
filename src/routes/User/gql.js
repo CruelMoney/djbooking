@@ -21,6 +21,20 @@ const USER = gql`
 				longitude
 				latitude
 			}
+			media(
+				pagination: { page: 1, limit: 5, orderBy: ORDER_KEY }
+				mediaType: IMAGE
+			) {
+				edges {
+					id
+					path
+					type
+					orderBy
+				}
+				pageInfo {
+					totalDocs
+				}
+			}
 			appMetadata {
 				rating
 				experience
@@ -108,6 +122,7 @@ const USER_PHOTOS = gql`
 					id
 					path
 					type
+					orderBy
 				}
 				pageInfo {
 					page
@@ -212,6 +227,26 @@ const UPLOAD_FILE = gql`
 			id
 			path
 			type
+			orderBy
+		}
+	}
+`;
+const UPDATE_FILE = gql`
+	mutation UpdateFile($id: ID!, $orderBy: Int) {
+		updateFile(id: $id, orderBy: $orderBy) {
+			id
+			path
+			type
+			orderBy
+		}
+	}
+`;
+
+const UPDATE_PHOTOS_ORDER = gql`
+	mutation UpdatePhotosOrder($updates: JSON!) {
+		updatePhotosOrder(updates: $updates) {
+			id
+			orderBy
 		}
 	}
 `;
@@ -219,6 +254,23 @@ const UPLOAD_FILE = gql`
 const DELETE_FILE = gql`
 	mutation DeleteFile($id: ID!) {
 		deleteFile(id: $id)
+	}
+`;
+
+const CONNECT_INSTAGRAM = gql`
+	mutation ConnectInstagram($redirectLink: String, $code: String) {
+		connectInstagram(redirectLink: $redirectLink, code: $code)
+	}
+`;
+
+const DISCONNECT_INSTAGRAM = gql`
+	mutation DisconnectInstagram {
+		disconnectInstagram {
+			id
+			appMetadata {
+				instagramConnected
+			}
+		}
 	}
 `;
 
@@ -393,5 +445,9 @@ export {
 	HIGHLIGHT_REVIEW,
 	USER_PHOTOS,
 	UPLOAD_FILE,
-	DELETE_FILE
+	DELETE_FILE,
+	UPDATE_FILE,
+	UPDATE_PHOTOS_ORDER,
+	CONNECT_INSTAGRAM,
+	DISCONNECT_INSTAGRAM
 };

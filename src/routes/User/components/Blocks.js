@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
 import GracefullImage from "./GracefullImage";
 
@@ -88,12 +88,12 @@ const ButtonIcon = styled.span`
 	}
 `;
 
-export const ReadMore = ({ children, ...props }) => {
+export const ReadMore = ({ color, children, ...props }) => {
 	return (
 		<ReadMoreText {...props}>
 			{children}
 			<ButtonIcon>
-				<Arrow fontSize={"15px"} color={"#4d6480"} />
+				<Arrow fontSize={"15px"} color={color || "#4d6480"} />
 			</ButtonIcon>
 		</ReadMoreText>
 	);
@@ -176,6 +176,10 @@ const ButtonTextStyle = css`
 	border-radius: 4px;
 	min-width: 150px;
 	height: 40px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
 `;
 
 export const TeritaryButton = styled.button`
@@ -214,4 +218,24 @@ export const AddButton = styled(TeritaryButton)`
 	display: inline-block;
 	margin-right: auto;
 	height: 18px;
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingIndicator = styled.span`
+	height: 24px;
+	width: 24px;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	animation: ${rotate} 1s linear infinite;
+	display: block;
+	border-color: currentColor currentColor currentColor transparent;
 `;
