@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useApolloClient } from "react-apollo";
 import { authService } from "./AuthService";
 
@@ -10,3 +10,5 @@ export const useLogout = () => {
 		client.writeData({ data: { me: null } });
 	};
 };
+
+

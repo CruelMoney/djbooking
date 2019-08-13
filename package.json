@@ -19,6 +19,8 @@
 		"@sentry/browser": "^5.4.3",
 		"@svgr/core": "^3.1.0",
 		"@svgr/webpack": "^3.1.0",
+		"@types/lodash": "^4.14.136",
+		"@types/react": "^16.9.1",
 		"@viewstools/use-masked-input": "^1.0.3",
 		"animate-css-grid": "^1.4.1",
 		"apollo-cache-inmemory": "^1.6.2",
@@ -112,6 +114,7 @@
 		"socket.io-client": "^2.1.1",
 		"source-map-explorer": "^1.6.0",
 		"styled-components": "^4.3.2",
+		"typescript": "^3.5.3",
 		"url-polyfill": "^1.1.7",
 		"wnumb": "^1.0.4"
 	},

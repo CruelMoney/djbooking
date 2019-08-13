@@ -28,7 +28,7 @@ const RemoveImageWrapper = styled.div`
 const ImageGrid = styled.ul`
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 15px;
+	grid-gap: 3px;
 	list-style: none;
 `;
 
@@ -333,11 +333,11 @@ const Photos = ({ user, loading }) => {
 					content: (
 						<Cell>
 							{file.type === "IMAGE" ? (
-								<GracefullImage src={file.path} animate />
+								<GracefullImage src={file.path} animate={!isOwn}  />
 							) : (
 								<GracefullVideo
 									src={file.path}
-									animate
+									animate={!isOwn} 
 									loop
 									autoPlay
 									muted
