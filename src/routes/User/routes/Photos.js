@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import GracefullImage from "../components/GracefullImage";
-import { USER_PHOTOS, UPLOAD_FILE, DELETE_FILE } from "../gql";
+import {
+	USER_PHOTOS,
+	UPLOAD_FILE,
+	DELETE_FILE,
+	UPDATE_FILE,
+	UPDATE_PHOTOS_ORDER
+} from "../gql";
 import { useQuery, useMutation } from "react-apollo";
 import EmptyPage from "../../../components/common/EmptyPage";
 import { getErrorMessage } from "../../../components/common/ErrorMessageApollo";
@@ -91,6 +97,7 @@ const Photos = ({ user, loading }) => {
 	const [uploadError, setUploadError] = useState();
 	const [saving, setSaving] = useState([]);
 	const [saveMutation] = useMutation(UPLOAD_FILE);
+	const [updateMutation] = useMutation(UPDATE_PHOTOS_ORDER);
 	const [deleteMutation] = useMutation(DELETE_FILE);
 	const [ref, inView] = useInView({ rootMargin: "200px" });
 	const [lastFetchedPage, setLastFetchedPage] = useState(1);
@@ -106,7 +113,8 @@ const Photos = ({ user, loading }) => {
 			id: user && user.id,
 			pagination: {
 				limit: LIMIT,
-				page: 1
+				page: 1,
+				orderBy: "ORDER_KEY"
 			}
 		}
 	});
@@ -126,21 +134,17 @@ const Photos = ({ user, loading }) => {
 
 	const loadMore = useCallback(
 		(page, userId) => {
-			console.log("Fetching ", page);
-
 			fetchMore({
 				variables: {
 					id: userId,
 					pagination: {
 						limit: LIMIT,
-						page
+						page,
+						orderBy: "ORDER_KEY"
 					}
 				},
 
 				updateQuery: (prev, { fetchMoreResult }) => {
-					console.log(!fetchMoreResult ? "returning prev" : "return niew");
-					console.log({ prev, fetchMoreResult, page });
-
 					if (!fetchMoreResult) return prev;
 
 					return {
@@ -215,7 +219,8 @@ const Photos = ({ user, loading }) => {
 							id: userId,
 							pagination: {
 								limit: LIMIT,
-								page: 1
+								page: 1,
+								orderBy: "ORDER_KEY"
 							}
 						}
 					});
@@ -225,7 +230,8 @@ const Photos = ({ user, loading }) => {
 							id: userId,
 							pagination: {
 								limit: LIMIT,
-								page: 1
+								page: 1,
+								orderBy: "ORDER_KEY"
 							}
 						},
 						data: {
@@ -265,7 +271,8 @@ const Photos = ({ user, loading }) => {
 							id: userId,
 							pagination: {
 								limit: LIMIT,
-								page: 1
+								page: 1,
+								orderBy: "ORDER_KEY"
 							}
 						}
 					});
@@ -275,7 +282,8 @@ const Photos = ({ user, loading }) => {
 							id: userId,
 							pagination: {
 								limit: LIMIT,
-								page: 1
+								page: 1,
+								orderBy: "ORDER_KEY"
 							}
 						},
 						data: {
@@ -323,42 +331,27 @@ const Photos = ({ user, loading }) => {
 		);
 	}
 
+	const updateFilesOrder = async items => {
+		const updates = items.map(i => ({ id: i.id, orderBy: i.orderBy }));
+		await updateMutation({ variables: { updates } });
+	};
+
 	return (
 		<>
-			<ReorderGrid
-				key={renderMedia.length}
-				Wrapper={ImageGrid}
-				data={renderMedia.map((file, idx) => ({
-					id: idx,
-					content: (
-						<Cell>
-							{file.type === "IMAGE" ? (
-								<GracefullImage src={file.path} animate={!isOwn}  />
-							) : (
-								<GracefullVideo
-									src={file.path}
-									animate={!isOwn} 
-									loop
-									autoPlay
-									muted
-									playsInline
-								/>
-							)}
-							{isOwn && file.id && (
-								<RemoveImageButton deleteImage={() => deleteFile(file.id)} />
-							)}
-						</Cell>
-					)
-				}))}
+			<Images
+				renderMedia={renderMedia}
+				isOwn={isOwn}
+				deleteFile={deleteFile}
+				updateFilesOrder={updateFilesOrder}
 			>
 				{hasNextPage && (
-					<Cell css={getCellStyle(renderMedia.length)} ref={ref}>
+					<Cell ref={ref}>
 						<LoadMoreButtonWrapper onClick={() => loadMore(nextPage, userId)}>
 							<TeritaryButton>Load more</TeritaryButton>
 						</LoadMoreButtonWrapper>
 					</Cell>
 				)}
-			</ReorderGrid>
+			</Images>
 
 			<SavingIndicator loading={saving.length > 0} message={"Uploading"} />
 			{isOwn && (
@@ -393,6 +386,59 @@ const RemoveImageButton = ({ deleteImage }) => {
 				fontSize="36px"
 			/>
 		</RemoveImageWrapper>
+	);
+};
+
+const Images = ({
+	renderMedia,
+	isOwn,
+	deleteFile,
+	updateFilesOrder,
+	children
+}) => {
+	const imgData = renderMedia
+		.sort((a, b) => a.orderBy - b.orderBy)
+		.map((file, idx) => ({
+			id: file.id || idx,
+			content: (
+				<Cell>
+					{file.type === "IMAGE" ? (
+						<GracefullImage src={file.path} animate={!isOwn} />
+					) : (
+						<GracefullVideo
+							src={file.path}
+							animate={!isOwn}
+							loop
+							autoPlay
+							muted
+							playsInline
+						/>
+					)}
+					{isOwn && file.id && (
+						<RemoveImageButton deleteImage={() => deleteFile(file.id)} />
+					)}
+				</Cell>
+			)
+		}));
+
+	if (!isOwn) {
+		return (
+			<ImageGrid>
+				{imgData.map(item => item.content)}
+				{children}
+			</ImageGrid>
+		);
+	}
+
+	return (
+		<ReorderGrid
+			key={imgData.map(d => d.id).toString()}
+			onOrderChanged={updateFilesOrder}
+			Wrapper={ImageGrid}
+			data={imgData}
+		>
+			{children}
+		</ReorderGrid>
 	);
 };
 

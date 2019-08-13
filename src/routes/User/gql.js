@@ -108,6 +108,7 @@ const USER_PHOTOS = gql`
 					id
 					path
 					type
+					orderBy
 				}
 				pageInfo {
 					page
@@ -213,6 +214,22 @@ const UPLOAD_FILE = gql`
 			path
 			type
 		}
+	}
+`;
+const UPDATE_FILE = gql`
+	mutation UpdateFile($id: ID!, $orderBy: Int) {
+		updateFile(id: $id, orderBy: $orderBy) {
+			id
+			path
+			type
+			orderBy
+		}
+	}
+`;
+
+const UPDATE_PHOTOS_ORDER = gql`
+	mutation UpdatePhotosOrder($updates: JSON!) {
+		updatePhotosOrder(updates: $updates)
 	}
 `;
 
@@ -393,5 +410,7 @@ export {
 	HIGHLIGHT_REVIEW,
 	USER_PHOTOS,
 	UPLOAD_FILE,
-	DELETE_FILE
+	DELETE_FILE,
+	UPDATE_FILE,
+	UPDATE_PHOTOS_ORDER
 };
