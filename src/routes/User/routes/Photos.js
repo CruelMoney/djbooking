@@ -6,7 +6,8 @@ import {
 	UPLOAD_FILE,
 	DELETE_FILE,
 	UPDATE_FILE,
-	UPDATE_PHOTOS_ORDER
+	UPDATE_PHOTOS_ORDER,
+	USER
 } from "../gql";
 import { useQuery, useMutation } from "react-apollo";
 import EmptyPage from "../../../components/common/EmptyPage";
@@ -19,6 +20,7 @@ import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
+import { ME } from "../../../components/gql";
 
 const LIMIT = 6;
 
@@ -216,7 +218,7 @@ const Photos = ({ user, loading }) => {
 						orderBy: null
 					}
 				},
-				update: (proxy, { data: { singleUpload, ...rest } }) => {
+				update: (proxy, { data: { singleUpload } }) => {
 					const data = proxy.readQuery({
 						query: USER_PHOTOS,
 						variables: {
@@ -228,6 +230,7 @@ const Photos = ({ user, loading }) => {
 							}
 						}
 					});
+
 					proxy.writeQuery({
 						query: USER_PHOTOS,
 						variables: {
@@ -243,7 +246,33 @@ const Photos = ({ user, loading }) => {
 								...data.user,
 								media: {
 									...data.user.media,
-									edges: [...data.user.media.edges, singleUpload]
+									edges: [singleUpload, ...data.user.media.edges]
+								}
+							}
+						}
+					});
+					const userData = proxy.readQuery({
+						query: USER,
+						variables: {
+							permalink: user.permalink
+						}
+					});
+
+					proxy.writeQuery({
+						query: USER,
+						variables: {
+							permalink: user.permalink
+						},
+
+						data: {
+							user: {
+								...userData.user,
+								media: {
+									...userData.user.media,
+									edges: [singleUpload, ...userData.user.media.edges].slice(
+										0,
+										5
+									)
 								}
 							}
 						}

@@ -23,7 +23,6 @@ const ReorderGrid = (props: ReorderGridProps) => {
 		const hasBeenChanged = items.some(
 			(d: any, idx: number) => lastOrder.current[idx].id !== d.id
 		);
-		debugger;
 		if (onOrderChanged && hasBeenChanged) {
 			lastOrder.current = items;
 			onOrderChanged(

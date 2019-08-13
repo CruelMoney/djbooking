@@ -21,6 +21,20 @@ const USER = gql`
 				longitude
 				latitude
 			}
+			media(
+				pagination: { page: 1, limit: 5, orderBy: ORDER_KEY }
+				mediaType: IMAGE
+			) {
+				edges {
+					id
+					path
+					type
+					orderBy
+				}
+				pageInfo {
+					totalDocs
+				}
+			}
 			appMetadata {
 				rating
 				experience

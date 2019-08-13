@@ -88,12 +88,12 @@ const ButtonIcon = styled.span`
 	}
 `;
 
-export const ReadMore = ({ children, ...props }) => {
+export const ReadMore = ({ color, children, ...props }) => {
 	return (
 		<ReadMoreText {...props}>
 			{children}
 			<ButtonIcon>
-				<Arrow fontSize={"15px"} color={"#4d6480"} />
+				<Arrow fontSize={"15px"} color={color || "#4d6480"} />
 			</ButtonIcon>
 		</ReadMoreText>
 	);
