@@ -30,6 +30,7 @@ const LIMIT = 6;
 
 const RemoveImageWrapper = styled.div`
 	opacity: 0;
+	z-index: 2;
 	background: rgba(0, 0, 0, 0.8);
 	display: flex;
 	justify-content: flex-end;
@@ -172,12 +173,11 @@ const Photos = ({ user, loading }) => {
 			if (type === "IMAGE") {
 				const {
 					imageData: base64,
-					file: compressedFile
 				} = await ImageCompressor(file, true, {
 					maxWidth: 612,
 					maxHeight: 612
 				});
-				fileToSave = compressedFile;
+				fileToSave = file;
 				previewPath = base64;
 			} else {
 				previewPath = URL.createObjectURL(file);

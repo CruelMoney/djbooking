@@ -45,7 +45,7 @@ export const useConnectInstagram = () => {
 			const { variables, ...options } = args || {};
 			const { data } = await mutate({
 				variables: {
-					redirectLink: Environment.CALLBACK_DOMAIN + "?instagramConnect=true",
+					redirectLink: Environment.CALLBACK_DOMAIN,
 					...variables
 				},
 				...options
