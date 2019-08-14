@@ -261,6 +261,9 @@ export default function useDraggableItems({
 		return {
 			[`data-moveable-id`]: id,
 			[eventListeners.onDown]: (e: any) => {
+				if (e.button !== 0) {
+					return;
+				}
 				e.persist();
 				const { clientX, clientY } = IS_MOBILE ? e.changedTouches[0] : e;
 				pointerOffset.x = clientX;

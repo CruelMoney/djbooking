@@ -171,11 +171,9 @@ const Photos = ({ user, loading }) => {
 			let type = file["type"].split("/")[0].toUpperCase();
 
 			if (type === "IMAGE") {
-				const {
-					imageData: base64,
-				} = await ImageCompressor(file, true, {
-					maxWidth: 612,
-					maxHeight: 612
+				const { imageData: base64 } = await ImageCompressor(file, true, {
+					maxWidth: 1000,
+					maxHeight: 1000
 				});
 				fileToSave = file;
 				previewPath = base64;

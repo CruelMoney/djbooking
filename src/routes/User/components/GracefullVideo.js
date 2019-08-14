@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { LoadingIndicator } from "./Blocks";
 
@@ -28,6 +28,7 @@ const GracefullVideo = ({ src, ...props }) => {
 		<Wrapper>
 			<StyledVideo onCanPlay={() => setLoaded(true)} {...props}>
 				<source src={src} />
+				<p>Video format not supported in your browser</p>
 			</StyledVideo>
 			{!loaded && <LoadingIndicator />}
 		</Wrapper>

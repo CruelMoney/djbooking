@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { Input } from "./FormComponents";
 
 const ImageUploader = ({ onSave, options, ...props }) => {
@@ -9,9 +8,9 @@ const ImageUploader = ({ onSave, options, ...props }) => {
 		const file = e.target.files[0];
 
 		try {
-			const { file: image } = await ImageCompressor(file, true, options);
+			// const { file: image } = await ImageCompressor(file, true, options);
 
-			onSave(image);
+			onSave(file);
 		} catch (error) {
 			console.log({ error });
 			setError(error.message || error);

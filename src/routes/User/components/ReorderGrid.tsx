@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
-import useDraggableItems from "../../../utils/useDraggableItems";
+import useDraggableItems from "../../../components/hooks/useDraggableItems";
 
 const GridItem = styled.button`
 	cursor: grab;
