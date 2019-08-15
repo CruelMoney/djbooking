@@ -147,7 +147,7 @@ export default function useDraggableItems({
 			};
 			currentTarget.node.style.transform = `translate3d(${translate.x}px, ${translate.y}px, 0)`;
 			currentTarget.node.style.transition = `none`;
-			currentTarget.node.style.zIndex = `1`;
+			currentTarget.node.style.zIndex = `10`;
 
 			animate({
 				x: clientX,

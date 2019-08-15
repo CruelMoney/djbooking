@@ -30,7 +30,7 @@ const LIMIT = 6;
 
 const RemoveImageWrapper = styled.div`
 	opacity: 0;
-	z-index: 2;
+	z-index: 1;
 	background: rgba(0, 0, 0, 0.8);
 	display: flex;
 	justify-content: flex-end;
