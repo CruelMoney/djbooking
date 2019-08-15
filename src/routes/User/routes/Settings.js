@@ -3,15 +3,15 @@ import {
 	SettingsSection,
 	Input,
 	DeleteFileButton
-} from "../components/FormComponents";
+} from "../../../components/FormComponents";
 import emailValidator from "email-validator";
 import constants from "../../../constants/constants";
-import ImageUploader from "../components/ImageInput";
+import ImageUploader from "../../../components/ImageInput";
 import PasswordChanger from "../components/PasswordChanger";
-import DatePickerPopup from "../components/DatePicker";
+import DatePickerPopup from "../../../components/DatePicker";
 import LocationPicker from "../components/LocationPicker";
 import NotificationPreferences from "../components/NotificationPreferences";
-import GenreSelector from "../components/GenreSelector";
+import GenreSelector from "../../../components/GenreSelector";
 import CancelationPolicyPopup from "../components/CancelationPolicyPopup";
 import BioPopup from "../components/BioPopup";
 import PayoutForm from "../../../components/common/PayoutForm";

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Input, Label } from "./FormComponents";
-import { Row, TeritaryButton, PrimaryButton } from "./Blocks";
+import { Input, Label } from "../../../components/FormComponents";
+import { Row, TeritaryButton, PrimaryButton } from "../../../components/Blocks";
 import Popup from "../../../components/common/Popup";
 import Button from "../../../components/common/Button-v2";
 import { ToggleOptions } from "../../../components/common/Form-v2";
 import Slider from "../../../components/common/Slider";
-import { Stat, StatUnit, BodySmall } from "./Text";
+import { Stat, StatUnit, BodySmall } from "../../../components/Text";
 import ArrowIcon from "react-ionicons/lib/MdArrowRoundForward";
 
 const CancelationPolicyPopup = ({ initialValue, save, translate }) => {

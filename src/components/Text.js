@@ -111,3 +111,21 @@ export const Cite = styled.cite`
 		line-height: 12px;
 	}
 `;
+
+export const HeaderTitle = styled.h1`
+	font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
+	font-size: 36px;
+	color: #fff;
+	margin-bottom: 0.3em;
+	line-height: 1.2em;
+	display: inline-block;
+	position: relative;
+	@media only screen and (max-width: 425px) {
+		font-size: 30px;
+		text-align: left;
+		margin-bottom: 0;
+		> * {
+			display: none;
+		}
+	}
+`;

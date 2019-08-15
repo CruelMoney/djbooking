@@ -249,3 +249,45 @@ export const LoadingIndicator = styled.span`
 	display: block;
 	border-color: currentColor currentColor currentColor transparent;
 `;
+
+export const GradientBg = styled.section`
+	height: 318px;
+	background: linear-gradient(
+			-180deg,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 0.5) 100%
+		),
+		${({ coverPhoto }) =>
+				coverPhoto
+					? `url(${coverPhoto.path})`
+					: "linear-gradient(-56deg, #31fff5 0%, #31ffc5 11%, #00d1ff 80%, #32daff 87%)"}
+			no-repeat center center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	flex: 1;
+	display: flex;
+	align-items: flex-end;
+	position: sticky;
+	top: -270px;
+	z-index: 1;
+
+	@media only screen and (max-width: 425px) {
+		min-height: 290px;
+		height: auto;
+		position: relative;
+		top: 0;
+		padding-top: 100px;
+	}
+	.iconRow {
+		color: #fff;
+		margin-bottom: 0;
+		&:first-child {
+			margin-right: 30px;
+		}
+		svg {
+			margin-right: 6px;
+		}
+	}
+`;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Input, TextArea } from "./FormComponents";
-import { Row, TeritaryButton, PrimaryButton } from "./Blocks";
+import { Input, TextArea } from "../../../components/FormComponents";
+import { Row, TeritaryButton, PrimaryButton } from "../../../components/Blocks";
 import Popup from "../../../components/common/Popup";
-import { BodySmall } from "./Text";
+import { BodySmall } from "../../../components/Text";
 
 const BioPopup = ({ initialValue, save, translate }) => {
 	const [bio, setBio] = useState(initialValue);

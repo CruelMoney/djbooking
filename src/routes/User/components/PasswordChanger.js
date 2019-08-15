@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Input } from "../components/FormComponents";
+import { Input } from "../../../components/FormComponents";
 
-import { Row, TeritaryButton, PrimaryButton } from "../components/Blocks";
+import { Row, TeritaryButton, PrimaryButton } from "../../../components/Blocks";
 import Popup from "../../../components/common/Popup";
 
 const PasswordChanger = ({ onSave }) => {

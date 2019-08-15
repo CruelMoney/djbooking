@@ -1,7 +1,6 @@
 import React, { useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-import { withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 
 const StyledNav = styled.nav`
 	height: 48px;

@@ -29,7 +29,7 @@ import {
 	Col,
 	Divider,
 	ShowBelow
-} from "./components/Blocks.js";
+} from "../../components/Blocks";
 import { useMutation } from "@apollo/react-hooks";
 import Notification from "../../components/common/Notification.js";
 import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
@@ -41,11 +41,11 @@ import { LoadingPlaceholder2 } from "../../components/common/LoadingPlaceholder"
 import Pin from "react-ionicons/lib/MdPin";
 import Medal from "react-ionicons/lib/MdMedal";
 import Star from "react-ionicons/lib/MdStar";
-import Tooltip from "./components/Tooltip";
+import Tooltip from "../../components/Tooltip";
 import moment from "moment";
 import { NavLink } from "react-router-dom";
-import GracefullImage from "./components/GracefullImage";
-import { SmallHeader, Stat } from "./components/Text.js";
+import GracefullImage from "../../components/GracefullImage";
+import { SmallHeader, Stat } from "../../components/Text";
 import AddCircle from "react-ionicons/lib/MdAddCircle";
 import ProfileProgress from "./components/ProfileProgress.js";
 import { ME } from "../../components/gql.js";
@@ -232,7 +232,6 @@ const LoginPopup = ({ translate }) => {
 };
 
 const Index = ({ translate, match, location }) => {
-	console.log("Rendering user index");
 	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);
 
 	return (

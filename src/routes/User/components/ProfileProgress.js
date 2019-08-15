@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "./Blocks";
-import { Body, SmallBold, SmallHeader } from "./Text";
+import { Col, Row } from "../../../components/Blocks";
+import { Body, SmallBold, SmallHeader } from "../../../components/Text";
 import styled from "styled-components";
 import CheckCircle from "react-ionicons/lib/MdAddCircle";
 import CheckCircleDone from "react-ionicons/lib/MdCheckmarkCircle";

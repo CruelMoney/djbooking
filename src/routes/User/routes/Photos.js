@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
-import GracefullImage from "../components/GracefullImage";
+import GracefullImage from "../../../components/GracefullImage";
 import {
 	USER_PHOTOS,
 	UPLOAD_FILE,
@@ -14,14 +14,14 @@ import { getErrorMessage } from "../../../components/common/ErrorMessageApollo";
 import {
 	SecondaryButton,
 	Col,
-	TeritaryButton,
-} from "../components/Blocks";
-import { ButtonFileInput } from "../components/FormComponents";
+	TeritaryButton
+} from "../../../components/Blocks";
+import { ButtonFileInput } from "../../../components/FormComponents";
 import { SavingIndicator } from "..";
 import RemoveButton from "react-ionicons/lib/MdRemoveCircle";
 import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
-import GracefullVideo from "../components/GracefullVideo";
+import GracefullVideo from "../../../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
 
 const LIMIT = 6;

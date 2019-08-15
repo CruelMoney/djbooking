@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Textfield } from "../Form-v2";
-import { Input } from "../../../routes/User/components/FormComponents";
+import { Input } from "../../FormComponents";
 
 const PhoneInput = ({ validate = [], ...props }) => {
 	const valid = useRef(() => []);

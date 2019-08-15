@@ -13,7 +13,7 @@ import Button from "./Button-v2";
 import * as c from "../../constants/constants";
 import ErrorMessageApollo, { getErrorMessage } from "./ErrorMessageApollo";
 import { authService } from "../../utils/AuthService";
-import { Input } from "../../routes/User/components/FormComponents";
+import { Input } from "../FormComponents";
 
 class Login extends PureComponent {
 	displayName = "Login";

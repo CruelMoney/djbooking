@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
-import { LoadingIndicator } from "./Blocks";
+import { LoadingIndicator } from "../../../components/Blocks";
 
 const Sticky = styled.div`
 	position: sticky;
