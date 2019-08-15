@@ -73,7 +73,7 @@ const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
 					<ProfileProgress user={user} />
 				) : (
 					<SimpleSharing
-						shareUrl={user && `/user/${user.permalink}/overview}]`}
+						shareUrl={user && `/user/${user.permalink}/overview`}
 					/>
 				)
 			}
