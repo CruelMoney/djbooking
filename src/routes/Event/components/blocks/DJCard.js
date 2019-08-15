@@ -6,14 +6,16 @@ import {
 	Row,
 	SecondaryButton,
 	TeritaryButton,
-	Hr
+	Hr,
+	PrimaryButton
 } from "../../../../components/Blocks";
 import GracefullImage from "../../../../components/GracefullImage";
 import { SmallHeader, BodySmall, BodyBold } from "../../../../components/Text";
 import PhoneIcon from "react-ionicons/lib/IosCall";
 import MailIcon from "react-ionicons/lib/MdMail";
+import { NavLink } from "react-router-dom";
 
-const DjCard = ({ style, idx, gig }) => {
+const DjCard = ({ style, idx, gig, translate }) => {
 	const { dj, offer } = gig;
 	if (!dj) {
 		return null;
@@ -23,6 +25,7 @@ const DjCard = ({ style, idx, gig }) => {
 
 	const shouldTruncate = bio.length > 100;
 	const truncatedBio = shouldTruncate ? bio.substring(0, 100) + "..." : bio;
+	const name = artistName || firstName;
 	return (
 		<Wrapper idx={idx}>
 			<Card style={style}>
@@ -30,11 +33,20 @@ const DjCard = ({ style, idx, gig }) => {
 				<Content>
 					<Row>
 						<ColLeft>
-							<SmallHeader>{artistName || firstName}</SmallHeader>
+							<SmallHeader>{name}</SmallHeader>
 							<BodySmall>{truncatedBio}</BodySmall>
 							<Row>
 								<SecondaryButton small>Message</SecondaryButton>
-								<TeritaryButton small>See profile</TeritaryButton>
+								<NavLink
+									to={{
+										pathname: `${translate("routes./user")}/${
+											dj.permalink
+										}/overview?gigId=${gig.id}`,
+										state: { offer, gig }
+									}}
+								>
+									<TeritaryButton small>See profile</TeritaryButton>
+								</NavLink>
 							</Row>
 						</ColLeft>
 						<RightCol>
@@ -49,7 +61,8 @@ const DjCard = ({ style, idx, gig }) => {
 						</RightCol>
 					</Row>
 					<Hr />
-					<Row>hey</Row>
+
+					<Offer {...offer} name={name} />
 				</Content>
 			</Card>
 			<Shadow />
@@ -57,7 +70,30 @@ const DjCard = ({ style, idx, gig }) => {
 	);
 };
 
-const Offer = () => {};
+const Offer = ({ name, offer }) => {
+	return (
+		<OfferRow>
+			<OfferText muted={!offer}>
+				{offer ? offer.formatted : "No offer yet"}
+			</OfferText>
+			<Row>
+				<TeritaryButton>Decline</TeritaryButton>
+				{offer && <PrimaryButton>Book {name}</PrimaryButton>}
+			</Row>
+		</OfferRow>
+	);
+};
+
+const OfferText = styled(BodyBold)`
+	font-size: 18px;
+	color: ${({ muted }) => (muted ? "#98A4B3" : "#122b48")};
+`;
+
+const OfferRow = styled(Row)`
+	padding-top: 24px;
+	justify-content: space-between;
+	align-items: flex-end;
+`;
 
 const ColLeft = styled(Col)`
 	flex: 1;

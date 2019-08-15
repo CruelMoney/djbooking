@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router";
 import styled from "styled-components";
 import content from "./content.json";
@@ -77,7 +77,7 @@ const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
 				)
 			}
 		>
-			<ProfileImg src={user ? user.picture.path : null} />
+			<ProfileImg src={user ? user.picture.path : null} animate />
 
 			{loading || !user ? (
 				<SidebarContent>
@@ -232,104 +232,114 @@ const LoginPopup = ({ translate }) => {
 
 const Index = ({ translate, match, location }) => {
 	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);
+	const [hasScrolled, setHasScrolled] = useState(false);
+
+	useEffect(() => {
+		setHasScrolled(true);
+	}, []);
 
 	return (
-		<Query query={ME} onError={console.warn}>
-			{({ data, loading: loadingMe }) => (
-				<Query
-					query={USER}
-					variables={{ permalink: match.params.permalink }}
-					onError={console.warn}
-				>
-					{({ data: { user: profileUser }, loading: loadingUser }) => {
-						const loading = loadingMe || loadingUser;
+		<>
+			<Query query={ME} onError={console.warn}>
+				{({ data, loading: loadingMe }) => (
+					<Query
+						query={USER}
+						variables={{ permalink: match.params.permalink }}
+						onError={console.warn}
+					>
+						{({ data: { user: profileUser }, loading: loadingUser }) => {
+							const loading = loadingMe || loadingUser;
 
-						if (!loadingUser && !profileUser) {
-							return <Redirect to={translate("routes./not-found")} />;
-						}
+							if (!loadingUser && !profileUser) {
+								return <Redirect to={translate("routes./not-found")} />;
+							}
 
-						let user = profileUser;
+							let user = profileUser;
 
-						if (user && data && data.me) {
-							user.isOwn = user.isOwn || data.me.id === user.id;
-						}
+							if (user && data && data.me) {
+								user.isOwn = user.isOwn || data.me.id === user.id;
+							}
 
-						if (user && user.isOwn && data && data.me) {
-							user = mergeObjects(user, data.me);
-						}
+							if (user && user.isOwn && data && data.me) {
+								user = mergeObjects(user, data.me);
+							}
 
-						const title = user
-							? user.artistName || user.userMetadata.firstName
-							: null;
-						const thumb = user ? user.picture.path : null;
-						const description = user ? user.userMetadata.bio : null;
+							const title = user
+								? user.artistName || user.userMetadata.firstName
+								: null;
+							const thumb = user ? user.picture.path : null;
+							const description = user ? user.userMetadata.bio : null;
 
-						return (
-							<div>
-								{user && (
-									<Helmet>
-										<title>{title}</title>
-										<meta property="og:title" content={title} />
-										<meta name="twitter:title" content={title} />
+							return (
+								<div>
+									{!hasScrolled && <ScrollToTop />}
+									{user && (
+										<Helmet>
+											<title>{title}</title>
+											<meta property="og:title" content={title} />
+											<meta name="twitter:title" content={title} />
 
-										<meta property="og:image" content={thumb} />
-										<meta name="twitter:image" content={thumb} />
+											<meta property="og:image" content={thumb} />
+											<meta name="twitter:image" content={thumb} />
 
-										<meta name="description" content={description} />
-										<meta name="twitter:description" content={description} />
-										<meta property="og:description" content={description} />
+											<meta name="description" content={description} />
+											<meta name="twitter:description" content={description} />
+											<meta property="og:description" content={description} />
 
-										{user.isOwn && (
-											<meta
-												name="apple-itunes-app"
-												content="app-id=1458267647, app-argument=userProfile"
-											/>
-										)}
-									</Helmet>
-								)}
-								<SavingIndicator loading={isSaving} error={error} />
+											{user.isOwn && (
+												<meta
+													name="apple-itunes-app"
+													content="app-id=1458267647, app-argument=userProfile"
+												/>
+											)}
+										</Helmet>
+									)}
+									<SavingIndicator loading={isSaving} error={error} />
 
-								<Switch>
-									<Route
-										path={match.path + "/booking"}
-										render={props => (
-											<Booking
-												{...props}
-												user={user}
-												loading={loading}
-												translate={translate}
-											/>
+									<Switch>
+										<Route
+											path={match.path + "/booking"}
+											render={props => (
+												<Booking
+													{...props}
+													user={user}
+													loading={loading}
+													translate={translate}
+												/>
+											)}
+										/>
+										<Route
+											render={() => (
+												<Content
+													match={match}
+													user={user}
+													loading={loading}
+													translate={translate}
+													updateUser={updateUser}
+													location={location}
+												/>
+											)}
+										/>
+									</Switch>
+
+									<Footer
+										noSkew
+										firstTo={translate("routes./how-it-works")}
+										secondTo={translate("routes./")}
+										firstLabel={translate("how-it-works")}
+										secondLabel={translate("arrange-event")}
+										title={translate("Wonder how it works?")}
+										subTitle={translate(
+											"See how it works, or arrange an event."
 										)}
 									/>
-									<Route
-										render={() => (
-											<Content
-												match={match}
-												user={user}
-												loading={loading}
-												translate={translate}
-												updateUser={updateUser}
-												location={location}
-											/>
-										)}
-									/>
-								</Switch>
-
-								<Footer
-									noSkew
-									firstTo={translate("routes./how-it-works")}
-									secondTo={translate("routes./")}
-									firstLabel={translate("how-it-works")}
-									secondLabel={translate("arrange-event")}
-									title={translate("Wonder how it works?")}
-									subTitle={translate("See how it works, or arrange an event.")}
-								/>
-							</div>
-						);
-					}}
-				</Query>
-			)}
-		</Query>
+								</div>
+							);
+						}}
+					</Query>
+				)}
+			</Query>
+		</>
 	);
 };
 
