@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Route, Redirect, Switch } from "react-router-dom";
 import content from "./content.json";
@@ -7,7 +7,7 @@ import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Footer from "../../components/common/Footer";
-import { Container, Row, Col } from "../../components/Blocks";
+import { Container, Row, Col, keyframeFadeIn } from "../../components/Blocks";
 import { useQuery } from "react-apollo";
 import EventProgress from "./components/blocks/EventProgress";
 import { EVENT } from "./gql.js";
@@ -15,6 +15,9 @@ import EventHeader from "./components/blocks/EventHeader.js";
 import Overview from "./routes/Overview";
 import Requirements from "./routes/Requirements/index.js";
 import Review from "./routes/Review/index.js";
+import styled from "styled-components";
+import { useTransition, animated, config } from "react-spring";
+import { useMeasure } from "@softbind/hook-use-measure";
 
 const Index = ({ translate, match, location }) => {
 	const { data = {}, loading } = useQuery(EVENT, {
@@ -52,6 +55,7 @@ const Index = ({ translate, match, location }) => {
 			)}
 
 			<Content
+				location={location}
 				match={match}
 				theEvent={theEvent}
 				loading={loading}
@@ -71,8 +75,51 @@ const Index = ({ translate, match, location }) => {
 	);
 };
 
-const Content = React.memo(({ match, ...eventProps }) => {
+const idxRoute = path => {
+	if (path.includes("review")) {
+		return 2;
+	}
+	if (path.includes("requirements")) {
+		return 1;
+	}
+	return 0;
+};
+
+let curIdx = 0;
+
+const getDirection = newPath => {
+	const newIdx = idxRoute(newPath);
+	let dir = "back";
+	if (newIdx > curIdx) {
+		dir = "front";
+	}
+	curIdx = newIdx;
+	return dir;
+};
+
+const Content = React.memo(({ match, location, ...eventProps }) => {
 	const { theEvent, loading } = eventProps;
+	const ref = useRef(null);
+	const { bounds } = useMeasure(ref, "bounds");
+
+	const direction = getDirection(location.pathname);
+
+	const transitions = useTransition(location, location => location.pathname, {
+		config: {
+			tension: 500,
+			friction: 40,
+			precision: 0.001
+		},
+		from: {
+			opacity: 0,
+			transform: `translateX(${direction === "back" ? "-100px" : "100px"}`
+		},
+		enter: { opacity: 1, transform: "translateX(0px)" },
+		leave: {
+			opacity: 0,
+			transform: `translateX(${direction === "back" ? "100px" : "-100px"}`
+		}
+	});
 
 	return (
 		<div>
@@ -88,31 +135,32 @@ const Content = React.memo(({ match, ...eventProps }) => {
 						paddingBottom: "60px"
 					}}
 				>
-					<Col
-						style={{
-							width: "100%",
-							zIndex: 0,
-							position: "relative",
-							borderRight: "1px solid #E9ECF0",
-							paddingRight: "42px"
-						}}
-					>
-						<Switch>
-							<Route
-								path={match.path + "/overview"}
-								render={props => <Overview {...props} {...eventProps} />}
-							/>
-							<Route
-								path={match.path + "/requirements"}
-								render={props => <Requirements {...props} {...eventProps} />}
-							/>
-							<Route
-								path={match.path + "/review"}
-								render={props => <Review {...props} {...eventProps} />}
-							/>
-							<Redirect to={match.path + "/overview"} />
-						</Switch>
-					</Col>
+					<BorderCol style={{ height: bounds ? bounds.height : "auto" }}>
+						<AnimationWrapper>
+							{transitions.map(({ item, props, key }) => (
+								<animated.div key={key} ref={ref} style={props}>
+									<Switch location={item}>
+										<Route
+											path={match.path + "/overview"}
+											render={props => <Overview {...props} {...eventProps} />}
+										/>
+										<Route
+											path={match.path + "/requirements"}
+											render={props => (
+												<Requirements {...props} {...eventProps} />
+											)}
+										/>
+										<Route
+											path={match.path + "/review"}
+											render={props => <Review {...props} {...eventProps} />}
+										/>
+										<Redirect to={match.path + "/overview"} />
+									</Switch>
+								</animated.div>
+							))}
+							<Switch></Switch>
+						</AnimationWrapper>
+					</BorderCol>
 					<Col>
 						<EventProgress
 							style={{
@@ -128,5 +176,22 @@ const Content = React.memo(({ match, ...eventProps }) => {
 		</div>
 	);
 });
+
+const BorderCol = styled(Col)`
+	border-right: 1px solid #e9ecf0;
+	padding-right: 42px;
+	width: 100%;
+	z-index: 0;
+`;
+
+const AnimationWrapper = styled.div`
+	position: relative;
+	width: 100%;
+	height: 100%;
+	> div {
+		position: absolute;
+		transform-origin: center center;
+	}
+`;
 
 export default addTranslate(Index, [content, requestFormContent, modalContent]);

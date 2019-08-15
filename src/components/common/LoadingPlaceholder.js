@@ -4,7 +4,7 @@ import Button from "./Button-v2";
 class LoadingPlaceholder extends Component {
 	render() {
 		return (
-			<div className="timeline-wrapper">
+			<div className="timeline-wrapper" {...this.props}>
 				<div className="timeline-item">
 					<div className="animated-background">
 						<div className="background-masker header-top" />
@@ -30,7 +30,7 @@ class LoadingPlaceholder extends Component {
 class LoadingPlaceholder2 extends Component {
 	render() {
 		return (
-			<div className="animated-background two">
+			<div className="animated-background two" {...this.props}>
 				<div className="background-masker content-first-line" />
 				<div className="background-masker content-second-line" />
 			</div>

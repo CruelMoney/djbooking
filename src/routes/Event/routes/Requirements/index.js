@@ -10,9 +10,10 @@ import TextAreaPopup from "../../../../components/TextAreaPopup";
 import { Body } from "../../../../components/Text";
 import GenreSelector from "../../../../components/GenreSelector";
 import { PhoneInputNew } from "../../../../components/common/PhoneInput";
+
 const required = msg => val => (!val ? msg : null);
 
-const Requirements = ({ theEvent, translate }) => {
+const Requirements = React.forwardRef(({ theEvent, translate }, ref) => {
 	const [update, { loading }] = useMutation(UPDATE_EVENT);
 	if (!theEvent) {
 		return null;
@@ -29,6 +30,7 @@ const Requirements = ({ theEvent, translate }) => {
 	} = theEvent;
 
 	const save = (key, optimistic) => val =>
+		theEvent[key] !== val &&
 		update({
 			variables: {
 				id: theEvent.id,
@@ -46,7 +48,7 @@ const Requirements = ({ theEvent, translate }) => {
 		});
 
 	return (
-		<Col>
+		<Col ref={ref}>
 			<SavingIndicator loading={loading} />
 
 			<SettingsSection
@@ -146,8 +148,33 @@ const Requirements = ({ theEvent, translate }) => {
 					onSave={phone => save("contactPhone")({ phone: phone.trim() })}
 				/>
 			</SettingsSection>
+			<SettingsSection
+				id="system"
+				title={"System"}
+				description={
+					"Cancelling the event will give you a refund as per the DJs cancelation policy."
+				}
+			>
+				<Input
+					half
+					type="button"
+					label="Cancel event"
+					warning={true}
+					onClick={() => {}}
+					buttonText="cancel"
+				/>
+				<Input
+					half
+					type="button"
+					label="Export all data"
+					buttonText="export"
+					onClick={_ =>
+						window.alert("We'll send you an email when your data is ready.")
+					}
+				/>
+			</SettingsSection>
 		</Col>
 	);
-};
+});
 
 export default Requirements;

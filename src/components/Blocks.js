@@ -169,14 +169,14 @@ export const Show = styled.div`
 const ButtonTextStyle = css`
 	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
-	color: #4d6480 ;
+	color: #4d6480;
 	text-align: center;
 	line-height: 20px;
 	background: transparent;
 	border-radius: 4px;
-	min-width: 150px;
+	min-width: ${({ small }) => (small ? "130px" : "150px")};
 	padding: 0 1em;
-	height: 40px;
+	height: ${({ small }) => (small ? "30px" : "40px")};
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -290,4 +290,10 @@ export const GradientBg = styled.section`
 			margin-right: 6px;
 		}
 	}
+`;
+
+export const keyframeFadeIn = keyframes`
+    from { opacity: 0; }
+    to   { opacity: 1; }
+
 `;

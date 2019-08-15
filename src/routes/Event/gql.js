@@ -22,9 +22,7 @@ const EVENT = gql`
 			contactName
 			contactPhone
 			contactEmail
-			gigs {
-				id
-			}
+
 			rider {
 				lights
 				speakers
@@ -80,6 +78,7 @@ const EVENT_GIGS = gql`
 				dj {
 					id
 					permalink
+					artistName
 					picture {
 						path
 					}
