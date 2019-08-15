@@ -13,6 +13,8 @@ import EventProgress from "./components/blocks/EventProgress";
 import { EVENT } from "./gql.js";
 import EventHeader from "./components/blocks/EventHeader.js";
 import Overview from "./routes/Overview";
+import Requirements from "./routes/Requirements/index.js";
+import Review from "./routes/Review/index.js";
 
 const Index = ({ translate, match, location }) => {
 	const { data = {}, loading } = useQuery(EVENT, {
@@ -30,6 +32,10 @@ const Index = ({ translate, match, location }) => {
 
 	const title = theEvent ? theEvent.name : "Cueup | Event";
 	const description = theEvent ? theEvent.description : null;
+
+	if (theEvent) {
+		theEvent.hash = match.params.hash;
+	}
 
 	return (
 		<div>
@@ -65,7 +71,7 @@ const Index = ({ translate, match, location }) => {
 	);
 };
 
-const Content = React.memo(({ match, translate, ...eventProps }) => {
+const Content = React.memo(({ match, ...eventProps }) => {
 	const { theEvent, loading } = eventProps;
 
 	return (
@@ -82,33 +88,40 @@ const Content = React.memo(({ match, translate, ...eventProps }) => {
 						paddingBottom: "60px"
 					}}
 				>
-					<Col>
-						<EventProgress theEvent={theEvent} />
-					</Col>
 					<Col
 						style={{
 							width: "100%",
 							zIndex: 0,
 							position: "relative",
-							borderLeft: "1px solid #E9ECF0",
-							paddingLeft: "42px"
+							borderRight: "1px solid #E9ECF0",
+							paddingRight: "42px"
 						}}
 					>
 						<Switch>
 							<Route
 								path={match.path + "/overview"}
-								render={props => <Overview {...eventProps} />}
+								render={props => <Overview {...props} {...eventProps} />}
 							/>
-							{/* <Route
+							<Route
 								path={match.path + "/requirements"}
-								render={props => <Reviews {...props} {...userProps} />}
+								render={props => <Requirements {...props} {...eventProps} />}
 							/>
 							<Route
 								path={match.path + "/review"}
-								render={props => <Photos {...props} {...userProps} />}
-							/>  */}
+								render={props => <Review {...props} {...eventProps} />}
+							/>
 							<Redirect to={match.path + "/overview"} />
 						</Switch>
+					</Col>
+					<Col>
+						<EventProgress
+							style={{
+								position: "sticky",
+								top: "80px",
+								marginLeft: "42px"
+							}}
+							theEvent={theEvent}
+						/>
 					</Col>
 				</Row>
 			</Container>

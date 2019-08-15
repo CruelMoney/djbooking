@@ -17,12 +17,12 @@ import {
 	TeritaryButton
 } from "../../../components/Blocks";
 import { ButtonFileInput } from "../../../components/FormComponents";
-import { SavingIndicator } from "..";
 import RemoveButton from "react-ionicons/lib/MdRemoveCircle";
 import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../../../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
+import SavingIndicator from "../../../components/SavingIndicator";
 
 const LIMIT = 6;
 

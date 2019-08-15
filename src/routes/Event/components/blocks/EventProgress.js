@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import checkmark from "../../../../assets/checkmark.svg";
 
-const EventProgress = ({ theEvent }) => {
+const EventProgress = ({ style, theEvent }) => {
 	const accepted =
 		theEvent && ["ACCEPTED", "CONFIRMED"].includes(theEvent.status);
-	debugger;
+
 	return (
-		<Wrapper>
+		<Wrapper style={style}>
 			<ProgressStep label={"Create event"} completed />
 			<ProgressStep label={"Get offers form DJs"} completed={accepted} />
 			<ProgressStep
@@ -20,7 +20,6 @@ const EventProgress = ({ theEvent }) => {
 };
 
 const Wrapper = styled.div`
-	margin-right: 42px;
 	display: flex;
 	flex-direction: column;
 	:after {

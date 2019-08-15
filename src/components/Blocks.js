@@ -169,7 +169,7 @@ export const Show = styled.div`
 const ButtonTextStyle = css`
 	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
-	color: #4d6480 !important;
+	color: #4d6480 ;
 	text-align: center;
 	line-height: 20px;
 	background: transparent;

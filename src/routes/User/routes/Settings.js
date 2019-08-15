@@ -13,12 +13,12 @@ import LocationPicker from "../components/LocationPicker";
 import NotificationPreferences from "../components/NotificationPreferences";
 import GenreSelector from "../../../components/GenreSelector";
 import CancelationPolicyPopup from "../components/CancelationPolicyPopup";
-import BioPopup from "../components/BioPopup";
 import PayoutForm from "../../../components/common/PayoutForm";
 import Popup from "../../../components/common/Popup";
 import { DELETE_USER } from "../gql";
 import { Mutation } from "react-apollo";
 import { PhoneInputNew } from "../../../components/common/PhoneInput";
+import TextAreaPopup from "../../../components/TextAreaPopup";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
@@ -218,8 +218,9 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 						}
 						translate={translate}
 					/>
-					<BioPopup
+					<TextAreaPopup
 						initialValue={bio || ""}
+						label="Bio"
 						save={bio =>
 							saveData({
 								bio

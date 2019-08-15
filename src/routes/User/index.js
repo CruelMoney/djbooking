@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Switch, Route, Redirect } from "react-router";
 import styled from "styled-components";
 import content from "./content.json";
@@ -31,8 +31,6 @@ import {
 	ShowBelow
 } from "../../components/Blocks";
 import { useMutation } from "@apollo/react-hooks";
-import Notification from "../../components/common/Notification.js";
-import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Popup from "../../components/common/Popup.js";
 import Login from "../../components/common/Login.js";
@@ -52,6 +50,7 @@ import { ME } from "../../components/gql.js";
 import { Helmet } from "react-helmet-async";
 import { PAYMENT_CONFIRMED } from "../Event/gql.js";
 import PayForm from "../../components/common/PayForm.js";
+import SavingIndicator from "../../components/SavingIndicator.js";
 
 const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
 	const { userMetadata = {}, appMetadata = {}, playingLocation } = user || {};
@@ -331,31 +330,6 @@ const Index = ({ translate, match, location }) => {
 				</Query>
 			)}
 		</Query>
-	);
-};
-
-export const SavingIndicator = ({ loading, error, message }) => {
-	const [active, setActive] = useState(false);
-
-	useEffect(() => {
-		if (loading === false) {
-			const r = setTimeout(_ => setActive(false), error ? 10000 : 1000);
-			return _ => clearTimeout(r);
-		} else {
-			setActive(true);
-		}
-	}, [error, loading]);
-
-	return (
-		<Notification
-			overlay
-			bottom
-			active={active}
-			loading={loading}
-			message={message || "Saving"}
-		>
-			{error && <ErrorMessageApollo error={error} />}
-		</Notification>
 	);
 };
 

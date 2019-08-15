@@ -31,7 +31,7 @@ import { useMutation } from "@apollo/react-hooks";
 
 import ReactDOM from "react-dom";
 import { Popper } from "react-popper";
-import { SavingIndicator } from "..";
+import SavingIndicator from "../../../components/SavingIndicator";
 
 const ReviewsCol = styled(Col)`
 	flex: 1;
