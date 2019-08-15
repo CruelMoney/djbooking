@@ -43,15 +43,24 @@ export const useConnectInstagram = () => {
 	const connect = useCallback(
 		async args => {
 			const { variables, ...options } = args || {};
-			const { data } = await mutate({
-				variables: {
-					redirectLink: Environment.CALLBACK_DOMAIN,
-					...variables
-				},
-				...options
-			});
+			const redirectLink = Environment.CALLBACK_DOMAIN;
+			// redirect to insta auth screen
 			if (!variables || !variables.code) {
-				window.open(data.connectInstagram, "_blank");
+				window.open(
+					Environment.GQL_DOMAIN +
+						"/connectInstagram?redirectLink=" +
+						redirectLink,
+					"_blank"
+				);
+			} else {
+				// already have the code, lets connect
+				await mutate({
+					variables: {
+						redirectLink,
+						...variables
+					},
+					...options
+				});
 			}
 		},
 		[mutate]

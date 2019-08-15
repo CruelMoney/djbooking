@@ -342,7 +342,6 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 						window.alert("We'll send you an email when your data is ready.")
 					}
 				/>
-
 				<Input
 					half
 					loading={instaLoading}
