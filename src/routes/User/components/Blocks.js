@@ -169,17 +169,19 @@ export const Show = styled.div`
 const ButtonTextStyle = css`
 	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
-	color: #4d6480;
+	color: #4d6480 !important;
 	text-align: center;
 	line-height: 20px;
 	background: transparent;
 	border-radius: 4px;
 	min-width: 150px;
+	padding: 0 1em;
 	height: 40px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+	${({ disabled }) => (disabled ? "opacity: 0.5;" : "")}
 `;
 
 export const TeritaryButton = styled.button`
@@ -190,6 +192,14 @@ export const secondaryButtonStyle = css`
 	${ButtonTextStyle}
 	background: #E9ECF0;
 	margin-bottom: 0;
+	:hover {
+		${({ disabled }) =>
+			disabled
+				? ""
+				: `
+			background: #e1e5ea;
+		`}
+	}
 `;
 
 export const SecondaryButton = styled.button`

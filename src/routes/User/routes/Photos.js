@@ -504,12 +504,11 @@ const EmptyCTA = ({ uploadFiles }) => {
 };
 
 const ConnectInstaButton = () => {
-	const [connect, { loading }] = useConnectInstagram();
+	// const [connect, { loading }] = useConnectInstagram();
 
 	return (
-		<SecondaryButton disabled={loading} onClick={connect}>
-			Connect Instagram
-			{loading && <LoadingIndicator style={{ marginLeft: "5px" }} />}
+		<SecondaryButton disabled={true}>
+			Connect Instagram (available soon)
 		</SecondaryButton>
 	);
 };
