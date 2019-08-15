@@ -26,8 +26,6 @@ const hasChanges = (o1, o2) => {
 };
 
 const Settings = ({ user, loading, updateUser, translate, history }) => {
-
-
 	const saveData = async data => {
 		const flatUser = {
 			...user,
@@ -99,7 +97,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 		bio
 	} = userMetadata;
 	const { cancelationPolicy, currency, notifications } = userSettings;
-	const { roles, instagramConnected } = appMetadata;
+	const { roles } = appMetadata;
 
 	return (
 		<>

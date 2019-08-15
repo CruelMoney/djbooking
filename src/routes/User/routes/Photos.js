@@ -15,7 +15,6 @@ import {
 	SecondaryButton,
 	Col,
 	TeritaryButton,
-	LoadingIndicator
 } from "../components/Blocks";
 import { ButtonFileInput } from "../components/FormComponents";
 import { SavingIndicator } from "..";
@@ -24,7 +23,6 @@ import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
-import { useConnectInstagram } from "../../../utils/Hooks";
 
 const LIMIT = 6;
 
