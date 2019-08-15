@@ -216,7 +216,7 @@ const PhotoGrid = styled.ul`
 			grid-column: 1 / span 2;
 			grid-row: 1 / span 2;
 		}
-		&:last-child:after {
+		&:last-child:before {
 			content: "";
 			position: absolute;
 			top: 0;
@@ -227,6 +227,7 @@ const PhotoGrid = styled.ul`
 			height: 100%;
 			background-color: #111111;
 			opacity: 0.7;
+			z-index: 1;
 		}
 		> * {
 			position: absolute;
