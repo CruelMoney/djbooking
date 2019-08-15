@@ -6,7 +6,6 @@ const EVENT = gql`
 			id
 			name
 			description
-
 			start {
 				localDate
 				formattedTime(locale: $locale)
@@ -40,6 +39,9 @@ const EVENT = gql`
 				picture {
 					path
 				}
+			}
+			review {
+				id
 			}
 		}
 	}

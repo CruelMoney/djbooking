@@ -8,7 +8,7 @@ import {
 	Col,
 	GradientBg
 } from "../../../../components/Blocks";
-import { HeaderTitle } from "../../../../components/Text";
+import { HeaderTitle, Body, BodyBold } from "../../../../components/Text";
 
 const routes = [
 	{ route: "overview", label: "overview", active: true },
@@ -18,7 +18,7 @@ const routes = [
 
 const Header = ({ theEvent, loading }) => {
 	return (
-		<GradientBg style={{ height: "300px" }}>
+		<GradientBg style={{ height: "300px", top: "-252px" }}>
 			<Container>
 				<Row className="wrapper">
 					<FullWidthCol>
@@ -34,21 +34,23 @@ const Header = ({ theEvent, loading }) => {
 };
 
 const HeaderWrapper = styled.div`
-	padding-bottom: 48px;
-
-	@media only screen and (max-width: 425px) {
-		padding-bottom: 24px;
-	}
+	padding-bottom: 24px;
 `;
 
 const Content = ({ theEvent }) => {
-	const { name, date, location } = theEvent;
+	const { name, start, location } = theEvent;
 
 	return (
 		<HeaderWrapper>
 			<Row middle>
 				<Col style={{ flex: 1, alignItems: "flex-start" }}>
 					<HeaderTitle>{name}</HeaderTitle>
+					<BodyBold white opacity={0.75} style={{ margin: 0 }}>
+						{start.formattedDate}
+					</BodyBold>
+					<BodyBold white opacity={0.75}>
+						{location.name}
+					</BodyBold>
 				</Col>
 			</Row>
 		</HeaderWrapper>

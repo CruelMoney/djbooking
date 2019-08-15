@@ -63,9 +63,14 @@ export const TitleClean = styled.h3`
 export const Body = styled.p`
 	font-family: "AvenirNext-Regular", Arial, Helvetica, sans-serif;
 	font-size: 18px;
-	color: #4d6480;
+	color: ${({ white }) => (white ? "#fff" : "#4d6480")};
 	line-height: 27px;
 	letter-spacing: 0;
+	${({ opacity }) => opacity && `opacity: ${opacity};`}
+`;
+export const BodyBold = styled(Body)`
+	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
+	font-weight: 700;
 `;
 
 export const BodySmall = styled.p`

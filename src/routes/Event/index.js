@@ -75,21 +75,26 @@ const Content = React.memo(({ match, translate, ...eventProps }) => {
 			<EventHeader theEvent={theEvent} loading={loading} />
 
 			<Container>
-				<Row>
+				<Row
+					style={{
+						alignItems: "stretch",
+						paddingTop: "60px",
+						paddingBottom: "60px"
+					}}
+				>
 					<Col>
 						<EventProgress theEvent={theEvent} />
 					</Col>
 					<Col
 						style={{
-							marginTop: "42px",
 							width: "100%",
-							marginBottom: "60px",
 							zIndex: 0,
-							position: "relative"
+							position: "relative",
+							borderLeft: "1px solid #E9ECF0",
+							paddingLeft: "42px"
 						}}
 					>
 						<Switch>
-							/*{" "}
 							<Route
 								path={match.path + "/overview"}
 								render={props => <Overview {...eventProps} />}
