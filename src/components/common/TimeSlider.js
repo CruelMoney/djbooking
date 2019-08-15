@@ -24,8 +24,6 @@ const TimeSlider = ({
 			const newStartTime = moment.parseZone(startTime);
 			const newEndTime = moment.parseZone(endTime);
 
-			debugger;
-
 			setValues([
 				newStartTime.diff(date, "minutes"),
 				newEndTime.diff(date, "minutes")
