@@ -36,9 +36,7 @@ const Booking = ({ user, loading, translate }) => {
 	const [form, setForm] = useState({
 		guestsCount: 80,
 		speakers: false,
-		lights: false,
-		startTime: null,
-		endTime: null
+		lights: false
 	});
 	const [loginPopup, setloginPopup] = useState(false);
 
@@ -210,18 +208,8 @@ const EventForm = ({
 						endLabel={translate("end")}
 						date={moment(form.date)}
 						onChange={([start, end]) => {
-							setValue("startTime")(
-								moment(form.date)
-									.startOf("day")
-									.add(start, "minutes")
-									.toDate()
-							);
-							setValue("endTime")(
-								moment(form.date)
-									.startOf("day")
-									.add(end, "minutes")
-									.toDate()
-							);
+							setValue("startMinute")(start);
+							setValue("endMinute")(end);
 						}}
 					/>
 				</Label>
@@ -431,8 +419,8 @@ const Content = ({ user, values }) => {
 		date,
 		speakers,
 		lights,
-		startTime,
-		endTime,
+		startMinute,
+		endMinute,
 		name
 	} = values;
 
@@ -443,8 +431,16 @@ const Content = ({ user, values }) => {
 			{name && <SidebarRow>{name}</SidebarRow>}
 			<SidebarRow>{moment(date).format("dddd Do MMMM, YYYY")}</SidebarRow>
 			<SidebarRow>
-				From {moment(startTime).format("HH:mm")} to{" "}
-				{moment(endTime).format("HH:mm")}
+				From{" "}
+				{moment(date)
+					.startOf("day")
+					.add(startMinute, "minutes")
+					.format("HH:mm")}{" "}
+				to{" "}
+				{moment(date)
+					.startOf("day")
+					.add(endMinute, "minutes")
+					.format("HH:mm")}
 			</SidebarRow>
 			<SidebarRow>{guestsCount} guests</SidebarRow>
 			{speakers && <SidebarRow>Including speakers</SidebarRow>}

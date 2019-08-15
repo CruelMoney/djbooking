@@ -146,7 +146,6 @@ class Event extends Component {
 									disabled
 									hoursLabel={translate("hours")}
 									startLabel={translate("start")}
-									timeZone={theEvent.timeZone}
 									endLabel={translate("end")}
 									date={moment(theEvent.start.localDate)}
 									startTime={theEvent.start.localDate}

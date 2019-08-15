@@ -40,7 +40,7 @@ class Step1 extends PureComponent {
 		if (this.validationChecker(true)) {
 			this.setState({ loading: true });
 			this.props.checkDjAvailability(
-				this.props.form,
+				{ ...this.props.form, date: this.state.date.toDate() },
 				mutate,
 				(err, res, data) => {
 					this.setState({ loading: false });

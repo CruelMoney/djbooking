@@ -1,20 +1,13 @@
-import React, {
-	useState,
-	useEffect,
-	useContext,
-
-} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Slider from "./Slider";
 import wNumb from "wnumb";
 import moment from "moment-timezone";
 import { FormContext } from "./Form-v2";
 
 const TimeSlider = ({
-	date,
 	onChange,
 	startTime,
 	endTime,
-	timeZone,
 	hoursLabel,
 	startLabel,
 	endLabel,
@@ -22,29 +15,23 @@ const TimeSlider = ({
 	disabled
 }) => {
 	const [values, setValues] = useState([21 * 60, 27 * 60]);
-	const [theDate, setTheDate] = useState(moment().startOf("day"));
-
 	const { updateValue } = useContext(FormContext);
-
-	useEffect(() => {
-		setTheDate(moment(date).startOf("day"));
-	}, [date, setTheDate]);
 
 	useEffect(() => {
 		if (startTime && endTime) {
 			// parse and keep utc offset to get original hour and minute
-			const newStartTime = moment(startTime);
-			const newEndTime = moment(endTime);
-			if (timeZone) {
-				newStartTime.tz(timeZone);
-				newEndTime.tz(timeZone);
-			}
+			const date = moment.parseZone(startTime).startOf("day");
+			const newStartTime = moment.parseZone(startTime);
+			const newEndTime = moment.parseZone(endTime);
+
+			debugger;
+
 			setValues([
-				newStartTime.diff(theDate, "minutes"),
-				newEndTime.diff(theDate, "minutes")
+				newStartTime.diff(date, "minutes"),
+				newEndTime.diff(date, "minutes")
 			]);
 		}
-	}, [startTime, endTime, timeZone, theDate]);
+	}, [startTime, endTime]);
 
 	const handleChange = values => {
 		setValues(values);
@@ -55,19 +42,10 @@ const TimeSlider = ({
 
 	useEffect(() => {
 		if (updateValue) {
-			const startMoment = moment(theDate)
-				.add(values[0], "minutes")
-				.format();
-			const endMoment = moment(theDate)
-				.add(values[1], "minutes")
-				.format();
-
-			if (startTime !== startMoment || endTime !== endMoment) {
-				updateValue("startTime", startMoment);
-				updateValue("endTime", endMoment);
-			}
+			updateValue("startMinute", values[0]);
+			updateValue("endMinute", values[1]);
 		}
-	}, [theDate, values, updateValue, startTime, endTime]);
+	}, [updateValue, values]);
 
 	const getValues = values => {
 		return {

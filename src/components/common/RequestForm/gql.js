@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 const CHECK_DJ_AVAILABILITY = gql`
-	mutation DjsAvailable($location: Area!, $startTime: DateTime!) {
-		djsAvailable(location: $location, date: $startTime)
+	mutation DjsAvailable($location: Area!, $date: DateTime!) {
+		djsAvailable(location: $location, date: $date)
 	}
 `;
 
@@ -15,8 +15,9 @@ const CREATE_EVENT = gql`
 		$contactPhone: String
 		$speakers: Boolean
 		$lights: Boolean
-		$startTime: DateTime!
-		$endTime: DateTime!
+		$date: DateTime!
+		$startMinute: Int!
+		$endMinute: Int!
 		$genres: [String!]!
 		$guestsCount: Int!
 		$location: Area!
@@ -31,8 +32,9 @@ const CREATE_EVENT = gql`
 			contactPhone: $contactPhone
 			speakers: $speakers
 			lights: $lights
-			start: $startTime
-			end: $endTime
+			startMinute: $startMinute
+			endMinute: $endMinute
+			date: $date
 			timeZone: $timeZone
 			genres: $genres
 			guestsCount: $guestsCount

@@ -35,7 +35,8 @@ const MainForm = class extends PureComponent {
 			...form,
 			guestsCount: form.guests[0],
 			timeZone: this.state.timeZoneId,
-			location: this.state.location
+			location: this.state.location,
+			date: this.state.date.toDate()
 		};
 	}
 
