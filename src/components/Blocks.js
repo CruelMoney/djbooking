@@ -297,3 +297,36 @@ export const keyframeFadeIn = keyframes`
     to   { opacity: 1; }
 
 `;
+
+const buttons = {
+	primary: PrimaryButton,
+	secondary: SecondaryButton,
+	tertiary: TeritaryButton
+};
+
+export const SmartButton = ({
+	level = "primary",
+	onClick,
+	children,
+	loading,
+	warning,
+	...props
+}) => {
+	const Button = buttons[level];
+
+	const handleClick = e => {
+		if (warning) {
+			const confirmed = window.confirm(warning);
+			if (confirmed) {
+				onClick(e);
+			}
+		}
+	};
+
+	return (
+		<Button onClick={handleClick} {...props}>
+			{children}
+			{loading && <LoadingIndicator />}
+		</Button>
+	);
+};

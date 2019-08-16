@@ -68,9 +68,11 @@ const App = class extends Component {
 
 	componentDidMount() {
 		// Setup custom analytics
-		analytics();
-		ReactPixel.init(Environment.PIXEL_ID);
-		ReactPixel.pageView();
+		if (process.env.NODE_ENV !== "development") {
+			analytics();
+			ReactPixel.init(Environment.PIXEL_ID);
+			ReactPixel.pageView();
+		}
 	}
 
 	UNSAFE_componentWillReceiveProps(nextprops) {

@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 const EVENT = gql`
-	query($id: ID!, $hash: String!, $locale: String) {
+	query Event($id: ID!, $hash: String!, $locale: String) {
 		event(id: $id, hash: $hash) {
 			id
 			name
@@ -48,7 +48,12 @@ const EVENT = gql`
 `;
 
 const EVENT_GIGS = gql`
-	query($id: ID!, $hash: String!, $currency: Currency, $locale: String) {
+	query EventGigs(
+		$id: ID!
+		$hash: String!
+		$currency: Currency
+		$locale: String
+	) {
 		event(id: $id, hash: $hash) {
 			id
 			gigs {
@@ -103,7 +108,7 @@ const EVENT_GIGS = gql`
 `;
 
 const EVENT_REVIEW = gql`
-	query($id: ID!, $hash: String!) {
+	query EventReview($id: ID!, $hash: String!) {
 		event(id: $id, hash: $hash) {
 			id
 			review {
@@ -119,7 +124,7 @@ const EVENT_REVIEW = gql`
 `;
 
 const REQUEST_PAYMENT_INTENT = gql`
-	query($id: ID!, $currency: Currency, $locale: String) {
+	query RequestPaymentintent($id: ID!, $currency: Currency, $locale: String) {
 		requestPaymentIntent(gigId: $id, currency: $currency) {
 			__typename
 			gigId

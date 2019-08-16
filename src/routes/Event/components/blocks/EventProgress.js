@@ -1,15 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 import checkmark from "../../../../assets/checkmark.svg";
+import { useQuery } from "react-apollo";
+import { EVENT_GIGS } from "../../gql";
 
-const EventProgress = ({ theEvent }) => {
+const EventProgress = ({ theEvent = {} }) => {
+	const { id, hash } = theEvent;
+	const { data = {} } = useQuery(EVENT_GIGS, {
+		skip: !id || !hash,
+		variables: {
+			id,
+			hash
+		}
+	});
+
 	const accepted =
-		theEvent && ["ACCEPTED", "CONFIRMED"].includes(theEvent.status);
+		data.event && data.event.gigs && data.event.gigs.some(g => g.offer);
 
 	return (
 		<Wrapper>
 			<ProgressStep label={"Create event"} completed />
-			<ProgressStep label={"Get offers form DJs"} completed={accepted} />
+			<ProgressStep label={"Get offers from DJs"} completed={accepted} />
 			<ProgressStep
 				label={"Confirm and pay"}
 				completed={theEvent && theEvent.status === "CONFIRMED"}

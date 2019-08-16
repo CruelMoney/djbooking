@@ -20,10 +20,14 @@ import { useTransition, animated } from "react-spring";
 import { useMeasure } from "@softbind/hook-use-measure";
 
 const Index = ({ translate, match, location }) => {
+	const {
+		params: { id, hash }
+	} = match;
 	const { data = {}, loading } = useQuery(EVENT, {
+		skip: !id || !hash,
 		variables: {
-			id: match.params.id,
-			hash: match.params.hash
+			id,
+			hash
 		}
 	});
 

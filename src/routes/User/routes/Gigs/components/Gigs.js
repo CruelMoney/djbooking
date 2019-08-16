@@ -60,7 +60,7 @@ class Gigs extends PureComponent {
 		return (
 			<Query
 				query={MY_GIGS}
-				variables={{ limit: 100, locale: currentLanguage }}
+				variables={{ limit: 1000, locale: currentLanguage }}
 				onError={console.log}
 			>
 				{({ data = {}, loading }) => {
@@ -70,7 +70,7 @@ class Gigs extends PureComponent {
 
 					const { myGigs = {} } = data;
 					const { edges: gigs = [] } = myGigs;
-
+					debugger;
 					return <div>{gigs && renderGigs(gigs)}</div>;
 				}}
 			</Query>

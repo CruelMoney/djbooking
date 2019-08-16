@@ -14,6 +14,7 @@ import addTranslate from "./higher-order/addTranslate";
 import { useLogout } from "../utils/Hooks";
 import Popup from "./common/Popup";
 import InstagramConnect from "./InstagramConnect";
+import { notificationService } from "../utils/NotificationService";
 
 const Menu = ({ translate, history, location }) => {
 	const [loginExpanded, setLoginExpanded] = useState(false);
@@ -27,7 +28,13 @@ const Menu = ({ translate, history, location }) => {
 	const isHome = location.pathname === "/" || location.pathname === "/dk";
 
 	return (
-		<Query query={ME} onError={console.log}>
+		<Query
+			query={ME}
+			onError={console.log}
+			onCompleted={({ me }) => {
+				me && notificationService.init(me.id);
+			}}
+		>
 			{({ refetch, loading, data = {} }) => {
 				const { me: user } = data;
 

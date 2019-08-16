@@ -7,7 +7,8 @@ import {
 	SecondaryButton,
 	TeritaryButton,
 	Hr,
-	PrimaryButton
+	PrimaryButton,
+	SmartButton
 } from "../../../../components/Blocks";
 import GracefullImage from "../../../../components/GracefullImage";
 import { SmallHeader, BodySmall, BodyBold } from "../../../../components/Text";
@@ -18,12 +19,31 @@ import ConditionalWrap from "../../../../components/ConditionalWrap";
 import Popup from "../../../../components/common/Popup";
 import Chat from "../../../../components/common/Chat";
 import EmptyPage from "../../../../components/common/EmptyPage";
+import { useMutation } from "react-apollo";
+import { DECLINE_DJ } from "../../gql";
+import ReactPixel from "react-facebook-pixel";
+import PayForm from "../../../../components/common/PayForm";
 
 const hiddenEmail = "12345678@1234".replace(/\w/g, "•") + ".com";
 const hiddenNumber = "45 24 65 80 61".replace(/\w/g, "•");
 
-const DjCard = ({ style, idx, gig, translate, theEvent, hasMessage }) => {
+const DjCard = ({
+	style,
+	idx,
+	gig,
+	translate,
+	theEvent,
+	hasMessage,
+	onOpenChat
+}) => {
 	const [showChat, setShowChat] = useState(false);
+	const [showPayment, setShowPayment] = useState(false);
+
+	const initiateBooking = () => {
+		ReactPixel.track("InitiateCheckout");
+		setShowPayment(true);
+	};
+
 	const { dj, offer, status } = gig;
 	if (!dj) {
 		return null;
@@ -47,20 +67,25 @@ const DjCard = ({ style, idx, gig, translate, theEvent, hasMessage }) => {
 								{truncatedBio}
 							</BodySmall>
 							<Row>
-								<SecondaryButton
-									small
-									style={{ position: "relative" }}
-									onClick={() => setShowChat(true)}
-								>
-									Message
-									{hasMessage && <div className="notification-bubble">1</div>}
-								</SecondaryButton>
+								{theEvent.status !== "FINISHED" && (
+									<SecondaryButton
+										small
+										style={{ position: "relative" }}
+										onClick={() => {
+											setShowChat(true);
+											onOpenChat();
+										}}
+									>
+										Message
+										{hasMessage && <div className="notification-bubble">1</div>}
+									</SecondaryButton>
+								)}
 								<NavLink
 									to={{
 										pathname: `${translate("routes./user")}/${
 											dj.permalink
 										}/overview?gigId=${gig.id}`,
-										state: { offer, gig }
+										state: { offer, gig, event: theEvent }
 									}}
 								>
 									<TeritaryButton small>See profile</TeritaryButton>
@@ -94,7 +119,13 @@ const DjCard = ({ style, idx, gig, translate, theEvent, hasMessage }) => {
 					</Row>
 					<Hr />
 
-					<Offer {...offer} name={name} />
+					<Offer
+						{...offer}
+						gig={gig}
+						translate={translate}
+						name={name}
+						initiateBooking={initiateBooking}
+					/>
 				</Content>
 			</Card>
 			<Shadow />
@@ -102,35 +133,85 @@ const DjCard = ({ style, idx, gig, translate, theEvent, hasMessage }) => {
 			<ChatPopup
 				showing={showChat}
 				translate={translate}
-				hide={() => setShowChat(false)}
+				close={() => setShowChat(false)}
 				dj={dj}
 				organizer={theEvent.organizer}
 				eventId={theEvent.id}
 				showInfo={showInfo}
 				gig={gig}
 			/>
+			<PayPopup
+				showing={showPayment}
+				translate={translate}
+				close={() => setShowPayment(false)}
+				theEvent={theEvent}
+				gig={gig}
+			/>
 		</Wrapper>
 	);
 };
 
-const Offer = ({ name, offer }) => {
+const Offer = ({ name, offer, translate, gig, initiateBooking }) => {
+	const [decline, { loading }] = useMutation(DECLINE_DJ, {
+		variables: {
+			gigId: gig.id
+		},
+		onCompleted: window.location.reload
+	});
+
+	const { status } = gig;
+
 	return (
-		<OfferRow>
-			<OfferText muted={!offer}>
-				{offer ? offer.formatted : "No offer yet"}
-			</OfferText>
+		<OfferRow middle>
+			<Col>
+				<OfferText muted={!offer}>
+					{offer ? offer.formatted : "No offer yet"}
+				</OfferText>
+				{["CONFIRMED"].includes(status) && (
+					<OfferText muted={true}>Paid and confirmed</OfferText>
+				)}
+			</Col>
 			<Row>
-				<TeritaryButton>Decline</TeritaryButton>
-				{offer && <PrimaryButton>Book {name}</PrimaryButton>}
+				{["ACCEPTED", "REQUESTED"].includes(status) && (
+					<SmartButton
+						loading={loading}
+						onClick={() => decline()}
+						warning={translate("decline-warning")}
+						level="tertiary"
+					>
+						Decline
+					</SmartButton>
+				)}
+				{["ACCEPTED"].includes(status) && (
+					<PrimaryButton onClick={initiateBooking}>Book {name}</PrimaryButton>
+				)}
+				{["CONFIRMED"].includes(status) && (
+					<NavLink to="review">
+						<PrimaryButton>Review {name}</PrimaryButton>
+					</NavLink>
+				)}
 			</Row>
 		</OfferRow>
+	);
+};
+
+const PayPopup = ({ showing, close, gig, paymentPossible, theEvent }) => {
+	return (
+		<Popup showing={showing} onClickOutside={close} noPadding>
+			<PayForm
+				paymentPossible={paymentPossible}
+				id={gig.id}
+				offer={gig.offer}
+				event={theEvent}
+			/>
+		</Popup>
 	);
 };
 
 const ChatPopup = ({
 	translate,
 	showing,
-	hide,
+	close,
 	dj,
 	organizer,
 	gig,
@@ -138,7 +219,7 @@ const ChatPopup = ({
 	showInfo
 }) => {
 	return (
-		<Popup hideClose noPadding showing={showing} onClickOutside={hide}>
+		<Popup hideClose noPadding showing={showing} onClickOutside={close}>
 			<Chat
 				showPersonalInformation={showInfo}
 				eventId={eventId}
@@ -166,13 +247,13 @@ const ChatPopup = ({
 
 const OfferText = styled(BodyBold)`
 	font-size: 18px;
+	margin: 0;
 	color: ${({ muted }) => (muted ? "#98A4B3" : "#122b48")};
 `;
 
 const OfferRow = styled(Row)`
 	padding-top: 24px;
 	justify-content: space-between;
-	align-items: flex-end;
 `;
 
 const ColLeft = styled(Col)`
