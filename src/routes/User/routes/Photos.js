@@ -14,7 +14,8 @@ import { getErrorMessage } from "../../../components/common/ErrorMessageApollo";
 import {
 	SecondaryButton,
 	Col,
-	TeritaryButton
+	TeritaryButton,
+	LoadingIndicator
 } from "../../../components/Blocks";
 import { ButtonFileInput } from "../../../components/FormComponents";
 import RemoveButton from "react-ionicons/lib/MdRemoveCircle";
@@ -23,6 +24,7 @@ import { useInView } from "react-intersection-observer";
 import GracefullVideo from "../../../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
 import SavingIndicator from "../../../components/SavingIndicator";
+import { useConnectInstagram } from "../../../utils/Hooks";
 
 const LIMIT = 6;
 
@@ -502,11 +504,12 @@ const EmptyCTA = ({ uploadFiles }) => {
 };
 
 const ConnectInstaButton = () => {
-	// const [connect, { loading }] = useConnectInstagram();
+	const [connect, { loading }] = useConnectInstagram();
 
 	return (
-		<SecondaryButton disabled={true}>
-			Connect Instagram (available soon)
+		<SecondaryButton disabled={loading} onClick={connect}>
+			Connect Instagram
+			{loading && <LoadingIndicator style={{ marginLeft: "5px" }} />}
 		</SecondaryButton>
 	);
 };
