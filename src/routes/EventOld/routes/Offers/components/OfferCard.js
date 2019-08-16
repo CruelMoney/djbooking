@@ -127,6 +127,7 @@ class OfferCard extends Component {
 					<Popup
 						hideClose
 						noPadding
+						lazy={false}
 						showing={this.state.showChat}
 						onClickOutside={this.hideChat}
 					>

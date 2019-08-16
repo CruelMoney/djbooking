@@ -25,7 +25,13 @@ const Overview = React.forwardRef(({ theEvent = {}, translate }, ref) => {
 				<LoadingPlaceholder2 style={{ marginTop: "30px" }} />
 			) : (
 				gigs.map((gig, idx) => (
-					<DjCard key={gig.id} idx={idx} gig={gig} translate={translate} />
+					<DjCard
+						key={gig.id}
+						idx={idx}
+						gig={gig}
+						translate={translate}
+						theEvent={theEvent}
+					/>
 				))
 			)}
 		</Col>

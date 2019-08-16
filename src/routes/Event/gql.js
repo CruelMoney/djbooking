@@ -22,7 +22,6 @@ const EVENT = gql`
 			contactName
 			contactPhone
 			contactEmail
-
 			rider {
 				lights
 				speakers
@@ -34,6 +33,9 @@ const EVENT = gql`
 			}
 			organizer {
 				id
+				userMetadata {
+					firstName
+				}
 				picture {
 					path
 				}

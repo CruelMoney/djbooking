@@ -7,7 +7,7 @@ import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Footer from "../../components/common/Footer";
-import { Container, Row, Col, keyframeFadeIn } from "../../components/Blocks";
+import { Container, Row, Col } from "../../components/Blocks";
 import { useQuery } from "react-apollo";
 import EventProgress from "./components/blocks/EventProgress";
 import { EVENT } from "./gql.js";
@@ -16,7 +16,7 @@ import Overview from "./routes/Overview";
 import Requirements from "./routes/Requirements/index.js";
 import Review from "./routes/Review/index.js";
 import styled from "styled-components";
-import { useTransition, animated, config } from "react-spring";
+import { useTransition, animated } from "react-spring";
 import { useMeasure } from "@softbind/hook-use-measure";
 
 const Index = ({ translate, match, location }) => {
@@ -97,7 +97,8 @@ const getDirection = newPath => {
 	return dir;
 };
 
-const Content = React.memo(({ match, location, ...eventProps }) => {
+const Content = React.memo(props => {
+	const { match, location, ...eventProps } = props;
 	const { theEvent, loading } = eventProps;
 	const ref = useRef(null);
 	const { bounds } = useMeasure(ref, "bounds");
@@ -141,7 +142,7 @@ const Content = React.memo(({ match, location, ...eventProps }) => {
 								<animated.div key={key} ref={ref} style={props}>
 									<Switch location={item}>
 										<Route
-											path={match.path + "/overview"}
+											path={[match.path + "/overview", match.path + "/info"]}
 											render={props => <Overview {...props} {...eventProps} />}
 										/>
 										<Route
@@ -154,11 +155,9 @@ const Content = React.memo(({ match, location, ...eventProps }) => {
 											path={match.path + "/review"}
 											render={props => <Review {...props} {...eventProps} />}
 										/>
-										<Redirect to={match.path + "/overview"} />
 									</Switch>
 								</animated.div>
 							))}
-							<Switch></Switch>
 						</AnimationWrapper>
 					</BorderCol>
 					<Col>
@@ -191,6 +190,7 @@ const AnimationWrapper = styled.div`
 	> div {
 		position: absolute;
 		transform-origin: center center;
+		max-width: 100%;
 	}
 `;
 
