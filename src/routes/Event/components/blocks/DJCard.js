@@ -22,7 +22,7 @@ import EmptyPage from "../../../../components/common/EmptyPage";
 const hiddenEmail = "12345678@1234".replace(/\w/g, "•") + ".com";
 const hiddenNumber = "45 24 65 80 61".replace(/\w/g, "•");
 
-const DjCard = ({ style, idx, gig, translate, theEvent }) => {
+const DjCard = ({ style, idx, gig, translate, theEvent, hasMessage }) => {
 	const [showChat, setShowChat] = useState(false);
 	const { dj, offer, status } = gig;
 	if (!dj) {
@@ -53,7 +53,7 @@ const DjCard = ({ style, idx, gig, translate, theEvent }) => {
 									onClick={() => setShowChat(true)}
 								>
 									Message
-									{true && <div className="notification-bubble">1</div>}
+									{hasMessage && <div className="notification-bubble">1</div>}
 								</SecondaryButton>
 								<NavLink
 									to={{
@@ -137,7 +137,6 @@ const ChatPopup = ({
 	eventId,
 	showInfo
 }) => {
-	debugger;
 	return (
 		<Popup hideClose noPadding showing={showing} onClickOutside={hide}>
 			<Chat

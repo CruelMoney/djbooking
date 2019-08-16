@@ -129,13 +129,7 @@ const Content = React.memo(props => {
 			<EventHeader theEvent={theEvent} loading={loading} />
 
 			<Container>
-				<Row
-					style={{
-						alignItems: "stretch",
-						paddingTop: "60px",
-						paddingBottom: "60px"
-					}}
-				>
+				<ContainerRow>
 					<BorderCol style={{ height: bounds ? bounds.height : "auto" }}>
 						<AnimationWrapper>
 							{transitions.map(({ item, props, key }) => (
@@ -161,26 +155,32 @@ const Content = React.memo(props => {
 						</AnimationWrapper>
 					</BorderCol>
 					<Col>
-						<EventProgress
-							style={{
-								position: "sticky",
-								top: "80px",
-								marginLeft: "42px"
-							}}
-							theEvent={theEvent}
-						/>
+						<EventProgress theEvent={theEvent} />
 					</Col>
-				</Row>
+				</ContainerRow>
 			</Container>
 		</div>
 	);
 });
+
+const ContainerRow = styled(Row)`
+	align-items: stretch;
+	padding-top: 60px;
+	padding-bottom: 60px;
+	@media only screen and (max-width: 768px) {
+		flex-direction: column-reverse;
+	}
+`;
 
 const BorderCol = styled(Col)`
 	border-right: 1px solid #e9ecf0;
 	padding-right: 42px;
 	width: 100%;
 	z-index: 0;
+	@media only screen and (max-width: 768px) {
+		border-right: none;
+		padding-right: 0;
+	}
 `;
 
 const AnimationWrapper = styled.div`

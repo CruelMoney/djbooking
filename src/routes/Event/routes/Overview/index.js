@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Title, Body } from "../../../../components/Text";
 import { Col } from "../../../../components/Blocks";
 import DjCard from "../../components/blocks/DJCard";
 import { useQuery } from "react-apollo";
 import { EVENT_GIGS } from "../../gql";
 import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceholder";
+import { notificationService } from "../../../../utils/NotificationService";
+import { captureException } from "@sentry/core";
 
 const Overview = React.forwardRef(({ theEvent = {}, translate }, ref) => {
 	const { status } = theEvent;
+
+	const [gigMessages, setGigMessages] = useState([]);
 	const { data = {}, loading } = useQuery(EVENT_GIGS, {
 		variables: {
 			id: theEvent.id,
 			hash: theEvent.hash
 		}
 	});
+
+	useEffect(() => {
+		const connect = async () => {
+			try {
+				const res = await notificationService.getChatStatus();
+				setGigMessages(res);
+			} catch (error) {
+				console.log(error);
+				captureException(error);
+			}
+		};
+
+		connect();
+	}, []);
 
 	const gigs = data.event ? data.event.gigs : [];
 
@@ -26,6 +44,7 @@ const Overview = React.forwardRef(({ theEvent = {}, translate }, ref) => {
 			) : (
 				gigs.map((gig, idx) => (
 					<DjCard
+						hasMessage={gigMessages[gig.id]}
 						key={gig.id}
 						idx={idx}
 						gig={gig}
