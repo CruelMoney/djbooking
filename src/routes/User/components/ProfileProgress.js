@@ -34,7 +34,7 @@ const checks = [
 		linkTo: "/signup"
 	},
 	{
-		label: "Add photos",
+		label: "Add photos or connect Instagram",
 		check: u => u.media.edges.length > 0,
 		linkTo: "photos"
 	}
