@@ -8,7 +8,7 @@ import {
 	Col,
 	GradientBg
 } from "../../../../components/Blocks";
-import { HeaderTitle, Body, BodyBold } from "../../../../components/Text";
+import { HeaderTitle, BodyBold } from "../../../../components/Text";
 
 const routes = [
 	{ route: "overview", label: "overview", active: true },

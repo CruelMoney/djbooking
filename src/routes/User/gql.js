@@ -430,6 +430,26 @@ const HIGHLIGHT_REVIEW = gql`
 	}
 `;
 
+const GIG = gql`
+	query($id: ID!, $currency: Currency) {
+		gig(id: $id) {
+			id
+			status
+			event {
+				id
+				status
+			}
+			offer {
+				totalPayment(currency: $currency) {
+					formatted
+					amount
+				}
+				daysUntilPaymentPossible
+			}
+		}
+	}
+`;
+
 export {
 	MY_EVENTS,
 	USER,
@@ -449,5 +469,6 @@ export {
 	UPDATE_FILE,
 	UPDATE_PHOTOS_ORDER,
 	CONNECT_INSTAGRAM,
-	DISCONNECT_INSTAGRAM
+	DISCONNECT_INSTAGRAM,
+	GIG
 };

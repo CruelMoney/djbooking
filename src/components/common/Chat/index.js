@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import ChatService from "../../../utils/ChatService";
 import { authService as auth } from "../../../utils/AuthService";
 import debounce from "lodash.debounce";
-import Popup from "../Popup";
 import "./index.css";
-import Button from "../Button-v2";
 import LoadingPlaceholder from "../LoadingPlaceholder";
 class Chat extends Component {
 	chat = null;

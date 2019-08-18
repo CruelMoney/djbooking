@@ -71,6 +71,7 @@
 		"postcss-loader": "^2.0.8",
 		"prop-types": "^15.7.2",
 		"qrcode.react": "^0.7.2",
+		"query-string": "^6.8.2",
 		"radium": "^0.19.6",
 		"rc-queue-anim": "^1.6.12",
 		"rc-scroll-anim": "^2.5.9",

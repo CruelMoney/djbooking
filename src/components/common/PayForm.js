@@ -5,8 +5,11 @@ import Button from "./Button-v2";
 import { connect } from "react-redux";
 import MoneyTable, { TableItem } from "./MoneyTable";
 import { getTranslate, getActiveLanguage } from "react-localize-redux";
-import { Query } from "react-apollo";
-import { REQUEST_PAYMENT_INTENT } from "../../routes/Event/gql";
+import { Query, useMutation } from "react-apollo";
+import {
+	REQUEST_PAYMENT_INTENT,
+	PAYMENT_CONFIRMED
+} from "../../routes/Event/gql";
 import StripeFormWrapper from "./StripePayForm";
 import XenditPayForm from "./XenditPayForm";
 import * as tracker from "../../utils/analytics/autotrack";
@@ -17,6 +20,7 @@ import addTranslate from "../higher-order/addTranslate";
 import requestFormContent from "./RequestForm/content.json";
 import modalContent from "./modals/content.json";
 import content from "../../routes/Event/content.json";
+import NotifyPayment from "./NotifyPayment";
 
 const PayForm = ({
 	translate,
@@ -32,18 +36,41 @@ const PayForm = ({
 	const size = useComponentSize(div);
 	const [isPaid, setIsPaid] = useState(false);
 
+	const [setPaymentConfirmed] = useMutation(PAYMENT_CONFIRMED, {
+		variables: {
+			gigId: id,
+			eventId: event.id
+		}
+	});
+
 	const paymentConfirmed = () => {
 		tracker.trackEventPaid(offer.totalPayment.amount);
 		ReactPixel.track("Purchase", {
 			currency: currency,
 			value: offer.totalPayment.amount
 		});
-		onPaymentConfirmed();
+		setPaymentConfirmed();
+		onPaymentConfirmed && onPaymentConfirmed();
 		setIsPaid(true);
 	};
 
 	if (isPaid) {
 		return <ThankYouContent style={size} translate={translate} />;
+	}
+
+	const canBePaid = offer.daysUntilPaymentPossible < 1;
+
+	if (!canBePaid) {
+		return (
+			<div style={{ padding: "2em" }}>
+				<NotifyPayment
+					hashKey={event.hash}
+					eventId={event.id}
+					daysUntilPaymentPossible={offer.daysUntilPaymentPossible}
+					translate={translate}
+				/>
+			</div>
+		);
 	}
 
 	const variables = {

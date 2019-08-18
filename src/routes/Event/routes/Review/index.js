@@ -1,5 +1,5 @@
 import React from "react";
-import { Title, Body } from "../../../../components/Text";
+import { Title } from "../../../../components/Text";
 import { Col } from "../../../../components/Blocks";
 
 const Review = React.forwardRef(({ theEvent = {}, translate }, ref) => {

@@ -77,7 +77,11 @@ const Navigation = ({ routes, location }) => {
 					<StyledLink
 						exact
 						key={route}
-						to={route}
+						to={{
+							pathname: route,
+							search: location.search,
+							state: location.state
+						}}
 						innerRef={r => {
 							if (active) {
 								activeRef.current = r;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import {
 	Col,
 	keyframeFadeIn,
@@ -84,8 +84,9 @@ const DjCard = ({
 									to={{
 										pathname: `${translate("routes./user")}/${
 											dj.permalink
-										}/overview?gigId=${gig.id}`,
-										state: { offer, gig, event: theEvent }
+										}/overview`,
+										state: { gigId: gig.id },
+										search: `?gigId=${gig.id}`
 									}}
 								>
 									<TeritaryButton small>See profile</TeritaryButton>
@@ -95,7 +96,7 @@ const DjCard = ({
 						<RightCol>
 							{email && (
 								<ConditionalWrap
-									condition={true}
+									condition={showInfo}
 									wrap={children => <a href={"mailto:" + email}>{children}</a>}
 								>
 									<InfoBox>
@@ -106,7 +107,7 @@ const DjCard = ({
 							)}
 							{phone && (
 								<ConditionalWrap
-									condition={true}
+									condition={showInfo}
 									wrap={children => <a href={"tel:" + phone}>{children}</a>}
 								>
 									<InfoBox>
@@ -195,9 +196,16 @@ const Offer = ({ name, offer, translate, gig, initiateBooking }) => {
 	);
 };
 
-const PayPopup = ({ showing, close, gig, paymentPossible, theEvent }) => {
+const PayPopup = ({
+	showing,
+	close,
+	gig,
+	paymentPossible,
+	theEvent,
+	translate
+}) => {
 	return (
-		<Popup showing={showing} onClickOutside={close} noPadding>
+		<Popup showing={showing} onClickOutside={close}>
 			<PayForm
 				paymentPossible={paymentPossible}
 				id={gig.id}

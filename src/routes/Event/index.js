@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Route, Redirect, Switch } from "react-router-dom";
 import content from "./content.json";

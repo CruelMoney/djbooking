@@ -5,14 +5,10 @@ import content from "./content.json";
 import requestformContent from "../../components/common/RequestForm/content.json";
 import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
-import { Query, Mutation } from "react-apollo";
+import { Query } from "react-apollo";
 import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
-import Sidebar, {
-	CTAButton,
-	SidebarContent,
-	CTAShadow
-} from "./components/Sidebar.js";
+import Sidebar, { SidebarContent, CTAShadow } from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
 import {
 	Overview,
@@ -41,15 +37,13 @@ import Medal from "react-ionicons/lib/MdMedal";
 import Star from "react-ionicons/lib/MdStar";
 import Tooltip from "../../components/Tooltip";
 import moment from "moment";
-import { NavLink } from "react-router-dom";
 import GracefullImage from "../../components/GracefullImage";
 import { SmallHeader, Stat } from "../../components/Text";
 import AddCircle from "react-ionicons/lib/MdAddCircle";
 import ProfileProgress from "./components/ProfileProgress.js";
 import { ME } from "../../components/gql.js";
 import { Helmet } from "react-helmet-async";
-import { PAYMENT_CONFIRMED } from "../Event/gql.js";
-import PayForm from "../../components/common/PayForm.js";
+import BookingButton from "./components/BookingButton";
 import SavingIndicator from "../../components/SavingIndicator.js";
 
 const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
@@ -135,10 +129,10 @@ const UserContainer = styled(Container)`
 `;
 
 const Content = React.memo(({ match, ...userProps }) => {
-	const { user, loading } = userProps;
+	const { user, loading, location } = userProps;
 	const showPrivateRoutes = loading || (user && user.isOwn);
 	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
-
+	debugger;
 	return (
 		<div>
 			<ScrollToTop animate top={280} />
@@ -160,46 +154,66 @@ const Content = React.memo(({ match, ...userProps }) => {
 							position: "relative"
 						}}
 					>
-						<Switch>
+						<Switch location={location}>
 							<Route
-								path={match.path + "/overview"}
+								strict
+								exact
+								path={match.url + "/overview"}
 								render={props => <Overview {...props} {...userProps} />}
 							/>
 							<Route
-								path={match.path + "/reviews"}
+								strict
+								exact
+								path={match.url + "/reviews"}
 								render={props => <Reviews {...props} {...userProps} />}
 							/>
 							<Route
+								strict
+								exact
 								path={match.path + "/photos"}
 								render={props => <Photos {...props} {...userProps} />}
 							/>
 							{showPrivateRoutes ? (
 								<Route
-									path={match.path + "/settings"}
+									strict
+									exact
+									path={match.url + "/settings"}
 									render={props => <Settings {...props} {...userProps} />}
 								/>
 							) : null}
 
 							{showPrivateRoutes ? (
 								<Route
-									path={match.path + "/gigs"}
+									strict
+									exact
+									path={match.url + "/gigs"}
 									render={props => <Gigs {...props} {...userProps} />}
 								/>
 							) : !userProps.loading ? (
 								<Route
-									path={match.path + "/gigs"}
+									strict
+									exact
+									path={match.url + "/gigs"}
 									render={props => <LoginPopup {...props} {...userProps} />}
 								/>
 							) : null}
 
 							{showPrivateRoutes ? (
 								<Route
-									path={match.path + "/events"}
+									strict
+									exact
+									path={match.url + "/events"}
 									render={props => <Events {...props} {...userProps} />}
 								/>
 							) : null}
 
-							<Redirect to={match.path + "/overview"} />
+							<Redirect
+								to={{
+									pathname: match.url + "/overview" + location.search,
+									search: location.search,
+									state: location.state
+								}}
+							/>
 						</Switch>
 					</Col>
 				</Row>
@@ -410,62 +424,6 @@ export const Stats = ({ experience, followers, white, marginRight }) => {
 				<Stat white={white} label={"played gigs"} value={experience}></Stat>
 			)}
 		</Row>
-	);
-};
-
-const BookingButton = ({ loading, user, location }) => {
-	const [locationState] = useState(location && location.state);
-	const [showPopup, setShowPopup] = useState(false);
-
-	if (!user) {
-		return null;
-	}
-	if (user.isOwn) {
-		return (
-			<CTAButton
-				onClick={() => window.alert("Are you trying to book yourself? 🧐")}
-			>
-				REQUEST BOOKING
-			</CTAButton>
-		);
-	}
-
-	const offer = locationState && locationState.offer;
-
-	if (offer) {
-		const { gig, event } = locationState;
-		return (
-			<>
-				<CTAButton onClick={() => setShowPopup(true)}>
-					BOOK {offer.totalPayment.formatted}
-				</CTAButton>
-				<Popup
-					showing={showPopup}
-					onClickOutside={() => setShowPopup(false)}
-					noPadding
-				>
-					<Mutation
-						mutation={PAYMENT_CONFIRMED}
-						variables={{ gigId: gig.id, eventId: event.id }}
-					>
-						{mutate => (
-							<PayForm
-								onPaymentConfirmed={mutate}
-								id={gig.id}
-								offer={offer}
-								event={event}
-							/>
-						)}
-					</Mutation>
-				</Popup>
-			</>
-		);
-	}
-
-	return (
-		<NavLink to="booking">
-			<CTAButton>REQUEST BOOKING</CTAButton>
-		</NavLink>
 	);
 };
 
