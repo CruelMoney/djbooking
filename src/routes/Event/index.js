@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Route, Redirect, Switch } from "react-router-dom";
 import content from "./content.json";
@@ -104,9 +104,7 @@ const getDirection = newPath => {
 const Content = React.memo(props => {
 	const { match, location, ...eventProps } = props;
 	const { theEvent, loading } = eventProps;
-	const ref = useRef(null);
-	const { bounds } = useMeasure(ref, "bounds");
-
+	const [height, setHeight] = useState("auto");
 	const direction = getDirection(location.pathname);
 
 	const transitions = useTransition(location, location => location.pathname, {
@@ -134,27 +132,17 @@ const Content = React.memo(props => {
 
 			<Container>
 				<ContainerRow>
-					<BorderCol style={{ height: bounds ? bounds.height : "auto" }}>
+					<BorderCol style={{ height: height || "auto" }}>
 						<AnimationWrapper>
 							{transitions.map(({ item, props, key }) => (
-								<animated.div key={key} ref={ref} style={props}>
-									<Switch location={item}>
-										<Route
-											path={[match.path + "/overview", match.path + "/info"]}
-											render={props => <Overview {...props} {...eventProps} />}
-										/>
-										<Route
-											path={match.path + "/requirements"}
-											render={props => (
-												<Requirements {...props} {...eventProps} />
-											)}
-										/>
-										<Route
-											path={match.path + "/review"}
-											render={props => <Review {...props} {...eventProps} />}
-										/>
-									</Switch>
-								</animated.div>
+								<TransitionComponent
+									item={item}
+									style={props}
+									key={key}
+									match={match}
+									eventProps={eventProps}
+									registerHeight={setHeight}
+								/>
 							))}
 						</AnimationWrapper>
 					</BorderCol>
@@ -166,6 +154,42 @@ const Content = React.memo(props => {
 		</div>
 	);
 });
+
+const TransitionComponent = ({
+	style,
+	item,
+	match,
+	eventProps,
+	registerHeight
+}) => {
+	const ref = useRef(null);
+	const { bounds } = useMeasure(ref, "bounds");
+
+	useEffect(() => {
+		if (bounds) {
+			registerHeight(bounds.height);
+		}
+	}, [bounds, registerHeight]);
+
+	return (
+		<animated.div style={style} ref={ref}>
+			<Switch location={item}>
+				<Route
+					path={[match.path + "/overview", match.path + "/info"]}
+					render={props => <Overview {...props} {...eventProps} />}
+				/>
+				<Route
+					path={match.path + "/requirements"}
+					render={props => <Requirements {...props} {...eventProps} />}
+				/>
+				<Route
+					path={match.path + "/review"}
+					render={props => <Review {...props} {...eventProps} />}
+				/>
+			</Switch>
+		</animated.div>
+	);
+};
 
 const ContainerRow = styled(Row)`
 	align-items: stretch;

@@ -43,35 +43,37 @@ const EventGigs = React.forwardRef(
 		const gigs = data.event ? data.event.gigs : [];
 		const loading = loadingEvent || loadingGigs;
 
+		if (loading) {
+			return <LoadingPlaceholder2 />;
+		}
+
+		if (!loading && gigs.length === 0) {
+			return (
+				<EmptyPage
+					title="No DJs"
+					message={"No DJs here at the moment, come back later."}
+				/>
+			);
+		}
+
 		return (
 			<Col ref={ref}>
 				<Title>We've found these DJs for you</Title>
 				<Body>{getText(status)}</Body>
-				{loading ? (
-					<LoadingPlaceholder2 style={{ marginTop: "30px" }} />
-				) : (
-					gigs.map((gig, idx) => (
-						<DjCard
-							hasMessage={
-								gigMessages[gig.id] &&
-								gigMessages[gig.id].read < gigMessages[gig.id].total
-							}
-							onOpenChat={readRoom}
-							key={gig.id}
-							idx={idx}
-							gig={gig}
-							translate={translate}
-							theEvent={theEvent}
-						/>
-					))
-				)}
-
-				{!loading && gigs.length === 0 && (
-					<EmptyPage
-						title="No DJs"
-						message={"No DJs here at the moment, come back later."}
+				{gigs.map((gig, idx) => (
+					<DjCard
+						hasMessage={
+							gigMessages[gig.id] &&
+							gigMessages[gig.id].read < gigMessages[gig.id].total
+						}
+						onOpenChat={readRoom}
+						key={gig.id}
+						idx={idx}
+						gig={gig}
+						translate={translate}
+						theEvent={theEvent}
 					/>
-				)}
+				))}
 			</Col>
 		);
 	}
