@@ -43,7 +43,6 @@ const EventGigs = React.forwardRef(
 		const gigs = data.event ? data.event.gigs : [];
 		const loading = loadingEvent || loadingGigs;
 
-		debugger;
 		return (
 			<Col ref={ref}>
 				<Title>We've found these DJs for you</Title>

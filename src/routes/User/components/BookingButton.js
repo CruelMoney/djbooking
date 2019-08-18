@@ -15,7 +15,6 @@ const BookingButton = ({ user, location }) => {
 	const queries = queryString.parse(location.search);
 	let gigId = queries.gigId;
 
-	debugger;
 	if (!gigId && location && location.state) {
 		gigId = location.state.gigId;
 	}

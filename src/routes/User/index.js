@@ -132,7 +132,6 @@ const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading, location } = userProps;
 	const showPrivateRoutes = loading || (user && user.isOwn);
 	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
-	debugger;
 	return (
 		<div>
 			<ScrollToTop animate top={280} />

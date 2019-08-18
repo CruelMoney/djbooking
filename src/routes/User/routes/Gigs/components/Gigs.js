@@ -70,7 +70,6 @@ class Gigs extends PureComponent {
 
 					const { myGigs = {} } = data;
 					const { edges: gigs = [] } = myGigs;
-					debugger;
 					return <div>{gigs && renderGigs(gigs)}</div>;
 				}}
 			</Query>
