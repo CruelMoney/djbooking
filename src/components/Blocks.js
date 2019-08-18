@@ -193,9 +193,14 @@ export const secondaryButtonStyle = css`
 	background: #E9ECF0;
 	margin-bottom: 0;
 	:hover {
-		${({ disabled }) =>
+		${({ disabled, warning }) =>
 			disabled
 				? ""
+				: warning
+				? `
+				background: #D0021B;
+				color: white;
+				`
 				: `
 			background: #e1e5ea;
 		`}
@@ -315,7 +320,7 @@ export const SmartButton = ({
 	const Button = buttons[level];
 
 	const handleClick = e => {
-		if (warning) {
+		if (warning && typeof warning === "string") {
 			const confirmed = window.confirm(warning);
 			if (confirmed) {
 				onClick(e);
@@ -324,9 +329,14 @@ export const SmartButton = ({
 	};
 
 	return (
-		<Button onClick={handleClick} {...props}>
+		<Button
+			onClick={handleClick}
+			warning={warning}
+			disabled={loading}
+			{...props}
+		>
 			{children}
-			{loading && <LoadingIndicator />}
+			{loading && <LoadingIndicator style={{ marginLeft: "9px" }} />}
 		</Button>
 	);
 };

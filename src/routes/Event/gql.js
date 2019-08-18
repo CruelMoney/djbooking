@@ -40,6 +40,7 @@ const EVENT = gql`
 					path
 				}
 			}
+
 			review {
 				id
 			}
@@ -171,8 +172,11 @@ const DECLINE_DJ = gql`
 `;
 
 const CANCEL_EVENT = gql`
-	mutation CancelEvent($id: ID!, $hash: String!) {
-		cancelEvent(id: $id, hash: $hash)
+	mutation CancelEvent($id: ID!, $hash: String!, $reason: String) {
+		cancelEvent(id: $id, hash: $hash, reason: $reason) {
+			id
+			status
+		}
 	}
 `;
 
@@ -251,6 +255,35 @@ const WRITE_REVIEW = gql`
 	}
 `;
 
+const EVENT_REFUND = gql`
+	query Event($id: ID!, $hash: String!, $locale: String, $currency: Currency) {
+		event(id: $id, hash: $hash) {
+			id
+			chosenGig {
+				id
+				offer {
+					cancelationPolicy {
+						days
+						percentage
+					}
+					isWithinCancelationPolicy
+					daysLeftInCancelationPolicy
+					worstCaseRefund(currency: $currency) {
+						amount
+						currency
+						formatted(locale: $locale)
+					}
+					bestCaseRefund(currency: $currency) {
+						amount
+						currency
+						formatted(locale: $locale)
+					}
+				}
+			}
+		}
+	}
+`;
+
 export {
 	UPDATE_EVENT,
 	EVENT,
@@ -260,5 +293,6 @@ export {
 	DECLINE_DJ,
 	CANCEL_EVENT,
 	WRITE_REVIEW,
-	EVENT_REVIEW
+	EVENT_REVIEW,
+	EVENT_REFUND
 };

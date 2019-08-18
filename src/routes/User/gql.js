@@ -431,13 +431,25 @@ const HIGHLIGHT_REVIEW = gql`
 `;
 
 const GIG = gql`
-	query($id: ID!, $currency: Currency) {
-		gig(id: $id) {
+	query($id: ID!, $hash: String, $currency: Currency) {
+		gig(id: $id, hash: $hash) {
 			id
 			status
+			dj {
+				id
+			}
 			event {
 				id
 				status
+				organizer {
+					id
+					picture {
+						path
+					}
+					userMetadata {
+						firstName
+					}
+				}
 			}
 			offer {
 				totalPayment(currency: $currency) {

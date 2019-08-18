@@ -50,7 +50,7 @@ const CheckboxContainer = styled.div`
 `;
 
 const Checkbox = ({ className, defaultValue, onChange, label, ...props }) => {
-	const [checked, setChecked] = useState(defaultValue);
+	const [checked, setChecked] = useState(defaultValue || false);
 
 	const updateVal = newVal => {
 		setChecked(newVal);

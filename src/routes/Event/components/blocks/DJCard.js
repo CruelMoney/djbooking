@@ -86,7 +86,7 @@ const DjCard = ({
 											dj.permalink
 										}/overview`,
 										state: { gigId: gig.id },
-										search: `?gigId=${gig.id}`
+										search: `?gigId=${gig.id}&hash=${theEvent.hash}`
 									}}
 								>
 									<TeritaryButton small>See profile</TeritaryButton>
@@ -152,7 +152,7 @@ const DjCard = ({
 	);
 };
 
-const Offer = ({ name, offer, translate, gig, initiateBooking }) => {
+const Offer = ({ name, totalPayment, translate, gig, initiateBooking }) => {
 	const [decline, { loading }] = useMutation(DECLINE_DJ, {
 		variables: {
 			gigId: gig.id
@@ -165,8 +165,8 @@ const Offer = ({ name, offer, translate, gig, initiateBooking }) => {
 	return (
 		<OfferRow middle>
 			<Col>
-				<OfferText muted={!offer}>
-					{offer ? offer.formatted : "No offer yet"}
+				<OfferText muted={!totalPayment}>
+					{totalPayment ? totalPayment.formatted : "No offer yet"}
 				</OfferText>
 				{["CONFIRMED"].includes(status) && (
 					<OfferText muted={true}>Paid and confirmed</OfferText>

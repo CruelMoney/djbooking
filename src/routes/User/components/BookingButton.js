@@ -7,22 +7,26 @@ import { NavLink } from "react-router-dom";
 import queryString from "query-string";
 import { GIG } from "../gql";
 import { LoadingIndicator } from "../../../components/Blocks";
+import Chat from "../../../components/common/Chat";
+import EmptyPage from "../../../components/common/EmptyPage";
 
 const BookingButton = ({ user, location }) => {
 	const [showPopup, setShowPopup] = useState(false);
 
 	// check for gigId
 	const queries = queryString.parse(location.search);
-	let gigId = queries.gigId;
+	let { gigId, hash } = queries;
 
-	if (!gigId && location && location.state) {
+	if (!gigId && location && location.state && !hash) {
 		gigId = location.state.gigId;
+		hash = location.state.hash;
 	}
 
 	const { data = {}, loading } = useQuery(GIG, {
-		skip: !gigId,
+		skip: !gigId || !hash,
 		variables: {
-			id: gigId
+			id: gigId,
+			hash: hash
 		}
 	});
 
@@ -69,6 +73,45 @@ const BookingButton = ({ user, location }) => {
 					noPadding
 				>
 					<PayForm id={gig.id} offer={offer} event={event} />
+				</Popup>
+			</>
+		);
+	}
+
+	const canBeChatted =
+		gig &&
+		gig.event &&
+		gig.event.organizer &&
+		["ACCEPTED", "OFFERING", "CONFIRMED"].includes(gig.event.status);
+
+	if (canBeChatted) {
+		const { event } = gig;
+		const { organizer } = event;
+		return (
+			<>
+				<CTAButton onClick={() => setShowPopup(true)}>SEND MESSAGE</CTAButton>
+				<Popup
+					hideClose
+					noPadding
+					showing={showPopup}
+					onClickOutside={() => setShowPopup(false)}
+				>
+					<Chat
+						showPersonalInformation={false}
+						eventId={event.id}
+						receiver={{
+							id: user.id,
+							name: user.userMetadata.firstName,
+							image: user.picture.path
+						}}
+						sender={{
+							id: organizer.id,
+							name: organizer.userMetadata.firstName,
+							image: organizer.picture.path
+						}}
+						chatId={gig.id}
+						placeholder={<EmptyPage title="No messages" />}
+					/>
 				</Popup>
 			</>
 		);

@@ -130,6 +130,10 @@ button {
 	outline: none;
 	padding: 0;
 }
+b, strong {
+	font-weight: 600;
+}
+
 .row {
 	display: flex;
 	position: relative;
