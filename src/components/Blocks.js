@@ -325,6 +325,8 @@ export const SmartButton = ({
 			if (confirmed) {
 				onClick(e);
 			}
+		} else {
+			onClick(e);
 		}
 	};
 

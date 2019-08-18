@@ -1,120 +1,97 @@
-import React, { useState } from "react";
-import SubmitButton from "../../../../components/common/SubmitButton";
-import TextBox from "../../../../components/common/TextBox";
-import TextWrapper from "../../../../components/common/TextElement";
-import Button from "../../../../components/common/Button-v2";
-import Rating from "../../../../components/common/Rating";
-import Form from "../../../../components/common/Form-v2";
-import { requestFeatures } from "../../../../actions/Common";
-import { Query, Mutation } from "react-apollo";
-import { WRITE_REVIEW, EVENT_REVIEW } from "../../gql";
-import { LoadingCard } from "../../../../components/common/LoadingPlaceholder";
-import addTranslate from "../../../../components/higher-order/addTranslate";
+import React, { useState, useEffect } from "react";
+import { useQuery, useMutation } from "react-apollo";
+import { EVENT_REVIEW, WRITE_REVIEW } from "../../gql";
+import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceholder";
+import { Col, Row, SmartButton } from "../../../../components/Blocks";
+import { Title, Body } from "../../../../components/Text";
+import { TextArea } from "../../../../components/FormComponents";
+import Rating from "../../../../components/common/RatingNew";
+import styled from "styled-components";
+import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 
-const Review = ({ theEvent, translate }) => {
-	const submitReview = ({ mutate, chosenGig }) => async (form, callback) => {
-		try {
-			console.log({ form });
+const Content = ({ theEvent, loading }) => {
+	const { id, hash } = theEvent || {};
 
-			await mutate({
-				variables: {
-					...form.values,
-					gigId: chosenGig.id
-				}
-			});
-			callback();
-		} catch (error) {
-			callback(error);
-		}
-	};
-	const [formIsValid, setFormIsValid] = useState(false);
+	const { data, loading: loadingReview } = useQuery(EVENT_REVIEW, {
+		skip: !id || !hash,
+		variables: { id, hash }
+	});
 
-	if (!theEvent) {
-		return null;
+	const [save, { loading: saving, error }] = useMutation(WRITE_REVIEW);
+	const [state, setState] = useState({});
+
+	const { event } = data || {};
+	const { review, chosenGig } = event || {};
+	const { dj } = chosenGig || {};
+	const djName = dj ? dj.artistName || dj.userMetadata.firstName : "the dj";
+
+	useEffect(() => {
+		setState(review || {});
+	}, [review]);
+
+	if (loading || loadingReview) {
+		return <LoadingPlaceholder2 style={{ marginTop: "30px" }} />;
 	}
+
+	if (theEvent.status !== "FINISHED") {
+		return (
+			<Body>Come back and leave a review when the event is finished.</Body>
+		);
+	}
+
+	const saveReview = async () => {
+		debugger;
+		if (!state.rating) {
+			window.alert("Please enter rating");
+			return;
+		}
+
+		await save({
+			variables: {
+				...state,
+				gigId: chosenGig ? chosenGig.id : null
+			}
+		});
+	};
+
 	return (
-		<Query
-			query={EVENT_REVIEW}
-			variables={{
-				id: theEvent.id,
-				hash: theEvent.hash.toString()
-			}}
-			onError={console.log}
-		>
-			{({ data = {}, loading }) => {
-				if (loading) {
-					return <LoadingCard />;
+		<ReviewCol key={review ? review.id : "review"}>
+			<Body>Write a review of {djName}.</Body>
+			<Rating
+				style={{ marginTop: "30px", marginBottom: "15px" }}
+				size="large"
+				rating={review ? review.rating : 0}
+				onChange={rating => setState(s => ({ ...s, rating }))}
+			/>
+			<TextArea
+				style={{ marginBottom: "30px", height: "200px" }}
+				defaultValue={review ? review.content : null}
+				onChange={({ target: { value: content } }) =>
+					setState(s => ({ ...s, content }))
 				}
-				const { event = {} } = data;
-				const { review } = event;
-				const { chosenGig } = event;
-				return (
-					<Form
-						resetStatusOnSucces
-						formInvalidCallback={() => setFormIsValid(false)}
-						formValidCallback={() => setFormIsValid(true)}
-						name="event-review"
-					>
-						<div className="context-actions-wrapper">
-							<div className="context-actions" key="profile_actions">
-								<Mutation mutation={WRITE_REVIEW}>
-									{mutate => (
-										<SubmitButton
-											active={formIsValid}
-											name="submit_review"
-											onClick={submitReview({ mutate, chosenGig })}
-										>
-											{translate("Submit review")}
-										</SubmitButton>
-									)}
-								</Mutation>
-
-								<Button
-									onClick={() => requestFeatures()}
-									name="request_features"
-								>
-									{translate("Request features")}
-								</Button>
-							</div>
-						</div>
-						<div className="event-card-wrapper">
-							<div className="card profile col-xs-7">
-								<TextWrapper
-									label={translate("Rating")}
-									text={translate("event.review.rating")}
-								>
-									<div style={{ width: "100%" }}>
-										<Rating
-											rating={review ? review.rating : 0}
-											editable={true}
-											name="rating"
-											validate={["required"]}
-										/>
-									</div>
-								</TextWrapper>
-
-								<div
-									style={{
-										width: "100%",
-										paddingTop: "0px",
-										paddingBottom: "20px"
-									}}
-								>
-									<TextBox
-										width="100%"
-										height="100px"
-										name="content"
-										value={review ? review.content : ""}
-										placeholder={translate("event.review.description")}
-									/>
-								</div>
-							</div>
-						</div>
-					</Form>
-				);
-			}}
-		</Query>
+			/>
+			<SmartButton
+				level="primary"
+				loading={saving}
+				onClick={() => saveReview()}
+			>
+				{review && review.id ? "Update" : "Save"}
+			</SmartButton>
+			<ErrorMessageApollo error={error} />
+		</ReviewCol>
 	);
 };
 
-export default addTranslate(Review);
+const ReviewCol = styled(Col)`
+	max-width: 500px;
+	align-items: flex-start;
+`;
+
+const Review = props => (
+	<Col>
+		<Title>Review</Title>
+		<Content {...props} />
+	</Col>
+);
+
+export default Review;

@@ -10,14 +10,13 @@ import { SettingsSection, Input } from "../../../../components/FormComponents";
 import { useMutation, useQuery } from "react-apollo";
 import emailValidator from "email-validator";
 
-import { UPDATE_EVENT } from "../../../EventOld/gql";
 import SavingIndicator from "../../../../components/SavingIndicator";
 import TextAreaPopup from "../../../../components/TextAreaPopup";
 import { Body, Title } from "../../../../components/Text";
 import GenreSelector from "../../../../components/GenreSelector";
 import { PhoneInputNew } from "../../../../components/common/PhoneInput";
 import Popup from "../../../../components/common/Popup";
-import { EVENT_REFUND, CANCEL_EVENT } from "../../gql";
+import { EVENT_REFUND, CANCEL_EVENT, UPDATE_EVENT } from "../../gql";
 import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceholder";
 import CheckboxTable from "../../../../components/CheckboxTable";
 
@@ -38,7 +37,8 @@ const Requirements = React.forwardRef(({ theEvent, translate }, ref) => {
 		genres,
 		contactName,
 		contactPhone,
-		contactEmail
+		contactEmail,
+		address
 	} = theEvent;
 
 	const save = (key, optimistic) => val =>
@@ -118,6 +118,14 @@ const Requirements = React.forwardRef(({ theEvent, translate }, ref) => {
 						})(!rider.lights)
 					}
 					buttonText={rider.lights ? "Required" : "Not required"}
+				/>
+				<Input
+					label="Event address"
+					defaultValue={address}
+					placeholder="10 Downing Street"
+					type="text"
+					onSave={save("address")}
+					attention={!address}
 				/>
 			</SettingsSection>
 

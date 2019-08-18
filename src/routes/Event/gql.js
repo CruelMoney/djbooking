@@ -22,6 +22,7 @@ const EVENT = gql`
 			contactName
 			contactPhone
 			contactEmail
+			address
 			rider {
 				lights
 				speakers
@@ -119,6 +120,12 @@ const EVENT_REVIEW = gql`
 			}
 			chosenGig {
 				id
+				dj {
+					artistName
+					userMetadata {
+						firstName
+					}
+				}
 			}
 		}
 	}
@@ -194,6 +201,9 @@ const UPDATE_EVENT = gql`
 		$genres: [String!]
 		$guestsCount: Int
 		$locale: String
+		$minPrice: Int
+		$maxPrice: Int
+		$address: String
 	) {
 		updateEvent(
 			id: $id
@@ -207,6 +217,7 @@ const UPDATE_EVENT = gql`
 			lights: $lights
 			genres: $genres
 			guestsCount: $guestsCount
+			address: $address
 		) {
 			id
 			name
@@ -227,6 +238,7 @@ const UPDATE_EVENT = gql`
 			contactName
 			contactPhone
 			contactEmail
+			address
 			rider {
 				lights
 				speakers
