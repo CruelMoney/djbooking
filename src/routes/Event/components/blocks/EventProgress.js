@@ -45,6 +45,10 @@ const Wrapper = styled.div`
 		top: -20px;
 		justify-content: space-between;
 	}
+
+	@media only screen and (max-width: 420px) {
+		display: none;
+	}
 `;
 
 const ProgressStep = ({ label, completed }) => {

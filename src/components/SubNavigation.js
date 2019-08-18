@@ -1,6 +1,7 @@
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
+import { MobileMenuContext } from "./MobileMenu";
 
 const StyledNav = styled.nav`
 	height: 48px;
@@ -45,10 +46,11 @@ const ActiveIndicator = styled.span`
 	transition: transform 200ms cubic-bezier(0.075, 0.82, 0.165, 1);
 `;
 
-const Navigation = ({ routes, location }) => {
+const Navigation = ({ routes, location, mobileLabel }) => {
 	const navRef = useRef();
 	const activeRef = useRef();
 	const indicator = useRef();
+	const { registerRoutes, unregisterRoutes } = useContext(MobileMenuContext);
 
 	const setActiveIndicatorFromElement = el => {
 		if (el) {
@@ -63,6 +65,14 @@ const Navigation = ({ routes, location }) => {
 	const resetIndicator = () => {
 		setActiveIndicatorFromElement(activeRef.current);
 	};
+
+	useEffect(() => {
+		registerRoutes(routes, mobileLabel);
+
+		return () => {
+			unregisterRoutes(routes);
+		};
+	}, [routes, registerRoutes, unregisterRoutes, mobileLabel]);
 
 	useLayoutEffect(resetIndicator, [routes]);
 

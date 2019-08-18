@@ -31,6 +31,8 @@ import moment from "moment";
 import { getTranslatedURL } from "./utils/HelperFunctions";
 import ReactPixel from "react-facebook-pixel";
 import ResetPassword from "./routes/ResetPassword";
+import { MobileMenuContext } from "./components/MobileMenu";
+import { getApolloContext } from "react-apollo";
 
 let redirected = false;
 
@@ -60,7 +62,8 @@ const App = class extends Component {
 
 		this.state = {
 			pageLocation: "",
-			redirect
+			redirect,
+			mobileLinks: []
 		};
 
 		moment.locale(language);
@@ -81,6 +84,18 @@ const App = class extends Component {
 			moment.locale(nextprops.activeLanguage);
 		}
 	}
+
+	registerMobileLinks = (routes, mobileLabel) => {
+		this.setState(({ mobileLinks }) => ({
+			mobileLinks: [...mobileLinks, ...routes],
+			mobileLabel
+		}));
+	};
+	unregisterMobileLinks = routes => {
+		this.setState(({ mobileLinks }) => ({
+			mobileLinks: mobileLinks.filter(l => !routes.includes(l))
+		}));
+	};
 
 	render() {
 		const { location, translate, activeLanguage } = this.props;
@@ -136,40 +151,49 @@ const App = class extends Component {
 						<meta name="twitter:image" content={thumb} />
 						<meta name="twitter:url" content={pageURL} />
 					</Helmet>
-					<Navigation />
-					<div id="content" className={cssLocation}>
-						<Switch>
-							{/* <Redirect strict from={cleanURL + "/"} to={cleanURL} /> */}
-							<Route exact path={translate("routes./")} component={Home} />
-							<Route path={translate("routes./about")} component={About} />
-							<Route
-								path={[translate("routes./user/:permalink")]}
-								component={User}
-							/>
-							<Route
-								path={translate("routes./how-it-works")}
-								component={HowItWorks}
-							/>
-							<Route path={translate("routes./signup")} component={Signup} />
-							<Route path={translate("routes./faq")} component={Faq} />
-							<Route path={translate("routes./terms")} component={Terms} />
-							<Route
-								path={translate("routes./event") + "/:id/:hash"}
-								component={CueupEvent}
-							/>
-							<Route
-								path={translate("routes./book-dj") + "/:country/:city?"}
-								component={LocationLanding}
-							/>
-							<Route path={translate("routes./blog")} component={Blog} />
-							<Route
-								path={translate("routes./reset-password")}
-								component={ResetPassword}
-							/>
+					<MobileMenuContext.Provider
+						value={{
+							routes: this.state.mobileLinks,
+							unregisterRoutes: this.unregisterMobileLinks,
+							registerRoutes: this.registerMobileLinks,
+							label: this.state.mobileLabel
+						}}
+					>
+						<Navigation />
+						<div id="content" className={cssLocation}>
+							<Switch>
+								{/* <Redirect strict from={cleanURL + "/"} to={cleanURL} /> */}
+								<Route exact path={translate("routes./")} component={Home} />
+								<Route path={translate("routes./about")} component={About} />
+								<Route
+									path={[translate("routes./user/:permalink")]}
+									component={User}
+								/>
+								<Route
+									path={translate("routes./how-it-works")}
+									component={HowItWorks}
+								/>
+								<Route path={translate("routes./signup")} component={Signup} />
+								<Route path={translate("routes./faq")} component={Faq} />
+								<Route path={translate("routes./terms")} component={Terms} />
+								<Route
+									path={translate("routes./event") + "/:id/:hash"}
+									component={CueupEvent}
+								/>
+								<Route
+									path={translate("routes./book-dj") + "/:country/:city?"}
+									component={LocationLanding}
+								/>
+								<Route path={translate("routes./blog")} component={Blog} />
+								<Route
+									path={translate("routes./reset-password")}
+									component={ResetPassword}
+								/>
 
-							<Route component={NotFound} />
-						</Switch>
-					</div>
+								<Route component={NotFound} />
+							</Switch>
+						</div>
+					</MobileMenuContext.Provider>
 					<div id="popup-container" />
 				</div>
 			</ErrorHandling>

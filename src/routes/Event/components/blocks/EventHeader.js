@@ -16,20 +16,25 @@ const routes = [
 	{ route: "review", label: "review", active: true }
 ];
 
+const StyledGradientBg = styled(GradientBg)`
+	height: 300px;
+	top: -252px;
+`;
+
 const Header = ({ theEvent, loading }) => {
 	return (
-		<GradientBg style={{ height: "300px", top: "-252px" }}>
+		<StyledGradientBg>
 			<Container>
 				<Row className="wrapper">
 					<FullWidthCol>
 						{loading ? null : <Content theEvent={theEvent} />}
 						{typeof document !== "undefined" && (
-							<Navigation routes={routes}></Navigation>
+							<Navigation routes={routes} mobileLabel="Event" />
 						)}
 					</FullWidthCol>
 				</Row>
 			</Container>
-		</GradientBg>
+		</StyledGradientBg>
 	);
 };
 
