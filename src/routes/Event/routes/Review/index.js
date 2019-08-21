@@ -23,7 +23,6 @@ const Content = ({ theEvent, loading }) => {
 	const { event } = data || {};
 	const { review, chosenGig } = event || {};
 	const { dj } = chosenGig || {};
-	const djName = dj ? dj.artistName || dj.userMetadata.firstName : "the dj";
 
 	useEffect(() => {
 		setState(review || {});
@@ -37,6 +36,10 @@ const Content = ({ theEvent, loading }) => {
 		return (
 			<Body>Come back and leave a review when the event is finished.</Body>
 		);
+	}
+
+	if (!dj) {
+		return <Body>No DJ was found for this event.</Body>;
 	}
 
 	const saveReview = async () => {
@@ -53,6 +56,8 @@ const Content = ({ theEvent, loading }) => {
 			}
 		});
 	};
+
+	const djName = dj ? dj.artistName || dj.userMetadata.firstName : "the dj";
 
 	return (
 		<ReviewCol key={review ? review.id : "review"}>

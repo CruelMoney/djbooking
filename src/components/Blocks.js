@@ -50,6 +50,10 @@ export const Row = styled.div`
 	align-items: ${({ middle }) => (middle ? "center" : "flex-start")};
 `;
 
+export const RowWrap = styled(Row)`
+	flex-wrap: wrap;
+`;
+
 export const RowMobileCol = styled(Row)`
 	@media only screen and (max-width: 425px) {
 		flex-direction: column;

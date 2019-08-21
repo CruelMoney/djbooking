@@ -3,7 +3,6 @@ import {
 	Col,
 	Row,
 	TeritaryButton,
-	SecondaryButton,
 	SmartButton
 } from "../../../../components/Blocks";
 import { SettingsSection, Input } from "../../../../components/FormComponents";
@@ -19,6 +18,7 @@ import Popup from "../../../../components/common/Popup";
 import { EVENT_REFUND, CANCEL_EVENT, UPDATE_EVENT } from "../../gql";
 import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceholder";
 import CheckboxTable from "../../../../components/CheckboxTable";
+import { eventStates } from "../../../../constants/constants";
 
 const required = msg => val => (!val ? msg : null);
 
@@ -58,6 +58,8 @@ const Requirements = React.forwardRef(({ theEvent, translate }, ref) => {
 				}
 			}
 		});
+
+	const isCancable = eventStates.FINISHED !== theEvent.status;
 
 	return (
 		<Col ref={ref}>
@@ -175,14 +177,16 @@ const Requirements = React.forwardRef(({ theEvent, translate }, ref) => {
 					"Cancelling the event will give you a refund as per the DJs cancelation policy."
 				}
 			>
-				<Input
-					half
-					type="button"
-					label="Cancel event"
-					warning={true}
-					onClick={() => setCancelationPopup(true)}
-					buttonText="cancel"
-				/>
+				{isCancable && (
+					<Input
+						half
+						type="button"
+						label="Cancel event"
+						warning={true}
+						onClick={() => setCancelationPopup(true)}
+						buttonText="cancel"
+					/>
+				)}
 				<Input
 					half
 					type="button"
@@ -194,16 +198,18 @@ const Requirements = React.forwardRef(({ theEvent, translate }, ref) => {
 				/>
 			</SettingsSection>
 
-			<Popup
-				width={530}
-				showing={cancelationPopup}
-				onClickOutside={() => setCancelationPopup(false)}
-			>
-				<CancelationPopup
-					theEvent={theEvent}
-					hide={() => setCancelationPopup(false)}
-				/>
-			</Popup>
+			{isCancable && (
+				<Popup
+					width={530}
+					showing={cancelationPopup}
+					onClickOutside={() => setCancelationPopup(false)}
+				>
+					<CancelationPopup
+						theEvent={theEvent}
+						hide={() => setCancelationPopup(false)}
+					/>
+				</Popup>
+			)}
 		</Col>
 	);
 });

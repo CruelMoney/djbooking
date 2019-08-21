@@ -207,6 +207,7 @@ const PhotoGrid = styled.ul`
 	> li {
 		background: #eff2f5;
 		position: relative;
+		overflow: hidden;
 		:after {
 			content: "";
 			padding-top: 100%;

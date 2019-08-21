@@ -59,6 +59,10 @@
 			"/event/${ id }/${ hash }/info",
 			"/dk/event/${ id }/${ hash }/info"
 		],
+		"/event/:id/:hash/overview": [
+			"/event/${ id }/${ hash }/overview",
+			"/dk/event/${ id }/${ hash }/overview"
+		],
 		"/event/:id/:hash/offers": [
 			"/event/${ id }/${ hash }/offers",
 			"/dk/event/${ id }/${ hash }/offers"

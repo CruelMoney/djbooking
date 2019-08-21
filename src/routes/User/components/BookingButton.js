@@ -10,7 +10,7 @@ import { LoadingIndicator } from "../../../components/Blocks";
 import Chat from "../../../components/common/Chat";
 import EmptyPage from "../../../components/common/EmptyPage";
 
-const BookingButton = ({ user, location }) => {
+const BookingButton = ({ user, location, translate }) => {
 	const [showPopup, setShowPopup] = useState(false);
 
 	// check for gigId
@@ -53,15 +53,16 @@ const BookingButton = ({ user, location }) => {
 	}
 
 	const { gig } = data;
+	const event = gig ? gig.event : null;
 
 	const canBePaid =
 		gig &&
 		gig.offer &&
 		gig.status === "ACCEPTED" &&
-		gig.event.status === "ACCEPTED";
+		event.status === "ACCEPTED";
 
 	if (canBePaid) {
-		const { offer, event } = gig;
+		const { offer } = gig;
 		return (
 			<>
 				<CTAButton onClick={() => setShowPopup(true)}>
@@ -78,14 +79,30 @@ const BookingButton = ({ user, location }) => {
 		);
 	}
 
+	const isChosenGig = event && event.chosenGig && event.chosenGig.id === gig.id;
+
+	const canBeReviewd = isChosenGig && ["FINISHED"].includes(event.status);
+
+	if (canBeReviewd) {
+		return (
+			<NavLink
+				to={translate("routes./event/:id/:hash/review", {
+					id: event.id,
+					hash
+				})}
+			>
+				<CTAButton>REVIEW</CTAButton>
+			</NavLink>
+		);
+	}
+
 	const canBeChatted =
-		gig &&
-		gig.event &&
-		gig.event.organizer &&
-		["ACCEPTED", "OFFERING", "CONFIRMED"].includes(gig.event.status);
+		(event &&
+			event.organizer &&
+			["ACCEPTED", "OFFERING"].includes(event.status)) ||
+		(isChosenGig && ["CONFIRMED"].includes(event.status));
 
 	if (canBeChatted) {
-		const { event } = gig;
 		const { organizer } = event;
 		return (
 			<>

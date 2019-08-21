@@ -8,7 +8,8 @@ import {
 	TeritaryButton,
 	Hr,
 	PrimaryButton,
-	SmartButton
+	SmartButton,
+	RowWrap
 } from "../../../../components/Blocks";
 import GracefullImage from "../../../../components/GracefullImage";
 import { SmallHeader, BodySmall, BodyBold } from "../../../../components/Text";
@@ -60,7 +61,7 @@ const DjCard = ({
 			<Card style={style}>
 				<StyledImage src={dj.picture.path} />
 				<Content>
-					<Row>
+					<RowWrap>
 						<ColLeft>
 							<SmallHeader>{name}</SmallHeader>
 							<BodySmall style={{ wordBreak: "break-word" }}>
@@ -117,7 +118,7 @@ const DjCard = ({
 								</ConditionalWrap>
 							)}
 						</RightCol>
-					</Row>
+					</RowWrap>
 					<Hr />
 
 					<Offer
@@ -267,19 +268,21 @@ const OfferRow = styled(Row)`
 const ColLeft = styled(Col)`
 	flex: 1;
 	margin-bottom: 24px;
+	min-width: 260px;
 `;
 
-const RightCol = styled(Col)`
-	min-width: 180px;
-	margin-left: 24px;
+const RightCol = styled(Row)`
+	min-width: 204px;
 	justify-content: space-between;
 	height: 60px;
-	align-items: flex-end;
+	justify-content: flex-end;
+	flex-wrap: wrap;
 `;
 
 const StyledImage = styled(GracefullImage)`
 	min-width: 214px;
-	width: 214px;
+	max-width: 350px;
+	width: 100%;
 	object-fit: cover;
 `;
 

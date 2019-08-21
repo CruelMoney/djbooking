@@ -83,7 +83,8 @@ const getText = status => {
 	switch (status) {
 		case "ACCEPTED":
 			return "Choose and book one of the dj’s below. Remember quality follows price. If you have any questions, you can message the dj’s. Once you have confirmed a dj, you’ll be able to see additional information such as phone number.";
-
+		case "CONFIRMED":
+			return "The DJ has been booked.";
 		default:
 			return "The dj’s have not made any offers yet. In the meantime you check out their profiles or message them. We’ll notify you by email when someone makes an offer or messages you.";
 	}

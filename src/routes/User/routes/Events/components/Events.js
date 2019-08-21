@@ -26,7 +26,7 @@ class Events extends PureComponent {
 			return (
 				<div key={id}>
 					<NavLink
-						to={translate("routes./event/:id/:hash/info", {
+						to={translate("routes./event/:id/:hash/overview", {
 							id: id,
 							hash: hash
 						})}

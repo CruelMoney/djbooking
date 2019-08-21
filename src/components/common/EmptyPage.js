@@ -37,6 +37,8 @@ const Wrapper = styled.div`
 	svg {
 		max-width: 300px;
 		width: 80%;
+		margin-right: 30px;
+		margin-left: 30px;
 	}
 `;
 

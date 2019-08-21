@@ -441,6 +441,9 @@ const GIG = gql`
 			event {
 				id
 				status
+				chosenGig {
+					id
+				}
 				organizer {
 					id
 					picture {
