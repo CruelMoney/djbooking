@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Input } from "./FormComponents";
-import { Row, TeritaryButton, PrimaryButton } from "../components/Blocks";
+import { Input } from "../../../components/FormComponents";
+import { Row, TeritaryButton, PrimaryButton } from "../../../components/Blocks";
 import Popup from "../../../components/common/Popup";
 import { LocationSelectorSimple } from "../../../components/common/Form-v2";
 import Map from "../../../components/common/Map";

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
-import { Title, Body, BodySmall } from "../components/Text";
-import ReadMoreExpander from "../components/ReadMoreExpander";
+import { Title, Body, BodySmall } from "../../../components/Text";
+import ReadMoreExpander from "../../../components/ReadMoreExpander";
 import {
 	Col,
 	Row,
@@ -11,7 +11,7 @@ import {
 	PrimaryButton,
 	RowMobileCol,
 	AddButton
-} from "../components/Blocks";
+} from "../../../components/Blocks";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
 
 import { Query } from "react-apollo";
@@ -25,13 +25,13 @@ import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlacehold
 import Rating from "../../../components/common/Rating";
 import moment from "moment";
 import EmptyPage from "../../../components/common/EmptyPage";
-import { Input } from "../components/FormComponents";
+import { Input } from "../../../components/FormComponents";
 import Popup from "../../../components/common/Popup";
 import { useMutation } from "@apollo/react-hooks";
 
 import ReactDOM from "react-dom";
 import { Popper } from "react-popper";
-import { SavingIndicator } from "..";
+import SavingIndicator from "../../../components/SavingIndicator";
 
 const ReviewsCol = styled(Col)`
 	flex: 1;

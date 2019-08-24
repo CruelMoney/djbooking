@@ -1,86 +1,226 @@
-import React, { Component } from "react";
-import Event from "./components/Event";
-import EventInfo from "./routes/EventInformation";
-import Offers from "./routes/Offers";
-import Review from "./routes/Review";
-import User from "./routes/User";
+import React, { useRef, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Route } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import content from "./content.json";
 import requestFormContent from "../../components/common/RequestForm/content.json";
 import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
-import "./index.css";
 import ScrollToTop from "../../components/common/ScrollToTop";
+import Footer from "../../components/common/Footer";
+import { Container, Row, Col } from "../../components/Blocks";
+import { useQuery } from "react-apollo";
+import EventProgress from "./components/blocks/EventProgress";
+import { EVENT } from "./gql.js";
+import EventHeader from "./components/blocks/EventHeader.js";
+import Overview from "./routes/Overview";
+import Requirements from "./routes/Requirements/index.js";
+import Review from "./routes/Review/index.js";
+import styled from "styled-components";
+import { useTransition, animated } from "react-spring";
+import { useMeasure } from "@softbind/hook-use-measure";
 
-class Index extends Component {
-	render() {
-		const { translate } = this.props;
-		const baseurl = translate("routes./event/:id/:hash");
-		return (
-			<div>
-				<Helmet>
-					<title>Event | Cueup</title>
-					<meta property="og:title" content="Event | Cueup" />
-					<meta name="twitter:title" content="Event | Cueup" />
-				</Helmet>
-				<ScrollToTop />
+const Index = ({ translate, match, location }) => {
+	const {
+		params: { id, hash }
+	} = match;
+	const { data = {}, loading } = useQuery(EVENT, {
+		skip: !id || !hash,
+		variables: {
+			id,
+			hash
+		}
+	});
 
-				<Event {...this.props}>
-					{({ theEvent, loading, hashKey }) => {
-						return (
-							<div>
-								<Route
-									path={`${baseurl}/info`}
-									component={props => (
-										<EventInfo
-											{...props}
-											theEvent={theEvent}
-											loading={loading}
-											hashKey={hashKey}
-										/>
-									)}
-								/>
-								<Route
-									path={`${baseurl}/offers`}
-									render={props => (
-										<Offers
-											{...props}
-											theEvent={theEvent}
-											loading={loading}
-											hashKey={hashKey}
-										/>
-									)}
-								/>
-								<Route
-									path={`${baseurl}/review`}
-									render={props => (
-										<Review
-											{...props}
-											theEvent={theEvent}
-											loading={loading}
-											hashKey={hashKey}
-										/>
-									)}
-								/>
-								<Route
-									path={`${baseurl}/user`}
-									render={props => (
-										<User
-											{...props}
-											theEvent={theEvent}
-											loading={loading}
-											hashKey={hashKey}
-										/>
-									)}
-								/>
-							</div>
-						);
-					}}
-				</Event>
-			</div>
-		);
+	const { event: theEvent } = data;
+
+	if (!loading && !theEvent) {
+		return <Redirect to={translate("routes./not-found")} />;
 	}
-}
+
+	const title = theEvent ? theEvent.name : "Cueup | Event";
+	const description = theEvent ? theEvent.description : null;
+
+	if (theEvent) {
+		theEvent.hash = match.params.hash;
+	}
+
+	return (
+		<div>
+			{theEvent && (
+				<Helmet>
+					<title>{title}</title>
+					<meta property="og:title" content={title} />
+					<meta name="twitter:title" content={title} />
+
+					<meta name="description" content={description} />
+					<meta name="twitter:description" content={description} />
+					<meta property="og:description" content={description} />
+				</Helmet>
+			)}
+
+			<Content
+				location={location}
+				match={match}
+				theEvent={theEvent}
+				loading={loading}
+				translate={translate}
+			/>
+
+			<Footer
+				noSkew
+				firstTo={translate("routes./how-it-works")}
+				secondTo={translate("routes./")}
+				firstLabel={translate("how-it-works")}
+				secondLabel={translate("arrange-event")}
+				title={translate("Organizing a new event?")}
+				subTitle={translate("See how it works, or arrange an event.")}
+			/>
+		</div>
+	);
+};
+
+const idxRoute = path => {
+	if (path.includes("review")) {
+		return 2;
+	}
+	if (path.includes("requirements")) {
+		return 1;
+	}
+	return 0;
+};
+
+let curIdx = 0;
+
+const getDirection = newPath => {
+	const newIdx = idxRoute(newPath);
+	let dir = "back";
+	if (newIdx > curIdx) {
+		dir = "front";
+	}
+	curIdx = newIdx;
+	return dir;
+};
+
+const Content = React.memo(props => {
+	const { match, location, ...eventProps } = props;
+	const { theEvent, loading } = eventProps;
+	const [height, setHeight] = useState("auto");
+	const direction = getDirection(location.pathname);
+
+	const transitions = useTransition(location, location => location.pathname, {
+		config: {
+			tension: 500,
+			friction: 40,
+			precision: 0.001
+		},
+		from: {
+			opacity: 0,
+			transform: `translateX(${direction === "back" ? "-100px" : "100px"}`
+		},
+		enter: { opacity: 1, transform: "translateX(0px)" },
+		leave: {
+			opacity: 0,
+			transform: `translateX(${direction === "back" ? "100px" : "-100px"}`
+		}
+	});
+
+	return (
+		<div>
+			<ScrollToTop animate top={280} />
+
+			<EventHeader theEvent={theEvent} loading={loading} />
+
+			<Container>
+				<ContainerRow>
+					<BorderCol style={{ height: height || "auto" }}>
+						<AnimationWrapper>
+							{transitions.map(({ item, props, key }) => (
+								<TransitionComponent
+									item={item}
+									style={props}
+									key={key}
+									match={match}
+									eventProps={eventProps}
+									registerHeight={setHeight}
+								/>
+							))}
+						</AnimationWrapper>
+					</BorderCol>
+					<Col>
+						<EventProgress theEvent={theEvent} />
+					</Col>
+				</ContainerRow>
+			</Container>
+		</div>
+	);
+});
+
+const TransitionComponent = ({
+	style,
+	item,
+	match,
+	eventProps,
+	registerHeight
+}) => {
+	const ref = useRef(null);
+	const { bounds } = useMeasure(ref, "bounds");
+
+	useEffect(() => {
+		if (bounds) {
+			registerHeight(bounds.height);
+		}
+	}, [bounds, registerHeight]);
+
+	return (
+		<animated.div style={style} ref={ref}>
+			<Switch location={item}>
+				<Route
+					path={[match.path + "/overview", match.path + "/info"]}
+					render={props => <Overview {...props} {...eventProps} />}
+				/>
+				<Route
+					path={match.path + "/requirements"}
+					render={props => <Requirements {...props} {...eventProps} />}
+				/>
+				<Route
+					path={match.path + "/review"}
+					render={props => <Review {...props} {...eventProps} />}
+				/>
+			</Switch>
+		</animated.div>
+	);
+};
+
+const ContainerRow = styled(Row)`
+	align-items: stretch;
+	padding-top: 60px;
+	padding-bottom: 60px;
+	@media only screen and (max-width: 768px) {
+		flex-direction: column-reverse;
+	}
+`;
+
+const BorderCol = styled(Col)`
+	border-right: 1px solid #e9ecf0;
+	padding-right: 42px;
+	width: 100%;
+	z-index: 0;
+	@media only screen and (max-width: 768px) {
+		border-right: none;
+		padding-right: 0;
+	}
+`;
+
+const AnimationWrapper = styled.div`
+	position: relative;
+	width: 100%;
+	height: 100%;
+	> div {
+		position: absolute;
+		transform-origin: center center;
+		max-width: 100%;
+		width: 100%;
+	}
+`;
 
 export default addTranslate(Index, [content, requestFormContent, modalContent]);

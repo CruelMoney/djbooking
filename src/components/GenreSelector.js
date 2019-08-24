@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { Input, ButtonText } from "./FormComponents";
-import { Row, TeritaryButton, PrimaryButton } from "../components/Blocks";
-import Popup from "../../../components/common/Popup";
-import { ToggleButtonHandler } from "../../../components/common/ToggleButtonHandler";
-import constants from "../../../constants/constants";
+import { Row, TeritaryButton, PrimaryButton } from "./Blocks";
+import Popup from "./common/Popup";
+import { ToggleButtonHandler } from "./common/ToggleButtonHandler";
+import constants from "../constants/constants";
 
-const GenreSelector = ({ initialGenres = [], save }) => {
+const GenreSelector = ({ initialGenres = [], save, half }) => {
 	const [genres, setGenres] = useState(initialGenres);
 	const [showing, setShowing] = useState(false);
 
 	return (
 		<>
 			<Input
+				half={half}
 				type="button"
 				onClick={s => setShowing(true)}
 				label="Genres"

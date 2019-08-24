@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Input, TextArea } from "./FormComponents";
 import { Row, TeritaryButton, PrimaryButton } from "./Blocks";
-import Popup from "../../../components/common/Popup";
+import Popup from "./common/Popup";
 import { BodySmall } from "./Text";
 
-const BioPopup = ({ initialValue, save, translate }) => {
-	const [bio, setBio] = useState(initialValue);
+const TextAreaPopup = ({
+	initialValue,
+	save,
+	label,
+	characters = 100,
+	children,
+	...props
+}) => {
+	const [value, setValue] = useState(initialValue);
 	const [showing, setShowing] = useState(false);
 
 	return (
@@ -13,7 +20,7 @@ const BioPopup = ({ initialValue, save, translate }) => {
 			<Input
 				half
 				type="button"
-				label="Bio"
+				label={label}
 				buttonText={"edit"}
 				onClick={_ => setShowing(true)}
 			/>
@@ -23,12 +30,14 @@ const BioPopup = ({ initialValue, save, translate }) => {
 				onClickOutside={_ => setShowing(false)}
 				width={"520px"}
 			>
+				{children}
 				<TextArea
-					defaultValue={initialValue}
+					defaultValue={value}
 					style={{
 						height: "400px"
 					}}
-					onChange={e => setBio(e.target.value)}
+					onChange={e => setValue(e.target.value)}
+					{...props}
 				/>
 				<Row style={{ marginTop: "15px" }} right>
 					<BodySmall
@@ -36,7 +45,9 @@ const BioPopup = ({ initialValue, save, translate }) => {
 							alignSelf: "flex-end",
 							marginRight: "auto"
 						}}
-					>{`${bio.replace(/\s/g, "").length} / 100`}</BodySmall>
+					>{`${
+						value ? value.replace(/\s/g, "").length : 0
+					} / ${characters}`}</BodySmall>
 
 					<TeritaryButton type="button" onClick={_ => setShowing(false)}>
 						Cancel
@@ -45,7 +56,7 @@ const BioPopup = ({ initialValue, save, translate }) => {
 						type="button"
 						onClick={() => {
 							setShowing(false);
-							save(bio);
+							save(value);
 						}}
 					>
 						Save
@@ -56,4 +67,4 @@ const BioPopup = ({ initialValue, save, translate }) => {
 	);
 };
 
-export default BioPopup;
+export default TextAreaPopup;

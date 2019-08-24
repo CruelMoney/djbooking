@@ -4,7 +4,6 @@ import TextField from "../../../../../components/common/Textfield";
 import MoneyTable, {
 	TableItem
 } from "../../../../../components/common/MoneyTable";
-
 import { localize } from "react-localize-redux";
 import moment from "moment-timezone";
 import { ConnectedCurrencySelector } from "../../../../../components/common/CountrySelector";

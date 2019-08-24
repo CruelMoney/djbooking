@@ -130,6 +130,11 @@ button {
 	outline: none;
 	padding: 0;
 }
+b,
+strong {
+	font-weight: 600;
+}
+
 .row {
 	display: flex;
 	position: relative;
@@ -219,6 +224,7 @@ button {
 	font-size: 20px;
 	width: 200px;
 	font-family: "SourceSansPro-Semibold", sans-serif;
+	text-transform: capitalize;
 }
 
 .mobileMenuButton {

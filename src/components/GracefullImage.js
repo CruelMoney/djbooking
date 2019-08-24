@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import styled, { keyframes } from "styled-components";
-
-const fadeIn = keyframes`
-    from { opacity: 0; }
-    to   { opacity: 1; }
-
-`;
+import styled from "styled-components";
+import { keyframeFadeIn } from "./Blocks";
 
 const StyledImg = styled.img`
-	animation: ${fadeIn} 400ms ease;
+	animation: ${keyframeFadeIn} 400ms ease;
 	animation-duration: ${({ animate }) => (animate ? "400ms" : "0ms")};
 `;
 

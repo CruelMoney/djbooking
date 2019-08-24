@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import { Input, useValidation } from "../components/FormComponents";
 import moment from "moment-timezone";
 
-import Popup from "../../../components/common/Popup";
-import DatePicker from "../../../components/common/Datepicker";
+import Popup from "./common/Popup";
+import DatePicker from "./common/Datepicker";
 
 const DatePickerPopup = ({
 	initialDate,

@@ -1,60 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import Modal from "react-modal";
 
-function indexOf(arr, prop) {
-	if (arr.indexOf) return arr.indexOf(prop);
-	for (var i = 0, len = arr.length; i < len; i++) if (arr[i] === prop) return i;
-	return -1;
-}
-
-const addClass = function(className, el) {
-	if (!el) return;
-	if (el.className === "") return (el.className = className);
-	var classes = el.className.split(" ");
-	if (indexOf(classes, className) > -1) return classes;
-	classes.push(className);
-	el.className = classes.join(" ");
-	return classes;
-};
-
-const removeClass = function(className, el) {
-	if (!el) return;
-	if (el.className === "") return;
-	var classes = el.className.split(" ");
-	var idx = indexOf(classes, className);
-	if (idx > -1) classes.splice(idx, 1);
-	el.className = classes.join(" ");
-	return classes;
-};
-
-const Popup = ({
-	showing,
-	onClickOutside,
-	noPadding,
-	width,
-	hideClose,
-	noBackground,
-	children,
-	lazy = true
-}) => {
+const Popup = memo(props => {
+	const {
+		showing,
+		onClickOutside,
+		noPadding,
+		width,
+		hideClose,
+		noBackground,
+		children,
+		lazy = true
+	} = props;
 	const [showingChildren, setShowingChildren] = useState(showing);
 
 	useEffect(() => {
 		if (!showing) {
-			//  document.getElementById("root").style.webkitFilter = "blur(0px)"
-			removeClass("popup-open", document.body);
-			const to = setTimeout(() => {
+			document.body.classList.remove("popup-open");
+			//allow animation
+			const time = setTimeout(() => {
 				setShowingChildren(false);
 			}, 500);
 			return () => {
-				removeClass("popup-open", document.body);
-				clearTimeout(to);
+				clearTimeout(time);
 			};
 		} else {
 			setShowingChildren(true);
-			addClass("popup-open", document.body);
+			const time = setTimeout(() => {
+				document.body.classList.add("popup-open");
+			}, 100);
 			return () => {
-				removeClass("popup-open", document.body);
+				clearTimeout(time);
+				document.body.classList.remove("popup-open");
 			};
 		}
 	}, [showing]);
@@ -145,6 +122,6 @@ const Popup = ({
 			</div>
 		</Modal>
 	);
-};
+});
 
 export default Popup;

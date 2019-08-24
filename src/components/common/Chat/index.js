@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import ChatService from "../../../utils/ChatService";
 import { authService as auth } from "../../../utils/AuthService";
 import debounce from "lodash.debounce";
-import Popup from "../Popup";
 import "./index.css";
-import Button from "../Button-v2";
 import LoadingPlaceholder from "../LoadingPlaceholder";
 class Chat extends Component {
 	chat = null;
@@ -17,7 +15,6 @@ class Chat extends Component {
 		messages: [],
 		newMessage: "",
 		typingAnimation: false,
-		showPopup: false,
 		loading: true
 	};
 
@@ -35,9 +32,6 @@ class Chat extends Component {
 					{
 						ready: true,
 						messages: messages,
-						showPopup: messages.some(
-							msg => msg.containsEmail || msg.containsNumber
-						),
 						loading: false
 					},
 					this.scrollToBottom
@@ -106,7 +100,7 @@ class Chat extends Component {
 		});
 	};
 
-	sendMessage = (declineOnContactInfo = true) => {
+	sendMessage = (declineOnContactInfo = false) => {
 		const og_message = this.state.newMessage;
 
 		const data = {
@@ -161,21 +155,11 @@ class Chat extends Component {
 		this.stoppedTyping();
 	};
 
-	hidePopup = () => {
-		this.setState({
-			showPopup: false,
-			declinedMessage: false
-		});
-	};
-
 	render() {
-		const { ModalContent } = this.props;
 		let prevDate = new Date(0);
 		const {
-			declinedMessage,
 			loading,
 			messages,
-			showPopup,
 			sending,
 			newMessage,
 			typingAnimation
@@ -183,34 +167,6 @@ class Chat extends Component {
 
 		return (
 			<div className="chat">
-				<Popup showing={showPopup} onClickOutside={this.hidePopup}>
-					<div>
-						{ModalContent && (
-							<ModalContent
-								closeModal={this.hidePopup}
-								hideButtons={declinedMessage}
-							/>
-						)}
-						{declinedMessage && (
-							<div className="flex">
-								<Button
-									glow
-									active
-									onClick={_ => {
-										this.sendMessage(false);
-										this.hidePopup();
-									}}
-								>
-									Send message
-								</Button>
-								<Button glow active onClick={this.hidePopup}>
-									Cancel
-								</Button>
-							</div>
-						)}
-					</div>
-				</Popup>
-
 				<div
 					ref={ref => {
 						this.messagesContainer = ref;

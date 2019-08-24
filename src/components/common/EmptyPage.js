@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { localize } from "react-localize-redux";
 import Svg404 from "../graphics/404";
+import styled from "styled-components";
 
 class EmptyPage extends Component {
 	render() {
 		const { translate } = this.props;
 		return (
-			<div className="empty-page-message">
-				<Svg404 style={{ marginRight: "42px", maxWidth: "50%" }} />
+			<Wrapper>
+				<Svg404 />
 				<div>
-					<h2 style={{ maxWidth: "220px" }}>
+					<h2>
 						{this.props.title
 							? this.props.title
 							: translate("empty-page-message")}
@@ -17,9 +18,28 @@ class EmptyPage extends Component {
 
 					<div>{this.props.message}</div>
 				</div>
-			</div>
+			</Wrapper>
 		);
 	}
 }
+
+const Wrapper = styled.div`
+	min-height: 400px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	text-align: left;
+	flex-wrap: wrap;
+	h2 {
+		max-width: 220px;
+	}
+	svg {
+		max-width: 300px;
+		width: 80%;
+		margin-right: 30px;
+		margin-left: 30px;
+	}
+`;
 
 export default localize(EmptyPage, "locale");

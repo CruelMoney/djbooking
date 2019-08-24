@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Checkbox } from "./FormComponents";
-import { Col } from "./Blocks";
+import { Checkbox } from "../../../components/FormComponents";
+import { Col } from "../../../components/Blocks";
 
 const CheckBoxRow = ({ label, onChange }) => {
 	return (

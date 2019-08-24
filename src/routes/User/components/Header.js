@@ -1,54 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-import Navigation from "./Navigation";
+import Navigation from "../../../components/SubNavigation";
 import Rating from "../../../components/common/Rating";
 import VerifiedBadge from "../../../components/graphics/VerifiedBadge";
-import Tooltip from "./Tooltip";
-import { Container, FullWidthCol, Row, ShowBelow, Col, Avatar } from "./Blocks";
+import Tooltip from "../../../components/Tooltip";
+import {
+	Container,
+	FullWidthCol,
+	Row,
+	ShowBelow,
+	Col,
+	Avatar,
+	GradientBg
+} from "../../../components/Blocks";
 import { Spacing } from "./Sidebar";
 import { Stats, CertifiedVerified } from "..";
-
-export const GradientBg = styled.section`
-	height: 318px;
-	background: linear-gradient(
-			-180deg,
-			rgba(0, 0, 0, 0) 0%,
-			rgba(0, 0, 0, 0.5) 100%
-		),
-		${({ coverPhoto }) =>
-				coverPhoto
-					? `url(${coverPhoto.path})`
-					: "linear-gradient(-56deg, #31fff5 0%, #31ffc5 11%, #00d1ff 80%, #32daff 87%)"}
-			no-repeat center center;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	flex: 1;
-	display: flex;
-	align-items: flex-end;
-	position: sticky;
-	top: -270px;
-	z-index: 1;
-
-	@media only screen and (max-width: 425px) {
-		min-height: 290px;
-		height: auto;
-		position: relative;
-		top: 0;
-		padding-top: 100px;
-	}
-	.iconRow {
-		color: #fff;
-		margin-bottom: 0;
-		&:first-child {
-			margin-right: 30px;
-		}
-		svg {
-			margin-right: 6px;
-		}
-	}
-`;
+import { HeaderTitle } from "../../../components/Text";
 
 const getRoutesFromUser = user => {
 	const routes = [{ route: "overview", label: "overview", active: true }];
@@ -77,24 +44,6 @@ const getRoutesFromUser = user => {
 
 	return routes;
 };
-
-const Title = styled.h1`
-	font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
-	font-size: 36px;
-	color: #fff;
-	margin-bottom: 0.3em;
-	line-height: 1.2em;
-	display: inline-block;
-	position: relative;
-	@media only screen and (max-width: 425px) {
-		font-size: 30px;
-		text-align: left;
-		margin-bottom: 0;
-		> * {
-			display: none;
-		}
-	}
-`;
 
 const ReviewsCount = styled.p`
 	opacity: 0.6;
@@ -181,7 +130,7 @@ const UserContent = ({ user }) => {
 		<HeaderWrapper>
 			<Row middle>
 				<Col style={{ flex: 1, alignItems: "flex-start" }}>
-					<Title>
+					<HeaderTitle>
 						{artistName || firstName}
 						{certified && (
 							<Tooltip
@@ -199,7 +148,7 @@ const UserContent = ({ user }) => {
 								)}
 							</Tooltip>
 						)}
-					</Title>
+					</HeaderTitle>
 					{rating && (
 						<div>
 							<RatingWrapper>

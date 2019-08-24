@@ -3,22 +3,23 @@ import {
 	SettingsSection,
 	Input,
 	DeleteFileButton
-} from "../components/FormComponents";
+} from "../../../components/FormComponents";
 import emailValidator from "email-validator";
 import constants from "../../../constants/constants";
-import ImageUploader from "../components/ImageInput";
+import ImageUploader from "../../../components/ImageInput";
 import PasswordChanger from "../components/PasswordChanger";
-import DatePickerPopup from "../components/DatePicker";
+import DatePickerPopup from "../../../components/DatePicker";
 import LocationPicker from "../components/LocationPicker";
 import NotificationPreferences from "../components/NotificationPreferences";
-import GenreSelector from "../components/GenreSelector";
+import GenreSelector from "../../../components/GenreSelector";
 import CancelationPolicyPopup from "../components/CancelationPolicyPopup";
-import BioPopup from "../components/BioPopup";
 import PayoutForm from "../../../components/common/PayoutForm";
 import Popup from "../../../components/common/Popup";
 import { DELETE_USER } from "../gql";
 import { Mutation } from "react-apollo";
 import { PhoneInputNew } from "../../../components/common/PhoneInput";
+import TextAreaPopup from "../../../components/TextAreaPopup";
+import { useConnectInstagram } from "../../../utils/Hooks";
 
 const hasChanges = (o1, o2) => {
 	const keys = Object.keys(o1);
@@ -26,6 +27,11 @@ const hasChanges = (o1, o2) => {
 };
 
 const Settings = ({ user, loading, updateUser, translate, history }) => {
+	const [
+		connectInstagram,
+		{ loading: instaLoading, disconnect }
+	] = useConnectInstagram();
+
 	const saveData = async data => {
 		const flatUser = {
 			...user,
@@ -97,7 +103,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 		bio
 	} = userMetadata;
 	const { cancelationPolicy, currency, notifications } = userSettings;
-	const { roles } = appMetadata;
+	const { roles, instagramConnected } = appMetadata;
 
 	return (
 		<>
@@ -218,8 +224,9 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 						}
 						translate={translate}
 					/>
-					<BioPopup
+					<TextAreaPopup
 						initialValue={bio || ""}
+						label="Bio"
 						save={bio =>
 							saveData({
 								bio
@@ -336,7 +343,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 						window.alert("We'll send you an email when your data is ready.")
 					}
 				/>
-				{/* <Input
+				<Input
 					half
 					loading={instaLoading}
 					type="button"
@@ -346,7 +353,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
 						instagramConnected ? disconnect() : connectInstagram()
 					}
 					buttonText={instagramConnected ? "disconnect" : "connect"}
-				/> */}
+				/>
 			</SettingsSection>
 		</>
 	);

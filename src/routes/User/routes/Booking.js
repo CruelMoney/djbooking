@@ -4,16 +4,15 @@ import {
 	Input,
 	Label,
 	useForm
-} from "../components/FormComponents";
+} from "../../../components/FormComponents";
 import emailValidator from "email-validator";
-import DatePickerPopup from "../components/DatePicker";
+import DatePickerPopup from "../../../components/DatePicker";
 import styled from "styled-components";
-import { Row, Container, Col } from "../components/Blocks";
-import { GradientBg } from "../components/Header";
+import { Row, Container, Col, GradientBg } from "../../../components/Blocks";
 import Sidebar, { SidebarContent, CTAButton } from "../components/Sidebar";
 import ScrollToTop from "../../../components/common/ScrollToTop";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
-import { SmallHeader } from "../components/Text";
+import { SmallHeader } from "../../../components/Text";
 import moment from "moment-timezone";
 import RiderOptions from "../components/RiderOptions";
 import TimeSlider from "../../../components/common/TimeSlider";

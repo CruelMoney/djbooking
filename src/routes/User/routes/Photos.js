@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
-import GracefullImage from "../components/GracefullImage";
+import GracefullImage from "../../../components/GracefullImage";
 import {
 	USER_PHOTOS,
 	UPLOAD_FILE,
@@ -15,14 +15,16 @@ import {
 	SecondaryButton,
 	Col,
 	TeritaryButton,
-} from "../components/Blocks";
-import { ButtonFileInput } from "../components/FormComponents";
-import { SavingIndicator } from "..";
+	LoadingIndicator
+} from "../../../components/Blocks";
+import { ButtonFileInput } from "../../../components/FormComponents";
 import RemoveButton from "react-ionicons/lib/MdRemoveCircle";
 import { ImageCompressor } from "../../../utils/ImageCompressor";
 import { useInView } from "react-intersection-observer";
-import GracefullVideo from "../components/GracefullVideo";
+import GracefullVideo from "../../../components/GracefullVideo";
 import ReorderGrid from "../components/ReorderGrid";
+import SavingIndicator from "../../../components/SavingIndicator";
+import { useConnectInstagram } from "../../../utils/Hooks";
 
 const LIMIT = 6;
 
@@ -502,11 +504,12 @@ const EmptyCTA = ({ uploadFiles }) => {
 };
 
 const ConnectInstaButton = () => {
-	// const [connect, { loading }] = useConnectInstagram();
+	const [connect, { loading }] = useConnectInstagram();
 
 	return (
-		<SecondaryButton disabled={true}>
-			Connect Instagram (available soon)
+		<SecondaryButton disabled={loading} onClick={connect}>
+			Connect Instagram
+			{loading && <LoadingIndicator style={{ marginLeft: "5px" }} />}
 		</SecondaryButton>
 	);
 };

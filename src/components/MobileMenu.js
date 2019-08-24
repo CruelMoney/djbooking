@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 import ReactDOM from "react-dom";
 import Navlink from "./common/Navlink";
 import Popup from "./common/Popup";
 import Login from "./common/Login";
 import { connect } from "react-redux";
-
 import { getTranslate } from "react-localize-redux";
 import { ME } from "./gql";
 import { Query } from "react-apollo";
 import { useLogout } from "../utils/Hooks";
+import { Title, TitleClean } from "./Text";
+
+const initialContext = {
+	registerRoutes: routes => {},
+	unregisterRoutes: routes => {},
+	routes: [],
+	label: null
+};
+
+export const MobileMenuContext = createContext(initialContext);
 
 const MobileMenu = ({ isHome, translate }) => {
 	const [show, setShow] = useState(false);
@@ -180,6 +189,38 @@ const Content = ({
 						</li>
 					)}
 				</ul>
+
+				<MobileMenuContext.Consumer>
+					{({ routes, label }) =>
+						routes.length > 0 && (
+							<>
+								{label && (
+									<TitleClean
+										style={{
+											width: "100%",
+											marginBottom: "10px",
+											marginTop: "15px"
+										}}
+									>
+										{label}
+									</TitleClean>
+								)}
+								<ul style={{ borderTop: "1px solid #e9ecf0" }}>
+									{routes.map(({ route, label }, idx) => (
+										<li key={idx}>
+											<Navlink
+												onClick={() => setShow(false)}
+												buttonLook={true}
+												to={route}
+												label={label}
+											/>
+										</li>
+									))}
+								</ul>
+							</>
+						)
+					}
+				</MobileMenuContext.Consumer>
 			</div>
 		</div>
 	</div>

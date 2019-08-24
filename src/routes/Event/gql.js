@@ -1,12 +1,11 @@
 import gql from "graphql-tag";
 
 const EVENT = gql`
-	query($id: ID!, $hash: String!, $locale: String) {
+	query Event($id: ID!, $hash: String!, $locale: String) {
 		event(id: $id, hash: $hash) {
 			id
 			name
 			description
-
 			start {
 				localDate
 				formattedTime(locale: $locale)
@@ -23,9 +22,7 @@ const EVENT = gql`
 			contactName
 			contactPhone
 			contactEmail
-			gigs {
-				id
-			}
+			address
 			rider {
 				lights
 				speakers
@@ -37,16 +34,28 @@ const EVENT = gql`
 			}
 			organizer {
 				id
+				userMetadata {
+					firstName
+				}
 				picture {
 					path
 				}
+			}
+
+			review {
+				id
 			}
 		}
 	}
 `;
 
 const EVENT_GIGS = gql`
-	query($id: ID!, $hash: String!, $currency: Currency, $locale: String) {
+	query EventGigs(
+		$id: ID!
+		$hash: String!
+		$currency: Currency
+		$locale: String
+	) {
 		event(id: $id, hash: $hash) {
 			id
 			gigs {
@@ -78,6 +87,7 @@ const EVENT_GIGS = gql`
 				dj {
 					id
 					permalink
+					artistName
 					picture {
 						path
 					}
@@ -100,7 +110,7 @@ const EVENT_GIGS = gql`
 `;
 
 const EVENT_REVIEW = gql`
-	query($id: ID!, $hash: String!) {
+	query EventReview($id: ID!, $hash: String!) {
 		event(id: $id, hash: $hash) {
 			id
 			review {
@@ -110,13 +120,19 @@ const EVENT_REVIEW = gql`
 			}
 			chosenGig {
 				id
+				dj {
+					artistName
+					userMetadata {
+						firstName
+					}
+				}
 			}
 		}
 	}
 `;
 
 const REQUEST_PAYMENT_INTENT = gql`
-	query($id: ID!, $currency: Currency, $locale: String) {
+	query RequestPaymentintent($id: ID!, $currency: Currency, $locale: String) {
 		requestPaymentIntent(gigId: $id, currency: $currency) {
 			__typename
 			gigId
@@ -163,8 +179,11 @@ const DECLINE_DJ = gql`
 `;
 
 const CANCEL_EVENT = gql`
-	mutation CancelEvent($id: ID!, $hash: String!) {
-		cancelEvent(id: $id, hash: $hash)
+	mutation CancelEvent($id: ID!, $hash: String!, $reason: String) {
+		cancelEvent(id: $id, hash: $hash, reason: $reason) {
+			id
+			status
+		}
 	}
 `;
 
@@ -182,6 +201,9 @@ const UPDATE_EVENT = gql`
 		$genres: [String!]
 		$guestsCount: Int
 		$locale: String
+		$minPrice: Int
+		$maxPrice: Int
+		$address: String
 	) {
 		updateEvent(
 			id: $id
@@ -195,6 +217,7 @@ const UPDATE_EVENT = gql`
 			lights: $lights
 			genres: $genres
 			guestsCount: $guestsCount
+			address: $address
 		) {
 			id
 			name
@@ -215,6 +238,7 @@ const UPDATE_EVENT = gql`
 			contactName
 			contactPhone
 			contactEmail
+			address
 			rider {
 				lights
 				speakers
@@ -243,6 +267,35 @@ const WRITE_REVIEW = gql`
 	}
 `;
 
+const EVENT_REFUND = gql`
+	query Event($id: ID!, $hash: String!, $locale: String, $currency: Currency) {
+		event(id: $id, hash: $hash) {
+			id
+			chosenGig {
+				id
+				offer {
+					cancelationPolicy {
+						days
+						percentage
+					}
+					isWithinCancelationPolicy
+					daysLeftInCancelationPolicy
+					worstCaseRefund(currency: $currency) {
+						amount
+						currency
+						formatted(locale: $locale)
+					}
+					bestCaseRefund(currency: $currency) {
+						amount
+						currency
+						formatted(locale: $locale)
+					}
+				}
+			}
+		}
+	}
+`;
+
 export {
 	UPDATE_EVENT,
 	EVENT,
@@ -252,5 +305,6 @@ export {
 	DECLINE_DJ,
 	CANCEL_EVENT,
 	WRITE_REVIEW,
-	EVENT_REVIEW
+	EVENT_REVIEW,
+	EVENT_REFUND
 };

@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { Title, Citation, Cite, Body } from "../components/Text";
-import ReadMoreExpander from "../components/ReadMoreExpander";
-import { Col, Row, ReadMore, Show } from "../components/Blocks";
+import { Title, Citation, Cite, Body } from "../../../components/Text";
+import ReadMoreExpander from "../../../components/ReadMoreExpander";
+import { Col, Row, ReadMore, Show } from "../../../components/Blocks";
 import Map from "../../../components/common/Map";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
 import { Link } from "react-router-dom";
 import { PolicyDisplayer } from "../components/CancelationPolicyPopup";
 import AddCircle from "react-ionicons/lib/MdAddCircle";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
-import GracefullImage from "../components/GracefullImage";
+import GracefullImage from "../../../components/GracefullImage";
 
 const ColumnLayout = styled.section`
 	width: 100%;
@@ -207,6 +207,7 @@ const PhotoGrid = styled.ul`
 	> li {
 		background: #eff2f5;
 		position: relative;
+		overflow: hidden;
 		:after {
 			content: "";
 			padding-top: 100%;

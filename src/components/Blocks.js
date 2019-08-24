@@ -50,6 +50,10 @@ export const Row = styled.div`
 	align-items: ${({ middle }) => (middle ? "center" : "flex-start")};
 `;
 
+export const RowWrap = styled(Row)`
+	flex-wrap: wrap;
+`;
+
 export const RowMobileCol = styled(Row)`
 	@media only screen and (max-width: 425px) {
 		flex-direction: column;
@@ -169,14 +173,14 @@ export const Show = styled.div`
 const ButtonTextStyle = css`
 	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
 	font-size: 15px;
-	color: #4d6480 !important;
+	color: #4d6480;
 	text-align: center;
 	line-height: 20px;
 	background: transparent;
 	border-radius: 4px;
-	min-width: 150px;
+	min-width: ${({ small }) => (small ? "130px" : "150px")};
 	padding: 0 1em;
-	height: 40px;
+	height: ${({ small }) => (small ? "30px" : "40px")};
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -193,9 +197,14 @@ export const secondaryButtonStyle = css`
 	background: #E9ECF0;
 	margin-bottom: 0;
 	:hover {
-		${({ disabled }) =>
+		${({ disabled, warning }) =>
 			disabled
 				? ""
+				: warning
+				? `
+				background: #D0021B;
+				color: white;
+				`
 				: `
 			background: #e1e5ea;
 		`}
@@ -249,3 +258,91 @@ export const LoadingIndicator = styled.span`
 	display: block;
 	border-color: currentColor currentColor currentColor transparent;
 `;
+
+export const GradientBg = styled.section`
+	height: 318px;
+	background: linear-gradient(
+			-180deg,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 0.5) 100%
+		),
+		${({ coverPhoto }) =>
+				coverPhoto
+					? `url(${coverPhoto.path})`
+					: "linear-gradient(-56deg, #31fff5 0%, #31ffc5 11%, #00d1ff 80%, #32daff 87%)"}
+			no-repeat center center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	flex: 1;
+	display: flex;
+	align-items: flex-end;
+	position: sticky;
+	top: -270px;
+	z-index: 1;
+
+	@media only screen and (max-width: 425px) {
+		min-height: 290px;
+		height: auto;
+		position: relative;
+		top: 0;
+		padding-top: 100px;
+	}
+	.iconRow {
+		color: #fff;
+		margin-bottom: 0;
+		&:first-child {
+			margin-right: 30px;
+		}
+		svg {
+			margin-right: 6px;
+		}
+	}
+`;
+
+export const keyframeFadeIn = keyframes`
+    from { opacity: 0; }
+    to   { opacity: 1; }
+
+`;
+
+const buttons = {
+	primary: PrimaryButton,
+	secondary: SecondaryButton,
+	tertiary: TeritaryButton
+};
+
+export const SmartButton = ({
+	level = "primary",
+	onClick,
+	children,
+	loading,
+	warning,
+	...props
+}) => {
+	const Button = buttons[level];
+
+	const handleClick = e => {
+		if (warning && typeof warning === "string") {
+			const confirmed = window.confirm(warning);
+			if (confirmed) {
+				onClick(e);
+			}
+		} else {
+			onClick(e);
+		}
+	};
+
+	return (
+		<Button
+			onClick={handleClick}
+			warning={warning}
+			disabled={loading}
+			{...props}
+		>
+			{children}
+			{loading && <LoadingIndicator style={{ marginLeft: "9px" }} />}
+		</Button>
+	);
+};

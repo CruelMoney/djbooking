@@ -5,14 +5,10 @@ import content from "./content.json";
 import requestformContent from "../../components/common/RequestForm/content.json";
 import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
-import { Query, Mutation } from "react-apollo";
+import { Query } from "react-apollo";
 import Header from "./components/Header.js";
 import { USER, UPDATE_USER } from "./gql.js";
-import Sidebar, {
-	CTAButton,
-	SidebarContent,
-	CTAShadow
-} from "./components/Sidebar.js";
+import Sidebar, { SidebarContent, CTAShadow } from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
 import {
 	Overview,
@@ -29,10 +25,8 @@ import {
 	Col,
 	Divider,
 	ShowBelow
-} from "./components/Blocks.js";
+} from "../../components/Blocks";
 import { useMutation } from "@apollo/react-hooks";
-import Notification from "../../components/common/Notification.js";
-import ErrorMessageApollo from "../../components/common/ErrorMessageApollo.js";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Popup from "../../components/common/Popup.js";
 import Login from "../../components/common/Login.js";
@@ -41,17 +35,16 @@ import { LoadingPlaceholder2 } from "../../components/common/LoadingPlaceholder"
 import Pin from "react-ionicons/lib/MdPin";
 import Medal from "react-ionicons/lib/MdMedal";
 import Star from "react-ionicons/lib/MdStar";
-import Tooltip from "./components/Tooltip";
+import Tooltip from "../../components/Tooltip";
 import moment from "moment";
-import { NavLink } from "react-router-dom";
-import GracefullImage from "./components/GracefullImage";
-import { SmallHeader, Stat } from "./components/Text.js";
+import GracefullImage from "../../components/GracefullImage";
+import { SmallHeader, Stat } from "../../components/Text";
 import AddCircle from "react-ionicons/lib/MdAddCircle";
 import ProfileProgress from "./components/ProfileProgress.js";
 import { ME } from "../../components/gql.js";
 import { Helmet } from "react-helmet-async";
-import { PAYMENT_CONFIRMED } from "../Event/gql.js";
-import PayForm from "../../components/common/PayForm.js";
+import BookingButton from "./components/BookingButton";
+import SavingIndicator from "../../components/SavingIndicator.js";
 
 const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
 	const { userMetadata = {}, appMetadata = {}, playingLocation } = user || {};
@@ -78,7 +71,7 @@ const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
 				)
 			}
 		>
-			<ProfileImg src={user ? user.picture.path : null} />
+			<ProfileImg src={user ? user.picture.path : null} animate />
 
 			{loading || !user ? (
 				<SidebarContent>
@@ -136,10 +129,9 @@ const UserContainer = styled(Container)`
 `;
 
 const Content = React.memo(({ match, ...userProps }) => {
-	const { user, loading } = userProps;
+	const { user, loading, location } = userProps;
 	const showPrivateRoutes = loading || (user && user.isOwn);
 	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
-
 	return (
 		<div>
 			<ScrollToTop animate top={280} />
@@ -161,46 +153,66 @@ const Content = React.memo(({ match, ...userProps }) => {
 							position: "relative"
 						}}
 					>
-						<Switch>
+						<Switch location={location}>
 							<Route
-								path={match.path + "/overview"}
+								strict
+								exact
+								path={match.url + "/overview"}
 								render={props => <Overview {...props} {...userProps} />}
 							/>
 							<Route
-								path={match.path + "/reviews"}
+								strict
+								exact
+								path={match.url + "/reviews"}
 								render={props => <Reviews {...props} {...userProps} />}
 							/>
 							<Route
+								strict
+								exact
 								path={match.path + "/photos"}
 								render={props => <Photos {...props} {...userProps} />}
 							/>
 							{showPrivateRoutes ? (
 								<Route
-									path={match.path + "/settings"}
+									strict
+									exact
+									path={match.url + "/settings"}
 									render={props => <Settings {...props} {...userProps} />}
 								/>
 							) : null}
 
 							{showPrivateRoutes ? (
 								<Route
-									path={match.path + "/gigs"}
+									strict
+									exact
+									path={match.url + "/gigs"}
 									render={props => <Gigs {...props} {...userProps} />}
 								/>
 							) : !userProps.loading ? (
 								<Route
-									path={match.path + "/gigs"}
+									strict
+									exact
+									path={match.url + "/gigs"}
 									render={props => <LoginPopup {...props} {...userProps} />}
 								/>
 							) : null}
 
 							{showPrivateRoutes ? (
 								<Route
-									path={match.path + "/events"}
+									strict
+									exact
+									path={match.url + "/events"}
 									render={props => <Events {...props} {...userProps} />}
 								/>
 							) : null}
 
-							<Redirect to={match.path + "/overview"} />
+							<Redirect
+								to={{
+									pathname: match.url + "/overview" + location.search,
+									search: location.search,
+									state: location.state
+								}}
+							/>
 						</Switch>
 					</Col>
 				</Row>
@@ -232,131 +244,115 @@ const LoginPopup = ({ translate }) => {
 };
 
 const Index = ({ translate, match, location }) => {
-	console.log("Rendering user index");
 	const [updateUser, { loading: isSaving, error }] = useMutation(UPDATE_USER);
-
-	return (
-		<Query query={ME} onError={console.warn}>
-			{({ data, loading: loadingMe }) => (
-				<Query
-					query={USER}
-					variables={{ permalink: match.params.permalink }}
-					onError={console.warn}
-				>
-					{({ data: { user: profileUser }, loading: loadingUser }) => {
-						const loading = loadingMe || loadingUser;
-
-						if (!loadingUser && !profileUser) {
-							return <Redirect to={translate("routes./not-found")} />;
-						}
-
-						let user = profileUser;
-
-						if (user && data && data.me) {
-							user.isOwn = user.isOwn || data.me.id === user.id;
-						}
-
-						if (user && user.isOwn && data && data.me) {
-							user = mergeObjects(user, data.me);
-						}
-
-						const title = user
-							? user.artistName || user.userMetadata.firstName
-							: null;
-						const thumb = user ? user.picture.path : null;
-						const description = user ? user.userMetadata.bio : null;
-
-						return (
-							<div>
-								{user && (
-									<Helmet>
-										<title>{title}</title>
-										<meta property="og:title" content={title} />
-										<meta name="twitter:title" content={title} />
-
-										<meta property="og:image" content={thumb} />
-										<meta name="twitter:image" content={thumb} />
-
-										<meta name="description" content={description} />
-										<meta name="twitter:description" content={description} />
-										<meta property="og:description" content={description} />
-
-										{user.isOwn && (
-											<meta
-												name="apple-itunes-app"
-												content="app-id=1458267647, app-argument=userProfile"
-											/>
-										)}
-									</Helmet>
-								)}
-								<SavingIndicator loading={isSaving} error={error} />
-
-								<Switch>
-									<Route
-										path={match.path + "/booking"}
-										render={props => (
-											<Booking
-												{...props}
-												user={user}
-												loading={loading}
-												translate={translate}
-											/>
-										)}
-									/>
-									<Route
-										render={() => (
-											<Content
-												match={match}
-												user={user}
-												loading={loading}
-												translate={translate}
-												updateUser={updateUser}
-												location={location}
-											/>
-										)}
-									/>
-								</Switch>
-
-								<Footer
-									noSkew
-									firstTo={translate("routes./how-it-works")}
-									secondTo={translate("routes./")}
-									firstLabel={translate("how-it-works")}
-									secondLabel={translate("arrange-event")}
-									title={translate("Wonder how it works?")}
-									subTitle={translate("See how it works, or arrange an event.")}
-								/>
-							</div>
-						);
-					}}
-				</Query>
-			)}
-		</Query>
-	);
-};
-
-export const SavingIndicator = ({ loading, error, message }) => {
-	const [active, setActive] = useState(false);
+	const [hasScrolled, setHasScrolled] = useState(false);
 
 	useEffect(() => {
-		if (loading === false) {
-			const r = setTimeout(_ => setActive(false), error ? 10000 : 1000);
-			return _ => clearTimeout(r);
-		} else {
-			setActive(true);
-		}
-	}, [error, loading]);
+		setHasScrolled(true);
+	}, []);
 
 	return (
-		<Notification
-			overlay
-			bottom
-			active={active}
-			loading={loading}
-			message={message || "Saving"}
-		>
-			{error && <ErrorMessageApollo error={error} />}
-		</Notification>
+		<>
+			<Query query={ME} onError={console.warn}>
+				{({ data, loading: loadingMe }) => (
+					<Query
+						query={USER}
+						variables={{ permalink: match.params.permalink }}
+						onError={console.warn}
+					>
+						{({ data: { user: profileUser }, loading: loadingUser }) => {
+							const loading = loadingMe || loadingUser;
+
+							if (!loadingUser && !profileUser) {
+								return <Redirect to={translate("routes./not-found")} />;
+							}
+
+							let user = profileUser;
+
+							if (user && data && data.me) {
+								user.isOwn = user.isOwn || data.me.id === user.id;
+							}
+
+							if (user && user.isOwn && data && data.me) {
+								user = mergeObjects(user, data.me);
+							}
+
+							const title = user
+								? user.artistName || user.userMetadata.firstName
+								: null;
+							const thumb = user ? user.picture.path : null;
+							const description = user ? user.userMetadata.bio : null;
+
+							return (
+								<div>
+									{!hasScrolled && <ScrollToTop />}
+									{user && (
+										<Helmet>
+											<title>{title}</title>
+											<meta property="og:title" content={title} />
+											<meta name="twitter:title" content={title} />
+
+											<meta property="og:image" content={thumb} />
+											<meta name="twitter:image" content={thumb} />
+
+											<meta name="description" content={description} />
+											<meta name="twitter:description" content={description} />
+											<meta property="og:description" content={description} />
+
+											{user.isOwn && (
+												<meta
+													name="apple-itunes-app"
+													content="app-id=1458267647, app-argument=userProfile"
+												/>
+											)}
+										</Helmet>
+									)}
+									<SavingIndicator loading={isSaving} error={error} />
+
+									<Switch>
+										<Route
+											path={match.path + "/booking"}
+											render={props => (
+												<Booking
+													{...props}
+													user={user}
+													loading={loading}
+													translate={translate}
+												/>
+											)}
+										/>
+										<Route
+											render={() => (
+												<Content
+													match={match}
+													user={user}
+													loading={loading}
+													translate={translate}
+													updateUser={updateUser}
+													location={location}
+												/>
+											)}
+										/>
+									</Switch>
+
+									<Footer
+										noSkew
+										firstTo={translate("routes./how-it-works")}
+										secondTo={translate("routes./")}
+										firstLabel={translate("how-it-works")}
+										secondLabel={translate("arrange-event")}
+										title={translate("Wonder how it works?")}
+										subTitle={translate(
+											"See how it works, or arrange an event."
+										)}
+									/>
+								</div>
+							);
+						}}
+					</Query>
+				)}
+			</Query>
+		</>
 	);
 };
 
@@ -421,68 +417,12 @@ export const Stats = ({ experience, followers, white, marginRight }) => {
 					value={followers}
 					style={{ marginRight: marginRight || "24px" }}
 					white={white}
-				></Stat>
+				/>
 			)}
 			{experience && (
 				<Stat white={white} label={"played gigs"} value={experience}></Stat>
 			)}
 		</Row>
-	);
-};
-
-const BookingButton = ({ loading, user, location }) => {
-	const [locationState] = useState(location && location.state);
-	const [showPopup, setShowPopup] = useState(false);
-
-	if (!user) {
-		return null;
-	}
-	if (user.isOwn) {
-		return (
-			<CTAButton
-				onClick={() => window.alert("Are you trying to book yourself? 🧐")}
-			>
-				REQUEST BOOKING
-			</CTAButton>
-		);
-	}
-
-	const offer = locationState && locationState.offer;
-
-	if (offer) {
-		const { gig, event } = locationState;
-		return (
-			<>
-				<CTAButton onClick={() => setShowPopup(true)}>
-					BOOK {offer.totalPayment.formatted}
-				</CTAButton>
-				<Popup
-					showing={showPopup}
-					onClickOutside={() => setShowPopup(false)}
-					noPadding
-				>
-					<Mutation
-						mutation={PAYMENT_CONFIRMED}
-						variables={{ gigId: gig.id, eventId: event.id }}
-					>
-						{mutate => (
-							<PayForm
-								onPaymentConfirmed={mutate}
-								id={gig.id}
-								offer={offer}
-								event={event}
-							/>
-						)}
-					</Mutation>
-				</Popup>
-			</>
-		);
-	}
-
-	return (
-		<NavLink to="booking">
-			<CTAButton>REQUEST BOOKING</CTAButton>
-		</NavLink>
 	);
 };
 
