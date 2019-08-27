@@ -56,24 +56,35 @@ const EventGigs = React.forwardRef(
       );
     }
 
+    const statusPriority = {
+      CONFIRMED: 2,
+      ACCEPTED: 1
+    };
+
     return (
       <Col ref={ref}>
         <Title>We've found these DJs for you</Title>
         <Body>{getText(status)}</Body>
-        {gigs.map((gig, idx) => (
-          <DjCard
-            hasMessage={
-              gigMessages[gig.id] &&
-              gigMessages[gig.id].read < gigMessages[gig.id].total
-            }
-            onOpenChat={readRoom}
-            key={gig.id}
-            idx={idx}
-            gig={gig}
-            translate={translate}
-            theEvent={theEvent}
-          />
-        ))}
+        {gigs
+          .sort(
+            (g1, g2) =>
+              (statusPriority[g2.status] || 0) -
+              (statusPriority[g1.status] || 0)
+          )
+          .map((gig, idx) => (
+            <DjCard
+              hasMessage={
+                gigMessages[gig.id] &&
+                gigMessages[gig.id].read < gigMessages[gig.id].total
+              }
+              onOpenChat={readRoom}
+              key={gig.id}
+              idx={idx}
+              gig={gig}
+              translate={translate}
+              theEvent={theEvent}
+            />
+          ))}
       </Col>
     );
   }

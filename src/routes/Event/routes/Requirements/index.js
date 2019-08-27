@@ -59,7 +59,7 @@ const Requirements = React.forwardRef(({ theEvent, translate }, ref) => {
 			}
 		});
 
-	const isCancable = eventStates.FINISHED !== theEvent.status;
+	const isCancable = ![eventStates.FINISHED, eventStates.CANCELLED].includes(theEvent.status);
 
 	return (
 		<Col ref={ref}>
