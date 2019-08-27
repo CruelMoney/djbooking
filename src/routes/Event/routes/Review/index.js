@@ -9,8 +9,10 @@ import Rating from "../../../../components/common/RatingNew";
 import styled from "styled-components";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 
-const Content = ({ theEvent, loading }) => {
-  const { id, hash } = theEvent || {};
+const Content = ({ match }) => {
+  const {
+    params: { id, hash }
+  } = match;
 
   const { data, loading: loadingReview } = useQuery(EVENT_REVIEW, {
     skip: !id || !hash,
@@ -21,18 +23,18 @@ const Content = ({ theEvent, loading }) => {
   const [state, setState] = useState({});
 
   const { event } = data || {};
-  const { review, chosenGig } = event || {};
+  const { review, chosenGig, status } = event || {};
   const { dj } = chosenGig || {};
 
   useEffect(() => {
     setState(review || {});
   }, [review]);
 
-  if (loading || loadingReview) {
+  if (loadingReview || !data) {
     return <LoadingPlaceholder2 style={{ marginTop: "30px" }} />;
   }
 
-  if (theEvent.status !== "FINISHED") {
+  if (status !== "FINISHED") {
     return (
       <Body>Come back and leave a review when the event is finished.</Body>
     );

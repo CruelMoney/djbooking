@@ -55,6 +55,7 @@ const DjCard = ({
   const truncatedBio = shouldTruncate ? bio.substring(0, 100) + "..." : bio;
   const name = artistName || firstName;
   const showInfo = status === "CONFIRMED";
+  const finished = theEvent.status === "FINISHED";
 
   return (
     <Wrapper idx={idx}>
@@ -70,7 +71,7 @@ const DjCard = ({
                 {truncatedBio}
               </BodySmall>
               <RowWrap>
-                {theEvent.status !== "FINISHED" && (
+                {!finished && (
                   <SecondaryButton
                     small
                     style={{ position: "relative" }}
@@ -92,7 +93,11 @@ const DjCard = ({
                     search: `?gigId=${gig.id}&hash=${theEvent.hash}`
                   }}
                 >
-                  <TeritaryButton small>See profile</TeritaryButton>
+                  {finished ? (
+                    <SecondaryButton small>See profile</SecondaryButton>
+                  ) : (
+                    <TeritaryButton small>See profile</TeritaryButton>
+                  )}
                 </NavLink>
               </RowWrap>
             </ColLeft>
@@ -208,7 +213,7 @@ const Offer = ({
         {["ACCEPTED"].includes(status) && (
           <PrimaryButton onClick={initiateBooking}>Book {name}</PrimaryButton>
         )}
-        {["CONFIRMED"].includes(status) && (
+        {["CONFIRMED", "FINISHED"].includes(status) && (
           <NavLink to="review">
             <PrimaryButton>Review {name}</PrimaryButton>
           </NavLink>

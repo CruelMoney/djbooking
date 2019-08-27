@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 const EVENT = gql`
-  query Event($id: ID!, $hash: String!, $locale: String) {
+  query Event($id: ID!, $hash: String!, $locale: String, $currency: Currency) {
     event(id: $id, hash: $hash) {
       id
       name
@@ -44,6 +44,53 @@ const EVENT = gql`
 
       review {
         id
+      }
+      chosenGig {
+        id
+        status
+        offer {
+          canBePaid
+          daysUntilPaymentPossible
+          totalPayment(currency: $currency) {
+            amount
+            currency
+            formatted(locale: $locale)
+          }
+          serviceFee(currency: $currency) {
+            amount
+            currency
+            formatted(locale: $locale)
+          }
+          offer(currency: $currency) {
+            amount
+            currency
+            formatted(locale: $locale)
+          }
+          cancelationPolicy {
+            days
+            percentage
+          }
+        }
+        dj {
+          id
+          permalink
+          artistName
+          picture {
+            path
+          }
+          email
+          playingLocation {
+            name
+          }
+          userMetadata {
+            firstName
+            phone
+            bio
+          }
+          appMetadata {
+            averageRating
+          }
+        }
       }
     }
   }
@@ -113,6 +160,7 @@ const EVENT_REVIEW = gql`
   query EventReview($id: ID!, $hash: String!) {
     event(id: $id, hash: $hash) {
       id
+      status
       review {
         id
         content
