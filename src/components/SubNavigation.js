@@ -8,7 +8,6 @@ import React, {
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { MobileMenuContext } from "./MobileMenu";
-import { useWhyDidYouUpdate } from "../utils/useWhyDidYouUpdate";
 
 const StyledNav = styled.nav`
   height: 48px;
@@ -58,8 +57,6 @@ const Navigation = memo(props => {
   const navRef = useRef();
   const activeRef = useRef();
   const indicator = useRef();
-
-  useWhyDidYouUpdate("name", props);
 
   const setActiveIndicatorFromElement = el => {
     if (el) {

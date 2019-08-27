@@ -21,7 +21,7 @@ import Popup from "../../../../components/common/Popup";
 import Chat from "../../../../components/common/Chat";
 import EmptyPage from "../../../../components/common/EmptyPage";
 import { useMutation } from "react-apollo";
-import { DECLINE_DJ } from "../../gql";
+import { DECLINE_DJ, EVENT, EVENT_GIGS } from "../../gql";
 import ReactPixel from "react-facebook-pixel";
 import PayForm from "../../../../components/common/PayForm";
 
@@ -125,6 +125,7 @@ const DjCard = ({
 
           <Offer
             {...offer}
+            theEvent={theEvent}
             gig={gig}
             translate={translate}
             name={name}
@@ -155,12 +156,29 @@ const DjCard = ({
   );
 };
 
-const Offer = ({ name, totalPayment, translate, gig, initiateBooking }) => {
+const Offer = ({
+  name,
+  totalPayment,
+  translate,
+  gig,
+  theEvent,
+  initiateBooking
+}) => {
   const [decline, { loading }] = useMutation(DECLINE_DJ, {
     variables: {
-      gigId: gig.id
+      gigId: gig.id,
+      hash: theEvent.hash
     },
-    onCompleted: window.location.reload
+    awaitRefetchQueries: true,
+    refetchQueries: [
+      {
+        query: EVENT_GIGS,
+        variables: {
+          id: theEvent.id,
+          hash: theEvent.hash
+        }
+      }
+    ]
   });
 
   const { status } = gig;
