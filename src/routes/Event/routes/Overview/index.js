@@ -40,12 +40,14 @@ const EventGigs = React.forwardRef(
 
     const readRoom = () => setGigMessages([]);
 
-    const gigs = data.event ? data.event.gigs : [];
     const loading = loadingEvent || loadingGigs;
 
     if (loading) {
       return <LoadingPlaceholder2 />;
     }
+
+    let gigs = data.event ? data.event.gigs : [];
+    gigs = gigs.filter(g => g.status !== "LOST");
 
     if (!loading && gigs.length === 0) {
       return (
@@ -63,7 +65,7 @@ const EventGigs = React.forwardRef(
 
     return (
       <Col ref={ref}>
-        <Title>We've found these DJs for you</Title>
+        <Title>{getTitle(status)}</Title>
         <Body>{getText(status)}</Body>
         {gigs
           .sort(
@@ -95,9 +97,18 @@ const getText = status => {
     case "ACCEPTED":
       return "Choose and book one of the DJs below. Remember quality follows price. If you have any questions, you can message the DJs. Once you have confirmed a DJ, you’ll be able to see additional information such as phone number.";
     case "CONFIRMED":
-      return "The DJ has been booked.";
+      return "Contact the DJ to make sure that all details are agreed upon.";
     default:
       return "The DJs have not made any offers yet. In the meantime you check out their profiles or message them. We’ll notify you by email when someone makes an offer or messages you. Once you have confirmed a DJ, you’ll be able to see additional information such as phone number.";
+  }
+};
+
+const getTitle = status => {
+  switch (status) {
+    case "CONFIRMED":
+      return "The DJ has been booked";
+    default:
+      return "We've found these DJs for you";
   }
 };
 
