@@ -32,7 +32,6 @@ import { getTranslatedURL } from "./utils/HelperFunctions";
 import ReactPixel from "react-facebook-pixel";
 import ResetPassword from "./routes/ResetPassword";
 import { MobileMenuContext } from "./components/MobileMenu";
-import { getApolloContext } from "react-apollo";
 
 let redirected = false;
 
@@ -42,6 +41,8 @@ const compareRoutes = (r1 = [], r2 = [], key = "route") => {
 
 const App = props => {
   const { location, translate, activeLanguage, setActiveLanguage } = props;
+
+  const setLanguage = useCallback(setActiveLanguage, []);
 
   const savedLanguage =
     typeof localStorage !== "undefined" ? localStorage.language : false;
@@ -71,8 +72,8 @@ const App = props => {
   }, [activeLanguage]);
 
   useEffect(() => {
-    setActiveLanguage(language);
-  }, [language, setActiveLanguage]);
+    setLanguage(language);
+  }, [language, setLanguage]);
 
   useEffect(() => {
     // Setup custom analytics
@@ -87,9 +88,7 @@ const App = props => {
     (routes, mobileLabel) => {
       setState(state => {
         const { mobileLinks } = state;
-        debugger;
         if (!compareRoutes(routes, mobileLinks)) {
-          debugger;
           let newLinks = mobileLinks.filter(
             l => !routes.map(r => r.route).includes(l.route)
           );
@@ -107,11 +106,9 @@ const App = props => {
     routes => {
       setState(state => {
         const { mobileLinks } = state;
-        debugger;
         let newLinks = mobileLinks.filter(
           l => !routes.map(r => r.route).includes(l.route)
         );
-        debugger;
         if (!compareRoutes(mobileLinks, newLinks)) {
           return {
             ...state,
@@ -190,23 +187,6 @@ const App = props => {
   );
 };
 
-const mapStateToProps = (state, ownprops) => {
-  return {
-    loggedIn: state.login.status.signedIn,
-    profile: state.login.profile,
-    activeLanguage: getActiveLanguage(state.locale).code,
-    translate: getTranslate(state.locale)
-  };
-};
-
-function mapDispatchToProps(dispatch, ownprops) {
-  return {
-    setActiveLanguage: code => {
-      dispatch(setActiveLanguage(code));
-    }
-  };
-}
-
 const RouteWrapper = memo(({ translate, cssLocation }) => {
   return (
     <>
@@ -247,6 +227,23 @@ const RouteWrapper = memo(({ translate, cssLocation }) => {
     </>
   );
 });
+
+const mapStateToProps = (state, ownprops) => {
+  return {
+    loggedIn: state.login.status.signedIn,
+    profile: state.login.profile,
+    activeLanguage: getActiveLanguage(state.locale).code,
+    translate: getTranslate(state.locale)
+  };
+};
+
+function mapDispatchToProps(dispatch, ownprops) {
+  return {
+    setActiveLanguage: code => {
+      dispatch(setActiveLanguage(code));
+    }
+  };
+}
 
 export default withRouter(
   connect(

@@ -21,7 +21,7 @@ import Popup from "../../../../components/common/Popup";
 import Chat from "../../../../components/common/Chat";
 import EmptyPage from "../../../../components/common/EmptyPage";
 import { useMutation } from "react-apollo";
-import { DECLINE_DJ, EVENT, EVENT_GIGS } from "../../gql";
+import { DECLINE_DJ, EVENT_GIGS } from "../../gql";
 import ReactPixel from "react-facebook-pixel";
 import PayForm from "../../../../components/common/PayForm";
 
@@ -227,7 +227,7 @@ const PayPopup = ({
   translate
 }) => {
   return (
-    <Popup showing={showing} onClickOutside={close}>
+    <Popup showing={showing} onClickOutside={close} noPadding>
       <PayForm
         paymentPossible={paymentPossible}
         id={gig.id}
