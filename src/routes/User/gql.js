@@ -468,6 +468,78 @@ const GIG = gql`
   }
 `;
 
+const VERIFY_STATUS = gql`
+  query VerifyStatus {
+    me {
+      id
+      appMetadata {
+        identityVerified
+        identityStatus {
+          details
+          status
+        }
+      }
+      userMetadata {
+        firstName
+        lastName
+        birthday
+        address
+        countryCode
+        postalCode
+        city
+      }
+    }
+  }
+`;
+
+const REQUEST_VERIFICATION = gql`
+  mutation RequestVerification(
+    $id: ID!
+    $firstName: String!
+    $lastName: String!
+    $birthday: DateTime!
+    $address: String!
+    $city: String!
+    $countryCode: String!
+    $postalCode: String!
+    $passport: Upload!
+    $ssnLast4: Int
+  ) {
+    updateUser(
+      id: $id
+      firstName: $firstName
+      lastName: $lastName
+      birthday: $birthday
+      requestVerification: {
+        address: $address
+        city: $city
+        countryCode: $countryCode
+        postalCode: $postalCode
+        passport: $passport
+        ssnLast4: $ssnLast4
+      }
+    ) {
+      id
+      appMetadata {
+        identityVerified
+        identityStatus {
+          details
+          status
+        }
+      }
+      userMetadata {
+        firstName
+        lastName
+        birthday
+        address
+        countryCode
+        postalCode
+        city
+      }
+    }
+  }
+`;
+
 export {
   MY_EVENTS,
   USER,
@@ -488,5 +560,7 @@ export {
   UPDATE_PHOTOS_ORDER,
   CONNECT_INSTAGRAM,
   DISCONNECT_INSTAGRAM,
-  GIG
+  GIG,
+  VERIFY_STATUS,
+  REQUEST_VERIFICATION
 };

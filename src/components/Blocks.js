@@ -325,13 +325,15 @@ export const SmartButton = ({
   const Button = buttons[level];
 
   const handleClick = e => {
-    if (warning && typeof warning === "string") {
-      const confirmed = window.confirm(warning);
-      if (confirmed) {
+    if (onClick) {
+      if (warning && typeof warning === "string") {
+        const confirmed = window.confirm(warning);
+        if (confirmed) {
+          onClick(e);
+        }
+      } else {
         onClick(e);
       }
-    } else {
-      onClick(e);
     }
   };
 
