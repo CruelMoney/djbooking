@@ -123,6 +123,7 @@ const USER_PHOTOS = gql`
           path
           type
           orderBy
+          data
         }
         pageInfo {
           page
