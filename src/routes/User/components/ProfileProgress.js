@@ -24,9 +24,9 @@ const checks = [
     linkTo: "reviews"
   },
   {
-    label: "Add payout information",
-    check: u => !!u.userMetadata.bankAccount,
-    linkTo: "settings#preferences"
+    label: "Verify your identity",
+    check: u => !!u.appMetadata.identityVerified,
+    linkTo: "settings?modal=verifyIdentity"
   },
   {
     label: "Download the app",

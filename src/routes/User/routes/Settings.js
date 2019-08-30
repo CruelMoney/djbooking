@@ -28,6 +28,14 @@ const hasChanges = (o1, o2) => {
 };
 
 const Settings = ({ user, loading, updateUser, translate, history }) => {
+  const parsedUrl = new URL(window.location.href);
+  const modal = parsedUrl.searchParams.get("modal");
+  const verifyIdentity = modal === "verifyIdentity";
+  if (modal) {
+    parsedUrl.searchParams.delete("modal");
+    history.push(parsedUrl);
+  }
+
   const [
     connectInstagram,
     { loading: instaLoading, disconnect }
@@ -350,7 +358,11 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
           }
           buttonText={instagramConnected ? "disconnect" : "connect"}
         />
-        <VerifyIdentityPopup user={user} identityVerified={identityVerified} />
+        <VerifyIdentityPopup
+          user={user}
+          identityVerified={identityVerified}
+          initialShowing={verifyIdentity}
+        />
       </SettingsSection>
     </>
   );
@@ -380,8 +392,12 @@ const PayoutPopup = ({ user, hasPayout }) => {
   );
 };
 
-const VerifyIdentityPopup = ({ user, identityVerified }) => {
-  const [showing, setShowing] = useState(false);
+const VerifyIdentityPopup = ({
+  user,
+  identityVerified,
+  initialShowing = false
+}) => {
+  const [showing, setShowing] = useState(initialShowing);
 
   return (
     <>
