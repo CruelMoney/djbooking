@@ -124,6 +124,7 @@ const USER_PHOTOS = gql`
           type
           orderBy
           data
+          name
         }
         pageInfo {
           page

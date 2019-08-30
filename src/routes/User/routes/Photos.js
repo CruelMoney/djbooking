@@ -26,6 +26,7 @@ import ReorderGrid from "../components/ReorderGrid";
 import SavingIndicator from "../../../components/SavingIndicator";
 import { useConnectInstagram } from "../../../utils/Hooks";
 import InstagramLogo from "../../../assets/InstagramLogo";
+import { BodySmall } from "../../../components/Text";
 
 const LIMIT = 6;
 
@@ -49,6 +50,7 @@ const ImageGrid = styled.ul`
 const Cell = styled.div`
   background: #eff2f5;
   position: relative;
+  overflow: hidden;
   ${({ css }) => css}
   > * {
     position: absolute;
@@ -68,8 +70,60 @@ const Cell = styled.div`
   :hover ${RemoveImageWrapper} {
     opacity: 1;
   }
+  :hover caption {
+    display: flex;
+  }
 `;
 
+const Backdrop = styled.div`
+  top: 1em;
+  right: 1em;
+  box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.72);
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  width: auto;
+  height: auto;
+  left: initial;
+  bottom: initial;
+  color: white;
+  display: flex;
+  border-radius: 50%;
+  svg {
+    margin: 4px;
+    fill: #fff;
+  }
+`;
+const Backdrop2 = styled.caption`
+  z-index: 2;
+  display: none;
+  top: auto;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1em;
+  right: 0;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.72);
+  background: rgba(0, 0, 0, 0.4);
+  > p {
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0;
+  }
+`;
+
+const InstaIndicator = () => (
+  <Backdrop>
+    <InstagramLogo size={"18px"} />
+  </Backdrop>
+);
+
+const InstaCaption = ({ children }) => (
+  <Backdrop2>
+    <BodySmall>{children}</BodySmall>
+  </Backdrop2>
+);
 const imgPlaceholders = [
   { path: null, type: "IMAGE" },
   { path: null, type: "IMAGE" },
@@ -440,8 +494,11 @@ const Images = ({
       content: (
         <Cell style={getCellStyle(idx)}>
           {file.data && file.data.instagram && <InstaIndicator />}
+          {file.data && file.data.instagram && (
+            <InstaCaption>{file.name}</InstaCaption>
+          )}
           {file.type === "IMAGE" ? (
-            <GracefullImage src={file.path} animate={!isOwn} />
+            <GracefullImage src={file.path} animate={!isOwn} alt={file.name} />
           ) : (
             <GracefullVideo
               src={file.path}
@@ -482,32 +539,6 @@ const Images = ({
     </ReorderGrid>
   );
 };
-
-const ShadowCircle = styled.div`
-  top: 1em;
-  right: 1em;
-  box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.72);
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 2;
-  width: auto;
-  height: auto;
-  left: initial;
-  bottom: initial;
-  color: white;
-
-  display: flex;
-  border-radius: 50%;
-  svg {
-    margin: 4px;
-    fill: #fff;
-  }
-`;
-
-const InstaIndicator = () => (
-  <ShadowCircle>
-    <InstagramLogo size={"18px"} />
-  </ShadowCircle>
-);
 
 const EmptyCTA = ({ uploadFiles }) => {
   return (
