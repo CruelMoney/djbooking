@@ -48,6 +48,9 @@ export const Row = styled.div`
   justify-content: ${({ center, right }) =>
     center ? "center" : right ? "flex-end" : "flex-start"};
   align-items: ${({ middle }) => (middle ? "center" : "flex-start")};
+  > button {
+    margin-left: 6px;
+  }
 `;
 
 export const RowWrap = styled(Row)`
@@ -187,10 +190,24 @@ const ButtonTextStyle = css`
   display: block;
   text-overflow: ellipsis;
   max-width: 200px;
+  position: relative;
 `;
 
 export const TeritaryButton = styled.button`
   ${ButtonTextStyle}
+  :hover {
+    ${({ disabled, warning }) =>
+      disabled
+        ? ""
+        : warning
+        ? `
+				background: #D0021B;
+				color: white;
+				`
+        : `
+			background: #f6f8f9;
+		`}
+  }
 `;
 
 export const secondaryButtonStyle = css`
@@ -228,6 +245,7 @@ export const PrimaryButton = styled.button.attrs(
     color: #ffffff;
     background-color: #00d1ff;
   }
+  ${({ disabled }) => (disabled ? "opacity: 0.5;" : "")}
 `;
 
 export const AddButton = styled(TeritaryButton)`
@@ -345,7 +363,18 @@ export const SmartButton = ({
       {...props}
     >
       {children}
-      {loading && <LoadingIndicator style={{ marginLeft: "9px" }} />}
+      {loading && (
+        <span
+          style={{
+            position: "absolute",
+            right: "15px",
+            top: "50%",
+            transform: "translateY(-50%)"
+          }}
+        >
+          <LoadingIndicator />
+        </span>
+      )}
     </Button>
   );
 };

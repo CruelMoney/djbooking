@@ -2020,7 +2020,7 @@ button[disabled] {
 	color: normal;
 	border-color: normal;
 }
-button[disabled]:hover:not(.loading):not(.succes) {
+.button-look[disabled]:hover:not(.loading):not(.succes) {
 	border-color: #bbbbbb;
 	color: #bbbbbb;
 	box-shadow: none !important;

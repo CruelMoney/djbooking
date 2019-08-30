@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Input, useForm, InputRow } from "../../../components/FormComponents";
 import DatePickerPopup from "../../../components/DatePicker";
 import CountrySelector from "../../../components/CountrySelector";
@@ -7,12 +7,8 @@ import { useQuery, useMutation } from "react-apollo";
 import { VERIFY_STATUS, REQUEST_VERIFICATION } from "../gql";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
 import { Title, Body } from "../../../components/Text";
-import {
-  Row,
-  TeritaryButton,
-  PrimaryButton,
-  SmartButton
-} from "../../../components/Blocks";
+import { Row, TeritaryButton, SmartButton } from "../../../components/Blocks";
+import ErrorMessageApollo from "../../../components/common/ErrorMessageApollo";
 
 const statusText = {
   unverified:
@@ -21,32 +17,16 @@ const statusText = {
   pending: "We are currently reviewing your documents."
 };
 
-const VerifyIdentity = ({ user, onCancel }) => {
-  const { data = {}, loading } = useQuery(VERIFY_STATUS);
-  const [mutate, { loading: submitting }] = useMutation(REQUEST_VERIFICATION);
-  const { me = {} } = data;
-  const { userMetadata, appMetadata = { identityStatus: {} } } = me;
-  const { details, status } = appMetadata.identityStatus;
+const VerifyIdentity = ({ initialData, status, details, onCancel }) => {
+  const [mutate, { loading: submitting, error }] = useMutation(
+    REQUEST_VERIFICATION
+  );
 
-  const [form, setForm] = useState({
-    ...user,
-    ...user.userMetadata,
-    fullName: `${user.userMetadata.firstName} ${user.userMetadata.lastName}`
-  });
-
-  useEffect(() => {
-    if (userMetadata) {
-      setForm(f => ({ ...f, ...userMetadata }));
-    }
-  }, [userMetadata]);
+  const [form, setForm] = useState(initialData);
 
   const { registerValidation, unregisterValidation, runValidations } = useForm(
     form
   );
-
-  if (loading) {
-    return <LoadingPlaceholder2 />;
-  }
 
   const onChange = key => val => {
     setForm(form => ({ ...form, [key]: val }));
@@ -74,14 +54,11 @@ const VerifyIdentity = ({ user, onCancel }) => {
 
   const { fullName, birthday, address, city, countryCode, postalCode } = form;
 
-  const formDisabled = status === "pending";
-
+  const formDisabled = ["pending", "verified"].includes(status);
   return (
     <form onSubmit={save}>
       <Title>Verify Identity</Title>
-      <Body style={{ marginBottom: "30px" }}>
-        {details || statusText[status]}
-      </Body>
+      <Body style={{ marginBottom: "30px" }}>{statusText[status]}</Body>
       <Input
         label="Full name as in passport"
         defaultValue={fullName}
@@ -116,19 +93,19 @@ const VerifyIdentity = ({ user, onCancel }) => {
           registerValidation={registerValidation("birthday")}
           unregisterValidation={unregisterValidation("birthday")}
         />
-        <ImageUploader
-          half
-          label="Passport (jpg or png)"
-          buttonText={form.passport ? form.passport.name : "select"}
-          disabled={formDisabled}
-          onSave={onChange("passport")}
-          validation={v => (!!v ? null : "Required")}
-          registerValidation={registerValidation("passport")}
-          unregisterValidation={unregisterValidation("passport")}
-        />
-      </InputRow>
+        {!formDisabled && (
+          <ImageUploader
+            half
+            label="Passport (jpg or png)"
+            buttonText={form.passport ? form.passport.name : "select"}
+            disabled={formDisabled}
+            onSave={onChange("passport")}
+            validation={v => (!!v ? null : "Required")}
+            registerValidation={registerValidation("passport")}
+            unregisterValidation={unregisterValidation("passport")}
+          />
+        )}
 
-      <InputRow>
         <Input
           half
           label="Address"
@@ -157,8 +134,7 @@ const VerifyIdentity = ({ user, onCancel }) => {
           registerValidation={registerValidation("postalCode")}
           unregisterValidation={unregisterValidation("postalCode")}
         />
-      </InputRow>
-      <InputRow>
+
         <Input
           half
           disabled={formDisabled}
@@ -184,16 +160,50 @@ const VerifyIdentity = ({ user, onCancel }) => {
           unregisterValidation={unregisterValidation("countryCode")}
         />
       </InputRow>
-      <Row right>
-        <TeritaryButton type="button" onClick={onCancel}>
-          Cancel
-        </TeritaryButton>
-        <SmartButton level="primary" loading={submitting} type="submit">
-          Submit
-        </SmartButton>
-      </Row>
+      {!formDisabled && (
+        <Row right>
+          <TeritaryButton type="button" onClick={onCancel}>
+            Cancel
+          </TeritaryButton>
+          <SmartButton
+            success={true}
+            level="primary"
+            loading={submitting}
+            type="submit"
+          >
+            {submitting ? "Submitting" : "Submit"}
+          </SmartButton>
+        </Row>
+      )}
+      <ErrorMessageApollo error={details || error} />
     </form>
   );
 };
 
-export default VerifyIdentity;
+const Wrapper = props => {
+  const { data = {}, loading } = useQuery(VERIFY_STATUS);
+  const { me = {} } = data;
+  const { userMetadata, appMetadata = { identityStatus: {} } } = me;
+  const { details, status } = appMetadata.identityStatus;
+
+  if (loading) {
+    return <LoadingPlaceholder2 />;
+  }
+
+  const initialData = {
+    ...me,
+    ...userMetadata,
+    fullName: `${userMetadata.firstName} ${userMetadata.lastName}`
+  };
+
+  return (
+    <VerifyIdentity
+      {...props}
+      initialData={initialData}
+      status={status}
+      details={details}
+    />
+  );
+};
+
+export default Wrapper;

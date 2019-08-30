@@ -44,6 +44,7 @@ const LeftCol = styled(Col)`
 `;
 
 export const InputRow = styled(Row)`
+  flex-wrap: wrap;
   margin-right: -36px;
   ${InputLabel} {
     min-width: calc(100% - 36px);

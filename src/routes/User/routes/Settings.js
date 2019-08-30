@@ -118,6 +118,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
         <Input
           label="Full name"
           defaultValue={`${firstName} ${lastName}`}
+          disabled={identityVerified}
           placeholder="First Last"
           type="text"
           autoComplete="name"
@@ -161,6 +162,7 @@ const Settings = ({ user, loading, updateUser, translate, history }) => {
           maxDate={new Date()}
           minDate={false}
           label={"Birthday"}
+          disabled={identityVerified}
           onSave={date => saveData({ birthday: date })}
           initialDate={birthday}
         />
