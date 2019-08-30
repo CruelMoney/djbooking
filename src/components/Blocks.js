@@ -48,8 +48,12 @@ export const Row = styled.div`
   justify-content: ${({ center, right }) =>
     center ? "center" : right ? "flex-end" : "flex-start"};
   align-items: ${({ middle }) => (middle ? "center" : "flex-start")};
-  > button {
+  > button,
+  > a {
     margin-left: 6px;
+    &:first-child {
+      margin-left: 0;
+    }
   }
 `;
 
@@ -256,6 +260,7 @@ export const AddButton = styled(TeritaryButton)`
   display: inline-block;
   margin-right: auto;
   height: 18px;
+  background: transparent !important;
 `;
 
 const rotate = keyframes`
