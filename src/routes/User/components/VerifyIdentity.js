@@ -12,7 +12,7 @@ import ErrorMessageApollo from "../../../components/common/ErrorMessageApollo";
 
 const statusText = {
   unverified:
-    "Fill out the information to get verified. The provided information has to match the passport.",
+    "Fill out the information to get verified. The provided information has to match the photo ID. Passport is preferred.",
   verified: "You are verified.",
   pending: "We are currently reviewing your documents."
 };
@@ -54,33 +54,36 @@ const VerifyIdentity = ({ initialData, status, details, onCancel }) => {
 
   const { fullName, birthday, address, city, countryCode, postalCode } = form;
 
-  const formDisabled = ["pending", "verified"].includes(status);
+  const inProcess = ["pending", "verified"].includes(status);
+  const formDisabled = inProcess || submitting;
+
   return (
     <form onSubmit={save}>
       <Title>Verify Identity</Title>
       <Body style={{ marginBottom: "30px" }}>{statusText[status]}</Body>
-      <Input
-        label="Full name as in passport"
-        defaultValue={fullName}
-        placeholder="First Last"
-        type="text"
-        autoComplete="name"
-        name="name"
-        onSave={saveFullName}
-        disabled={formDisabled}
-        validation={v => {
-          if (!v) {
-            return "Required";
-          }
-          const [firstName, ...lastName] = v.split(" ");
-          if (!firstName || !lastName.some(s => !!s.trim())) {
-            return "Please enter both first and last name";
-          }
-        }}
-        registerValidation={registerValidation("fullName")}
-        unregisterValidation={unregisterValidation("fullName")}
-      />
       <InputRow>
+        <Input
+          half
+          label="Full name"
+          defaultValue={fullName}
+          placeholder="First Last"
+          type="text"
+          autoComplete="name"
+          name="name"
+          onSave={saveFullName}
+          disabled={formDisabled}
+          validation={v => {
+            if (!v) {
+              return "Required";
+            }
+            const [firstName, ...lastName] = v.split(" ");
+            if (!firstName || !lastName.some(s => !!s.trim())) {
+              return "Please enter both first and last name";
+            }
+          }}
+          registerValidation={registerValidation("fullName")}
+          unregisterValidation={unregisterValidation("fullName")}
+        />
         <DatePickerPopup
           half
           maxDate={new Date()}
@@ -93,22 +96,32 @@ const VerifyIdentity = ({ initialData, status, details, onCancel }) => {
           registerValidation={registerValidation("birthday")}
           unregisterValidation={unregisterValidation("birthday")}
         />
-        {!formDisabled && (
+        {!inProcess && (
           <ImageUploader
             half
-            label="Passport (jpg or png)"
-            buttonText={form.passport ? form.passport.name : "select"}
+            label="Photo ID front (jpg or png)"
+            buttonText={form.documentFront ? form.documentFront.name : "select"}
             disabled={formDisabled}
-            onSave={onChange("passport")}
+            onSave={onChange("documentFront")}
             validation={v => (!!v ? null : "Required")}
-            registerValidation={registerValidation("passport")}
-            unregisterValidation={unregisterValidation("passport")}
+            registerValidation={registerValidation("documentFront")}
+            unregisterValidation={unregisterValidation("documentFront")}
+          />
+        )}
+
+        {!inProcess && (
+          <ImageUploader
+            half
+            label="Photo ID back (not needed for passport)"
+            buttonText={form.documentBack ? form.documentBack.name : "select"}
+            disabled={formDisabled}
+            onSave={onChange("documentBack")}
           />
         )}
 
         <Input
           half
-          label="Address"
+          label="Address street"
           placeholder="10 Downing Street"
           type="text"
           autoComplete="street-address"
@@ -160,7 +173,7 @@ const VerifyIdentity = ({ initialData, status, details, onCancel }) => {
           unregisterValidation={unregisterValidation("countryCode")}
         />
       </InputRow>
-      {!formDisabled && (
+      {!inProcess && (
         <Row right>
           <TeritaryButton type="button" onClick={onCancel}>
             Cancel
@@ -184,7 +197,7 @@ const Wrapper = props => {
   const { data = {}, loading } = useQuery(VERIFY_STATUS);
   const { me = {} } = data;
   const { userMetadata, appMetadata = { identityStatus: {} } } = me;
-  const { details, status } = appMetadata.identityStatus;
+  const { details, status } = appMetadata.identityStatus || {};
 
   if (loading) {
     return <LoadingPlaceholder2 />;
@@ -200,7 +213,7 @@ const Wrapper = props => {
     <VerifyIdentity
       {...props}
       initialData={initialData}
-      status={status}
+      status={status || "unverified"}
       details={details}
     />
   );

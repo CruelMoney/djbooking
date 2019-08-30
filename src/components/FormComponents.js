@@ -49,11 +49,13 @@ export const InputRow = styled(Row)`
   ${InputLabel} {
     min-width: calc(100% - 36px);
     margin-right: 36px;
+    align-self: flex-end;
   }
   ${LabelHalf} {
     margin-right: 36px;
     min-width: calc(50% - 36px);
     width: calc(50% - 36px);
+    align-self: flex-end;
   }
 `;
 

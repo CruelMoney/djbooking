@@ -502,7 +502,8 @@ const REQUEST_VERIFICATION = gql`
     $city: String!
     $countryCode: String!
     $postalCode: String!
-    $passport: Upload!
+    $documentFront: Upload!
+    $documentBack: Upload
     $ssnLast4: Int
   ) {
     updateUser(
@@ -515,7 +516,8 @@ const REQUEST_VERIFICATION = gql`
         city: $city
         countryCode: $countryCode
         postalCode: $postalCode
-        passport: $passport
+        documentFront: $documentFront
+        documentBack: $documentBack
         ssnLast4: $ssnLast4
       }
     ) {
