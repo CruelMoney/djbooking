@@ -27,13 +27,19 @@ const hasChanges = (o1, o2) => {
   return keys.some(key => o2[key] !== o1[key]);
 };
 
-const Settings = ({ user, loading, updateUser, translate, history }) => {
-  const parsedUrl = new URL(window.location.href);
-  const modal = parsedUrl.searchParams.get("modal");
+const Settings = ({
+  user,
+  loading,
+  updateUser,
+  translate,
+  history,
+  location
+}) => {
+  const params = new URLSearchParams(location.search);
+  const modal = params.get("modal");
   const verifyIdentity = modal === "verifyIdentity";
   if (modal) {
-    parsedUrl.searchParams.delete("modal");
-    history.push(parsedUrl);
+    history.push(location.pathname);
   }
 
   const [
