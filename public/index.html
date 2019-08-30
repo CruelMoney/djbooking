@@ -1,62 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="w3.org/1999/xhtml">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-		<meta name="viewport" content="width=device-width,initial-scale=1" />
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-		<link rel="manifest" href="/manifest.json" />
-		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-		<meta name="theme-color" content="#ffffff" />
-		<!--
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="theme-color" content="#ffffff" />
+    <!--
 			<script src="https://cdn.polyfill.io/v2/polyfill.js?features=es6"></script>
 		-->
 
-		<!-- Adds an event listener to capture uncaught errors. -->
-		<script>
-			addEventListener(
-				"error",
-				(window.__e = function f(e) {
-					f.q = f.q || [];
-					f.q.push(e);
-				})
-			);
-		</script>
-		<script
-			async
-			type="text/javascript"
-			src="https://www.google-analytics.com/analytics.js"
-		></script>
+    <!-- Adds an event listener to capture uncaught errors. -->
+    <script>
+      addEventListener(
+        "error",
+        (window.__e = function f(e) {
+          f.q = f.q || [];
+          f.q.push(e);
+        })
+      );
+    </script>
+    <script
+      async
+      type="text/javascript"
+      src="https://www.google-analytics.com/analytics.js"
+    ></script>
 
-		<script
-			async
-			type="text/javascript"
-			src="%PUBLIC_URL%/autotrack.js"
-		></script>
+    <script
+      async
+      type="text/javascript"
+      src="%PUBLIC_URL%/autotrack.js"
+    ></script>
 
-		<script id="stripe-js" src="https://js.stripe.com/v3/" async></script>
+    <script id="stripe-js" src="https://js.stripe.com/v3/" async></script>
 
-		<script
-			async
-			defer
-			type="text/javascript"
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ&libraries=geometry,places,visualization,geocode"
-		></script>
-	</head>
+    <script
+      async
+      defer
+      type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ&libraries=geometry,places,visualization,geocode"
+    ></script>
+  </head>
 
-	<body>
-		<div id="root"></div>
-		<script>
-			window.__PRELOADED_STATE__ = "%PRELOADED_STATE%";
-			window.__APOLLO_STATE__ = "%PRELOADED_APOLLO_STATE%";
-		</script>
+  <body>
+    <div id="root"></div>
+    <script>
+      window.__PRELOADED_STATE__ = "%PRELOADED_STATE%";
+      window.__APOLLO_STATE__ = "%PRELOADED_APOLLO_STATE%";
+    </script>
 
-		<div id="tooltip-portal"></div>
-		<div id="mobile-menu-portal"></div>
-		<div id="notification-portal"></div>
-	</body>
+    <div id="tooltip-portal"></div>
+    <div id="mobile-menu-portal"></div>
+    <div id="notification-portal"></div>
+  </body>
 </html>
