@@ -419,7 +419,7 @@ export const Stats = ({ experience, followers, white, marginRight }) => {
 					white={white}
 				/>
 			)}
-			{experience && (
+			{experience > 0 && (
 				<Stat white={white} label={"played gigs"} value={experience}></Stat>
 			)}
 		</Row>
