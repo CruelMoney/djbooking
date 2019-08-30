@@ -411,7 +411,7 @@ const Photos = ({ user, loading }) => {
       >
         {hasNextPage && (
           <Cell ref={ref}>
-            <LoadMoreButtonWrapper onClick={() => loadMore(nextPage, userId)}>
+            <LoadMoreButtonWrapper>
               <TeritaryButton>Load more</TeritaryButton>
             </LoadMoreButtonWrapper>
           </Cell>
