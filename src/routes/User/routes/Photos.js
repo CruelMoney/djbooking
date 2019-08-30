@@ -486,7 +486,6 @@ const Images = ({
   updateFilesOrder,
   children
 }) => {
-  debugger;
   const imgData = renderMedia
     .sort((a, b) => a.orderBy - b.orderBy)
     .map((file, idx) => ({

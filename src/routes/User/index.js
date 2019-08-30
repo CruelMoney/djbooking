@@ -414,7 +414,7 @@ export const Stats = ({ experience, followers, white, marginRight }) => {
 			{followers && (
 				<Stat
 					label={"followers"}
-					value={followers}
+					value={followers.totalFormatted}
 					style={{ marginRight: marginRight || "24px" }}
 					white={white}
 				/>

@@ -42,6 +42,10 @@ const USER = gql`
         identityVerified
         certified
         createdAt
+        followers {
+          total
+          totalFormatted
+        }
       }
       userMetadata {
         firstName
