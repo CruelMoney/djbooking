@@ -29,7 +29,6 @@
 .ReactTags__selected .ReactTags__tag {
   font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
   font-size: 9px;
-  color: #4d6480;
   letter-spacing: 0.75px;
   min-width: 66px;
   background-color: #e9ecf0;
@@ -52,6 +51,13 @@
 .ReactTags__tagInput {
   display: inline-block;
   flex: 1;
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: #98a4b3;
+  }
+  :-ms-input-placeholder {
+    color: #98a4b3;
+  }
 }
 .ReactTags__tagInputField {
   background: none;

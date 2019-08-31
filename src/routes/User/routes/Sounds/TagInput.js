@@ -9,7 +9,7 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const TagInput = props => {
+const TagInput = ({ placeholder, ...props }) => {
   const [tags, setTags] = useState([]);
 
   const handleDelete = idx => {
@@ -37,6 +37,7 @@ const TagInput = props => {
       handleDrag={handleDrag}
       delimiters={delimiters}
       autofocus={false}
+      placeholder={tags.length > 0 ? "" : placeholder}
       {...props}
     />
   );

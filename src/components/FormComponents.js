@@ -417,6 +417,8 @@ const TextArea = styled.textarea`
   resize: none;
   text-indent: 0;
   padding: 0.5em;
+  height: auto;
+  min-height: 40px;
   ::placeholder,
   ::-webkit-input-placeholder {
     color: #98a4b3;

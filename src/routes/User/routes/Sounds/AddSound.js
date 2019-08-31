@@ -3,53 +3,87 @@ import {
   Input,
   useForm,
   InputRow,
-  Label,
-  InputLabel
+  InputLabel,
+  Checkbox
 } from "../../../../components/FormComponents";
 import { useMutation } from "react-apollo";
-import { Title, Body } from "../../../../components/Text";
+import { Title, Body, BodySmall } from "../../../../components/Text";
 import {
   Row,
   TeritaryButton,
   SmartButton,
-  Col,
-  PrimaryButton
+  Col
 } from "../../../../components/Blocks";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 import TagInput from "./TagInput";
 import { VERIFY_EMAIL } from "../../../../components/gql";
+import ImageUploader from "../../../../components/ImageInput";
+import { ProgressBar } from "../../components/ProfileProgress";
 
 const AddSound = ({ initialData, status, details, onCancel }) => {
+  const [uploadProgress, setuploadProgress] = useState(null);
   const [mutate, { loading: submitting, error }] = useMutation(VERIFY_EMAIL);
+
+  const startUpload = file => {
+    setuploadProgress(0);
+  };
 
   return (
     <>
-      <Title>Add sound</Title>
+      {uploadProgress === null ? (
+        <FileChooser onChange={startUpload} />
+      ) : (
+        <DataForm disabled={submitting} initialData={{}} />
+      )}
 
-      <DataForm disabled={submitting} initialData={{}} />
-      <Row right>
-        <TeritaryButton type="button" onClick={onCancel}>
-          Cancel
-        </TeritaryButton>
-        <SmartButton
-          success={true}
-          level="primary"
-          loading={submitting}
-          type="submit"
-        >
-          {submitting ? "Submitting" : "Submit"}
-        </SmartButton>
-      </Row>
+      {uploadProgress !== null && (
+        <Row right>
+          <TeritaryButton type="button" onClick={onCancel}>
+            Cancel
+          </TeritaryButton>
+          <SmartButton
+            success={true}
+            level="primary"
+            loading={submitting}
+            type="submit"
+          >
+            {submitting ? "Submitting" : "Add track"}
+          </SmartButton>
+        </Row>
+      )}
 
       <ErrorMessageApollo error={details || error} />
     </>
   );
 };
 
-const FileChooser = () => (
-  <Col>
-    <Body>Please provide one of the following formats</Body>
-    <PrimaryButton>Choose files</PrimaryButton>
+const FileChooser = ({ onChange }) => (
+  <Col middle>
+    <Body>Upload in one of the following formats: </Body>
+    <ImageUploader
+      style={{
+        background: "#31daff",
+        color: "white",
+        width: "250px",
+        margin: "auto",
+        marginTop: "24px"
+      }}
+      name="sound"
+      accept="audio/*"
+      onSave={onChange}
+    >
+      Choose file
+    </ImageUploader>
+    <Row style={{ margin: "6px 0 24px 0" }}>
+      <span style={{ marginRight: "24px" }}>
+        <Checkbox label={"Add to SoundCloud"} />
+      </span>
+      <Checkbox label={"Add to Mixcloud"} />
+    </Row>
+    <BodySmall style={{ textAlign: "center" }}>
+      By uploading, you confirm that your sounds comply with our Terms of Use
+      and you don't infringe anyone else's rights.
+    </BodySmall>
   </Col>
 );
 
@@ -81,8 +115,12 @@ const DataForm = ({ formDisabled, initialData, mutate }) => {
 
   return (
     <form onSubmit={save}>
+      <Title style={{ marginBottom: "39px" }}>Add sound</Title>
+      <BodySmall style={{ marginBottom: 0 }}>Uploading track...</BodySmall>
+      <ProgressBar progress={0.5} />
       <InputRow>
         <Input
+          half
           label="Title"
           placeholder="Name your track"
           type="text"
@@ -94,10 +132,23 @@ const DataForm = ({ formDisabled, initialData, mutate }) => {
           registerValidation={registerValidation("title")}
           unregisterValidation={unregisterValidation("title")}
         />
+        <ImageUploader
+          half
+          label="Cover art"
+          buttonText={"upload"}
+          disabled={formDisabled}
+          onSave={onChange("image")}
+        />
         <InputLabel>
-          Genres
-          <TagInput placeholder="Add genre" />
+          Tags
+          <TagInput placeholder="Add tags to describe the genre, style and mood" />
         </InputLabel>
+        <Input
+          type="text-area"
+          label="Description"
+          disabled={formDisabled}
+          onSave={onChange("description")}
+        />
       </InputRow>
     </form>
   );

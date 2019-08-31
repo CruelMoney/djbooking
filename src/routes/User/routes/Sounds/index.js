@@ -178,7 +178,7 @@ const Sounds = ({ user }) => {
           onClickOutside={() => setShowPopup(false)}
           width={"520px"}
         >
-          <AddSound />
+          <AddSound onCancel={() => setShowPopup(false)} />
         </Popup>
       )}
     </div>

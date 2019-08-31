@@ -25,6 +25,8 @@ export const Container = styled.div`
 export const Col = styled.div`
   display: ${({ tabletDown }) => (tabletDown ? "none" : "flex")};
   flex-direction: column;
+
+  align-items: ${({ middle }) => (middle ? "center" : "auto")};
   @media only screen and (max-width: 768px) {
     display: ${({ mobileHide }) => (mobileHide ? "none" : "flex")};
   }

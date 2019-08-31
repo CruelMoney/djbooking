@@ -117,7 +117,7 @@ const BarFill = styled.div`
   transition: all 500ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
 `;
 
-const ProgressBar = ({ progress }) => {
+export const ProgressBar = ({ progress }) => {
   const [renderProgress, setRenderProgress] = useState(0);
 
   useEffect(() => {
