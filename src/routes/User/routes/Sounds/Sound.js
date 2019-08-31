@@ -4,44 +4,29 @@ import styled from "styled-components";
 import { Row, Pill } from "../../../../components/Blocks";
 import PlayIcon from "../../../../assets/icons/PlayIcon";
 import PauseIcon from "../../../../assets/icons/PauseIcon";
-import { playerStates } from ".";
+import useSoundPlayer, { playerStates } from "./useSoundPlayer";
 import { SimpleSharing } from "../../../../components/common/Sharing-v2";
 import { useMeasure } from "@softbind/hook-use-measure";
+import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 
-const Sound = ({
-  id,
-  title,
-  genres,
-  duration,
-  currentTime,
-  coverArt,
-  soundwave,
+const Sound = ({ id, title, genres, duration, coverArt, soundwave, src }) => {
+  const { state, progress, play, pause, jumpTo, error } = useSoundPlayer({
+    src
+  });
 
-  state,
-  play,
-  pause,
-  jumpTo
-}) => {
   const ref = useRef(null);
   const { bounds } = useMeasure(ref, "bounds");
 
   const [scanningPosition, setScanningPosition] = useState(null);
-  // let resolution = bounds ? bounds.width / MAX_WIDTH : 1;
-  // resolution = (1 / resolution).toFixed(1);
-
-  // const soundwave = originalSoundwave.reduce(
-  //   (acc, c, idx) => (idx % resolution === 0 ? [...acc, c] : acc),
-  //   []
-  // );
 
   const onScanning = event => {
     const { clientX } = event;
     const x = clientX - bounds.left;
-    const progress = (x / bounds.width).toFixed(4);
-    setScanningPosition(progress);
+    const scan = (x / bounds.width).toFixed(4);
+    setScanningPosition(scan);
   };
 
-  const position = currentTime / duration;
+  const position = progress / duration;
   const positionIdx = soundwave.length * position;
   const scanningIdx = soundwave.length * scanningPosition;
   let activeIdx = positionIdx;
@@ -52,16 +37,26 @@ const Sound = ({
     halfActiveIdx = positionIdx;
   }
 
+  const scanInSeconds = scanningPosition * duration;
+
   const durationFormatted = formatTime(duration);
   const progressFormatted = formatTime(
-    scanningPosition ? scanningPosition * duration : currentTime
+    scanningPosition ? scanInSeconds : progress
   );
 
+  debugger;
   return (
     <Container ref={ref}>
       <Title style={{ marginBottom: "39px" }}>{title}</Title>
       <Row between>
-        <PlayPauseButton state={state} />
+        <PlayPauseButton
+          state={state}
+          onClick={state === playerStates.PLAYING ? pause : play}
+        />
+        {error && (
+          <ErrorMessageApollo style={{ marginLeft: "15px" }} error={error} />
+        )}
+        <div style={{ flex: 1 }}></div>
         <Genres>
           {genres.map(g => (
             <Pill key={g}>{g}</Pill>
@@ -71,9 +66,11 @@ const Sound = ({
       <SoundBarsRow
         onMouseMove={onScanning}
         onMouseLeave={() => setScanningPosition(null)}
+        onClick={() => jumpTo(scanInSeconds)}
       >
         {soundwave.map((p, idx) => (
           <SoundBar
+            hovering={scanningPosition}
             key={idx}
             pressure={p}
             active={idx < activeIdx}
@@ -108,13 +105,14 @@ const Genres = styled(Row)`
 const SoundBarStyle = styled.span`
   height: ${({ pressure }) => `${pressure}%`};
   flex: 1;
-  margin: 2px;
+  margin: 1px;
   background: ${({ active, halfActive }) =>
     active ? "#50e3c2" : halfActive ? "#50e3c299" : "#E9ECF0"};
   border-radius: 10px;
-  min-width: 4px;
+  min-width: 1px;
   min-height: 4px;
   pointer-events: none;
+  transition: ${({ hovering }) => (hovering ? "none" : "all 1000ms ease")};
 `;
 const SoundBar = props => {
   return <SoundBarStyle {...props} />;

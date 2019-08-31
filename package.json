@@ -51,6 +51,7 @@
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
     "history": "^4.7.2",
+    "howler": "^2.1.2",
     "http-proxy-middleware": "^0.17.0",
     "if-env": "^1.0.0",
     "is-my-date-valid": "^0.1.0",
