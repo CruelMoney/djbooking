@@ -17,7 +17,8 @@ import {
 	Gigs,
 	Events,
 	Booking,
-	Photos
+	Photos,
+	Sounds,
 } from "./routes";
 import {
 	Container,
@@ -171,6 +172,12 @@ const Content = React.memo(({ match, ...userProps }) => {
 								exact
 								path={match.path + "/photos"}
 								render={props => <Photos {...props} {...userProps} />}
+							/>
+								<Route
+								strict
+								exact
+								path={match.path + "/sounds"}
+								render={props => <Sounds {...props} {...userProps} />}
 							/>
 							{showPrivateRoutes ? (
 								<Route

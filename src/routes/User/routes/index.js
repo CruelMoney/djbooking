@@ -5,5 +5,6 @@ import Gigs from "./Gigs";
 import Events from "./Events";
 import Booking from "./Booking";
 import Photos from "./Photos";
+import Sounds from "./Sounds";
 
-export { Photos, Booking, Overview, Settings, Reviews, Gigs, Events };
+export { Sounds, Photos, Booking, Overview, Settings, Reviews, Gigs, Events };

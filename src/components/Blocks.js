@@ -45,8 +45,14 @@ export const ShowBelow = styled.div`
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${({ center, right }) =>
-    center ? "center" : right ? "flex-end" : "flex-start"};
+  justify-content: ${({ center, right, between }) =>
+    center
+      ? "center"
+      : right
+      ? "flex-end"
+      : between
+      ? "space-between"
+      : "flex-start"};
   align-items: ${({ middle }) => (middle ? "center" : "flex-start")};
   > button,
   > a {
@@ -383,3 +389,19 @@ export const SmartButton = ({
     </Button>
   );
 };
+
+export const Pill = styled.span`
+  font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  color: #4d6480;
+  letter-spacing: 0.75px;
+  min-width: 66px;
+  background-color: #e9ecf0;
+  color: #4d6480;
+  padding: 0 6px;
+  height: 18px;
+  text-transform: uppercase;
+  border-radius: 33px;
+  text-align: center;
+  line-height: 18px;
+`;
