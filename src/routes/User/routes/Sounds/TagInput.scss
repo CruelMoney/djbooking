@@ -1,0 +1,75 @@
+.ReactTags__tags {
+  background: #f6f8f9;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  font-family: "AvenirNext-Regular", Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  color: #122b48;
+  text-indent: 9px;
+  -webkit-appearance: none;
+  width: 100%;
+  display: block;
+  margin-top: 6px;
+  font-weight: 300;
+  box-shadow: none;
+  display: flex;
+  flex-direction: row;
+  padding: 9px;
+  &:focus {
+    background: #e9ecf0;
+  }
+}
+.ReactTags__selected {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  flex-wrap: wrap;
+}
+.ReactTags__selected .ReactTags__tag {
+  font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  color: #4d6480;
+  letter-spacing: 0.75px;
+  min-width: 66px;
+  background-color: #e9ecf0;
+  color: #4d6480;
+  padding: 0 6px;
+  height: 18px;
+  text-transform: uppercase;
+  border-radius: 33px;
+  text-align: center;
+  line-height: 18px;
+  display: inline-block;
+  margin: 3px 0;
+  margin-right: 3px;
+  a {
+    float: right;
+    margin-left: 3px;
+  }
+}
+
+.ReactTags__tagInput {
+  display: inline-block;
+  flex: 1;
+}
+.ReactTags__tagInputField {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  float: left;
+}
+.ReactTags__suggestions {
+  font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  color: #4d6480;
+  letter-spacing: 0.75px;
+
+  height: 18px;
+  text-transform: uppercase;
+  text-align: left;
+  float: left;
+}
+
+// ReactTags__activeSuggestion

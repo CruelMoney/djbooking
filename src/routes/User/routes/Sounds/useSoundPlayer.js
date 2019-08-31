@@ -89,7 +89,7 @@ const useSoundPlayer = ({ src }) => {
       stopFunctions.forEach(s => s !== pause && s());
       setState(playerStates.PLAYING);
       await sound.current.load();
-      // making sure we retart if ended
+      // making sure we restart if ended
       const startfrom = state === playerStates.STOPPED ? 0 : progress;
 
       sound.current.seek(startfrom);

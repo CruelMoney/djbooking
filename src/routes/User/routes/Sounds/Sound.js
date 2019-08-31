@@ -44,7 +44,6 @@ const Sound = ({ id, title, genres, duration, coverArt, soundwave, src }) => {
     scanningPosition ? scanInSeconds : progress
   );
 
-  debugger;
   return (
     <Container ref={ref}>
       <Title style={{ marginBottom: "39px" }}>{title}</Title>
