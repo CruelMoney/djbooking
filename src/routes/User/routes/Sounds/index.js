@@ -4,166 +4,33 @@ import { playerStates } from "./useSoundPlayer";
 import { Col, SecondaryButton } from "../../../../components/Blocks";
 import Popup from "../../../../components/common/Popup";
 import AddSound from "./AddSound";
+import { useQuery } from "react-apollo";
+import { USER_SOUNDS } from "./gql";
+import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceholder";
 
 const Sounds = ({ user }) => {
   const { isOwn } = user || {};
   const [showPopup, setShowPopup] = useState(false);
+
+  const { data, loading } = useQuery(USER_SOUNDS, {
+    skip: !user,
+    variables: {
+      userId: user && user.id
+    }
+  });
+
+  if (loading && !user) {
+    return <LoadingPlaceholder2 />;
+  }
+
+  const { userSounds } = data || {};
+  const { edges = [] } = userSounds || {};
+  console.info({ edges });
   return (
     <div>
-      <Sound
-        id={1}
-        title={"Live at Potatohead 28/07/2018"}
-        genres={["chill", "sunset", "lounge"]}
-        duration={391}
-        src="https://cueup.s3.eu-central-1.amazonaws.com/user_uploads/sounds/Fion+-+Aint+No+Fun+(Edit).mp3"
-        coverArt={"http://lorempixel.com/640/480/nightlife"}
-        soundwave={[
-          1,
-          10,
-          13,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          1,
-          10,
-          13,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          1,
-          10,
-          13,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          1,
-          10,
-          13,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          10,
-          13,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          1,
-          10,
-          13,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          1,
-          10,
-          13,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          1,
-          10,
-          13,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10,
-          1,
-          1,
-          10,
-          13,
-          16,
-          20,
-          50,
-          40,
-          80,
-          40,
-          30,
-          10
-        ]}
-        play={() => {}}
-        pause={() => {}}
-        jumpTo={() => {}}
-        state={playerStates.STOPPED}
-      />
+      {edges.map(sound => (
+        <Sound key={sound.id} {...sound} />
+      ))}
       {isOwn && (
         <Col style={{ marginTop: "30px", width: "250px" }}>
           <SecondaryButton onClick={() => setShowPopup(true)}>

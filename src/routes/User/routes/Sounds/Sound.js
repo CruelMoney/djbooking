@@ -8,10 +8,12 @@ import useSoundPlayer, { playerStates } from "./useSoundPlayer";
 import { SimpleSharing } from "../../../../components/common/Sharing-v2";
 import { useMeasure } from "@softbind/hook-use-measure";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
+import useSamples from "./useSamples";
 
-const Sound = ({ id, title, genres, duration, coverArt, soundwave, src }) => {
+const Sound = ({ id, title, tags, duration, image, samples, file }) => {
   const { state, progress, play, pause, jumpTo, error } = useSoundPlayer({
-    src
+    src: file.path,
+    duration: duration.totalSeconds
   });
 
   const ref = useRef(null);
@@ -20,15 +22,20 @@ const Sound = ({ id, title, genres, duration, coverArt, soundwave, src }) => {
   const [scanningPosition, setScanningPosition] = useState(null);
 
   const onScanning = event => {
-    const { clientX } = event;
-    const x = clientX - bounds.left;
-    const scan = (x / bounds.width).toFixed(4);
-    setScanningPosition(scan);
+    if (bounds) {
+      const { clientX } = event;
+      const x = clientX - bounds.left;
+      const scan = (x / bounds.width).toFixed(4);
+      setScanningPosition(scan);
+    }
   };
 
-  const position = progress / duration;
-  const positionIdx = soundwave.length * position;
-  const scanningIdx = soundwave.length * scanningPosition;
+  const resolution = bounds ? bounds.width / 6 : 140;
+
+  const bars = useSamples({ resolution, samples });
+  const position = progress / duration.totalSeconds;
+  const positionIdx = bars.length * position;
+  const scanningIdx = bars.length * scanningPosition;
   let activeIdx = positionIdx;
   let halfActiveIdx = scanningIdx;
 
@@ -37,9 +44,9 @@ const Sound = ({ id, title, genres, duration, coverArt, soundwave, src }) => {
     halfActiveIdx = positionIdx;
   }
 
-  const scanInSeconds = scanningPosition * duration;
+  const scanInSeconds = scanningPosition * duration.totalSeconds;
 
-  const durationFormatted = formatTime(duration);
+  const durationFormatted = formatTime(duration.totalSeconds);
   const progressFormatted = formatTime(
     scanningPosition ? scanInSeconds : progress
   );
@@ -57,7 +64,7 @@ const Sound = ({ id, title, genres, duration, coverArt, soundwave, src }) => {
         )}
         <div style={{ flex: 1 }}></div>
         <Genres>
-          {genres.map(g => (
+          {tags.map(g => (
             <Pill key={g}>{g}</Pill>
           ))}
         </Genres>
@@ -67,7 +74,7 @@ const Sound = ({ id, title, genres, duration, coverArt, soundwave, src }) => {
         onMouseLeave={() => setScanningPosition(null)}
         onClick={() => jumpTo(scanInSeconds)}
       >
-        {soundwave.map((p, idx) => (
+        {bars.map((p, idx) => (
           <SoundBar
             hovering={scanningPosition}
             key={idx}

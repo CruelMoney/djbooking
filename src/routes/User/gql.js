@@ -238,8 +238,8 @@ const UPLOAD_FILE = gql`
   }
 `;
 const UPDATE_FILE = gql`
-  mutation UpdateFile($id: ID!, $orderBy: Int) {
-    updateFile(id: $id, orderBy: $orderBy) {
+  mutation UpdateFile($id: ID!, $orderBy: Int, $data: JSON, $name: String) {
+    updateFile(id: $id, orderBy: $orderBy, data: $data, name: $name) {
       id
       path
       type

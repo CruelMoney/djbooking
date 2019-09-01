@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Input,
   useForm,
@@ -16,16 +16,50 @@ import {
 } from "../../../../components/Blocks";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 import TagInput from "./TagInput";
-import { VERIFY_EMAIL } from "../../../../components/gql";
 import ImageUploader from "../../../../components/ImageInput";
 import { ProgressBar } from "../../components/ProfileProgress";
+import { UPLOAD_FILE } from "../../gql";
+import { ADD_SOUND } from "./gql";
 
-const AddSound = ({ initialData, status, details, onCancel }) => {
+const AddSound = ({ details, onCancel }) => {
   const [uploadProgress, setuploadProgress] = useState(null);
-  const [mutate, { loading: submitting, error }] = useMutation(VERIFY_EMAIL);
+  const abortUpload = useRef();
+  const [form, setForm] = useState();
 
-  const startUpload = file => {
+  const [upload, { loading: uploading, error: uploadError }] = useMutation(
+    UPLOAD_FILE,
+    {
+      context: {
+        fetchOptions: {
+          useUpload: true,
+          onProgress: e => {
+            setuploadProgress(e.loaded / e.total);
+          },
+          onAbortPossible: abortHandler => {
+            abortUpload.current = abortHandler;
+          }
+        }
+      }
+    }
+  );
+
+  const [mutate, { loading: submitting, error }] = useMutation(ADD_SOUND);
+
+  const startUpload = async file => {
     setuploadProgress(0);
+    const {
+      data: { singleUpload }
+    } = await upload({ variables: { file } });
+    setForm(f => ({
+      ...f,
+      file: singleUpload.id
+    }));
+  };
+
+  const updateFile = () => {
+    mutate({
+      variables: form
+    });
   };
 
   return (
@@ -33,7 +67,31 @@ const AddSound = ({ initialData, status, details, onCancel }) => {
       {uploadProgress === null ? (
         <FileChooser onChange={startUpload} />
       ) : (
-        <DataForm disabled={submitting} initialData={{}} />
+        <DataForm
+          form={form}
+          setForm={setForm}
+          disabled={submitting}
+          uploadingStatus={
+            uploadError ? (
+              <ErrorMessageApollo
+                style={{ marginBottom: 0 }}
+                error={uploadError}
+              />
+            ) : (
+              <BodySmall style={{ marginBottom: 0 }}>
+                {uploading && uploadProgress === 1
+                  ? "Processing track..."
+                  : uploading
+                  ? "Uploading track..."
+                  : "Track uploaded"}
+              </BodySmall>
+            )
+          }
+          uploadProgress={
+            uploading ? Math.min(uploadProgress, 0.95) : uploadError ? 0 : 1
+          }
+          uploadError={uploadError}
+        />
       )}
 
       {uploadProgress !== null && (
@@ -44,10 +102,12 @@ const AddSound = ({ initialData, status, details, onCancel }) => {
           <SmartButton
             success={true}
             level="primary"
+            disabled={uploading || uploadError}
             loading={submitting}
+            onClick={updateFile}
             type="submit"
           >
-            {submitting ? "Submitting" : "Add track"}
+            {uploading ? "Uploading..." : "Add track"}
           </SmartButton>
         </Row>
       )}
@@ -87,9 +147,14 @@ const FileChooser = ({ onChange }) => (
   </Col>
 );
 
-const DataForm = ({ formDisabled, initialData, mutate }) => {
-  const [form, setForm] = useState(initialData);
-
+const DataForm = ({
+  formDisabled,
+  uploadProgress,
+  mutate,
+  uploadingStatus,
+  form,
+  setForm
+}) => {
   const { registerValidation, unregisterValidation, runValidations } = useForm(
     form
   );
@@ -111,13 +176,11 @@ const DataForm = ({ formDisabled, initialData, mutate }) => {
     });
   };
 
-  const { title } = form;
-
   return (
     <form onSubmit={save}>
       <Title style={{ marginBottom: "39px" }}>Add sound</Title>
-      <BodySmall style={{ marginBottom: 0 }}>Uploading track...</BodySmall>
-      <ProgressBar progress={0.5} />
+      {uploadingStatus}
+      <ProgressBar progress={uploadProgress} />
       <InputRow>
         <Input
           half
@@ -126,7 +189,6 @@ const DataForm = ({ formDisabled, initialData, mutate }) => {
           type="text"
           name="title"
           onSave={onChange("title")}
-          defaultValue={title}
           disabled={formDisabled}
           validation={v => (!!v ? null : "Required")}
           registerValidation={registerValidation("title")}

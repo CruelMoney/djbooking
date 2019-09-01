@@ -8,7 +8,7 @@ export const playerStates = Object.freeze({
 
 let stopFunctions = [];
 
-const useSoundPlayer = ({ src }) => {
+const useSoundPlayer = ({ src, duration }) => {
   const sound = useRef();
   const howler = useRef();
   const [state, setState] = useState(playerStates.STOPPED);
@@ -52,7 +52,7 @@ const useSoundPlayer = ({ src }) => {
         html5: true,
         onplay: () => {
           setState(playerStates.PLAYING);
-          animation = setInterval(step, 1000);
+          animation = setInterval(step, 250);
         },
         onpause: () => {
           setState(playerStates.PAUSED);
@@ -65,6 +65,7 @@ const useSoundPlayer = ({ src }) => {
         onend: () => {
           setState(playerStates.STOPPED);
           clearInterval(animation);
+          setProgress(duration);
         },
         onloaderror: (id, error) => {
           setState(playerStates.STOPPED);
@@ -82,15 +83,16 @@ const useSoundPlayer = ({ src }) => {
         sound.current.unload();
       }
     };
-  }, [src]);
+  }, [duration, src]);
 
   const play = async () => {
     if (sound.current) {
       stopFunctions.forEach(s => s !== pause && s());
+      const theState = state;
       setState(playerStates.PLAYING);
       await sound.current.load();
       // making sure we restart if ended
-      const startfrom = state === playerStates.STOPPED ? 0 : progress;
+      const startfrom = theState === playerStates.STOPPED ? 0 : progress;
 
       sound.current.seek(startfrom);
       sound.current.volume(0);
