@@ -29,7 +29,8 @@ const Sound = ({
   loadingRemove,
   deleteSound,
   onEdit,
-  small
+  small,
+  link
 }) => {
   const ref = useRef(null);
   const { bounds } = useMeasure(ref, "bounds");
@@ -148,7 +149,7 @@ const Sound = ({
             </SmartButton>
           )}
           {<div style={{ flex: 1 }}></div>}
-          <SimpleSharing url="" label={null} />
+          <SimpleSharing shareUrl={link} label={null} />
         </Row>
       )}
     </Container>

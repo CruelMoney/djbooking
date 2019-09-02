@@ -16,8 +16,9 @@ import {
 import { Spacing } from "./Sidebar";
 import { Stats, CertifiedVerified } from "..";
 import { HeaderTitle } from "../../../components/Text";
+import { withRouter } from "react-router";
 
-const getRoutesFromUser = user => {
+const getRoutesFromUser = (user, pathname) => {
   const routes = [{ route: "overview", label: "overview", active: true }];
 
   if (user) {
@@ -42,7 +43,7 @@ const getRoutesFromUser = user => {
     }
   }
 
-  return routes;
+  return routes.map(r => ({ ...r, route: pathname + "/" + r.route }));
 };
 
 const ReviewsCount = styled.p`
@@ -81,7 +82,7 @@ const HeaderSpacing = styled(Spacing)`
   }
 `;
 
-const Header = ({ user, loading }) => {
+const Header = ({ user, loading, pathname }) => {
   return (
     <GradientBg coverPhoto={user && user.coverPhoto}>
       <Container>
@@ -90,7 +91,9 @@ const Header = ({ user, loading }) => {
           <FullWidthCol>
             {loading ? null : <UserContent user={user} />}
             {typeof document !== "undefined" && (
-              <Navigation routes={getRoutesFromUser(user)}></Navigation>
+              <Navigation
+                routes={getRoutesFromUser(user, pathname)}
+              ></Navigation>
             )}
           </FullWidthCol>
         </Row>

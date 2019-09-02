@@ -137,7 +137,7 @@ const Content = React.memo(({ match, ...userProps }) => {
 		<div>
 			<ScrollToTop animate top={280} />
 
-			<Header user={user} loading={loading} />
+			<Header user={user} loading={loading} pathname={match.url}/>
 
 			<UserContainer>
 				<Row style={{ alignItems: "stretch" }}>
@@ -176,7 +176,7 @@ const Content = React.memo(({ match, ...userProps }) => {
 								<Route
 								strict
 								exact
-								path={match.path + "/sounds"}
+								path={[(match.path + "/sounds"), (match.path + "/sounds/:id")]}
 								render={props => <Sounds {...props} {...userProps} />}
 							/>
 							{showPrivateRoutes ? (

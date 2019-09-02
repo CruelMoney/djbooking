@@ -43,7 +43,6 @@ const useSoundPlayer = ({ src, duration }) => {
       if (sound.current) {
         const seconds = Number.parseFloat(sound.current.seek());
         if (!Number.isNaN(seconds)) {
-          console.info({ seconds });
           setProgress(seconds);
         }
       }

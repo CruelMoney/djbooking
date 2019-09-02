@@ -63,6 +63,7 @@ export default Sharing;
 
 const SimpleSharing = ({ shareUrl, title, style, label = "Share profile" }) => {
   const url = String(Environment.CALLBACK_DOMAIN) + String(shareUrl);
+  debugger;
   const share = () => {
     if (navigator.share) {
       navigator
