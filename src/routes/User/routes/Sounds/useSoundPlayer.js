@@ -13,6 +13,7 @@ const useSoundPlayer = ({ src, duration }) => {
   const howler = useRef();
   const [state, setState] = useState(playerStates.STOPPED);
   const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
   const stop = () => {
@@ -40,7 +41,11 @@ const useSoundPlayer = ({ src, duration }) => {
 
     const step = () => {
       if (sound.current) {
-        setProgress(sound.current.seek());
+        const seconds = Number.parseFloat(sound.current.seek());
+        if (!Number.isNaN(seconds)) {
+          console.info({ seconds });
+          setProgress(seconds);
+        }
       }
     };
 
@@ -55,6 +60,7 @@ const useSoundPlayer = ({ src, duration }) => {
           animation = setInterval(step, 250);
         },
         onpause: () => {
+          console.log("on pause");
           setState(playerStates.PAUSED);
           clearInterval(animation);
         },
@@ -67,8 +73,13 @@ const useSoundPlayer = ({ src, duration }) => {
           clearInterval(animation);
           setProgress(duration);
         },
+        onload: () => {
+          setLoading(false);
+        },
+
         onloaderror: (id, error) => {
           setState(playerStates.STOPPED);
+          setLoading(false);
           setError(error);
         }
       });
@@ -85,16 +96,17 @@ const useSoundPlayer = ({ src, duration }) => {
     };
   }, [duration, src]);
 
-  const play = async () => {
+  const play = async (seconds = 0) => {
     if (sound.current) {
-      stopFunctions.forEach(s => s !== pause && s());
-      const theState = state;
-      setState(playerStates.PLAYING);
-      await sound.current.load();
+      setLoading(true);
       // making sure we restart if ended
-      const startfrom = theState === playerStates.STOPPED ? 0 : progress;
+      const startfrom = state === playerStates.STOPPED ? seconds : progress;
+      stopFunctions.forEach(s => s !== pause && s());
+      setState(playerStates.PLAYING);
+      setProgress(startfrom);
+      await sound.current.load();
+      jumpTo(startfrom);
 
-      sound.current.seek(startfrom);
       sound.current.volume(0);
       sound.current.play();
       sound.current.fade(0, 1, 250);
@@ -108,7 +120,8 @@ const useSoundPlayer = ({ src, duration }) => {
     jumpTo,
     state,
     error,
-    progress
+    progress,
+    loading
   };
 };
 

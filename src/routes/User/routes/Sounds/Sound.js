@@ -1,10 +1,9 @@
 import React, { useState, useRef } from "react";
 import { Title, BodySmall, SmallBold } from "../../../../components/Text";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import {
   Row,
   Pill,
-  TeritaryButton,
   SecondaryButton,
   SmartButton
 } from "../../../../components/Blocks";
@@ -62,9 +61,9 @@ const Sound = ({
   const scanInSeconds = scanningPosition * duration.totalSeconds;
 
   const durationFormatted = formatTime(duration.totalSeconds);
-  const progressFormatted = formatTime(
-    scanningPosition ? scanInSeconds : player.progress
-  );
+  const progressFormatted = player.loading
+    ? "Loading..."
+    : formatTime(scanningPosition ? scanInSeconds : player.progress);
 
   return (
     <Container ref={ref} small={small}>
@@ -74,8 +73,10 @@ const Sound = ({
       <Row between>
         <PlayPauseButton
           state={player.state}
-          onClick={
-            player.state === playerStates.PLAYING ? player.pause : player.play
+          onClick={() =>
+            player.state === playerStates.PLAYING
+              ? player.pause()
+              : player.play()
           }
         />
         {small && (
@@ -98,14 +99,22 @@ const Sound = ({
       </Row>
       <SoundBarsRow
         onMouseMove={onScanning}
+        loading={player.loading || undefined}
         onMouseLeave={() => setScanningPosition(null)}
-        onClick={() => player.jumpTo(scanInSeconds)}
+        onClick={() => {
+          if (player.state === playerStates.STOPPED) {
+            player.play(scanInSeconds);
+          } else {
+            player.jumpTo(scanInSeconds);
+          }
+        }}
         small={small}
       >
         {bars.map((p, idx) => (
           <SoundBar
             hovering={scanningPosition}
             key={idx}
+            idx={idx}
             pressure={p}
             active={idx < activeIdx}
             halfActive={idx < halfActiveIdx}
@@ -151,17 +160,39 @@ const Genres = styled(Row)`
   }
 `;
 
-const SoundBarStyle = styled.span`
-  height: ${({ pressure }) => `${pressure}%`};
+const loadingPulse = keyframes`
+  from{
+    opacity: 1;
+  }
+  to{
+    opacity: 0.3;
+  }
+`;
+
+const pulseLoad = ({ loading }) =>
+  loading
+    ? css`
+        animation: ${loadingPulse} 1000ms cubic-bezier(0.445, 0.05, 0.55, 0.95)
+          infinite alternate;
+      `
+    : null;
+
+const SoundBarStyle = styled.span.attrs(
+  ({ pressure, active, halfActive, hovering }) => ({
+    style: {
+      height: `${pressure}%`,
+      background: active ? "#50e3c2" : halfActive ? "#50e3c299" : "#E9ECF0",
+      transition: hovering ? "none" : "all 1000ms ease"
+    }
+  })
+)`
   flex: 1;
   margin: 1px;
-  background: ${({ active, halfActive }) =>
-    active ? "#50e3c2" : halfActive ? "#50e3c299" : "#E9ECF0"};
   border-radius: 10px;
   min-height: 4px;
   pointer-events: none;
-  transition: ${({ hovering }) => (hovering ? "none" : "all 1000ms ease")};
 `;
+
 const SoundBar = props => {
   return <SoundBarStyle {...props} />;
 };
@@ -170,12 +201,14 @@ const SoundBarsRow = styled(Row)`
   height: ${({ small }) => (small ? "50px" : "100px")};
   align-items: center;
   cursor: pointer;
+  ${pulseLoad}
 `;
 
 const StyledStateButton = styled.button`
   display: flex;
   height: 36px;
   width: 36px;
+  min-width: 36px;
   justify-content: center;
   align-items: center;
   border: 1px solid #50e3c2 !important;

@@ -95,6 +95,7 @@ const smallBoldStyle = css`
     Arial, Helvetica, sans-serif;
   font-style: normal;
   font-size: 12px;
+  line-height: 1.2em;
   color: #4d6480;
 `;
 

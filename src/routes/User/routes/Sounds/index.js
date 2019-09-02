@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Sound from "./Sound";
-import { playerStates } from "./useSoundPlayer";
 import { Col, SecondaryButton } from "../../../../components/Blocks";
 import Popup from "../../../../components/common/Popup";
 import AddSound from "./AddSound";
@@ -20,12 +19,16 @@ const Sounds = ({ user }) => {
   });
 
   if (loading && !user) {
-    return <LoadingPlaceholder2 />;
+    return (
+      <Col>
+        <LoadingPlaceholder2 />
+      </Col>
+    );
   }
 
   const { userSounds } = data || {};
   const { edges = [] } = userSounds || {};
-  console.info({ edges });
+
   return (
     <div>
       {edges.map(sound => (

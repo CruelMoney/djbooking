@@ -44,6 +44,7 @@ const LeftItem = styled(Item)`
   padding: 42px 42px 42px 0;
   @media only screen and (max-width: 425px) {
     padding: 42px 0px 42px 0px;
+    border-bottom: none;
   }
 `;
 
@@ -54,8 +55,9 @@ const SoundLayout = styled(Item)`
     padding: 42px 0px 18px 0px;
   }
   @media only screen and (max-width: 425px) {
-    padding: 42px 0px 18px 0px;
-    margin-right: -15px;
+    padding: 42px 0px 0px 0px;
+    margin-top: -42px;
+    border-bottom: none;
   }
 `;
 
@@ -75,7 +77,7 @@ const GenresLayout = styled(Item)`
 `;
 
 const Genre = styled.div`
-  background-image: linear-gradient(0deg, #ebebeb 0%, #ebebeb 100%);
+  background: rgba(233, 236, 240, 0.5);
   border-radius: 1em;
   max-height: 8em;
   width: 8em;
@@ -367,6 +369,9 @@ const Overview = ({ user, loading }) => {
       <Row>
         <HalfColLeft>
           <Bio firstName={firstName} bio={bio} />
+          <Show maxWidth="990px">
+            <HighlightedSound user={user} />
+          </Show>
           <Show maxWidth="990px">
             <Genres genres={genres} />
           </Show>
