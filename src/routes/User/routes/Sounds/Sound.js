@@ -210,6 +210,7 @@ const SoundBarsRow = styled(Row)`
   height: ${({ small }) => (small ? "50px" : "100px")};
   align-items: center;
   cursor: pointer;
+  touch-action: none;
   ${pulseLoad}
 `;
 
