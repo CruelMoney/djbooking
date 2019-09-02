@@ -16,7 +16,6 @@ import {
 import { Spacing } from "./Sidebar";
 import { Stats, CertifiedVerified } from "..";
 import { HeaderTitle } from "../../../components/Text";
-import { withRouter } from "react-router";
 
 const getRoutesFromUser = (user, pathname) => {
   const routes = [{ route: "overview", label: "overview", active: true }];
