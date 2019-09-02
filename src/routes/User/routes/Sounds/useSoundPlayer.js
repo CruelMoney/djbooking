@@ -60,7 +60,6 @@ const useSoundPlayer = ({ src, duration }) => {
           animation = setInterval(step, 250);
         },
         onpause: () => {
-          console.log("on pause");
           setState(playerStates.PAUSED);
           clearInterval(animation);
         },

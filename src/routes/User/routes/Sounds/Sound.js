@@ -37,7 +37,10 @@ const Sound = ({
 
   const onScanning = event => {
     if (bounds) {
-      const { clientX } = event;
+      let { clientX, touches } = event;
+      if (touches) {
+        clientX = touches[0].clientX;
+      }
       const x = clientX - bounds.left;
       const scan = (x / bounds.width).toFixed(4);
       setScanningPosition(scan);
@@ -64,6 +67,14 @@ const Sound = ({
   const progressFormatted = player.loading
     ? "Loading..."
     : formatTime(scanningPosition ? scanInSeconds : player.progress);
+
+  const jumpOrStart = () => {
+    if (player.state === playerStates.STOPPED) {
+      player.play(scanInSeconds);
+    } else {
+      player.jumpTo(scanInSeconds);
+    }
+  };
 
   return (
     <Container ref={ref} small={small}>
@@ -101,13 +112,10 @@ const Sound = ({
         onMouseMove={onScanning}
         loading={player.loading || undefined}
         onMouseLeave={() => setScanningPosition(null)}
-        onClick={() => {
-          if (player.state === playerStates.STOPPED) {
-            player.play(scanInSeconds);
-          } else {
-            player.jumpTo(scanInSeconds);
-          }
-        }}
+        onTouchMove={onScanning}
+        onTouchCancel={() => setScanningPosition(null)}
+        onTouchEnd={jumpOrStart}
+        onClick={jumpOrStart}
         small={small}
       >
         {bars.map((p, idx) => (
