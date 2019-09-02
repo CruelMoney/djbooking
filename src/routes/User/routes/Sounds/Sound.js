@@ -1,7 +1,13 @@
 import React, { useState, useRef } from "react";
-import { Title, BodySmall } from "../../../../components/Text";
+import { Title, BodySmall, SmallBold } from "../../../../components/Text";
 import styled from "styled-components";
-import { Row, Pill } from "../../../../components/Blocks";
+import {
+  Row,
+  Pill,
+  TeritaryButton,
+  SecondaryButton,
+  SmartButton
+} from "../../../../components/Blocks";
 import PlayIcon from "../../../../assets/icons/PlayIcon";
 import PauseIcon from "../../../../assets/icons/PauseIcon";
 import useSoundPlayer, { playerStates } from "./useSoundPlayer";
@@ -9,16 +15,25 @@ import { SimpleSharing } from "../../../../components/common/Sharing-v2";
 import { useMeasure } from "@softbind/hook-use-measure";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 import useSamples from "./useSamples";
+import { useMutation } from "react-apollo";
+import { DELETE_SOUND, USER_SOUNDS } from "./gql";
+import Popup from "../../../../components/common/Popup";
+import AddSound from "./AddSound";
 
-const Sound = ({ id, title, tags, duration, image, samples, file }) => {
-  const { state, progress, play, pause, jumpTo, error } = useSoundPlayer({
-    src: file.path,
-    duration: duration.totalSeconds
-  });
-
+const Sound = ({
+  title,
+  tags,
+  duration,
+  player,
+  samples,
+  isOwn,
+  loadingRemove,
+  deleteSound,
+  onEdit,
+  small
+}) => {
   const ref = useRef(null);
   const { bounds } = useMeasure(ref, "bounds");
-
   const [scanningPosition, setScanningPosition] = useState(null);
 
   const onScanning = event => {
@@ -30,10 +45,10 @@ const Sound = ({ id, title, tags, duration, image, samples, file }) => {
     }
   };
 
-  const resolution = bounds ? bounds.width / 6 : 140;
+  const resolution = bounds ? bounds.width / 6 : small ? 75 : 140;
 
   const bars = useSamples({ resolution, samples });
-  const position = progress / duration.totalSeconds;
+  const position = player.progress / duration.totalSeconds;
   const positionIdx = bars.length * position;
   const scanningIdx = bars.length * scanningPosition;
   let activeIdx = positionIdx;
@@ -48,19 +63,31 @@ const Sound = ({ id, title, tags, duration, image, samples, file }) => {
 
   const durationFormatted = formatTime(duration.totalSeconds);
   const progressFormatted = formatTime(
-    scanningPosition ? scanInSeconds : progress
+    scanningPosition ? scanInSeconds : player.progress
   );
 
   return (
-    <Container ref={ref}>
-      <Title style={{ marginBottom: "39px" }}>{title}</Title>
+    <Container ref={ref} small={small}>
+      <Title style={{ marginBottom: "39px" }}>
+        {small ? "Selected sound" : title}
+      </Title>
       <Row between>
         <PlayPauseButton
-          state={state}
-          onClick={state === playerStates.PLAYING ? pause : play}
+          state={player.state}
+          onClick={
+            player.state === playerStates.PLAYING ? player.pause : player.play
+          }
         />
-        {error && (
-          <ErrorMessageApollo style={{ marginLeft: "15px" }} error={error} />
+        {small && (
+          <SmallBold demi style={{ marginLeft: "12px", marginTop: "4px" }}>
+            {title}
+          </SmallBold>
+        )}
+        {player.error && (
+          <ErrorMessageApollo
+            style={{ marginLeft: "15px" }}
+            error={player.error}
+          />
         )}
         <div style={{ flex: 1 }}></div>
         <Genres>
@@ -72,7 +99,8 @@ const Sound = ({ id, title, tags, duration, image, samples, file }) => {
       <SoundBarsRow
         onMouseMove={onScanning}
         onMouseLeave={() => setScanningPosition(null)}
-        onClick={() => jumpTo(scanInSeconds)}
+        onClick={() => player.jumpTo(scanInSeconds)}
+        small={small}
       >
         {bars.map((p, idx) => (
           <SoundBar
@@ -84,21 +112,36 @@ const Sound = ({ id, title, tags, duration, image, samples, file }) => {
           />
         ))}
       </SoundBarsRow>
-      <Row between>
-        <BodySmall>{progressFormatted}</BodySmall>
-        <BodySmall>{durationFormatted}</BodySmall>
-      </Row>
-      <Row right style={{ marginTop: "15px" }}>
-        <SimpleSharing url="" label={null} />
-      </Row>
+      {!small && (
+        <Row between>
+          <BodySmall>{progressFormatted}</BodySmall>
+          <BodySmall>{durationFormatted}</BodySmall>
+        </Row>
+      )}
+      {!small && (
+        <Row right style={{ marginTop: "15px" }}>
+          {isOwn && <SecondaryButton onClick={onEdit}>Edit</SecondaryButton>}
+          {isOwn && (
+            <SmartButton
+              loading={loadingRemove}
+              onClick={deleteSound}
+              level="tertiary"
+            >
+              Remove
+            </SmartButton>
+          )}
+          {<div style={{ flex: 1 }}></div>}
+          <SimpleSharing url="" label={null} />
+        </Row>
+      )}
     </Container>
   );
 };
 
 const Container = styled.article`
-  margin-bottom: 60px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #e9ecf0;
+  margin-bottom: ${({ small }) => (small ? "15px" : "60px")};
+  padding-bottom: ${({ small }) => (small ? " " : "24px")};
+  border-bottom: ${({ small }) => (small ? " " : "1px solid #e9ecf0")};
 `;
 
 const Genres = styled(Row)`
@@ -115,7 +158,6 @@ const SoundBarStyle = styled.span`
   background: ${({ active, halfActive }) =>
     active ? "#50e3c2" : halfActive ? "#50e3c299" : "#E9ECF0"};
   border-radius: 10px;
-  min-width: 1px;
   min-height: 4px;
   pointer-events: none;
   transition: ${({ hovering }) => (hovering ? "none" : "all 1000ms ease")};
@@ -125,8 +167,9 @@ const SoundBar = props => {
 };
 
 const SoundBarsRow = styled(Row)`
-  height: 100px;
+  height: ${({ small }) => (small ? "50px" : "100px")};
   align-items: center;
+  cursor: pointer;
 `;
 
 const StyledStateButton = styled.button`
@@ -164,4 +207,49 @@ const formatTime = seconds =>
     .replace("00:", "")
     .replace(":", ".");
 
-export default Sound;
+const Wrapper = props => {
+  const { id, file, duration, userId, isOwn, title, description, tags } = props;
+  const player = useSoundPlayer({
+    src: file.path,
+    duration: duration.totalSeconds
+  });
+  const [showPopup, setShowPopup] = useState(false);
+
+  const [deleteSound, { loading: loadingRemove }] = useMutation(DELETE_SOUND, {
+    variables: { id },
+    refetchQueries: [{ query: USER_SOUNDS, variables: { userId } }],
+    awaitRefetchQueries: true
+  });
+
+  return (
+    <>
+      <Sound
+        {...props}
+        deleteSound={deleteSound}
+        loadingRemove={loadingRemove}
+        player={player}
+        onEdit={() => setShowPopup(true)}
+      />
+      {isOwn && (
+        <Popup
+          showing={showPopup}
+          onClickOutside={() => setShowPopup(false)}
+          width={"520px"}
+        >
+          <AddSound
+            sound={props}
+            initialData={{
+              id,
+              title,
+              description,
+              tags
+            }}
+            onCancel={() => setShowPopup(false)}
+          />
+        </Popup>
+      )}
+    </>
+  );
+};
+
+export default Wrapper;

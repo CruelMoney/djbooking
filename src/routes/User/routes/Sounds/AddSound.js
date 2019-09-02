@@ -19,12 +19,16 @@ import TagInput from "./TagInput";
 import ImageUploader from "../../../../components/ImageInput";
 import { ProgressBar } from "../../components/ProfileProgress";
 import { UPLOAD_FILE } from "../../gql";
-import { ADD_SOUND } from "./gql";
+import { ADD_SOUND, UPDATE_SOUND } from "./gql";
 
-const AddSound = ({ details, onCancel }) => {
-  const [uploadProgress, setuploadProgress] = useState(null);
+const AddSound = ({ details, onCancel, sound, initialData }) => {
+  const [uploadProgress, setuploadProgress] = useState(sound ? 1 : null);
   const abortUpload = useRef();
-  const [form, setForm] = useState();
+  const [form, setForm] = useState(initialData);
+
+  const { registerValidation, unregisterValidation, runValidations } = useForm(
+    form
+  );
 
   const [upload, { loading: uploading, error: uploadError }] = useMutation(
     UPLOAD_FILE,
@@ -43,7 +47,9 @@ const AddSound = ({ details, onCancel }) => {
     }
   );
 
-  const [mutate, { loading: submitting, error }] = useMutation(ADD_SOUND);
+  const [mutate, { loading: submitting, error }] = useMutation(
+    sound ? UPDATE_SOUND : ADD_SOUND
+  );
 
   const startUpload = async file => {
     setuploadProgress(0);
@@ -57,9 +63,12 @@ const AddSound = ({ details, onCancel }) => {
   };
 
   const updateFile = () => {
-    mutate({
-      variables: form
-    });
+    const refs = runValidations();
+    if (refs.length === 0) {
+      mutate({
+        variables: form
+      });
+    }
   };
 
   return (
@@ -71,6 +80,8 @@ const AddSound = ({ details, onCancel }) => {
           form={form}
           setForm={setForm}
           disabled={submitting}
+          registerValidation={registerValidation}
+          unregisterValidation={unregisterValidation}
           uploadingStatus={
             uploadError ? (
               <ErrorMessageApollo
@@ -107,7 +118,7 @@ const AddSound = ({ details, onCancel }) => {
             onClick={updateFile}
             type="submit"
           >
-            {uploading ? "Uploading..." : "Add track"}
+            {uploading ? "Uploading..." : sound ? "Update track" : "Add track"}
           </SmartButton>
         </Row>
       )}
@@ -150,34 +161,20 @@ const FileChooser = ({ onChange }) => (
 const DataForm = ({
   formDisabled,
   uploadProgress,
-  mutate,
   uploadingStatus,
-  form,
-  setForm
+  setForm,
+  unregisterValidation,
+  registerValidation,
+  form
 }) => {
-  const { registerValidation, unregisterValidation, runValidations } = useForm(
-    form
-  );
-
   const onChange = key => val => {
+    console.log({ val, key });
     setForm(form => ({ ...form, [key]: val }));
   };
-
-  const save = e => {
-    e.preventDefault();
-    const refs = runValidations();
-    if (refs[0] && refs[0].current) {
-      return;
-    }
-    mutate({
-      variables: {
-        ...form
-      }
-    });
-  };
+  const { title, tags, description } = form || {};
 
   return (
-    <form onSubmit={save}>
+    <form>
       <Title style={{ marginBottom: "39px" }}>Add sound</Title>
       {uploadingStatus}
       <ProgressBar progress={uploadProgress} />
@@ -185,6 +182,7 @@ const DataForm = ({
         <Input
           half
           label="Title"
+          defaultValue={title}
           placeholder="Name your track"
           type="text"
           name="title"
@@ -203,9 +201,14 @@ const DataForm = ({
         />
         <InputLabel>
           Tags
-          <TagInput placeholder="Add tags to describe the genre, style and mood" />
+          <TagInput
+            defaultValue={tags}
+            onChange={onChange("tags")}
+            placeholder="Add tags to describe the genre, style and mood"
+          />
         </InputLabel>
         <Input
+          defaultValue={description}
           type="text-area"
           label="Description"
           disabled={formDisabled}

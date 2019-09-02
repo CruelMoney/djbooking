@@ -35,6 +35,25 @@ const USER = gql`
           totalDocs
         }
       }
+      sounds(pagination: { page: 1, limit: 1 }) {
+        edges {
+          id
+          title
+          description
+          samples
+          tags
+          duration {
+            totalSeconds
+          }
+          file {
+            id
+            path
+          }
+        }
+        pageInfo {
+          totalDocs
+        }
+      }
       appMetadata {
         rating
         experience

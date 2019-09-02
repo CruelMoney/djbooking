@@ -97,7 +97,7 @@ const ADD_SOUND = gql`
 
 const DELETE_SOUND = gql`
   mutation DeleteSound($id: ID!) {
-    deleteSound(id: $id)
+    removeSound(id: $id)
   }
 `;
 

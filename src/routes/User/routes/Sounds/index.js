@@ -29,7 +29,7 @@ const Sounds = ({ user }) => {
   return (
     <div>
       {edges.map(sound => (
-        <Sound key={sound.id} {...sound} />
+        <Sound key={sound.id} isOwn={user.isOwn} userId={user.id} {...sound} />
       ))}
       {isOwn && (
         <Col style={{ marginTop: "30px", width: "250px" }}>

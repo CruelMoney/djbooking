@@ -9,15 +9,20 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const TagInput = ({ placeholder, ...props }) => {
-  const [tags, setTags] = useState([]);
+const TagInput = ({ defaultValue = [], placeholder, onChange, ...props }) => {
+  const [tags, setTags] = useState(defaultValue.map(t => ({ text: t, id: t })));
+
+  const handleChange = newTags => {
+    setTags(newTags);
+    onChange && onChange(newTags.map(t => t.text));
+  };
 
   const handleDelete = idx => {
-    setTags(tags => tags.filter((_tag, i) => idx !== i));
+    handleChange(tags => tags.filter((_tag, i) => idx !== i));
   };
 
   const handleAddition = tag => {
-    setTags(tags => [...tags, tag]);
+    handleChange([...tags, tag]);
   };
 
   const handleDrag = (tag, currPos, newPos) => {
@@ -26,7 +31,7 @@ const TagInput = ({ placeholder, ...props }) => {
     newTags.splice(currPos, 1);
     newTags.splice(newPos, 0, tag);
 
-    setTags(newTags);
+    handleChange(newTags);
   };
 
   return (
