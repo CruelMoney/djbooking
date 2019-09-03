@@ -39,7 +39,7 @@ const GracefullImage = ({ src, style, alt, ...props }) => {
           backgroundColor: "#EFF2F5"
         }}
         {...props}
-      ></div>
+      />
     );
   }
 

@@ -31,6 +31,9 @@ const useSoundPlayer = ({ src, duration }) => {
 
   const jumpTo = seconds => {
     if (sound.current) {
+      if (state === playerStates.PLAYING) {
+        setLoading(true);
+      }
       setProgress(seconds);
       sound.current.seek(seconds);
     }
@@ -41,6 +44,7 @@ const useSoundPlayer = ({ src, duration }) => {
 
     const step = () => {
       if (sound.current) {
+        setLoading(false);
         const seconds = Number.parseFloat(sound.current.seek());
         if (!Number.isNaN(seconds)) {
           setProgress(seconds);
@@ -56,6 +60,7 @@ const useSoundPlayer = ({ src, duration }) => {
         html5: true,
         onplay: () => {
           setState(playerStates.PLAYING);
+          setError(null);
           animation = setInterval(step, 250);
         },
         onpause: () => {
@@ -73,6 +78,7 @@ const useSoundPlayer = ({ src, duration }) => {
         },
         onload: () => {
           setLoading(false);
+          setError(null);
         },
 
         onloaderror: (id, error) => {

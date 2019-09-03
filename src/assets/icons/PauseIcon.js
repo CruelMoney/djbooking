@@ -1,11 +1,11 @@
 import React from "react";
 
-const PauseIcon = props => (
-  <svg width={12} height={17} {...props}>
-    <g strokeWidth={3} fill="none" fillRule="evenodd" strokeLinecap="round">
-      <path d="M10.5 1.912v13.176M1.5 1.912v13.176" />
+const SvgPauseIcon = props => (
+  <svg width={16} height={19} {...props}>
+    <g strokeWidth={5} fill="none" fillRule="evenodd" strokeLinecap="round">
+      <path d="M13 2.912v13.176M3 2.912v13.176" />
     </g>
   </svg>
 );
 
-export default PauseIcon;
+export default SvgPauseIcon;

@@ -277,7 +277,7 @@ const Wrapper = props => {
         <Popup
           showing={showPopup}
           onClickOutside={() => setShowPopup(false)}
-          width={"520px"}
+          width={"750px"}
         >
           <AddSound
             sound={props}
