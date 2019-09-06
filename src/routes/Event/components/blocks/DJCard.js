@@ -74,7 +74,7 @@ const DjCard = ({
                 {!finished && (
                   <SecondaryButton
                     small
-                    style={{ position: "relative" }}
+                    style={{ position: "relative", overflow: "visible" }}
                     onClick={() => {
                       setShowChat(true);
                       onOpenChat();
