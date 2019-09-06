@@ -16,6 +16,10 @@ const USER_SOUNDS = gql`
           id
           path
         }
+        image {
+          id
+          path
+        }
       }
       pageInfo {
         page
@@ -56,6 +60,10 @@ const UPDATE_SOUND = gql`
         id
         path
       }
+      image {
+        id
+        path
+      }
     }
   }
 `;
@@ -88,6 +96,10 @@ const ADD_SOUND = gql`
         totalSeconds
       }
       file {
+        id
+        path
+      }
+      image {
         id
         path
       }

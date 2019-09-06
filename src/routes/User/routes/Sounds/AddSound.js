@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   Input,
   useForm,
@@ -33,8 +33,19 @@ const AddSound = props => {
   const [fileId, setFileId] = useState();
 
   const [upload, { loading: uploading, error: uploadError }] = useMutation(
-    UPLOAD_FILE,
-    {
+    UPLOAD_FILE
+  );
+  const [uploadImage] = useMutation(UPLOAD_FILE);
+
+  const metadata = useSongMetadata({ file }) || {};
+
+  const startUpload = async file => {
+    setuploadProgress(0);
+    setFile(file);
+    const {
+      data: { singleUpload }
+    } = await upload({
+      variables: { file },
       context: {
         fetchOptions: {
           useUpload: true,
@@ -46,17 +57,7 @@ const AddSound = props => {
           }
         }
       }
-    }
-  );
-
-  const metadata = useSongMetadata({ file }) || {};
-
-  const startUpload = async file => {
-    setuploadProgress(0);
-    setFile(file);
-    const {
-      data: { singleUpload }
-    } = await upload({ variables: { file } });
+    });
     setFileId(singleUpload.id);
   };
 
@@ -73,6 +74,7 @@ const AddSound = props => {
             tags: metadata.common && metadata.common.genre,
             ...sound
           }}
+          uploadImage={uploadImage}
           file={fileId}
           uploading={uploading}
           uploadingStatus={
@@ -135,6 +137,7 @@ const DataForm = ({
   formDisabled,
   uploadProgress,
   uploadingStatus,
+  uploadImage,
   sound = {},
   file,
   onCancel,
@@ -143,6 +146,7 @@ const DataForm = ({
   details
 }) => {
   const [form, setForm] = useState(sound);
+  const [imageUpload, setImageUpload] = useState();
 
   const { registerValidation, unregisterValidation, runValidations } = useForm(
     form
@@ -156,24 +160,48 @@ const DataForm = ({
     form.id ? UPDATE_SOUND : ADD_SOUND
   );
 
-  const updateFile = () => {
+  const updateSound = async e => {
+    e.preventDefault();
     const refs = runValidations();
     if (refs.length === 0) {
-      mutate({
+      if (imageUpload) {
+        const {
+          data: { singleUpload }
+        } = await imageUpload;
+        form.image = singleUpload.id;
+      }
+
+      await mutate({
         variables: { ...form, file }
       });
     }
   };
 
-  const { title, tags, description, year, image, imageFile } = form || {};
+  const startUploadImage = useCallback(
+    imageFile => {
+      setImageUpload(uploadImage({ variables: { file: imageFile } }));
+    },
+    [setImageUpload, uploadImage]
+  );
 
+  const { title, tags, description, year, image, imageFile } = form || {};
+  debugger;
   return (
-    <form>
+    <form onSubmit={updateSound}>
       <Title style={{ marginBottom: "39px" }}>Add sound</Title>
-      {uploadingStatus}
-      <ProgressBar progress={uploadProgress} />
+
+      {!form.id && (
+        <>
+          {uploadingStatus}
+          <ProgressBar progress={uploadProgress} />
+        </>
+      )}
       <Row style={{ marginTop: "30px" }}>
-        <CoverPicture url={image ? image.path : null} imageFile={imageFile} />
+        <CoverPicture
+          url={image ? image.path : null}
+          imageFile={imageFile}
+          onChange={startUploadImage}
+        />
         <Col>
           <InputRow>
             <Input
@@ -215,7 +243,6 @@ const DataForm = ({
           </InputRow>
         </Col>
       </Row>
-
       {uploadProgress !== null && (
         <Row right>
           <TeritaryButton type="button" onClick={onCancel}>
@@ -226,7 +253,7 @@ const DataForm = ({
             level="primary"
             disabled={uploading || uploadError}
             loading={submitting}
-            onClick={updateFile}
+            onClick={updateSound}
             type="submit"
           >
             {uploading
@@ -237,7 +264,6 @@ const DataForm = ({
           </SmartButton>
         </Row>
       )}
-
       <ErrorMessageApollo error={details || error} />
     </form>
   );
@@ -300,16 +326,14 @@ const CoverPicture = ({ url, onChange, imageFile }) => {
         setSrc(e.target.result);
       };
       reader.readAsDataURL(imageFile);
+      onChange && onChange(imageFile);
     }
-  }, [imageFile]);
-
-  debugger;
+  }, [imageFile, onChange]);
 
   return (
     <AlbumWrapper>
       <AlbumCover src={src} onClick={e => input.current.click(e)} />
       <HiddenFileInput ref={input} onChange={onFileChosen} accept="image/*" />
-
       <AlbumText>Change image</AlbumText>
     </AlbumWrapper>
   );

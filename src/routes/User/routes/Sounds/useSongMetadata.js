@@ -15,17 +15,22 @@ const useSongMetadata = ({ file }) => {
 
   useEffect(() => {
     const doParse = async () => {
-      if (parser.current && file) {
-        let data = await parser.current.parseBlob(file);
-        const { picture } = data.common;
+      try {
+        if (parser.current && file) {
+          let data = await parser.current.parseBlob(file);
+          const { picture } = data.common;
+          debugger;
+          if (picture) {
+            data.common.imageFile = new Blob([picture[0].data], {
+              type: picture[0].format
+            });
+          }
 
-        if (picture) {
-          data.common.imageFile = new Blob([picture[0].data], {
-            type: picture[0].format
-          });
+          setMetadata(data);
         }
-
-        setMetadata(data);
+      } catch (error) {
+        setMetadata({ common: {} });
+        console.log({ error });
       }
     };
 
