@@ -5,7 +5,8 @@ import {
   Row,
   Pill,
   SecondaryButton,
-  SmartButton
+  SmartButton,
+  Col
 } from "../../../../components/Blocks";
 import PlayIcon from "../../../../assets/icons/PlayIcon";
 import PauseIcon from "../../../../assets/icons/PauseIcon";
@@ -18,6 +19,7 @@ import { useMutation } from "react-apollo";
 import { DELETE_SOUND, USER_SOUNDS } from "./gql";
 import Popup from "../../../../components/common/Popup";
 import AddSound from "./AddSound";
+import GracefullImage from "../../../../components/GracefullImage";
 
 const Sound = ({
   title,
@@ -30,7 +32,8 @@ const Sound = ({
   deleteSound,
   onEdit,
   small,
-  link
+  link,
+  image
 }) => {
   const ref = useRef(null);
   const { bounds } = useMeasure(ref, "bounds");
@@ -78,67 +81,79 @@ const Sound = ({
   };
 
   return (
-    <Container ref={ref} small={small}>
+    <Container small={small}>
       <Title style={{ marginBottom: "39px" }}>
         {small ? "Selected sound" : title}
       </Title>
-      <Row between>
-        <PlayPauseButton
-          state={player.state}
-          onClick={() =>
-            player.state === playerStates.PLAYING
-              ? player.pause()
-              : player.play()
-          }
-        />
-        {small && (
-          <SmallBold demi style={{ marginLeft: "12px", marginTop: "4px" }}>
-            {title}
-          </SmallBold>
+      <Row>
+        {!small && image && (
+          <Col style={{ marginRight: "15px" }}>
+            <AlbumCover src={image.path} />
+          </Col>
         )}
-        {player.error && (
-          <ErrorMessageApollo
-            style={{ marginLeft: "15px" }}
-            error={player.error}
-          />
-        )}
-        <div style={{ flex: 1 }}></div>
-        <Genres>
-          {tags.map(g => (
-            <Pill key={g}>{g}</Pill>
-          ))}
-        </Genres>
+        <Col style={{ flex: "1" }}>
+          <Row between>
+            <PlayPauseButton
+              state={player.state}
+              onClick={() =>
+                player.state === playerStates.PLAYING
+                  ? player.pause()
+                  : player.play()
+              }
+            />
+            {small && (
+              <SmallBold demi style={{ marginLeft: "12px", marginTop: "4px" }}>
+                {title}
+              </SmallBold>
+            )}
+            {player.error && (
+              <ErrorMessageApollo
+                style={{ marginLeft: "15px" }}
+                error={player.error}
+              />
+            )}
+            <div style={{ flex: 1 }}></div>
+            <Genres>
+              {tags.map(g => (
+                <Pill key={g}>{g}</Pill>
+              ))}
+            </Genres>
+          </Row>
+          <SoundBarsRow
+            ref={ref}
+            onMouseMove={onScanning}
+            loading={player.loading || undefined}
+            onMouseLeave={() => setScanningPosition(null)}
+            onTouchMove={onScanning}
+            onTouchCancel={() => setScanningPosition(null)}
+            onTouchEnd={jumpOrStart}
+            onClick={jumpOrStart}
+            small={small}
+          >
+            {bars.map((p, idx) => (
+              <SoundBar
+                hovering={scanningPosition}
+                key={idx}
+                idx={idx}
+                pressure={p}
+                active={idx < activeIdx}
+                halfActive={idx < halfActiveIdx}
+              />
+            ))}
+          </SoundBarsRow>
+          {!small && (
+            <Row between>
+              <BodySmall>{progressFormatted}</BodySmall>
+              <BodySmall>{durationFormatted}</BodySmall>
+            </Row>
+          )}
+        </Col>
       </Row>
-      <SoundBarsRow
-        onMouseMove={onScanning}
-        loading={player.loading || undefined}
-        onMouseLeave={() => setScanningPosition(null)}
-        onTouchMove={onScanning}
-        onTouchCancel={() => setScanningPosition(null)}
-        onTouchEnd={jumpOrStart}
-        onClick={jumpOrStart}
-        small={small}
-      >
-        {bars.map((p, idx) => (
-          <SoundBar
-            hovering={scanningPosition}
-            key={idx}
-            idx={idx}
-            pressure={p}
-            active={idx < activeIdx}
-            halfActive={idx < halfActiveIdx}
-          />
-        ))}
-      </SoundBarsRow>
-      {!small && (
-        <Row between>
-          <BodySmall>{progressFormatted}</BodySmall>
-          <BodySmall>{durationFormatted}</BodySmall>
-        </Row>
-      )}
       {!small && (
         <Row right style={{ marginTop: "15px" }}>
-          {isOwn && <SecondaryButton onClick={onEdit}>Edit</SecondaryButton>}
+          <SimpleSharing shareUrl={link} label={null} />
+          {<div style={{ flex: 1 }}></div>}
+
           {isOwn && (
             <SmartButton
               loading={loadingRemove}
@@ -148,8 +163,7 @@ const Sound = ({
               Remove
             </SmartButton>
           )}
-          {<div style={{ flex: 1 }}></div>}
-          <SimpleSharing shareUrl={link} label={null} />
+          {isOwn && <SecondaryButton onClick={onEdit}>Edit</SecondaryButton>}
         </Row>
       )}
     </Container>
@@ -280,6 +294,7 @@ const Wrapper = props => {
           width={"750px"}
         >
           <AddSound
+            userId={userId}
             sound={props}
             initialData={{
               id,
@@ -288,11 +303,21 @@ const Wrapper = props => {
               tags
             }}
             onCancel={() => setShowPopup(false)}
+            closeModal={() => setShowPopup(false)}
           />
         </Popup>
       )}
     </>
   );
 };
+
+const AlbumCover = styled(GracefullImage)`
+  border-radius: 3px;
+  width: 160px;
+  min-width: 160px;
+  height: 160px;
+  object-fit: cover;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
+`;
 
 export default Wrapper;

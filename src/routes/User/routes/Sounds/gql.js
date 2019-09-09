@@ -46,7 +46,7 @@ const UPDATE_SOUND = gql`
       description: $description
       tags: $tags
       file: $file
-      image: $image
+      imageId: $image
     ) {
       id
       title
@@ -83,7 +83,7 @@ const ADD_SOUND = gql`
       description: $description
       tags: $tags
       file: $file
-      image: $image
+      imageId: $image
       addToSoundCloud: $addToSoundCloud
       addToMixcloud: $addToMixcloud
     ) {

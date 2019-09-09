@@ -19,16 +19,17 @@ const Sounds = ({ user, location, match }) => {
       userId: user && user.id
     }
   });
-  if (loading && !user) {
+
+  const { userSounds } = data || {};
+  const { edges = [] } = userSounds || {};
+
+  if ((loading && !user) || !userSounds) {
     return (
       <Col>
         <LoadingPlaceholder2 />
       </Col>
     );
   }
-
-  const { userSounds } = data || {};
-  const { edges = [] } = userSounds || {};
 
   const selectedSound = edges.find(s => s.id === soundId);
 
@@ -79,7 +80,11 @@ const Sounds = ({ user, location, match }) => {
           onClickOutside={() => setShowPopup(false)}
           width={"750px"}
         >
-          <AddSound onCancel={() => setShowPopup(false)} />
+          <AddSound
+            userId={user.id}
+            closeModal={() => setShowPopup(false)}
+            onCancel={() => setShowPopup(false)}
+          />
         </Popup>
       )}
     </div>

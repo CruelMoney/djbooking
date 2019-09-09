@@ -351,6 +351,7 @@ export const SmartButton = ({
   children,
   loading,
   warning,
+  disabled,
   ...props
 }) => {
   const Button = buttons[level];
@@ -372,17 +373,21 @@ export const SmartButton = ({
     <Button
       onClick={handleClick}
       warning={warning}
-      disabled={loading}
+      disabled={disabled || loading}
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
       {...props}
     >
-      {children}
+      <span>{children}</span>
       {loading && (
         <span
           style={{
-            position: "absolute",
-            right: "15px",
-            top: "50%",
-            transform: "translateY(-50%)"
+            float: "right",
+            marginLeft: "15px"
           }}
         >
           <LoadingIndicator />

@@ -20,10 +20,11 @@ import TagInput from "./TagInput";
 import ImageUploader from "../../../../components/ImageInput";
 import { ProgressBar } from "../../components/ProfileProgress";
 import { UPLOAD_FILE } from "../../gql";
-import { ADD_SOUND, UPDATE_SOUND } from "./gql";
+import { ADD_SOUND, UPDATE_SOUND, USER_SOUNDS } from "./gql";
 import useSongMetadata from "./useSongMetadata";
 import styled from "styled-components";
 import GracefullImage from "../../../../components/GracefullImage";
+import * as Sentry from "@sentry/browser";
 
 const AddSound = props => {
   const { sound } = props;
@@ -105,7 +106,10 @@ const AddSound = props => {
 
 const FileChooser = ({ onChange }) => (
   <Col middle>
-    <Body>Upload in one of the following formats: </Body>
+    <Body style={{ textAlign: "center", maxWidth: "500px" }}>
+      For the best result upload in wav or m4a. <br />
+      The file will be optimised for streaming at 256 kbps.
+    </Body>
     <ImageUploader
       style={{
         background: "#31daff",
@@ -120,12 +124,12 @@ const FileChooser = ({ onChange }) => (
     >
       Choose file
     </ImageUploader>
-    <Row style={{ margin: "6px 0 24px 0" }}>
+    {/* <Row style={{ margin: "6px 0 24px 0" }}>
       <span style={{ marginRight: "24px" }}>
         <Checkbox label={"Add to SoundCloud"} />
       </span>
       <Checkbox label={"Add to Mixcloud"} />
-    </Row>
+    </Row> */}
     <BodySmall style={{ textAlign: "center", maxWidth: "500px" }}>
       By uploading, you confirm that your sounds comply with our Terms of Use
       and you don't infringe anyone else's rights.
@@ -143,11 +147,13 @@ const DataForm = ({
   onCancel,
   uploadError,
   uploading,
-  details
+  details,
+  closeModal,
+  userId
 }) => {
   const [form, setForm] = useState(sound);
   const [imageUpload, setImageUpload] = useState();
-
+  const [submitting, setSubmitting] = useState(false);
   const { registerValidation, unregisterValidation, runValidations } = useForm(
     form
   );
@@ -155,25 +161,41 @@ const DataForm = ({
   const onChange = key => val => {
     setForm(form => ({ ...form, [key]: val }));
   };
-
-  const [mutate, { loading: submitting, error }] = useMutation(
-    form.id ? UPDATE_SOUND : ADD_SOUND
-  );
+  debugger;
+  const [mutate, { error }] = useMutation(form.id ? UPDATE_SOUND : ADD_SOUND, {
+    refetchQueries: [
+      {
+        query: USER_SOUNDS,
+        variables: {
+          userId
+        }
+      }
+    ],
+    awaitRefetchQueries: true,
+    onCompleted: closeModal
+  });
 
   const updateSound = async e => {
     e.preventDefault();
     const refs = runValidations();
     if (refs.length === 0) {
-      if (imageUpload) {
-        const {
-          data: { singleUpload }
-        } = await imageUpload;
-        form.image = singleUpload.id;
-      }
+      try {
+        setSubmitting(true);
+        if (imageUpload) {
+          const {
+            data: { singleUpload }
+          } = await imageUpload;
+          form.image = singleUpload.id;
+        }
 
-      await mutate({
-        variables: { ...form, file }
-      });
+        await mutate({
+          variables: { ...form, file }
+        });
+      } catch (error) {
+        Sentry.captureException(error);
+      } finally {
+        setSubmitting(false);
+      }
     }
   };
 
@@ -251,7 +273,7 @@ const DataForm = ({
           <SmartButton
             success={true}
             level="primary"
-            disabled={uploading || uploadError}
+            disabled={submitting || uploading || uploadError}
             loading={submitting}
             onClick={updateSound}
             type="submit"
@@ -296,7 +318,7 @@ const AlbumCover = styled(GracefullImage)`
   width: 220px;
   min-width: 220px;
   height: 220px;
-
+  object-fit: cover;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
   cursor: pointer;
 `;
