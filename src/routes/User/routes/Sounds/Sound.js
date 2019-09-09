@@ -82,17 +82,21 @@ const Sound = ({
 
   return (
     <Container small={small}>
-      <Title style={{ marginBottom: "39px" }}>
-        {small ? "Selected sound" : title}
-      </Title>
       <Row>
-        {!small && image && (
-          <Col style={{ marginRight: "15px" }}>
-            <AlbumCover src={image.path} />
-          </Col>
-        )}
+        {!small && image && <AlbumCoverMobile src={image.path} />}
+        <Title style={{ marginBottom: "39px" }}>
+          {small ? "Selected sound" : title}
+        </Title>
+      </Row>
+      <Row>
+        {!small && image && <AlbumCover src={image.path} />}
         <Col style={{ flex: "1" }}>
-          <Row between>
+          <Row
+            between
+            style={{
+              marginBottom: small ? "9px" : undefined
+            }}
+          >
             <PlayPauseButton
               state={player.state}
               onClick={() =>
@@ -178,8 +182,13 @@ const Container = styled.article`
 
 const Genres = styled(Row)`
   justify-self: flex-end;
+  flex-wrap: wrap;
+  max-height: 45px;
+  overflow: hidden;
+  justify-content: flex-end;
   > * {
     margin-left: 5px;
+    margin-bottom: 5px;
   }
 `;
 
@@ -316,8 +325,23 @@ const AlbumCover = styled(GracefullImage)`
   width: 160px;
   min-width: 160px;
   height: 160px;
+  margin-right: 15px;
   object-fit: cover;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const AlbumCoverMobile = styled(AlbumCover)`
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  display: none;
+  border-radius: 1px;
+  @media only screen and (max-width: 768px) {
+    display: block;
+  }
 `;
 
 export default Wrapper;

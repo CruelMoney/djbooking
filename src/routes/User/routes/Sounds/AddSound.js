@@ -185,6 +185,8 @@ const DataForm = ({
             data: { singleUpload }
           } = await imageUpload;
           form.image = singleUpload.id;
+        } else {
+          delete form.image;
         }
 
         await mutate({

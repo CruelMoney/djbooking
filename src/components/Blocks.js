@@ -402,7 +402,6 @@ export const Pill = styled.span`
   font-size: 9px;
   color: #4d6480;
   letter-spacing: 0.75px;
-  min-width: 66px;
   background-color: #e9ecf0;
   color: #4d6480;
   padding: 0 6px;
