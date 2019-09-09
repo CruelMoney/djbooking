@@ -3,8 +3,8 @@ import styled from "styled-components";
 import GracefullImage from "../../../components/GracefullImage";
 import {
   USER_PHOTOS,
-  UPLOAD_FILE,
-  DELETE_FILE,
+  ADD_MEDIA,
+  DELETE_MEDIA,
   UPDATE_PHOTOS_ORDER,
   USER
 } from "../gql";
@@ -136,9 +136,9 @@ const imgPlaceholders = [
 const Photos = ({ user, loading }) => {
   const [uploadError, setUploadError] = useState();
   const [saving, setSaving] = useState([]);
-  const [saveMutation] = useMutation(UPLOAD_FILE);
+  const [saveMutation] = useMutation(ADD_MEDIA);
   const [updateMutation] = useMutation(UPDATE_PHOTOS_ORDER);
-  const [deleteMutation] = useMutation(DELETE_FILE);
+  const [deleteMutation] = useMutation(DELETE_MEDIA);
   const [ref, inView] = useInView({ rootMargin: "0px" });
   const [lastFetchedPage, setLastFetchedPage] = useState(1);
 
@@ -242,15 +242,17 @@ const Photos = ({ user, loading }) => {
         },
         optimisticResponse: {
           __typename: "Mutation",
-          singleUpload: {
+          addMedia: {
             __typename: "Media",
             id: idGuess,
             path: previewPath,
             type,
-            orderBy: null
+            orderBy: null,
+            data: {},
+            name: ""
           }
         },
-        update: (proxy, { data: { singleUpload } }) => {
+        update: (proxy, { data: { addMedia } }) => {
           const data = proxy.readQuery({
             query: USER_PHOTOS,
             variables: {
@@ -278,7 +280,7 @@ const Photos = ({ user, loading }) => {
                 ...data.user,
                 media: {
                   ...data.user.media,
-                  edges: [singleUpload, ...data.user.media.edges]
+                  edges: [addMedia, ...data.user.media.edges]
                 }
               }
             }
@@ -301,10 +303,7 @@ const Photos = ({ user, loading }) => {
                 ...userData.user,
                 media: {
                   ...userData.user.media,
-                  edges: [singleUpload, ...userData.user.media.edges].slice(
-                    0,
-                    5
-                  )
+                  edges: [addMedia, ...userData.user.media.edges].slice(0, 5)
                 }
               }
             }
@@ -327,7 +326,7 @@ const Photos = ({ user, loading }) => {
         },
         optimisticResponse: {
           __typename: "Mutation",
-          deleteFile: true
+          deleteMedia: true
         },
         update: proxy => {
           const data = proxy.readQuery({

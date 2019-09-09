@@ -256,6 +256,17 @@ const UPLOAD_FILE = gql`
     }
   }
 `;
+
+const ADD_MEDIA = gql`
+  mutation UploadMedia($file: Upload!) {
+    addMedia(file: $file) {
+      id
+      path
+      type
+      orderBy
+    }
+  }
+`;
 const UPDATE_FILE = gql`
   mutation UpdateFile($id: ID!, $orderBy: Int, $data: JSON, $name: String) {
     updateFile(id: $id, orderBy: $orderBy, data: $data, name: $name) {
@@ -279,6 +290,11 @@ const UPDATE_PHOTOS_ORDER = gql`
 const DELETE_FILE = gql`
   mutation DeleteFile($id: ID!) {
     deleteFile(id: $id)
+  }
+`;
+const DELETE_MEDIA = gql`
+  mutation DeleteMedia($id: ID!) {
+    deleteMedia(id: $id)
   }
 `;
 
@@ -589,5 +605,7 @@ export {
   DISCONNECT_INSTAGRAM,
   GIG,
   VERIFY_STATUS,
-  REQUEST_VERIFICATION
+  REQUEST_VERIFICATION,
+  ADD_MEDIA,
+  DELETE_MEDIA
 };
