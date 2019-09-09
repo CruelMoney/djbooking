@@ -18,11 +18,15 @@ const TagInput = ({ defaultValue = [], placeholder, onChange, ...props }) => {
   };
 
   const handleDelete = idx => {
-    handleChange(tags => tags.filter((_tag, i) => idx !== i));
+    handleChange(tags.filter((_tag, i) => idx !== i));
   };
 
   const handleAddition = tag => {
-    handleChange([...tags, tag]);
+    if (tags.length > 5) {
+      window.alert("Max 6 tags");
+    } else {
+      handleChange([...tags, tag]);
+    }
   };
 
   const handleDrag = (tag, currPos, newPos) => {
@@ -42,6 +46,7 @@ const TagInput = ({ defaultValue = [], placeholder, onChange, ...props }) => {
       handleDrag={handleDrag}
       delimiters={delimiters}
       autofocus={false}
+      maxLength="24"
       placeholder={tags.length > 0 ? "" : placeholder}
       {...props}
     />
