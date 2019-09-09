@@ -19,7 +19,6 @@ const useSongMetadata = ({ file }) => {
         if (parser.current && file) {
           let data = await parser.current.parseBlob(file);
           const { picture } = data.common;
-          debugger;
           if (picture) {
             data.common.imageFile = new Blob([picture[0].data], {
               type: picture[0].format

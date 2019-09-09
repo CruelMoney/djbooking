@@ -3,8 +3,7 @@ import {
   Input,
   useForm,
   InputRow,
-  InputLabel,
-  Checkbox
+  InputLabel
 } from "../../../../components/FormComponents";
 import { useMutation } from "react-apollo";
 import { Title, Body, BodySmall } from "../../../../components/Text";
