@@ -409,7 +409,7 @@ const ProfileImg = styled(GracefullImage)`
 	width: 300px;
 	height: 300px;
 	object-fit: cover;
-	@media only screen and (max-width: 768px) {
+	@media only screen and (max-width: 900px) {
 		width: 250px;
 		height: 250px;
 	}

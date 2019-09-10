@@ -16,7 +16,14 @@ const StyledNav = styled.nav`
   align-items: center;
   position: relative;
   justify-content: space-between;
+
   @media only screen and (max-width: 425px) {
+    display: none;
+  }
+`;
+
+const Filler = styled.span`
+  @media only screen and (max-width: 900px) {
     display: none;
   }
 `;
@@ -28,7 +35,7 @@ const StyledLink = styled(({ indicateActive, ...rest }) => (
   height: 48px;
   line-height: 48px;
   color: #ffffff !important;
-  letter-spacing: 1.2px;
+  letter-spacing: 0.0666em;
   text-align: left;
   text-transform: uppercase;
   font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
@@ -38,6 +45,9 @@ const StyledLink = styled(({ indicateActive, ...rest }) => (
   &:hover {
     opacity: 1;
     color: #ffffff;
+  }
+  @media only screen and (max-width: 900px) {
+    font-size: 15px;
   }
 `;
 
@@ -110,7 +120,7 @@ const Navigation = memo(props => {
         );
       })}
       {fillers.map((v, idx) => (
-        <span key={idx}></span>
+        <Filler key={idx}></Filler>
       ))}
     </StyledNav>
   );
