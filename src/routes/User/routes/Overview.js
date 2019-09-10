@@ -11,6 +11,7 @@ import AddCircle from "react-ionicons/lib/MdAddCircle";
 import { LoadingPlaceholder2 } from "../../../components/common/LoadingPlaceholder";
 import GracefullImage from "../../../components/GracefullImage";
 import Sound from "./Sounds/Sound";
+import GracefullVideo from "../../../components/GracefullVideo";
 
 const ColumnLayout = styled.section`
   width: 100%;
@@ -298,7 +299,18 @@ const PhotosArea = ({ media, isOwn }) => {
       <PhotoGrid>
         {renderItems.map((m, idx) => (
           <li key={m.id}>
-            <GracefullImage src={m.path} animate />
+            {m.type === "IMAGE" ? (
+              <GracefullImage src={m.path} animate />
+            ) : (
+              <GracefullVideo
+                src={m.path}
+                loop
+                autoPlay
+                muted
+                playsInline
+                animate
+              />
+            )}
             {idx === renderItems.length - 1 && (
               <Link to={"photos"}>
                 <ReadMore

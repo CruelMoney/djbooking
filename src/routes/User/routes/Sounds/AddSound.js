@@ -6,7 +6,12 @@ import {
   InputLabel
 } from "../../../../components/FormComponents";
 import { useMutation } from "react-apollo";
-import { Title, Body, BodySmall } from "../../../../components/Text";
+import {
+  Title,
+  Body,
+  BodySmall,
+  InlineLink
+} from "../../../../components/Text";
 import {
   Row,
   TeritaryButton,
@@ -130,8 +135,11 @@ const FileChooser = ({ onChange }) => (
       <Checkbox label={"Add to Mixcloud"} />
     </Row> */}
     <BodySmall style={{ textAlign: "center", maxWidth: "500px" }}>
-      By uploading, you confirm that your sounds comply with our Terms of Use
-      and you don't infringe anyone else's rights.
+      By uploading, you confirm that your sounds comply with our{" "}
+      <InlineLink href="/terms/agreements" target="_blank">
+        Terms of Service
+      </InlineLink>{" "}
+      and that you don't infringe anyone else's rights.
     </BodySmall>
   </Col>
 );

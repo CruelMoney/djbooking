@@ -80,6 +80,18 @@ export const BodySmall = styled.p`
   line-height: 22.5px;
 `;
 
+export const InlineLink = styled.a`
+  font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  color: #50e3c2;
+  :hover {
+    color: #50e3c299;
+  }
+  :visited {
+    color: #50e3c2;
+  }
+`;
+
 export const Citation = styled.blockquote`
   font-family: "AvenirNext-Regular", Arial, Helvetica, sans-serif;
   font-size: 18px;
