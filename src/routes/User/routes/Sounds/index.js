@@ -39,7 +39,7 @@ const Sounds = ({ user, location, match, setShowPopup }) => {
   if (edges.length === 0) {
     return (
       <EmptyPage
-        title="No Sounds"
+        title="No Tracks"
         message={
           isOwn ? (
             <>

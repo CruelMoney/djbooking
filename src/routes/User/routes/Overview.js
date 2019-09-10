@@ -135,7 +135,7 @@ const Genres = ({ genres, style }) => (
 );
 
 const HighlightedSound = ({ user }) => {
-  const hasSounds = user.sounds.edges > 0;
+  const hasSounds = user.sounds.edges.length > 0;
 
   // placeholder
   let sound = {
