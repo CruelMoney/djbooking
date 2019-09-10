@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import Sound from "./Sound";
-import { Col, SecondaryButton } from "../../../../components/Blocks";
+import {
+  Col,
+  SecondaryButton,
+  PrimaryButton
+} from "../../../../components/Blocks";
 import Popup from "../../../../components/common/Popup";
 import AddSound from "./AddSound";
 import { useQuery } from "react-apollo";
 import { USER_SOUNDS } from "./gql";
 import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceholder";
 import { Helmet } from "react-helmet-async";
+import EmptyPage from "../../../../components/common/EmptyPage";
+import { Body } from "../../../../components/Text";
 
-const Sounds = ({ user, location, match }) => {
+const Sounds = ({ user, location, match, setShowPopup }) => {
   const { id: soundId } = match.params;
   const { isOwn } = user || {};
-  const [showPopup, setShowPopup] = useState(false);
 
   const { data, loading } = useQuery(USER_SOUNDS, {
     skip: !user,
@@ -28,6 +33,29 @@ const Sounds = ({ user, location, match }) => {
       <Col>
         <LoadingPlaceholder2 />
       </Col>
+    );
+  }
+
+  if (edges.length === 0) {
+    return (
+      <EmptyPage
+        title="No Sounds"
+        message={
+          isOwn ? (
+            <>
+              <Body>Showcase your mixes or productions</Body>
+              <PrimaryButton
+                style={{ marginTop: "24px" }}
+                onClick={() => setShowPopup(true)}
+              >
+                Upload track
+              </PrimaryButton>
+            </>
+          ) : (
+            ""
+          )
+        }
+      />
     );
   }
 
@@ -73,7 +101,18 @@ const Sounds = ({ user, location, match }) => {
           </SecondaryButton>
         </Col>
       )}
+    </div>
+  );
+};
 
+const Wrapper = props => {
+  const { user } = props;
+  const [showPopup, setShowPopup] = useState(false);
+  const { isOwn } = user || {};
+
+  return (
+    <>
+      <Sounds {...props} setShowPopup={setShowPopup} />
       {isOwn && (
         <Popup
           showing={showPopup}
@@ -87,8 +126,8 @@ const Sounds = ({ user, location, match }) => {
           />
         </Popup>
       )}
-    </div>
+    </>
   );
 };
 
-export default Sounds;
+export default Wrapper;

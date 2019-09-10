@@ -37,12 +37,12 @@ const checks = [
     label: "Add photos or connect Instagram",
     check: u => u.media.edges.length > 0,
     linkTo: "photos"
+  },
+  {
+    label: "Add a track or mixtape",
+    check: u => u.sounds.edges.length > 0,
+    linkTo: "sounds"
   }
-  // {
-  // 	label: "Verify identity",
-  // 	check: u => !!u.appMetadata.identityVerified,
-  // 	linkTo: "settings#preferences"
-  // }
 ];
 
 const ProgressItemText = styled(SmallHeader)`

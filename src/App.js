@@ -194,7 +194,11 @@ const RouteWrapper = memo(({ translate, cssLocation }) => {
       <div id="content" className={cssLocation}>
         <Switch>
           {/* <Redirect strict from={cleanURL + "/"} to={cleanURL} /> */}
-          <Route exact path={translate("routes./")} component={Home} />
+          <Route
+            exact
+            path={[translate("routes./"), "/verifyEmail"]}
+            component={Home}
+          />
           <Route path={translate("routes./about")} component={About} />
           <Route
             path={[translate("routes./user/:permalink")]}

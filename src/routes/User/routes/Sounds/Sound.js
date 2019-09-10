@@ -33,7 +33,8 @@ const Sound = ({
   onEdit,
   small,
   link,
-  image
+  image,
+  demo
 }) => {
   const ref = useRef(null);
   const { bounds } = useMeasure(ref, "bounds");
@@ -73,11 +74,21 @@ const Sound = ({
     : formatTime(scanningPosition ? scanInSeconds : player.progress);
 
   const jumpOrStart = () => {
+    if (demo) {
+      return;
+    }
     if (player.state === playerStates.STOPPED) {
       player.play(scanInSeconds);
     } else {
       player.jumpTo(scanInSeconds);
     }
+  };
+
+  const togglePlay = () => {
+    if (demo) {
+      return;
+    }
+    player.state === playerStates.PLAYING ? player.pause() : player.play();
   };
 
   return (
@@ -97,14 +108,7 @@ const Sound = ({
               marginBottom: small ? "9px" : undefined
             }}
           >
-            <PlayPauseButton
-              state={player.state}
-              onClick={() =>
-                player.state === playerStates.PLAYING
-                  ? player.pause()
-                  : player.play()
-              }
-            />
+            <PlayPauseButton state={player.state} onClick={togglePlay} />
             {small && (
               <SmallBold demi style={{ marginLeft: "12px", marginTop: "4px" }}>
                 {title}

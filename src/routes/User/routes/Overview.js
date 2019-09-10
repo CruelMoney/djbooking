@@ -63,7 +63,7 @@ const SoundLayout = styled(Item)`
 `;
 
 const GenresLayout = styled(Item)`
-  padding: 42px 0px 18px 18px;
+  padding: 0px 0px 18px 18px;
   min-height: 275px;
   display: flex;
   flex-direction: row;
@@ -117,17 +117,17 @@ const Square = styled.div`
   }
 `;
 
-const Bio = ({ bio, firstName }) => {
+const Bio = ({ bio, firstName, style }) => {
   return (
-    <LeftItem style={{ paddingTop: 0 }}>
+    <LeftItem style={{ paddingTop: 0, ...style }}>
       <Title>About {firstName}</Title>
       <ReadMoreExpander content={bio || "Nothing here yet"} />
     </LeftItem>
   );
 };
 
-const Genres = ({ genres }) => (
-  <GenresLayout>
+const Genres = ({ genres, style }) => (
+  <GenresLayout style={style}>
     {genres.map(g => (
       <Genre key={g}>{g}</Genre>
     ))}
@@ -135,15 +135,35 @@ const Genres = ({ genres }) => (
 );
 
 const HighlightedSound = ({ user }) => {
-  if (!user || !user.sounds.pageInfo.totalDocs) {
-    return null;
+  const hasSounds = user.sounds.edges > 0;
+
+  // placeholder
+  let sound = {
+    title: "Example sound",
+    tags: ["TAGS", "GENRE"],
+    duration: 3600,
+    demo: true,
+    file: {
+      path: ""
+    },
+    samples: Array.from({ length: 100 }, (_, idx) =>
+      Math.abs(Math.round(Math.sin(idx / 8) * 100))
+    )
+  };
+
+  if (hasSounds) {
+    sound = user.sounds.edges[0];
   }
-  const sound = user.sounds.edges[0];
+
   return (
     <SoundLayout>
       <Sound {...sound} small />
       <Link to={"sounds"}>
-        <ReadMore>{user.sounds.pageInfo.totalDocs} SOUNDS MORE</ReadMore>
+        {hasSounds ? (
+          <ReadMore>{user.sounds.pageInfo.totalDocs} SOUNDS MORE</ReadMore>
+        ) : (
+          <ReadMore>ADD TRACKS OR MIXTAPES</ReadMore>
+        )}
       </Link>
     </SoundLayout>
   );
@@ -275,10 +295,6 @@ const PhotoGrid = styled.ul`
 `;
 
 const PhotosArea = ({ media, isOwn }) => {
-  if (media.edges.length === 0 && !isOwn) {
-    return null;
-  }
-
   const pleaseAddItems = isOwn && media.edges.length === 0;
 
   let renderItems = [];
@@ -299,9 +315,7 @@ const PhotosArea = ({ media, isOwn }) => {
       <PhotoGrid>
         {renderItems.map((m, idx) => (
           <li key={m.id}>
-            {m.type === "IMAGE" ? (
-              <GracefullImage src={m.path} animate />
-            ) : (
+            {m.type === "VIDEO" ? (
               <GracefullVideo
                 src={m.path}
                 loop
@@ -310,6 +324,8 @@ const PhotosArea = ({ media, isOwn }) => {
                 playsInline
                 animate
               />
+            ) : (
+              <GracefullImage src={m.path} animate />
             )}
             {idx === renderItems.length - 1 && (
               <Link to={"photos"}>
@@ -372,22 +388,34 @@ const Overview = ({ user, loading }) => {
     playingLocation,
     userSettings,
     reviews,
-    highlightedReview
+    highlightedReview,
+    media,
+    isOwn,
+    sounds
   } = user;
   const { firstName, bio } = userMetadata;
   const { cancelationPolicy } = userSettings;
+
+  const showPhotosArea = media.edges.length > 0 || isOwn;
+  const showSelectedSound = (sounds && sounds.pageInfo.totalDocs > 0) || isOwn;
+
+  const bioStyle = showPhotosArea ? { borderBottom: "none" } : {};
+  const genresStyle = { paddingTop: showSelectedSound ? "42px" : "0px" };
+
   return (
     <ColumnLayout>
       <Row>
         <HalfColLeft>
-          <Bio firstName={firstName} bio={bio} />
+          <Bio firstName={firstName} bio={bio} style={bioStyle} />
+          {showSelectedSound && (
+            <Show maxWidth="990px">
+              <HighlightedSound user={user} />
+            </Show>
+          )}
           <Show maxWidth="990px">
-            <HighlightedSound user={user} />
+            <Genres genres={genres} style={genresStyle} />
           </Show>
-          <Show maxWidth="990px">
-            <Genres genres={genres} />
-          </Show>
-          <PhotosArea {...user} />
+          {showPhotosArea && <PhotosArea {...user} />}
           {highlightedReview ? (
             <Review
               reviewsCount={reviews.pageInfo.totalDocs}
@@ -415,8 +443,8 @@ const Overview = ({ user, loading }) => {
           )}
         </HalfColLeft>
         <HalfColRight>
-          <HighlightedSound user={user} />
-          <Genres genres={genres} />
+          {showSelectedSound && <HighlightedSound user={user} />}
+          <Genres genres={genres} style={genresStyle} />
 
           <MapArea playingLocation={playingLocation} />
         </HalfColRight>
