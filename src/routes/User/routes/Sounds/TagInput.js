@@ -22,10 +22,12 @@ const TagInput = ({ defaultValue = [], placeholder, onChange, ...props }) => {
   };
 
   const handleAddition = tag => {
-    if (tags.length > 5) {
-      window.alert("Max 6 tags");
-    } else {
-      handleChange([...tags, tag]);
+    if (tag) {
+      if (tags.length > 5) {
+        window.alert("Max 6 tags");
+      } else {
+        handleChange([...tags, tag]);
+      }
     }
   };
 
@@ -43,6 +45,9 @@ const TagInput = ({ defaultValue = [], placeholder, onChange, ...props }) => {
       tags={tags}
       handleDelete={handleDelete}
       handleAddition={handleAddition}
+      handleInputBlur={text =>
+        !!text.trim() && handleAddition({ text: text, id: text })
+      }
       handleDrag={handleDrag}
       delimiters={delimiters}
       autofocus={false}
