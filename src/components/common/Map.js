@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Circle
-} from "react-google-maps";
+import { withGoogleMap, GoogleMap, Circle } from "react-google-maps";
 import connectToForm from "../higher-order/connectToForm";
+import useScript from "@charlietango/use-script";
 
 /*
  * This is the modify version of:
@@ -187,18 +183,36 @@ SimpleMap.contextTypes = {
   updateValue: PropTypes.func,
   registerReset: PropTypes.func
 };
-const SmartMap = connectToForm(withScriptjs(withGoogleMap(SimpleMap)));
+const SmartMap = connectToForm(withGoogleMap(SimpleMap));
 
-const WrappedMap = props => {
+const Wrapper = props => {
   return (
-    <SmartMap
-      {...props}
-      googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ&libraries=geometry,places,visualization,geocode"
-      containerElement={<div style={{ height: props.height || `500px` }} />}
-      mapElement={<div style={{ height: `100%` }} />}
-      loadingElement={<div style={{ height: `100%` }} />}
-    />
+    <div style={{ height: props.height || `500px` }}>{props.children}</div>
   );
 };
 
-export default WrappedMap;
+const MapLoader = props => {
+  const [loaded] = useScript(
+    "https://maps.googleapis.com/maps/api/js?key=AIzaSyAQNiY4yM2E0h4SfSTw3khcr9KYS0BgVgQ&libraries=geometry,places,visualization,geocode"
+  );
+
+  if (!loaded) {
+    return (
+      <Wrapper>
+        <div style={{ height: `100%` }} />{" "}
+      </Wrapper>
+    );
+  }
+
+  return (
+    <Wrapper>
+      <SmartMap
+        {...props}
+        mapElement={<div style={{ height: `100%` }} />}
+        containerElement={<div style={{ height: props.height || `500px` }} />}
+      />
+    </Wrapper>
+  );
+};
+
+export default MapLoader;

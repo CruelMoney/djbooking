@@ -13,6 +13,7 @@
     "@apollo/react-hooks": "^3.0.0",
     "@apollo/react-ssr": "^3.0.0",
     "@babel/runtime": "^7.5.5",
+    "@charlietango/use-script": "^2.0.0",
     "@cra-express/core": "^4.3.0",
     "@cra-express/static-loader": "^4.0.0",
     "@rehooks/component-size": "^1.0.3",
