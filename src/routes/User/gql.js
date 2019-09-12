@@ -583,6 +583,12 @@ const REQUEST_VERIFICATION = gql`
   }
 `;
 
+const LOG_ACTIVITY = gql`
+  mutation LogActivity($subjectId: ID!, $type: String!) {
+    logActivity(subjectId: $subjectId, type: $type)
+  }
+`;
+
 export {
   MY_EVENTS,
   USER,
@@ -607,5 +613,6 @@ export {
   VERIFY_STATUS,
   REQUEST_VERIFICATION,
   ADD_MEDIA,
-  DELETE_MEDIA
+  DELETE_MEDIA,
+  LOG_ACTIVITY
 };

@@ -46,6 +46,7 @@ import { ME } from "../../components/gql.js";
 import { Helmet } from "react-helmet-async";
 import BookingButton from "./components/BookingButton";
 import SavingIndicator from "../../components/SavingIndicator.js";
+import { ACTIVITY_TYPES, LogActivityInView } from "../../components/hooks/useLogActivity.js";
 
 const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
 	const { userMetadata = {}, appMetadata = {}, playingLocation } = user || {};
@@ -293,6 +294,7 @@ const Index = ({ translate, match, location }) => {
 							return (
 								<div>
 									{!hasScrolled && <ScrollToTop />}
+									{user && <LogActivityInView type={ACTIVITY_TYPES.PROFILE_VIEW} subjectId={user.id} />}
 									{user && (
 										<Helmet>
 											<title>{title}</title>

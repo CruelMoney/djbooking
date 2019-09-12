@@ -24,6 +24,10 @@ import { useMutation } from "react-apollo";
 import { DECLINE_DJ, EVENT_GIGS } from "../../gql";
 import ReactPixel from "react-facebook-pixel";
 import PayForm from "../../../../components/common/PayForm";
+import {
+  ACTIVITY_TYPES,
+  LogActivityInView
+} from "../../../../components/hooks/useLogActivity";
 
 const hiddenEmail = "12345678@1234".replace(/\w/g, "•") + ".com";
 const hiddenNumber = "45 24 65 80 61".replace(/\w/g, "•");
@@ -59,85 +63,94 @@ const DjCard = ({
 
   return (
     <Wrapper idx={idx}>
-      <Card style={style}>
-        <ImageWrapper>
-          <StyledImage src={dj.picture.path} />
-        </ImageWrapper>
-        <Content>
-          <RowWrap>
-            <ColLeft>
-              <SmallHeader>{name}</SmallHeader>
-              <BodySmall style={{ wordBreak: "break-word" }}>
-                {truncatedBio}
-              </BodySmall>
-              <RowWrap>
-                {!finished && (
-                  <SecondaryButton
-                    small
-                    style={{ position: "relative", overflow: "visible" }}
-                    onClick={() => {
-                      setShowChat(true);
-                      onOpenChat();
+      <LogActivityInView
+        type={ACTIVITY_TYPES.GIG_VIEWED_BY_ORGANIZER}
+        subjectId={gig.id}
+      >
+        <Card style={style}>
+          <ImageWrapper>
+            <StyledImage src={dj.picture.path} />
+          </ImageWrapper>
+          <Content>
+            <RowWrap>
+              <ColLeft>
+                <SmallHeader>{name}</SmallHeader>
+                <BodySmall style={{ wordBreak: "break-word" }}>
+                  {truncatedBio}
+                </BodySmall>
+                <RowWrap>
+                  {!finished && (
+                    <SecondaryButton
+                      small
+                      style={{ position: "relative", overflow: "visible" }}
+                      onClick={() => {
+                        setShowChat(true);
+                        onOpenChat();
+                      }}
+                    >
+                      Message
+                      {hasMessage && (
+                        <div className="notification-bubble">1</div>
+                      )}
+                    </SecondaryButton>
+                  )}
+                  <NavLink
+                    to={{
+                      pathname: `${translate("routes./user")}/${
+                        dj.permalink
+                      }/overview`,
+                      state: { gigId: gig.id },
+                      search: `?gigId=${gig.id}&hash=${theEvent.hash}`
                     }}
                   >
-                    Message
-                    {hasMessage && <div className="notification-bubble">1</div>}
-                  </SecondaryButton>
+                    {finished ? (
+                      <SecondaryButton small>See profile</SecondaryButton>
+                    ) : (
+                      <TeritaryButton small>See profile</TeritaryButton>
+                    )}
+                  </NavLink>
+                </RowWrap>
+              </ColLeft>
+              <RightCol>
+                {email && (
+                  <ConditionalWrap
+                    condition={showInfo}
+                    wrap={children => (
+                      <a href={"mailto:" + email}>{children}</a>
+                    )}
+                  >
+                    <InfoBox>
+                      <MailIcon fontSize="15px" color="#98A4B3" />
+                      <span>{showInfo ? email : hiddenEmail}</span>
+                    </InfoBox>
+                  </ConditionalWrap>
                 )}
-                <NavLink
-                  to={{
-                    pathname: `${translate("routes./user")}/${
-                      dj.permalink
-                    }/overview`,
-                    state: { gigId: gig.id },
-                    search: `?gigId=${gig.id}&hash=${theEvent.hash}`
-                  }}
-                >
-                  {finished ? (
-                    <SecondaryButton small>See profile</SecondaryButton>
-                  ) : (
-                    <TeritaryButton small>See profile</TeritaryButton>
-                  )}
-                </NavLink>
-              </RowWrap>
-            </ColLeft>
-            <RightCol>
-              {email && (
-                <ConditionalWrap
-                  condition={showInfo}
-                  wrap={children => <a href={"mailto:" + email}>{children}</a>}
-                >
-                  <InfoBox>
-                    <MailIcon fontSize="15px" color="#98A4B3" />
-                    <span>{showInfo ? email : hiddenEmail}</span>
-                  </InfoBox>
-                </ConditionalWrap>
-              )}
-              {phone && (
-                <ConditionalWrap
-                  condition={showInfo}
-                  wrap={children => <a href={"tel:" + phone}>{children}</a>}
-                >
-                  <InfoBox>
-                    <PhoneIcon fontSize="18px" color="#98A4B3" />
-                    <span>{showInfo ? phone : hiddenNumber}</span>
-                  </InfoBox>
-                </ConditionalWrap>
-              )}
-            </RightCol>
-          </RowWrap>
-          <Hr />
+                {phone && (
+                  <ConditionalWrap
+                    condition={showInfo}
+                    wrap={children => <a href={"tel:" + phone}>{children}</a>}
+                  >
+                    <InfoBox>
+                      <PhoneIcon fontSize="18px" color="#98A4B3" />
+                      <span>{showInfo ? phone : hiddenNumber}</span>
+                    </InfoBox>
+                  </ConditionalWrap>
+                )}
+              </RightCol>
+            </RowWrap>
+            <Hr />
 
-          <Offer
-            {...offer}
-            theEvent={theEvent}
-            gig={gig}
-            translate={translate}
-            name={name}
-            initiateBooking={initiateBooking}
-          />
-        </Content>
-      </Card>
+            <Offer
+              {...offer}
+              theEvent={theEvent}
+              gig={gig}
+              translate={translate}
+              name={name}
+              initiateBooking={initiateBooking}
+            />
+          </Content>
+        </Card>
+      </LogActivityInView>
       <Shadow />
 
       <ChatPopup

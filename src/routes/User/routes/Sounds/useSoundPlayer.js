@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import useLogActivity, {
+  ACTIVITY_TYPES
+} from "../../../../components/hooks/useLogActivity";
 
 export const playerStates = Object.freeze({
   PLAYING: "PLAYING",
@@ -8,13 +11,18 @@ export const playerStates = Object.freeze({
 
 let stopFunctions = [];
 
-const useSoundPlayer = ({ src, duration }) => {
+const useSoundPlayer = ({ soundId, src, duration }) => {
   const sound = useRef();
   const howler = useRef();
   const [state, setState] = useState(playerStates.STOPPED);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
+  const logPlay = useLogActivity({
+    type: ACTIVITY_TYPES.SOUND_PLAY,
+    subjectId: soundId,
+    manual: true
+  });
 
   const stop = () => {
     if (sound.current) {
@@ -114,6 +122,8 @@ const useSoundPlayer = ({ src, duration }) => {
       sound.current.volume(0);
       sound.current.play();
       sound.current.fade(0, 1, 250);
+
+      logPlay();
     }
   };
 

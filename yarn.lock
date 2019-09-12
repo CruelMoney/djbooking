@@ -12247,13 +12247,13 @@ react-inlinesvg@^0.7.0:
     httpplease "^0.16.4"
     once "^1.4.0"
 
-react-intersection-observer@^8.24.1:
-  version "8.24.1"
-  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.24.1.tgz#f98ec6807a039c7f1456d457e4fe2f434a28d12e"
-  integrity sha512-4ugly0PWrYpGIgZeMD/aqjBzSlA5+W8k89+1FBC7T8w9Q0k1aOXFyQrcKQOoGfxSUnCPItqmWLsg7j50WsfVnw==
+react-intersection-observer@^8.24.2:
+  version "8.24.2"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.24.2.tgz#e4c2474aed39b0962fcde68ba3c12c3c05d28988"
+  integrity sha512-1l3eS/vZ3ScS6xawgeysl2z5hCtzJ2o4eYyQu4VdrbaahcWJccphPmZmQvFRsHA1tyKpMYV+KCrKfhuN5w8Erw==
   dependencies:
     "@babel/runtime" "^7.0.0"
-    invariant "^2.2.4"
+    invariant "^2.0.0"
 
 react-ionicons@^3.0.1:
   version "3.0.1"
