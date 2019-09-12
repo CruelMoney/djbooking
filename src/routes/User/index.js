@@ -46,7 +46,7 @@ import { ME } from "../../components/gql.js";
 import { Helmet } from "react-helmet-async";
 import BookingButton from "./components/BookingButton";
 import SavingIndicator from "../../components/SavingIndicator.js";
-import { ACTIVITY_TYPES, LogActivityInView } from "../../components/hooks/useLogActivity.js";
+import useLogActivity, { ACTIVITY_TYPES } from "../../components/hooks/useLogActivity.js";
 
 const UserSidebar = ({ user, loading, bookingEnabled, location }) => {
 	const { userMetadata = {}, appMetadata = {}, playingLocation } = user || {};
@@ -294,7 +294,6 @@ const Index = ({ translate, match, location }) => {
 							return (
 								<div>
 									{!hasScrolled && <ScrollToTop />}
-									{user && <LogActivityInView type={ACTIVITY_TYPES.PROFILE_VIEW} subjectId={user.id} />}
 									{user && (
 										<Helmet>
 											<title>{title}</title>
@@ -318,31 +317,14 @@ const Index = ({ translate, match, location }) => {
 									)}
 									<SavingIndicator loading={isSaving} error={error} />
 
-									<Switch>
-										<Route
-											path={match.path + "/booking"}
-											render={props => (
-												<Booking
-													{...props}
-													user={user}
-													loading={loading}
-													translate={translate}
-												/>
-											)}
-										/>
-										<Route
-											render={() => (
-												<Content
-													match={match}
-													user={user}
-													loading={loading}
-													translate={translate}
-													updateUser={updateUser}
-													location={location}
-												/>
-											)}
-										/>
-									</Switch>
+									<UserRoutes
+									loading={loading}
+									user={user}
+									updateUser={updateUser}
+									match={match}
+									location={location}
+									translate={translate}
+									/>
 
 									<Footer
 										noSkew
@@ -364,6 +346,45 @@ const Index = ({ translate, match, location }) => {
 		</>
 	);
 };
+
+const UserRoutes = ({
+	match, user, loading, translate, updateUser, location
+}) => {
+
+	useLogActivity({
+		type:ACTIVITY_TYPES.PROFILE_VIEW,
+		subjectId: user && user.id,
+		skipInView: true
+	})
+
+
+	return <Switch>
+	<Route
+		path={match.path + "/booking"}
+		render={props => (
+			<Booking
+				{...props}
+				user={user}
+				loading={loading}
+				translate={translate}
+			/>
+		)}
+	/>
+	<Route
+		render={() => (
+			<Content
+				match={match}
+				user={user}
+				loading={loading}
+				translate={translate}
+				updateUser={updateUser}
+				location={location}
+			/>
+		)}
+	/>
+</Switch>
+
+}
 
 const IconRow = styled(Row)`
 	font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;

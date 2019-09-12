@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Title, BodySmall, SmallBold } from "../../../../components/Text";
 import styled, { keyframes, css } from "styled-components";
 import {
@@ -36,35 +36,14 @@ const Sound = ({
   image,
   demo
 }) => {
-  const ref = useRef(null);
-  const { bounds } = useMeasure(ref, "bounds");
+  const [showChildren, setShowChild] = useState(false);
+
+  // Wait until after client-side hydration to show
+  useEffect(() => {
+    setShowChild(true);
+  }, []);
+
   const [scanningPosition, setScanningPosition] = useState(null);
-
-  const onScanning = event => {
-    if (bounds) {
-      let { clientX, touches } = event;
-      if (touches) {
-        clientX = touches[0].clientX;
-      }
-      const x = clientX - bounds.left;
-      const scan = (x / bounds.width).toFixed(4);
-      setScanningPosition(scan);
-    }
-  };
-
-  const resolution = bounds ? bounds.width / 6 : small ? 75 : 140;
-
-  const bars = useSamples({ resolution, samples });
-  const position = player.progress / duration.totalSeconds;
-  const positionIdx = bars.length * position;
-  const scanningIdx = bars.length * scanningPosition;
-  let activeIdx = positionIdx;
-  let halfActiveIdx = scanningIdx;
-
-  if (scanningPosition && scanningIdx < positionIdx) {
-    activeIdx = scanningIdx;
-    halfActiveIdx = positionIdx;
-  }
 
   const scanInSeconds = scanningPosition * duration.totalSeconds;
 
@@ -127,28 +106,17 @@ const Sound = ({
               ))}
             </Genres>
           </Row>
-          <SoundBarsRow
-            ref={ref}
-            onMouseMove={onScanning}
-            loading={player.loading || undefined}
-            onMouseLeave={() => setScanningPosition(null)}
-            onTouchMove={onScanning}
-            onTouchCancel={() => setScanningPosition(null)}
-            onTouchEnd={jumpOrStart}
-            onClick={jumpOrStart}
-            small={small}
-          >
-            {bars.map((p, idx) => (
-              <SoundBar
-                hovering={scanningPosition}
-                key={idx}
-                idx={idx}
-                pressure={p}
-                active={idx < activeIdx}
-                halfActive={idx < halfActiveIdx}
-              />
-            ))}
-          </SoundBarsRow>
+          {showChildren && (
+            <SoundBars
+              player={player}
+              samples={samples}
+              duration={duration}
+              setScanningPosition={setScanningPosition}
+              small={small}
+              scanningPosition={scanningPosition}
+              jumpOrStart={jumpOrStart}
+            />
+          )}
           {!small && (
             <Row between>
               <BodySmall>{progressFormatted}</BodySmall>
@@ -175,6 +143,70 @@ const Sound = ({
         </Row>
       )}
     </Container>
+  );
+};
+
+const SoundBars = ({
+  player,
+  samples,
+  duration,
+  setScanningPosition,
+  small,
+  scanningPosition,
+  jumpOrStart
+}) => {
+  const ref = useRef(null);
+  const { bounds } = useMeasure(ref, "bounds");
+
+  const onScanning = event => {
+    if (bounds) {
+      let { clientX, touches } = event;
+      if (touches) {
+        clientX = touches[0].clientX;
+      }
+      const x = clientX - bounds.left;
+      const scan = (x / bounds.width).toFixed(4);
+      setScanningPosition(scan);
+    }
+  };
+
+  const resolution = bounds ? bounds.width / 6 : small ? 75 : 140;
+
+  const bars = useSamples({ resolution, samples });
+  const position = player.progress / duration.totalSeconds;
+  const positionIdx = bars.length * position;
+  const scanningIdx = bars.length * scanningPosition;
+  let activeIdx = positionIdx;
+  let halfActiveIdx = scanningIdx;
+
+  if (scanningPosition && scanningIdx < positionIdx) {
+    activeIdx = scanningIdx;
+    halfActiveIdx = positionIdx;
+  }
+
+  return (
+    <SoundBarsRow
+      ref={ref}
+      onMouseMove={onScanning}
+      loading={player.loading || undefined}
+      onMouseLeave={() => setScanningPosition(null)}
+      onTouchMove={onScanning}
+      onTouchCancel={() => setScanningPosition(null)}
+      onTouchEnd={jumpOrStart}
+      onClick={jumpOrStart}
+      small={small}
+    >
+      {bars.map((p, idx) => (
+        <SoundBar
+          hovering={scanningPosition}
+          key={idx}
+          idx={idx}
+          pressure={p}
+          active={idx < activeIdx}
+          halfActive={idx < halfActiveIdx}
+        />
+      ))}
+    </SoundBarsRow>
   );
 };
 
@@ -281,7 +313,8 @@ const Wrapper = props => {
   const { id, file, duration, userId, isOwn, title, description, tags } = props;
   const player = useSoundPlayer({
     src: file.path,
-    duration: duration.totalSeconds
+    duration: duration.totalSeconds,
+    soundId: id
   });
   const [showPopup, setShowPopup] = useState(false);
 

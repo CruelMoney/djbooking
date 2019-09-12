@@ -62,11 +62,11 @@ const DjCard = ({
   const finished = theEvent.status === "FINISHED";
 
   return (
-    <Wrapper idx={idx}>
-      <LogActivityInView
-        type={ACTIVITY_TYPES.GIG_VIEWED_BY_ORGANIZER}
-        subjectId={gig.id}
-      >
+    <LogActivityInView
+      type={ACTIVITY_TYPES.GIG_VIEWED_BY_ORGANIZER}
+      subjectId={gig.id}
+    >
+      <Wrapper idx={idx}>
         <Card style={style}>
           <ImageWrapper>
             <StyledImage src={dj.picture.path} />
@@ -150,27 +150,28 @@ const DjCard = ({
             />
           </Content>
         </Card>
-      </LogActivityInView>
-      <Shadow />
 
-      <ChatPopup
-        showing={showChat}
-        translate={translate}
-        close={() => setShowChat(false)}
-        dj={dj}
-        organizer={theEvent.organizer}
-        eventId={theEvent.id}
-        showInfo={showInfo}
-        gig={gig}
-      />
-      <PayPopup
-        showing={showPayment}
-        translate={translate}
-        close={() => setShowPayment(false)}
-        theEvent={theEvent}
-        gig={gig}
-      />
-    </Wrapper>
+        <Shadow />
+
+        <ChatPopup
+          showing={showChat}
+          translate={translate}
+          close={() => setShowChat(false)}
+          dj={dj}
+          organizer={theEvent.organizer}
+          eventId={theEvent.id}
+          showInfo={showInfo}
+          gig={gig}
+        />
+        <PayPopup
+          showing={showPayment}
+          translate={translate}
+          close={() => setShowPayment(false)}
+          theEvent={theEvent}
+          gig={gig}
+        />
+      </Wrapper>
+    </LogActivityInView>
   );
 };
 

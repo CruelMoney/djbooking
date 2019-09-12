@@ -18,7 +18,7 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const logPlay = useLogActivity({
+  const { log: logPlay } = useLogActivity({
     type: ACTIVITY_TYPES.SOUND_PLAY,
     subjectId: soundId,
     manual: true

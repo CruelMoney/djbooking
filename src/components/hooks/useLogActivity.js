@@ -3,9 +3,8 @@ import { LOG_ACTIVITY } from "../../routes/User/gql";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-const useLogActivity = ({ type, subjectId, manual = false }) => {
+const useLogActivity = ({ type, subjectId, manual = false, skipInView }) => {
   const [ref, inView] = useInView({
-    /* Optional options */
     threshold: 0,
     triggerOnce: true
   });
@@ -18,10 +17,11 @@ const useLogActivity = ({ type, subjectId, manual = false }) => {
   });
 
   useEffect(() => {
-    if (!manual && inView) {
+    console.log({ manual, inView, type, subjectId });
+    if (!manual && (inView || skipInView) && type && subjectId) {
       log();
     }
-  }, [manual, log, inView]);
+  }, [manual, log, inView, type, subjectId, skipInView]);
 
   return { ref, log };
 };
