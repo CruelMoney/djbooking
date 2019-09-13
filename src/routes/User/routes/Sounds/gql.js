@@ -9,6 +9,7 @@ const USER_SOUNDS = gql`
         description
         samples
         tags
+        source
         duration {
           totalSeconds
         }

@@ -20,6 +20,7 @@ import { DELETE_SOUND, USER_SOUNDS } from "./gql";
 import Popup from "../../../../components/common/Popup";
 import AddSound from "./AddSound";
 import GracefullImage from "../../../../components/GracefullImage";
+import soundcloudLogo from "../../../../assets/soundcloud-logo.png";
 
 const demoSoundSamples = Array.from({ length: 101 }, (_, idx) =>
   Math.max(Math.abs(Math.round(Math.sin(idx / 8) * 100)), 0)
@@ -38,8 +39,11 @@ const Sound = ({
   small,
   link,
   image,
-  demo
+  demo,
+  source
 }) => {
+  const isSoundcloud = source === "soundcloud";
+
   const [showChildren, setShowChild] = useState(false);
 
   // Wait until after client-side hydration to show
@@ -134,7 +138,7 @@ const Sound = ({
           <SimpleSharing shareUrl={link} label={null} />
           {<div style={{ flex: 1 }}></div>}
 
-          {isOwn && (
+          {isOwn && !isSoundcloud && (
             <SmartButton
               loading={loadingRemove}
               onClick={deleteSound}
@@ -143,12 +147,23 @@ const Sound = ({
               Remove
             </SmartButton>
           )}
-          {isOwn && <SecondaryButton onClick={onEdit}>Edit</SecondaryButton>}
+          {isOwn && !isSoundcloud && (
+            <SecondaryButton onClick={onEdit}>Edit</SecondaryButton>
+          )}
+          {isSoundcloud && <SoundCloudLogo />}
         </Row>
       )}
     </Container>
   );
 };
+
+const SoundCloudLogo = styled.div`
+  width: 78px;
+  height: 12px;
+  margin-top: 8px;
+  background-color: #98a4b3;
+  -webkit-mask-box-image: url(${soundcloudLogo});
+`;
 
 const SoundBars = ({
   player,
