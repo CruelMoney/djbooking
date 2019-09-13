@@ -268,7 +268,8 @@ const Index = ({ translate, match, location }) => {
 						variables={{ permalink: match.params.permalink }}
 						onError={console.warn}
 					>
-						{({ data: { user: profileUser }, loading: loadingUser }) => {
+						{({ data: userData, loading: loadingUser }) => {
+							const { user: profileUser } = userData || {};
 							const loading = loadingMe || loadingUser;
 
 							if (!loadingUser && !profileUser) {

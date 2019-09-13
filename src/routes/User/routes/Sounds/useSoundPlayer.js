@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import useLogActivity, {
   ACTIVITY_TYPES
 } from "../../../../components/hooks/useLogActivity";
@@ -13,7 +13,6 @@ let stopFunctions = [];
 
 const useSoundPlayer = ({ soundId, src, duration }) => {
   const sound = useRef();
-  const howler = useRef();
   const [state, setState] = useState(playerStates.STOPPED);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -30,12 +29,19 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
     }
   };
 
-  const pause = () => {
-    if (sound.current) {
+  const pause = useCallback(() => {
+    if (sound.current && state === playerStates.PLAYING) {
       setState(playerStates.PAUSED);
-      sound.current.pause();
+      sound.current.fade(1, 0, 100);
     }
-  };
+  }, [state]);
+
+  useEffect(() => {
+    stopFunctions.push(pause);
+    return () => {
+      stopFunctions = stopFunctions.filter(fn => fn !== pause);
+    };
+  }, [pause]);
 
   const jumpTo = seconds => {
     if (sound.current) {
@@ -47,49 +53,56 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
     }
   };
 
-  useEffect(() => {
-    let animation = null;
-
-    const step = () => {
-      if (sound.current) {
-        setLoading(false);
-        const seconds = Number.parseFloat(sound.current.seek());
-        if (!Number.isNaN(seconds)) {
-          setProgress(seconds);
-        }
+  const step = () => {
+    if (sound.current) {
+      setLoading(false);
+      const seconds = Number.parseFloat(sound.current.seek());
+      if (!Number.isNaN(seconds)) {
+        setProgress(seconds);
       }
-    };
+    }
+  };
+
+  useEffect(() => {
+    let intervalRef = null;
 
     import("howler").then(({ Howl, Howler }) => {
-      howler.current = Howler;
       sound.current = new Howl({
-        src: [src],
-        preload: false,
+        src,
         html5: true,
         onplay: () => {
+          sound.current.fade(0, 1, 100);
           setState(playerStates.PLAYING);
           setError(null);
-          animation = setInterval(step, 250);
+          intervalRef = setInterval(step, 250);
         },
         onpause: () => {
           setState(playerStates.PAUSED);
-          clearInterval(animation);
+          clearInterval(intervalRef);
         },
         onstop: () => {
           setState(playerStates.STOPPED);
-          clearInterval(animation);
+          clearInterval(intervalRef);
         },
         onend: () => {
           setState(playerStates.STOPPED);
-          clearInterval(animation);
+          clearInterval(intervalRef);
           setProgress(duration);
+          sound.current.stop();
         },
         onload: () => {
           setLoading(false);
           setError(null);
         },
+        onfade: () => {
+          const volume = sound.current.volume();
+          if (volume === 0) {
+            sound.current.pause();
+          }
+        },
 
         onloaderror: (id, error) => {
+          console.log({ error });
           if (error && !error.includes("codec")) {
             setState(playerStates.STOPPED);
             setLoading(false);
@@ -99,36 +112,31 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
       });
     });
 
-    stopFunctions.push(pause);
-
     return () => {
-      clearInterval(animation);
-      stopFunctions = stopFunctions.filter(fn => fn !== pause);
+      clearInterval(intervalRef);
       if (sound.current) {
         sound.current.unload();
       }
     };
   }, [duration, src]);
 
-  const play = async (seconds = 0) => {
+  const play = async (startfrom = 0) => {
     if (sound.current) {
       setLoading(true);
-      // making sure we restart if ended
-      const startfrom = state === playerStates.STOPPED ? seconds : progress;
       stopFunctions.forEach(s => s !== pause && s());
       setState(playerStates.PLAYING);
       setProgress(startfrom);
 
       if (state === playerStates.STOPPED) {
-        await sound.current.load();
         logPlay();
       }
-
-      jumpTo(startfrom);
-
       sound.current.volume(0);
       sound.current.play();
-      sound.current.fade(0, 1, 250);
+
+      if (startfrom) {
+        sound.current.volume(1); // this needs, otherwise it gonna be silent
+        setTimeout(() => sound.current.seek(startfrom), 1000);
+      }
     }
   };
 

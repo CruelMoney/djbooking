@@ -331,7 +331,6 @@ const Wrapper = props => {
     refetchQueries: [{ query: USER_SOUNDS, variables: { userId } }],
     awaitRefetchQueries: true
   });
-
   return (
     <>
       <Sound
