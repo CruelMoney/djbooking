@@ -16,6 +16,9 @@ import {
 import { Spacing } from "./Sidebar";
 import { Stats, CertifiedVerified } from "..";
 import { HeaderTitle } from "../../../components/Text";
+import ConditionalWrap from "../../../components/ConditionalWrap";
+import useWindowSize from "../../../components/hooks/useWindowSize";
+import { NavLink } from "react-router-dom";
 
 const getRoutesFromUser = (user, pathname) => {
   const routes = [{ route: "overview", label: "overview", active: true }];
@@ -128,70 +131,79 @@ const UserContent = ({ user }) => {
     followers
   } = appMetadata;
 
-  return (
-    <HeaderWrapper>
-      <Row middle>
-        <Col style={{ flex: 1, alignItems: "flex-start" }}>
-          <HeaderTitle>
-            {artistName || firstName}
-            {certified && (
-              <Tooltip
-                text={
-                  "This dj has been certified by Cueup. The Cueup team has personally met and seen this dj play."
-                }
-              >
-                {({ ref, close, open }) => (
-                  <VerifiedBadge
-                    ref={ref}
-                    style={{ marginLeft: "15px" }}
-                    onMouseEnter={open}
-                    onMouseLeave={close}
-                  />
-                )}
-              </Tooltip>
-            )}
-          </HeaderTitle>
-          {rating && (
-            <div>
-              <RatingWrapper>
-                <Rating
-                  color={"#fff"}
-                  emptyColor={"#ffffff99"}
-                  rating={rating}
-                ></Rating>
-              </RatingWrapper>
-              <ReviewsCount>{reviews.pageInfo.totalDocs} reviews</ReviewsCount>
-            </div>
-          )}
+  const { width } = useWindowSize();
 
-          {(experience || followers) && (
-            <ShowBelow width={425}>
-              <StatsWrapper>
-                <Stats
-                  white
-                  experience={experience}
-                  followers={followers}
-                  marginRight={"15px"}
-                />
-              </StatsWrapper>
-            </ShowBelow>
-          )}
-        </Col>
-        <ShowBelow width={425}>
-          <Col>
-            <Avatar size="extraLarge" src={user.picture.path} />
+  return (
+    <ConditionalWrap
+      condition={width <= 768}
+      wrap={children => <NavLink to={"overview"}>{children}</NavLink>}
+    >
+      <HeaderWrapper>
+        <Row middle>
+          <Col style={{ flex: 1, alignItems: "flex-start" }}>
+            <HeaderTitle>
+              {artistName || firstName}
+              {certified && (
+                <Tooltip
+                  text={
+                    "This dj has been certified by Cueup. The Cueup team has personally met and seen this dj play."
+                  }
+                >
+                  {({ ref, close, open }) => (
+                    <VerifiedBadge
+                      ref={ref}
+                      style={{ marginLeft: "15px" }}
+                      onMouseEnter={open}
+                      onMouseLeave={close}
+                    />
+                  )}
+                </Tooltip>
+              )}
+            </HeaderTitle>
+            {rating && (
+              <div>
+                <RatingWrapper>
+                  <Rating
+                    color={"#fff"}
+                    emptyColor={"#ffffff99"}
+                    rating={rating}
+                  ></Rating>
+                </RatingWrapper>
+                <ReviewsCount>
+                  {reviews.pageInfo.totalDocs} reviews
+                </ReviewsCount>
+              </div>
+            )}
+
+            {(experience || followers) && (
+              <ShowBelow width={425}>
+                <StatsWrapper>
+                  <Stats
+                    white
+                    experience={experience}
+                    followers={followers}
+                    marginRight={"15px"}
+                  />
+                </StatsWrapper>
+              </ShowBelow>
+            )}
           </Col>
-        </ShowBelow>
-      </Row>
-      <ShowBelow width={425} style={{ marginTop: "24px" }}>
-        <Row>
-          <CertifiedVerified
-            certified={certified}
-            identityVerified={identityVerified}
-          ></CertifiedVerified>
+          <ShowBelow width={425}>
+            <Col>
+              <Avatar size="extraLarge" src={user.picture.path} />
+            </Col>
+          </ShowBelow>
         </Row>
-      </ShowBelow>
-    </HeaderWrapper>
+        <ShowBelow width={425} style={{ marginTop: "24px" }}>
+          <Row>
+            <CertifiedVerified
+              certified={certified}
+              identityVerified={identityVerified}
+            ></CertifiedVerified>
+          </Row>
+        </ShowBelow>
+      </HeaderWrapper>
+    </ConditionalWrap>
   );
 };
 
