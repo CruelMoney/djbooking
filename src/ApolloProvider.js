@@ -28,7 +28,7 @@ const errorLink = onError(
         console.log(`[GraphQL error]: Message: ${message}, Path: ${path}`)
       );
 
-      for (let err of graphQLErrors) {
+      for (var err of graphQLErrors) {
         // handle errors differently based on its error code
         switch (err.extensions.code) {
           case "UNAUTHENTICATED":
