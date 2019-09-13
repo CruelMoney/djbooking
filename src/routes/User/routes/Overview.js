@@ -114,6 +114,7 @@ const Square = styled.div`
     top: 0;
     height: 100%;
     width: 100%;
+    max-height: 100%;
   }
 `;
 
@@ -252,7 +253,9 @@ const PhotoGrid = styled.ul`
   grid-gap: 3px;
   list-style: none;
   margin-bottom: 0;
-
+  @media only screen and (max-width: 425px) {
+    grid-gap: 1px;
+  }
   > li {
     background: #eff2f5;
     position: relative;

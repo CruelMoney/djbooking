@@ -45,6 +45,9 @@ const ImageGrid = styled.ul`
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 3px;
   list-style: none;
+  @media only screen and (max-width: 425px) {
+    grid-gap: 1px;
+  }
 `;
 
 const Cell = styled.div`
@@ -401,7 +404,7 @@ const Photos = ({ user, loading }) => {
   };
 
   return (
-    <>
+    <Wrapper>
       <Images
         renderMedia={renderMedia}
         isOwn={isOwn}
@@ -429,7 +432,7 @@ const Photos = ({ user, loading }) => {
           </ButtonFileInput>
         </Col>
       )}
-    </>
+    </Wrapper>
   );
 };
 
@@ -571,5 +574,14 @@ const ConnectInstaButton = () => {
     </SecondaryButton>
   );
 };
+
+const Wrapper = styled.div`
+  @media only screen and (max-width: 425px) {
+    margin-top: -41px;
+    width: 100vw;
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+`;
 
 export default Photos;
