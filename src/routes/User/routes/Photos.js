@@ -79,8 +79,8 @@ const Cell = styled.div`
 `;
 
 const Backdrop = styled.div`
-  top: 1em;
-  right: 1em;
+  top: 0.5em;
+  right: 0.5em;
   box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.72);
   background: rgba(0, 0, 0, 0.3);
   z-index: 2;
