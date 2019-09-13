@@ -17,7 +17,6 @@ const useLogActivity = ({ type, subjectId, manual = false, skipInView }) => {
   });
 
   useEffect(() => {
-    console.log({ manual, inView, type, subjectId });
     if (!manual && (inView || skipInView) && type && subjectId) {
       log();
     }

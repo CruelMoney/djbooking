@@ -118,14 +118,17 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
       stopFunctions.forEach(s => s !== pause && s());
       setState(playerStates.PLAYING);
       setProgress(startfrom);
-      await sound.current.load();
+
+      if (state === playerStates.STOPPED) {
+        await sound.current.load();
+        logPlay();
+      }
+
       jumpTo(startfrom);
 
       sound.current.volume(0);
       sound.current.play();
       sound.current.fade(0, 1, 250);
-
-      logPlay();
     }
   };
 
