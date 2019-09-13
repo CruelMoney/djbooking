@@ -95,6 +95,10 @@ const Backdrop = styled.div`
     margin: 4px;
     fill: #fff;
   }
+  @media only screen and (max-width: 425px) {
+    top: 0.3em;
+    right: 0.3em;
+  }
 `;
 const Backdrop2 = styled.caption`
   z-index: 2;
