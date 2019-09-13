@@ -185,6 +185,57 @@ export const Show = styled.div`
   }
 `;
 
+export const inputStyle = css`
+  background: ${({ primary }) => {
+    if (primary) {
+      return;
+    }
+    return "#f6f8f9";
+  }};
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  font-family: "AvenirNext-Regular", Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  color: #122b48;
+  text-indent: 9px;
+  height: 40px;
+  -webkit-appearance: none;
+  width: 100%;
+  display: block;
+  font-weight: 300;
+  box-shadow: ${({ attention, error }) => {
+    const show = attention || error;
+    const color = error ? "#D0021B" : "#FFC800";
+    return show ? `inset 0 0 0 2px ${color}` : "none";
+  }};
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: #98a4b3;
+  }
+  :-ms-input-placeholder {
+    color: #98a4b3;
+  }
+
+  :focus {
+    background: #e9ecf0;
+  }
+`;
+
+export const TextInput = styled.input`
+  ${inputStyle}
+  text-indent: 9px;
+`;
+
+export const FileInput = styled.input.attrs({ type: "file" })`
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+`;
+
 const ButtonTextStyle = css`
   font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
   font-size: 15px;
@@ -203,6 +254,53 @@ const ButtonTextStyle = css`
   text-overflow: ellipsis;
   max-width: 200px;
   position: relative;
+`;
+
+const inputButtonStyle = css`
+  ${inputStyle}
+  text-align: center;
+  line-height: 40px !important;
+  transition: all 200ms ease;
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: ${({ attention, error }) => {
+    const show = attention || error;
+    const color = error ? "#D0021B" : "#FFC800";
+    return show ? `inset 0 0 0 2px ${color}` : "none";
+  }};
+
+  :hover {
+    ${({ warning, disabled }) =>
+      disabled
+        ? ""
+        : warning
+        ? `background: #D0021B;
+      color: white;
+    `
+        : `background: #e9ecf0;
+    `};
+  }
+  :focus {
+    background: #e9ecf0;
+  }
+`;
+
+export const ButtonInput = styled.button`
+  ${inputButtonStyle}
+`;
+export const Select = styled.select`
+  ${inputButtonStyle}
+`;
+export const FileInputWrapper = styled.label`
+  ${inputButtonStyle}
+  position: relative;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
 `;
 
 export const TeritaryButton = styled.button`
@@ -342,7 +440,8 @@ export const keyframeFadeIn = keyframes`
 const buttons = {
   primary: PrimaryButton,
   secondary: SecondaryButton,
-  tertiary: TeritaryButton
+  tertiary: TeritaryButton,
+  input: ButtonInput
 };
 
 export const SmartButton = ({
@@ -352,6 +451,7 @@ export const SmartButton = ({
   loading,
   warning,
   disabled,
+  style,
   ...props
 }) => {
   const Button = buttons[level];
@@ -378,7 +478,9 @@ export const SmartButton = ({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+
+        ...style
       }}
       {...props}
     >

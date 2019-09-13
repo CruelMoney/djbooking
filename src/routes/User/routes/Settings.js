@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import {
   SettingsSection,
   Input,
-  DeleteFileButton
+  DeleteFileButton,
+  LabelHalf
 } from "../../../components/FormComponents";
 import emailValidator from "email-validator";
 import constants from "../../../constants/constants";
@@ -21,6 +22,7 @@ import { PhoneInputNew } from "../../../components/common/PhoneInput";
 import TextAreaPopup from "../../../components/TextAreaPopup";
 import { useConnectInstagram } from "../../../utils/Hooks";
 import VerifyIdentity from "../components/VerifyIdentity";
+import ConnectSoundCloud from "../components/ConnectSoundCloud";
 
 const hasChanges = (o1, o2) => {
   const keys = Object.keys(o1);
@@ -118,7 +120,12 @@ const Settings = ({
     bio
   } = userMetadata;
   const { cancelationPolicy, currency, notifications } = userSettings;
-  const { roles, instagramConnected, identityVerified } = appMetadata;
+  const {
+    roles,
+    instagramConnected,
+    identityVerified,
+    soundCloudConnected
+  } = appMetadata;
 
   return (
     <>
@@ -364,6 +371,13 @@ const Settings = ({
           }
           buttonText={instagramConnected ? "disconnect" : "connect"}
         />
+        <LabelHalf>
+          Connect SoundCloud
+          <ConnectSoundCloud
+            soundCloudConnected={soundCloudConnected}
+            userId={user.id}
+          />
+        </LabelHalf>
         <VerifyIdentityPopup
           user={user}
           identityVerified={identityVerified}

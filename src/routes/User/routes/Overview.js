@@ -146,9 +146,7 @@ const HighlightedSound = ({ user }) => {
     file: {
       path: ""
     },
-    samples: Array.from({ length: 100 }, (_, idx) =>
-      Math.abs(Math.round(Math.sin(idx / 8) * 100))
-    )
+    samples: []
   };
 
   if (hasSounds) {

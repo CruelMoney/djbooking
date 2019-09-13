@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled, { css } from "styled-components";
-import { Row, Col, secondaryButtonStyle, LoadingIndicator } from "./Blocks";
+import {
+  Row,
+  Col,
+  secondaryButtonStyle,
+  LoadingIndicator,
+  Select,
+  ButtonInput,
+  FileInputWrapper,
+  inputStyle,
+  TextInput,
+  FileInput
+} from "./Blocks";
 import { Title, Body } from "./Text";
 import Checkbox from "./Checkbox";
 import Checkmark from "../assets/Checkmark";
@@ -19,6 +30,9 @@ export const InputLabel = styled(Label)`
   margin-bottom: 30px;
   min-width: 100%;
   flex: 2;
+  > * {
+    margin-top: 6px;
+  }
 `;
 
 export const LabelHalf = styled(InputLabel)`
@@ -97,103 +111,6 @@ const SettingsSection = ({
   );
 };
 
-export const inputStyle = css`
-  background: ${({ primary }) => {
-    if (primary) {
-      return;
-    }
-    return "#f6f8f9";
-  }};
-  border-radius: 4px;
-  border: none;
-  outline: none;
-  font-family: "AvenirNext-Regular", Arial, Helvetica, sans-serif;
-  font-size: 18px;
-  color: #122b48;
-  text-indent: 9px;
-  height: 40px;
-  -webkit-appearance: none;
-  width: 100%;
-  display: block;
-  margin-top: 6px;
-  font-weight: 300;
-  box-shadow: ${({ attention, error }) => {
-    const show = attention || error;
-    const color = error ? "#D0021B" : "#FFC800";
-    return show ? `inset 0 0 0 2px ${color}` : "none";
-  }};
-  ::placeholder,
-  ::-webkit-input-placeholder {
-    color: #98a4b3;
-  }
-  :-ms-input-placeholder {
-    color: #98a4b3;
-  }
-
-  :focus {
-    background: #e9ecf0;
-  }
-`;
-
-const TextInput = styled.input`
-  ${inputStyle}
-  text-indent: 9px;
-`;
-
-const inputButtonStyle = css`
-  ${inputStyle}
-  text-align: center;
-  line-height: 40px !important;
-  transition: all 200ms ease;
-  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
-  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: ${({ attention, error }) => {
-    const show = attention || error;
-    const color = error ? "#D0021B" : "#FFC800";
-    return show ? `inset 0 0 0 2px ${color}` : "none";
-  }};
-
-  :hover {
-    ${({ warning, disabled }) =>
-      disabled
-        ? ""
-        : warning
-        ? `background: #D0021B;
-      color: white;
-    `
-        : `background: #e9ecf0;
-    `};
-  }
-  :focus {
-    background: #e9ecf0;
-  }
-`;
-
-const ButtonInput = styled.button`
-  ${inputButtonStyle}
-`;
-
-const FileInputWrapper = styled.label`
-  ${inputButtonStyle}
-  position: relative;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  display: block;
-`;
-
-const FileInput = styled.input.attrs({ type: "file" })`
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-`;
-
 const DeleteFileButton = styled.button`
   width: 40px;
   right: 0;
@@ -228,10 +145,6 @@ const FormattedText = ({ defaultValue, save, ...props }) => {
     />
   );
 };
-
-const Select = styled.select`
-  ${inputButtonStyle}
-`;
 
 const InputType = React.forwardRef(
   (

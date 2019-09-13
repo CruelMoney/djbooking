@@ -13,6 +13,7 @@ import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceh
 import { Helmet } from "react-helmet-async";
 import EmptyPage from "../../../../components/common/EmptyPage";
 import { Body } from "../../../../components/Text";
+import ConnectSounCloud from "../../components/ConnectSoundCloud";
 
 const Sounds = ({ user, location, match, setShowPopup }) => {
   const { id: soundId } = match.params;
@@ -36,6 +37,8 @@ const Sounds = ({ user, location, match, setShowPopup }) => {
     );
   }
 
+  const { appMetadata } = user;
+
   if (edges.length === 0) {
     return (
       <EmptyPage
@@ -45,11 +48,15 @@ const Sounds = ({ user, location, match, setShowPopup }) => {
             <>
               <Body>Showcase your mixes or productions</Body>
               <PrimaryButton
-                style={{ marginTop: "24px" }}
+                style={{ marginTop: "24px", marginBottom: "9px" }}
                 onClick={() => setShowPopup(true)}
               >
                 Upload track
               </PrimaryButton>
+              <ConnectSounCloud
+                userId={user.id}
+                soundCloudConnected={appMetadata.soundCloudConnected}
+              />
             </>
           ) : (
             ""

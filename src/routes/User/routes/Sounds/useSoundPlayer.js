@@ -90,9 +90,11 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
         },
 
         onloaderror: (id, error) => {
-          setState(playerStates.STOPPED);
-          setLoading(false);
-          setError(error);
+          if (error && !error.includes("codec")) {
+            setState(playerStates.STOPPED);
+            setLoading(false);
+            setError(error);
+          }
         }
       });
     });

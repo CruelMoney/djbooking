@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Label, Value, Checkbox, inputStyle } from "./FormComponents";
-import { Row, Col, Hr } from "./Blocks";
+import { Label, Value, Checkbox } from "./FormComponents";
+import { Row, Col, Hr, inputStyle } from "./Blocks";
 
 const TableRow = styled(Row)`
   height: 42px;
