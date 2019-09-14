@@ -112,7 +112,7 @@ const Square = styled.div`
     position: absolute;
     left: 0;
     top: 0;
-    height: 100%;
+    height: 100% !important;
     width: 100%;
     max-height: 100%;
   }
@@ -250,12 +250,10 @@ const PhotoGrid = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, auto);
   grid-template-rows: repeat(2, auto);
-  grid-gap: 3px;
+  grid-gap: 1px;
   list-style: none;
   margin-bottom: 0;
-  @media only screen and (max-width: 425px) {
-    grid-gap: 1px;
-  }
+
   > li {
     background: #eff2f5;
     position: relative;

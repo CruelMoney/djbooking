@@ -10,9 +10,12 @@ export const playerStates = Object.freeze({
 });
 
 let stopFunctions = [];
+//{id: howl}[]
+let tracks = [];
 
 const useSoundPlayer = ({ soundId, src, duration }) => {
-  const sound = useRef();
+  const exstingTrack = tracks.find(track => track.id === soundId);
+  const sound = useRef(exstingTrack);
   const [state, setState] = useState(playerStates.STOPPED);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -25,14 +28,14 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
 
   const stop = () => {
     if (sound.current) {
-      sound.current.stop();
+      sound.current.howl.stop();
     }
   };
 
   const pause = useCallback(() => {
     if (sound.current && state === playerStates.PLAYING) {
       setState(playerStates.PAUSED);
-      sound.current.fade(1, 0, 100);
+      sound.current.howl.fade(1, 0, 100);
     }
   }, [state]);
 
@@ -49,16 +52,20 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
         setLoading(true);
       }
       setProgress(seconds);
-      sound.current.seek(seconds);
+      sound.current.howl.seek(seconds);
     }
   };
 
   const step = () => {
     if (sound.current) {
       setLoading(false);
-      const seconds = Number.parseFloat(sound.current.seek());
-      if (!Number.isNaN(seconds)) {
-        setProgress(seconds);
+      try {
+        const seconds = Number.parseFloat(sound.current.howl.seek());
+        if (!Number.isNaN(seconds)) {
+          setProgress(seconds);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   };
@@ -66,59 +73,72 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
   useEffect(() => {
     let intervalRef = null;
 
-    import("howler").then(({ Howl, Howler }) => {
-      sound.current = new Howl({
-        src,
-        html5: true,
-        onplay: () => {
-          sound.current.fade(0, 1, 100);
+    const init = async () => {
+      if (!sound.current) {
+        sound.current = await howlWrapper(src, soundId);
+        tracks.push(sound.current);
+      } else {
+        // recreate state
+        const playing = sound.current.howl.playing();
+        try {
+          const pos = sound.current.howl.seek();
+          setProgress(pos);
+        } catch (error) {
+          console.log(error);
+        }
+        if (playing) {
           setState(playerStates.PLAYING);
-          setError(null);
           intervalRef = setInterval(step, 250);
-        },
-        onpause: () => {
-          setState(playerStates.PAUSED);
-          clearInterval(intervalRef);
-        },
-        onstop: () => {
-          setState(playerStates.STOPPED);
-          clearInterval(intervalRef);
-        },
-        onend: () => {
-          setState(playerStates.STOPPED);
-          clearInterval(intervalRef);
-          setProgress(duration);
-          sound.current.stop();
-        },
-        onload: () => {
-          setLoading(false);
-          setError(null);
-        },
-        onfade: () => {
-          const volume = sound.current.volume();
-          if (volume === 0) {
-            sound.current.pause();
-          }
-        },
-
-        onloaderror: (id, error) => {
-          console.log({ error });
-          if (error && !error.includes("codec")) {
-            setState(playerStates.STOPPED);
-            setLoading(false);
-            setError(error);
-          }
+        }
+      }
+      sound.current.setOnplay(() => {
+        console.log("on play");
+        sound.current.howl.fade(0, 1, 100);
+        setState(playerStates.PLAYING);
+        setError(null);
+        intervalRef = setInterval(step, 250);
+      });
+      sound.current.setOnpause(() => {
+        console.log("on pause");
+        setState(playerStates.PAUSED);
+        clearInterval(intervalRef);
+      });
+      sound.current.setOnstop(() => {
+        setState(playerStates.STOPPED);
+        clearInterval(intervalRef);
+      });
+      sound.current.setOnend(() => {
+        setState(playerStates.STOPPED);
+        clearInterval(intervalRef);
+        setProgress(duration);
+        sound.current.howl.stop();
+      });
+      sound.current.setOnload(() => {
+        setLoading(false);
+        setError(null);
+      });
+      sound.current.setOnfade(() => {
+        const volume = sound.current.howl.volume();
+        if (volume === 0) {
+          sound.current.howl.pause();
         }
       });
-    });
+      sound.current.setOnloaderror((id, error) => {
+        console.log({ error });
+        if (error && !error.includes("codec")) {
+          setState(playerStates.STOPPED);
+          setLoading(false);
+          setError(error);
+        }
+      });
+    };
+
+    init();
 
     return () => {
       clearInterval(intervalRef);
-      if (sound.current) {
-        sound.current.unload();
-      }
     };
-  }, [duration, src]);
+  }, [duration, soundId, src]);
 
   const play = async (startfrom = 0) => {
     if (sound.current) {
@@ -130,12 +150,12 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
       if (state === playerStates.STOPPED) {
         logPlay();
       }
-      sound.current.volume(0);
-      sound.current.play();
+      sound.current.howl.volume(0);
+      sound.current.howl.play();
 
       if (startfrom) {
-        sound.current.volume(1); // this needs, otherwise it gonna be silent
-        setTimeout(() => sound.current.seek(startfrom), 1000);
+        sound.current.howl.volume(1); // this needs, otherwise it gonna be silent
+        setTimeout(() => sound.current.howl.seek(startfrom), 1000);
       }
     }
   };
@@ -150,6 +170,55 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
     progress,
     loading
   };
+};
+
+const howlWrapper = async (src, soundId) => {
+  console.log("howlwrapper");
+  return new Promise(resolve => {
+    let onplay = console.log;
+    let setOnplay = f => {
+      console.log("setting");
+      onplay = f;
+    };
+    let onpause = console.log;
+    let setOnpause = f => (onpause = f);
+    let onstop = console.log;
+    let setOnstop = f => (onstop = f);
+    let onend = console.log;
+    let setOnend = f => (onend = f);
+    let onload = console.log;
+    let setOnload = f => (onload = f);
+    let onfade = console.log;
+    let setOnfade = f => (onfade = f);
+    let onloaderror = console.log;
+    let setOnloaderror = f => (onloaderror = f);
+
+    import("howler").then(({ Howl }) => {
+      const howl = new Howl({
+        src,
+        html5: true,
+        onplay: () => onplay(),
+        onpause: () => onpause(),
+        onstop: () => onstop(),
+        onend: () => onend(),
+        onload: () => onload(),
+        onfade: () => onfade(),
+        onloaderror: () => onloaderror()
+      });
+
+      resolve({
+        id: soundId,
+        howl,
+        setOnplay,
+        setOnpause,
+        setOnstop,
+        setOnend,
+        setOnload,
+        setOnfade,
+        setOnloaderror
+      });
+    });
+  });
 };
 
 export default useSoundPlayer;
