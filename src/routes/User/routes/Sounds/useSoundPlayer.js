@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import useLogActivity, {
   ACTIVITY_TYPES
 } from "../../../../components/hooks/useLogActivity";
@@ -17,199 +17,96 @@ let globalUpdate = () => {};
 
 const useSoundPlayer = ({ track, src, duration }) => {
   const soundId = track.id;
-  const sound = useRef();
-  const [state, setState] = useState(playerStates.STOPPED);
-  const [initialized, setInitialized] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const sound = useHowlWrapper(src, soundId, track);
+
+  // recreate state
+  let initPos = 0;
+  let initState = playerStates.STOPPED;
+  try {
+    initState = sound.playing() ? playerStates.PLAYING : initState;
+    initPos = sound.progress();
+  } catch (error) {
+    //ignore
+    console.log(error);
+  }
+
+  const [state, setState] = useState(initState);
+  const [progress, setProgress] = useState(initPos);
   const [error, setError] = useState();
-  const { log: logPlay } = useLogActivity({
-    type: ACTIVITY_TYPES.SOUND_PLAY,
-    subjectId: soundId,
-    manual: true
-  });
-
-  const mounted = useRef(true);
-  useEffect(() => {
-    return () => {
-      mounted.current = false;
-    };
-  }, []);
-
-  const stop = () => {
-    if (sound.current) {
-      sound.current.howl.stop();
-    }
-  };
-
-  const pause = useCallback(() => {
-    if (sound.current && state === playerStates.PLAYING) {
-      if (mounted.current) {
-        setState(playerStates.PAUSED);
-      }
-      globalUpdate(null, playerStates.PAUSED);
-      sound.current.howl.fade(1, 0, 100);
-    }
-  }, [state]);
-
-  const jumpTo = useCallback(seconds => {
-    if (sound.current) {
-      if (mounted.current) {
-        setProgress(seconds);
-      }
-      sound.current.howl.seek(seconds);
-    }
-  }, []);
-
-  const step = () => {
-    if (sound.current) {
-      try {
-        const seconds = Number.parseFloat(sound.current.howl.seek());
-        if (!Number.isNaN(seconds)) {
-          mounted.current && setProgress(seconds);
-          globalUpdate(seconds);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  const play = useCallback(
-    async (startfrom = 0) => {
-      if (sound.current) {
-        if (mounted.current) {
-          setState(playerStates.PLAYING);
-          globalUpdate(startfrom, playerStates.PLAYING);
-          startfrom && setProgress(startfrom);
-        }
-        // pause other tracks
-        tracks.forEach(
-          track => track.id !== soundId && track.pause && track.pause()
-        );
-
-        if (state === playerStates.STOPPED) {
-          logPlay();
-        }
-        sound.current.howl.volume(0);
-        sound.current.howl.play();
-
-        if (startfrom) {
-          sound.current.howl.volume(1); // this needs, otherwise it gonna be silent
-          setTimeout(() => sound.current.howl.seek(startfrom), 1000);
-        }
-      }
-    },
-    [logPlay, soundId, state]
-  );
 
   useEffect(() => {
+    console.log("init");
+
     let intervalRef = null;
 
-    const init = async () => {
-      const existingTrack = tracks.find(track => track.id === soundId);
-      sound.current = existingTrack;
-      console.log("init");
-      if (!sound.current) {
-        sound.current = howlWrapper(src, soundId);
-        sound.current.track = track;
-        tracks.push(sound.current);
-      } else {
-        // recreate state
-        const playing = sound.current.howl.playing();
-        try {
-          const pos = sound.current.howl.seek();
-          mounted.current && setProgress(pos);
-        } catch (error) {
-          //ignore
-          console.log(error);
-        }
-        if (playing) {
-          setState(playerStates.PLAYING);
-          globalUpdate(null, playerStates.PLAYING);
-          intervalRef = setInterval(step, 250);
-        }
-      }
-
-      sound.current.setOnplay(() => {
-        sound.current.howl.fade(0, 1, 100);
-        if (mounted.current) {
-          setState(playerStates.PLAYING);
-          globalUpdate(null, playerStates.PLAYING);
-          setError(null);
-        }
-        intervalRef = setInterval(step, 250);
-        onDeck = sound.current;
-      });
-      sound.current.setOnpause(() => {
-        console.log("on pause");
-        if (mounted.current) {
-          setState(playerStates.PAUSED);
-          globalUpdate(null, playerStates.PAUSED);
-        }
-        clearInterval(intervalRef);
-      });
-      sound.current.setOnstop(() => {
-        if (mounted.current) {
-          setState(playerStates.STOPPED);
-          globalUpdate(null, playerStates.STOPPED);
-        }
-        clearInterval(intervalRef);
-        next();
-      });
-      sound.current.setOnend(() => {
-        clearInterval(intervalRef);
-        if (mounted.current) {
-          setState(playerStates.STOPPED);
-          globalUpdate(duration, playerStates.STOPPED);
-          setProgress(duration);
-        }
-        sound.current.howl.stop();
-      });
-      sound.current.setOnload(() => {
-        console.log("on load");
-        if (mounted.current) {
-          console.log("on load 2");
-          setError(null);
-          step();
-        }
-      });
-      sound.current.setOnfade(() => {
-        const volume = sound.current.howl.volume();
-        if (volume === 0) {
-          sound.current.howl.pause();
-        }
-      });
-      sound.current.setOnloaderror((id, error) => {
-        console.log({ error });
-        if (error && !error.includes("codec") && mounted.current) {
-          setState(playerStates.STOPPED);
-          globalUpdate(null, playerStates.STOPPED);
-          setError(error);
-          step();
-        }
-      });
-      setInitialized(true);
+    const step = () => {
+      setProgress(sound.progress());
     };
 
-    init();
+    const startInterval = () => {
+      clearInterval(intervalRef);
+      intervalRef = setInterval(step, 250);
+    };
 
-    return () => {
+    if (sound.playing()) {
+      startInterval();
+    }
+
+    const onPlay = () => {
+      setState(playerStates.PLAYING);
+      setError(null);
+      startInterval();
+    };
+    const onPause = () => {
+      setState(playerStates.PAUSED);
       clearInterval(intervalRef);
     };
-  }, [duration, soundId, src, track]);
+    const onStop = () => {
+      setState(playerStates.STOPPED);
+      clearInterval(intervalRef);
+    };
+    const onEnd = () => {
+      clearInterval(intervalRef);
+      setState(playerStates.STOPPED);
+      setProgress(duration);
+    };
+    const onLoad = () => {
+      setError(null);
+    };
 
-  useEffect(() => {
-    if (sound.current && initialized) {
-      sound.current.play = play;
-      sound.current.pause = pause;
-      sound.current.seek = jumpTo;
-    }
-  }, [initialized, jumpTo, pause, play]);
+    const onLoadError = (id, error) => {
+      if (error && !error.includes("codec")) {
+        setState(playerStates.STOPPED);
+        setError(error);
+      }
+    };
+
+    sound.subscribeOnplay(onPlay);
+    sound.subscribeOnpause(onPause);
+    sound.subscribeOnstop(onStop);
+    sound.subscribeOnend(onEnd);
+    sound.subscribeOnload(onLoad);
+    sound.subscribeOnloaderror(onLoadError);
+
+    return () => {
+      sound.unsubscribeOnplay(onPlay);
+      sound.unsubscribeOnpause(onPause);
+      sound.unsubscribeOnstop(onStop);
+      sound.unsubscribeOnend(onEnd);
+      sound.unsubscribeOnload(onLoad);
+      sound.unsubscribeOnloaderror(onLoadError);
+      clearInterval(intervalRef);
+    };
+  }, [duration, sound]);
+
+  const jumpTo = s => {
+    setProgress(s);
+    sound.progress(s);
+  };
 
   return {
-    play,
-    pause,
-    stop,
+    play: sound.play,
+    pause: sound.pause,
     jumpTo,
     state,
     error,
@@ -218,48 +115,115 @@ const useSoundPlayer = ({ track, src, duration }) => {
   };
 };
 
-const howlWrapper = (src, soundId) => {
-  let onplay = console.log;
-  let setOnplay = f => {
-    console.log("setting");
-    onplay = f;
-  };
-  let onpause = console.log;
-  let setOnpause = f => (onpause = f);
-  let onstop = console.log;
-  let setOnstop = f => (onstop = f);
-  let onend = console.log;
-  let setOnend = f => (onend = f);
-  let onload = console.log;
-  let setOnload = f => (onload = f);
-  let onfade = console.log;
-  let setOnfade = f => (onfade = f);
-  let onloaderror = console.log;
-  let setOnloaderror = f => (onloaderror = f);
+const useHowlWrapper = (src, soundId, data) => {
+  const existingTrack = tracks.find(({ id }) => id === soundId);
 
-  const howl = new Howl({
-    src,
-    html5: true,
-    onplay: () => onplay(),
-    onpause: () => onpause(),
-    onstop: () => onstop(),
-    onend: () => onend(),
-    onload: () => onload(),
-    onfade: () => onfade(),
-    onloaderror: () => onloaderror()
+  const { log: logPlay } = useLogActivity({
+    type: ACTIVITY_TYPES.SOUND_PLAY,
+    subjectId: soundId,
+    manual: true
   });
 
-  return {
+  if (existingTrack) {
+    return existingTrack;
+  }
+
+  console.log("creating new howl");
+  const stopOtherTracks = () =>
+    tracks.forEach(track => track.id !== soundId && track.pause());
+
+  let onplay = [stopOtherTracks, logPlay];
+  let subscribeOnplay = f => onplay.push(f);
+  let unsubscribeOnplay = f => (onplay = onplay.filter(fun => fun !== f));
+  let onpause = [];
+  let subscribeOnpause = f => onpause.push(f);
+  let unsubscribeOnpause = f => (onpause = onpause.filter(fun => fun !== f));
+  let onstop = [];
+  let subscribeOnstop = f => onstop.push(f);
+  let unsubscribeOnstop = f => (onstop = onstop.filter(fun => fun !== f));
+  let onend = [next];
+  let subscribeOnend = f => onend.push(f);
+  let unsubscribeOnend = f => (onend = onend.filter(fun => fun !== f));
+  let onload = [];
+  let subscribeOnload = f => onload.push(f);
+  let unsubscribeOnload = f => (onload = onload.filter(fun => fun !== f));
+  let onfade = [];
+  let subscribeOnfade = f => onfade.push(f);
+  let unsubscribeOnfade = f => (onfade = onfade.filter(fun => fun !== f));
+  let onloaderror = [];
+  let subscribeOnloaderror = f => onloaderror.push(f);
+  let unsubscribeOnloaderror = f =>
+    (onloaderror = onloaderror.filter(fun => fun !== f));
+
+  const howl = new Howl({
+    src: [src],
+    html5: true,
+    onplay: () => onplay.forEach(f => f()),
+    onpause: () => onpause.forEach(f => f()),
+    onstop: () => onstop.forEach(f => f()),
+    onend: () => onend.forEach(f => f()),
+    onload: () => onload.forEach(f => f()),
+    onfade: () => onfade.forEach(f => f()),
+    onloaderror: () => onloaderror.forEach(f => f())
+  });
+
+  const progress = s => {
+    try {
+      const p = howl.seek(s);
+      if (!isNaN(p)) {
+        return p;
+      }
+      return 0;
+    } catch (error) {
+      return 0;
+    }
+  };
+
+  const isPlaying = () => {
+    try {
+      return howl.playing();
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const pause = () => {
+    howl.pause();
+  };
+
+  const play = () => {
+    if (!howl.playing()) {
+      howl.play();
+      onDeck = track;
+      globalUpdate(data);
+    }
+  };
+
+  const track = {
     id: soundId,
     howl,
-    setOnplay,
-    setOnpause,
-    setOnstop,
-    setOnend,
-    setOnload,
-    setOnfade,
-    setOnloaderror
+    pause,
+    play,
+    progress: progress,
+    playing: isPlaying,
+    subscribeOnplay,
+    unsubscribeOnplay,
+    subscribeOnpause,
+    unsubscribeOnpause,
+    subscribeOnstop,
+    unsubscribeOnstop,
+    subscribeOnend,
+    unsubscribeOnend,
+    subscribeOnload,
+    unsubscribeOnload,
+    subscribeOnfade,
+    unsubscribeOnfade,
+    subscribeOnloaderror,
+    unsubscribeOnloaderror
   };
+
+  tracks.push(track);
+  return track;
 };
 
 const getCurrentIdx = () => {
@@ -289,15 +253,15 @@ const skip = (d = "next") => () => {
   }
 };
 const next = skip("next");
-const previous = skip("next");
+const previous = skip("previous");
 
 const useCurrentDeck = () => {
-  const [progress, setProgress] = useState(0);
+  const [track, setTrack] = useState();
 
   // register update function
   useEffect(() => {
-    globalUpdate = p => {
-      p && setProgress(p);
+    globalUpdate = t => {
+      t && setTrack(t);
     };
     return () => {
       globalUpdate = () => {};
@@ -305,8 +269,7 @@ const useCurrentDeck = () => {
   }, []);
 
   return {
-    progress,
-    onDeck,
+    track,
     next,
     previous
   };

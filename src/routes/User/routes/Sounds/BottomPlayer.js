@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import {
   Container,
@@ -8,26 +8,25 @@ import {
   HideBelow
 } from "../../../../components/Blocks";
 import useSoundPlayer, { useCurrentDeck, playerStates } from "./useSoundPlayer";
-import { Spacing } from "../../components/Sidebar";
 import PlayIcon from "../../../../assets/icons/PlayIcon";
 import PauseIcon from "../../../../assets/icons/PauseIcon";
 import { BodySmall, SmallBold } from "../../../../components/Text";
 import { SoundBars, useScanning } from "./Sound";
 
-const BottomPlayer = ({ track, onDeck }) => {
-  const { progress, state } = useSoundPlayer({
+const BottomPlayer = ({ track, next, previous }) => {
+  const { progress, state, jumpTo, pause, play } = useSoundPlayer({
     track: track ? track : {},
     src: track ? track.file.path : "",
     duration: track ? track.duration : 0
   });
 
+  console.log({ progress });
+
   const togglePlay = () => {
-    if (onDeck) {
-      if (state === playerStates.PLAYING) {
-        onDeck.pause();
-      } else {
-        onDeck.play();
-      }
+    if (state === playerStates.PLAYING) {
+      pause();
+    } else {
+      play();
     }
   };
 
@@ -41,7 +40,12 @@ const BottomPlayer = ({ track, onDeck }) => {
         <PlayerRow middle center>
           <PlayerSpacing>
             <Row middle center>
-              <PlayPauseButton state={state} onClick={togglePlay} />
+              <PlayPauseButton
+                state={state}
+                onClick={togglePlay}
+                next={next}
+                previous={previous}
+              />
             </Row>
           </PlayerSpacing>
           <RightRow middle center>
@@ -51,7 +55,8 @@ const BottomPlayer = ({ track, onDeck }) => {
                 state={state}
                 progress={progress}
                 track={track}
-                onDeck={onDeck}
+                jumpTo={jumpTo}
+                play={play}
               />
             </HideBelow>
           </RightRow>
@@ -67,7 +72,7 @@ const PlayerRow = styled(Row)`
   }
 `;
 
-const PlayerProgress = ({ progress, state, track, onDeck }) => {
+const PlayerProgress = ({ progress, state, track, jumpTo, play }) => {
   const {
     scanInSeconds,
     setScanningPosition,
@@ -81,9 +86,9 @@ const PlayerProgress = ({ progress, state, track, onDeck }) => {
 
   const jumpOrStart = () => {
     if (state === playerStates.PLAYING) {
-      onDeck.pause();
+      jumpTo(scanInSeconds);
     } else {
-      onDeck.seek(scanInSeconds);
+      play();
     }
   };
 
@@ -150,14 +155,14 @@ const StyledStateButton = styled.button`
   }
 `;
 
-const PlayPauseButton = ({ state, onClick }) => {
+const PlayPauseButton = ({ state, onClick, previous, next }) => {
   return (
     <>
-      <SkipButton style={{ transform: "rotate(180deg)" }} />
+      <SkipButton style={{ transform: "rotate(180deg)" }} onClick={previous} />
       <StyledStateButton onClick={onClick}>
         {state === playerStates.PLAYING ? <PauseIcon /> : <PlayIcon />}
       </StyledStateButton>
-      <SkipButton />
+      <SkipButton onClick={next} />
     </>
   );
 };
@@ -216,14 +221,13 @@ const Wrapper = styled.div`
 `;
 
 const AnimationWrapper = () => {
-  const { onDeck, next, previous } = useCurrentDeck();
-  const { track } = onDeck || {};
+  const { track, next, previous } = useCurrentDeck();
 
   if (!track) {
     return null;
   }
 
-  return <BottomPlayer track={track} onDeck={onDeck} />;
+  return <BottomPlayer track={track} next={next} previous={previous} />;
 };
 
 export default AnimationWrapper;
