@@ -9,14 +9,14 @@ export const playerStates = Object.freeze({
   STOPPED: "STOPPED"
 });
 
-let stopFunctions = [];
 //{id: howl}[]
 let tracks = [];
+let onDeck = null;
 
 const useSoundPlayer = ({ soundId, src, duration }) => {
-  const exstingTrack = tracks.find(track => track.id === soundId);
-  const sound = useRef(exstingTrack);
+  const sound = useRef();
   const [state, setState] = useState(playerStates.STOPPED);
+  const [initialized, setInitialized] = useState(false);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -26,6 +26,13 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
     manual: true
   });
 
+  const mounted = useRef(true);
+  useEffect(() => {
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
   const stop = () => {
     if (sound.current) {
       sound.current.howl.stop();
@@ -34,46 +41,70 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
 
   const pause = useCallback(() => {
     if (sound.current && state === playerStates.PLAYING) {
-      setState(playerStates.PAUSED);
+      if (mounted.current) {
+        setState(playerStates.PAUSED);
+      }
       sound.current.howl.fade(1, 0, 100);
     }
   }, [state]);
 
-  useEffect(() => {
-    stopFunctions.push(pause);
-    return () => {
-      stopFunctions = stopFunctions.filter(fn => fn !== pause);
-    };
-  }, [pause]);
-
-  const jumpTo = seconds => {
+  const jumpTo = useCallback(seconds => {
     if (sound.current) {
-      if (state === playerStates.PLAYING) {
-        setLoading(true);
+      if (mounted.current) {
+        setProgress(seconds);
       }
-      setProgress(seconds);
       sound.current.howl.seek(seconds);
     }
-  };
+  }, []);
 
   const step = () => {
-    if (sound.current) {
-      setLoading(false);
+    if (sound.current && mounted.current) {
       try {
         const seconds = Number.parseFloat(sound.current.howl.seek());
         if (!Number.isNaN(seconds)) {
           setProgress(seconds);
         }
       } catch (error) {
-        console.log(error);
+        //ignore
       }
     }
   };
+
+  const play = useCallback(
+    async (startfrom = 0) => {
+      if (sound.current) {
+        if (mounted.current) {
+          setState(playerStates.PLAYING);
+          startfrom && setProgress(startfrom);
+        }
+        // pause other tracks
+        tracks.forEach(
+          track => track.id !== soundId && track.pause && track.pause()
+        );
+
+        if (state === playerStates.STOPPED) {
+          mounted.current && setLoading(true);
+          logPlay();
+        }
+        sound.current.howl.volume(0);
+        sound.current.howl.play();
+
+        if (startfrom) {
+          sound.current.howl.volume(1); // this needs, otherwise it gonna be silent
+          setTimeout(() => sound.current.howl.seek(startfrom), 1000);
+        }
+      }
+    },
+    [logPlay, soundId, state]
+  );
 
   useEffect(() => {
     let intervalRef = null;
 
     const init = async () => {
+      const existingTrack = tracks.find(track => track.id === soundId);
+      sound.current = existingTrack;
+      console.log("init");
       if (!sound.current) {
         sound.current = await howlWrapper(src, soundId);
         tracks.push(sound.current);
@@ -82,40 +113,56 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
         const playing = sound.current.howl.playing();
         try {
           const pos = sound.current.howl.seek();
-          setProgress(pos);
+          mounted.current && setProgress(pos);
         } catch (error) {
-          console.log(error);
+          //ignore
         }
         if (playing) {
           setState(playerStates.PLAYING);
           intervalRef = setInterval(step, 250);
         }
       }
+
       sound.current.setOnplay(() => {
-        console.log("on play");
         sound.current.howl.fade(0, 1, 100);
-        setState(playerStates.PLAYING);
-        setError(null);
+        if (mounted.current) {
+          setState(playerStates.PLAYING);
+          setLoading(false);
+          setError(null);
+        }
         intervalRef = setInterval(step, 250);
+        onDeck = sound.current;
       });
       sound.current.setOnpause(() => {
         console.log("on pause");
-        setState(playerStates.PAUSED);
+        if (mounted.current) {
+          setState(playerStates.PAUSED);
+        }
         clearInterval(intervalRef);
       });
       sound.current.setOnstop(() => {
-        setState(playerStates.STOPPED);
+        if (mounted.current) {
+          setState(playerStates.STOPPED);
+        }
         clearInterval(intervalRef);
+        next();
       });
       sound.current.setOnend(() => {
-        setState(playerStates.STOPPED);
         clearInterval(intervalRef);
-        setProgress(duration);
+        if (mounted.current) {
+          setState(playerStates.STOPPED);
+          setProgress(duration);
+        }
         sound.current.howl.stop();
       });
       sound.current.setOnload(() => {
-        setLoading(false);
-        setError(null);
+        console.log("on load");
+        if (mounted.current) {
+          console.log("on load 2");
+
+          setLoading(false);
+          setError(null);
+        }
       });
       sound.current.setOnfade(() => {
         const volume = sound.current.howl.volume();
@@ -125,12 +172,13 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
       });
       sound.current.setOnloaderror((id, error) => {
         console.log({ error });
-        if (error && !error.includes("codec")) {
+        if (error && !error.includes("codec") && mounted.current) {
           setState(playerStates.STOPPED);
           setLoading(false);
           setError(error);
         }
       });
+      setInitialized(true);
     };
 
     init();
@@ -140,25 +188,13 @@ const useSoundPlayer = ({ soundId, src, duration }) => {
     };
   }, [duration, soundId, src]);
 
-  const play = async (startfrom = 0) => {
-    if (sound.current) {
-      setLoading(true);
-      stopFunctions.forEach(s => s !== pause && s());
-      setState(playerStates.PLAYING);
-      setProgress(startfrom);
-
-      if (state === playerStates.STOPPED) {
-        logPlay();
-      }
-      sound.current.howl.volume(0);
-      sound.current.howl.play();
-
-      if (startfrom) {
-        sound.current.howl.volume(1); // this needs, otherwise it gonna be silent
-        setTimeout(() => sound.current.howl.seek(startfrom), 1000);
-      }
+  useEffect(() => {
+    if (sound.current && initialized) {
+      sound.current.play = play;
+      sound.current.pause = pause;
+      sound.current.seek = jumpTo;
     }
-  };
+  }, [initialized, jumpTo, pause, play]);
 
   return {
     play,
@@ -220,5 +256,34 @@ const howlWrapper = async (src, soundId) => {
     });
   });
 };
+
+const getCurrentIdx = () => {
+  return tracks.findIndex(t => t === onDeck);
+};
+
+const skip = (d = "next") => () => {
+  const direction = {
+    next: 1,
+    previous: -1
+  };
+
+  // fade out current
+  if (onDeck) {
+    onDeck.pause();
+  }
+
+  const idx = getCurrentIdx();
+
+  // find next and fade
+  const nextTrack = tracks[idx + direction[d]];
+  debugger;
+
+  if (nextTrack) {
+    nextTrack.play();
+  } else {
+    onDeck = null;
+  }
+};
+const next = skip("next");
 
 export default useSoundPlayer;
