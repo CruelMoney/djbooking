@@ -169,12 +169,14 @@ const SoundCloudLogo = styled.div`
   -webkit-mask-box-image: url(${soundcloudLogo});
 `;
 
-export const useScanning = ({ progress, duration, loading }) => {
+export const useScanning = ({ duration, loading, progress = 0 }) => {
+  const totalSeconds = duration ? duration.totalSeconds : 0;
+
   const [scanningPosition, setScanningPosition] = useState(null);
 
-  const scanInSeconds = scanningPosition * duration.totalSeconds;
+  const scanInSeconds = scanningPosition * totalSeconds;
 
-  const durationFormatted = formatTime(duration.totalSeconds);
+  const durationFormatted = formatTime(totalSeconds);
   const progressFormatted = loading
     ? "Loading..."
     : formatTime(scanningPosition ? scanInSeconds : progress);

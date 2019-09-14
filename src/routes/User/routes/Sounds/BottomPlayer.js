@@ -16,9 +16,9 @@ import { useTransition, animated } from "react-spring";
 
 const BottomPlayer = ({ track, next, previous }) => {
   const { progress, state, jumpTo, pause, play } = useSoundPlayer({
-    track: track ? track : {},
-    src: track ? track.file.path : "",
-    duration: track ? track.duration.totalSeconds : 0
+    track: track,
+    src: track ? (track.file ? track.file.path : "") : "",
+    duration: track ? (track.duration ? track.duration.totalSeconds : 0) : 0
   });
 
   const togglePlay = () => {
@@ -34,21 +34,21 @@ const BottomPlayer = ({ track, next, previous }) => {
   }
 
   return (
-    <Container style={{ height: "60px" }}>
-      <PlayerRow middle center>
-        <PlayerSpacing>
-          <Row middle center>
-            <PlayPauseButton
-              state={state}
-              onClick={togglePlay}
-              next={next}
-              previous={previous}
-            />
-          </Row>
-        </PlayerSpacing>
-        <RightRow middle center>
-          {track && <TrackInfo track={track} />}
-          <HideBelow width={420} style={{ flex: 4 }}>
+    <PlayerRow middle center>
+      <PlayerSpacing>
+        <Row middle center>
+          <PlayPauseButton
+            state={state}
+            onClick={togglePlay}
+            next={next}
+            previous={previous}
+          />
+        </Row>
+      </PlayerSpacing>
+      <RightRow middle center>
+        {track && <TrackInfo track={track} />}
+        <HideBelow width={420} style={{ flex: 4 }}>
+          {
             <PlayerProgress
               state={state}
               progress={progress}
@@ -56,10 +56,10 @@ const BottomPlayer = ({ track, next, previous }) => {
               jumpTo={jumpTo}
               play={play}
             />
-          </HideBelow>
-        </RightRow>
-      </PlayerRow>
-    </Container>
+          }
+        </HideBelow>
+      </RightRow>
+    </PlayerRow>
   );
 };
 
@@ -78,7 +78,7 @@ const PlayerProgress = ({ progress, state, track, jumpTo, play }) => {
     durationFormatted
   } = useScanning({
     progress,
-    duration: track.duration
+    duration: track ? track.duration : null
   });
 
   const jumpOrStart = () => {
@@ -94,8 +94,8 @@ const PlayerProgress = ({ progress, state, track, jumpTo, play }) => {
       <ReadMoreText>{progressFormatted}</ReadMoreText>
       <SoundBars
         progress={progress}
-        samples={track.samples}
-        duration={track.duration}
+        samples={track ? track.samples : []}
+        duration={track ? track.duration : 0}
         setScanningPosition={setScanningPosition}
         scanningPosition={scanningPosition}
         jumpOrStart={jumpOrStart}
@@ -229,15 +229,15 @@ const AnimationWrapper = () => {
     leave: { transform: "translate3d(0,100%,0)" }
   });
 
-  if (!track) {
-    return null;
-  }
-
   return transitions.map(
     ({ item, key, props }) =>
       item && (
         <AnimatingWrapper key={key} style={props}>
-          <BottomPlayer track={track} next={next} previous={previous} />
+          <Container style={{ height: "60px" }}>
+            {track && (
+              <BottomPlayer track={track} next={next} previous={previous} />
+            )}
+          </Container>
         </AnimatingWrapper>
       )
   );

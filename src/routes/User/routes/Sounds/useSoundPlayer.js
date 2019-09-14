@@ -104,8 +104,6 @@ const useSoundPlayer = ({ track, src, duration }) => {
     sound.progress(s);
   };
 
-  console.log({ progress, duration });
-
   return {
     play: sound.play,
     pause: sound.pause,
@@ -252,6 +250,7 @@ const skip = (d = "next") => () => {
     nextTrack.play();
   } else {
     onDeck = null;
+    globalUpdate(null);
   }
 };
 const next = skip("next");
@@ -262,9 +261,7 @@ const useCurrentDeck = () => {
 
   // register update function
   useEffect(() => {
-    globalUpdate = t => {
-      t && setTrack(t);
-    };
+    globalUpdate = setTrack;
     return () => {
       globalUpdate = () => {};
     };
