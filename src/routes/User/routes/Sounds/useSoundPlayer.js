@@ -104,6 +104,8 @@ const useSoundPlayer = ({ track, src, duration }) => {
     sound.progress(s);
   };
 
+  console.log({ progress, duration });
+
   return {
     play: sound.play,
     pause: sound.pause,

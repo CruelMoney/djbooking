@@ -12,15 +12,14 @@ import PlayIcon from "../../../../assets/icons/PlayIcon";
 import PauseIcon from "../../../../assets/icons/PauseIcon";
 import { BodySmall, SmallBold } from "../../../../components/Text";
 import { SoundBars, useScanning } from "./Sound";
+import { useTransition, animated } from "react-spring";
 
 const BottomPlayer = ({ track, next, previous }) => {
   const { progress, state, jumpTo, pause, play } = useSoundPlayer({
     track: track ? track : {},
     src: track ? track.file.path : "",
-    duration: track ? track.duration : 0
+    duration: track ? track.duration.totalSeconds : 0
   });
-
-  console.log({ progress });
 
   const togglePlay = () => {
     if (state === playerStates.PLAYING) {
@@ -35,34 +34,32 @@ const BottomPlayer = ({ track, next, previous }) => {
   }
 
   return (
-    <Wrapper>
-      <Container style={{ height: "60px" }}>
-        <PlayerRow middle center>
-          <PlayerSpacing>
-            <Row middle center>
-              <PlayPauseButton
-                state={state}
-                onClick={togglePlay}
-                next={next}
-                previous={previous}
-              />
-            </Row>
-          </PlayerSpacing>
-          <RightRow middle center>
-            {track && <TrackInfo track={track} />}
-            <HideBelow width={420} style={{ flex: 4 }}>
-              <PlayerProgress
-                state={state}
-                progress={progress}
-                track={track}
-                jumpTo={jumpTo}
-                play={play}
-              />
-            </HideBelow>
-          </RightRow>
-        </PlayerRow>
-      </Container>
-    </Wrapper>
+    <Container style={{ height: "60px" }}>
+      <PlayerRow middle center>
+        <PlayerSpacing>
+          <Row middle center>
+            <PlayPauseButton
+              state={state}
+              onClick={togglePlay}
+              next={next}
+              previous={previous}
+            />
+          </Row>
+        </PlayerSpacing>
+        <RightRow middle center>
+          {track && <TrackInfo track={track} />}
+          <HideBelow width={420} style={{ flex: 4 }}>
+            <PlayerProgress
+              state={state}
+              progress={progress}
+              track={track}
+              jumpTo={jumpTo}
+              play={play}
+            />
+          </HideBelow>
+        </RightRow>
+      </PlayerRow>
+    </Container>
   );
 };
 
@@ -220,14 +217,30 @@ const Wrapper = styled.div`
   }
 `;
 
+const AnimatingWrapper = animated(Wrapper);
+
 const AnimationWrapper = () => {
   const { track, next, previous } = useCurrentDeck();
+  const transitions = useTransition(!!track, null, {
+    from: {
+      transform: "translate3d(0, 100%,0)"
+    },
+    enter: { transform: "translate3d(0,0,0)" },
+    leave: { transform: "translate3d(0,100%,0)" }
+  });
 
   if (!track) {
     return null;
   }
 
-  return <BottomPlayer track={track} next={next} previous={previous} />;
+  return transitions.map(
+    ({ item, key, props }) =>
+      item && (
+        <AnimatingWrapper key={key} style={props}>
+          <BottomPlayer track={track} next={next} previous={previous} />
+        </AnimatingWrapper>
+      )
+  );
 };
 
 export default AnimationWrapper;
