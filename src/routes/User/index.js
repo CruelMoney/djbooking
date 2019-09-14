@@ -291,6 +291,10 @@ const Index = ({ translate, match, location }) => {
 								: null;
 							const thumb = user ? user.picture.path : null;
 							const description = user ? user.userMetadata.bio : null;
+							if(user){
+								user.title = title;
+
+							}
 
 							return (
 								<div>

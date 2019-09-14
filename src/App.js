@@ -32,6 +32,7 @@ import { getTranslatedURL } from "./utils/HelperFunctions";
 import ReactPixel from "react-facebook-pixel";
 import ResetPassword from "./routes/ResetPassword";
 import { MobileMenuContext } from "./components/MobileMenu";
+import BottomPlayer from "./routes/User/routes/Sounds/BottomPlayer";
 
 let redirected = false;
 
@@ -227,6 +228,8 @@ const RouteWrapper = memo(({ translate, cssLocation }) => {
 
           <Route component={NotFound} />
         </Switch>
+
+        <BottomPlayer />
       </div>
     </>
   );

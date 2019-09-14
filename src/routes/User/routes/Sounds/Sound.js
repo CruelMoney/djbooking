@@ -51,14 +51,17 @@ const Sound = ({
     setShowChild(true);
   }, []);
 
-  const [scanningPosition, setScanningPosition] = useState(null);
-
-  const scanInSeconds = scanningPosition * duration.totalSeconds;
-
-  const durationFormatted = formatTime(duration.totalSeconds);
-  const progressFormatted = player.loading
-    ? "Loading..."
-    : formatTime(scanningPosition ? scanInSeconds : player.progress);
+  const {
+    scanInSeconds,
+    setScanningPosition,
+    scanningPosition,
+    progressFormatted,
+    durationFormatted
+  } = useScanning({
+    duration,
+    loading: player.loading,
+    progress: player.progress
+  });
 
   const jumpOrStart = () => {
     if (demo) {
@@ -83,7 +86,7 @@ const Sound = ({
       <Row>
         {!small && image && <AlbumCoverMobile src={image.path} />}
         <Title style={{ marginBottom: "39px" }}>
-          {small ? "Selected sound" : title}
+          {small ? "Selected Sound" : title}
         </Title>
       </Row>
       <Row>
@@ -116,7 +119,8 @@ const Sound = ({
           </Row>
           {showChildren && (
             <SoundBars
-              player={player}
+              loading={player.loading}
+              progress={player.progress}
               samples={samples}
               duration={duration}
               setScanningPosition={setScanningPosition}
@@ -165,14 +169,35 @@ const SoundCloudLogo = styled.div`
   -webkit-mask-box-image: url(${soundcloudLogo});
 `;
 
-const SoundBars = ({
-  player,
+export const useScanning = ({ progress, duration, loading }) => {
+  const [scanningPosition, setScanningPosition] = useState(null);
+
+  const scanInSeconds = scanningPosition * duration.totalSeconds;
+
+  const durationFormatted = formatTime(duration.totalSeconds);
+  const progressFormatted = loading
+    ? "Loading..."
+    : formatTime(scanningPosition ? scanInSeconds : progress);
+
+  return {
+    scanInSeconds,
+    setScanningPosition,
+    scanningPosition,
+    progressFormatted,
+    durationFormatted
+  };
+};
+
+export const SoundBars = ({
+  loading,
+  progress,
   samples,
   duration,
   setScanningPosition,
   small,
   scanningPosition,
-  jumpOrStart
+  jumpOrStart,
+  style
 }) => {
   if (!samples || samples.length === 0) {
     samples = demoSoundSamples;
@@ -196,7 +221,7 @@ const SoundBars = ({
   const resolution = bounds ? bounds.width / 6 : small ? 75 : 140;
 
   const bars = useSamples({ resolution, samples });
-  const position = player.progress / duration.totalSeconds;
+  const position = progress / duration.totalSeconds;
   const positionIdx = bars.length * position;
   const scanningIdx = bars.length * scanningPosition;
   let activeIdx = positionIdx;
@@ -211,13 +236,14 @@ const SoundBars = ({
     <SoundBarsRow
       ref={ref}
       onMouseMove={onScanning}
-      dataLoading={player.loading || undefined}
+      dataLoading={loading || undefined}
       onMouseLeave={() => setScanningPosition(null)}
       onTouchMove={onScanning}
       onTouchCancel={() => setScanningPosition(null)}
       onTouchEnd={jumpOrStart}
       onClick={jumpOrStart}
       small={small}
+      style={style}
     >
       {bars.map((p, idx) => (
         <SoundBar
@@ -337,7 +363,7 @@ const Wrapper = props => {
   const player = useSoundPlayer({
     src: file.path,
     duration: duration.totalSeconds,
-    soundId: id
+    track: props
   });
   const [showPopup, setShowPopup] = useState(false);
 
