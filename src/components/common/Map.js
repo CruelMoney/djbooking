@@ -42,17 +42,15 @@ class SimpleMap extends Component {
       key: Date.now(),
       defaultAnimation: 2
     };
-  }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.editable !== this.props.editable) {
-      return true;
-    }
-    return false;
+    this.state = {
+      radius: props.radius
+    };
   }
 
   handleRadiusChange = circle => {
-    const radius = circle.getRadius();
+    const radius = Math.min(circle.getRadius(), 1000000);
+    this.setState({ radius });
     if (this.context.updateValue) {
       this.context.updateValue(this.props.radiusName, radius);
     }
@@ -158,6 +156,7 @@ class SimpleMap extends Component {
       >
         {!!this.props.noCircle ? null : (
           <Circle
+            key={Date.now()}
             ref={c => (this.circle = c)}
             defaultOptions={{
               fillColor: this.props.color || this.context.color,
@@ -168,7 +167,7 @@ class SimpleMap extends Component {
             center={
               this.circle ? this.circle.getCenter() : this.marker.position
             }
-            radius={this.circle ? this.circle.getRadius() : this.marker.radius}
+            radius={this.state.radius}
             onCenterChanged={() => this.handleLocationChange(this.circle)}
             onRadiusChanged={() => this.handleRadiusChange(this.circle)}
           />
