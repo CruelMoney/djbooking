@@ -12,50 +12,16 @@ import EmptyPage from "../../../components/common/EmptyPage";
 import { connect } from "react-redux";
 import { getTranslate } from "react-localize-redux";
 
-const BookingButton = ({ user, location, translate }) => {
+const BookingButton = ({
+  user,
+  gig,
+  event,
+  hash,
+  offer,
+  translate,
+  showPaymentForm
+}) => {
   const [showPopup, setShowPopup] = useState(false);
-
-  // check for gigId
-  const queries = queryString.parse(location.search);
-  let { gigId, hash } = queries;
-
-  if (!gigId && location && location.state && !hash) {
-    gigId = location.state.gigId;
-    hash = location.state.hash;
-  }
-
-  const { data = {}, loading } = useQuery(GIG, {
-    skip: !gigId || !hash,
-    variables: {
-      id: gigId,
-      hash: hash
-    }
-  });
-
-  if (!user) {
-    return null;
-  }
-
-  if (loading) {
-    return (
-      <CTAButton disabled>
-        <LoadingIndicator />
-      </CTAButton>
-    );
-  }
-
-  if (user.isOwn) {
-    return (
-      <CTAButton
-        onClick={() => window.alert("Are you trying to book yourself? 🧐")}
-      >
-        REQUEST BOOKING
-      </CTAButton>
-    );
-  }
-
-  const { gig } = data;
-  const event = gig ? gig.event : null;
 
   const canBePaid =
     gig &&
@@ -64,19 +30,11 @@ const BookingButton = ({ user, location, translate }) => {
     event.status === "ACCEPTED";
 
   if (canBePaid) {
-    const { offer } = gig;
     return (
       <>
-        <CTAButton onClick={() => setShowPopup(true)}>
+        <CTAButton onClick={() => showPaymentForm(true)}>
           BOOK {offer.totalPayment.formatted}
         </CTAButton>
-        <Popup
-          showing={showPopup}
-          onClickOutside={() => setShowPopup(false)}
-          noPadding
-        >
-          <PayForm id={gig.id} offer={offer} event={event} />
-        </Popup>
       </>
     );
   }
@@ -150,4 +108,74 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(BookingButton);
+const SmartButton = connect(mapStateToProps)(BookingButton);
+
+const Wrapper = props => {
+  const { location, user } = props;
+  const [showPopup, setShowPopup] = useState(false);
+
+  // check for gigId
+  const queries = queryString.parse(location.search);
+  let { gigId, hash } = queries;
+
+  if (!gigId && location && location.state && !hash) {
+    gigId = location.state.gigId;
+    hash = location.state.hash;
+  }
+
+  const { data = {}, loading } = useQuery(GIG, {
+    skip: !gigId || !hash,
+    variables: {
+      id: gigId,
+      hash: hash
+    }
+  });
+
+  if (!user) {
+    return null;
+  }
+
+  if (loading) {
+    return (
+      <CTAButton disabled>
+        <LoadingIndicator />
+      </CTAButton>
+    );
+  }
+
+  if (user.isOwn) {
+    return (
+      <CTAButton
+        onClick={() => window.alert("Are you trying to book yourself? 🧐")}
+      >
+        REQUEST BOOKING
+      </CTAButton>
+    );
+  }
+
+  const { gig } = data;
+  const event = gig ? gig.event : null;
+  const { offer } = gig || {};
+
+  return (
+    <>
+      <SmartButton
+        {...props}
+        gig={gig}
+        event={event}
+        hash={hash}
+        offer={offer}
+        showPaymentForm={() => setShowPopup(true)}
+      />
+      <Popup
+        showing={showPopup}
+        onClickOutside={() => setShowPopup(false)}
+        noPadding
+      >
+        <PayForm id={gig.id} offer={offer} event={event} />
+      </Popup>
+    </>
+  );
+};
+
+export default Wrapper;

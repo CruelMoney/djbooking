@@ -485,6 +485,10 @@ const GIG = gql`
         chosenGig {
           id
         }
+        gigs {
+          id
+          status
+        }
         organizer {
           id
           picture {

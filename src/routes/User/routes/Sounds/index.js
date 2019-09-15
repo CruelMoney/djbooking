@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import Sound from "./Sound";
-import {
-  Col,
-  SecondaryButton,
-  PrimaryButton,
-  Row
-} from "../../../../components/Blocks";
+import { Col, SecondaryButton, Row } from "../../../../components/Blocks";
 import Popup from "../../../../components/common/Popup";
 import AddSound from "./AddSound";
 import { useQuery } from "react-apollo";
@@ -48,16 +43,16 @@ const Sounds = ({ user, location, match, setShowPopup }) => {
           isOwn ? (
             <>
               <Body>Showcase your mixes or productions</Body>
-              <PrimaryButton
-                style={{ marginTop: "24px", marginBottom: "9px" }}
-                onClick={() => setShowPopup(true)}
-              >
-                Upload track
-              </PrimaryButton>
               <ConnectSounCloud
                 userId={user.id}
                 soundCloudConnected={appMetadata.soundCloudConnected}
               />
+              <SecondaryButton
+                style={{ marginTop: "9px" }}
+                onClick={() => setShowPopup(true)}
+              >
+                Upload track
+              </SecondaryButton>
             </>
           ) : (
             ""

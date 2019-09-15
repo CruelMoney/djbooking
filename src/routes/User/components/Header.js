@@ -37,7 +37,9 @@ const getRoutesFromUser = (user, pathname) => {
       }
       routes.push({ route: "photos", label: "photos" });
       routes.push({ route: "sounds", label: "sounds" });
-      routes.push({ route: "reviews", label: "reviews" });
+      if (user.reviews.pageInfo.totalDocs > 0 || user.isOwn) {
+        routes.push({ route: "reviews", label: "reviews" });
+      }
     }
 
     if (user.isOwn) {

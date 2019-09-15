@@ -19,29 +19,29 @@ const checks = [
     linkTo: "settings#profile"
   },
   {
-    label: "Highlight a testimonial",
-    check: u => !!u.highlightedReview,
-    linkTo: "reviews"
-  },
-  {
-    label: "Verify your identity",
-    check: u => !!u.appMetadata.identityVerified,
-    linkTo: "settings?modal=verifyIdentity"
-  },
-  {
-    label: "Download the app",
-    check: u => !!u.appMetadata.hasInstalledApp,
-    linkTo: "/signup"
-  },
-  {
     label: "Add photos or connect Instagram",
     check: u => u.media.edges.length > 0,
     linkTo: "photos"
   },
   {
-    label: "Add a track or mixtape",
+    label: "Add a track or connect SoundCloud",
     check: u => u.sounds.edges.length > 0,
     linkTo: "sounds"
+  },
+  // {
+  //   label: "Verify your identity",
+  //   check: u => !!u.appMetadata.identityVerified,
+  //   linkTo: "settings?modal=verifyIdentity"
+  // },
+  {
+    label: "Highlight a testimonial",
+    check: u => !!u.highlightedReview,
+    linkTo: "reviews"
+  },
+  {
+    label: "Download the app",
+    check: u => !!u.appMetadata.hasInstalledApp,
+    linkTo: "/signup"
   }
 ];
 

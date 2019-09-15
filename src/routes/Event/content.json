@@ -66,10 +66,7 @@
       "Vores DJs er i gang med at afgive tilbud til dig.<br/> Du vil få besked når der kommer nye tilbud."
     ],
     "offer": {
-      "empty-chat": [
-        "No Messages<br/> Send a message to the DJ.",
-        "Ingen beskeder<br/> Send en besked til DJen."
-      ],
+      "empty-chat": ["Send a message to the DJ.", "Send en besked til DJen."],
       "refund": [
         "Full refund if event is cancelled ${ days } or more days before it starts. Otherwise ${ percentage }% is refunded.",
         "Fuld refundering hvis event bliver aflyst ${ days } eller flere dage inden det starter. Ellers bliver ${ percentage }% refunderet."

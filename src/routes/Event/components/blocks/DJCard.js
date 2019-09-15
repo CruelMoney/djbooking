@@ -12,7 +12,12 @@ import {
   RowWrap
 } from "../../../../components/Blocks";
 import GracefullImage from "../../../../components/GracefullImage";
-import { SmallHeader, BodySmall, BodyBold } from "../../../../components/Text";
+import {
+  SmallHeader,
+  BodySmall,
+  BodyBold,
+  Body
+} from "../../../../components/Text";
 import PhoneIcon from "react-ionicons/lib/IosCall";
 import MailIcon from "react-ionicons/lib/MdMail";
 import { NavLink } from "react-router-dom";
@@ -285,8 +290,8 @@ const ChatPopup = ({
         chatId={gig.id}
         placeholder={
           <EmptyPage
-            title="  "
-            message={<div>{translate("event.offer.empty-chat")}</div>}
+            title="No messages"
+            message={<Body>{translate("event.offer.empty-chat")}</Body>}
           />
         }
       />

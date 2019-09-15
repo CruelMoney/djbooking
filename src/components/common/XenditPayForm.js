@@ -1,4 +1,10 @@
-import React, { PureComponent, useState, useReducer, useEffect } from "react";
+import React, {
+  PureComponent,
+  useState,
+  useReducer,
+  useEffect,
+  useCallback
+} from "react";
 import Textfield from "./Textfield";
 import Form from "./Form-v2";
 import SubmitButton from "./SubmitButton";
@@ -172,7 +178,7 @@ const ConnectedCard = connectToForm(({ refForward, onChange }) => {
   }
 
   const cardReducer = (state, action) => {
-    if (!action) return {};
+    if (!action) return state;
     const { value, key } = action;
     return {
       ...state,
@@ -184,14 +190,16 @@ const ConnectedCard = connectToForm(({ refForward, onChange }) => {
   const [isFocus, setFocus] = useState(null);
   const [card, dispatch] = useReducer(cardReducer, {});
 
+  const changeHandler = useCallback(onChange, []);
+
   useEffect(() => {
     const { cvc, expiry, number } = card;
     if (cvc && expiry && number) {
-      onChange(card);
+      changeHandler(card);
     } else {
-      onChange(null);
+      changeHandler(null);
     }
-  }, [card, onChange]);
+  }, [card, changeHandler]);
 
   const className = `${hasError ? "StripeElement--invalid" : ""} ${
     isFocus ? "StripeElement--focus" : ""
@@ -243,7 +251,9 @@ const ConnectedCard = connectToForm(({ refForward, onChange }) => {
         }}
         cardNumberInputProps={{
           onFocus: e => setFocus(true),
-          onBlur: e => setFocus(false),
+          onBlur: e => {
+            setFocus(false);
+          },
           onChange: e => {
             setError(false);
             dispatch({ key: "number", value: e.target.value });
