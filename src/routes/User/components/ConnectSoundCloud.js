@@ -27,11 +27,13 @@ const ConnectSoundCloud = ({ soundCloudConnected, userId }) => {
       level="input"
       onClick={() => (soundCloudConnected ? disconnect() : connect())}
       loading={loading}
+      warning={soundCloudConnected ? "Are you sure?" : false}
       style={{
         background: soundCloudConnected
           ? undefined
           : "linear-gradient(0deg, #f83b01, #f57a0f)",
-        minWidth: "250px"
+        minWidth: "250px",
+        color: soundCloudConnected ? undefined : "#fff"
       }}
     >
       {soundCloudConnected ? "Disconnect SoundCloud" : "Connect SoundCloud"}

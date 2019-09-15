@@ -383,6 +383,7 @@ const Settings = ({
           identityVerified={identityVerified}
           initialShowing={verifyIdentity}
         />
+        <LabelHalf></LabelHalf>
       </SettingsSection>
     </>
   );

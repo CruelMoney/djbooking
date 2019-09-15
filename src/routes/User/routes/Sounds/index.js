@@ -3,7 +3,8 @@ import Sound from "./Sound";
 import {
   Col,
   SecondaryButton,
-  PrimaryButton
+  PrimaryButton,
+  Row
 } from "../../../../components/Blocks";
 import Popup from "../../../../components/common/Popup";
 import AddSound from "./AddSound";
@@ -103,11 +104,15 @@ const Sounds = ({ user, location, match, setShowPopup }) => {
         />
       ))}
       {isOwn && (
-        <Col style={{ marginTop: "30px", width: "250px" }}>
+        <Row style={{ marginTop: "30px", width: "250px" }}>
           <SecondaryButton onClick={() => setShowPopup(true)}>
             + Add sound
           </SecondaryButton>
-        </Col>
+          <ConnectSounCloud
+            userId={user.id}
+            soundCloudConnected={appMetadata.soundCloudConnected}
+          />
+        </Row>
       )}
     </div>
   );
