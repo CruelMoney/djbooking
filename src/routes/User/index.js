@@ -7,6 +7,8 @@ import modalContent from "../../components/common/modals/content.json";
 import addTranslate from "../../components/higher-order/addTranslate";
 import { Query } from "react-apollo";
 import Header from "./components/Header.js";
+import queryString from "query-string";
+import BackToEvent from './components/BackToEvent'
 import { USER, UPDATE_USER } from "./gql.js";
 import Sidebar, { SidebarContent, CTAShadow } from "./components/Sidebar.js";
 import Footer from "../../components/common/Footer.js";
@@ -25,7 +27,8 @@ import {
 	Row,
 	Col,
 	Divider,
-	ShowBelow
+	ShowBelow,
+	ReadMoreButton
 } from "../../components/Blocks";
 import { useMutation } from "@apollo/react-hooks";
 import ScrollToTop from "../../components/common/ScrollToTop";
@@ -134,9 +137,22 @@ const Content = React.memo(({ match, ...userProps }) => {
 	const { user, loading, location } = userProps;
 	const showPrivateRoutes = loading || (user && user.isOwn);
 	const bookingEnabled = user && user.isDj && !user.userSettings.standby;
+
+	// check for event
+	const queries = queryString.parse(location.search);
+	let { eventId, hash } = queries;
+	let comingFromEvent = false;
+	if (eventId && hash) {
+		comingFromEvent = true;
+	}
+
+
 	return (
 		<div>
 			<ScrollToTop animate top={280} />
+
+
+			{comingFromEvent && <BackToEvent eventId={eventId} hash={hash} />}
 
 			<Header user={user} loading={loading} pathname={match.url}/>
 

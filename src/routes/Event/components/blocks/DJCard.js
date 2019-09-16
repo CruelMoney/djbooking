@@ -105,7 +105,7 @@ const DjCard = ({
                         dj.permalink
                       }/overview`,
                       state: { gigId: gig.id },
-                      search: `?gigId=${gig.id}&hash=${theEvent.hash}`
+                      search: `?gigId=${gig.id}&eventId=${theEvent.id}&hash=${theEvent.hash}`
                     }}
                   >
                     {finished ? (

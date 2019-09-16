@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
+import ArrowBack from "react-ionicons/lib/MdArrowRoundBack";
 import GracefullImage from "./GracefullImage";
 
 export const Hr = styled.hr`
@@ -107,18 +108,35 @@ const ButtonIcon = styled.span`
   }
 `;
 
-export const ReadMore = ({ color, children, ...props }) => {
+const ButtonIconBack = styled.span`
+  margin-right: 15px;
+  top: 3px;
+  display: inline-block;
+  transition: transform 200ms ease;
+  ${ReadMoreText}:hover & {
+    transform: translateX(-3px);
+  }
+`;
+
+export const ReadMore = ({ color, children, back, ...props }) => {
   return (
     <ReadMoreText {...props}>
-      {children}
-      <ButtonIcon>
-        <Arrow fontSize={"15px"} color={color || "#4d6480"} />
-      </ButtonIcon>
+      {!back && children}
+      {back ? (
+        <ButtonIconBack>
+          <ArrowBack fontSize={"15px"} color={color || "#4d6480"} />
+        </ButtonIconBack>
+      ) : (
+        <ButtonIcon>
+          <Arrow fontSize={"15px"} color={color || "#4d6480"} />{" "}
+        </ButtonIcon>
+      )}
+      {back && children}
     </ReadMoreText>
   );
 };
 
-export const ReadMoreButton = ({ children, onClick, style }) => {
+export const ReadMoreButton = ({ children, onClick, style, back }) => {
   return (
     <button
       onClick={onClick}
@@ -130,7 +148,7 @@ export const ReadMoreButton = ({ children, onClick, style }) => {
         ...style
       }}
     >
-      <ReadMore>{children}</ReadMore>
+      <ReadMore back={back}>{children}</ReadMore>
     </button>
   );
 };

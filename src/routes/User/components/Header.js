@@ -86,10 +86,11 @@ const HeaderSpacing = styled(Spacing)`
   }
 `;
 
-const Header = ({ user, loading, pathname }) => {
+const Header = ({ user, loading, pathname, children }) => {
   return (
     <GradientBg coverPhoto={user && user.coverPhoto}>
       <Container>
+        {children}
         <Row className="wrapper">
           <HeaderSpacing />
           <FullWidthCol>
