@@ -28,11 +28,7 @@ const checks = [
     check: u => u.sounds.edges.length > 0,
     linkTo: "sounds"
   },
-  // {
-  //   label: "Verify your identity",
-  //   check: u => !!u.appMetadata.identityVerified,
-  //   linkTo: "settings?modal=verifyIdentity"
-  // },
+
   {
     label: "Highlight a testimonial",
     check: u => !!u.highlightedReview,
@@ -42,6 +38,11 @@ const checks = [
     label: "Download the app",
     check: u => !!u.appMetadata.hasInstalledApp,
     linkTo: "/signup"
+  },
+  {
+    label: "Verify your identity",
+    check: u => !!u.appMetadata.identityVerified,
+    linkTo: "settings?modal=verifyIdentity"
   }
 ];
 
