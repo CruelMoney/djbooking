@@ -28,7 +28,6 @@ const checks = [
     check: u => u.sounds.edges.length > 0,
     linkTo: "sounds"
   },
-
   {
     label: "Highlight a testimonial",
     check: u => !!u.highlightedReview,
