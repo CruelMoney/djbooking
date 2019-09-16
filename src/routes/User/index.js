@@ -308,7 +308,6 @@ const Index = ({ translate, match, location }) => {
 							const description = user ? user.userMetadata.bio : null;
 							if(user){
 								user.title = title;
-
 							}
 
 							return (
