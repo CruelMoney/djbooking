@@ -6,81 +6,94 @@ import { connect } from "react-redux";
 import { localize } from "react-localize-redux";
 import { Query } from "react-apollo";
 import { MY_GIGS } from "../../../../../components/gql";
+import GigCard from "./GigCard";
+import { Col, Row } from "../../../../../components/Blocks";
+import { Title } from "../../../../../components/Text";
 
 class Gigs extends PureComponent {
-	state = {
-		showPopup: false,
-		loginPopup: true
-	};
+  state = {
+    showPopup: false,
+    loginPopup: true
+  };
 
-	hidePopup = () => {
-		this.setState({
-			showPopup: false
-		});
-	};
+  hidePopup = () => {
+    this.setState({
+      showPopup: false
+    });
+  };
 
-	render() {
-		const {
-			translate,
-			notifications,
-			user,
-			currentLanguage,
-			loading: loadingUser
-		} = this.props;
+  render() {
+    const {
+      translate,
+      notifications,
+      user,
+      currentLanguage,
+      loading: loadingUser
+    } = this.props;
 
-		const renderGigs = gigs => {
-			const renderGigs = gigs.filter(
-				({ event, status }) =>
-					event.state !== "FINISHED" &&
-					status !== "DECLINED" &&
-					status !== "CANCELLED"
-			);
+    const renderGigs = gigs => {
+      const renderGigs = gigs.filter(
+        ({ event, status }) =>
+          event.state !== "FINISHED" &&
+          status !== "DECLINED" &&
+          status !== "CANCELLED"
+      );
 
-			if (renderGigs.length === 0) {
-				return (
-					<EmptyPage message={<div>{translate("no-gigs-description")}</div>} />
-				);
-			} else {
-				return renderGigs.map(gig => {
-					const notification = notifications.find(noti => {
-						return String(noti.room) === String(gig.id);
-					});
-					return (
-						<Gig
-							notification={notification}
-							key={gig.id}
-							gig={gig}
-							user={user}
-						/>
-					);
-				});
-			}
-		};
+      if (renderGigs.length === 0) {
+        return (
+          <EmptyPage message={<div>{translate("no-gigs-description")}</div>} />
+        );
+      } else {
+        return renderGigs.map((gig, idx) => {
+          const notification = notifications.find(noti => {
+            return String(noti.room) === String(gig.id);
+          });
+          return (
+            <GigCard
+              idx={idx}
+              translate={translate}
+              hasMessage={notification}
+              key={gig.id}
+              gig={gig}
+              user={user}
+            />
+          );
+        });
+      }
+    };
 
-		return (
-			<Query
-				query={MY_GIGS}
-				variables={{ limit: 1000, locale: currentLanguage }}
-				onError={console.log}
-			>
-				{({ data = {}, loading }) => {
-					if (loading || loadingUser) {
-						return <LoadingPlaceholder />;
-					}
+    return (
+      <Query
+        query={MY_GIGS}
+        variables={{ limit: 1000, locale: currentLanguage }}
+        onError={console.log}
+      >
+        {({ data = {}, loading }) => {
+          if (loading || loadingUser) {
+            return <LoadingPlaceholder />;
+          }
 
-					const { myGigs = {} } = data;
-					const { edges: gigs = [] } = myGigs;
-					return <div>{gigs && renderGigs(gigs)}</div>;
-				}}
-			</Query>
-		);
-	}
+          const { myGigs = {} } = data;
+          const { edges: gigs = [] } = myGigs;
+
+          return (
+            <Row>
+              <Col style={{ flex: 1 }}>{gigs && renderGigs(gigs)}</Col>
+              <Col style={{ marginLeft: "42px", width: "185px" }}>
+                <Title>Filter</Title>
+              </Col>
+            </Row>
+          );
+        }}
+      </Query>
+    );
+  }
 }
 
 function mapStateToProps(state, ownProps) {
-	return {
-		notifications: state.notifications.data
-	};
+  return {
+    notifications: state.notifications.data
+  };
 }
 
 const SmartGigs = connect(mapStateToProps)(Gigs);

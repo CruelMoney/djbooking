@@ -3312,6 +3312,15 @@ header .dj-card p {
 	top: -0.5em;
 	position: absolute;
 	animation: 250ms scaleIn ease-out;
+	z-index: 2;
+}
+.notification-bubble.relative {
+    position: relative;
+    display: inline-block;
+    top: 0;
+    left: 0;
+    margin-right: 9px;
+    font-weight: 700;
 }
 
 .social-signup {

@@ -68,6 +68,7 @@ export const Row = styled.div`
 
 export const RowWrap = styled(Row)`
   flex-wrap: wrap;
+  justify-content: space-between;
 `;
 
 export const RowMobileCol = styled(Row)`
@@ -523,11 +524,22 @@ export const Pill = styled.span`
   color: #4d6480;
   letter-spacing: 0.75px;
   background-color: #e9ecf0;
-  color: #4d6480;
   padding: 0 6px;
   height: 18px;
   text-transform: uppercase;
   border-radius: 33px;
   text-align: center;
   line-height: 18px;
+`;
+
+export const PillLarge = styled.span`
+  font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  background-color: #e9ecf0;
+  color: #98a4b3;
+  padding: 0 15px;
+  height: 24px;
+  border-radius: 33px;
+  text-align: center;
+  line-height: 24px;
 `;
