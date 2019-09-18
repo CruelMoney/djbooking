@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Gig from "./Gig";
 import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
 import EmptyPage from "../../../../../components/common/EmptyPage";
 import { connect } from "react-redux";

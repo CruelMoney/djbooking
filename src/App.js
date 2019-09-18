@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet-async";
 import Home from "./routes/Home";
 import About from "./routes/About";
 import CueupEvent from "./routes/Event";
+import Gig from "./routes/Gig";
 import HowItWorks from "./routes/HowItWorks";
 import Signup from "./routes/Signup";
 import User from "./routes/User";
@@ -216,6 +217,7 @@ const RouteWrapper = memo(({ translate, cssLocation }) => {
             path={translate("routes./event") + "/:id/:hash"}
             component={CueupEvent}
           />
+          <Route path={translate("routes./gig") + "/:id"} component={Gig} />
           <Route
             path={translate("routes./book-dj") + "/:country/:city?"}
             component={LocationLanding}
