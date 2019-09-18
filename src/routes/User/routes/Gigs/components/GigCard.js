@@ -38,6 +38,8 @@ const GigCard = ({ style, idx, gig, hasMessage, translate }) => {
           <Content>
             <RowWrap style={{ marginBottom: "24px", width: "100%" }}>
               <SmallHeader>{name}</SmallHeader>
+              <Filler />
+
               <PillLarge>{start.formattedDate}</PillLarge>
             </RowWrap>
             <RowWrap>

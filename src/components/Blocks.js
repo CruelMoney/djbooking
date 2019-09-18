@@ -68,7 +68,6 @@ export const Row = styled.div`
 
 export const RowWrap = styled(Row)`
   flex-wrap: wrap;
-  justify-content: space-between;
 `;
 
 export const RowMobileCol = styled(Row)`

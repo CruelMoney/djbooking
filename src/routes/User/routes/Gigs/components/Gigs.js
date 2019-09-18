@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { useState } from "react";
 import Gig from "./Gig";
 import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
 import EmptyPage from "../../../../../components/common/EmptyPage";
@@ -9,86 +9,103 @@ import { MY_GIGS } from "../../../../../components/gql";
 import GigCard from "./GigCard";
 import { Col, Row } from "../../../../../components/Blocks";
 import { Title } from "../../../../../components/Text";
+import Checkbox from "../../../../../components/Checkbox";
 
-class Gigs extends PureComponent {
-  state = {
-    showPopup: false,
-    loginPopup: true
-  };
+const Gigs = props => {
+  const {
+    translate,
+    notifications,
+    user,
+    currentLanguage,
+    loading: loadingUser
+  } = props;
 
-  hidePopup = () => {
-    this.setState({
-      showPopup: false
-    });
-  };
+  const [filter, setFilter] = useState([]);
+  const toggleFilter = key => val =>
+    setFilter(ff => (val ? [...ff, key] : ff.filter(f2 => f2 !== key)));
 
-  render() {
-    const {
-      translate,
-      notifications,
-      user,
-      currentLanguage,
-      loading: loadingUser
-    } = this.props;
-
-    const renderGigs = gigs => {
-      const renderGigs = gigs.filter(
-        ({ event, status }) =>
-          event.state !== "FINISHED" &&
-          status !== "DECLINED" &&
-          status !== "CANCELLED"
-      );
-
-      if (renderGigs.length === 0) {
-        return (
-          <EmptyPage message={<div>{translate("no-gigs-description")}</div>} />
-        );
-      } else {
-        return renderGigs.map((gig, idx) => {
-          const notification = notifications.find(noti => {
-            return String(noti.room) === String(gig.id);
-          });
-          return (
-            <GigCard
-              idx={idx}
-              translate={translate}
-              hasMessage={notification}
-              key={gig.id}
-              gig={gig}
-              user={user}
-            />
-          );
-        });
-      }
-    };
-
-    return (
-      <Query
-        query={MY_GIGS}
-        variables={{ limit: 1000, locale: currentLanguage }}
-        onError={console.log}
-      >
-        {({ data = {}, loading }) => {
-          if (loading || loadingUser) {
-            return <LoadingPlaceholder />;
-          }
-
-          const { myGigs = {} } = data;
-          const { edges: gigs = [] } = myGigs;
-
-          return (
-            <Row>
-              <Col style={{ flex: 1 }}>{gigs && renderGigs(gigs)}</Col>
-              <Col style={{ marginLeft: "42px", width: "185px" }}>
-                <Title>Filter</Title>
-              </Col>
-            </Row>
-          );
-        }}
-      </Query>
+  const renderGigs = gigs => {
+    const renderGigs = gigs.filter(
+      ({ status }) =>
+        status !== "DECLINED" &&
+        status !== "CANCELLED" &&
+        (filter.length === 0 || filter.includes(status))
     );
-  }
-}
+
+    if (renderGigs.length === 0) {
+      return (
+        <EmptyPage message={<div>{translate("no-gigs-description")}</div>} />
+      );
+    } else {
+      return renderGigs.map((gig, idx) => {
+        const notification = notifications.find(noti => {
+          return String(noti.room) === String(gig.id);
+        });
+        return (
+          <GigCard
+            idx={idx}
+            translate={translate}
+            hasMessage={notification}
+            key={gig.id}
+            gig={gig}
+            user={user}
+          />
+        );
+      });
+    }
+  };
+
+  return (
+    <Query
+      query={MY_GIGS}
+      variables={{ limit: 1000, locale: currentLanguage }}
+      onError={console.log}
+    >
+      {({ data = {}, loading }) => {
+        if (loading || loadingUser) {
+          return <LoadingPlaceholder />;
+        }
+
+        const { myGigs = {} } = data;
+        const { edges: gigs = [] } = myGigs;
+
+        return (
+          <Row>
+            <Col style={{ flex: 1 }}>{gigs && renderGigs(gigs)}</Col>
+            <Col style={{ marginLeft: "42px", width: "185px" }}>
+              <Title style={{ marginBottom: "36px" }}>Filter</Title>
+              <Checkbox
+                style={{ marginBottom: "12px" }}
+                label={"Confirmed"}
+                onChange={toggleFilter("CONFIRMED")}
+              />
+              <Checkbox
+                style={{ marginBottom: "12px" }}
+                label={"Requested"}
+                onChange={toggleFilter("REQUESTED")}
+              />
+              <Checkbox
+                style={{ marginBottom: "12px" }}
+                label={"Accepted"}
+                onChange={toggleFilter("ACCEPTED")}
+              />
+              <Checkbox
+                style={{ marginBottom: "12px" }}
+                label={"Finished"}
+                onChange={toggleFilter("FINISHED")}
+              />
+              <Checkbox
+                style={{ marginBottom: "12px" }}
+                label={"Lost"}
+                onChange={toggleFilter("LOST")}
+              />
+            </Col>
+          </Row>
+        );
+      }}
+    </Query>
+  );
+};
 
 function mapStateToProps(state, ownProps) {
   return {
