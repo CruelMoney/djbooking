@@ -13,7 +13,7 @@ import {
   Avatar,
   GradientBg
 } from "../../../components/Blocks";
-import { Spacing } from "./Sidebar";
+import { Spacing } from "../../../components/Sidebar";
 import { Stats, CertifiedVerified } from "..";
 import { HeaderTitle } from "../../../components/Text";
 import ConditionalWrap from "../../../components/ConditionalWrap";

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
-import { LoadingIndicator } from "../../../components/Blocks";
+import { LoadingIndicator } from "./Blocks";
 
 const Sticky = styled.div`
   position: sticky;
@@ -18,19 +18,17 @@ const Sticky = styled.div`
 `;
 
 export const Spacing = styled.div`
-  min-width: 300px;
-  width: 300px;
+  min-width: ${({ large }) => (large ? 470 : 300)}px;
+  width: ${({ large }) => (large ? 470 : 300)}px;
   position: relative;
   @media only screen and (max-width: 900px) {
-    min-width: 250px;
-    width: 250px;
+    min-width: ${({ large }) => (large ? 300 : 250)}px;
+    width: ${({ large }) => (large ? 300 : 250)}px;
   }
   @media only screen and (max-width: 425px) {
     display: none;
   }
 `;
-
-const CardWrapper = styled(Spacing)``;
 
 const Card = styled.div`
   background-color: #fff;
@@ -60,15 +58,16 @@ const Sidebar = ({
   style,
   stickyTop,
   showCTAShadow,
-  childrenBelow
+  childrenBelow,
+  large
 }) => {
   return (
     <Sticky stickyTop={stickyTop} style={style} className={"sidebar"}>
-      <CardWrapper>
+      <Spacing large={large}>
         <Card>{children}</Card>
         <Shadow></Shadow>
         {showCTAShadow ? <CTAShadow /> : null}
-      </CardWrapper>
+      </Spacing>
       <div style={{ marginTop: "30px" }}>{childrenBelow}</div>
     </Sticky>
   );

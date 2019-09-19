@@ -9,7 +9,8 @@ import {
   Hr,
   PrimaryButton,
   SmartButton,
-  RowWrap
+  RowWrap,
+  InfoPill
 } from "../../../../components/Blocks";
 import GracefullImage from "../../../../components/GracefullImage";
 import {
@@ -35,7 +36,7 @@ import {
 } from "../../../../components/hooks/useLogActivity";
 
 const hiddenEmail = "12345678@1234".replace(/\w/g, "•") + ".com";
-const hiddenNumber = "45 24 65 80 61".replace(/\w/g, "•");
+const hiddenNumber = "45 12 34 56 78".replace(/\w/g, "•");
 
 const DjCard = ({
   style,
@@ -124,10 +125,10 @@ const DjCard = ({
                       <a href={"mailto:" + email}>{children}</a>
                     )}
                   >
-                    <InfoBox>
+                    <InfoPill>
                       <MailIcon fontSize="15px" color="#98A4B3" />
                       <span>{showInfo ? email : hiddenEmail}</span>
-                    </InfoBox>
+                    </InfoPill>
                   </ConditionalWrap>
                 )}
                 {phone && (
@@ -135,10 +136,10 @@ const DjCard = ({
                     condition={showInfo}
                     wrap={children => <a href={"tel:" + phone}>{children}</a>}
                   >
-                    <InfoBox>
+                    <InfoPill>
                       <PhoneIcon fontSize="18px" color="#98A4B3" />
                       <span>{showInfo ? phone : hiddenNumber}</span>
-                    </InfoBox>
+                    </InfoPill>
                   </ConditionalWrap>
                 )}
               </RightCol>
@@ -397,37 +398,6 @@ const Shadow = styled.div`
   left: 10px;
   bottom: 10px;
   right: 10px;
-`;
-
-const InfoBox = styled(BodyBold)`
-  background: #e9ecf0;
-  border-radius: 16px;
-  height: 24px;
-  margin-bottom: 0;
-  line-height: 24px;
-  min-width: 130px;
-  max-width: 200px;
-  font-size: 12px;
-  color: #98a4b3;
-  text-align: center;
-  padding: 0 0.75em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 9px;
-  margin-bottom: 9px;
-
-  span {
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  svg {
-    margin-right: 5px;
-    position: relative;
-  }
 `;
 
 export default DjCard;

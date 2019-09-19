@@ -8,12 +8,13 @@ import { Container, Row, Col } from "../../components/Blocks";
 import { useQuery } from "react-apollo";
 import { GIG } from "./gql.js";
 import EventHeader from "./components/blocks/EventHeader.js";
-// import Requirements from "./routes/Requirements/index.js";
+import Information from "./routes/Information/index.js";
 // import Review from "./routes/Review/index.js";
 import styled from "styled-components";
 import { useTransition, animated } from "react-spring";
 import { useMeasure } from "@softbind/hook-use-measure";
-import { LoadingPlaceholder2 } from "../../components/common/LoadingPlaceholder";
+import ChatSidebar from "./components/ChatSidebar";
+import { gigStates } from "../../constants/constants";
 
 const Index = ({ translate, match, location }) => {
   const {
@@ -31,10 +32,13 @@ const Index = ({ translate, match, location }) => {
   if (!loading && !gig) {
     return <Redirect to={translate("routes./not-found")} />;
   }
-  const { event } = gig || {};
+  const { event, status } = gig || {};
 
   const title = event ? event.name : "Cueup | Event";
   const description = event ? event.description : null;
+  if (gig) {
+    gig.showInfo = status === gigStates.CONFIRMED;
+  }
 
   return (
     <div>
@@ -54,6 +58,7 @@ const Index = ({ translate, match, location }) => {
         location={location}
         match={match}
         theEvent={event}
+        gig={gig}
         loading={loading}
         translate={translate}
       />
@@ -94,8 +99,9 @@ const getDirection = newPath => {
 };
 
 const Content = React.memo(props => {
-  const { match, location, ...eventProps } = props;
-  const { theEvent, loading } = eventProps;
+  const { match, location, theEvent, loading, gig } = props;
+  const { organizer } = theEvent || {};
+
   const [height, setHeight] = useState("auto");
   const direction = getDirection(location.pathname);
 
@@ -122,9 +128,12 @@ const Content = React.memo(props => {
 
       <EventHeader theEvent={theEvent} loading={loading} />
 
-      <Container>
+      <GigContainer>
         <ContainerRow>
           <BorderCol style={{ height: height || "auto" }}>
+            <Switch>
+              <Redirect exact from={"/gig/:id"} to={"/gig/:id/information"} />
+            </Switch>
             <AnimationWrapper>
               {transitions.map(({ item, props, key }) => (
                 <TransitionComponent
@@ -132,26 +141,27 @@ const Content = React.memo(props => {
                   style={props}
                   key={key}
                   match={match}
-                  eventProps={eventProps}
+                  gig={gig}
                   registerHeight={setHeight}
                 />
               ))}
             </AnimationWrapper>
           </BorderCol>
-          <Col></Col>
+          <Col>
+            <ChatSidebar
+              theEvent={theEvent}
+              gig={gig}
+              loading={loading}
+              organizer={organizer}
+            />
+          </Col>
         </ContainerRow>
-      </Container>
+      </GigContainer>
     </div>
   );
 });
 
-const TransitionComponent = ({
-  style,
-  item,
-  match,
-  eventProps,
-  registerHeight
-}) => {
+const TransitionComponent = ({ style, item, match, gig, registerHeight }) => {
   const ref = useRef(null);
   const { bounds } = useMeasure(ref, "bounds");
 
@@ -164,13 +174,13 @@ const TransitionComponent = ({
   return (
     <animated.div style={style} ref={ref}>
       <Switch location={item}>
-        {/* <Route
-          path={match.path + "/requirements"}
-          render={props => <Requirements {...props} {...eventProps} />}
-        />
         <Route
+          path={match.path + "/information"}
+          render={props => <Information {...props} gig={gig} />}
+        />
+        {/* <Route
           path={match.path + "/review"}
-          render={props => <Review {...props} {...eventProps} />}
+          render={props => <Review {...props} {...gig} />}
         /> */}
       </Switch>
     </animated.div>
@@ -187,7 +197,6 @@ const ContainerRow = styled(Row)`
 `;
 
 const BorderCol = styled(Col)`
-  border-right: 1px solid #e9ecf0;
   padding-right: 42px;
   width: 100%;
   z-index: 0;
@@ -206,6 +215,14 @@ const AnimationWrapper = styled.div`
     transform-origin: center center;
     max-width: 100%;
     width: 100%;
+  }
+`;
+
+const GigContainer = styled(Container)`
+  .sidebar {
+    margin-top: -250px;
+    margin-left: 60px;
+    padding: 0;
   }
 `;
 

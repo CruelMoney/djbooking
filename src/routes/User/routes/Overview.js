@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Title, Citation, Cite, Body } from "../../../components/Text";
 import ReadMoreExpander from "../../../components/ReadMoreExpander";
-import { Col, Row, ReadMore, Show } from "../../../components/Blocks";
+import { Col, Row, ReadMore, Show, InfoBox } from "../../../components/Blocks";
 import Map from "../../../components/common/Map";
 import QuotationMarkIcon from "../../../components/graphics/Quotes";
 import { Link } from "react-router-dom";
@@ -77,20 +77,11 @@ const GenresLayout = styled(Item)`
   }
 `;
 
-const Genre = styled.div`
-  background: rgba(233, 236, 240, 0.5);
-  border-radius: 1em;
-  max-height: 8em;
-  width: 8em;
-  padding: 1em;
-  font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
-  font-size: 13px;
-  color: #4d6480;
-  text-align: center;
-  text-transform: capitalize;
-  display: inline-block;
+const Genre = styled(InfoBox)`
   margin-left: 24px;
   margin-bottom: 24px;
+  margin-right: 0px;
+
   @media only screen and (max-width: 990px) {
     margin-left: 0px;
     margin-right: 24px;

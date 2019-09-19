@@ -10,7 +10,7 @@ import Header from "./components/Header.js";
 import queryString from "query-string";
 import BackToEvent from './components/BackToEvent'
 import { USER, UPDATE_USER } from "./gql.js";
-import Sidebar, { SidebarContent, CTAShadow } from "./components/Sidebar.js";
+import Sidebar, { SidebarContent, CTAShadow } from "../../components/Sidebar";
 import Footer from "../../components/common/Footer.js";
 import {
 	Overview,

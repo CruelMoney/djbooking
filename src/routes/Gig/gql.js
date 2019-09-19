@@ -65,6 +65,9 @@ const GIG = gql`
         }
         organizer {
           id
+          picture {
+            path
+          }
           userMetadata {
             firstName
           }

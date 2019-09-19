@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CTAButton } from "./Sidebar";
+import { CTAButton } from "../../../components/Sidebar";
 import PayForm from "../../../components/common/PayForm.js";
 import Popup from "../../../components/common/Popup";
 import { useQuery } from "react-apollo";

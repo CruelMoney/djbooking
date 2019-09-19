@@ -3,6 +3,7 @@ import styled, { css, keyframes } from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
 import ArrowBack from "react-ionicons/lib/MdArrowRoundBack";
 import GracefullImage from "./GracefullImage";
+import { BodyBold } from "./Text";
 
 export const Hr = styled.hr`
   border-bottom: 1px solid #e9ecf0;
@@ -541,4 +542,64 @@ export const PillLarge = styled.span`
   border-radius: 33px;
   text-align: center;
   line-height: 24px;
+`;
+
+export const InfoBox = styled.div`
+  background: rgba(233, 236, 240, 0.5);
+  border-radius: 1em;
+  max-height: 8em;
+  min-height: ${({ minHeight }) => (minHeight ? 70 : 0)}px;
+  width: 8em;
+  padding: 1em;
+  font-family: "AvenirNext-Bold", Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  color: #4d6480;
+  text-align: center;
+  text-transform: capitalize;
+  display: inline-block;
+  text-transform: capitalize;
+  margin-right: 24px;
+  margin-bottom: 24px;
+  @media only screen and (max-width: 425px) {
+    margin-right: 15px;
+  }
+
+  span {
+    color: #98a4b3;
+    display: block;
+    margin-bottom: 3px;
+  }
+`;
+
+export const InfoPill = styled.span`
+  font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  background: #e9ecf0;
+  border-radius: 16px;
+  height: 24px;
+  margin-bottom: 0;
+  line-height: 24px;
+  min-width: 130px;
+  max-width: 200px;
+  font-size: 12px;
+  color: #98a4b3;
+  text-align: center;
+  padding: 0 0.75em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 9px;
+  margin-bottom: 9px;
+
+  span {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  svg {
+    margin-right: 5px;
+    position: relative;
+  }
 `;

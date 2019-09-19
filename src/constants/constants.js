@@ -19,6 +19,16 @@ export const eventStates = {
   NO_MATCHES: "NO_MATCHES"
 };
 
+export const gigStates = {
+  OFFERING: "OFFERING",
+  CANCELLED: "CANCELLED",
+  FINISHED: "FINISHED",
+  EVENT_CANCEllED: "EVENT_CANCEllED",
+  ACCEPTED: "ACCEPTED",
+  CONFIRMED: "CONFIRMED",
+  DECLINED: "DECLINED"
+};
+
 export const Environment = {
   STRIPE_PUBLIC_KEY: process.env.REACT_APP_STRIPE_PUB_KEY,
   CALLBACK_DOMAIN: process.env.REACT_APP_CUEUP_CALLBACK_DOMAIN,

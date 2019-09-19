@@ -11,8 +11,8 @@ import {
 import { HeaderTitle, BodyBold } from "../../../../components/Text";
 
 const routes = [
-  { route: "overview", label: "overview", active: true },
-  { route: "requirements", label: "requirements", active: true },
+  { route: "information", label: "information", active: true },
+  { route: "offer", label: "offer", active: true },
   { route: "review", label: "review", active: true }
 ];
 
