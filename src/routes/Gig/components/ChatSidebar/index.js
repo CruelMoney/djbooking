@@ -3,7 +3,7 @@ import Sidebar, { SidebarContent } from "../../../../components/Sidebar";
 import { Title } from "../../../../components/Text";
 import styled from "styled-components";
 import { Col } from "../../../../components/Blocks";
-import Chat from "../../../../components/common/Chat";
+import Chat, { MessageComposer } from "../../../../components/common/Chat";
 import LoadingPlaceholder, {
   LoadingPlaceholder2
 } from "../../../../components/common/LoadingPlaceholder";
@@ -19,9 +19,12 @@ const ChatSidebar = props => {
   return (
     <Sidebar large stickyTop={"0px"}>
       <Content>
-        <SidebarContent>
-          <Title>Messages</Title>
-        </SidebarContent>
+        <Header>
+          <SidebarContent>
+            <Title>Messages</Title>
+          </SidebarContent>
+        </Header>
+
         {loading || loadingMe ? (
           <SidebarContent>
             <LoadingPlaceholder />
@@ -29,6 +32,7 @@ const ChatSidebar = props => {
           </SidebarContent>
         ) : (
           <Chat
+            hideComposer
             showPersonalInformation={gig.showInfo}
             eventId={theEvent.id}
             sender={{
@@ -44,24 +48,50 @@ const ChatSidebar = props => {
             chatId={gig.id}
           />
         )}
-        <MessageComposer>
-          <SidebarContent>Send a message</SidebarContent>
-        </MessageComposer>
+        <MessageComposerContainer>
+          <SidebarContent>
+            <MessageComposer></MessageComposer>
+          </SidebarContent>
+        </MessageComposerContainer>
       </Content>
     </Sidebar>
   );
 };
 
-const MessageComposer = styled.div`
+const Glass = styled.div`
+  background: #fff;
+  @supports (backdrop-filter: none) {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+`;
+
+const Header = styled(Glass)`
+  min-height: 108px;
+  border-bottom: 1px solid rgb(233, 236, 240, 0.5);
+  z-index: 2;
+  position: sticky;
+  top: 0;
+`;
+
+const MessageComposerContainer = styled(Glass)`
   min-height: 84px;
-  border-top: 1px solid #e9ecf0;
   position: sticky;
   bottom: 0;
+  border-top: 1px solid rgb(233, 236, 240, 0.5);
 `;
 
 const Content = styled(Col)`
   height: 100vh;
   justify-content: space-between;
+  .messages {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    padding-bottom: 100px;
+  }
 `;
 
 export default ChatSidebar;

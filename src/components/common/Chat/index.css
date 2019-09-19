@@ -1,166 +1,188 @@
 .messages {
-	max-height: 400px;
-	overflow: scroll;
-	border-left: 1px solid rgb(202, 202, 202);
-	border-right: 1px solid rgb(202, 202, 202);
-	padding: 0 1em;
+  overflow: scroll;
+  padding: 0 1em;
 }
 
 .timestamp {
-	text-align: center;
-	margin: 20px;
+  text-align: center;
+  margin: 20px;
 }
 .message {
-	display: flex;
-	align-items: flex-end;
+  display: flex;
+  align-items: flex-end;
 }
 .message-wrapper {
-	margin-bottom: 10px;
+  margin-bottom: 2px;
+  position: relative;
+  padding-right: 46px;
+  padding-left: 46px;
 }
 .flex {
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .flex > * {
-	margin: 0 0.5em;
+  margin: 0 0.5em;
 }
 .message.send {
-	flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 .message > * {
-	display: inline-block;
-	vertical-align: bottom;
+  display: inline-block;
+  vertical-align: bottom;
 }
 .speech-bubble {
-	overflow: hidden;
-	border-radius: 6px;
-	text-align: center;
-	padding: 14px;
-	font-weight: 600;
-	background: #e6e7ed;
-	position: relative;
-	margin-left: 10px;
-	max-width: 75%;
-	text-align: left;
-	box-shadow: 0px 2px 15px 0 rgba(121, 121, 121, 0.2);
+  overflow: hidden;
+  border-radius: 20px;
+  text-align: center;
+  padding: 14px;
+  font-weight: 600;
+  background: #e6e7ed;
+  position: relative;
+  max-width: 75%;
+  text-align: left;
 }
+
 .send .speech-bubble {
-	text-align: right;
-	color: white;
-	background: #03d1ff;
-	margin-left: 0px;
-	margin-right: 10px;
-	white-space: pre-wrap;
+  text-align: right;
+  color: white;
+  background: #03d1ff;
+  margin-left: 0px;
+  white-space: pre-wrap;
+}
+
+.send .rounded {
+  right: 0px;
+  bottom: 0;
+}
+.received .rounded {
+  left: 0px;
+  bottom: 0;
+}
+.received ~ .message-info {
+  text-align: left;
+}
+.send ~ .message-info {
+  text-align: right;
 }
 
 .message .rounded {
-	height: 40px;
-	width: 40px;
-	overflow: hidden;
-	border-radius: 50%;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  overflow: hidden;
+  border-radius: 50%;
 }
 .message .rounded img {
-	object-fit: cover;
-	height: 100%;
-	width: 100%;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
 .chat {
-	max-width: 600px;
+  max-width: 600px;
 }
 .chat form {
-	display: flex;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	border-color: rgb(202, 202, 202);
-	border-radius: 0px 0px 6px 6px;
-	border: 1px rgb(202, 202, 202) solid;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  border-color: rgb(202, 202, 202);
+  border-radius: 0px 0px 6px 6px;
+  border: 1px rgb(202, 202, 202) solid;
 }
 .chat textarea {
-	width: 100%;
-	-webkit-appearance: none;
-	outline: none !important;
-	padding: 10px;
-	min-height: 3em;
-	margin: 10px 0px;
-	resize: none;
-	margin-top: 0px;
-	border: none;
-	background: transparent;
+  width: 100%;
+  -webkit-appearance: none;
+  outline: none !important;
+  padding: 10px;
+  min-height: 3em;
+  margin: 10px 0px;
+  resize: none;
+  margin-top: 0px;
+  border: none;
+  background: transparent;
 }
 .chat form {
-	position: relative;
+  position: relative;
 }
 .chat button {
-	border: none;
-	font-weight: 600;
-	border-left: 1px solid #ddd;
-	min-width: 80px;
-	height: 5em;
+  border: none;
+  font-weight: 600;
+  border-left: 1px solid #ddd;
+  min-width: 80px;
+  height: 5em;
 }
 
 .popup .chat {
-	width: 600px;
-	max-width: 90vw;
+  width: 600px;
+  max-width: 90vw;
 }
 
 .typing-indicator {
-	will-change: transform;
-	border-radius: 50px;
-	position: relative;
-	animation: 2s bulge infinite ease-out;
+  will-change: transform;
+  border-radius: 50px;
+  position: relative;
+  animation: 2s bulge infinite ease-out;
 }
 
 .typing-indicator span {
-	height: 7px;
-	width: 7px;
-	float: left;
-	margin: 0 1px;
-	background-color: #9e9ea1;
-	display: block;
-	border-radius: 50%;
-	opacity: 0.4;
+  height: 7px;
+  width: 7px;
+  float: left;
+  margin: 0 1px;
+  background-color: #9e9ea1;
+  display: block;
+  border-radius: 50%;
+  opacity: 0.4;
 }
 .typing-indicator span:nth-child(1) {
-	animation: 1s blink infinite 0.3333s;
+  animation: 1s blink infinite 0.3333s;
 }
 .typing-indicator span:nth-child(2) {
-	animation: 1s blink infinite 0.6666s;
+  animation: 1s blink infinite 0.6666s;
 }
 .typing-indicator span:nth-child(3) {
-	animation: 1s blink infinite 0.9999s;
+  animation: 1s blink infinite 0.9999s;
 }
 
 .message-info {
-	text-align: right;
-	margin-right: 50px;
-	margin-top: 4px;
-	font-size: 0.9em;
-	color: #8998a9;
+  text-align: right;
+  margin-right: 50px;
+  margin-top: 4px;
+  font-size: 0.9em;
+  color: #8998a9;
 }
 .message-info svg {
-	margin-right: 3px;
+  margin-right: 3px;
 }
 
 .chat .reminder {
-	background: #26f4d2;
-	padding: 0.5em 1em;
-	color: white;
-	font-family: "AvenirNext-Medium", sans-serif;
-	font-weight: 600;
-	border-radius: 6px 6px 0px 0px;
-	text-align: right;
+  background: #26f4d2;
+  padding: 0.5em 1em;
+  color: white;
+  font-family: "AvenirNext-Medium", sans-serif;
+  font-weight: 600;
+  border-radius: 6px 6px 0px 0px;
+  text-align: right;
+}
+
+.chat .messages-date {
+  margin: 16px 0;
+  text-align: center;
+}
+.chat .sender-group {
+  margin-bottom: 8px;
 }
 
 /* Mobile */
 @media only screen and (max-width: 480px) {
-	.popup .chat {
-		max-width: 100%;
-	}
-	.messages {
-		max-width: 100%;
-	}
-	.speech-bubble {
-		max-width: 60%;
-	}
+  .popup .chat {
+    max-width: 100%;
+  }
+  .messages {
+    max-width: 100%;
+  }
+  .speech-bubble {
+    max-width: 60%;
+  }
 }
