@@ -3,7 +3,6 @@ import styled, { css, keyframes } from "styled-components";
 import Arrow from "react-ionicons/lib/MdArrowRoundForward";
 import ArrowBack from "react-ionicons/lib/MdArrowRoundBack";
 import GracefullImage from "./GracefullImage";
-import { BodyBold } from "./Text";
 
 export const Hr = styled.hr`
   border-bottom: 1px solid #e9ecf0;

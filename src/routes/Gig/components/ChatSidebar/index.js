@@ -2,12 +2,7 @@ import React, { useRef, useEffect } from "react";
 import Sidebar, { SidebarContent } from "../../../../components/Sidebar";
 import { Title } from "../../../../components/Text";
 import styled from "styled-components";
-import {
-  Col,
-  PillLarge,
-  RowWrap,
-  InfoPill
-} from "../../../../components/Blocks";
+import { Col, RowWrap } from "../../../../components/Blocks";
 import Chat, { MessageComposer } from "../../../../components/common/Chat";
 import { useQuery } from "react-apollo";
 import { ME } from "../../../../components/gql";
@@ -133,7 +128,7 @@ const getSystemMessage = ({ gig, declineGig, navigateToOffer }) => {
   if (!gig) {
     return null;
   }
-  const { expires, createdAt, status, directBooking } = gig;
+  const { expires, status, directBooking } = gig;
   const within = moment(expires).fromNow();
 
   if (directBooking && status === gigStates.REQUESTED) {

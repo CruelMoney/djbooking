@@ -17,10 +17,9 @@ import {
 } from "../../../../../components/Text";
 
 import { NavLink } from "react-router-dom";
-import { gigStates } from "../../../../../constants/constants";
 
 const GigCard = ({ style, idx, gig, hasMessage, translate }) => {
-  const { event, offer, id } = gig;
+  const { event, offer } = gig;
   let { start, name, description } = event;
 
   const shouldTruncate = description.length > 100;
@@ -63,7 +62,7 @@ const GigCard = ({ style, idx, gig, hasMessage, translate }) => {
 };
 
 const Offer = ({ offer, gig, hasMessage, translate }) => {
-  const { statusHumanized, status, id } = gig;
+  const { statusHumanized, id } = gig;
 
   return (
     <OfferRow middle>

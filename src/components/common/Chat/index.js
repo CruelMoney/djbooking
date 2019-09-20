@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import useChat from "./useChat";
 import "./index.css";
 import LoadingPlaceholder from "../LoadingPlaceholder";
@@ -17,7 +17,7 @@ const Chat = ({
 }) => {
   const messagesContainer = useRef();
 
-  const { sending, typing, messages, ready, onNewContent } = chat;
+  const { typing, messages, ready, onNewContent } = chat;
 
   const scrollToBottom = () => {
     messagesContainer.current && messagesContainer.current.scrollTo(0, 999999);
@@ -220,12 +220,10 @@ const SenderGroup = ({
 
 const Message = props => {
   const {
-    idx,
     content,
     isOwn,
     isFirst,
     isLast,
-    createdAt,
     actions,
     containsNumber,
     containsURL,

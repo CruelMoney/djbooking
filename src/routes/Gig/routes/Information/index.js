@@ -1,25 +1,18 @@
 import React from "react";
-import {
-  Col,
-  InfoBox,
-  RowWrap,
-  PillLarge
-} from "../../../../components/Blocks";
+import { Col, InfoBox, RowWrap } from "../../../../components/Blocks";
 
 import { Body, BodySmall } from "../../../../components/Text";
-import { gigStates } from "../../../../constants/constants";
 import { Label } from "../../../../components/FormComponents";
 import styled from "styled-components";
 import moment from "moment";
 import ContactPills from "../../components/blocks/ContactPills";
-import Notification from "../../../../components/common/Notification";
 
 const Information = React.forwardRef(({ gig, translate, history }, ref) => {
   if (!gig) {
     return null;
   }
 
-  const { event, showInfo, statusHumanized } = gig;
+  const { event, showInfo } = gig;
 
   let {
     description,
