@@ -6,6 +6,7 @@ import "./index.css";
 import LoadingPlaceholder from "../LoadingPlaceholder";
 import moment from "moment";
 import SendIcon from "react-ionicons/lib/MdSend";
+import TextareaAutosize from "react-autosize-textarea";
 
 export const useChat = ({
   sender,
@@ -32,47 +33,51 @@ export const useChat = ({
         createdAt: new Date()
       }
     ]);
-    setNewMessage("");
     setSending(sending);
     onNewContent.current && onNewContent.current(message);
   }, []);
 
   useEffect(() => {
-    const newChat = new ChatService(id, auth.getToken(), sender.id);
+    if (!ready) {
+      const newChat = new ChatService(id, auth.getToken(), sender.id);
 
-    chat.current = newChat;
+      newChat.init({ showPersonalInformation }).then(messages => {
+        setMessages(messages);
+        setReady(true);
+        onNewContent.current && onNewContent.current();
+        chat.current = newChat;
+      });
 
-    newChat.init({ showPersonalInformation }).then(messages => {
-      setMessages(messages);
-      setReady(true);
-      onNewContent.current && onNewContent.current();
-    });
+      startedTyping.current = debounce(newChat.startedTyping, 1000, {
+        leading: true,
+        trailing: false
+      });
+      stoppedTyping.current = debounce(newChat.stoppedTyping, 4000);
 
-    startedTyping.current = debounce(newChat.startedTyping, 1000, {
-      leading: true,
-      trailing: false
-    });
-    stoppedTyping.current = debounce(newChat.stoppedTyping, 4000);
+      const receiverReadMessages = () => {
+        setMessages(messages => [
+          ...messages.map(msg => {
+            return { ...msg, read: true };
+          })
+        ]);
+      };
 
-    const receiverReadMessages = () => {
-      setMessages(messages => [
-        ...messages.map(msg => {
-          return { ...msg, read: true };
-        })
-      ]);
-    };
+      newChat.receiverStoppedTyping = () => setTyping(false);
+      newChat.receiverStartedTyping = () => setTyping(true);
+      newChat.onNewMessage = addNewMessage;
+      newChat.receiverReadMessages = receiverReadMessages;
 
-    newChat.receiverStoppedTyping = () => setTyping(false);
-    newChat.receiverStartedTyping = () => setTyping(true);
-    newChat.onNewMessage = addNewMessage;
-    newChat.receiverReadMessages = receiverReadMessages;
-
-    return () => {
-      ready && newChat.dispose();
-    };
+      return () => {
+        console.log("Disposing");
+        chat.current && chat.current.dispose();
+      };
+    }
   }, [id, sender, receiver, showPersonalInformation, addNewMessage, ready]);
 
   const sendMessage = (declineOnContactInfo = false) => {
+    if (!newMessage || !newMessage.trim()) {
+      return;
+    }
     const message = {
       content: newMessage,
       to: receiver.id,
@@ -84,14 +89,16 @@ export const useChat = ({
 
     // First set the message optimisticly
     addNewMessage(message, true);
+    setNewMessage("");
 
     // Then send the message
     chat.current.sendMessage(message).then(_ => setSending(false));
   };
 
-  const handleChange = event => {
+  const handleChange = text => {
+    console.log({ text });
     startedTyping.current();
-    setNewMessage(event.target.value);
+    setNewMessage(text);
     stoppedTyping.current();
   };
 
@@ -178,12 +185,15 @@ const Chat = ({
 export const MessageComposer = ({ chat, placeholder }) => (
   <form onSubmit={chat.sendMessage} className="message-composer">
     <div className="input-wrapper">
-      <div
-        contentEditable
+      <TextareaAutosize
+        rows={1}
+        maxRows={5}
         placeholder={placeholder}
         className="message-input"
-        onChange={chat.handleChange}
         value={chat.newMessage}
+        onChange={e => {
+          chat.handleChange(e.target.value);
+        }}
         onKeyPress={event => {
           if (event.which === 13 && !event.shiftKey) {
             event.preventDefault();
@@ -278,9 +288,7 @@ const DateGroup = ({
   const groupedMessages = toSenderGroup(messages);
   return (
     <div>
-      <p className="messages-date" placeholder>
-        {formatted}
-      </p>
+      <p className="messages-date">{formatted}</p>
 
       {Object.entries(groupedMessages).map(([senderId, messages], idx) => (
         <SenderGroup
@@ -305,9 +313,9 @@ const SenderGroup = ({
 
   return (
     <div className="sender-group">
-      {enrichedMessages.map(m => (
+      {enrichedMessages.map((m, idx) => (
         <Message
-          key={m._id}
+          key={m._id || "new-message" + idx}
           {...m}
           showPersonalInformation={showPersonalInformation}
         />

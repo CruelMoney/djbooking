@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Sidebar, { SidebarContent } from "../../../../components/Sidebar";
 import { Title } from "../../../../components/Text";
 import styled from "styled-components";
@@ -24,20 +24,15 @@ const ChatSidebar = props => {
             <Title>Messages</Title>
           </SidebarContent>
         </Header>
-        {loading || loadingMe ? (
-          <SidebarContent>
-            <LoadingPlaceholder />
-            <LoadingPlaceholder />
-          </SidebarContent>
-        ) : (
-          <SmartChat {...props} me={me} />
-        )}
+        {loading || loadingMe ? null : <SmartChat {...props} me={me} />}
       </Content>
     </Sidebar>
   );
 };
 
 const SmartChat = ({ me, organizer, gig, theEvent }) => {
+  const messageWrapper = useRef();
+
   const sender = {
     id: me.id,
     name: me.userMetadata.firstName,
@@ -49,6 +44,15 @@ const SmartChat = ({ me, organizer, gig, theEvent }) => {
     name: organizer.userMetadata.firstName,
     image: organizer.picture && organizer.picture.path
   };
+
+  const scrollToBottom = () => {
+    messageWrapper.current && messageWrapper.current.scrollTo(0, 999999);
+  };
+
+  useEffect(() => {
+    console.log("effect");
+    scrollToBottom();
+  });
 
   const chat = useChat({
     sender,
@@ -62,7 +66,7 @@ const SmartChat = ({ me, organizer, gig, theEvent }) => {
 
   return (
     <>
-      <MessagesWrapper>
+      <MessagesWrapper ref={messageWrapper}>
         <Chat
           hideComposer
           showPersonalInformation={gig.showInfo}

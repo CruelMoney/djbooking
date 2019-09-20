@@ -28,47 +28,41 @@ const GigCard = ({ style, idx, gig, hasMessage, translate }) => {
     : description;
 
   return (
-    <NavLink
-      to={{
-        pathname: `${translate("routes./gig")}/${id}`
-      }}
-    >
-      <Wrapper idx={idx}>
-        <Card style={style}>
-          <Content>
-            <RowWrap style={{ marginBottom: "24px", width: "100%" }}>
-              <SmallHeader>{name}</SmallHeader>
-              <Filler />
+    <Wrapper idx={idx}>
+      <Card style={style}>
+        <Content>
+          <RowWrap style={{ marginBottom: "24px", width: "100%" }}>
+            <SmallHeader>{name}</SmallHeader>
+            <Filler />
 
-              <PillLarge>{start.formattedDate}</PillLarge>
-            </RowWrap>
-            <RowWrap>
-              <BodySmall
-                style={{ wordBreak: "break-word", marginBottom: "24px" }}
-              >
-                {description}
-              </BodySmall>
-            </RowWrap>
-            <Hr />
+            <PillLarge>{start.formattedDate}</PillLarge>
+          </RowWrap>
+          <RowWrap>
+            <BodySmall
+              style={{ wordBreak: "break-word", marginBottom: "24px" }}
+            >
+              {description}
+            </BodySmall>
+          </RowWrap>
+          <Hr />
 
-            <Offer
-              {...offer}
-              hasMessage={hasMessage}
-              gig={gig}
-              translate={translate}
-              name={name}
-            />
-          </Content>
-        </Card>
+          <Offer
+            {...offer}
+            hasMessage={hasMessage}
+            gig={gig}
+            translate={translate}
+            name={name}
+          />
+        </Content>
+      </Card>
 
-        <Shadow />
-      </Wrapper>
-    </NavLink>
+      <Shadow />
+    </Wrapper>
   );
 };
 
-const Offer = ({ totalPayment, gig, hasMessage }) => {
-  const { statusHumanized } = gig;
+const Offer = ({ totalPayment, gig, hasMessage, translate }) => {
+  const { statusHumanized, id } = gig;
 
   return (
     <OfferRow middle>
@@ -81,7 +75,13 @@ const Offer = ({ totalPayment, gig, hasMessage }) => {
       </OfferTextWrapper>
       <Filler />
       <Buttons>
-        <TeritaryButton>Read more</TeritaryButton>
+        <NavLink
+          to={{
+            pathname: `${translate("routes./gig")}/${id}`
+          }}
+        >
+          <TeritaryButton>Read more</TeritaryButton>
+        </NavLink>
         {hasMessage && (
           <span>
             <div className="notification-bubble relative">!</div>
