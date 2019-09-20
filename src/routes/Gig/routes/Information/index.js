@@ -42,7 +42,7 @@ const Information = React.forwardRef(({ gig, translate, history }, ref) => {
   return (
     <Col ref={ref}>
       <Body style={{ marginBottom: "30px" }}>
-        See what ${contactName} has requested and adjust your offer accordingly.
+        See what {contactName} has requested and adjust your offer accordingly.
         Don’t hesitate to ask the organizer for more details.
       </Body>
 

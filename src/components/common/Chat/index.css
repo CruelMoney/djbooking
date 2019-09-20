@@ -35,12 +35,27 @@
   overflow: hidden;
   border-radius: 20px;
   text-align: center;
-  padding: 14px;
   font-size: 15px;
-  background: #e6e7ed;
+  background: #f4f5f7;
   text-align: left;
   text-rendering: optimizelegibility;
   white-space: pre-wrap;
+}
+.speech-bubble .content {
+  padding: 14px;
+}
+.speech-bubble .message-actions {
+  height: 48px;
+  border-top: 1px solid rgb(233, 236, 240, 1);
+  display: flex;
+}
+.speech-bubble .message-actions button {
+  flex: 1;
+  height: 100%;
+  font-weight: 600;
+}
+.speech-bubble .message-actions button:nth-child(2) {
+  border-left: 1px solid rgb(233, 236, 240, 1);
 }
 
 .send .speech-bubble {
@@ -57,12 +72,6 @@
 .received .rounded {
   left: 0px;
   bottom: 0;
-}
-.received ~ .message-info {
-  text-align: left;
-}
-.send ~ .message-info {
-  text-align: right;
 }
 
 .message .rounded {
@@ -160,14 +169,19 @@
 
 .message-info {
   text-align: right;
-  margin-right: 50px;
-  margin-top: 4px;
+  margin: 4px 50px;
   font-size: 0.9em;
   color: #8998a9;
 }
 .service-message {
   text-align: left;
   margin-left: 50px;
+}
+.received ~ .message-info {
+  text-align: left;
+}
+.send ~ .message-info {
+  text-align: right;
 }
 .message-info svg {
   margin-right: 3px;
@@ -184,7 +198,7 @@
 }
 
 .chat .messages-date {
-  margin: 16px 0;
+  margin: 9px 0;
   text-align: center;
 }
 .chat .sender-group {

@@ -8,18 +8,16 @@ import {
   RowWrap,
   InfoPill
 } from "../../../../components/Blocks";
-import Chat, {
-  MessageComposer,
-  useChat
-} from "../../../../components/common/Chat";
+import Chat, { MessageComposer } from "../../../../components/common/Chat";
 import { useQuery } from "react-apollo";
 import { ME } from "../../../../components/gql";
 import ContactPills from "../blocks/ContactPills";
 import { gigStates } from "../../../../constants/constants";
 import moment from "moment";
+import useChat from "../../../../components/common/Chat/useChat";
 
 const ChatSidebar = props => {
-  const { loading, gig, theEvent } = props;
+  const { loading, gig, theEvent, navigateToOffer } = props;
   const { loading: loadingMe, data } = useQuery(ME);
   const { me } = data || {};
 
@@ -29,6 +27,8 @@ const ChatSidebar = props => {
   const enableScroll = () => {
     document.body.classList.remove("popup-open");
   };
+
+  const systemMessage = getSystemMessage({ gig, navigateToOffer });
 
   return (
     <Sidebar
@@ -54,7 +54,9 @@ const ChatSidebar = props => {
             </RowWrap>
           </SidebarContent>
         </Header>
-        {loading || loadingMe ? null : <SmartChat {...props} me={me} />}
+        {loading || loadingMe ? null : (
+          <SmartChat {...props} me={me} systemMessage={systemMessage} />
+        )}
       </Content>
     </Sidebar>
   );
@@ -72,7 +74,7 @@ const PillsCol = styled(Col)`
   }
 `;
 
-const SmartChat = ({ me, organizer, gig, theEvent }) => {
+const SmartChat = ({ me, organizer, gig, theEvent, systemMessage }) => {
   const messageWrapper = useRef();
 
   const sender = {
@@ -103,8 +105,6 @@ const SmartChat = ({ me, organizer, gig, theEvent }) => {
     }
   });
 
-  const systemMessage = getSystemMessage(gig);
-
   return (
     <>
       <MessagesWrapper ref={messageWrapper}>
@@ -129,7 +129,11 @@ const SmartChat = ({ me, organizer, gig, theEvent }) => {
   );
 };
 
-const getSystemMessage = ({ expires, createdAt, status, directBooking }) => {
+const getSystemMessage = ({ gig, declineGig, navigateToOffer }) => {
+  if (!gig) {
+    return null;
+  }
+  const { expires, createdAt, status, directBooking } = gig;
   const within = moment(expires).fromNow();
 
   if (directBooking && status === gigStates.REQUESTED) {
@@ -137,7 +141,16 @@ const getSystemMessage = ({ expires, createdAt, status, directBooking }) => {
       systemMessage: true,
       createdAt: new Date(),
       content: `The organizer is waiting on your offer. \nThis is a direct booking from your profile and the Cueup fee is discarded.`,
-      actions: ["DECLINE", "ACCCEPT"]
+      actions: [
+        {
+          label: "Decline gig",
+          action: declineGig
+        },
+        {
+          label: "Make offer",
+          action: navigateToOffer
+        }
+      ]
     };
   }
 
@@ -146,13 +159,27 @@ const getSystemMessage = ({ expires, createdAt, status, directBooking }) => {
       systemMessage: true,
       createdAt: new Date(),
       content: `The organizer is waiting on your offer. \nMake an offer within ${within} or the gig will automatically be declined.`,
-      actions: ["DECLINE", "ACCCEPT"]
+      actions: [
+        {
+          label: "Decline gig",
+          action: declineGig
+        },
+        {
+          label: "Make offer",
+          action: navigateToOffer
+        }
+      ]
     },
     [gigStates.ACCEPTED]: {
       systemMessage: true,
       createdAt: new Date(),
       content: `Waiting on confirmation from the organizer. \nYou can still update the offer if necessary.`,
-      actions: ["UPDATE"]
+      actions: [
+        {
+          label: "Update offer",
+          action: navigateToOffer
+        }
+      ]
     },
     [gigStates.CONFIRMED]: {
       systemMessage: true,
@@ -214,6 +241,9 @@ const MessagesWrapper = styled.div`
   .messages {
     padding-top: 100px;
     padding-bottom: 15px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
   }
 `;
 

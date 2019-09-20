@@ -1,118 +1,10 @@
 import React, { useCallback, useRef, useEffect, useState } from "react";
-import ChatService from "../../../utils/ChatService";
-import { authService as auth } from "../../../utils/AuthService";
-import debounce from "lodash.debounce";
+import useChat from "./useChat";
 import "./index.css";
 import LoadingPlaceholder from "../LoadingPlaceholder";
 import moment from "moment";
 import SendIcon from "react-ionicons/lib/MdSend";
 import TextareaAutosize from "react-autosize-textarea";
-
-export const useChat = ({
-  sender,
-  receiver,
-  id,
-  showPersonalInformation,
-  data
-}) => {
-  const chat = useRef();
-  const startedTyping = useRef();
-  const stoppedTyping = useRef();
-  const onNewContent = useRef();
-  const [messages, setMessages] = useState([]);
-  const [sending, setSending] = useState(false);
-  const [ready, setReady] = useState(false);
-  const [typing, setTyping] = useState(false);
-  const [newMessage, setNewMessage] = useState();
-
-  const addNewMessage = useCallback((message, sending = false, cb) => {
-    setMessages(messages => [
-      ...messages,
-      {
-        ...message,
-        createdAt: new Date()
-      }
-    ]);
-    setSending(sending);
-    onNewContent.current && onNewContent.current(message);
-  }, []);
-
-  useEffect(() => {
-    if (!ready) {
-      const newChat = new ChatService(id, auth.getToken(), sender.id);
-
-      newChat.init({ showPersonalInformation }).then(messages => {
-        setMessages(messages);
-        setReady(true);
-        onNewContent.current && onNewContent.current();
-        chat.current = newChat;
-      });
-
-      startedTyping.current = debounce(newChat.startedTyping, 1000, {
-        leading: true,
-        trailing: false
-      });
-      stoppedTyping.current = debounce(newChat.stoppedTyping, 4000);
-
-      const receiverReadMessages = () => {
-        setMessages(messages => [
-          ...messages.map(msg => {
-            return { ...msg, read: true };
-          })
-        ]);
-      };
-
-      newChat.receiverStoppedTyping = () => setTyping(false);
-      newChat.receiverStartedTyping = () => setTyping(true);
-      newChat.onNewMessage = addNewMessage;
-      newChat.receiverReadMessages = receiverReadMessages;
-
-      return () => {
-        console.log("Disposing");
-        chat.current && chat.current.dispose();
-      };
-    }
-  }, [id, sender, receiver, showPersonalInformation, addNewMessage, ready]);
-
-  const sendMessage = (declineOnContactInfo = false) => {
-    if (!newMessage || !newMessage.trim()) {
-      return;
-    }
-    const message = {
-      content: newMessage,
-      to: receiver.id,
-      room: String(id),
-      from: sender.id,
-      declineOnContactInfo,
-      ...data
-    };
-
-    // First set the message optimisticly
-    addNewMessage(message, true);
-    setNewMessage("");
-
-    // Then send the message
-    chat.current.sendMessage(message).then(_ => setSending(false));
-  };
-
-  const handleChange = text => {
-    console.log({ text });
-    startedTyping.current();
-    setNewMessage(text);
-    stoppedTyping.current();
-  };
-
-  return {
-    sending,
-    ready,
-    typing,
-    messages,
-    sendMessage,
-    handleChange,
-    newMessage,
-    onNewContent
-  };
-};
 
 const Chat = ({
   sender,
@@ -136,12 +28,16 @@ const Chat = ({
     return () => (onNewContent.current = null);
   }, [onNewContent]);
 
-  const allMessages = systemMessage ? [...messages, systemMessage] : messages;
+  const dateSorter = (a, b) => new Date(a.createdAt) - new Date(b.createdAt);
+  const allMessages = systemMessage
+    ? [...messages, systemMessage].sort(dateSorter)
+    : messages;
   const datedMessages = toDateGroups(allMessages);
 
   return (
     <div className="chat">
       <div ref={messagesContainer} className="messages">
+        <div style={{ flex: 1 }} />
         {!ready ? (
           <>
             <LoadingPlaceholder />
@@ -310,7 +206,7 @@ const SenderGroup = ({
   const enrichedMessages = enrichMessages({ sender, receiver, messages });
 
   return (
-    <div className="sender-group">
+    <div className={`sender-group `}>
       {enrichedMessages.map((m, idx) => (
         <Message
           key={m._id || "new-message" + idx}
@@ -329,7 +225,8 @@ const Message = props => {
     isOwn,
     isFirst,
     isLast,
-    typingAnimation,
+    createdAt,
+    actions,
     containsNumber,
     containsURL,
     containsEmail,
@@ -356,18 +253,27 @@ const Message = props => {
 
   return (
     <>
-      <div className="message-wrapper">
+      <div className={`message-wrapper ${isOwn ? "send" : "received"}`}>
         <div className={`message ${isOwn ? "send" : "received"}`}>
           {isLast && (
             <div className="rounded">
               <img
                 alt={isOwn ? "your picture" : "receiver picture"}
-                src={image}
+                src={systemMessage ? "/apple-touch-icon.png" : image}
               />
             </div>
           )}
           <div className={`speech-bubble`} style={cornerStyle}>
-            {content}
+            <div className="content">{content}</div>
+            {systemMessage && actions && (
+              <div className="message-actions">
+                {actions.map((a, idx) => (
+                  <button key={idx} onClick={a.action}>
+                    {a.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

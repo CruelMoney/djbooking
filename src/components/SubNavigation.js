@@ -3,7 +3,8 @@ import React, {
   useLayoutEffect,
   useContext,
   useEffect,
-  memo
+  memo,
+  useCallback
 } from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
@@ -64,6 +65,7 @@ const ActiveIndicator = styled.span`
 
 const Navigation = memo(props => {
   const { routes, location, registerRoutes, unregisterRoutes } = props;
+  const { pathname } = location;
   const navRef = useRef();
   const activeRef = useRef();
   const indicator = useRef();
@@ -78,9 +80,9 @@ const Navigation = memo(props => {
     }
   };
 
-  const resetIndicator = () => {
+  const resetIndicator = useCallback(() => {
     setActiveIndicatorFromElement(activeRef.current);
-  };
+  }, []);
 
   useEffect(() => {
     registerRoutes(routes);
@@ -91,13 +93,18 @@ const Navigation = memo(props => {
 
   useLayoutEffect(resetIndicator, [routes]);
 
+  // change active indicator if navigated
+  useEffect(() => {
+    resetIndicator();
+  }, [pathname, resetIndicator]);
+
   let fillers = new Array(7 - routes.length).fill(1);
 
   return (
     <StyledNav ref={navRef} onMouseLeave={resetIndicator}>
       <ActiveIndicator ref={indicator} />
       {routes.map(({ route, label }) => {
-        const active = location.pathname.includes(route);
+        const active = pathname.includes(route);
         return (
           <StyledLink
             exact

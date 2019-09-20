@@ -16,7 +16,7 @@ import { useMeasure } from "@softbind/hook-use-measure";
 import ChatSidebar from "./components/ChatSidebar";
 import { gigStates } from "../../constants/constants";
 
-const Index = ({ translate, match, location }) => {
+const Index = ({ translate, match, location, history }) => {
   const {
     params: { id }
   } = match;
@@ -61,6 +61,7 @@ const Index = ({ translate, match, location }) => {
         gig={gig}
         loading={loading}
         translate={translate}
+        history={history}
       />
 
       <Footer
@@ -99,7 +100,7 @@ const getDirection = newPath => {
 };
 
 const Content = React.memo(props => {
-  const { match, location, theEvent, loading, gig } = props;
+  const { match, location, theEvent, loading, gig, history } = props;
   const { organizer } = theEvent || {};
   const { statusHumanized } = gig || {};
 
@@ -125,7 +126,7 @@ const Content = React.memo(props => {
 
   return (
     <div>
-      <ScrollToTop animate top={280} />
+      <ScrollToTop />
 
       <GigHeader
         theEvent={theEvent}
@@ -158,6 +159,7 @@ const Content = React.memo(props => {
               gig={gig}
               loading={loading}
               organizer={organizer}
+              navigateToOffer={() => history.push("offer")}
             />
           </Col>
         </ContainerRow>
