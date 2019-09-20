@@ -1,16 +1,12 @@
 import React from "react";
-import { Col, InfoBox, RowWrap, InfoPill } from "../../../../components/Blocks";
-import PhoneIcon from "react-ionicons/lib/IosCall";
-import MailIcon from "react-ionicons/lib/MdMail";
+import { Col, InfoBox, RowWrap } from "../../../../components/Blocks";
+
 import { Body, BodySmall } from "../../../../components/Text";
 import { gigStates } from "../../../../constants/constants";
 import { Label } from "../../../../components/FormComponents";
 import styled from "styled-components";
 import moment from "moment";
-import ConditionalWrap from "../../../../components/ConditionalWrap";
-
-const hiddenEmail = "12345678@1234".replace(/\w/g, "•") + ".com";
-const hiddenNumber = "45 12 34 56 78".replace(/\w/g, "•");
+import ContactPills from "../../components/blocks/ContactPills";
 
 const Information = React.forwardRef(({ gig, translate, history }, ref) => {
   if (!gig) {
@@ -57,30 +53,11 @@ const Information = React.forwardRef(({ gig, translate, history }, ref) => {
           Information will be available when the gig is confirmed.
         </BodySmall>
         <RowWrap>
-          {contactEmail && (
-            <ConditionalWrap
-              condition={showInfo}
-              wrap={children => (
-                <a href={"mailto:" + contactEmail}>{children}</a>
-              )}
-            >
-              <InfoPill>
-                <MailIcon fontSize="15px" color="#98A4B3" />
-                <span>{showInfo ? contactEmail : hiddenEmail}</span>
-              </InfoPill>
-            </ConditionalWrap>
-          )}
-          {contactPhone && (
-            <ConditionalWrap
-              condition={showInfo}
-              wrap={children => <a href={"tel:" + contactPhone}>{children}</a>}
-            >
-              <InfoPill>
-                <PhoneIcon fontSize="18px" color="#98A4B3" />
-                <span>{showInfo ? contactPhone : hiddenNumber}</span>
-              </InfoPill>
-            </ConditionalWrap>
-          )}
+          <ContactPills
+            email={contactEmail}
+            phone={contactPhone}
+            showInfo={showInfo}
+          />
         </RowWrap>
       </CustomLabel>
 

@@ -2,17 +2,22 @@ import React, { useRef, useEffect } from "react";
 import Sidebar, { SidebarContent } from "../../../../components/Sidebar";
 import { Title } from "../../../../components/Text";
 import styled from "styled-components";
-import { Col } from "../../../../components/Blocks";
+import {
+  Col,
+  PillLarge,
+  RowWrap,
+  InfoPill
+} from "../../../../components/Blocks";
 import Chat, {
   MessageComposer,
   useChat
 } from "../../../../components/common/Chat";
-import LoadingPlaceholder from "../../../../components/common/LoadingPlaceholder";
 import { useQuery } from "react-apollo";
 import { ME } from "../../../../components/gql";
+import ContactPills from "../blocks/ContactPills";
 
 const ChatSidebar = props => {
-  const { loading } = props;
+  const { loading, gig, theEvent } = props;
   const { loading: loadingMe, data } = useQuery(ME);
   const { me } = data || {};
 
@@ -21,7 +26,18 @@ const ChatSidebar = props => {
       <Content>
         <Header>
           <SidebarContent>
-            <Title>Messages</Title>
+            <RowWrap between>
+              <Title>Messages</Title>
+              <PillsCol>
+                {theEvent && (
+                  <ContactPills
+                    email={theEvent.contactEmail}
+                    phone={theEvent.contactPhone}
+                    showInfo={gig.showInfo}
+                  />
+                )}
+              </PillsCol>
+            </RowWrap>
           </SidebarContent>
         </Header>
         {loading || loadingMe ? null : <SmartChat {...props} me={me} />}
@@ -29,6 +45,18 @@ const ChatSidebar = props => {
     </Sidebar>
   );
 };
+
+const PillsCol = styled(RowWrap)`
+  justify-content: flex-end;
+  margin-left: 24px;
+  flex: 1;
+  margin-bottom: -6px;
+  > span {
+    margin: 0;
+    margin-bottom: 6px;
+    margin-left: 6px;
+  }
+`;
 
 const SmartChat = ({ me, organizer, gig, theEvent }) => {
   const messageWrapper = useRef();
@@ -96,7 +124,6 @@ const Glass = styled.div`
 `;
 
 const Header = styled(Glass)`
-  min-height: 108px;
   border-bottom: 1px solid rgb(233, 236, 240, 0.5);
   z-index: 2;
   position: sticky;
@@ -119,7 +146,7 @@ const MessagesWrapper = styled.div`
   position: sticky;
   bottom: 69px;
   flex: 1;
-  padding-top: 108px;
+  padding-top: 102px;
   padding-bottom: 15px;
   overflow: scroll;
 `;
