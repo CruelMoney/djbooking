@@ -1,6 +1,6 @@
 .messages {
   overflow: scroll;
-  padding: 0 1em;
+  padding: 0 24px;
 }
 
 .timestamp {
@@ -85,32 +85,47 @@
   display: flex;
   margin: 0;
   padding: 0;
-  display: flex;
-  border-color: rgb(202, 202, 202);
-  border-radius: 0px 0px 6px 6px;
-  border: 1px rgb(202, 202, 202) solid;
 }
-.chat textarea {
-  width: 100%;
+.message-composer .input-wrapper {
+  background: rgba(230, 230, 230, 0.3);
+  border-radius: 25px;
+  padding: 10px 15px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.message-composer .message-input {
+  cursor: text;
   -webkit-appearance: none;
   outline: none !important;
-  padding: 10px;
-  min-height: 3em;
-  margin: 10px 0px;
+  margin: 0px;
+  padding: 0;
   resize: none;
-  margin-top: 0px;
   border: none;
+  max-height: 150px;
   background: transparent;
+  font-size: 18px;
+  line-height: 18px;
+  min-height: 18px;
+  width: 100%;
 }
-.chat form {
+.message-input:empty:before {
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+  color: #98a4b3;
+}
+.message-composer {
   position: relative;
+  display: flex;
 }
-.chat button {
+.message-composer button {
   border: none;
-  font-weight: 600;
-  border-left: 1px solid #ddd;
-  min-width: 80px;
-  height: 5em;
+  outline: none;
+  -webkit-appearance: none;
+
+  margin-left: 15px;
+  margin-bottom: 6px;
+  align-self: flex-end;
 }
 
 .popup .chat {

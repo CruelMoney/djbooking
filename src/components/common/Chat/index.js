@@ -1,22 +1,30 @@
-import React, { Component, useRef, useEffect, useState } from "react";
+import React, { useCallback, useRef, useEffect, useState } from "react";
 import ChatService from "../../../utils/ChatService";
 import { authService as auth } from "../../../utils/AuthService";
 import debounce from "lodash.debounce";
 import "./index.css";
 import LoadingPlaceholder from "../LoadingPlaceholder";
 import moment from "moment";
+import SendIcon from "react-ionicons/lib/MdSend";
 
-const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
+export const useChat = ({
+  sender,
+  receiver,
+  id,
+  showPersonalInformation,
+  data
+}) => {
   const chat = useRef();
   const startedTyping = useRef();
   const stoppedTyping = useRef();
+  const onNewContent = useRef();
   const [messages, setMessages] = useState([]);
   const [sending, setSending] = useState(false);
   const [ready, setReady] = useState(false);
   const [typing, setTyping] = useState(false);
   const [newMessage, setNewMessage] = useState();
 
-  const addNewMessage = (message, sending = false) => {
+  const addNewMessage = useCallback((message, sending = false, cb) => {
     setMessages(messages => [
       ...messages,
       {
@@ -24,8 +32,10 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
         createdAt: new Date()
       }
     ]);
+    setNewMessage("");
     setSending(sending);
-  };
+    onNewContent.current && onNewContent.current(message);
+  }, []);
 
   useEffect(() => {
     const newChat = new ChatService(id, auth.getToken(), sender.id);
@@ -35,6 +45,7 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
     newChat.init({ showPersonalInformation }).then(messages => {
       setMessages(messages);
       setReady(true);
+      onNewContent.current && onNewContent.current();
     });
 
     startedTyping.current = debounce(newChat.startedTyping, 1000, {
@@ -56,8 +67,10 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
     newChat.onNewMessage = addNewMessage;
     newChat.receiverReadMessages = receiverReadMessages;
 
-    return newChat.dispose;
-  }, [id, sender, receiver, showPersonalInformation]);
+    return () => {
+      ready && newChat.dispose();
+    };
+  }, [id, sender, receiver, showPersonalInformation, addNewMessage, ready]);
 
   const sendMessage = (declineOnContactInfo = false) => {
     const message = {
@@ -89,7 +102,8 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
     messages,
     sendMessage,
     handleChange,
-    newMessage
+    newMessage,
+    onNewContent
   };
 };
 
@@ -103,11 +117,16 @@ const Chat = ({
 }) => {
   const messagesContainer = useRef();
 
-  const { sending, typing, messages, ready } = chat;
+  const { sending, typing, messages, ready, onNewContent } = chat;
 
   const scrollToBottom = () => {
     messagesContainer.current && messagesContainer.current.scrollTo(0, 999999);
   };
+
+  useEffect(() => {
+    onNewContent.current = scrollToBottom;
+    return () => (onNewContent.current = null);
+  }, [onNewContent]);
 
   const datedMessages = toDateGroups(messages);
   const lastMessage = messages[messages.length - 1];
@@ -149,23 +168,30 @@ const Chat = ({
           </div>
         ) : null}
       </div>
-      {!hideComposer && <MessageComposer chat={chat} />}
+      {!hideComposer && (
+        <MessageComposer chat={chat} placeholder={placeholder} />
+      )}
     </div>
   );
 };
 
-export const MessageComposer = ({ chat }) => (
-  <form onSubmit={chat.sendMessage}>
-    <textarea
-      onChange={chat.handleChange}
-      value={chat.newMessage}
-      onKeyPress={event => {
-        if (event.which === 13 && !event.shiftKey) {
-          event.preventDefault();
-          chat.sendMessage();
-        }
-      }}
-    />
+export const MessageComposer = ({ chat, placeholder }) => (
+  <form onSubmit={chat.sendMessage} className="message-composer">
+    <div className="input-wrapper">
+      <div
+        contentEditable
+        placeholder={placeholder}
+        className="message-input"
+        onChange={chat.handleChange}
+        value={chat.newMessage}
+        onKeyPress={event => {
+          if (event.which === 13 && !event.shiftKey) {
+            event.preventDefault();
+            chat.sendMessage();
+          }
+        }}
+      />
+    </div>
     <button
       onClick={event => {
         event.preventDefault();
@@ -174,7 +200,7 @@ export const MessageComposer = ({ chat }) => (
       disabled={chat.sending}
       type="submit"
     >
-      Send
+      <SendIcon fontSize="28px" color="#03d1ff" />
     </button>
   </form>
 );
