@@ -43,23 +43,21 @@ const HeaderWrapper = styled.div`
 `;
 
 const Content = ({ theEvent }) => {
-  const { name, start, end, location } = theEvent;
+  const { name, start, location } = theEvent;
 
   return (
     <HeaderWrapper>
       <Row middle>
         <Col style={{ flex: 1, alignItems: "flex-start" }}>
           <HeaderTitle>{name}</HeaderTitle>
-          <BodyBold white opacity={0.75} style={{ margin: 0 }}>
-            {start.formattedDate}
-          </BodyBold>
-          <BodyBold white opacity={0.75} style={{ margin: 0 }}>
-            {start.formattedTime}
-            {" - "}
-            {end.formattedTime}
-          </BodyBold>
-          <BodyBold white opacity={0.75} style={{ margin: 0 }}>
+          <BodyBold
+            white
+            opacity={0.75}
+            style={{ margin: 0, whiteSpace: "pre" }}
+          >
             {location.name}
+            {"  ·  "}
+            {start.formattedDate}
           </BodyBold>
         </Col>
       </Row>

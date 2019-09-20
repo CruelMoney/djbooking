@@ -36,7 +36,7 @@ const Information = React.forwardRef(({ gig, translate, history }, ref) => {
   const endMoment = moment(end.localDate);
   const hours = endMoment.diff(startMoment, "hours");
   contactName = contactName.split(" ")[0];
-
+  const date = startMoment.format("YYYY-MM-DD");
   return (
     <Col ref={ref}>
       <Body style={{ marginBottom: "30px" }}>
@@ -102,6 +102,10 @@ const Information = React.forwardRef(({ gig, translate, history }, ref) => {
         Requirements
         <BodySmall>{rider.formatted}</BodySmall>
         <RowWrap>
+          <InfoBox minHeight>
+            <span>Date</span>
+            {date}
+          </InfoBox>
           <InfoBox minHeight>
             <span>Start</span>
             {start.formattedTime}

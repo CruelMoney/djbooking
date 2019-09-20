@@ -7,7 +7,7 @@ import Footer from "../../components/common/Footer";
 import { Container, Row, Col } from "../../components/Blocks";
 import { useQuery } from "react-apollo";
 import { GIG } from "./gql.js";
-import EventHeader from "./components/blocks/EventHeader.js";
+import GigHeader from "./components/blocks/GigHeader";
 import Information from "./routes/Information/index.js";
 // import Review from "./routes/Review/index.js";
 import styled from "styled-components";
@@ -126,7 +126,7 @@ const Content = React.memo(props => {
     <div>
       <ScrollToTop animate top={280} />
 
-      <EventHeader theEvent={theEvent} loading={loading} />
+      <GigHeader theEvent={theEvent} loading={loading} />
 
       <GigContainer>
         <ContainerRow>
