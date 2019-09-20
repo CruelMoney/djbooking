@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef, useEffect, useState } from "react";
 import ChatService from "../../../utils/ChatService";
 import { authService as auth } from "../../../utils/AuthService";
 import debounce from "lodash.debounce";
@@ -6,249 +6,172 @@ import "./index.css";
 import LoadingPlaceholder from "../LoadingPlaceholder";
 import moment from "moment";
 
-class Chat extends Component {
-  chat = null;
-  auth = null;
-  messagesContainer = null;
-  typingAnimationInterval = null;
+const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
+  const chat = useRef();
+  const startedTyping = useRef();
+  const stoppedTyping = useRef();
+  const [messages, setMessages] = useState([]);
+  const [sending, setSending] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [newMessage, setNewMessage] = useState();
 
-  state = {
-    ready: false,
-    messages: [],
-    newMessage: "",
-    typingAnimation: false,
-    loading: true
+  const addNewMessage = (message, sending = false) => {
+    setMessages(messages => [
+      ...messages,
+      {
+        ...message,
+        createdAt: new Date()
+      }
+    ]);
+    setSending(sending);
   };
 
-  componentDidMount() {
-    this.chat = new ChatService(
-      this.props.chatId,
-      auth.getToken(),
-      this.props.sender.id
-    );
+  useEffect(() => {
+    const newChat = new ChatService(id, auth.getToken(), sender.id);
 
-    this.chat
-      .init({ showPersonalInformation: this.props.showPersonalInformation })
-      .then(messages => {
-        this.setState(
-          {
-            ready: true,
-            messages: messages,
-            loading: false
-          },
-          this.scrollToBottom
-        );
-      });
+    chat.current = newChat;
 
-    this.startedTyping = debounce(this.chat.startedTyping, 1000, {
+    newChat.init({ showPersonalInformation }).then(messages => {
+      setMessages(messages);
+      setReady(true);
+    });
+
+    startedTyping.current = debounce(newChat.startedTyping, 1000, {
       leading: true,
       trailing: false
     });
-    this.stoppedTyping = debounce(this.chat.stoppedTyping, 4000);
+    stoppedTyping.current = debounce(newChat.stoppedTyping, 4000);
 
-    this.chat.onNewMessage = this.addNewMessage;
-    this.chat.receiverStoppedTyping = this.receiverStoppedTyping;
-    this.chat.receiverStartedTyping = this.receiverStartedTyping;
-    this.chat.receiverReadMessages = this.receiverReadMessages;
-  }
-
-  componentWillUnmount() {
-    this.chat.dispose();
-  }
-
-  scrollToBottom = () => {
-    this.messagesContainer && this.messagesContainer.scrollTo(0, 999999);
-  };
-
-  addNewMessage = (message, sending = false) => {
-    this.setState(
-      {
-        messages: [
-          ...this.state.messages,
-          {
-            ...message,
-            createdAt: new Date()
-          }
-        ],
-        sending: sending
-      },
-      _ => {
-        this.scrollToBottom();
-        if (sending) {
-          this.setState({
-            newMessage: ""
-          });
-        }
-      }
-    );
-  };
-
-  receiverReadMessages = () => {
-    this.setState({
-      messages: [
-        ...this.state.messages.map(msg => {
+    const receiverReadMessages = () => {
+      setMessages(messages => [
+        ...messages.map(msg => {
           return { ...msg, read: true };
         })
-      ]
-    });
-  };
+      ]);
+    };
 
-  removeLastMessage = () => {
-    this.setState({
-      messages: [
-        ...this.state.messages.splice(0, this.state.messages.length - 1)
-      ],
-      sending: false
-    });
-  };
+    newChat.receiverStoppedTyping = () => setTyping(false);
+    newChat.receiverStartedTyping = () => setTyping(true);
+    newChat.onNewMessage = addNewMessage;
+    newChat.receiverReadMessages = receiverReadMessages;
 
-  sendMessage = (declineOnContactInfo = false) => {
-    const og_message = this.state.newMessage;
+    return newChat.dispose;
+  }, [id, sender, receiver, showPersonalInformation]);
 
-    const data = {
-      content: og_message,
-      to: this.props.receiver.id,
-      room: String(this.props.chatId),
-      from: this.props.sender.id,
-      eventId: this.props.eventId,
-      declineOnContactInfo
+  const sendMessage = (declineOnContactInfo = false) => {
+    const message = {
+      content: newMessage,
+      to: receiver.id,
+      room: String(id),
+      from: sender.id,
+      declineOnContactInfo,
+      ...data
     };
 
     // First set the message optimisticly
-    this.addNewMessage(data, true);
+    addNewMessage(message, true);
 
     // Then send the message
-    this.chat
-      .sendMessage(data)
-      .then(_ => this.setState({ sending: false }))
-      // If error remove the message from chat again
-      .catch(error => {
-        console.log(error);
-        if (error.status === 403) {
-          this.setState({
-            showPopup: true,
-            newMessage: og_message,
-            declinedMessage: true
-          });
-        }
-        this.removeLastMessage();
-      });
+    chat.current.sendMessage(message).then(_ => setSending(false));
   };
 
-  receiverStartedTyping = () => {
-    this.setState(
-      {
-        typingAnimation: true
-      },
-      this.scrollToBottom
-    );
-  };
-  receiverStoppedTyping = () => {
-    this.setState({
-      typingAnimation: false
-    });
+  const handleChange = event => {
+    startedTyping.current();
+    setNewMessage(event.target.value);
+    stoppedTyping.current();
   };
 
-  handleChange = event => {
-    this.startedTyping();
-    this.setState({
-      newMessage: event.target.value
-    });
-    this.stoppedTyping();
+  return {
+    sending,
+    ready,
+    typing,
+    messages,
+    sendMessage,
+    handleChange,
+    newMessage
+  };
+};
+
+const Chat = ({
+  sender,
+  showPersonalInformation,
+  receiver,
+  placeholder,
+  hideComposer,
+  chat
+}) => {
+  const messagesContainer = useRef();
+
+  const { sending, typing, messages, ready } = chat;
+
+  const scrollToBottom = () => {
+    messagesContainer.current && messagesContainer.current.scrollTo(0, 999999);
   };
 
-  render() {
-    const {
-      loading,
-      messages,
-      sending,
-      newMessage,
-      typingAnimation
-    } = this.state;
+  const datedMessages = toDateGroups(messages);
+  const lastMessage = messages[messages.length - 1];
 
-    const { sender, showPersonalInformation, receiver } = this.props;
-
-    const datedMessages = toDateGroups(messages);
-    const lastMessage = messages[messages.length - 1];
-
-    return (
-      <div className="chat">
-        <div
-          ref={ref => {
-            this.messagesContainer = ref;
-          }}
-          className="messages"
-        >
-          {loading ? (
-            <>
-              <LoadingPlaceholder />
-              <LoadingPlaceholder />
-            </>
-          ) : messages.length > 0 ? null : (
-            this.props.placeholder
-          )}
-          {Object.entries(datedMessages).map(([time, messages]) => (
-            <DateGroup
-              key={time}
-              messages={messages}
-              time={time}
-              sender={sender}
-              receiver={receiver}
-              showPersonalInformation={showPersonalInformation}
-            />
-          ))}
-          {lastMessage && (
-            <Status sender={sender} message={lastMessage} sending={sending} />
-          )}
-          {typingAnimation ? (
-            <div className="message received">
-              <div className="rounded">
-                <img alt={"receiver"} src={this.props.receiver.image} />
-              </div>
-              <div className="speech-bubble typing-indicator">
-                <span />
-                <span />
-                <span />
-              </div>
-            </div>
-          ) : null}
-        </div>
-        {!this.props.hideComposer && (
-          <MessageComposer
-            newMessage={newMessage}
-            sending={sending}
-            sendMessage={this.sendMessage}
-            handleChange={this.handleChange}
-          />
+  return (
+    <div className="chat">
+      <div ref={messagesContainer} className="messages">
+        {!ready ? (
+          <>
+            <LoadingPlaceholder />
+            <LoadingPlaceholder />
+          </>
+        ) : messages.length > 0 ? null : (
+          placeholder
         )}
+        {Object.entries(datedMessages).map(([time, messages]) => (
+          <DateGroup
+            key={time}
+            messages={messages}
+            time={time}
+            sender={sender}
+            receiver={receiver}
+            showPersonalInformation={showPersonalInformation}
+          />
+        ))}
+        {lastMessage && (
+          <Status sender={sender} message={lastMessage} sending={sending} />
+        )}
+        {typing ? (
+          <div className="message received">
+            <div className="rounded">
+              <img alt={"receiver"} src={receiver.image} />
+            </div>
+            <div className="speech-bubble typing-indicator">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        ) : null}
       </div>
-    );
-  }
-}
+      {!hideComposer && <MessageComposer chat={chat} />}
+    </div>
+  );
+};
 
-export const MessageComposer = ({
-  newMessage,
-  sending,
-  sendMessage,
-  handleChange
-}) => (
-  <form onSubmit={sendMessage}>
+export const MessageComposer = ({ chat }) => (
+  <form onSubmit={chat.sendMessage}>
     <textarea
-      onChange={handleChange}
-      value={newMessage}
+      onChange={chat.handleChange}
+      value={chat.newMessage}
       onKeyPress={event => {
         if (event.which === 13 && !event.shiftKey) {
           event.preventDefault();
-          sendMessage();
+          chat.sendMessage();
         }
       }}
     />
     <button
       onClick={event => {
         event.preventDefault();
-        sendMessage();
+        chat.sendMessage();
       }}
-      disabled={sending}
+      disabled={chat.sending}
       type="submit"
     >
       Send
@@ -462,4 +385,29 @@ const Status = ({ sending, message, sender }) => {
   );
 };
 
-export default Chat;
+const WithChat = props => {
+  const { sender, receiver, chatId, showPersonalInformation, eventId } = props;
+  const chat = useChat({
+    sender,
+    receiver,
+    id: chatId,
+    showPersonalInformation,
+    data: {
+      eventId
+    }
+  });
+
+  return <Chat {...props} chat={chat} />;
+};
+
+const Wrapper = props => {
+  const { chat } = props;
+
+  if (!chat) {
+    return <WithChat {...props} />;
+  }
+
+  return <Chat {...props} />;
+};
+
+export default Wrapper;
