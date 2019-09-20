@@ -15,14 +15,28 @@ import Chat, {
 import { useQuery } from "react-apollo";
 import { ME } from "../../../../components/gql";
 import ContactPills from "../blocks/ContactPills";
+import { gigStates } from "../../../../constants/constants";
+import moment from "moment";
 
 const ChatSidebar = props => {
   const { loading, gig, theEvent } = props;
   const { loading: loadingMe, data } = useQuery(ME);
   const { me } = data || {};
 
+  const disableScroll = () => {
+    document.body.classList.add("popup-open");
+  };
+  const enableScroll = () => {
+    document.body.classList.remove("popup-open");
+  };
+
   return (
-    <Sidebar large stickyTop={"0px"}>
+    <Sidebar
+      large
+      stickyTop={"0px"}
+      onMouseEnter={disableScroll}
+      onMouseLeave={enableScroll}
+    >
       <Content>
         <Header>
           <SidebarContent>
@@ -46,8 +60,8 @@ const ChatSidebar = props => {
   );
 };
 
-const PillsCol = styled(RowWrap)`
-  justify-content: flex-end;
+const PillsCol = styled(Col)`
+  align-items: flex-end;
   margin-left: 24px;
   flex: 1;
   margin-bottom: -6px;
@@ -77,10 +91,7 @@ const SmartChat = ({ me, organizer, gig, theEvent }) => {
     messageWrapper.current && messageWrapper.current.scrollTo(0, 999999);
   };
 
-  useEffect(() => {
-    console.log("effect");
-    scrollToBottom();
-  });
+  useEffect(scrollToBottom);
 
   const chat = useChat({
     sender,
@@ -91,6 +102,8 @@ const SmartChat = ({ me, organizer, gig, theEvent }) => {
       eventId: theEvent.id
     }
   });
+
+  const systemMessage = getSystemMessage(gig);
 
   return (
     <>
@@ -103,6 +116,7 @@ const SmartChat = ({ me, organizer, gig, theEvent }) => {
           receiver={receiver}
           chatId={gig.id}
           chat={chat}
+          systemMessage={systemMessage}
         />
       </MessagesWrapper>
       <MessageComposerContainer>
@@ -113,6 +127,51 @@ const SmartChat = ({ me, organizer, gig, theEvent }) => {
       </MessageComposerContainer>
     </>
   );
+};
+
+const getSystemMessage = ({ expires, createdAt, status, directBooking }) => {
+  const within = moment(expires).fromNow();
+
+  if (directBooking && status === gigStates.REQUESTED) {
+    return {
+      systemMessage: true,
+      createdAt: new Date(),
+      content: `The organizer is waiting on your offer. \nThis is a direct booking from your profile and the Cueup fee is discarded.`,
+      actions: ["DECLINE", "ACCCEPT"]
+    };
+  }
+
+  const messages = {
+    [gigStates.REQUESTED]: {
+      systemMessage: true,
+      createdAt: new Date(),
+      content: `The organizer is waiting on your offer. \nMake an offer within ${within} or the gig will automatically be declined.`,
+      actions: ["DECLINE", "ACCCEPT"]
+    },
+    [gigStates.ACCEPTED]: {
+      systemMessage: true,
+      createdAt: new Date(),
+      content: `Waiting on confirmation from the organizer. \nYou can still update the offer if necessary.`,
+      actions: ["UPDATE"]
+    },
+    [gigStates.CONFIRMED]: {
+      systemMessage: true,
+      createdAt: new Date(),
+      content: `Whoop! The gig has been confirmed. \nMake sure that everything is agreed upon with the organizer, and get ready to play.`
+    },
+    [gigStates.FINISHED]: {
+      systemMessage: true,
+      createdAt: new Date(),
+      content: `The gig is finished, we hope you had a good time. \nRemember to ask the organizer to leave a review.`
+    },
+    [gigStates.LOST]: {
+      systemMessage: true,
+      createdAt: new Date(),
+      content: `Another DJ will play this gig. \nTo increase your chances of getting gigs, make sure that your profile is complete.`
+    }
+  };
+
+  return messages[status];
 };
 
 const Glass = styled.div`
@@ -143,12 +202,19 @@ const Content = styled(Col)`
 `;
 
 const MessagesWrapper = styled.div`
+  flex: 1;
+  overflow: scroll;
   position: sticky;
   bottom: 69px;
-  flex: 1;
-  padding-top: 102px;
-  padding-bottom: 15px;
-  overflow: scroll;
+  .chat {
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+  .messages {
+    padding-top: 100px;
+    padding-bottom: 15px;
+  }
 `;
 
 export default ChatSidebar;

@@ -17,6 +17,7 @@ import {
 } from "../../../../../components/Text";
 
 import { NavLink } from "react-router-dom";
+import { gigStates } from "../../../../../constants/constants";
 
 const GigCard = ({ style, idx, gig, hasMessage, translate }) => {
   const { event, offer, id } = gig;
@@ -61,15 +62,13 @@ const GigCard = ({ style, idx, gig, hasMessage, translate }) => {
   );
 };
 
-const Offer = ({ totalPayment, gig, hasMessage, translate }) => {
-  const { statusHumanized, id } = gig;
+const Offer = ({ offer, gig, hasMessage, translate }) => {
+  const { statusHumanized, status, id } = gig;
 
   return (
     <OfferRow middle>
       <OfferTextWrapper>
-        <OfferText muted={false}>
-          {totalPayment ? totalPayment.formatted : "Waiting on your offer"}
-        </OfferText>
+        {offer && <OfferText muted={false}>{offer.formatted}</OfferText>}
 
         <OfferText muted={true}>{statusHumanized}</OfferText>
       </OfferTextWrapper>

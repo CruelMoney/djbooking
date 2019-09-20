@@ -1,5 +1,10 @@
 import React from "react";
-import { Col, InfoBox, RowWrap } from "../../../../components/Blocks";
+import {
+  Col,
+  InfoBox,
+  RowWrap,
+  PillLarge
+} from "../../../../components/Blocks";
 
 import { Body, BodySmall } from "../../../../components/Text";
 import { gigStates } from "../../../../constants/constants";
@@ -7,13 +12,14 @@ import { Label } from "../../../../components/FormComponents";
 import styled from "styled-components";
 import moment from "moment";
 import ContactPills from "../../components/blocks/ContactPills";
+import Notification from "../../../../components/common/Notification";
 
 const Information = React.forwardRef(({ gig, translate, history }, ref) => {
   if (!gig) {
     return null;
   }
 
-  const { event, showInfo } = gig;
+  const { event, showInfo, statusHumanized } = gig;
 
   let {
     description,
@@ -36,7 +42,7 @@ const Information = React.forwardRef(({ gig, translate, history }, ref) => {
   return (
     <Col ref={ref}>
       <Body style={{ marginBottom: "30px" }}>
-        See what the organizer has requested and adjust your offer accordingly.
+        See what ${contactName} has requested and adjust your offer accordingly.
         Don’t hesitate to ask the organizer for more details.
       </Body>
 

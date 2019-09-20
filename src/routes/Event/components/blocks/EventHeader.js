@@ -50,16 +50,19 @@ const Content = ({ theEvent }) => {
       <Row middle>
         <Col style={{ flex: 1, alignItems: "flex-start" }}>
           <HeaderTitle>{name}</HeaderTitle>
-          <BodyBold white opacity={0.75} style={{ margin: 0 }}>
+          <BodyBold
+            white
+            opacity={0.75}
+            style={{ margin: 0, whiteSpace: "pre" }}
+          >
+            {location.name}
+            {"  ·  "}
             {start.formattedDate}
           </BodyBold>
           <BodyBold white opacity={0.75} style={{ margin: 0 }}>
             {start.formattedTime}
-            {" - "}
+            {" to "}
             {end.formattedTime}
-          </BodyBold>
-          <BodyBold white opacity={0.75} style={{ margin: 0 }}>
-            {location.name}
           </BodyBold>
         </Col>
       </Row>

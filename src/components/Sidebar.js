@@ -55,14 +55,13 @@ export const SidebarContent = styled.div`
 
 const Sidebar = ({
   children,
-  style,
-  stickyTop,
   showCTAShadow,
   childrenBelow,
-  large
+  large,
+  ...props
 }) => {
   return (
-    <Sticky stickyTop={stickyTop} style={style} className={"sidebar"}>
+    <Sticky className={"sidebar"} {...props}>
       <Spacing large={large}>
         <Card>{children}</Card>
         <Shadow></Shadow>

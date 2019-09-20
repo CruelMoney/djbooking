@@ -101,6 +101,7 @@ const getDirection = newPath => {
 const Content = React.memo(props => {
   const { match, location, theEvent, loading, gig } = props;
   const { organizer } = theEvent || {};
+  const { statusHumanized } = gig || {};
 
   const [height, setHeight] = useState("auto");
   const direction = getDirection(location.pathname);
@@ -126,7 +127,11 @@ const Content = React.memo(props => {
     <div>
       <ScrollToTop animate top={280} />
 
-      <GigHeader theEvent={theEvent} loading={loading} />
+      <GigHeader
+        theEvent={theEvent}
+        loading={loading}
+        statusHumanized={statusHumanized}
+      />
 
       <GigContainer>
         <ContainerRow>

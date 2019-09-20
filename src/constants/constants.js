@@ -20,13 +20,14 @@ export const eventStates = {
 };
 
 export const gigStates = {
-  OFFERING: "OFFERING",
+  REQUESTED: "REQUESTED",
   CANCELLED: "CANCELLED",
   FINISHED: "FINISHED",
   EVENT_CANCEllED: "EVENT_CANCEllED",
   ACCEPTED: "ACCEPTED",
   CONFIRMED: "CONFIRMED",
-  DECLINED: "DECLINED"
+  DECLINED: "DECLINED",
+  LOST: "LOST"
 };
 
 export const Environment = {

@@ -120,7 +120,8 @@ const Chat = ({
   receiver,
   placeholder,
   hideComposer,
-  chat
+  chat,
+  systemMessage
 }) => {
   const messagesContainer = useRef();
 
@@ -135,8 +136,8 @@ const Chat = ({
     return () => (onNewContent.current = null);
   }, [onNewContent]);
 
-  const datedMessages = toDateGroups(messages);
-  const lastMessage = messages[messages.length - 1];
+  const allMessages = systemMessage ? [...messages, systemMessage] : messages;
+  const datedMessages = toDateGroups(allMessages);
 
   return (
     <div className="chat">
@@ -159,9 +160,7 @@ const Chat = ({
             showPersonalInformation={showPersonalInformation}
           />
         ))}
-        {lastMessage && (
-          <Status sender={sender} message={lastMessage} sending={sending} />
-        )}
+
         {typing ? (
           <div className="message received">
             <div className="rounded">
@@ -237,7 +236,6 @@ const toDateGroups = messages => {
 
     if (insertDate) {
       currentKey = msgDate.getTime();
-
       return {
         ...dateGroups,
         [currentKey]: [msg]
@@ -324,20 +322,22 @@ const SenderGroup = ({
   );
 };
 
-const Message = ({
-  idx,
-  content,
-  isOwn,
-  isFirst,
-  isLast,
-  typingAnimation,
-  containsNumber,
-  containsURL,
-  containsEmail,
-  showPersonalInformation,
-  sending,
-  image
-}) => {
+const Message = props => {
+  const {
+    idx,
+    content,
+    isOwn,
+    isFirst,
+    isLast,
+    typingAnimation,
+    containsNumber,
+    containsURL,
+    containsEmail,
+    showPersonalInformation,
+    sending,
+    image,
+    systemMessage
+  } = props;
   const showNotice = containsEmail || containsNumber || containsURL;
 
   const cornerStyle = isOwn
@@ -355,31 +355,37 @@ const Message = ({
       };
 
   return (
-    <div className="message-wrapper" key={`message-${idx}`}>
-      <div className={`message ${isOwn ? "send" : "received"}`}>
-        {isLast && (
-          <div className="rounded">
-            <img
-              alt={isOwn ? "your picture" : "receiver picture"}
-              src={image}
-            />
+    <>
+      <div className="message-wrapper">
+        <div className={`message ${isOwn ? "send" : "received"}`}>
+          {isLast && (
+            <div className="rounded">
+              <img
+                alt={isOwn ? "your picture" : "receiver picture"}
+                src={image}
+              />
+            </div>
+          )}
+          <div className={`speech-bubble`} style={cornerStyle}>
+            {content}
           </div>
-        )}
-        <div className={`speech-bubble`} style={cornerStyle}>
-          {content}
         </div>
       </div>
+
       {!showPersonalInformation && showNotice && (
         <div className="message-info">Information visible after payment</div>
       )}
-    </div>
+      {isLast && isOwn && <Status sending={sending} message={props} />}
+      {systemMessage && (
+        <div className="message-info service-message">
+          This is a service message from Cueup
+        </div>
+      )}
+    </>
   );
 };
 
-const Status = ({ sending, message, sender }) => {
-  if (message && message.from !== sender.id) {
-    return null;
-  }
+const Status = ({ sending, message }) => {
   const status = sending ? "Sending" : message.read ? "Seen" : "Delivered";
 
   return (

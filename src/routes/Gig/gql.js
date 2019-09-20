@@ -6,6 +6,8 @@ const GIG = gql`
       id
       status
       statusHumanized
+      expires
+      directBooking
       offer {
         offer {
           amount

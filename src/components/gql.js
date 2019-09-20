@@ -200,63 +200,15 @@ const MY_GIGS = gql`
             currency
             formatted
           }
-          serviceFee(currency: $currency) {
-            amount
-            currency
-            formatted
-          }
-          djFee(currency: $currency) {
-            amount
-            currency
-            formatted
-          }
-          totalPayment(currency: $currency) {
-            amount
-            currency
-            formatted
-          }
-          totalPayout(currency: $currency) {
-            amount
-            currency
-            formatted
-          }
         }
         event {
           id
           name
-          guestsCount
+          description
           start {
             localDate
             formattedTime(locale: $locale)
             formattedDate(locale: $locale)
-          }
-          end {
-            localDate
-            formattedTime(locale: $locale)
-          }
-          genres
-          description
-          rider {
-            formatted
-          }
-          location {
-            name
-            latitude
-            longitude
-          }
-          duration {
-            formatted
-          }
-          organizer {
-            id
-            email
-            userMetadata {
-              firstName
-              phone
-            }
-            picture {
-              path
-            }
           }
         }
       }
