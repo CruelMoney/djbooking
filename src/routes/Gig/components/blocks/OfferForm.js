@@ -13,11 +13,12 @@ import {
   PrimaryButton,
   RowWrap,
   Row,
-  Col
+  Col,
+  Hr
 } from "../../../../components/Blocks";
 import { Input, InputRow } from "../../../../components/FormComponents";
 import CurrencySelector from "../../../../components/CurrencySelector";
-import { Body } from "../../../../components/Text";
+import { Body, BodyBold } from "../../../../components/Text";
 
 const OfferForm = ({
   gig,
@@ -146,7 +147,7 @@ const OfferForm = ({
 
               type="text"
               onChange={val => getFees({ amount: parseInt(val, 10) * 100 })}
-              initialValue={
+              defaultValue={
                 initOffer.offer.amount && initOffer.offer.amount / 100
               }
             />
@@ -160,26 +161,31 @@ const OfferForm = ({
         )}
 
       {payoutInfoValid ? (
-        <Col>
-          <TableRow
-            label={translate("Service fee")}
-            info={<div>{translate("gig.offer.service-fee-info")}</div>}
-          >
-            {loading ? "loading..." : offer.serviceFee.formatted}
-          </TableRow>
-          <TableRow label="Total">
-            {loading ? "loading..." : offer.totalPayment.formatted}
-          </TableRow>
-
-          <TableRow
-            label={translate("Cueup fee")}
-            info={<div>{translate("gig.offer.dj-fee-info")}</div>}
-          >
-            {loading ? "loading..." : "-" + offer.djFee.formatted}
-          </TableRow>
-          <TableRow label="Total">
-            {loading ? "loading..." : offer.totalPayout.formatted}
-          </TableRow>
+        <Col style={{ maxWidth: "400px", marginBottom: "30px" }}>
+          <div style={style1}>
+            <TableRow
+              label={translate("Service fee")}
+              info={<div>{translate("gig.offer.service-fee-info")}</div>}
+            >
+              {loading ? "loading..." : offer.serviceFee.formatted}
+            </TableRow>
+            <Hr />
+            <TableRow label="Organizers total price" bold>
+              {loading ? "loading..." : offer.totalPayment.formatted}
+            </TableRow>
+          </div>
+          <div style={style1}>
+            <TableRow
+              label={translate("Cueup fee")}
+              info={<div>{translate("gig.offer.dj-fee-info")}</div>}
+            >
+              {loading ? "loading..." : "-" + offer.djFee.formatted}
+            </TableRow>
+            <Hr />
+            <TableRow label="Your total payout" bold>
+              {loading ? "loading..." : offer.totalPayout.formatted}
+            </TableRow>
+          </div>
         </Col>
       ) : null}
 
@@ -232,10 +238,20 @@ const OfferForm = ({
   );
 };
 
-const TableRow = () => ({ label, value, children }) => (
-  <Row between>
-    <Body>{value || children}</Body> <Body>{label}</Body>
-  </Row>
-);
+const style1 = { marginBottom: "24px" };
+const style2 = { lineHeight: "48px", margin: 0 };
+
+const TableRow = ({ label, value, children, bold }) =>
+  bold ? (
+    <Row between middle>
+      <BodyBold style={style2}>{value || children}</BodyBold>{" "}
+      <BodyBold style={style2}>{label}</BodyBold>
+    </Row>
+  ) : (
+    <Row between middle>
+      <Body style={style2}>{value || children}</Body>{" "}
+      <Body style={style2}>{label}</Body>
+    </Row>
+  );
 
 export default localize(OfferForm, "locale");

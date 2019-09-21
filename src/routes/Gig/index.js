@@ -179,6 +179,7 @@ const Content = React.memo(props => {
                   me={me}
                   loading={loading}
                   theEvent={theEvent}
+                  showDecline={() => setPopup(true)}
                 />
               ))}
             </AnimationWrapper>
