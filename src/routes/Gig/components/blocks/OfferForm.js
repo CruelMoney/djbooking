@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import MoneyTable, {
-  TableItem
-} from "../../../../components/common/MoneyTable";
 import { localize } from "react-localize-redux";
 import moment from "moment-timezone";
 import debounce from "lodash.debounce";
@@ -14,10 +11,13 @@ import {
   SecondaryButton,
   SmartButton,
   PrimaryButton,
-  RowWrap
+  RowWrap,
+  Row,
+  Col
 } from "../../../../components/Blocks";
 import { Input, InputRow } from "../../../../components/FormComponents";
 import CurrencySelector from "../../../../components/CurrencySelector";
+import { Body } from "../../../../components/Text";
 
 const OfferForm = ({
   gig,
@@ -160,51 +160,27 @@ const OfferForm = ({
         )}
 
       {payoutInfoValid ? (
-        <div
-          className="row card offer-table"
-          style={{
-            padding: "20px",
-            marginBottom: "30px",
-            marginTop: "20px"
-          }}
-        >
-          <div className="col-sm-6">
-            <h4 style={{ textAlign: "center" }}>
-              {translate("Organizer pays")}
-            </h4>
-            <MoneyTable>
-              <TableItem label={translate("Your price")}>
-                {offer.offer.formatted}
-              </TableItem>
-              <TableItem
-                label={translate("Service fee")}
-                info={<div>{translate("gig.offer.service-fee-info")}</div>}
-              >
-                {loading ? "loading..." : offer.serviceFee.formatted}
-              </TableItem>
-              <TableItem label="Total">
-                {loading ? "loading..." : offer.totalPayment.formatted}
-              </TableItem>
-            </MoneyTable>
-          </div>
-          <div className="col-sm-6">
-            <h4 style={{ textAlign: "center" }}>{translate("You earn")}</h4>
-            <MoneyTable>
-              <TableItem label={translate("Your price")}>
-                {offer.offer.formatted}
-              </TableItem>
-              <TableItem
-                label={translate("Cueup fee")}
-                info={<div>{translate("gig.offer.dj-fee-info")}</div>}
-              >
-                {loading ? "loading..." : "-" + offer.djFee.formatted}
-              </TableItem>
-              <TableItem label="Total">
-                {loading ? "loading..." : offer.totalPayout.formatted}
-              </TableItem>
-            </MoneyTable>
-          </div>
-        </div>
+        <Col>
+          <TableRow
+            label={translate("Service fee")}
+            info={<div>{translate("gig.offer.service-fee-info")}</div>}
+          >
+            {loading ? "loading..." : offer.serviceFee.formatted}
+          </TableRow>
+          <TableRow label="Total">
+            {loading ? "loading..." : offer.totalPayment.formatted}
+          </TableRow>
+
+          <TableRow
+            label={translate("Cueup fee")}
+            info={<div>{translate("gig.offer.dj-fee-info")}</div>}
+          >
+            {loading ? "loading..." : "-" + offer.djFee.formatted}
+          </TableRow>
+          <TableRow label="Total">
+            {loading ? "loading..." : offer.totalPayout.formatted}
+          </TableRow>
+        </Col>
       ) : null}
 
       {!payoutInfoValid ? <p>{translate("gig.offer.update-payout")}</p> : null}
@@ -255,5 +231,11 @@ const OfferForm = ({
     </div>
   );
 };
+
+const TableRow = () => ({ label, value, children }) => (
+  <Row between>
+    <Body>{value || children}</Body> <Body>{label}</Body>
+  </Row>
+);
 
 export default localize(OfferForm, "locale");

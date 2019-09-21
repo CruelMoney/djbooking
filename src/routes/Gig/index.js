@@ -104,7 +104,7 @@ const idxRoute = path => {
   if (path.includes("review")) {
     return 2;
   }
-  if (path.includes("requirements")) {
+  if (path.includes("offer")) {
     return 1;
   }
   return 0;

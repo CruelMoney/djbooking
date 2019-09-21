@@ -38,10 +38,7 @@ const Content = ({ gig }) => {
 const Offer = props => (
   <Col>
     <Title>Make offer</Title>
-    <Body>
-      Enter your price to play this gig. You can always update the offer until
-      the organizer has confirmed.
-    </Body>
+
     <Content {...props} />
   </Col>
 );
