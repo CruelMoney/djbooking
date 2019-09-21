@@ -5,7 +5,6 @@ import { Body, Title } from "../../../../components/Text";
 import OfferForm from "../../components/blocks/OfferForm";
 import Popup from "../../../../components/common/Popup";
 import PayoutForm from "../../../../components/common/PayoutForm";
-import { gigStates } from "../../../../constants/constants";
 
 const Content = ({ gig, theEvent, me, showDecline }) => {
   const { userSettings, userMetadata } = me;
@@ -33,8 +32,7 @@ const Content = ({ gig, theEvent, me, showDecline }) => {
   );
 };
 
-const Offer = props => (
-  <Col>{props.loading ? <LoadingPlaceholder2 /> : <Content {...props} />}</Col>
-);
+const Offer = ({ loading, ...props }) =>
+  loading ? <LoadingPlaceholder2 /> : <Content {...props} />;
 
 export default Offer;

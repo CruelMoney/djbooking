@@ -5,7 +5,6 @@ import debounce from "lodash.debounce";
 import { GET_OFFER, MAKE_OFFER, GIG } from "../../gql";
 import { useMutation } from "@apollo/react-hooks";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
-import { MY_GIGS } from "../../../../components/gql";
 import { gigStates } from "../../../../constants/constants";
 import {
   SecondaryButton,

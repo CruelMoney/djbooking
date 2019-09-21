@@ -16,7 +16,7 @@ import moment from "moment";
 import useChat from "../../../../components/common/Chat/useChat";
 
 const ChatSidebar = props => {
-  const { loading, organizer, gig, theEvent, me, systemMessage } = props;
+  const { organizer, gig, theEvent, me, systemMessage } = props;
 
   const messageWrapper = useRef();
 
@@ -137,8 +137,6 @@ const ChatSidebar = props => {
     </Sidebar>
   );
 };
-
-const ChatWrapper = props => {};
 
 const PillsCol = styled(Col)`
   align-items: flex-end;

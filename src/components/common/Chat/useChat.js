@@ -30,7 +30,7 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
   }, []);
 
   useEffect(() => {
-    if (!ready && !initializing.current) {
+    if (!ready && !initializing.current && id && senderId) {
       initializing.current = true;
       const newChat = new ChatService(id, auth.getToken(), senderId);
 

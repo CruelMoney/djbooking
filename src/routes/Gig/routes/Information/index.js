@@ -6,8 +6,9 @@ import { Label } from "../../../../components/FormComponents";
 import styled from "styled-components";
 import moment from "moment";
 import ContactPills from "../../components/blocks/ContactPills";
+import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceholder";
 
-const Information = React.forwardRef(({ gig, translate, history }, ref) => {
+const Content = React.forwardRef(({ gig, translate, history }, ref) => {
   if (!gig) {
     return null;
   }
@@ -119,5 +120,8 @@ const CustomLabel = styled(Label)`
     margin-top: 15px;
   }
 `;
+
+const Information = ({ loading, ...props }) =>
+  loading ? <LoadingPlaceholder2 /> : <Content {...props} />;
 
 export default Information;

@@ -30,7 +30,7 @@ import { ME } from "../../components/gql";
 import useLogActivity, {
   ACTIVITY_TYPES
 } from "../../components/hooks/useLogActivity";
-import Review from "./routes/Review";
+import GigReview from "./routes/GigReview";
 
 const Index = ({ translate, match, location, history }) => {
   const {
@@ -82,7 +82,7 @@ const Index = ({ translate, match, location, history }) => {
       )}
       <ScrollToTop animate top={295} />
 
-      {me && <BackToProfile permalink={me.permalink} />}
+      <BackToProfile permalink={me && me.permalink} />
 
       <Content
         location={location}
@@ -247,7 +247,7 @@ const TransitionComponent = ogProps => {
         />
         <Route
           path={match.path + "/review"}
-          render={props => <Review {...props} {...ogProps} />}
+          render={props => <GigReview {...props} {...ogProps} />}
         />
       </Switch>
     </animated.div>

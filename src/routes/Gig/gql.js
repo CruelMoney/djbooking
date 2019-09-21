@@ -81,7 +81,19 @@ const GIG = gql`
       review {
         id
         rating
+        title
         content
+        isTestimonial
+        citation
+        createdAt
+        author {
+          picture {
+            path
+          }
+          userMetadata {
+            firstName
+          }
+        }
       }
     }
   }

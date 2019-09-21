@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LoadingPlaceholder from "../../../../../components/common/LoadingPlaceholder";
+import { LoadingPlaceholder2 } from "../../../../../components/common/LoadingPlaceholder";
 import EmptyPage from "../../../../../components/common/EmptyPage";
 import { connect } from "react-redux";
 import { localize } from "react-localize-redux";
@@ -62,7 +62,7 @@ const Gigs = props => {
     >
       {({ data = {}, loading }) => {
         if (loading || loadingUser) {
-          return <LoadingPlaceholder />;
+          return <LoadingPlaceholder2 />;
         }
 
         const { myGigs = {} } = data;
