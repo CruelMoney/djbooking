@@ -13,7 +13,7 @@ import OfferForm from "../../components/blocks/OfferForm";
 import Popup from "../../../../components/common/Popup";
 import PayoutForm from "../../../../components/common/PayoutForm";
 
-const Content = ({ gig, theEvent, me, translate }) => {
+const Content = ({ gig, theEvent, me, showDecline }) => {
   const isCancel = gig.status === gigStates.CONFIRMED;
   const { userSettings, userMetadata } = me;
 
@@ -30,6 +30,7 @@ const Content = ({ gig, theEvent, me, translate }) => {
         gig={gig}
         event={theEvent}
         payoutInfoValid={!!userMetadata.bankAccount}
+        showDecline={showDecline}
       />
     </Col>
   );

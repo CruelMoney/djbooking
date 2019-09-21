@@ -4,8 +4,6 @@ import { Title } from "../../../../components/Text";
 import styled from "styled-components";
 import { Col, RowWrap } from "../../../../components/Blocks";
 import Chat, { MessageComposer } from "../../../../components/common/Chat";
-import { useQuery } from "react-apollo";
-import { ME } from "../../../../components/gql";
 import ContactPills from "../blocks/ContactPills";
 import { gigStates } from "../../../../constants/constants";
 import moment from "moment";

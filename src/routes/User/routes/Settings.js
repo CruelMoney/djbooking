@@ -23,6 +23,7 @@ import TextAreaPopup from "../../../components/TextAreaPopup";
 import { useConnectInstagram } from "../../../utils/Hooks";
 import VerifyIdentity from "../components/VerifyIdentity";
 import ConnectSoundCloud from "../components/ConnectSoundCloud";
+import CurrencySelector from "../../../components/CurrencySelector";
 
 const hasChanges = (o1, o2) => {
   const keys = Object.keys(o1);
@@ -284,26 +285,13 @@ const Settings = ({
       >
         {isDj && <PayoutPopup user={user} hasPayout={bankAccount} />}
 
-        <Input
+        <CurrencySelector
           half
-          type="select"
           label="Preferred currency"
-          defaultValue={currency || ""}
+          initialValue={currency || ""}
           onSave={currency => saveData({ currency })}
-        >
-          <option disabled value="">
-            update
-          </option>
+        />
 
-          {constants.Currencies.map(c => ({
-            label: c,
-            value: c
-          })).map(({ label, value }, idx) => (
-            <option key={`option-${idx}`} value={value}>
-              {label}
-            </option>
-          ))}
-        </Input>
         <NotificationPreferences
           notifications={notifications}
           onSave={notificationSettings => saveData({ notificationSettings })}

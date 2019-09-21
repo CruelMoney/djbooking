@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import Button from "../../../../components/common/Button-v2";
-import TextField from "../../../../components/common/Textfield";
 import MoneyTable, {
   TableItem
 } from "../../../../components/common/MoneyTable";
 import { localize } from "react-localize-redux";
 import moment from "moment-timezone";
-import { ConnectedCurrencySelector } from "../../../../components/common/CountrySelector";
 import debounce from "lodash.debounce";
-import { Mutation } from "react-apollo";
-import { CANCEL_GIG, DECLINE_GIG, GET_OFFER, MAKE_OFFER } from "../../gql";
+import { GET_OFFER, MAKE_OFFER } from "../../gql";
 import { useMutation } from "@apollo/react-hooks";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 import { MY_GIGS } from "../../../../components/gql";
+import { gigStates } from "../../../../constants/constants";
+import {
+  SecondaryButton,
+  SmartButton,
+  PrimaryButton,
+  RowWrap
+} from "../../../../components/Blocks";
+import { Input, InputRow } from "../../../../components/FormComponents";
+import CurrencySelector from "../../../../components/CurrencySelector";
 
 const OfferForm = ({
   gig,
@@ -22,7 +27,8 @@ const OfferForm = ({
   payoutInfoValid,
   event,
   updateGig,
-  showPopup
+  showPopup,
+  showDecline
 }) => {
   const initOffer = gig.offer || {
     offer: { amount: 0, formatted: 0 },
@@ -123,184 +129,129 @@ const OfferForm = ({
 
   return (
     <div>
-      <div>
-        {payoutInfoValid &&
-        gig.status !== "CONFIRMED" &&
-        gig.status !== "FINISHED" ? (
-          <div>
-            <div className="row">
-              <div className="col-xs-12">
-                <p>{translate("gig.offer.intro")}</p>
+      {payoutInfoValid &&
+        ![
+          gigStates.CONFIRMED,
+          gigStates.FINISHED,
+          gigStates.CANCELLED,
+          gigStates.LOST
+        ].includes(gig.status) && (
+          <InputRow style={{ marginTop: "20px" }}>
+            <Input
+              half
+              label="Price"
+              name="amount"
+              placeholder="00,00"
+              //onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
 
-                {gig.referred ? <p>{translate("gig.offer.direct")}</p> : null}
-              </div>
-            </div>
-            <div className="row" style={{ marginTop: "20px" }}>
-              <div className="col-sm-6">
-                <TextField
-                  name="amount"
-                  placeholder="00,00"
-                  //onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
-                  disabled={
-                    gig.status === "CANCELLED" ||
-                    gig.status === "LOST" ||
-                    gig.status === "CONFIRMED" ||
-                    gig.status === "FINISHED"
-                  }
-                  type="string"
-                  fullWidth={true}
-                  onChange={val => getFees({ amount: parseInt(val, 10) * 100 })}
-                  initialValue={
-                    initOffer.offer.amount && initOffer.offer.amount / 100
-                  }
-                />
-              </div>
-              <div className="col-sm-6">
-                <ConnectedCurrencySelector
-                  initialValue={currency}
-                  onChange={setCurrencyAndFetch}
-                />
-              </div>
-            </div>
+              type="text"
+              onChange={val => getFees({ amount: parseInt(val, 10) * 100 })}
+              initialValue={
+                initOffer.offer.amount && initOffer.offer.amount / 100
+              }
+            />
+            <CurrencySelector
+              half
+              label="Currency"
+              initialValue={currency || ""}
+              onSave={setCurrencyAndFetch}
+            />
+          </InputRow>
+        )}
+
+      {payoutInfoValid ? (
+        <div
+          className="row card offer-table"
+          style={{
+            padding: "20px",
+            marginBottom: "30px",
+            marginTop: "20px"
+          }}
+        >
+          <div className="col-sm-6">
+            <h4 style={{ textAlign: "center" }}>
+              {translate("Organizer pays")}
+            </h4>
+            <MoneyTable>
+              <TableItem label={translate("Your price")}>
+                {offer.offer.formatted}
+              </TableItem>
+              <TableItem
+                label={translate("Service fee")}
+                info={<div>{translate("gig.offer.service-fee-info")}</div>}
+              >
+                {loading ? "loading..." : offer.serviceFee.formatted}
+              </TableItem>
+              <TableItem label="Total">
+                {loading ? "loading..." : offer.totalPayment.formatted}
+              </TableItem>
+            </MoneyTable>
           </div>
-        ) : null}
-
-        {payoutInfoValid ? (
-          <div
-            className="row card offer-table"
-            style={{
-              padding: "20px",
-              marginBottom: "30px",
-              marginTop: "20px"
-            }}
-          >
-            <div className="col-sm-6">
-              <h4 style={{ textAlign: "center" }}>
-                {translate("Organizer pays")}
-              </h4>
-              <MoneyTable>
-                <TableItem label={translate("Your price")}>
-                  {offer.offer.formatted}
-                </TableItem>
-                <TableItem
-                  label={translate("Service fee")}
-                  info={<div>{translate("gig.offer.service-fee-info")}</div>}
-                >
-                  {loading ? "loading..." : offer.serviceFee.formatted}
-                </TableItem>
-                <TableItem label="Total">
-                  {loading ? "loading..." : offer.totalPayment.formatted}
-                </TableItem>
-              </MoneyTable>
-            </div>
-            <div className="col-sm-6">
-              <h4 style={{ textAlign: "center" }}>{translate("You earn")}</h4>
-              <MoneyTable>
-                <TableItem label={translate("Your price")}>
-                  {offer.offer.formatted}
-                </TableItem>
-                <TableItem
-                  label={translate("Cueup fee")}
-                  info={<div>{translate("gig.offer.dj-fee-info")}</div>}
-                >
-                  {loading ? "loading..." : "-" + offer.djFee.formatted}
-                </TableItem>
-                <TableItem label="Total">
-                  {loading ? "loading..." : offer.totalPayout.formatted}
-                </TableItem>
-              </MoneyTable>
-            </div>
+          <div className="col-sm-6">
+            <h4 style={{ textAlign: "center" }}>{translate("You earn")}</h4>
+            <MoneyTable>
+              <TableItem label={translate("Your price")}>
+                {offer.offer.formatted}
+              </TableItem>
+              <TableItem
+                label={translate("Cueup fee")}
+                info={<div>{translate("gig.offer.dj-fee-info")}</div>}
+              >
+                {loading ? "loading..." : "-" + offer.djFee.formatted}
+              </TableItem>
+              <TableItem label="Total">
+                {loading ? "loading..." : offer.totalPayout.formatted}
+              </TableItem>
+            </MoneyTable>
           </div>
-        ) : null}
+        </div>
+      ) : null}
 
-        {gig.status === "LOST" ? <p>{translate("gig.offer.lost")}</p> : null}
+      {!payoutInfoValid ? <p>{translate("gig.offer.update-payout")}</p> : null}
 
-        {!payoutInfoValid ? (
-          <p>{translate("gig.offer.update-payout")}</p>
-        ) : null}
+      {moment(event.start.localDate) > moment() && (
+        <RowWrap>
+          <div name={"gig-cancel-" + gig.id}>
+            {(gig.status === "REQUESTED" || gig.status === "ACCEPTED") && (
+              <SecondaryButton onClick={showDecline}>
+                {translate("Decline gig")}
+              </SecondaryButton>
+            )}
 
-        {moment(event.start.localDate) > moment() ? (
-          <div className="offer-buttons">
-            <div name={"gig-cancel-" + gig.id}>
-              {gig.status === "REQUESTED" || gig.status === "ACCEPTED" ? (
-                <Mutation mutation={DECLINE_GIG} variables={{ id: gig.id }}>
-                  {(decline, { loading }) => (
-                    <Button
-                      rounded={true}
-                      dangerous
-                      valid={true}
-                      warning={translate("gig.offer.decline-warning")}
-                      name="cancel_gig"
-                      isLoading={loading}
-                      onClick={_ => decline()}
-                    >
-                      {translate("Decline gig")}
-                    </Button>
-                  )}
-                </Mutation>
-              ) : null}
+            {gig.status === gigStates.CONFIRMED && (
+              <SecondaryButton onClick={showDecline}>
+                {translate("Cancel gig")}
+              </SecondaryButton>
+            )}
+          </div>
 
-              {gig.status === "CONFIRMED" ? (
-                <Mutation mutation={CANCEL_GIG} variables={{ id: gig.id }}>
-                  {(cancel, { loading }) => (
-                    <Button
-                      rounded={true}
-                      dangerous
-                      valid={true}
-                      warning={translate("gig.offer.cancel-warning")}
-                      name="cancel_gig"
-                      isLoading={loading}
-                      onClick={_ => cancel()}
-                    >
-                      {translate("Cancel gig")}
-                    </Button>
-                  )}
-                </Mutation>
-              ) : null}
-            </div>
-
-            {gig.status === "REQUESTED" && payoutInfoValid ? (
-              <Button
+          {[gigStates.REQUESTED, gigStates.ACCEPTED].includes(gig.status) &&
+            payoutInfoValid && (
+              <SmartButton
                 disabled={!canSubmit}
-                active={canSubmit}
-                rounded={true}
-                name="send_offer"
-                isLoading={submitLoading}
+                loading={submitLoading}
                 succes={submitted}
                 onClick={updateOffer}
               >
-                {translate("Send offer")}
-              </Button>
-            ) : null}
+                {gig.status === gigStates.REQUESTED
+                  ? translate("Send offer")
+                  : translate("Update offer")}
+              </SmartButton>
+            )}
 
-            {gig.status === "ACCEPTED" && payoutInfoValid ? (
-              <Button
-                disabled={!canSubmit}
-                active={canSubmit}
-                rounded={true}
-                name="update_offer"
-                isLoading={submitLoading}
-                succes={submitted}
-                onClick={updateOffer}
-              >
-                {translate("Update offer")}
-              </Button>
-            ) : null}
+          {!payoutInfoValid && (
+            <PrimaryButton
+              rounded={true}
+              onClick={showPopup}
+              name="show-payout-popup"
+            >
+              {translate("Update payout information")}
+            </PrimaryButton>
+          )}
+        </RowWrap>
+      )}
 
-            {!payoutInfoValid ? (
-              <Button
-                rounded={true}
-                onClick={showPopup}
-                name="show-payout-popup"
-              >
-                {translate("Update payout information")}
-              </Button>
-            ) : null}
-          </div>
-        ) : null}
-
-        <ErrorMessageApollo error={error} />
-      </div>
+      <ErrorMessageApollo error={error} />
     </div>
   );
 };
