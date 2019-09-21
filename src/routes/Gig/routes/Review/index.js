@@ -35,12 +35,12 @@ const Content = ({ gig }) => {
   );
 };
 
-const Offer = props => (
+const Review = props => (
   <Col>
-    <Title>Make offer</Title>
+    <Title>Event review</Title>
 
-    <Content {...props} />
+    {/* <Content {...props} /> */}
   </Col>
 );
 
-export default Offer;
+export default Review;
