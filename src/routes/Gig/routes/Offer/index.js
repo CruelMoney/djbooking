@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useQuery, useMutation } from "react-apollo";
-import { EVENT_REVIEW, WRITE_REVIEW } from "../../gql";
+import React, { useState } from "react";
 import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceholder";
-import { Col, SmartButton } from "../../../../components/Blocks";
-import { Title, Body } from "../../../../components/Text";
-import { TextArea } from "../../../../components/FormComponents";
-import Rating from "../../../../components/common/RatingNew";
-import styled from "styled-components";
-import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
-import { gigStates } from "../../../../constants/constants";
+import { Col } from "../../../../components/Blocks";
+import { Body } from "../../../../components/Text";
 import OfferForm from "../../components/blocks/OfferForm";
 import Popup from "../../../../components/common/Popup";
 import PayoutForm from "../../../../components/common/PayoutForm";
 
 const Content = ({ gig, theEvent, me, showDecline }) => {
-  const isCancel = gig.status === gigStates.CONFIRMED;
   const { userSettings, userMetadata } = me;
 
   const [payoutPopup, setPayoutPopup] = useState(false);
