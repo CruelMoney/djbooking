@@ -15,18 +15,21 @@ import { useQuery, useMutation } from "react-apollo";
 import { GIG } from "./gql.js";
 import GigHeader from "./components/blocks/GigHeader";
 import Information from "./routes/Information/index.js";
-// import Review from "./routes/Review/index.js";
+import Offer from "./routes/Offer/index.js";
 import styled from "styled-components";
 import { useTransition, animated } from "react-spring";
 import { useMeasure } from "@softbind/hook-use-measure";
 import ChatSidebar from "./components/ChatSidebar";
 import { gigStates } from "../../constants/constants";
-import { DECLINE_GIG, CANCEL_GIG } from "../User/gql";
+import { DECLINE_GIG, CANCEL_GIG } from "./gql";
 import { Title, Body } from "../../components/Text";
 import CheckboxTable from "../../components/CheckboxTable";
 import Popup from "../../components/common/Popup";
 import BackToProfile from "./components/BackToProfile";
 import { ME } from "../../components/gql";
+import useLogActivity, {
+  ACTIVITY_TYPES
+} from "../../components/hooks/useLogActivity";
 
 const Index = ({ translate, match, location, history }) => {
   const {
@@ -69,6 +72,7 @@ const Index = ({ translate, match, location, history }) => {
           <meta property="og:description" content={description} />
         </Helmet>
       )}
+      <ScrollToTop animate top={280} />
 
       {me && <BackToProfile permalink={me.permalink} />}
 
@@ -123,6 +127,11 @@ const Content = React.memo(props => {
   const { organizer } = theEvent || {};
   const { statusHumanized } = gig || {};
 
+  useLogActivity({
+    type: ACTIVITY_TYPES.GIG_VIEWED_BY_DJ,
+    subjectId: gig && gig.id,
+    skipInView: true
+  });
   const [height, setHeight] = useState("auto");
   const [popup, setPopup] = useState(false);
   const direction = getDirection(location.pathname);
@@ -146,8 +155,6 @@ const Content = React.memo(props => {
 
   return (
     <div>
-      <ScrollToTop />
-
       <GigHeader
         theEvent={theEvent}
         loading={loading}
@@ -170,6 +177,8 @@ const Content = React.memo(props => {
                   gig={gig}
                   registerHeight={setHeight}
                   me={me}
+                  loading={loading}
+                  theEvent={theEvent}
                 />
               ))}
             </AnimationWrapper>
@@ -201,7 +210,8 @@ const Content = React.memo(props => {
   );
 });
 
-const TransitionComponent = ({ style, item, match, gig, registerHeight }) => {
+const TransitionComponent = ogProps => {
+  const { style, item, match, gig, registerHeight, loading } = ogProps;
   const ref = useRef(null);
   const { bounds } = useMeasure(ref, "bounds");
 
@@ -216,12 +226,14 @@ const TransitionComponent = ({ style, item, match, gig, registerHeight }) => {
       <Switch location={item}>
         <Route
           path={match.path + "/information"}
-          render={props => <Information {...props} gig={gig} />}
+          render={props => (
+            <Information {...props} gig={gig} loading={loading} />
+          )}
         />
-        {/* <Route
-          path={match.path + "/review"}
-          render={props => <Review {...props} {...gig} />}
-        /> */}
+        <Route
+          path={match.path + "/offer"}
+          render={props => <Offer {...props} {...ogProps} />}
+        />
       </Switch>
     </animated.div>
   );

@@ -315,93 +315,9 @@ const DISCONNECT_INSTAGRAM = gql`
   }
 `;
 
-const DECLINE_GIG = gql`
-  mutation declineGig($id: ID!, $reason: String!) {
-    declineGig(id: $id, reason: $reason) {
-      id
-      statusHumanized
-      status
-    }
-  }
-`;
-
-const CANCEL_GIG = gql`
-  mutation cancelGig($id: ID!, $reason: String!) {
-    cancelGig(id: $id, reason: $reason) {
-      id
-      statusHumanized
-      status
-    }
-  }
-`;
-
 const DELETE_USER = gql`
   mutation DeleteUser($id: ID!) {
     deleteUser(id: $id)
-  }
-`;
-
-const GET_OFFER = gql`
-  mutation GetOffer(
-    $gigId: ID!
-    $amount: Int!
-    $currency: Currency!
-    $locale: String
-  ) {
-    getOffer(gigId: $gigId, amount: $amount, currency: $currency) {
-      offer {
-        amount
-        formatted(locale: $locale)
-      }
-      serviceFee {
-        amount
-        formatted(locale: $locale)
-      }
-      djFee {
-        amount
-        formatted(locale: $locale)
-      }
-      totalPayment {
-        amount
-        formatted(locale: $locale)
-      }
-      totalPayout {
-        amount
-        formatted(locale: $locale)
-      }
-    }
-  }
-`;
-
-const MAKE_OFFER = gql`
-  mutation MakeOffer(
-    $gigId: ID!
-    $amount: Int!
-    $currency: Currency!
-    $locale: String
-  ) {
-    makeOffer(gigId: $gigId, amount: $amount, currency: $currency) {
-      offer {
-        amount
-        formatted(locale: $locale)
-      }
-      serviceFee {
-        amount
-        formatted(locale: $locale)
-      }
-      djFee {
-        amount
-        formatted(locale: $locale)
-      }
-      totalPayment {
-        amount
-        formatted(locale: $locale)
-      }
-      totalPayout {
-        amount
-        formatted(locale: $locale)
-      }
-    }
   }
 `;
 
@@ -466,48 +382,6 @@ const HIGHLIGHT_REVIEW = gql`
             firstName
           }
         }
-      }
-    }
-  }
-`;
-
-const GIG = gql`
-  query($id: ID!, $hash: String, $currency: Currency) {
-    gig(id: $id, hash: $hash) {
-      id
-      status
-      dj {
-        id
-      }
-      event {
-        id
-        status
-        chosenGig {
-          id
-        }
-        gigs {
-          id
-          status
-        }
-        organizer {
-          id
-          picture {
-            path
-          }
-          userMetadata {
-            firstName
-          }
-        }
-        review {
-          id
-        }
-      }
-      offer {
-        totalPayment(currency: $currency) {
-          formatted
-          amount
-        }
-        daysUntilPaymentPossible
       }
     }
   }
@@ -593,15 +467,53 @@ const LOG_ACTIVITY = gql`
   }
 `;
 
+const GIG = gql`
+  query($id: ID!, $hash: String, $currency: Currency) {
+    gig(id: $id, hash: $hash) {
+      id
+      status
+      dj {
+        id
+      }
+      event {
+        id
+        status
+        chosenGig {
+          id
+        }
+        gigs {
+          id
+          status
+        }
+        organizer {
+          id
+          picture {
+            path
+          }
+          userMetadata {
+            firstName
+          }
+        }
+        review {
+          id
+        }
+      }
+      offer {
+        totalPayment(currency: $currency) {
+          formatted
+          amount
+        }
+        daysUntilPaymentPossible
+      }
+    }
+  }
+`;
+
 export {
   MY_EVENTS,
   USER,
   UPDATE_USER,
-  DECLINE_GIG,
-  CANCEL_GIG,
   DELETE_USER,
-  GET_OFFER,
-  MAKE_OFFER,
   REVIEWS,
   WRITE_TESTIMONIAL,
   REMOVE_TESTIMONIAL,
@@ -613,10 +525,10 @@ export {
   UPDATE_PHOTOS_ORDER,
   CONNECT_INSTAGRAM,
   DISCONNECT_INSTAGRAM,
-  GIG,
   VERIFY_STATUS,
   REQUEST_VERIFICATION,
   ADD_MEDIA,
   DELETE_MEDIA,
-  LOG_ACTIVITY
+  LOG_ACTIVITY,
+  GIG
 };

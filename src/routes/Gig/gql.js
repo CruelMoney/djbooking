@@ -81,4 +81,89 @@ const GIG = gql`
     }
   }
 `;
-export { GIG };
+
+const DECLINE_GIG = gql`
+  mutation declineGig($id: ID!, $reason: String!) {
+    declineGig(id: $id, reason: $reason) {
+      id
+      statusHumanized
+      status
+    }
+  }
+`;
+
+const CANCEL_GIG = gql`
+  mutation cancelGig($id: ID!, $reason: String!) {
+    cancelGig(id: $id, reason: $reason) {
+      id
+      statusHumanized
+      status
+    }
+  }
+`;
+
+const GET_OFFER = gql`
+  mutation GetOffer(
+    $gigId: ID!
+    $amount: Int!
+    $currency: Currency!
+    $locale: String
+  ) {
+    getOffer(gigId: $gigId, amount: $amount, currency: $currency) {
+      offer {
+        amount
+        formatted(locale: $locale)
+      }
+      serviceFee {
+        amount
+        formatted(locale: $locale)
+      }
+      djFee {
+        amount
+        formatted(locale: $locale)
+      }
+      totalPayment {
+        amount
+        formatted(locale: $locale)
+      }
+      totalPayout {
+        amount
+        formatted(locale: $locale)
+      }
+    }
+  }
+`;
+
+const MAKE_OFFER = gql`
+  mutation MakeOffer(
+    $gigId: ID!
+    $amount: Int!
+    $currency: Currency!
+    $locale: String
+  ) {
+    makeOffer(gigId: $gigId, amount: $amount, currency: $currency) {
+      offer {
+        amount
+        formatted(locale: $locale)
+      }
+      serviceFee {
+        amount
+        formatted(locale: $locale)
+      }
+      djFee {
+        amount
+        formatted(locale: $locale)
+      }
+      totalPayment {
+        amount
+        formatted(locale: $locale)
+      }
+      totalPayout {
+        amount
+        formatted(locale: $locale)
+      }
+    }
+  }
+`;
+
+export { GIG, CANCEL_GIG, DECLINE_GIG, MAKE_OFFER, GET_OFFER };

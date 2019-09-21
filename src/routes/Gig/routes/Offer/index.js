@@ -9,40 +9,39 @@ import Rating from "../../../../components/common/RatingNew";
 import styled from "styled-components";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 import { gigStates } from "../../../../constants/constants";
+import OfferForm from "../../components/blocks/OfferForm";
+import Popup from "../../../../components/common/Popup";
+import PayoutForm from "../../../../components/common/PayoutForm";
 
-const Content = ({ gig }) => {
+const Content = ({ gig, theEvent, me, translate }) => {
   const isCancel = gig.status === gigStates.CONFIRMED;
+  const { userSettings, userMetadata } = me;
+
+  const [payoutPopup, setPayoutPopup] = useState(false);
 
   return (
     <Col>
-      {/* <SmartButton
-          warning
-          loading={cancelling}
-          level="secondary"
-          onClick={() => doMutate()}
-        >
-          {isCancel ? "Cancel gig" : "Decline gig"}
-        </SmartButton>
-      <SmartButton
-        level="primary"
-        loading={saving}
-        onClick={() => saveReview()}
-      >
-        {review && review.id ? "Update" : "Save"}
-      </SmartButton>
-      <ErrorMessageApollo error={error} /> */}
+      <Popup showing={payoutPopup} onClickOutside={() => setPayoutPopup(false)}>
+        <PayoutForm user={me} />
+      </Popup>
+      <OfferForm
+        showPopup={() => setPayoutPopup(true)}
+        profileCurrency={userSettings.currency}
+        gig={gig}
+        event={theEvent}
+        payoutInfoValid={!!userMetadata.bankAccount}
+      />
     </Col>
   );
 };
 
 const Offer = props => (
   <Col>
-    <Title>Make offer</Title>
     <Body>
       Enter your price to play this gig. You can always update the offer until
       the organizer has confirmed.
     </Body>
-    <Content {...props} />
+    {props.loading ? <LoadingPlaceholder2 /> : <Content {...props} />}
   </Col>
 );
 
