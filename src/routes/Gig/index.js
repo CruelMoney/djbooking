@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import { Route, Redirect, Switch } from "react-router-dom";
 import addTranslate from "../../components/higher-order/addTranslate";
@@ -30,6 +30,7 @@ import { ME } from "../../components/gql";
 import useLogActivity, {
   ACTIVITY_TYPES
 } from "../../components/hooks/useLogActivity";
+import Review from "./routes/Review";
 
 const Index = ({ translate, match, location, history }) => {
   const {
@@ -48,9 +49,16 @@ const Index = ({ translate, match, location, history }) => {
 
   const loading = loadingGig || loadingMe;
 
+  useLogActivity({
+    type: ACTIVITY_TYPES.GIG_VIEWED_BY_DJ,
+    subjectId: gig && gig.id,
+    skipInView: true
+  });
+
   if (!loading && !gig) {
     return <Redirect to={translate("routes./not-found")} />;
   }
+
   const { event, status } = gig || {};
 
   const title = event ? event.name : "Cueup | Event";
@@ -72,7 +80,7 @@ const Index = ({ translate, match, location, history }) => {
           <meta property="og:description" content={description} />
         </Helmet>
       )}
-      <ScrollToTop animate top={280} />
+      <ScrollToTop animate top={295} />
 
       {me && <BackToProfile permalink={me.permalink} />}
 
@@ -123,17 +131,56 @@ const getDirection = newPath => {
 };
 
 const Content = React.memo(props => {
-  const { match, location, theEvent, loading, gig, history, me } = props;
+  const { theEvent, loading, gig, history, me } = props;
   const { organizer } = theEvent || {};
   const { statusHumanized } = gig || {};
 
-  useLogActivity({
-    type: ACTIVITY_TYPES.GIG_VIEWED_BY_DJ,
-    subjectId: gig && gig.id,
-    skipInView: true
-  });
-  const [height, setHeight] = useState("auto");
   const [popup, setPopup] = useState(false);
+
+  const showDecline = useCallback(() => setPopup(true), []);
+  const navigateToOffer = useCallback(() => history.push("offer"), [history]);
+
+  return (
+    <div>
+      <GigHeader
+        theEvent={theEvent}
+        loading={loading}
+        statusHumanized={statusHumanized}
+      />
+
+      <GigContainer>
+        <ContainerRow>
+          <MainContent {...props} setPopup={setPopup} />
+          <Col>
+            <ChatSidebar
+              theEvent={theEvent}
+              gig={gig}
+              loading={loading}
+              organizer={organizer}
+              showDecline={showDecline}
+              navigateToOffer={navigateToOffer}
+              me={me}
+            />
+          </Col>
+        </ContainerRow>
+      </GigContainer>
+      <Popup width={530} showing={popup} onClickOutside={() => setPopup(false)}>
+        <CancelationDeclinePopup
+          gig={gig}
+          hide={() => setPopup(false)}
+          onCancelled={() => {
+            setPopup(false);
+            history.push("information");
+          }}
+        />
+      </Popup>
+    </div>
+  );
+});
+
+const MainContent = props => {
+  const { location, setPopup } = props;
+  const [height, setHeight] = useState("auto");
   const direction = getDirection(location.pathname);
 
   const transitions = useTransition(location, location => location.pathname, {
@@ -154,62 +201,25 @@ const Content = React.memo(props => {
   });
 
   return (
-    <div>
-      <GigHeader
-        theEvent={theEvent}
-        loading={loading}
-        statusHumanized={statusHumanized}
-      />
-
-      <GigContainer>
-        <ContainerRow>
-          <BorderCol style={{ height: height || "auto" }}>
-            <Switch>
-              <Redirect exact from={"/gig/:id"} to={"/gig/:id/information"} />
-            </Switch>
-            <AnimationWrapper>
-              {transitions.map(({ item, props, key }) => (
-                <TransitionComponent
-                  item={item}
-                  style={props}
-                  key={key}
-                  match={match}
-                  gig={gig}
-                  registerHeight={setHeight}
-                  me={me}
-                  loading={loading}
-                  theEvent={theEvent}
-                  showDecline={() => setPopup(true)}
-                />
-              ))}
-            </AnimationWrapper>
-          </BorderCol>
-          <Col>
-            <ChatSidebar
-              theEvent={theEvent}
-              gig={gig}
-              loading={loading}
-              organizer={organizer}
-              showDecline={() => setPopup(true)}
-              navigateToOffer={() => history.push("offer")}
-              me={me}
-            />
-          </Col>
-        </ContainerRow>
-      </GigContainer>
-      <Popup width={530} showing={popup} onClickOutside={() => setPopup(false)}>
-        <CancelationDeclinePopup
-          gig={gig}
-          hide={() => setPopup(false)}
-          onCancelled={() => {
-            setPopup(false);
-            history.push("information");
-          }}
-        />
-      </Popup>
-    </div>
+    <BorderCol style={{ height: height || "auto" }}>
+      <Switch>
+        <Redirect exact from={"/gig/:id"} to={"/gig/:id/information"} />
+      </Switch>
+      <AnimationWrapper>
+        {transitions.map(({ item, props: style, key }) => (
+          <TransitionComponent
+            {...props}
+            item={item}
+            style={style}
+            key={key}
+            registerHeight={setHeight}
+            showDecline={() => setPopup(true)}
+          />
+        ))}
+      </AnimationWrapper>
+    </BorderCol>
   );
-});
+};
 
 const TransitionComponent = ogProps => {
   const { style, item, match, gig, registerHeight, loading } = ogProps;
@@ -234,6 +244,10 @@ const TransitionComponent = ogProps => {
         <Route
           path={match.path + "/offer"}
           render={props => <Offer {...props} {...ogProps} />}
+        />
+        <Route
+          path={match.path + "/review"}
+          render={props => <Review {...props} {...ogProps} />}
         />
       </Switch>
     </animated.div>

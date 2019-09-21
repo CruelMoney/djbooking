@@ -78,6 +78,11 @@ const GIG = gql`
           formatted
         }
       }
+      review {
+        id
+        rating
+        content
+      }
     }
   }
 `;

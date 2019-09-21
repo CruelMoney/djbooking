@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useCallback, useLayoutEffect } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+  memo
+} from "react";
 import Sidebar, { SidebarContent } from "../../../../components/Sidebar";
 import { Title } from "../../../../components/Text";
 import styled from "styled-components";
@@ -10,7 +16,7 @@ import moment from "moment";
 import useChat from "../../../../components/common/Chat/useChat";
 
 const ChatSidebar = props => {
-  const { organizer, gig, theEvent, navigateToOffer, me, showDecline } = props;
+  const { loading, organizer, gig, theEvent, me, systemMessage } = props;
 
   const messageWrapper = useRef();
 
@@ -20,25 +26,29 @@ const ChatSidebar = props => {
 
   useEffect(scrollToBottom);
 
-  const sender = {
-    id: me.id,
-    name: me.userMetadata.firstName,
-    image: me.picture.path
-  };
+  const sender = me
+    ? {
+        id: me.id,
+        name: me.userMetadata.firstName,
+        image: me.picture.path
+      }
+    : {};
 
-  const receiver = {
-    id: organizer.id,
-    name: organizer.userMetadata.firstName,
-    image: organizer.picture && organizer.picture.path
-  };
+  const receiver = organizer
+    ? {
+        id: organizer.id,
+        name: organizer.userMetadata.firstName,
+        image: organizer.picture && organizer.picture.path
+      }
+    : {};
 
   const chat = useChat({
     sender,
     receiver,
-    id: gig.id,
-    showPersonalInformation: gig.showInfo,
+    id: gig && gig.id,
+    showPersonalInformation: gig && gig.showInfo,
     data: {
-      eventId: theEvent.id
+      eventId: theEvent && theEvent.id
     }
   });
 
@@ -54,7 +64,7 @@ const ChatSidebar = props => {
     const windowHeight = window.innerHeight;
     const dy = bottom - windowHeight;
     if (dy > 0) {
-      messageWrapper.current.style.paddingBottom = dy + 69 + "px";
+      messageWrapper.current.style.paddingBottom = dy + "px";
     }
   }, []);
 
@@ -67,8 +77,6 @@ const ChatSidebar = props => {
   }, [adjustPadding]);
 
   useLayoutEffect(adjustPadding);
-
-  const systemMessage = getSystemMessage({ gig, navigateToOffer, showDecline });
 
   return (
     <Sidebar
@@ -96,10 +104,12 @@ const ChatSidebar = props => {
             </SidebarContent>
           </Header>
           <MessageComposerContainer style={{ zIndex: 1 }}>
-            <MessageComposer
-              chat={chat}
-              placeholder={`Message ${receiver.name}...`}
-            />
+            {chat && (
+              <MessageComposer
+                chat={chat}
+                placeholder={`Message ${receiver.name}...`}
+              />
+            )}
           </MessageComposerContainer>
         </InnerContent>
         <InnerContent
@@ -109,22 +119,26 @@ const ChatSidebar = props => {
           }}
         >
           <MessagesWrapper ref={messageWrapper}>
-            <Chat
-              hideComposer
-              showPersonalInformation={gig.showInfo}
-              eventId={theEvent.id}
-              sender={sender}
-              receiver={receiver}
-              chatId={gig.id}
-              chat={chat}
-              systemMessage={systemMessage}
-            />
+            {gig && me && (
+              <Chat
+                hideComposer
+                showPersonalInformation={gig.showInfo}
+                eventId={theEvent.id}
+                sender={sender}
+                receiver={receiver}
+                chatId={gig.id}
+                chat={chat}
+                systemMessage={systemMessage}
+              />
+            )}
           </MessagesWrapper>
         </InnerContent>
       </Content>
     </Sidebar>
   );
 };
+
+const ChatWrapper = props => {};
 
 const PillsCol = styled(Col)`
   align-items: flex-end;
@@ -198,7 +212,7 @@ const getSystemMessage = ({ gig, showDecline, navigateToOffer }) => {
     [gigStates.FINISHED]: {
       systemMessage: true,
       createdAt: new Date(),
-      content: `The gig is finished, we hope you had a good time. \nRemember to ask the organizer to leave a review.`
+      content: `The gig is finished, we hope you had a good time. \nAsk the organizer to leave a review.`
     },
     [gigStates.LOST]: {
       systemMessage: true,
@@ -262,16 +276,19 @@ const MessagesWrapper = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
+    padding-bottom: 69px;
   }
 `;
 
-const Wrapper = props => {
-  const { loading } = props;
-  if (loading) {
-    return null;
+const Wrapper = memo(props => {
+  const { gig, navigateToOffer, showDecline } = props;
+
+  let systemMessage = null;
+  if (gig) {
+    systemMessage = getSystemMessage({ gig, navigateToOffer, showDecline });
   }
 
-  return <ChatSidebar {...props} />;
-};
+  return <ChatSidebar {...props} systemMessage={systemMessage} />;
+});
 
 export default Wrapper;

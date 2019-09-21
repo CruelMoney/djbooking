@@ -160,7 +160,9 @@ const OfferForm = ({
         )}
 
       {payoutInfoValid ? (
-        <Col style={{ maxWidth: "400px", marginBottom: "30px" }}>
+        <Col
+          style={{ maxWidth: "400px", marginBottom: "30px", marginTop: "30px" }}
+        >
           <div style={style1}>
             <TableRow
               label={translate("Service fee")}

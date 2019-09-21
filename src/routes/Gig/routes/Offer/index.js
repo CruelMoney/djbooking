@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceholder";
 import { Col } from "../../../../components/Blocks";
-import { Body } from "../../../../components/Text";
+import { Body, Title } from "../../../../components/Text";
 import OfferForm from "../../components/blocks/OfferForm";
 import Popup from "../../../../components/common/Popup";
 import PayoutForm from "../../../../components/common/PayoutForm";
@@ -19,6 +19,7 @@ const Content = ({ gig, theEvent, me, showDecline }) => {
       <Popup showing={payoutPopup} onClickOutside={() => setPayoutPopup(false)}>
         <PayoutForm user={me} />
       </Popup>
+      <Title>Make offer</Title>
       <Body>{info}</Body>
       <OfferForm
         showPopup={() => setPayoutPopup(true)}
