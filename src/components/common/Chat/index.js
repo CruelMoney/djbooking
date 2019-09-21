@@ -37,7 +37,6 @@ const Chat = ({
   return (
     <div className="chat">
       <div ref={messagesContainer} className="messages">
-        <div style={{ flex: 1 }} />
         {!ready ? (
           <>
             <LoadingPlaceholder />

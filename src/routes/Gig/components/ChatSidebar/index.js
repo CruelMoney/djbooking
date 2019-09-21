@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback, useLayoutEffect } from "react";
 import Sidebar, { SidebarContent } from "../../../../components/Sidebar";
 import { Title } from "../../../../components/Text";
 import styled from "styled-components";
@@ -12,7 +12,37 @@ import moment from "moment";
 import useChat from "../../../../components/common/Chat/useChat";
 
 const ChatSidebar = props => {
-  const { loading, gig, theEvent, navigateToOffer, me } = props;
+  const { organizer, gig, theEvent, navigateToOffer, me, showDecline } = props;
+
+  const messageWrapper = useRef();
+
+  const scrollToBottom = () => {
+    messageWrapper.current && messageWrapper.current.scrollTo(0, 999999);
+  };
+
+  useEffect(scrollToBottom);
+
+  const sender = {
+    id: me.id,
+    name: me.userMetadata.firstName,
+    image: me.picture.path
+  };
+
+  const receiver = {
+    id: organizer.id,
+    name: organizer.userMetadata.firstName,
+    image: organizer.picture && organizer.picture.path
+  };
+
+  const chat = useChat({
+    sender,
+    receiver,
+    id: gig.id,
+    showPersonalInformation: gig.showInfo,
+    data: {
+      eventId: theEvent.id
+    }
+  });
 
   const disableScroll = () => {
     document.body.classList.add("popup-open");
@@ -21,7 +51,26 @@ const ChatSidebar = props => {
     document.body.classList.remove("popup-open");
   };
 
-  const systemMessage = getSystemMessage({ gig, navigateToOffer });
+  const adjustPadding = useCallback(() => {
+    const { bottom } = messageWrapper.current.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const dy = bottom - windowHeight;
+    if (dy > 0) {
+      messageWrapper.current.style.paddingBottom = dy + 69 + "px";
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", adjustPadding);
+    return () => {
+      window.removeEventListener("scroll", adjustPadding);
+      enableScroll();
+    };
+  }, [adjustPadding]);
+
+  useLayoutEffect(adjustPadding);
+
+  const systemMessage = getSystemMessage({ gig, navigateToOffer, showDecline });
 
   return (
     <Sidebar
@@ -31,25 +80,49 @@ const ChatSidebar = props => {
       onMouseLeave={enableScroll}
     >
       <Content>
-        <Header>
-          <SidebarContent>
-            <RowWrap between>
-              <Title>Messages</Title>
-              <PillsCol>
-                {theEvent && (
-                  <ContactPills
-                    email={theEvent.contactEmail}
-                    phone={theEvent.contactPhone}
-                    showInfo={gig.showInfo}
-                  />
-                )}
-              </PillsCol>
-            </RowWrap>
-          </SidebarContent>
-        </Header>
-        {loading ? null : (
-          <SmartChat {...props} me={me} systemMessage={systemMessage} />
-        )}
+        <InnerContent>
+          <Header>
+            <SidebarContent>
+              <RowWrap between>
+                <Title>Messages</Title>
+                <PillsCol>
+                  {theEvent && (
+                    <ContactPills
+                      email={theEvent.contactEmail}
+                      phone={theEvent.contactPhone}
+                      showInfo={gig.showInfo}
+                    />
+                  )}
+                </PillsCol>
+              </RowWrap>
+            </SidebarContent>
+          </Header>
+          <MessageComposerContainer style={{ zIndex: 1 }}>
+            <MessageComposer
+              chat={chat}
+              placeholder={`Message ${receiver.name}...`}
+            />
+          </MessageComposerContainer>
+        </InnerContent>
+        <InnerContent
+          style={{
+            zIndex: 0,
+            justifyContent: "flex-end"
+          }}
+        >
+          <MessagesWrapper ref={messageWrapper}>
+            <Chat
+              hideComposer
+              showPersonalInformation={gig.showInfo}
+              eventId={theEvent.id}
+              sender={sender}
+              receiver={receiver}
+              chatId={gig.id}
+              chat={chat}
+              systemMessage={systemMessage}
+            />
+          </MessagesWrapper>
+        </InnerContent>
       </Content>
     </Sidebar>
   );
@@ -66,61 +139,6 @@ const PillsCol = styled(Col)`
     margin-left: 6px;
   }
 `;
-
-const SmartChat = ({ me, organizer, gig, theEvent, systemMessage }) => {
-  const messageWrapper = useRef();
-
-  const sender = {
-    id: me.id,
-    name: me.userMetadata.firstName,
-    image: me.picture.path
-  };
-
-  const receiver = {
-    id: organizer.id,
-    name: organizer.userMetadata.firstName,
-    image: organizer.picture && organizer.picture.path
-  };
-
-  const scrollToBottom = () => {
-    messageWrapper.current && messageWrapper.current.scrollTo(0, 999999);
-  };
-
-  useEffect(scrollToBottom);
-
-  const chat = useChat({
-    sender,
-    receiver,
-    id: gig.id,
-    showPersonalInformation: gig.showInfo,
-    data: {
-      eventId: theEvent.id
-    }
-  });
-
-  return (
-    <>
-      <MessagesWrapper ref={messageWrapper}>
-        <Chat
-          hideComposer
-          showPersonalInformation={gig.showInfo}
-          eventId={theEvent.id}
-          sender={sender}
-          receiver={receiver}
-          chatId={gig.id}
-          chat={chat}
-          systemMessage={systemMessage}
-        />
-      </MessagesWrapper>
-      <MessageComposerContainer>
-        <MessageComposer
-          chat={chat}
-          placeholder={`Message ${receiver.name}...`}
-        />
-      </MessageComposerContainer>
-    </>
-  );
-};
 
 const getSystemMessage = ({ gig, showDecline, navigateToOffer }) => {
   if (!gig) {
@@ -217,15 +235,25 @@ const MessageComposerContainer = styled(Glass)`
 `;
 
 const Content = styled(Col)`
-  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
+  width: 100%;
+`;
+const InnerContent = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
 `;
 
 const MessagesWrapper = styled.div`
-  flex: 1;
   overflow: scroll;
   position: sticky;
-  bottom: 69px;
+  bottom: 0px;
   .chat {
     width: 100%;
     height: 100%;
@@ -233,11 +261,19 @@ const MessagesWrapper = styled.div`
   }
   .messages {
     padding-top: 100px;
-    padding-bottom: 15px;
     display: flex;
     width: 100%;
     flex-direction: column;
   }
 `;
 
-export default ChatSidebar;
+const Wrapper = props => {
+  const { loading } = props;
+  if (loading) {
+    return null;
+  }
+
+  return <ChatSidebar {...props} />;
+};
+
+export default Wrapper;

@@ -250,9 +250,9 @@ const CancelationDeclinePopup = ({ gig, hide, onCancelled }) => {
   };
 
   const cancelText =
-    " Are you sure you want to cancel the gig? All money will be refunded to the organizer. \nPlease let us know the reason for cancelling and if we can do anything better.";
+    "Are you sure you want to cancel the gig? All money will be refunded to the organizer. \nPlease let us know the reason for cancelling and if we can do anything better.";
   const declineText =
-    " Are you sure you want to decline the gig? You will not be able to get the gig back. \nPlease let us know the reason for declining so we can get you better gigs in the future.";
+    "Are you sure you want to decline the gig? You will not be able to get the gig back. \nPlease let us know the reason for declining so we can get you better gigs in the future.";
 
   const declineOptions = {
     0: {
@@ -289,7 +289,7 @@ const CancelationDeclinePopup = ({ gig, hide, onCancelled }) => {
 
   return (
     <div>
-      <Title>{isCancel ? "Cancel" : "Decline"} event</Title>
+      <Title>{isCancel ? "Cancel" : "Decline"} gig</Title>
       <Body>{isCancel ? cancelText : declineText}</Body>
 
       <CheckboxTable

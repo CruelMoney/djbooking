@@ -41,13 +41,14 @@ const Information = React.forwardRef(({ gig, translate, history }, ref) => {
 
       {address && showInfo && (
         <CustomLabel>
-          Address
+          <TitleClean>Address</TitleClean>
           <BodySmall>{address}</BodySmall>
         </CustomLabel>
       )}
 
       <CustomLabel>
-        Get in touch with {contactName}
+        <TitleClean>Get in touch with {contactName}</TitleClean>
+
         <BodySmall>
           Information will be available when the gig is confirmed.
         </BodySmall>
@@ -61,12 +62,12 @@ const Information = React.forwardRef(({ gig, translate, history }, ref) => {
       </CustomLabel>
 
       <CustomLabel>
-        Description
+        <TitleClean>Description</TitleClean>
         <BodySmall>{description}</BodySmall>
       </CustomLabel>
 
       <CustomLabel>
-        Music
+        <TitleClean>Music</TitleClean>
         <RowWrap>
           {genres.map(g => (
             <InfoBox key={g}>{g}</InfoBox>
@@ -111,9 +112,11 @@ const Information = React.forwardRef(({ gig, translate, history }, ref) => {
 
 const CustomLabel = styled(Label)`
   margin-bottom: 30px;
-  font-family: "AvenirNext-DemiBold", Arial, Helvetica, sans-serif;
-  > * {
-    margin-top: 12px;
+  h3 {
+    margin-bottom: 0.5em;
+  }
+  > div {
+    margin-top: 15px;
   }
 `;
 
