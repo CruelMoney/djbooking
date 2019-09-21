@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { localize } from "react-localize-redux";
 import moment from "moment-timezone";
 import debounce from "lodash.debounce";
-import { GET_OFFER, MAKE_OFFER } from "../../gql";
+import { GET_OFFER, MAKE_OFFER, GIG } from "../../gql";
 import { useMutation } from "@apollo/react-hooks";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
 import { MY_GIGS } from "../../../../components/gql";
@@ -53,9 +53,8 @@ const OfferForm = ({
   const [makeOffer] = useMutation(MAKE_OFFER, {
     refetchQueries: [
       {
-        query: MY_GIGS,
-
-        variables: { limit: 100, locale: currentLanguage }
+        query: GIG,
+        variables: { id: gig.id, locale: currentLanguage }
       }
     ]
   });
@@ -215,7 +214,9 @@ const OfferForm = ({
                 succes={submitted}
                 onClick={updateOffer}
               >
-                {gig.status === gigStates.REQUESTED
+                {submitted
+                  ? "Updated"
+                  : gig.status === gigStates.REQUESTED
                   ? translate("Send offer")
                   : translate("Update offer")}
               </SmartButton>

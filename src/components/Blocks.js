@@ -470,6 +470,7 @@ export const SmartButton = ({
   warning,
   disabled,
   style,
+  success,
   ...props
 }) => {
   const Button = buttons[level];
@@ -491,13 +492,12 @@ export const SmartButton = ({
     <Button
       onClick={handleClick}
       warning={warning}
-      disabled={disabled || loading}
+      disabled={disabled || loading || success}
       style={{
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-
         ...style
       }}
       {...props}
