@@ -70,7 +70,10 @@ const Chat = ({
         ) : null}
       </div>
       {!hideComposer && (
-        <MessageComposer chat={chat} placeholder={placeholder} />
+        <MessageComposer
+          chat={chat}
+          placeholder={"Send a message to " + receiver.name + "..."}
+        />
       )}
     </div>
   );

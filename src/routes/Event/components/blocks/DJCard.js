@@ -274,7 +274,7 @@ const ChatPopup = ({
   showInfo
 }) => {
   return (
-    <Popup hideClose noPadding showing={showing} onClickOutside={close}>
+    <Popup showing={showing} onClickOutside={close}>
       <Chat
         showPersonalInformation={showInfo}
         eventId={eventId}

@@ -68,12 +68,7 @@ const BookingButton = ({
     return (
       <>
         <CTAButton onClick={() => setShowPopup(true)}>SEND MESSAGE</CTAButton>
-        <Popup
-          hideClose
-          noPadding
-          showing={showPopup}
-          onClickOutside={() => setShowPopup(false)}
-        >
+        <Popup showing={showPopup} onClickOutside={() => setShowPopup(false)}>
           <Chat
             showPersonalInformation={false}
             eventId={event.id}
