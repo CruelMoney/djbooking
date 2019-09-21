@@ -4,8 +4,14 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import addTranslate from "../../components/higher-order/addTranslate";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Footer from "../../components/common/Footer";
-import { Container, Row, Col } from "../../components/Blocks";
-import { useQuery } from "react-apollo";
+import {
+  Container,
+  Row,
+  Col,
+  TeritaryButton,
+  SmartButton
+} from "../../components/Blocks";
+import { useQuery, useMutation } from "react-apollo";
 import { GIG } from "./gql.js";
 import GigHeader from "./components/blocks/GigHeader";
 import Information from "./routes/Information/index.js";
@@ -15,19 +21,29 @@ import { useTransition, animated } from "react-spring";
 import { useMeasure } from "@softbind/hook-use-measure";
 import ChatSidebar from "./components/ChatSidebar";
 import { gigStates } from "../../constants/constants";
+import { DECLINE_GIG, CANCEL_GIG } from "../User/gql";
+import { Title, Body } from "../../components/Text";
+import CheckboxTable from "../../components/CheckboxTable";
+import Popup from "../../components/common/Popup";
+import BackToProfile from "./components/BackToProfile";
+import { ME } from "../../components/gql";
 
 const Index = ({ translate, match, location, history }) => {
   const {
     params: { id }
   } = match;
-  const { data = {}, loading } = useQuery(GIG, {
+  const { data = {}, loading: loadingGig } = useQuery(GIG, {
     skip: !id,
     variables: {
       id
     }
   });
+  const { loading: loadingMe, data: meData } = useQuery(ME);
+  const { me } = meData || {};
 
   const { gig } = data;
+
+  const loading = loadingGig || loadingMe;
 
   if (!loading && !gig) {
     return <Redirect to={translate("routes./not-found")} />;
@@ -54,6 +70,8 @@ const Index = ({ translate, match, location, history }) => {
         </Helmet>
       )}
 
+      {me && <BackToProfile permalink={me.permalink} />}
+
       <Content
         location={location}
         match={match}
@@ -62,6 +80,7 @@ const Index = ({ translate, match, location, history }) => {
         loading={loading}
         translate={translate}
         history={history}
+        me={me}
       />
 
       <Footer
@@ -100,11 +119,12 @@ const getDirection = newPath => {
 };
 
 const Content = React.memo(props => {
-  const { match, location, theEvent, loading, gig, history } = props;
+  const { match, location, theEvent, loading, gig, history, me } = props;
   const { organizer } = theEvent || {};
   const { statusHumanized } = gig || {};
 
   const [height, setHeight] = useState("auto");
+  const [popup, setPopup] = useState(false);
   const direction = getDirection(location.pathname);
 
   const transitions = useTransition(location, location => location.pathname, {
@@ -149,6 +169,7 @@ const Content = React.memo(props => {
                   match={match}
                   gig={gig}
                   registerHeight={setHeight}
+                  me={me}
                 />
               ))}
             </AnimationWrapper>
@@ -159,11 +180,23 @@ const Content = React.memo(props => {
               gig={gig}
               loading={loading}
               organizer={organizer}
+              showDecline={() => setPopup(true)}
               navigateToOffer={() => history.push("offer")}
+              me={me}
             />
           </Col>
         </ContainerRow>
       </GigContainer>
+      <Popup width={530} showing={popup} onClickOutside={() => setPopup(false)}>
+        <CancelationDeclinePopup
+          gig={gig}
+          hide={() => setPopup(false)}
+          onCancelled={() => {
+            setPopup(false);
+            history.push("information");
+          }}
+        />
+      </Popup>
     </div>
   );
 });
@@ -191,6 +224,94 @@ const TransitionComponent = ({ style, item, match, gig, registerHeight }) => {
         /> */}
       </Switch>
     </animated.div>
+  );
+};
+
+const CancelationDeclinePopup = ({ gig, hide, onCancelled }) => {
+  const [reason, setReason] = useState(null);
+  const isCancel = gig.status === gigStates.CONFIRMED;
+  const mutation = isCancel ? CANCEL_GIG : DECLINE_GIG;
+  const [mutate, { loading: cancelling }] = useMutation(mutation, {
+    variables: {
+      reason,
+      id: gig.id
+    },
+    onCompleted: () => {
+      onCancelled();
+    }
+  });
+
+  const doMutate = () => {
+    if (!reason) {
+      window.alert("Please select a reason");
+      return;
+    }
+    mutate();
+  };
+
+  const cancelText =
+    " Are you sure you want to cancel the gig? All money will be refunded to the organizer. \nPlease let us know the reason for cancelling and if we can do anything better.";
+  const declineText =
+    " Are you sure you want to decline the gig? You will not be able to get the gig back. \nPlease let us know the reason for declining so we can get you better gigs in the future.";
+
+  const declineOptions = {
+    0: {
+      label: "I can't play that day"
+    },
+    1: {
+      label: "The gig is out of my area"
+    },
+    2: {
+      label: "The gig is not my style"
+    },
+    3: {
+      label: "I feel overqualified"
+    },
+    4: {
+      label: "I feel underqualified"
+    },
+    5: {
+      label: "The budget is too small"
+    }
+  };
+
+  const cancelOptions = {
+    0: {
+      label: "I can't play that day"
+    },
+    1: {
+      label: "The organizer changed the requirements"
+    },
+    2: {
+      label: "I don't feel comfortable playing this gig"
+    }
+  };
+
+  return (
+    <div>
+      <Title>{isCancel ? "Cancel" : "Decline"} event</Title>
+      <Body>{isCancel ? cancelText : declineText}</Body>
+
+      <CheckboxTable
+        style={{ marginTop: "42px", marginBottom: "42px" }}
+        options={isCancel ? cancelOptions : declineOptions}
+        onSave={setReason}
+      />
+
+      <Row style={{ marginTop: "42px" }} right>
+        <TeritaryButton type="button" onClick={hide}>
+          Keep gig
+        </TeritaryButton>
+        <SmartButton
+          warning
+          loading={cancelling}
+          level="secondary"
+          onClick={() => doMutate()}
+        >
+          {isCancel ? "Cancel gig" : "Decline gig"}
+        </SmartButton>
+      </Row>
+    </div>
   );
 };
 

@@ -316,8 +316,8 @@ const DISCONNECT_INSTAGRAM = gql`
 `;
 
 const DECLINE_GIG = gql`
-  mutation declineGig($id: ID!) {
-    declineGig(id: $id) {
+  mutation declineGig($id: ID!, $reason: String!) {
+    declineGig(id: $id, reason: $reason) {
       id
       statusHumanized
       status
@@ -326,8 +326,8 @@ const DECLINE_GIG = gql`
 `;
 
 const CANCEL_GIG = gql`
-  mutation cancelGig($id: ID!) {
-    cancelGig(id: $id) {
+  mutation cancelGig($id: ID!, $reason: String!) {
+    cancelGig(id: $id, reason: $reason) {
       id
       statusHumanized
       status

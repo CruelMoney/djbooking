@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, InfoBox, RowWrap } from "../../../../components/Blocks";
 
-import { Body, BodySmall } from "../../../../components/Text";
+import { Body, BodySmall, TitleClean } from "../../../../components/Text";
 import { Label } from "../../../../components/FormComponents";
 import styled from "styled-components";
 import moment from "moment";
@@ -75,7 +75,8 @@ const Information = React.forwardRef(({ gig, translate, history }, ref) => {
       </CustomLabel>
 
       <CustomLabel>
-        Requirements
+        <TitleClean>Requirements</TitleClean>
+
         <BodySmall>{rider.formatted}</BodySmall>
         <RowWrap>
           <InfoBox minHeight>

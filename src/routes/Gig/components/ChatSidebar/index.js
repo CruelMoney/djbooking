@@ -12,9 +12,7 @@ import moment from "moment";
 import useChat from "../../../../components/common/Chat/useChat";
 
 const ChatSidebar = props => {
-  const { loading, gig, theEvent, navigateToOffer } = props;
-  const { loading: loadingMe, data } = useQuery(ME);
-  const { me } = data || {};
+  const { loading, gig, theEvent, navigateToOffer, me } = props;
 
   const disableScroll = () => {
     document.body.classList.add("popup-open");
@@ -49,7 +47,7 @@ const ChatSidebar = props => {
             </RowWrap>
           </SidebarContent>
         </Header>
-        {loading || loadingMe ? null : (
+        {loading ? null : (
           <SmartChat {...props} me={me} systemMessage={systemMessage} />
         )}
       </Content>
@@ -124,7 +122,7 @@ const SmartChat = ({ me, organizer, gig, theEvent, systemMessage }) => {
   );
 };
 
-const getSystemMessage = ({ gig, declineGig, navigateToOffer }) => {
+const getSystemMessage = ({ gig, showDecline, navigateToOffer }) => {
   if (!gig) {
     return null;
   }
@@ -139,7 +137,7 @@ const getSystemMessage = ({ gig, declineGig, navigateToOffer }) => {
       actions: [
         {
           label: "Decline gig",
-          action: declineGig
+          action: showDecline
         },
         {
           label: "Make offer",
@@ -157,7 +155,7 @@ const getSystemMessage = ({ gig, declineGig, navigateToOffer }) => {
       actions: [
         {
           label: "Decline gig",
-          action: declineGig
+          action: showDecline
         },
         {
           label: "Make offer",
