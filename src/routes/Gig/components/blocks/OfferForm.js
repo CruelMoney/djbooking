@@ -126,6 +126,8 @@ const OfferForm = ({
     parseInt(offer.offer.amount, 10) > 0 &&
     !loading;
 
+  const { serviceFee, totalPayment, totalPayout, djFee } = offer;
+
   return (
     <div>
       {payoutInfoValid &&
@@ -167,11 +169,19 @@ const OfferForm = ({
               label={translate("Service fee")}
               info={<div>{translate("gig.offer.service-fee-info")}</div>}
             >
-              {loading ? "loading..." : offer.serviceFee.formatted}
+              {loading
+                ? "loading..."
+                : serviceFee.formatted
+                ? serviceFee.formatted
+                : "..."}
             </TableRow>
             <Hr />
             <TableRow label="Organizers total price" bold>
-              {loading ? "loading..." : offer.totalPayment.formatted}
+              {loading
+                ? "loading..."
+                : totalPayment.formatted
+                ? totalPayment.formatted
+                : "..."}
             </TableRow>
           </div>
           <div style={style1}>
@@ -179,11 +189,19 @@ const OfferForm = ({
               label={translate("Cueup fee")}
               info={<div>{translate("gig.offer.dj-fee-info")}</div>}
             >
-              {loading ? "loading..." : "-" + offer.djFee.formatted}
+              {loading
+                ? "loading..."
+                : djFee.formatted
+                ? djFee.formatted
+                : "..."}
             </TableRow>
             <Hr />
             <TableRow label="Your total payout" bold>
-              {loading ? "loading..." : offer.totalPayout.formatted}
+              {loading
+                ? "loading..."
+                : totalPayout.formatted
+                ? totalPayout.formatted
+                : "..."}
             </TableRow>
           </div>
         </Col>

@@ -69,7 +69,7 @@ const Content = React.forwardRef(({ gig, translate, history }, ref) => {
 
       <CustomLabel>
         <TitleClean>Music</TitleClean>
-        <RowWrap>
+        <RowWrap style={{ marginRight: "-24px" }}>
           {genres.map(g => (
             <InfoBox key={g}>{g}</InfoBox>
           ))}
@@ -80,7 +80,7 @@ const Content = React.forwardRef(({ gig, translate, history }, ref) => {
         <TitleClean>Requirements</TitleClean>
 
         <BodySmall>{rider.formatted}</BodySmall>
-        <RowWrap>
+        <RowWrap style={{ marginRight: "-24px" }}>
           <InfoBox minHeight>
             <span>Date</span>
             {date}

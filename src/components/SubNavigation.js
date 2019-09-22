@@ -19,7 +19,7 @@ const StyledNav = styled.nav`
   justify-content: space-between;
 
   @media only screen and (max-width: 425px) {
-    display: none;
+    display: ${({ showMobile }) => (showMobile ? "flex" : "none")};
   }
 `;
 
@@ -64,7 +64,13 @@ const ActiveIndicator = styled.span`
 `;
 
 const Navigation = memo(props => {
-  const { routes, location, registerRoutes, unregisterRoutes } = props;
+  const {
+    routes,
+    location,
+    registerRoutes,
+    unregisterRoutes,
+    showMobile
+  } = props;
   const { pathname } = location;
   const navRef = useRef();
   const activeRef = useRef();
@@ -101,9 +107,13 @@ const Navigation = memo(props => {
   let fillers = new Array(7 - routes.length).fill(1);
 
   return (
-    <StyledNav ref={navRef} onMouseLeave={resetIndicator}>
+    <StyledNav
+      ref={navRef}
+      onMouseLeave={resetIndicator}
+      showMobile={showMobile}
+    >
       <ActiveIndicator ref={indicator} />
-      {routes.map(({ route, label }) => {
+      {routes.map(({ route, label, className }) => {
         const active = pathname.includes(route);
         return (
           <StyledLink
@@ -121,6 +131,7 @@ const Navigation = memo(props => {
             }}
             onMouseEnter={({ target }) => setActiveIndicatorFromElement(target)}
             indicateActive={active}
+            className={className}
           >
             {label}
           </StyledLink>

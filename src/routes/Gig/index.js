@@ -31,6 +31,7 @@ import useLogActivity, {
   ACTIVITY_TYPES
 } from "../../components/hooks/useLogActivity";
 import GigReview from "./routes/GigReview";
+import MobileChat from "./routes/MobileChat";
 
 const Index = ({ translate, match, location, history }) => {
   const {
@@ -150,7 +151,17 @@ const Content = React.memo(props => {
 
       <GigContainer>
         <ContainerRow>
-          <MainContent {...props} setPopup={setPopup} />
+          <MainContent
+            {...props}
+            setPopup={setPopup}
+            theEvent={theEvent}
+            gig={gig}
+            loading={loading}
+            organizer={organizer}
+            showDecline={showDecline}
+            navigateToOffer={navigateToOffer}
+            me={me}
+          />
           <Col>
             <ChatSidebar
               theEvent={theEvent}
@@ -249,6 +260,10 @@ const TransitionComponent = ogProps => {
           path={match.path + "/review"}
           render={props => <GigReview {...props} {...ogProps} />}
         />
+        <Route
+          path={match.path + "/chat"}
+          render={props => <MobileChat {...props} {...ogProps} />}
+        />
       </Switch>
     </animated.div>
   );
@@ -346,9 +361,6 @@ const ContainerRow = styled(Row)`
   align-items: stretch;
   padding-top: 60px;
   padding-bottom: 60px;
-  @media only screen and (max-width: 768px) {
-    flex-direction: column-reverse;
-  }
 `;
 
 const BorderCol = styled(Col)`

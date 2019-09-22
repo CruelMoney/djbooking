@@ -12,9 +12,10 @@ import { HeaderTitle, BodyBold } from "../../../../components/Text";
 import { Spacing } from "../../../../components/Sidebar";
 
 const routes = [
-  { route: "information", label: "information", active: true },
-  { route: "offer", label: "offer", active: true },
-  { route: "review", label: "review", active: true }
+  { route: "information", label: "info", active: true },
+  { route: "offer", label: "offer" },
+  { route: "review", label: "review" },
+  { route: "chat", label: "chat", className: "showMobile" }
 ];
 
 const StyledGradientBg = styled(GradientBg)`
@@ -22,17 +23,22 @@ const StyledGradientBg = styled(GradientBg)`
   top: -252px;
 `;
 
+const CustomCol = styled(FullWidthCol)`
+  @media only screen and (min-width: 425px) {
+    padding-right: 60px;
+  }
+`;
 const Header = props => {
   return (
     <StyledGradientBg>
       <Container>
         <Row className="wrapper">
-          <FullWidthCol>
+          <CustomCol>
             {props.loading ? null : <Content {...props} />}
             {typeof document !== "undefined" && (
-              <Navigation routes={routes} mobileLabel="Event" />
+              <Navigation routes={routes} mobileLabel="Event" showMobile />
             )}
-          </FullWidthCol>
+          </CustomCol>
           <Spacing large />
         </Row>
       </Container>
@@ -52,11 +58,7 @@ const Content = ({ theEvent, statusHumanized }) => {
       <Row middle>
         <Col style={{ flex: 1, alignItems: "flex-start" }}>
           <HeaderTitle>{name}</HeaderTitle>
-          <BodyBold
-            white
-            opacity={0.75}
-            style={{ margin: 0, whiteSpace: "pre" }}
-          >
+          <BodyBold white opacity={0.75} style={{ margin: 0 }}>
             {location.name}
             {"  ·  "}
             {start.formattedDate}

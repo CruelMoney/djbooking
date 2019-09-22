@@ -24,7 +24,7 @@ const ChatSidebar = props => {
     messageWrapper.current && messageWrapper.current.scrollTo(0, 999999);
   };
 
-  useEffect(scrollToBottom);
+  useEffect(scrollToBottom, []);
 
   const sender = me
     ? {
@@ -52,19 +52,13 @@ const ChatSidebar = props => {
     }
   });
 
-  const disableScroll = () => {
-    document.body.classList.add("popup-open");
-  };
-  const enableScroll = () => {
-    document.body.classList.remove("popup-open");
-  };
-
   const adjustPadding = useCallback(() => {
     const { bottom } = messageWrapper.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     const dy = bottom - windowHeight;
     if (dy > 0) {
       messageWrapper.current.style.paddingBottom = dy + "px";
+      scrollToBottom();
     }
   }, []);
 
@@ -72,69 +66,61 @@ const ChatSidebar = props => {
     window.addEventListener("scroll", adjustPadding);
     return () => {
       window.removeEventListener("scroll", adjustPadding);
-      enableScroll();
     };
   }, [adjustPadding]);
 
   useLayoutEffect(adjustPadding);
 
   return (
-    <Sidebar
-      large
-      stickyTop={"0px"}
-      onMouseEnter={disableScroll}
-      onMouseLeave={enableScroll}
-    >
-      <Content>
-        <InnerContent>
-          <Header>
-            <SidebarContent>
-              <RowWrap between>
-                <Title>Messages</Title>
-                <PillsCol>
-                  {theEvent && (
-                    <ContactPills
-                      email={theEvent.contactEmail}
-                      phone={theEvent.contactPhone}
-                      showInfo={gig.showInfo}
-                    />
-                  )}
-                </PillsCol>
-              </RowWrap>
-            </SidebarContent>
-          </Header>
-          <MessageComposerContainer style={{ zIndex: 1 }}>
-            {chat && (
-              <MessageComposer
-                chat={chat}
-                placeholder={`Message ${receiver.name}...`}
-              />
-            )}
-          </MessageComposerContainer>
-        </InnerContent>
-        <InnerContent
-          style={{
-            zIndex: 0,
-            justifyContent: "flex-end"
-          }}
-        >
-          <MessagesWrapper ref={messageWrapper}>
-            {gig && me && (
-              <Chat
-                hideComposer
-                showPersonalInformation={gig.showInfo}
-                eventId={theEvent.id}
-                sender={sender}
-                receiver={receiver}
-                chatId={gig.id}
-                chat={chat}
-                systemMessage={systemMessage}
-              />
-            )}
-          </MessagesWrapper>
-        </InnerContent>
-      </Content>
-    </Sidebar>
+    <Content>
+      <InnerContent>
+        <Header>
+          <SidebarContent>
+            <RowWrap between>
+              <Title>Messages</Title>
+              <PillsCol>
+                {theEvent && (
+                  <ContactPills
+                    email={theEvent.contactEmail}
+                    phone={theEvent.contactPhone}
+                    showInfo={gig.showInfo}
+                  />
+                )}
+              </PillsCol>
+            </RowWrap>
+          </SidebarContent>
+        </Header>
+        <MessageComposerContainer style={{ zIndex: 1 }}>
+          {chat && (
+            <MessageComposer
+              chat={chat}
+              placeholder={`Message ${receiver.name}...`}
+            />
+          )}
+        </MessageComposerContainer>
+      </InnerContent>
+      <InnerContent
+        style={{
+          zIndex: 0,
+          justifyContent: "flex-end"
+        }}
+      >
+        <MessagesWrapper ref={messageWrapper}>
+          {gig && me && (
+            <Chat
+              hideComposer
+              showPersonalInformation={gig.showInfo}
+              eventId={theEvent.id}
+              sender={sender}
+              receiver={receiver}
+              chatId={gig.id}
+              chat={chat}
+              systemMessage={systemMessage}
+            />
+          )}
+        </MessagesWrapper>
+      </InnerContent>
+    </Content>
   );
 };
 
@@ -262,6 +248,7 @@ const InnerContent = styled.div`
 
 const MessagesWrapper = styled.div`
   overflow: scroll;
+  -webkit-overflow-scrolling: touch;
   position: sticky;
   bottom: 0px;
   .chat {
@@ -279,6 +266,21 @@ const MessagesWrapper = styled.div`
 `;
 
 const Wrapper = memo(props => {
+  const { gig, navigateToOffer, showDecline } = props;
+
+  let systemMessage = null;
+  if (gig) {
+    systemMessage = getSystemMessage({ gig, navigateToOffer, showDecline });
+  }
+
+  return (
+    <Sidebar large stickyTop={"0px"}>
+      <ChatSidebar {...props} systemMessage={systemMessage} />
+    </Sidebar>
+  );
+});
+
+export const ChatNaked = memo(props => {
   const { gig, navigateToOffer, showDecline } = props;
 
   let systemMessage = null;
