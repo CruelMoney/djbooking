@@ -33,6 +33,7 @@ import useLogActivity, {
 } from "../../components/hooks/useLogActivity";
 import GigReview from "./routes/GigReview";
 import MobileChat from "./routes/MobileChat";
+import useWindowSize from "../../components/hooks/useWindowSize";
 
 const Index = ({ translate, match, location, history }) => {
   const {
@@ -80,6 +81,10 @@ const Index = ({ translate, match, location, history }) => {
           <meta name="description" content={description} />
           <meta name="twitter:description" content={description} />
           <meta property="og:description" content={description} />
+          <meta
+            name="apple-itunes-app"
+            content="app-id=1458267647, app-argument=userProfile"
+          />
         </Helmet>
       )}
       <ScrollToTop animate top={295} />
@@ -142,6 +147,8 @@ const Content = React.memo(props => {
   const showDecline = useCallback(() => setPopup(true), []);
   const navigateToOffer = useCallback(() => history.push("offer"), [history]);
 
+  const { width } = useWindowSize();
+
   return (
     <div>
       <GigHeader
@@ -163,17 +170,19 @@ const Content = React.memo(props => {
             navigateToOffer={navigateToOffer}
             me={me}
           />
-          {/* <Col>
-            <ChatSidebar
-              theEvent={theEvent}
-              gig={gig}
-              loading={loading}
-              organizer={organizer}
-              showDecline={showDecline}
-              navigateToOffer={navigateToOffer}
-              me={me}
-            />
-          </Col> */}
+          {width > 420 && (
+            <Col>
+              <ChatSidebar
+                theEvent={theEvent}
+                gig={gig}
+                loading={loading}
+                organizer={organizer}
+                showDecline={showDecline}
+                navigateToOffer={navigateToOffer}
+                me={me}
+              />
+            </Col>
+          )}
         </ContainerRow>
       </GigContainer>
       <Popup width={530} showing={popup} onClickOutside={() => setPopup(false)}>

@@ -231,6 +231,7 @@ const MessageComposerContainer = styled(Glass)`
 `;
 
 const Content = styled(Col)`
+  max-height: 100vh;
   min-height: 100vh;
   width: 100%;
 `;

@@ -6,7 +6,6 @@ import debounce from "lodash.debounce";
 const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
   const chat = useRef();
   const startedTyping = useRef();
-  const initializing = useRef();
   const stoppedTyping = useRef();
   const onNewContent = useRef();
   const [messages, setMessages] = useState([]);
@@ -31,8 +30,14 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
 
   // initialize
   useEffect(() => {
-    if (id && senderId && !initializing.current) {
-      initializing.current = true;
+    console.log("hook init 0", {
+      id,
+      senderId,
+      showPersonalInformation
+    });
+
+    if (id && senderId) {
+      console.log("hook init");
       chat.current = new ChatService(id, auth.getToken(), senderId);
       chat.current.init({ showPersonalInformation }).then(messages => {
         setMessages(messages);
@@ -40,11 +45,11 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
         onNewContent.current && onNewContent.current();
       });
       return () => {
-        console.log("Try dispose", ready);
-        ready && chat.current.dispose();
+        console.log("trying dispose");
+        chat.current.dispose();
       };
     }
-  }, [id, ready, senderId, showPersonalInformation]);
+  }, [id, senderId, showPersonalInformation]);
 
   // setup listeners
   useEffect(() => {
