@@ -40,7 +40,7 @@ export const Title = styled.h3`
   color: #122b48;
   text-align: left;
   position: relative;
-  margin-bottom: 24px;
+  margin-bottom: ${({ largeMargin }) => (largeMargin ? "36px" : "24px")};
   &:after {
     content: "";
     width: 60px;

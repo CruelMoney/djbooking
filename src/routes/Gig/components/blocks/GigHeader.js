@@ -51,23 +51,25 @@ const HeaderWrapper = styled.div`
 `;
 
 const Content = ({ theEvent, statusHumanized }) => {
-  const { name, start, location } = theEvent;
+  const { name, start, location } = theEvent || {};
 
   return (
     <HeaderWrapper>
-      <Row middle>
-        <Col style={{ flex: 1, alignItems: "flex-start" }}>
-          <HeaderTitle>{name}</HeaderTitle>
-          <BodyBold white opacity={0.75} style={{ margin: 0 }}>
-            {location.name}
-            {"  ·  "}
-            {start.formattedDate}
-          </BodyBold>
-          <BodyBold white opacity={0.75} style={{ margin: 0 }}>
-            {statusHumanized}
-          </BodyBold>
-        </Col>
-      </Row>
+      {theEvent && (
+        <Row middle>
+          <Col style={{ flex: 1, alignItems: "flex-start" }}>
+            <HeaderTitle>{name}</HeaderTitle>
+            <BodyBold white opacity={0.75} style={{ margin: 0 }}>
+              {location.name}
+              {"  ·  "}
+              {start.formattedDate}
+            </BodyBold>
+            <BodyBold white opacity={0.75} style={{ margin: 0 }}>
+              {statusHumanized}
+            </BodyBold>
+          </Col>
+        </Row>
+      )}
     </HeaderWrapper>
   );
 };

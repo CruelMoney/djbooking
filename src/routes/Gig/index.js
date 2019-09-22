@@ -34,13 +34,20 @@ import useLogActivity, {
 import GigReview from "./routes/GigReview";
 import MobileChat from "./routes/MobileChat";
 import useWindowSize from "../../components/hooks/useWindowSize";
+import Login from "../../components/common/Login";
 
 const Index = ({ translate, match, location, history }) => {
   const {
     params: { id }
   } = match;
-  const { data = {}, loading: loadingGig } = useQuery(GIG, {
+  const {
+    data = {},
+    error,
+    loading: loadingGig,
+    refetch: refetchGig
+  } = useQuery(GIG, {
     skip: !id,
+
     variables: {
       id
     }
@@ -58,7 +65,9 @@ const Index = ({ translate, match, location, history }) => {
     skipInView: true
   });
 
-  if (!loading && !gig) {
+  const redirectToHome = () => history.push("/");
+
+  if (error && error.message.includes("Not your gig")) {
     return <Redirect to={translate("routes./not-found")} />;
   }
 
@@ -89,8 +98,7 @@ const Index = ({ translate, match, location, history }) => {
       )}
       <ScrollToTop animate top={295} />
 
-      <BackToProfile permalink={me && me.permalink} />
-
+      {me && <BackToProfile permalink={me.permalink} />}
       <Content
         location={location}
         match={match}
@@ -101,6 +109,15 @@ const Index = ({ translate, match, location, history }) => {
         history={history}
         me={me}
       />
+
+      <Popup
+        width="380px"
+        showing={!me && !loading}
+        onClickOutside={redirectToHome}
+      >
+        <Title largeMargin>Login</Title>
+        <Login redirect={false} onLogin={refetchGig} />
+      </Popup>
 
       <Footer
         noSkew

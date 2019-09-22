@@ -7,9 +7,11 @@ import Popup from "../../../../components/common/Popup";
 import PayoutForm from "../../../../components/common/PayoutForm";
 
 const Content = ({ gig, theEvent, me, showDecline }) => {
-  const { userSettings, userMetadata } = me;
   const [payoutPopup, setPayoutPopup] = useState(false);
-
+  if (!me || !gig) {
+    return null;
+  }
+  const { userSettings, userMetadata } = me;
   let info =
     "Enter your price to play this gig. You can always update the offer until the organizer has confirmed.";
 

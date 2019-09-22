@@ -71,7 +71,7 @@ const Gigs = props => {
         return (
           <Row>
             <Col style={{ flex: 1 }}>{gigs && renderGigs(gigs)}</Col>
-            <HideBelow width={420}>
+            <HideBelow width={768}>
               <Col style={{ marginLeft: "42px", width: "185px" }}>
                 <Title style={{ marginBottom: "36px" }}>Filter</Title>
                 <Checkbox
