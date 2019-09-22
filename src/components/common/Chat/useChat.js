@@ -5,8 +5,8 @@ import debounce from "lodash.debounce";
 
 const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
   const chat = useRef();
-  const initializing = useRef(false);
   const startedTyping = useRef();
+  const initializing = useRef();
   const stoppedTyping = useRef();
   const onNewContent = useRef();
   const [messages, setMessages] = useState([]);
@@ -29,23 +29,31 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
     onNewContent.current && onNewContent.current(message);
   }, []);
 
+  // initialize
   useEffect(() => {
-    if (!ready && !initializing.current && id && senderId) {
+    if (id && senderId && !initializing.current) {
       initializing.current = true;
-      const newChat = new ChatService(id, auth.getToken(), senderId);
-
-      newChat.init({ showPersonalInformation }).then(messages => {
+      chat.current = new ChatService(id, auth.getToken(), senderId);
+      chat.current.init({ showPersonalInformation }).then(messages => {
         setMessages(messages);
         setReady(true);
         onNewContent.current && onNewContent.current();
-        chat.current = newChat;
       });
+      return () => {
+        console.log("Try dispose", ready);
+        ready && chat.current.dispose();
+      };
+    }
+  }, [id, ready, senderId, showPersonalInformation]);
 
-      startedTyping.current = debounce(newChat.startedTyping, 1000, {
+  // setup listeners
+  useEffect(() => {
+    if (ready) {
+      startedTyping.current = debounce(chat.current.startedTyping, 1000, {
         leading: true,
         trailing: false
       });
-      stoppedTyping.current = debounce(newChat.stoppedTyping, 4000);
+      stoppedTyping.current = debounce(chat.current.stoppedTyping, 4000);
 
       const receiverReadMessages = () => {
         setMessages(messages => [
@@ -55,17 +63,12 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
         ]);
       };
 
-      newChat.receiverStoppedTyping = () => setTyping(false);
-      newChat.receiverStartedTyping = () => setTyping(true);
-      newChat.onNewMessage = addNewMessage;
-      newChat.receiverReadMessages = receiverReadMessages;
-
-      return () => {
-        console.log("Disposing");
-        chat.current && chat.current.dispose();
-      };
+      chat.current.receiverStoppedTyping = () => setTyping(false);
+      chat.current.receiverStartedTyping = () => setTyping(true);
+      chat.current.onNewMessage = addNewMessage;
+      chat.current.receiverReadMessages = receiverReadMessages;
     }
-  }, [id, showPersonalInformation, addNewMessage, ready, senderId, sender]);
+  }, [addNewMessage, ready]);
 
   const sendMessage = (declineOnContactInfo = false) => {
     if (!newMessage || !newMessage.trim()) {

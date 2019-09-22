@@ -9,7 +9,8 @@ import {
   Row,
   Col,
   TeritaryButton,
-  SmartButton
+  SmartButton,
+  HideBelow
 } from "../../components/Blocks";
 import { useQuery, useMutation } from "react-apollo";
 import { GIG } from "./gql.js";
@@ -162,7 +163,7 @@ const Content = React.memo(props => {
             navigateToOffer={navigateToOffer}
             me={me}
           />
-          <Col>
+          {/* <Col>
             <ChatSidebar
               theEvent={theEvent}
               gig={gig}
@@ -172,7 +173,7 @@ const Content = React.memo(props => {
               navigateToOffer={navigateToOffer}
               me={me}
             />
-          </Col>
+          </Col> */}
         </ContainerRow>
       </GigContainer>
       <Popup width={530} showing={popup} onClickOutside={() => setPopup(false)}>

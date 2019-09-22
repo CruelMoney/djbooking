@@ -6,7 +6,7 @@ import { localize } from "react-localize-redux";
 import { Query } from "react-apollo";
 import { MY_GIGS } from "../../../../../components/gql";
 import GigCard from "./GigCard";
-import { Col, Row } from "../../../../../components/Blocks";
+import { Col, Row, HideBelow } from "../../../../../components/Blocks";
 import { Title } from "../../../../../components/Text";
 import Checkbox from "../../../../../components/Checkbox";
 
@@ -71,34 +71,36 @@ const Gigs = props => {
         return (
           <Row>
             <Col style={{ flex: 1 }}>{gigs && renderGigs(gigs)}</Col>
-            <Col style={{ marginLeft: "42px", width: "185px" }}>
-              <Title style={{ marginBottom: "36px" }}>Filter</Title>
-              <Checkbox
-                style={{ marginBottom: "12px" }}
-                label={"Confirmed"}
-                onChange={toggleFilter("CONFIRMED")}
-              />
-              <Checkbox
-                style={{ marginBottom: "12px" }}
-                label={"Requested"}
-                onChange={toggleFilter("REQUESTED")}
-              />
-              <Checkbox
-                style={{ marginBottom: "12px" }}
-                label={"Accepted"}
-                onChange={toggleFilter("ACCEPTED")}
-              />
-              <Checkbox
-                style={{ marginBottom: "12px" }}
-                label={"Finished"}
-                onChange={toggleFilter("FINISHED")}
-              />
-              <Checkbox
-                style={{ marginBottom: "12px" }}
-                label={"Lost"}
-                onChange={toggleFilter("LOST")}
-              />
-            </Col>
+            <HideBelow width={420}>
+              <Col style={{ marginLeft: "42px", width: "185px" }}>
+                <Title style={{ marginBottom: "36px" }}>Filter</Title>
+                <Checkbox
+                  style={{ marginBottom: "12px" }}
+                  label={"Confirmed"}
+                  onChange={toggleFilter("CONFIRMED")}
+                />
+                <Checkbox
+                  style={{ marginBottom: "12px" }}
+                  label={"Requested"}
+                  onChange={toggleFilter("REQUESTED")}
+                />
+                <Checkbox
+                  style={{ marginBottom: "12px" }}
+                  label={"Accepted"}
+                  onChange={toggleFilter("ACCEPTED")}
+                />
+                <Checkbox
+                  style={{ marginBottom: "12px" }}
+                  label={"Finished"}
+                  onChange={toggleFilter("FINISHED")}
+                />
+                <Checkbox
+                  style={{ marginBottom: "12px" }}
+                  label={"Lost"}
+                  onChange={toggleFilter("LOST")}
+                />
+              </Col>
+            </HideBelow>
           </Row>
         );
       }}
