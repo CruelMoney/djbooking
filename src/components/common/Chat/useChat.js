@@ -30,14 +30,7 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
 
   // initialize
   useEffect(() => {
-    console.log("hook init 0", {
-      id,
-      senderId,
-      showPersonalInformation
-    });
-
     if (id && senderId) {
-      console.log("hook init");
       chat.current = new ChatService(id, auth.getToken(), senderId);
       chat.current.init({ showPersonalInformation }).then(messages => {
         setMessages(messages);
@@ -45,7 +38,6 @@ const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
         onNewContent.current && onNewContent.current();
       });
       return () => {
-        console.log("trying dispose");
         chat.current.dispose();
       };
     }

@@ -20,12 +20,6 @@ const ChatSidebar = props => {
 
   const messageWrapper = useRef();
 
-  const scrollToBottom = () => {
-    messageWrapper.current && messageWrapper.current.scrollTo(0, 999999);
-  };
-
-  useEffect(scrollToBottom, []);
-
   const sender = me
     ? {
         id: me.id,
@@ -58,7 +52,6 @@ const ChatSidebar = props => {
     const dy = bottom - windowHeight;
     if (dy > 0) {
       messageWrapper.current.style.paddingBottom = dy + "px";
-      scrollToBottom();
     }
   }, []);
 
@@ -247,8 +240,7 @@ const InnerContent = styled.div`
 `;
 
 const MessagesWrapper = styled.div`
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
+  height: 100%;
   position: sticky;
   bottom: 0px;
   .chat {

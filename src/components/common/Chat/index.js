@@ -20,7 +20,10 @@ const Chat = ({
   const { typing, messages, ready, onNewContent } = chat;
 
   const scrollToBottom = () => {
-    messagesContainer.current && messagesContainer.current.scrollTo(0, 999999);
+    if (messagesContainer.current) {
+      console.log("Scrolling to bottom");
+      setTimeout(() => (messagesContainer.current.scrollTop = 99999999), 100);
+    }
   };
 
   useEffect(() => {

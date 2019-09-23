@@ -28,6 +28,7 @@ const Gigs = props => {
       ({ status }) =>
         status !== "DECLINED" &&
         status !== "CANCELLED" &&
+        (filter.length > 0 || status !== "LOST") &&
         (filter.length === 0 || filter.includes(status))
     );
 
