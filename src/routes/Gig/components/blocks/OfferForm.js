@@ -22,7 +22,6 @@ const OfferForm = ({
   gig,
   profileCurrency,
   translate,
-  currentLanguage,
   payoutInfoValid,
   event,
   updateGig,
@@ -52,7 +51,7 @@ const OfferForm = ({
     refetchQueries: [
       {
         query: GIG,
-        variables: { id: gig.id, locale: currentLanguage }
+        variables: { id: gig.id }
       }
     ]
   });
@@ -92,8 +91,7 @@ const OfferForm = ({
             variables: {
               gigId: gig.id,
               amount,
-              currency: newCurrency,
-              locale: currentLanguage
+              currency: newCurrency
             }
           });
           setNewOffer(newOffer);
@@ -105,8 +103,7 @@ const OfferForm = ({
         setLoading(false);
       }
     },
-    1000,
-    { trailing: true }
+    1000
   );
 
   const getFees = data => {

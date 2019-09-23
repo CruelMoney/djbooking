@@ -2,10 +2,6 @@
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
   padding: 0 24px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-direction: column;
 }
 .messages > div {
   width: 100%;

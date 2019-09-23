@@ -101,6 +101,7 @@ const ChatSidebar = props => {
           justifyContent: "flex-end"
         }}
       >
+        <div style={{ flex: 1 }}> </div>
         <MessagesWrapper ref={messageWrapper}>
           {gig && me && (
             <Chat
@@ -203,6 +204,11 @@ const getSystemMessage = ({ gig, showDecline, navigateToOffer }) => {
       systemMessage: true,
       createdAt: new Date(),
       content: `Another DJ will play this gig. \nTo increase your chances of getting gigs, make sure that your profile is complete.`
+    },
+    [gigStates.DECLINED]: {
+      systemMessage: true,
+      createdAt: new Date(),
+      content: `You have declined this gig`
     }
   };
 

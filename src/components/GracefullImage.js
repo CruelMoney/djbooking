@@ -8,7 +8,7 @@ export const keyframeFadeIn = keyframes`
 const StyledImg = styled.img`
   opacity: 0;
   animation: ${keyframeFadeIn} 400ms ease forwards;
-  animation-duration: ${({ animate }) => (animate ? "400ms" : "0ms")};
+  animation-duration: ${({ animate }) => (animate ? "400ms" : "1ms")};
 `;
 
 function useImageLoaded({ src }) {
