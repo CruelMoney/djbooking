@@ -128,13 +128,17 @@ const OfferForm = ({
 
   const { serviceFee, totalPayment, totalPayout, djFee } = offer;
 
+  const eventFinished = moment(event.start.localDate) < moment();
+
   return (
     <div>
       {payoutInfoValid &&
+        !eventFinished &&
         ![
           gigStates.CONFIRMED,
           gigStates.FINISHED,
           gigStates.CANCELLED,
+          gigStates.EVENT_CANCEllED,
           gigStates.LOST
         ].includes(gig.status) && (
           <InputRow style={{ marginTop: "20px" }}>
@@ -209,49 +213,47 @@ const OfferForm = ({
 
       {!payoutInfoValid ? <p>{translate("gig.offer.update-payout")}</p> : null}
 
-      {moment(event.start.localDate) > moment() && (
-        <RowWrap>
-          <div name={"gig-cancel-" + gig.id}>
-            {(gig.status === "REQUESTED" || gig.status === "ACCEPTED") && (
-              <SecondaryButton onClick={showDecline}>
-                {translate("Decline gig")}
-              </SecondaryButton>
-            )}
-
-            {gig.status === gigStates.CONFIRMED && (
-              <SecondaryButton onClick={showDecline}>
-                {translate("Cancel gig")}
-              </SecondaryButton>
-            )}
-          </div>
-
-          {[gigStates.REQUESTED, gigStates.ACCEPTED].includes(gig.status) &&
-            payoutInfoValid && (
-              <SmartButton
-                disabled={!canSubmit}
-                loading={submitLoading}
-                succes={submitted}
-                onClick={updateOffer}
-              >
-                {submitted
-                  ? "Updated"
-                  : gig.status === gigStates.REQUESTED
-                  ? translate("Send offer")
-                  : translate("Update offer")}
-              </SmartButton>
-            )}
-
-          {!payoutInfoValid && (
-            <PrimaryButton
-              rounded={true}
-              onClick={showPopup}
-              name="show-payout-popup"
-            >
-              {translate("Update payout information")}
-            </PrimaryButton>
+      <RowWrap>
+        <div name={"gig-cancel-" + gig.id}>
+          {(gig.status === "REQUESTED" || gig.status === "ACCEPTED") && (
+            <SecondaryButton onClick={showDecline}>
+              {translate("Decline gig")}
+            </SecondaryButton>
           )}
-        </RowWrap>
-      )}
+
+          {gig.status === gigStates.CONFIRMED && (
+            <SecondaryButton onClick={showDecline}>
+              {translate("Cancel gig")}
+            </SecondaryButton>
+          )}
+        </div>
+
+        {[gigStates.REQUESTED, gigStates.ACCEPTED].includes(gig.status) &&
+          payoutInfoValid && (
+            <SmartButton
+              disabled={!canSubmit}
+              loading={submitLoading}
+              succes={submitted}
+              onClick={updateOffer}
+            >
+              {submitted
+                ? "Updated"
+                : gig.status === gigStates.REQUESTED
+                ? translate("Send offer")
+                : translate("Update offer")}
+            </SmartButton>
+          )}
+
+        {!payoutInfoValid && (
+          <PrimaryButton
+            rounded={true}
+            onClick={showPopup}
+            name="show-payout-popup"
+          >
+            {translate("Update payout information")}
+          </PrimaryButton>
+        )}
+      </RowWrap>
 
       <ErrorMessageApollo error={error} />
     </div>

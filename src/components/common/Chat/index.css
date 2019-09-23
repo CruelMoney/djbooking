@@ -2,6 +2,8 @@
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
   padding: 0 24px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .timestamp {

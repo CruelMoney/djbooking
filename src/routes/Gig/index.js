@@ -9,8 +9,7 @@ import {
   Row,
   Col,
   TeritaryButton,
-  SmartButton,
-  HideBelow
+  SmartButton
 } from "../../components/Blocks";
 import { useQuery, useMutation } from "react-apollo";
 import { GIG } from "./gql.js";
@@ -64,6 +63,10 @@ const Index = ({ translate, match, location, history }) => {
     subjectId: gig && gig.id,
     skipInView: true
   });
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, []);
 
   const redirectToHome = () => history.push("/");
 
