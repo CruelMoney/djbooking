@@ -208,6 +208,11 @@ const getSystemMessage = ({ gig, showDecline, navigateToOffer }) => {
       systemMessage: true,
       createdAt: new Date(),
       content: `You have declined this gig`
+    },
+    [gigStates.CANCELLED]: {
+      systemMessage: true,
+      createdAt: new Date(),
+      content: `You have cancelled this gig`
     }
   };
 

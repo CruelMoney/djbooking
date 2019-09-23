@@ -3,8 +3,6 @@ import io from "socket.io-client";
 import store from "../store";
 import * as actions from "../actions/NotificationsActions";
 
-window.io = io;
-
 export default class ChatService {
   constructor(chatId, token, senderId) {
     console.log("connecting to: ", Environment.CHAT_DOMAIN + "?room=" + chatId);

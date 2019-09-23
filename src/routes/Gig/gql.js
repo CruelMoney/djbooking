@@ -44,6 +44,7 @@ const GIG = gql`
         contactEmail
         contactName
         contactPhone
+        address
         start {
           localDate
           formattedDate
@@ -106,6 +107,7 @@ const DECLINE_GIG = gql`
       id
       statusHumanized
       status
+      isActionable
     }
   }
 `;
@@ -116,6 +118,7 @@ const CANCEL_GIG = gql`
       id
       statusHumanized
       status
+      isActionable
     }
   }
 `;

@@ -213,7 +213,7 @@ const OfferForm = ({
           )}
 
           {gig.status === gigStates.CONFIRMED && (
-            <SecondaryButton onClick={showDecline}>
+            <SecondaryButton onClick={showDecline} warning={true}>
               {translate("Cancel gig")}
             </SecondaryButton>
           )}
