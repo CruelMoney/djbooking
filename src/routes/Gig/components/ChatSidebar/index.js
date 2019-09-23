@@ -101,7 +101,6 @@ const ChatSidebar = props => {
           justifyContent: "flex-end"
         }}
       >
-        <div style={{ flex: 1 }}> </div>
         <MessagesWrapper ref={messageWrapper}>
           {gig && me && (
             <Chat
