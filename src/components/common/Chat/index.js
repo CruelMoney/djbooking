@@ -5,6 +5,7 @@ import LoadingPlaceholder from "../LoadingPlaceholder";
 import moment from "moment";
 import SendIcon from "react-ionicons/lib/MdSend";
 import TextareaAutosize from "react-autosize-textarea";
+import { Avatar } from "../../Blocks";
 
 const Chat = ({
   sender,
@@ -61,9 +62,7 @@ const Chat = ({
 
         {typing ? (
           <div className="message received">
-            <div className="rounded">
-              <img alt={"receiver"} src={receiver.image} />
-            </div>
+            <Avatar className="avatar" alt={"receiver"} src={receiver.image} />
             <div className="speech-bubble typing-indicator">
               <span />
               <span />
@@ -74,6 +73,7 @@ const Chat = ({
       </div>
       {!hideComposer && (
         <MessageComposer
+          autoFocus
           chat={chat}
           placeholder={"Send a message to " + receiver.name + "..."}
         />
@@ -82,10 +82,13 @@ const Chat = ({
   );
 };
 
-export const MessageComposer = ({ chat, placeholder }) => (
+export const MessageComposer = ({ chat, placeholder, autoFocus }) => (
   <form onSubmit={chat.sendMessage} className="message-composer">
     <div className="input-wrapper">
       <TextareaAutosize
+        ref={r => {
+          autoFocus && r && r.focus();
+        }}
         rows={1}
         maxRows={5}
         placeholder={placeholder}
@@ -259,12 +262,11 @@ const Message = props => {
       <div className={`message-wrapper ${isOwn ? "send" : "received"}`}>
         <div className={`message ${isOwn ? "send" : "received"}`}>
           {isLast && (
-            <div className="rounded">
-              <img
-                alt={isOwn ? "your picture" : "receiver picture"}
-                src={systemMessage ? "/apple-touch-icon.png" : image}
-              />
-            </div>
+            <Avatar
+              className="avatar"
+              alt={isOwn ? "your picture" : "receiver picture"}
+              src={systemMessage ? "/apple-touch-icon.png" : image}
+            />
           )}
           <div className={`speech-bubble`} style={cornerStyle}>
             <div className="content">{content}</div>

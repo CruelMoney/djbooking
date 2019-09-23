@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { localize } from "react-localize-redux";
-import moment from "moment-timezone";
 import debounce from "lodash.debounce";
 import { GET_OFFER, MAKE_OFFER, GIG } from "../../gql";
 import { useMutation } from "@apollo/react-hooks";
@@ -128,41 +127,36 @@ const OfferForm = ({
 
   const { serviceFee, totalPayment, totalPayout, djFee } = offer;
 
-  const eventFinished = moment(event.start.localDate) < moment();
+  const canUpdatePrice =
+    payoutInfoValid &&
+    gig.isActionable &&
+    [gigStates.REQUESTED, gigStates.ACCEPTED].includes(gig.status);
 
   return (
     <div>
-      {payoutInfoValid &&
-        !eventFinished &&
-        ![
-          gigStates.CONFIRMED,
-          gigStates.FINISHED,
-          gigStates.CANCELLED,
-          gigStates.EVENT_CANCEllED,
-          gigStates.LOST
-        ].includes(gig.status) && (
-          <InputRow style={{ marginTop: "20px" }}>
-            <Input
-              half
-              label="Price"
-              name="amount"
-              placeholder="00,00"
-              //onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
+      {canUpdatePrice && (
+        <InputRow style={{ marginTop: "20px" }}>
+          <Input
+            half
+            label="Price"
+            name="amount"
+            placeholder="00,00"
+            //onUpdatePipeFunc={(oldVal,val)=>moneyPipe(oldVal,val,"DKK")}
 
-              type="text"
-              onChange={val => getFees({ amount: parseInt(val, 10) * 100 })}
-              defaultValue={
-                initOffer.offer.amount && initOffer.offer.amount / 100
-              }
-            />
-            <CurrencySelector
-              half
-              label="Currency"
-              initialValue={currency || ""}
-              onSave={setCurrencyAndFetch}
-            />
-          </InputRow>
-        )}
+            type="text"
+            onChange={val => getFees({ amount: parseInt(val, 10) * 100 })}
+            defaultValue={
+              initOffer.offer.amount && initOffer.offer.amount / 100
+            }
+          />
+          <CurrencySelector
+            half
+            label="Currency"
+            initialValue={currency || ""}
+            onSave={setCurrencyAndFetch}
+          />
+        </InputRow>
+      )}
 
       {payoutInfoValid ? (
         <Col
@@ -215,7 +209,7 @@ const OfferForm = ({
 
       <RowWrap>
         <div name={"gig-cancel-" + gig.id}>
-          {(gig.status === "REQUESTED" || gig.status === "ACCEPTED") && (
+          {[gigStates.REQUESTED, gigStates.ACCEPTED].includes(gig.status) && (
             <SecondaryButton onClick={showDecline}>
               {translate("Decline gig")}
             </SecondaryButton>
@@ -228,21 +222,20 @@ const OfferForm = ({
           )}
         </div>
 
-        {[gigStates.REQUESTED, gigStates.ACCEPTED].includes(gig.status) &&
-          payoutInfoValid && (
-            <SmartButton
-              disabled={!canSubmit}
-              loading={submitLoading}
-              succes={submitted}
-              onClick={updateOffer}
-            >
-              {submitted
-                ? "Updated"
-                : gig.status === gigStates.REQUESTED
-                ? translate("Send offer")
-                : translate("Update offer")}
-            </SmartButton>
-          )}
+        {canUpdatePrice && (
+          <SmartButton
+            disabled={!canSubmit}
+            loading={submitLoading}
+            succes={submitted}
+            onClick={updateOffer}
+          >
+            {submitted
+              ? "Updated"
+              : gig.status === gigStates.REQUESTED
+              ? translate("Send offer")
+              : translate("Update offer")}
+          </SmartButton>
+        )}
 
         {!payoutInfoValid && (
           <PrimaryButton

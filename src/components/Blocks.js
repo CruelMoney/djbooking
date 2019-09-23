@@ -169,13 +169,14 @@ const AvatarWrapper = styled.div`
   overflow: hidden;
 `;
 
-export const Avatar = ({ size, style, ...props }) => (
+export const Avatar = ({ size, style, className, ...props }) => (
   <AvatarWrapper
     size={size}
     style={{
       objectFit: "cover",
       ...style
     }}
+    className={className}
   >
     <GracefullImage
       {...props}

@@ -8,6 +8,7 @@ const GIG = gql`
       statusHumanized
       expires
       directBooking
+      isActionable
       offer {
         offer {
           amount

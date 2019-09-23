@@ -6,7 +6,7 @@ import React, {
   memo
 } from "react";
 import Sidebar, { SidebarContent } from "../../../../components/Sidebar";
-import { Title } from "../../../../components/Text";
+import { Title, Body } from "../../../../components/Text";
 import styled from "styled-components";
 import { Col, RowWrap } from "../../../../components/Blocks";
 import Chat, { MessageComposer } from "../../../../components/common/Chat";
@@ -16,7 +16,7 @@ import moment from "moment";
 import useChat from "../../../../components/common/Chat/useChat";
 
 const ChatSidebar = props => {
-  const { organizer, gig, theEvent, me, systemMessage } = props;
+  const { organizer, gig, theEvent, me, systemMessage, loading } = props;
 
   const messageWrapper = useRef();
 
@@ -83,14 +83,17 @@ const ChatSidebar = props => {
             </RowWrap>
           </SidebarContent>
         </Header>
-        <MessageComposerContainer style={{ zIndex: 1 }}>
-          {chat && (
-            <MessageComposer
-              chat={chat}
-              placeholder={`Message ${receiver.name}...`}
-            />
-          )}
-        </MessageComposerContainer>
+        {gig && gig.isActionable && (
+          <MessageComposerContainer style={{ zIndex: 1 }}>
+            {chat && organizer && (
+              <MessageComposer
+                chat={chat}
+                placeholder={`Message ${receiver.name}...`}
+              />
+            )}
+            {!organizer && !loading && <Body>Organizer not found</Body>}
+          </MessageComposerContainer>
+        )}
       </InnerContent>
       <InnerContent
         style={{
@@ -185,6 +188,11 @@ const getSystemMessage = ({ gig, showDecline, navigateToOffer }) => {
       systemMessage: true,
       createdAt: new Date(),
       content: `Whoop! The gig has been confirmed. \nMake sure that everything is agreed upon with the organizer, and get ready to play.`
+    },
+    [gigStates.EVENT_CANCELLED]: {
+      systemMessage: true,
+      createdAt: new Date(),
+      content: `The event has been cancelled.`
     },
     [gigStates.FINISHED]: {
       systemMessage: true,

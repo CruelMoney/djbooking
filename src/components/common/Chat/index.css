@@ -4,6 +4,11 @@
   padding: 0 24px;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+}
+.messages > div {
+  width: 100%;
 }
 
 .timestamp {
@@ -17,8 +22,8 @@
 .message-wrapper {
   margin-bottom: 2px;
   position: relative;
-  padding-right: 46px;
-  padding-left: 46px;
+  padding-right: 33px;
+  padding-left: 33px;
 }
 .flex {
   display: flex;
@@ -68,27 +73,19 @@
   white-space: pre-wrap;
 }
 
-.send .rounded {
+.send .avatar {
   right: 0px;
   bottom: 0;
 }
-.received .rounded {
+.received .avatar {
   left: 0px;
   bottom: 0;
 }
 
-.message .rounded {
+.message .avatar {
   position: absolute;
-  height: 40px;
-  width: 40px;
-  overflow: hidden;
-  border-radius: 50%;
 }
-.message .rounded img {
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
-}
+
 .chat {
   max-width: 600px;
 }
