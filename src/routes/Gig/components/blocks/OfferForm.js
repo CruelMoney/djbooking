@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { localize } from "react-localize-redux";
 import debounce from "lodash.debounce";
 import { GET_OFFER, MAKE_OFFER, GIG } from "../../gql";
 import { useMutation } from "@apollo/react-hooks";
@@ -17,6 +16,8 @@ import {
 import { Input, InputRow } from "../../../../components/FormComponents";
 import CurrencySelector from "../../../../components/CurrencySelector";
 import { Body, BodyBold } from "../../../../components/Text";
+import addTranslate from "../../../../components/higher-order/addTranslate";
+import content from "../../../User/content.json";
 
 const OfferForm = ({
   gig,
@@ -202,7 +203,9 @@ const OfferForm = ({
         </Col>
       ) : null}
 
-      {!payoutInfoValid ? <p>{translate("gig.offer.update-payout")}</p> : null}
+      {!payoutInfoValid ? (
+        <Body>{translate("gig.offer.update-payout")}</Body>
+      ) : null}
 
       <RowWrap>
         <div name={"gig-cancel-" + gig.id}>
@@ -240,7 +243,7 @@ const OfferForm = ({
             onClick={showPopup}
             name="show-payout-popup"
           >
-            {translate("Update payout information")}
+            {translate("Update payout info")}
           </PrimaryButton>
         )}
       </RowWrap>
@@ -266,4 +269,4 @@ const TableRow = ({ label, value, children, bold }) =>
     </Row>
   );
 
-export default localize(OfferForm, "locale");
+export default addTranslate(OfferForm, [content]);
