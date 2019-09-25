@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import ChatService from "../../../utils/ChatService";
 import { authService as auth } from "../../../utils/AuthService";
-import debounce from "lodash.debounce";
+import debounce from "lodash/debounce";
 
 const useChat = ({ sender, receiver, id, showPersonalInformation, data }) => {
   const chat = useRef();

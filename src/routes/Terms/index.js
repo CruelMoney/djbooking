@@ -8,9 +8,9 @@ const Loader = () => (
   </div>
 );
 
-const AsyncRequestForm = Loadable({
+const AsyncTerms = Loadable({
   loader: () => import("./Terms"),
   loading: Loader
 });
 
-export default AsyncRequestForm;
+export default AsyncTerms;
