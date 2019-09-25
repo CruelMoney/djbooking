@@ -432,12 +432,14 @@ const Overview = ({ user, loading }) => {
             </LeftItem>
           )}
         </HalfColLeft>
-        <HalfColRight>
-          {showSelectedSound && <HighlightedSound user={user} />}
-          <Genres genres={genres} style={genresStyle} />
+        {user.isDj && (
+          <HalfColRight>
+            {showSelectedSound && <HighlightedSound user={user} />}
+            <Genres genres={genres} style={genresStyle} />
 
-          <MapArea playingLocation={playingLocation} />
-        </HalfColRight>
+            <MapArea playingLocation={playingLocation} />
+          </HalfColRight>
+        )}
       </Row>
     </ColumnLayout>
   );

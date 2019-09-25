@@ -26,17 +26,19 @@ const getRoutesFromUser = (user, pathname) => {
   if (user) {
     const roles = user.appMetadata.roles;
 
+    routes.push({ route: "photos", label: "photos" });
+
     if (roles.includes("ORGANIZER")) {
       if (user.isOwn) {
         routes.push({ route: "events", label: "events" });
       }
     }
+
     if (roles.includes("DJ")) {
+      routes.push({ route: "sounds", label: "sounds" });
       if (user.isOwn) {
         routes.push({ route: "gigs", label: "gigs" });
       }
-      routes.push({ route: "photos", label: "photos" });
-      routes.push({ route: "sounds", label: "sounds" });
       if (user.reviews.pageInfo.totalDocs > 0 || user.isOwn) {
         routes.push({ route: "reviews", label: "reviews" });
       }

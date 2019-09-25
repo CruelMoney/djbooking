@@ -359,13 +359,15 @@ const Settings = ({
           }
           buttonText={instagramConnected ? "disconnect" : "connect"}
         />
-        <LabelHalf>
-          Connect SoundCloud
-          <ConnectSoundCloud
-            soundCloudConnected={soundCloudConnected}
-            userId={user.id}
-          />
-        </LabelHalf>
+        {isDj && (
+          <LabelHalf>
+            Connect SoundCloud
+            <ConnectSoundCloud
+              soundCloudConnected={soundCloudConnected}
+              userId={user.id}
+            />
+          </LabelHalf>
+        )}
         <VerifyIdentityPopup
           user={user}
           identityVerified={identityVerified}
