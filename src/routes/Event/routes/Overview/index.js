@@ -8,6 +8,7 @@ import { LoadingPlaceholder2 } from "../../../../components/common/LoadingPlaceh
 import { notificationService } from "../../../../utils/NotificationService";
 import { captureException } from "@sentry/core";
 import EmptyPage from "../../../../components/common/EmptyPage";
+import { gigStates } from "../../../../constants/constants";
 
 const EventGigs = React.forwardRef(
   ({ theEvent = {}, loading: loadingEvent, translate }, ref) => {
@@ -47,7 +48,13 @@ const EventGigs = React.forwardRef(
     }
 
     let gigs = data.event ? data.event.gigs : [];
-    gigs = gigs.filter(g => g.status !== "LOST");
+    gigs = gigs
+      .filter(g => g.status !== "LOST")
+      .map(g => {
+        g.hasMessage =
+          gigMessages[g.id] && gigMessages[g.id].read < gigMessages[g.id].total;
+        return g;
+      });
 
     if (!loading && gigs.length === 0) {
       return (
@@ -59,8 +66,13 @@ const EventGigs = React.forwardRef(
     }
 
     const statusPriority = {
-      CONFIRMED: 2,
-      ACCEPTED: 1
+      [gigStates.CONFIRMED]: 2,
+      [gigStates.ACCEPTED]: 1
+    };
+
+    const getPriority = gig => {
+      const status = statusPriority[gig.status] || 0;
+      return status + (gig.hasMessage ? 2 : 0);
     };
 
     return (
@@ -68,17 +80,10 @@ const EventGigs = React.forwardRef(
         <Title>{getTitle(status)}</Title>
         <Body>{getText(status)}</Body>
         {gigs
-          .sort(
-            (g1, g2) =>
-              (statusPriority[g2.status] || 0) -
-              (statusPriority[g1.status] || 0)
-          )
+          .sort((g1, g2) => getPriority(g2) - getPriority(g1))
           .map((gig, idx) => (
             <DjCard
-              hasMessage={
-                gigMessages[gig.id] &&
-                gigMessages[gig.id].read < gigMessages[gig.id].total
-              }
+              hasMessage={gig.hasMessage}
               onOpenChat={readRoom}
               key={gig.id}
               idx={idx}

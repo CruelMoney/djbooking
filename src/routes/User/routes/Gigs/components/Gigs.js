@@ -9,6 +9,19 @@ import GigCard from "./GigCard";
 import { Col, Row, HideBelow } from "../../../../../components/Blocks";
 import { Title } from "../../../../../components/Text";
 import Checkbox from "../../../../../components/Checkbox";
+import { gigStates } from "../../../../../constants/constants";
+
+const statusPriority = {
+  [gigStates.REQUESTED]: 1,
+  [gigStates.CONFIRMED]: 2,
+  [gigStates.ACCEPTED]: 3,
+  [gigStates.FINISHED]: 4
+};
+
+const getPriority = gig => {
+  const status = statusPriority[gig.status] || 5;
+  return status + (gig.hasMessage ? 0 : 4);
+};
 
 const Gigs = props => {
   const {
@@ -24,34 +37,38 @@ const Gigs = props => {
     setFilter(ff => (val ? [...ff, key] : ff.filter(f2 => f2 !== key)));
 
   const renderGigs = gigs => {
-    const renderGigs = gigs.filter(
-      ({ status }) =>
-        status !== "DECLINED" &&
-        status !== "CANCELLED" &&
-        (filter.length > 0 || status !== "LOST") &&
-        (filter.length === 0 || filter.includes(status))
-    );
+    const renderGigs = gigs
+      .filter(
+        ({ status }) =>
+          status !== gigStates.DECLINED &&
+          status !== gigStates.CANCELLED &&
+          (filter.length > 0 || status !== gigStates.LOST) &&
+          (filter.length === 0 || filter.includes(status))
+      )
+      .map(gig => {
+        const notification = notifications.find(noti => {
+          return String(noti.room) === String(gig.id);
+        });
+        gig.hasMessage = notification;
+        return gig;
+      })
+      .sort((g1, g2) => getPriority(g1) - getPriority(g2));
 
     if (renderGigs.length === 0) {
       return (
         <EmptyPage message={<div>{translate("no-gigs-description")}</div>} />
       );
     } else {
-      return renderGigs.map((gig, idx) => {
-        const notification = notifications.find(noti => {
-          return String(noti.room) === String(gig.id);
-        });
-        return (
-          <GigCard
-            idx={idx}
-            translate={translate}
-            hasMessage={notification}
-            key={gig.id}
-            gig={gig}
-            user={user}
-          />
-        );
-      });
+      return renderGigs.map((gig, idx) => (
+        <GigCard
+          idx={idx}
+          translate={translate}
+          hasMessage={gig.hasMessage}
+          key={gig.id}
+          gig={gig}
+          user={user}
+        />
+      ));
     }
   };
 
