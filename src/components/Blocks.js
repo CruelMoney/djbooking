@@ -185,7 +185,12 @@ export const Avatar = ({ size, style, className, ...props }) => (
         height: avatarSizes[size] || "30px",
         width: avatarSizes[size] || "30px",
         minHeight: avatarSizes[size] || "30px",
-        minWidth: avatarSizes[size] || "30px"
+        minWidth: avatarSizes[size] || "30px",
+        top: 0,
+        position: "absolute",
+        left: 0,
+        zIndex: -1,
+        borderRadius: "50%"
       }}
     />
   </AvatarWrapper>
