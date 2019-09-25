@@ -334,15 +334,18 @@ const CancelationDeclinePopup = ({ gig, hide, onCancelled }) => {
       label: "The gig is out of my area"
     },
     2: {
-      label: "The gig is not my style"
+      label: "I don't have the required equipment"
     },
     3: {
-      label: "I feel overqualified"
+      label: "The gig is not my style"
     },
     4: {
-      label: "I feel underqualified"
+      label: "I feel overqualified"
     },
     5: {
+      label: "I feel underqualified"
+    },
+    6: {
       label: "The budget is too small"
     }
   };
