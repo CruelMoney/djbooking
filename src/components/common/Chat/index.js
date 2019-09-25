@@ -88,9 +88,6 @@ export const MessageComposer = ({ chat, placeholder, autoFocus }) => (
   <form onSubmit={chat.sendMessage} className="message-composer">
     <div className="input-wrapper">
       <TextareaAutosize
-        ref={r => {
-          autoFocus && r && r.focus();
-        }}
         rows={1}
         maxRows={5}
         placeholder={placeholder}
