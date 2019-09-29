@@ -202,7 +202,7 @@ class footer extends Component {
 											className="dropdown-selector"
 											name="language-selector"
 											onChange={e => this.setActiveLanguage(e.target.value)}
-											value={this.props.currentLanguage}
+											value={this.props.currentLanguage || undefined}
 										>
 											<option value={"en"}>English</option>
 											<option value={"da"}>Dansk</option>
@@ -222,7 +222,7 @@ class footer extends Component {
 												onChange={e =>
 													this.props.changeCurrency(e.target.value)
 												}
-												value={this.props.currency}
+												value={this.props.currency || undefined}
 											>
 												<option value={null}>Currency</option>
 												{c.OrganizerCurrencies.map((c, idx) => (
