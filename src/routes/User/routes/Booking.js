@@ -30,7 +30,7 @@ import GeoCoder from "../../../utils/GeoCoder";
 import * as Sentry from "@sentry/browser";
 import * as tracker from "../../../utils/analytics/autotrack";
 import ReactPixel from "react-facebook-pixel";
-import { MobileBookingButton } from "..";
+import { MobileBookingButton } from "../components/Common";
 
 const Booking = ({ user, loading, translate }) => {
   const [eventCreated, setEventCreated] = useState(false);

@@ -186,16 +186,6 @@ export const CUSTOMER_NOTIFICATIONS = [
 
 export const DJs = [
   {
-    name: "Oscar",
-    location: {
-      city: "Copenhagen",
-      country: "Denmark"
-    },
-    genres: ["Disco", "Lounge", "House"],
-    img:
-      "https://cueup.azurewebsites.net/images/profilePicture/Oscar-Bandersen.png"
-  },
-  {
     name: "Frank",
     location: {
       city: "Århus",
@@ -234,15 +224,6 @@ export const DJs = [
   },
 
   {
-    name: "Christopher",
-    location: {
-      city: "Copenhagen",
-      country: "Denmark"
-    },
-    genres: ["RnB", "Pop", "House", "Hip Hop"],
-    img: "https://cueup.azurewebsites.net/images/profilePicture/chris.png"
-  },
-  {
     name: "Andreas",
     location: {
       city: "Copenhagen",
@@ -270,53 +251,6 @@ export const DJs = [
     genres: ["House", "Remixes", "80's", "Top 40"],
     img: oliver
   },
-  {
-    name: "Chris",
-    location: {
-      city: "Singapore",
-      country: ""
-    },
-    genres: ["Lounge", "Hip Hop", "Top 40", "Remixes"],
-    img:
-      "https://cueup.azurewebsites.net/images/profilePicture/Chris-Delaney.png"
-  },
-  {
-    name: "Kenneth",
-    location: {
-      city: "Copenhagen",
-      country: "Denmark"
-    },
-    genres: ["Lounge", "Hip Hop", "R&B", "80's"],
-    img:
-      "https://cueup.azurewebsites.net/images/profilePicture/Kenneth-Riis.png"
-  },
-  {
-    name: "Lukas",
-    location: {
-      city: "Copenhagen",
-      country: "Denmark"
-    },
-    genres: ["House", "Remixes", "Lounge"],
-    img:
-      "https://cueup.azurewebsites.net/images/profilePicture/Lukas-Grubb-Jensen.png"
-  },
-  {
-    name: "Christian",
-    location: {
-      city: "Copenhagen",
-      country: "Denmark"
-    },
-    genres: ["Top 40", "80's", "Disco", "House"],
-    img:
-      "https://cueup.azurewebsites.net/images/profilePicture/Christian-Lindquist-Hansen.png"
-  },
-
-  // {
-  //     name:"Martin",
-  //     location: "Sønderborg, Denmark",
-  //     genres: ["Latin", "80's", "Top 40"],
-  //     img: 'https://cueup.azurewebsites.net/images/profilePicture/martin-stauner-.png'
-  // },
 
   {
     name: "Emil",

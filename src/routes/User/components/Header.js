@@ -14,7 +14,7 @@ import {
   GradientBg
 } from "../../../components/Blocks";
 import { Spacing } from "../../../components/Sidebar";
-import { Stats, CertifiedVerified } from "..";
+import { Stats, CertifiedVerified } from "./Common";
 import { HeaderTitle } from "../../../components/Text";
 import ConditionalWrap from "../../../components/ConditionalWrap";
 import useWindowSize from "../../../components/hooks/useWindowSize";

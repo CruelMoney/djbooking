@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.css";
 import { DJs } from "../../../../constants/constants";
-import shuffle from "lodash.shuffle";
+import shuffle from "lodash/shuffle";
 import DJCard from "../../../../components/common/DJCard";
 
 export default () => {

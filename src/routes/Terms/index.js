@@ -1,40 +1,16 @@
-import React, { Component } from "react";
-import { Switch, Route } from "react-router";
-import Terms from "./components/Terms";
-import Agreements from "./routes/Agreements";
-import Privacy from "./routes/Privacy";
-import { Helmet } from "react-helmet-async";
+import React from "react";
+import Loadable from "react-loadable";
+import { LoadingPlaceholder2 } from "../../components/common/LoadingPlaceholder";
 
-import { localize } from "react-localize-redux";
-import ScrollToTop from "../../components/common/ScrollToTop";
+const Loader = () => (
+  <div className="container">
+    <LoadingPlaceholder2 />
+  </div>
+);
 
-class Index extends Component {
-	render() {
-		const { translate } = this.props;
+const AsyncTerms = Loadable({
+  loader: () => import("./Terms"),
+  loading: Loader
+});
 
-		const title = translate("Terms & Privacy") + " | Cueup";
-
-		return (
-			<Terms {...this.props}>
-				<Helmet>
-					<title>{title}</title>
-					<meta property="og:title" content={title} />
-					<meta name="twitter:title" content={title} />
-				</Helmet>
-				<ScrollToTop />
-				<Switch>
-					<Route
-						path={translate("routes./terms/agreements")}
-						component={Agreements}
-					/>
-					<Route
-						path={translate("routes./terms/privacy")}
-						component={Privacy}
-					/>
-				</Switch>
-			</Terms>
-		);
-	}
-}
-
-export default localize(Index, "locale");
+export default AsyncTerms;

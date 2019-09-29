@@ -13,7 +13,7 @@ import {
 	Textfield,
 	RegistrationElement
 } from "../../../components/common/Form-v2";
-import debounce from "lodash.debounce";
+import debounce from "lodash/debounce";
 import GeoCoder from "../../../utils/GeoCoder";
 import connectToForm from "../../../components/higher-order/connectToForm";
 import SimpleMap from "../../../components/common/Map";

@@ -2880,8 +2880,8 @@ header .info-boxes {
 	margin-left: 20px;
 }
 .dj-card .profile-picture {
-	background: #f4f9fc;
 	position: relative;
+	flex: 1;
 }
 .dj-card .profile-picture:after {
 	content: "";
@@ -2910,25 +2910,21 @@ header .info-boxes {
 	position: absolute;
 }
 
-.dj-card img {
+.dj-card .profile-picture img {
 	z-index: 1;
 	position: relative;
-	opacity: 0;
-	transition: all 500ms ease;
-	transform: scale(1.1);
+	object-fit: cover;
+	width: 100%;
+    height: 100%;
 }
 
-.dj-card.loaded img {
-	opacity: 1;
-	transform: none;
-}
 
-.dj-card .profile-picture img,
+
+.dj-card .profile-picture,
 .dj-card .info {
 	height: 138px;
 	width: 138px;
 	min-width: 138px;
-	object-fit: cover;
 }
 
 .dj-card .info {

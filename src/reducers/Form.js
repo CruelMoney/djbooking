@@ -1,97 +1,91 @@
-import c from '../constants/constants'
-import { combineReducers } from 'redux'
-import assign from 'lodash.assign'
+import c from "../constants/constants";
+import { combineReducers } from "redux";
+import assign from "lodash/assign";
 
-var ActionTypes = c.ActionTypes
+var ActionTypes = c.ActionTypes;
 
+const initialState = {
+  //define initial state - an empty form
+};
 
-
-
-const initialState = { //define initial state - an empty form
-}
-
-const filters  = (state = initialState, action) => {
+const filters = (state = initialState, action) => {
   switch (action.type) {
+    case ActionTypes.FORM_UPDATE_FILTERS:
+      return assign({}, state, {
+        [action.filter]: action.value
+      });
 
-  case ActionTypes.FORM_UPDATE_FILTERS:
-    return assign({}, state, {
-              [action.filter]: action.value
+    case ActionTypes.FORM_RESET:
+      return initialState;
 
-    })
-
-  case ActionTypes.FORM_RESET:
-    return initialState
-
-  default:
-    return state
+    default:
+      return state;
   }
-}
+};
 
-const values  = (state = initialState, action) => {
+const values = (state = initialState, action) => {
   switch (action.type) {
-
-  case ActionTypes.FORM_UPDATE_VALUE:
-    return assign({}, state, {
+    case ActionTypes.FORM_UPDATE_VALUE:
+      return assign({}, state, {
         [action.name]: action.value
-    })
+      });
 
-  case ActionTypes.FORM_RESET:
-    return initialState
+    case ActionTypes.FORM_RESET:
+      return initialState;
 
-  default:
-    return state
+    default:
+      return state;
   }
-}
+};
 
-const status  = (state = {loading: {}, succeeded:{}}, action) => {
+const status = (state = { loading: {}, succeeded: {} }, action) => {
   switch (action.type) {
     case ActionTypes.FORM_RESET:
-      return initialState
+      return initialState;
     case ActionTypes.FORM_SUBMIT_REQUESTED:
       return {
         succeeded: assign({}, state.succeeded, {
-          [action.submitName] : false
-      }),
+          [action.submitName]: false
+        }),
         loading: assign({}, state.loading, {
-          [action.submitName] : true
-      })}
+          [action.submitName]: true
+        })
+      };
     case ActionTypes.FORM_SUBMIT_FAILED:
       return {
         succeeded: assign({}, state.succeeded, {
-          [action.submitName] : false
-      }),
+          [action.submitName]: false
+        }),
         loading: assign({}, state.loading, {
-          [action.submitName] : false
-      }),
-       err: action.err
-    }
+          [action.submitName]: false
+        }),
+        err: action.err
+      };
     case ActionTypes.FORM_SUBMIT_SUCCEEDED:
-     return {
+      return {
         succeeded: assign({}, state.succeeded, {
-          [action.submitName] : true
-      }),
+          [action.submitName]: true
+        }),
         loading: assign({}, state.loading, {
-          [action.submitName] : false
-      })
-    }
+          [action.submitName]: false
+        })
+      };
     case ActionTypes.FORM_RESET_STATUS:
-    return {
-      succeeded: assign({}, state.succeeded, {
-        [action.submitName] : false
-    }),
-      loading: assign({}, state.loading, {
-        [action.submitName] : false
-    })
+      return {
+        succeeded: assign({}, state.succeeded, {
+          [action.submitName]: false
+        }),
+        loading: assign({}, state.loading, {
+          [action.submitName]: false
+        })
+      };
+    default:
+      return state;
   }
-  default:
-    return state
-  }
-}
-
-
+};
 
 export default combineReducers({
   values,
   filters,
   status
-})
+});

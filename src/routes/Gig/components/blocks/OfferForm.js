@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import debounce from "lodash.debounce";
+import debounce from "lodash/debounce";
 import { GET_OFFER, MAKE_OFFER, GIG } from "../../gql";
 import { useMutation } from "@apollo/react-hooks";
 import ErrorMessageApollo from "../../../../components/common/ErrorMessageApollo";
